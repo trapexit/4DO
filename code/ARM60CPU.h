@@ -14,6 +14,8 @@ private:
    ARM60Registers* m_reg;
 
    void ProcessInstruction (uint instruction);
+   void ProcessBranch (uint instruction);
+
    bool CheckCondition (uint instruction);
 };
 

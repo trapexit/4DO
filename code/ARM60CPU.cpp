@@ -1,6 +1,8 @@
+#include <fstream.h>
 #include <iostream.h>
 
 #include "types.h"
+#include "BitMath.h"
 #include "ARM60CPU.h"
 #include "ARM60REGISTER.h"
 #include "ARM60REGISTERS.h"
@@ -8,6 +10,56 @@
 ARM60CPU::ARM60CPU ()
 {
    m_reg = new ARM60Registers ();
+
+   // NOTE TO GLORIOUS ALL-KNOWING JOHNNY (YOURSELF):
+   //
+   // All images scanned so far seem to start code at BYTE 72 (a.k.a. 73)
+   //
+   // "iamaduck" seems to be a NO-OP in many images? ... What the hell?
+   //
+   // TODO: Must double-check little-endian vs big-endian... "kcudamai"?
+
+   /*
+   /////////
+   
+   ifstream romFile;
+   unsigned char*    buffer;
+   int      length = 256;
+   int x;
+
+   //romFile.open ("C:\\emulation\\3do\\ROMS\\Trip'd (1995)(Panasonic)(Eu-US)[!].iso");
+   //romFile.open ("C:\\emulation\\3do\\ROMS\\Out of this World (1993)(Interplay)(US)[!][45097-1].iso");
+   //romFile.open ("C:\\emulation\\3do\\ROMS\\Alone in the Dark (1994)(Interplay)(US)[!].iso");
+   romFile.open ("C:\\emulation\\3do\\ROMS\\Lost Eden (1993)(Virgin)(US).iso");
+
+   buffer = new unsigned char [length];
+   romFile.read (buffer, length);
+
+   for (x = 0; x < length; x++)
+   {
+      cout << x << "\tchar:\t" << (int) buffer [x] << "\t" << buffer [x] << "\t" << CharToBitString (buffer [x]) << endl;
+   }
+
+   cout << "---------------" << endl;
+
+   for (x = 0; x < length; x+=4)
+   {
+      cout << x << "\t" << CharToBitString (buffer [x]) << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 3]) << "  " << CharToBitString (buffer [x + 3]) << CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x]) << endl;
+   }
+
+   int y = -15;
+   uint y2;
+
+   unsigned char y3;
+   
+   y3= y;
+   y2 = (uint) y3;
+
+   cout << y << "\t" << y2 << endl;
+   
+   romFile.close ();
+   delete buffer;
+   */
 }
 
 ARM60CPU::~ARM60CPU ()
@@ -71,7 +123,7 @@ void ProcessInstruction (uint instruction)
 void ARM60CPU::ProcessBranch (uint instruction)
 {
    // Check condition Field.
-   if (! CheckCondition (inst))
+   if (! CheckCondition (instruction))
       return;
 
    ///////////////////////
