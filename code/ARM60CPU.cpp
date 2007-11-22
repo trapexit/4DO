@@ -19,6 +19,7 @@ ARM60CPU::ARM60CPU ()
    //
    // TODO: Must double-check little-endian vs big-endian... "kcudamai"?
 
+   
    /*
    /////////
    
@@ -30,7 +31,7 @@ ARM60CPU::ARM60CPU ()
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Trip'd (1995)(Panasonic)(Eu-US)[!].iso");
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Out of this World (1993)(Interplay)(US)[!][45097-1].iso");
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Alone in the Dark (1994)(Interplay)(US)[!].iso");
-   romFile.open ("C:\\emulation\\3do\\ROMS\\Lost Eden (1993)(Virgin)(US).iso");
+   //romFile.open ("C:\\emulation\\3do\\ROMS\\Lost Eden (1993)(Virgin)(US).iso");
 
    buffer = new unsigned char [length];
    romFile.read (buffer, length);
