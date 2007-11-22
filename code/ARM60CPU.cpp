@@ -17,7 +17,7 @@ ARM60CPU::~ARM60CPU ()
 
 void ProcessInstruction (uint instruction)
 {
-   if ((instruction & 0x0C000000) == 0x00000000)
+   if      ((instruction & 0x0C000000) == 0x00000000)
    {
       // Data Processing PSR Transfer (00)
    }
@@ -36,6 +36,7 @@ void ProcessInstruction (uint instruction)
    else if ((instruction & 0x0E000000) == 0x0A000000)
    {
       // Branch (101)
+
    }
    else if ((instruction & 0x0E000000) == 0x0C000000)
    {
@@ -65,6 +66,20 @@ void ProcessInstruction (uint instruction)
    {
       // Aw shit. Now what do we do?
    }
+}
+
+void ARM60CPU::ProcessBranch (uint instruction)
+{
+   // Check condition Field.
+   if (! CheckCondition (inst))
+      return;
+
+   ///////////////////////
+   bool link;
+   uint offset;
+
+   link = (instruction & 0x01000000) == 0x01000000;
+   offset = (instruction & 0x00FFFFFF);
 }
 
 bool ARM60CPU::CheckCondition (uint instruction)
