@@ -1,14 +1,12 @@
 #include <iostream.h>
+#include "types.h"
 #include "ARM60CPU.h"
+#include "ARM60Register.h"
 #include "ARM60Registers.h"
 
 void main()
 {
-   ARM60Registers* regs;
+   ARM60CPU* cpu;
 
-   for (int x = 0; x < 1; x++)
-   {
-      regs = new ARM60Registers ();
-      delete regs;
-   }
+   cpu = new ARM60CPU ();
 }

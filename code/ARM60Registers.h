@@ -1,42 +1,37 @@
+#ifndef _INC_ARM60REGISTERH
+#define _INC_ARM60REGISTERH
+//////////////////////////////////////////////////
+
 #include "types.h"
+#include "ARM60PSRegister.h"
 
 #define REG_COUNT 37
 
-class ARM60Registers
-{
-public:
-   ARM60Registers ();
-   ~ARM60Registers ();
-
-private:
-   uint* m_regs;
-};
-
 enum RegisterType
 {
-   R00 = 0,
-   R01 = 1,
-   R02 = 2,
-   R03 = 3,
-   R04 = 4,
-   R05 = 5,
-   R06 = 6,
-   R07 = 7,
-   R08 = 8,
-   R09 = 9,
-   R10 = 10,
-   R11 = 11,
-   R12 = 12,
-   R13 = 13,
-   R14 = 14,
-   PC = 15,
-   CPSR = 16,
-   SPSR = 17
+   ARM60_R00 = 0,
+   ARM60_R01 = 1,
+   ARM60_R02 = 2,
+   ARM60_R03 = 3,
+   ARM60_R04 = 4,
+   ARM60_R05 = 5,
+   ARM60_R06 = 6,
+   ARM60_R07 = 7,
+   ARM60_R08 = 8,
+   ARM60_R09 = 9,
+   ARM60_R10 = 10,
+   ARM60_R11 = 11,
+   ARM60_R12 = 12,
+   ARM60_R13 = 13,
+   ARM60_R14 = 14,
+   ARM60_PC = 15,
+   ARM60_CPSR = 16,
+   ARM60_SPSR = 17
 };
 
 enum InternalRegisterType
 {
-   IR_R00,
+   IR_R00 = 0,
    IR_R01,
    IR_R02,
    IR_R03,
@@ -74,3 +69,23 @@ enum InternalRegisterType
    IR_SPSR_IRQ,
    IR_SPSR_UND
 };
+
+class ARM60Registers
+{
+public:
+   ARM60Registers ();
+   ~ARM60Registers ();
+
+   uint* Reg (RegisterType reg);
+
+   ARM60Register* PC ();
+   ARM60PSRegister* CPSR ();
+
+private:
+   uint* m_regs;
+
+   ARM60Register*   m_PC;
+   ARM60PSRegister* m_CPSR;
+};
+
+#endif // _INC_ARM60REGISTERH
