@@ -67,7 +67,7 @@ ARM60CPU::~ARM60CPU ()
    delete m_reg;
 }
 
-void ProcessInstruction (uint instruction)
+void ARM60CPU::ProcessInstruction (uint instruction)
 {
    if      ((instruction & 0x0C000000) == 0x00000000)
    {
@@ -88,7 +88,7 @@ void ProcessInstruction (uint instruction)
    else if ((instruction & 0x0E000000) == 0x0A000000)
    {
       // Branch (101)
-
+      this->ProcessBranch (instruction);
    }
    else if ((instruction & 0x0E000000) == 0x0C000000)
    {
