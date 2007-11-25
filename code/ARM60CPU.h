@@ -15,6 +15,7 @@ private:
 
    void ProcessInstruction (uint instruction);
    void ProcessBranch (uint instruction);
+   void ProcessDataProcessing (uint instruction);
 
    bool CheckCondition (uint instruction);
 };
