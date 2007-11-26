@@ -89,7 +89,8 @@ void ARM60CPU::ProcessInstruction (uint instruction)
          // Either MRS/MSR(PRS) or SWP
          if ((instruction & 0x02200080) == 0x00000080)
          {
-            // SWP
+            // SWP (Single Data Swap)
+            this->ProcessSingleDataSwap (instruction);
          }
          else
          {
@@ -142,11 +143,6 @@ void ARM60CPU::ProcessInstruction (uint instruction)
    {
       // Coproc Data Operation (1110 ... 0)
       this->ProcessCoprocessorDataOperations (instruction);
-   }
-   else if ((instruction & 0x0F800000) == 0x01000000)
-   {
-      // Single Data Swap
-      this->ProcessSingleDataSwap (instruction);
    }
    else
    {
@@ -525,13 +521,103 @@ void ARM60CPU::ProcessPSRTransfer (uint instruction)
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
+
+   //////////////////////////
+   uint sourceVal;
+   int  rotate;
+
+   /////////////////
+   // Determine operation
+   switch (instruction & 0x003F0000)
+   {
+   case 0x000F0000:
+      // MRS - transfer PSR contents to a register
+      if ((instruction & 0x00400000) > 0)
+      {
+         // Source is SPSR
+         *(m_reg->Reg ((RegisterType) ((instruction & 0x0000F000) > 12))) = 
+            *(m_reg->Reg (ARM60_SPSR));
+      }
+      else
+      {
+         // Source is CPSR
+         *(m_reg->Reg ((RegisterType) ((instruction & 0x0000F000) > 12))) = 
+            *(m_reg->Reg (ARM60_CPSR));
+      }
+      break;
+
+   case 0x00290000:
+      // MSR - transfer register contents to PSR
+      if ((instruction & 0x00400000) > 0)
+      {
+         // Destination is SPSR
+         *(m_reg->Reg (ARM60_SPSR)) = 
+            *(m_reg->Reg ((RegisterType) (instruction & 0x0000000F)));
+      }
+      else
+      {
+         // Destination is CPSR
+         *(m_reg->Reg (ARM60_CPSR)) = 
+            *(m_reg->Reg ((RegisterType) (instruction & 0x0000000F)));
+      }
+      break;
+
+   case 0x00280000:
+      // MSR - transfer register contents or immediate value to PSR (flag bits only)
+      
+      //////////////
+      // Get source.
+      if ((instruction & 0x02000000) > 0)
+      {
+         // Rotated immediate value.
+         rotate = ((instruction & 0x00000F00) >> 8) * 2;
+         sourceVal = (instruction & 0x000000FF);
+
+         // Rotate value.
+         sourceVal = (sourceVal >> rotate) | (sourceVal << (32 - rotate));
+
+      }
+      else
+      {
+         // Register value.
+         sourceVal = *(m_reg->Reg ((RegisterType) (instruction & 0x0000000F)));
+      }
+      
+      //////////////
+      // Give to destination.
+      if ((instruction & 0x00400000) > 0)
+      {
+         // Destination is SPSR
+         *(m_reg->Reg (ARM60_SPSR)) = sourceVal;
+      }
+      else
+      {
+         // Destination is CPSR
+         *(m_reg->Reg (ARM60_CPSR)) = sourceVal;
+      }
+      break;
+   }
 }
 
 void ARM60CPU::ProcessMultiply (uint instruction)
 {
+   //////////////////////
+   // 10987654321098765432109876543210
+   // Cond      A [Rd]    [Rs]    [Rm]
+   //     000000 S    [Rn]    1001 
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
+
+   ////////////////////////////
+   
+   
+   if ((instruction & 0x00100000) > 0)
+   {
+      // Set CPSR values.
+      //m_reg->Get
+   }
 }
 
 void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
