@@ -27,6 +27,8 @@ private:
    void ProcessCoprocessorRegisterTransfers (uint instruction);
    void ProcessUndefined (uint instruction);
 
+   uint ReadShiftedRegisterOperand (uint instruction, bool* newCarry);
+
    bool CheckCondition (uint instruction);
 };
 
