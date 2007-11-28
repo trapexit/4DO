@@ -17,18 +17,21 @@ ARM60CPU::ARM60CPU ()
    // * "iamaduck" seems to be a NO-OP in many images? ... What the hell?
    // * TODO: Double-check before starting this part, but I'm assuming big-endian.
 
+   
    /*
    /////////
    
    ifstream romFile;
    unsigned char*    buffer;
-   int      length = 256;
+   int      length = 200;
    int x;
 
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Trip'd (1995)(Panasonic)(Eu-US)[!].iso");
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Out of this World (1993)(Interplay)(US)[!][45097-1].iso");
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Alone in the Dark (1994)(Interplay)(US)[!].iso");
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Lost Eden (1993)(Virgin)(US).iso");
+   //romFile.open ("C:\\Code\\unCD-ROM14\\alone\\LaunchMe");
+   romFile.open ("C:\\Code\\unCD-ROM14\\alone\\playmovie");
 
    buffer = new unsigned char [length];
    romFile.read (buffer, length);
@@ -42,7 +45,13 @@ ARM60CPU::ARM60CPU ()
 
    for (x = 0; x < length; x+=4)
    {
-      cout << x << "\t" << CharToBitString (buffer [x]) << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 3]) << "  " << CharToBitString (buffer [x + 3]) << CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x]) << endl;
+      cout << x << "\t" << CharToBitString (buffer [x]) << " " << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 3]) << "  " << CharToBitString (buffer [x + 3]) << "  "<< CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x]) << endl;
+   }
+
+   for (x = 0; x < length; x+=4)
+   {
+      this->ProcessInstruction((buffer[x] << 24) | (buffer[x + 1] << 16) | (buffer[x + 2] << 8) | buffer[x + 3]);
+      //this->ProcessInstruction((buffer[x + 3] << 24) | (buffer[x + 2] << 16) | (buffer[x + 1] << 8) | buffer[x]);
    }
 
    int y = -15;
@@ -166,7 +175,7 @@ void ARM60CPU::ProcessBranch (uint instruction)
    }
    
    // Offset is bit shifted left two, then sign extended to 32 bits.
-   offset = (instruction & 0x00FFFFFF) << 0;
+   offset = (instruction & 0x00FFFFFF) << 2;
    if ((offset & 0x02000000) > 0)
    {
       offset &= 0xFC000000;
@@ -186,17 +195,17 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
       return;
    
    //////////////////////
-   bool newCarry = false;
-   bool setCond;
-   bool writeResult = true; // NOTE: The assembler allegegly always sets S to false here.
-   bool isLogicOp = true;
-   uint op1;
-   uint op2;
-   uint result = 0;
-   long resultLong = 0;
-   int  opCode;
-   int  regDest;
-   int  shift;
+   bool    newCarry = false;
+   bool    setCond;
+   bool    writeResult = true; // NOTE: The assembler allegegly always sets S to false here.
+   bool    isLogicOp = true;
+   uint    op1;
+   uint    op2;
+   uint    result = 0;
+   __int64 resultLong = 0;
+   int     opCode;
+   int     regDest;
+   int     shift;
 
    opCode = (instruction & 0x01E00000) >> 21;
    setCond = (instruction & 0x00100000) > 0;
@@ -371,9 +380,16 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
          // Overflow bit is specific to two's compliment operations.
          // It will be set if the sign of the two operands differs
          // from the sign of the result.
-         m_reg->CPSR ()->SetOverflow ( !
-               (((result & 0x80000000) == (op1 & 0x80000000))
-               &&  ((op1 & 0x80000000) == (op2 & 0x80000000))));
+         if ((op1 & 0x80000000) == (op2 & 0x80000000))
+         {
+            m_reg->CPSR ()->SetOverflow (!
+                  ((result & 0x80000000) == (op1 & 0x80000000)));
+         }
+         else
+         {
+            // Overflow is impossible.
+            m_reg->CPSR ()->SetOverflow (false);
+         }
          m_reg->CPSR ()->SetCarry ((resultLong & 0x100000000) > 0);
          m_reg->CPSR ()->SetZero (result == 0);
          m_reg->CPSR ()->SetNegative ((result & 0x80000000) > 0);
@@ -547,20 +563,21 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
    bool isLoad;
    bool isWriteBack;
    bool isByte;
-   bool isPreAdd;
    int  offset;
+   uint value;
 
    ////////////////////////////////////////////////////////
 
    isLoad = (instruction & 0x00100000) > 0;
    isWriteBack = (instruction & 0x00200000) > 0;
    isByte = (instruction & 0x00400000) > 0;
-   isPreAdd = (instruction & 0x01000000) > 0;
 
    ////////////////////
    // Read offset.
    if ((instruction & 0x02000000) > 0)
    {
+      // NOTE: The register-specified shift amounts are not available
+      //       in this instruction class.
       offset = ReadShiftedRegisterOperand (instruction, &newCarry);
    }
    else
@@ -574,6 +591,20 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
    {
       // We're supposed to subtract the offset.
       offset = -offset;
+   }
+
+   if ((instruction & 0x01000000) > 0)
+   {
+      // Pre-add to base register!
+      
+      
+      if ((instruction & 0x00200000) > 0)
+      {
+         // Write it back!
+         //*(m_reg->Reg (0x000F0000)) += offset;
+      }
+
+      
    }
 
    ////////////////////

@@ -21,7 +21,7 @@ char* CharToBitString (char value)
    retVal = new char[bits + 1];
    for (int x = 0; x < bits; x++)
    {
-      sprintf (&retVal [x], "%d", ((value & ((uint) pow (2, bits - x))) > 0) ? 1 : 0);
+      sprintf (&retVal [x], "%d", ((value & ((uint) pow (2, bits - x - 1))) > 0) ? 1 : 0);
    }
    retVal [bits] = 0;
 
@@ -36,7 +36,7 @@ char* UintToBitString (uint value)
    retVal = new char[bits + 1];
    for (int x = 0; x < bits; x++)
    {
-      sprintf (&retVal [x], "%d", ((value & ((uint) pow (2, bits - x))) > 0) ? 1 : 0);
+      sprintf (&retVal [x], "%d", ((value & ((uint) pow (2, bits - x - 1))) > 0) ? 1 : 0);
    }
    retVal [bits] = 0;
 
