@@ -2,6 +2,7 @@
 #define _INC_ARM60PSREGISTER
 
 #include "ARM60Register.h"
+#include "BitMath.h"
 
 enum CPUMode
 {

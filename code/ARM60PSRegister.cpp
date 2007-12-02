@@ -1,5 +1,4 @@
 #include "ARM60PSRegister.h"
-#include "BitMath.h"
 
 ARM60PSRegister::ARM60PSRegister (uint* value) : ARM60Register(value) 
 {

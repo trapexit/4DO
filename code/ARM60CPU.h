@@ -1,7 +1,14 @@
 #ifndef _INC_ARM60CPU
 #define _INC_ARM60CPU
 
+#include <fstream.h>
+#include <iostream.h>
+#include <math.h>
+
 #include "types.h"
+#include "DMA.h"
+#include "BitMath.h"
+#include "ARM60REGISTER.h"
 #include "ARM60REGISTERS.h"
 
 class ARM60CPU
@@ -9,6 +16,9 @@ class ARM60CPU
 public:
    ARM60CPU::ARM60CPU ();
    ARM60CPU::~ARM60CPU ();
+
+   DMA* DMA;
+   bool BIGEND;
 
 private:
    ARM60Registers* m_reg;

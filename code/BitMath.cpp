@@ -1,6 +1,3 @@
-#include <math.h>
-#include <cstdio>
-
 #include "BitMath.h"
 
 uint SetBit (uint value, int bitNumber, bool bitValue)

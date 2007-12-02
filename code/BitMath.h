@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+#include <math.h>
+#include <cstdio>
+
 //////////////////////////////////////////////////
 
 uint SetBit (uint value, int bitNumber, bool bitValue);

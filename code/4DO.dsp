@@ -132,6 +132,30 @@ SOURCE=.\BitMath.cpp
 SOURCE=.\BitMath.h
 # End Source File
 # End Group
+# Begin Group "Console"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\Console.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Console.h
+# End Source File
+# End Group
+# Begin Group "DMA"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\DMA.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DMA.h
+# End Source File
+# End Group
 # Begin Source File
 
 SOURCE=.\Main.cpp

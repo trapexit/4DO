@@ -1,5 +1,3 @@
-#include <iostream.h>
-#include "types.h"
 #include "ARM60Registers.h"
 
 ARM60Registers::ARM60Registers ()

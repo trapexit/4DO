@@ -1,12 +1,4 @@
-#include <fstream.h>
-#include <iostream.h>
-#include <math.h>
-
-#include "types.h"
-#include "BitMath.h"
 #include "ARM60CPU.h"
-#include "ARM60REGISTER.h"
-#include "ARM60REGISTERS.h"
 
 ARM60CPU::ARM60CPU ()
 {
@@ -559,18 +551,19 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
    //                (dest)
    ///////////////////////////
 
-   bool newCarry = false;
-   bool isLoad;
-   bool isWriteBack;
-   bool isByte;
-   int  offset;
-   uint value;
+   bool  newCarry = false;
+   int   offset;
+   uint  value;
+   uint* baseReg;
+   uint* destReg;
+   uint  address;
 
    ////////////////////////////////////////////////////////
 
-   isLoad = (instruction & 0x00100000) > 0;
-   isWriteBack = (instruction & 0x00200000) > 0;
-   isByte = (instruction & 0x00400000) > 0;
+   baseReg = m_reg->Reg ((RegisterType) (0x000F0000 >> 16));
+   destReg = m_reg->Reg ((RegisterType) (0x0000F000 >> 12));
+
+   // TODO: Special cases around use of R15 (prefetch).
 
    ////////////////////
    // Read offset.
@@ -595,26 +588,130 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 
    if ((instruction & 0x01000000) > 0)
    {
-      // Pre-add to base register!
-      
+      // Pre-indexed.
+      // offset modification is performed before the base is used as the address.
       
       if ((instruction & 0x00200000) > 0)
       {
-         // Write it back!
-         //*(m_reg->Reg (0x000F0000)) += offset;
+         // Write it back to the base register before we begin.
+         *(baseReg) += offset;
+         address = *(baseReg);
       }
+      else
+      {
+         // Just use the base and offset. The base register is preserved.
+         address = *(baseReg) + offset;
+      }
+   }
+   else
+   {
+      // Post-indexed. 
+      // offset modification is performed after the base is used as the address.
+      // I don't see what this means... doesn't mean the offset just isn't done?
+      address = *(baseReg);
 
-      
+      // NOTE: Use of the write-back bit is meaningless here except for 
+      //       some mention of this as a practice in privileged mode, where
+      //       setting the W bit forces non-privileged mode for the transfer,
+      //       "allowing the operating system to generate a user address
+      //       in a system where the memory management hardware makes suitable
+      //       use of this hardware"
    }
 
    ////////////////////
-   if (isLoad)
+   if ((instruction & 0x00100000) > 0)
    {
       // Load from memory
+      value = DMA->GetValue (address);
+      
+      if ((instruction & 0x00400000) > 0)
+      {
+         // We are loading a byte.
+
+         // Loaded value depends on word boundaries.
+         switch (BIGEND ? (3 - (address % 4)) : (address % 4))
+         {
+         case 0:
+            value = (value & 0x000000FF);
+            break;
+         case 1:
+            value = (value & 0x0000FF00) >> 8;
+            break;
+         case 2:
+            value = (value & 0x00FF0000) >> 16;
+            break;
+         case 3:
+            value = (value & 0xFF000000) >> 24;
+            break;
+         }
+         
+         // and all other bits are set to zero... done with shifting.
+         *(destReg) = value;
+      }
+      else
+      {
+         // Loading a word.
+         if (BIGEND)
+         {
+            switch (address % 4)
+            {
+            case 0:
+               // All good
+               break;
+            case 1:
+               // Rotate value.
+               value = (value >> 8) | (value << 24);
+               break;
+            case 2:
+               // Rotate value.
+               value = (value >> 16) | (value << 16);
+               break;
+            case 3:
+               // Rotate value.
+               value = (value >> 24) | (value << 8);
+               break;
+            }
+         }
+         else
+         {
+            switch (address % 4)
+            {
+            case 0:
+               // All good
+               break;
+            case 1:
+               // Rotate addressed byte to bits 15 through 8?
+               break;
+            case 2:
+               // Rotate value.
+               value = (value >> 16) | (value << 16);
+               break;
+            case 3:
+               // Rotate addressed byte to bits 15 through 8?
+               value = (value >> 8) | (value << 24);
+               break;
+            }
+         }
+         *(destReg) = value;
+      }
    }
    else
    {
       // Store to memory
+      if ((instruction & 0x00400000) > 0)
+      {
+         // Storing a byte...
+         // We store the bottom byte repeated four times.
+         // TODO: Is this supposed be be affected by big endian vs little?
+         value = *(destReg) & 0x000000FF;
+         value = value | (value << 8) | (value << 16) | (value << 24);
+         DMA->SetValue (address, value);
+      }
+      else
+      {
+         // Storing a word. Easy.
+         DMA->SetValue (address, *(destReg));
+      }
    }
 }
 
