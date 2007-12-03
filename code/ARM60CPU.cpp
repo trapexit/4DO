@@ -151,6 +151,9 @@ void ARM60CPU::ProcessInstruction (uint instruction)
    }
 }
 
+////////////////////////////////////////////////////////////
+// Branch (B, BRL)
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBranch (uint instruction)
 {
    // Check condition Field.
@@ -175,6 +178,9 @@ void ARM60CPU::ProcessBranch (uint instruction)
    (*(m_reg->PC ()->Value)) += offset;
 }
 
+////////////////////////////////////////////////////////////
+// Data Processing
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessDataProcessing (uint instruction)
 {
    //////////////////////
@@ -389,6 +395,9 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
    }
 }
 
+////////////////////////////////////////////////////////////
+// PSR Transfer (MRS, MSR)
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessPSRTransfer (uint instruction)
 {
    // Check condition Field.
@@ -472,6 +481,9 @@ void ARM60CPU::ProcessPSRTransfer (uint instruction)
    }
 }
 
+////////////////////////////////////////////////////////////
+// Multiply (MUL, MLA)
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessMultiply (uint instruction)
 {
    // Check condition Field.
@@ -537,6 +549,9 @@ void ARM60CPU::ProcessMultiply (uint instruction)
    }
 }
 
+////////////////////////////////////////////////////////////
+// Single Data Transfer (LDR, STR)
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 {
    // Check condition Field.
@@ -564,6 +579,7 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
    destReg = m_reg->Reg ((RegisterType) (0x0000F000 >> 12));
 
    // TODO: Special cases around use of R15 (prefetch).
+   // TODO: Abort logic.
 
    ////////////////////
    // Read offset.
@@ -715,18 +731,156 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
    }
 }
 
+////////////////////////////////////////////////////////////
+// Block Data Transfer (LDM, STM)
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 {
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
+
+   //////////////////////
+   // 10987654321098765432109876543210
+   // Cond   P S L    [ Register List]
+   //     100 U W [Rn]
+   //
+   // P = Pre/Post indexing   = 0x01000000
+   // U = Up/Down (1=up)      = 0x00800000
+   // S = PSR & force user    = 0x00400000
+   // W = Write-back (1=yes)  = 0x00200000
+   // L = Load/Store (1=load) = 0x00100000
+   ///////////////////////////
+
+   bool  preIndex;
+   bool  isWriteBack;
+   bool  isPSR;
+   bool  isLoad;
+   bool  isR15used;
+   int   increment;
+   int   registerCount=0;
+   int   reg;
+   uint* baseReg;
+   uint* destReg;
+   uint  address;
+
+   // Going up or down?
+   increment = (instruction & 0x00800000) > 0 ? 4 : -4;
+   
+   // Find out how many registers we're storing.
+   for (reg = 0; reg < 16; reg++)
+   {
+      if ((instruction & (int) pow(2, reg)) > 0)
+      {
+         registerCount++;
+      }
+   }
+
+   // See if R15 is being used.
+   isR15used = (instruction & 0x00008000) > 0;  
+   
+   // Get some more parameters.
+   preIndex = (instruction & 0x01000000) > 0; 
+   isWriteBack = (instruction & 0x00200000) > 0;
+   isPSR = (instruction & 0x00400000) > 0;
+   isLoad = (instruction & 0x00100000) > 0;
+   
+   // Get base address.
+   baseReg = m_reg->Reg ((RegisterType) (instruction & 0x000F0000));
+   address = *baseReg;
+
+   /////////////////////////
+   // Start storing/loading registers.
+   for (reg = 0; reg < 16; reg++)
+   {
+      if ((instruction & (int) pow(2, reg)) > 0)
+      {
+         ////////////////////
+         // Perform preindexing?
+         if (preIndex)
+         {
+            // We are preindexing. Update address first.
+            address += increment;
+            if (isWriteBack)
+               *baseReg = address;
+         }
+         
+         ////////////////////
+         // Determine destination/source.
+         // The selected register is affected by the S bit and use of R15.
+         if (isPSR)
+         {
+            if (isR15used)
+            {
+               if (isLoad)
+               {
+                  // SPSR_mode is transferred to CPSR at the same as R15 is loaded.
+               }
+               else
+               {
+                  // Use the user mode's registers regardless of current mode.
+                  destReg = m_reg->Reg ((InternalRegisterType) reg);
+               }
+            }
+            else
+            {
+               // Use the user mode's registers regardless of current mode.
+               destReg = m_reg->Reg ((InternalRegisterType) reg);
+            }
+         }
+         else
+         {
+            // Normal operation.
+            destReg = m_reg->Reg ((RegisterType) reg);
+         }
+
+         ////////////////////
+         // Perform operation here.
+         if (isLoad)
+         {
+            *(destReg) = DMA->GetValue (address);
+            if (isPSR && isR15used && isLoad)
+            {
+               // SPSR_mode is transferred to CPSR at the same as R15 is loaded.
+               *(m_reg->Reg (ARM60_CPSR)) = *(m_reg->Reg (ARM60_SPSR));
+            }
+         }
+         else
+         {
+            DMA->SetValue (address, *(destReg));
+         }
+
+         ////////////////////
+         // Perform postindexing?
+         if (!preIndex)
+         {
+            // We are postindexing. Update address last.
+            address += increment;
+            if (isWriteBack)
+               *baseReg = address;
+         }
+      }
+   }
 }
 
+////////////////////////////////////////////////////////////
+// Single data swap.
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 {
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
+
+   //////////////////////
+   // 10987654321098765432109876543210
+   // Cond     B  [Rn]    00001001
+   //     00010 00    [Rd]        [Rm]
+   //       (Byte?)  (Dest)     (Source)
+   //            (Base)
+   //
+   // B = Byte/Word (1=byte)  = 0x00400000
+   ///////////////////////////
 }
 
 void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)

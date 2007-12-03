@@ -33,6 +33,16 @@ ARM60PSRegister* ARM60Registers::CPSR ()
 
 uint* ARM60Registers::Reg (RegisterType reg)
 {
+   return &m_regs [(int) GetInternalRegisterNum (reg)];
+}
+
+uint* ARM60Registers::Reg (InternalRegisterType reg)
+{
+   return &m_regs [(int) reg];
+}
+
+InternalRegisterType ARM60Registers::GetInternalRegisterNum (RegisterType reg)
+{
    int regNum = (int) reg;
    int retVal = -1;
 
@@ -194,11 +204,12 @@ uint* ARM60Registers::Reg (RegisterType reg)
 
    if (retVal == -1)
    {
-      // Um. well. shit.
-      return &m_regs [0];
+      // TODO: Raise error?
+      // Um. well. shit....
+      return (InternalRegisterType) 0;
    }
    else
    {
-      return &m_regs [retVal];
+      return (InternalRegisterType) retVal;
    }
 }

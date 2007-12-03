@@ -77,11 +77,14 @@ public:
    ~ARM60Registers ();
 
    uint* Reg (RegisterType reg);
+   uint* Reg (InternalRegisterType reg);
 
    ARM60Register* PC ();
    ARM60PSRegister* CPSR ();
 
 private:
+   InternalRegisterType GetInternalRegisterNum (RegisterType reg);
+
    uint* m_regs;
 
    ARM60Register*   m_PC;
