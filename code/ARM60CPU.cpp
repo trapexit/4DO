@@ -10,20 +10,20 @@ ARM60CPU::ARM60CPU ()
    // * TODO: Double-check before starting this part, but I'm assuming big-endian.
 
    
-   /*
-   /////////
    
+   /////////
+   /*
    ifstream romFile;
    unsigned char*    buffer;
    int      length = 200;
    int x;
 
-   //romFile.open ("C:\\emulation\\3do\\ROMS\\Trip'd (1995)(Panasonic)(Eu-US)[!].iso");
+   romFile.open ("C:\\emulation\\3do\\ROMS\\Trip'd (1995)(Panasonic)(Eu-US)[!].iso");
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Out of this World (1993)(Interplay)(US)[!][45097-1].iso");
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Alone in the Dark (1994)(Interplay)(US)[!].iso");
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Lost Eden (1993)(Virgin)(US).iso");
    //romFile.open ("C:\\Code\\unCD-ROM14\\alone\\LaunchMe");
-   romFile.open ("C:\\Code\\unCD-ROM14\\alone\\playmovie");
+   //romFile.open ("C:\\Code\\unCD-ROM14\\alone\\playmovie");
 
    buffer = new unsigned char [length];
    romFile.read (buffer, length);
@@ -152,7 +152,7 @@ void ARM60CPU::ProcessInstruction (uint instruction)
 }
 
 ////////////////////////////////////////////////////////////
-// Branch (B, BRL)
+// Branch (B, BL)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBranch (uint instruction)
 {
@@ -160,7 +160,12 @@ void ARM60CPU::ProcessBranch (uint instruction)
    if (! CheckCondition (instruction))
       return;
 
-   ///////////////////////
+   //////////////////////
+   //  3         2         1         0
+   // 10987654321098765432109876543210
+   // Cond   L
+   //     101 [________Offset________]
+   //////////////////////
    int  offset;
 
    if ((instruction & 0x01000000) == 0x01000000)
@@ -184,9 +189,11 @@ void ARM60CPU::ProcessBranch (uint instruction)
 void ARM60CPU::ProcessDataProcessing (uint instruction)
 {
    //////////////////////
+   //  3         2         1         0
    // 10987654321098765432109876543210
    // Cond  I    S    [Rd]
    //     00 OpCd [Rn]    [ Operand 2]
+   //////////////////////
 
    // Check condition Field.
    if (! CheckCondition (instruction))
@@ -491,6 +498,7 @@ void ARM60CPU::ProcessMultiply (uint instruction)
       return;
 
    //////////////////////
+   //  3         2         1         0
    // 10987654321098765432109876543210
    // Cond      A [Rd]    [Rs]    [Rm]
    //     000000 S    [Rn]    1001 
@@ -559,6 +567,7 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
       return;
 
    //////////////////////
+   //  3         2         1         0
    // 10987654321098765432109876543210
    // Cond  I U W [Rn]    [  Offset  ]
    //     01 P B L    [Rd]
@@ -568,15 +577,12 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 
    bool  newCarry = false;
    int   offset;
-   uint  value;
    uint* baseReg;
-   uint* destReg;
    uint  address;
 
    ////////////////////////////////////////////////////////
 
    baseReg = m_reg->Reg ((RegisterType) (0x000F0000 >> 16));
-   destReg = m_reg->Reg ((RegisterType) (0x0000F000 >> 12));
 
    // TODO: Special cases around use of R15 (prefetch).
    // TODO: Abort logic.
@@ -637,97 +643,12 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
    ////////////////////
    if ((instruction & 0x00100000) > 0)
    {
-      // Load from memory
-      value = DMA->GetValue (address);
-      
-      if ((instruction & 0x00400000) > 0)
-      {
-         // We are loading a byte.
-
-         // Loaded value depends on word boundaries.
-         switch (BIGEND ? (3 - (address % 4)) : (address % 4))
-         {
-         case 0:
-            value = (value & 0x000000FF);
-            break;
-         case 1:
-            value = (value & 0x0000FF00) >> 8;
-            break;
-         case 2:
-            value = (value & 0x00FF0000) >> 16;
-            break;
-         case 3:
-            value = (value & 0xFF000000) >> 24;
-            break;
-         }
-         
-         // and all other bits are set to zero... done with shifting.
-         *(destReg) = value;
-      }
-      else
-      {
-         // Loading a word.
-         if (BIGEND)
-         {
-            switch (address % 4)
-            {
-            case 0:
-               // All good
-               break;
-            case 1:
-               // Rotate value.
-               value = (value >> 8) | (value << 24);
-               break;
-            case 2:
-               // Rotate value.
-               value = (value >> 16) | (value << 16);
-               break;
-            case 3:
-               // Rotate value.
-               value = (value >> 24) | (value << 8);
-               break;
-            }
-         }
-         else
-         {
-            switch (address % 4)
-            {
-            case 0:
-               // All good
-               break;
-            case 1:
-               // Rotate addressed byte to bits 15 through 8?
-               break;
-            case 2:
-               // Rotate value.
-               value = (value >> 16) | (value << 16);
-               break;
-            case 3:
-               // Rotate addressed byte to bits 15 through 8?
-               value = (value >> 8) | (value << 24);
-               break;
-            }
-         }
-         *(destReg) = value;
-      }
+      *(m_reg->Reg((RegisterType) (0x0000F000 >> 12))) = 
+         DoLDR (address, (instruction & 0x00400000) > 0);
    }
    else
    {
-      // Store to memory
-      if ((instruction & 0x00400000) > 0)
-      {
-         // Storing a byte...
-         // We store the bottom byte repeated four times.
-         // TODO: Is this supposed be be affected by big endian vs little?
-         value = *(destReg) & 0x000000FF;
-         value = value | (value << 8) | (value << 16) | (value << 24);
-         DMA->SetValue (address, value);
-      }
-      else
-      {
-         // Storing a word. Easy.
-         DMA->SetValue (address, *(destReg));
-      }
+      DoSTR (address, (RegisterType) (0x0000F000 >> 12), (instruction & 0x00400000) > 0);
    }
 }
 
@@ -741,6 +662,7 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
       return;
 
    //////////////////////
+   //  3         2         1         0
    // 10987654321098765432109876543210
    // Cond   P S L    [ Register List]
    //     100 U W [Rn]
@@ -815,6 +737,9 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
                if (isLoad)
                {
                   // SPSR_mode is transferred to CPSR at the same as R15 is loaded.
+
+                  // In all other respectes, this mode is normal.
+                  destReg = m_reg->Reg ((RegisterType) reg);
                }
                else
                {
@@ -864,7 +789,7 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 }
 
 ////////////////////////////////////////////////////////////
-// Single data swap.
+// Single data swap (SWP)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 {
@@ -872,7 +797,8 @@ void ARM60CPU::ProcessSingleDataSwap (uint instruction)
    if (! CheckCondition (instruction))
       return;
 
-   //////////////////////
+   ///////////////////////////
+   //  3         2         1         0
    // 10987654321098765432109876543210
    // Cond     B  [Rn]    00001001
    //     00010 00    [Rd]        [Rm]
@@ -881,41 +807,219 @@ void ARM60CPU::ProcessSingleDataSwap (uint instruction)
    //
    // B = Byte/Word (1=byte)  = 0x00400000
    ///////////////////////////
+
+   RegisterType baseReg;
+   RegisterType destReg;
+   RegisterType sourceReg;
+   uint         value;
+   uint         address;
+   bool         isByte;
+
+   baseReg = (RegisterType) (instruction & 0x000F0000 >> 16);
+   sourceReg = (RegisterType) (instruction & 0x0000000F);
+   destReg = (RegisterType) (instruction & 0x0000F000 >> 12);
+   isByte = (instruction & 0x00400000) > 0;
+
+   ///////
+   
+   LOCK = true;
+   
+   address = *(m_reg->Reg (baseReg));
+   
+   value = DoLDR (address, isByte);
+   DoSTR (address, sourceReg, isByte);
+   *(m_reg->Reg (destReg)) = value;
+
+   LOCK = false;
 }
 
+////////////////////////////////////////////////////////////
+// Software Interrupt (SWI)
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)
 {
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
+
+   ///////////////////////////
+   //  3         2         1         0
+   // 10987654321098765432109876543210
+   // Cond    [Comment Field(ignored)]
+   //     1111
+   ///////////////////////////
+   
+   //TODO: Software interrupt.   
 }
 
+////////////////////////////////////////////////////////////
+// Coproccesor data operations (CDP)
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorDataOperations (uint instruction)
 {
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
+
+   ///////////////////////////
+   //  3         2         1         0
+   // 10987654321098765432109876543210
+   // Cond
+   //     
+   ///////////////////////////
 }
 
+////////////////////////////////////////////////////////////
+// Coproccesor data transfers (LDC, STC)
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorDataTransfers (uint instruction)
 {
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
+
+   ///////////////////////////
+   //  3         2         1         0
+   // 10987654321098765432109876543210
+   // Cond
+   //     
+   ///////////////////////////
 }
 
+////////////////////////////////////////////////////////////
+// Coproccesor register transfers (MRC, MCR)
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorRegisterTransfers (uint instruction)
 {
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
+
+   ///////////////////////////
+   //  3         2         1         0
+   // 10987654321098765432109876543210
+   // Cond    CPO CRn_    CP#_   1
+   //     1110   L    [Rd]    CP_ CRm_
+   ///////////////////////////
 }
 
+////////////////////////////////////////////////////////////
+// Undefined instruction.
+////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessUndefined (uint instruction)
 {
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
+
+   ///////////////////////////
+   //  3         2         1         0
+   // 10987654321098765432109876543210
+   // Cond   xxxxxxxxxxxxxxxxxxxx xxxx
+   //     011                    1
+   ///////////////////////////
+}
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+
+uint ARM60CPU::DoLDR (uint address, bool isByte)
+{
+   uint value;
+
+   value = DMA->GetValue (address);
+   
+   if (isByte)
+   {
+      // We are loading a byte.
+
+      // Loaded value depends on word boundaries.
+      switch (BIGEND ? (3 - (address % 4)) : (address % 4))
+      {
+      case 0:
+         value = (value & 0x000000FF);
+         break;
+      case 1:
+         value = (value & 0x0000FF00) >> 8;
+         break;
+      case 2:
+         value = (value & 0x00FF0000) >> 16;
+         break;
+      case 3:
+         value = (value & 0xFF000000) >> 24;
+         break;
+      }
+      
+      // and all other bits are set to zero... done with shifting.
+   }
+   else
+   {
+      // Loading a word.
+      if (BIGEND)
+      {
+         switch (address % 4)
+         {
+         case 0:
+            // All good
+            break;
+         case 1:
+            // Rotate value.
+            value = (value >> 8) | (value << 24);
+            break;
+         case 2:
+            // Rotate value.
+            value = (value >> 16) | (value << 16);
+            break;
+         case 3:
+            // Rotate value.
+            value = (value >> 24) | (value << 8);
+            break;
+         }
+      }
+      else
+      {
+         switch (address % 4)
+         {
+         case 0:
+            // All good
+            break;
+         case 1:
+            // Rotate addressed byte to bits 15 through 8?
+            break;
+         case 2:
+            // Rotate value.
+            value = (value >> 16) | (value << 16);
+            break;
+         case 3:
+            // Rotate addressed byte to bits 15 through 8?
+            value = (value >> 8) | (value << 24);
+            break;
+         }
+      }
+   }
+   return value;
+}
+
+void ARM60CPU::DoSTR (uint address, RegisterType sourceReg, bool isByte)
+{
+   uint value;
+
+   // Store to memory
+   if (isByte)
+   {
+      // Storing a byte...
+      // We store the bottom byte repeated four times.
+      // TODO: Is this supposed be be affected by big endian vs little?
+      value = *(m_reg->Reg (sourceReg)) & 0x000000FF;
+      value = value | (value << 8) | (value << 16) | (value << 24);
+      DMA->SetValue (address, value);
+   }
+   else
+   {
+      // Storing a word. Easy.
+      DMA->SetValue (address, *(m_reg->Reg (sourceReg)));
+   }
 }
 
 bool ARM60CPU::CheckCondition (uint instruction)

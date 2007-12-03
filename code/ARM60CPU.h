@@ -19,6 +19,7 @@ public:
 
    DMA* DMA;
    bool BIGEND;
+   bool LOCK;
 
 private:
    ARM60Registers* m_reg;
@@ -36,6 +37,9 @@ private:
    void ProcessCoprocessorDataTransfers (uint instruction);
    void ProcessCoprocessorRegisterTransfers (uint instruction);
    void ProcessUndefined (uint instruction);
+
+   uint DoLDR (uint address, bool isByte);
+   void DoSTR (uint address, RegisterType sourceReg, bool isByte);
 
    uint ReadShiftedRegisterOperand (uint instruction, bool* newCarry);
 
