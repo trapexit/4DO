@@ -1,4 +1,5 @@
 #include "ARM60CPU.h"
+#include "BitMath.h"
 
 ARM60CPU::ARM60CPU ()
 {
@@ -9,52 +10,45 @@ ARM60CPU::ARM60CPU ()
    // * "iamaduck" seems to be a NO-OP in many images? ... What the hell?
    // * TODO: Double-check before starting this part, but I'm assuming big-endian.
 
-   
-   
    /////////
    /*
    ifstream romFile;
    unsigned char*    buffer;
-   int      length = 200;
+   int      length = 1000;
    int x;
 
-   romFile.open ("C:\\emulation\\3do\\ROMS\\Trip'd (1995)(Panasonic)(Eu-US)[!].iso");
+   //romFile.open ("C:\\emulation\\3do\\ROMS\\Trip'd (1995)(Panasonic)(Eu-US)[!].iso");
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Out of this World (1993)(Interplay)(US)[!][45097-1].iso");
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Alone in the Dark (1994)(Interplay)(US)[!].iso");
    //romFile.open ("C:\\emulation\\3do\\ROMS\\Lost Eden (1993)(Virgin)(US).iso");
    //romFile.open ("C:\\Code\\unCD-ROM14\\alone\\LaunchMe");
    //romFile.open ("C:\\Code\\unCD-ROM14\\alone\\playmovie");
-
+   //romFile.open ("C:\\Code\\unCD-ROM14\\outofthisworld\\Launchme");
+   //romFile.open ("C:\\Code\\unCD-ROM14\\outofthisworld\\ootw");
+   //romFile.open ("C:\\Code\\Bios\\bios.rom");
+   
    buffer = new unsigned char [length];
    romFile.read (buffer, length);
 
-   for (x = 0; x < length; x++)
-   {
-      cout << x << "\tchar:\t" << (int) buffer [x] << "\t" << buffer [x] << "\t" << CharToBitString (buffer [x]) << endl;
-   }
+   //for (x = 0; x < length; x++)
+   //{
+   //   cout << x << "\tchar:\t" << (int) buffer [x] << "\t" << buffer [x] << "\t" << CharToBitString (buffer [x]) << endl;
+   //}
 
-   cout << "---------------" << endl;
+   //cout << "---------------" << endl;
+
+   //for (x = 0; x < length; x+=4)
+   //{
+   //   cout << x << "\t" << CharToBitString (buffer [x]) << " " << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 3]) << "  " << CharToBitString (buffer [x + 3]) << "  "<< CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x]) << endl;
+   //}
+   //
 
    for (x = 0; x < length; x+=4)
    {
-      cout << x << "\t" << CharToBitString (buffer [x]) << " " << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 3]) << "  " << CharToBitString (buffer [x + 3]) << "  "<< CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x]) << endl;
-   }
-
-   for (x = 0; x < length; x+=4)
-   {
+      cout << x << "\t";
       this->ProcessInstruction((buffer[x] << 24) | (buffer[x + 1] << 16) | (buffer[x + 2] << 8) | buffer[x + 3]);
       //this->ProcessInstruction((buffer[x + 3] << 24) | (buffer[x + 2] << 16) | (buffer[x + 1] << 8) | buffer[x]);
    }
-
-   int y = -15;
-   uint y2;
-
-   unsigned char y3;
-   
-   y3= y;
-   y2 = (uint) y3;
-
-   cout << y << "\t" << y2 << endl;
    
    romFile.close ();
    delete buffer;
@@ -156,6 +150,10 @@ void ARM60CPU::ProcessInstruction (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBranch (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "Branch   " << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -188,16 +186,20 @@ void ARM60CPU::ProcessBranch (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessDataProcessing (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "Data Proc" << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
+   // Check condition Field.
+   if (! CheckCondition (instruction))
+      return;
+
    //////////////////////
    //  3         2         1         0
    // 10987654321098765432109876543210
    // Cond  I    S    [Rd]
    //     00 OpCd [Rn]    [ Operand 2]
    //////////////////////
-
-   // Check condition Field.
-   if (! CheckCondition (instruction))
-      return;
    
    //////////////////////
    bool    newCarry = false;
@@ -252,94 +254,94 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
    case 0x0:
       // AND
       resultLong = op1 & op2;
-      return;
+      break;
    
    case 0x1:
       // EOR
       resultLong = op1 ^ op2;
-      return;
+      break;
    
    case 0x2:
       // SUB
       isLogicOp = false;
       resultLong = op1 - op2;
-      return;
+      break;
    
    case 0x3:
       // RSB
       isLogicOp = false;
       resultLong = op2 - op1;
-      return;
+      break;
    
    case 0x4:
       // ADD
       isLogicOp = false;
       resultLong = op1 + op2;
-      return;
+      break;
    
    case 0x5:
       // ADC
       isLogicOp = false;
       resultLong = op1 + op2 + (m_reg->CPSR ()->GetCarry () ? 1 : 0);
-      return;
+      break;
    
    case 0x6:
       // SBC
       isLogicOp = false;
       resultLong = op1 - op2 + (m_reg->CPSR ()->GetCarry () ? 1 : 0) - 1;
-      return;
+      break;
    
    case 0x7:
       // RSC
       isLogicOp = false;
       resultLong = op2 - op1 + (m_reg->CPSR ()->GetCarry () ? 1 : 0) - 1;
-      return;
+      break;
    
    case 0x8:
       // TST
       writeResult = false;
       resultLong = op2 & op1;
-      return;
+      break;
    
    case 0x9:
       // TEQ
       writeResult = false;
       resultLong = op2 ^ op1;
-      return;
+      break;
    
    case 0xA:
       // CMP
       writeResult = false;
       isLogicOp = false;
       resultLong = op2 - op1;
-      return;
+      break;
    
    case 0xB:
       // CMN
       writeResult = false;
       isLogicOp = false;
       resultLong = op2 - op1;
-      return;
+      break;
    
    case 0xC:
       // ORR
       resultLong = op2 | op1;
-      return;
+      break;
    
    case 0xD:
       // MOV
       resultLong = op2;
-      return;
+      break;
 
    case 0xE:
       // BIC
       resultLong = op1 & (~op2);
-      return;
+      break;
 
    case 0xF:
       // MVN
       resultLong = ~op2;
-      return;
+      break;
 
    }
 
@@ -407,6 +409,10 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessPSRTransfer (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "PSR Tran" << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -493,6 +499,10 @@ void ARM60CPU::ProcessPSRTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessMultiply (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "MULT" << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -562,6 +572,10 @@ void ARM60CPU::ProcessMultiply (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "Single DT" << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -657,6 +671,10 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "Block DT" << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -793,6 +811,10 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "Single SWP" << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -821,7 +843,9 @@ void ARM60CPU::ProcessSingleDataSwap (uint instruction)
    isByte = (instruction & 0x00400000) > 0;
 
    ///////
-   
+   // This is supposed to be an atomic operation. 
+   // The DMA should check this LOCK bit!
+
    LOCK = true;
    
    address = *(m_reg->Reg (baseReg));
@@ -838,6 +862,10 @@ void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "Soft Int" << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -849,7 +877,9 @@ void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)
    //     1111
    ///////////////////////////
    
-   //TODO: Software interrupt.   
+   //m_reg->
+
+   //TODO: Software interrupt.
 }
 
 ////////////////////////////////////////////////////////////
@@ -857,6 +887,10 @@ void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorDataOperations (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "Coproc DO" << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -874,6 +908,10 @@ void ARM60CPU::ProcessCoprocessorDataOperations (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorDataTransfers (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "Coproc DT" << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -891,6 +929,10 @@ void ARM60CPU::ProcessCoprocessorDataTransfers (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorRegisterTransfers (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "Coproc RT" << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -908,6 +950,10 @@ void ARM60CPU::ProcessCoprocessorRegisterTransfers (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessUndefined (uint instruction)
 {
+   #ifdef _DEBUG
+   cout << "Undefined" << "\t" << UintToBitString (instruction) << endl;
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
