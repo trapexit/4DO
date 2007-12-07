@@ -1,3 +1,6 @@
+#include <iostream>
+using namespace std;
+
 #include "ARM60CPU.h"
 #include "BitMath.h"
 
@@ -710,7 +713,7 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
    // Find out how many registers we're storing.
    for (reg = 0; reg < 16; reg++)
    {
-      if ((instruction & (int) pow(2, reg)) > 0)
+      if ((instruction & (int) pow((double) 2, reg)) > 0)
       {
          registerCount++;
       }
@@ -733,7 +736,7 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
    // Start storing/loading registers.
    for (reg = 0; reg < 16; reg++)
    {
-      if ((instruction & (int) pow(2, reg)) > 0)
+      if ((instruction & (int) pow((double) 2, reg)) > 0)
       {
          ////////////////////
          // Perform preindexing?
@@ -1223,7 +1226,7 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
       else
       {
          // the carry bit will be one of the previous bits in this operand. 
-         *newCarry = (op & (uint) pow (2, 31 - shift + 1)) > 0;
+         *newCarry = (op & (uint) pow ((double) 2, 31 - shift + 1)) > 0;
          op <<= shift;
       }
       break;
@@ -1244,7 +1247,7 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
       else
       {
          // Regular logical right shift.
-         *newCarry = (op & (uint) pow (2, shift - 1)) > 0;
+         *newCarry = (op & (uint) pow ((double) 2, shift - 1)) > 0;
          op >>= shift;
       }
       break;
@@ -1261,13 +1264,13 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
       else
       {
          // Regular logical right shift.
-         *newCarry = (op & (uint) pow (2, shift - 1)) > 0;
+         *newCarry = (op & (uint) pow ((double) 2, shift - 1)) > 0;
          op = op >> shift;
 
          // Now set all the bits that were shifted in as the highest previous bit!
          if (topBit)
          {
-            op |= ~((long) (pow (2, 32 - shift) - 1));
+            op |= ~((long) (pow ((double) 2, 32 - shift) - 1));
          }
       }
       break;
@@ -1295,7 +1298,7 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
       else
       {
          // Normal rotate;
-         *newCarry = (op & (uint) pow (2, shift - 1)) > 0;
+         *newCarry = (op & (uint) pow ((double) 2, shift - 1)) > 0;
          op = (op >> shift) | (op << (32 - shift));
       }
       break;

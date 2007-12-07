@@ -1,8 +1,8 @@
 #ifndef _INC_ARM60CPU
 #define _INC_ARM60CPU
 
-#include <fstream.h>
-#include <iostream.h>
+#include <fstream>
+#include <iostream>
 #include <math.h>
 
 #include "types.h"

@@ -1,4 +1,4 @@
-#include <iostream.h>
+#include <iostream>
 
 #include "types.h"
 #include "Console.h"
