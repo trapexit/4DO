@@ -7,60 +7,13 @@ using namespace std;
 ARM60CPU::ARM60CPU ()
 {
    m_reg = new ARM60Registers ();
-
-   // NOTES:
-   // * All images scanned so far seem identical until BYTE 72 (a.k.a. 73)
-   // * "iamaduck" seems to be a NO-OP in many images? ... What the hell?
-   // * TODO: Double-check before starting this part, but I'm assuming big-endian.
-
-   /////////
-   /*
-   ifstream romFile;
-   unsigned char*    buffer;
-   int      length = 1000;
-   int x;
-
-   //romFile.open ("C:\\emulation\\3do\\ROMS\\Trip'd (1995)(Panasonic)(Eu-US)[!].iso");
-   //romFile.open ("C:\\emulation\\3do\\ROMS\\Out of this World (1993)(Interplay)(US)[!][45097-1].iso");
-   //romFile.open ("C:\\emulation\\3do\\ROMS\\Alone in the Dark (1994)(Interplay)(US)[!].iso");
-   //romFile.open ("C:\\emulation\\3do\\ROMS\\Lost Eden (1993)(Virgin)(US).iso");
-   //romFile.open ("C:\\Code\\unCD-ROM14\\alone\\LaunchMe");
-   //romFile.open ("C:\\Code\\unCD-ROM14\\alone\\playmovie");
-   //romFile.open ("C:\\Code\\unCD-ROM14\\outofthisworld\\Launchme");
-   //romFile.open ("C:\\Code\\unCD-ROM14\\outofthisworld\\ootw");
-   //romFile.open ("C:\\Code\\Bios\\bios.rom");
-   
-   buffer = new unsigned char [length];
-   romFile.read (buffer, length);
-
-   //for (x = 0; x < length; x++)
-   //{
-   //   cout << x << "\tchar:\t" << (int) buffer [x] << "\t" << buffer [x] << "\t" << CharToBitString (buffer [x]) << endl;
-   //}
-
-   //cout << "---------------" << endl;
-
-   //for (x = 0; x < length; x+=4)
-   //{
-   //   cout << x << "\t" << CharToBitString (buffer [x]) << " " << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 3]) << "  " << CharToBitString (buffer [x + 3]) << "  "<< CharToBitString (buffer [x + 2]) << CharToBitString (buffer [x + 1]) << CharToBitString (buffer [x]) << endl;
-   //}
-   //
-
-   for (x = 0; x < length; x+=4)
-   {
-      cout << x << "\t";
-      this->ProcessInstruction((buffer[x] << 24) | (buffer[x + 1] << 16) | (buffer[x + 2] << 8) | buffer[x + 3]);
-      //this->ProcessInstruction((buffer[x + 3] << 24) | (buffer[x + 2] << 16) | (buffer[x + 1] << 8) | buffer[x]);
-   }
-   
-   romFile.close ();
-   delete buffer;
-   */
+   m_vect = new ARM60Vectors ();
 }
 
 ARM60CPU::~ARM60CPU ()
 {
    delete m_reg;
+   delete m_vect;
 }
 
 void ARM60CPU::ProcessInstruction (uint instruction)

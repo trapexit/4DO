@@ -10,6 +10,7 @@
 #include "BitMath.h"
 #include "ARM60REGISTER.h"
 #include "ARM60REGISTERS.h"
+#include "ARM60VECTORS.h"
 
 class ARM60CPU
 {
@@ -23,6 +24,7 @@ public:
 
 private:
    ARM60Registers* m_reg;
+   ARM60Vectors*   m_vect;
 
    void ProcessInstruction (uint instruction);
    void ProcessBranch (uint instruction);
