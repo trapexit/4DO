@@ -6,7 +6,7 @@ Console::Console ()
    m_DMA = new DMAController ();
    
    m_CPU = new ARM60CPU ();
-   m_CPU->dma = m_DMA;
+   m_CPU->DMA = m_DMA;
 }
 
 Console::~Console ()
