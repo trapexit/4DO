@@ -165,7 +165,7 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
    uint    op1;
    uint    op2;
    uint    result = 0;
-   __int64 resultLong = 0;
+   long long resultLong = 0;
    int     opCode;
    int     regDest;
    int     shift;
@@ -353,7 +353,7 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
             // Overflow is impossible.
             m_reg->CPSR ()->SetOverflow (false);
          }
-         m_reg->CPSR ()->SetCarry ((resultLong & 0x100000000) > 0);
+         m_reg->CPSR ()->SetCarry (((resultLong >> 16) & 0x10000) > 0);
          m_reg->CPSR ()->SetZero (result == 0);
          m_reg->CPSR ()->SetNegative ((result & 0x80000000) > 0);
       }

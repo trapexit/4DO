@@ -1,4 +1,4 @@
-#include "wx/wxprec.h"
+#include "wx/wx.h"
 
 #include "4DO.xpm" // Include the application's icon
 
@@ -18,3 +18,4 @@ DECLARE_EVENT_TABLE ()
 };
 
 DECLARE_APP(FourDOApp)
+

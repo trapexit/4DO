@@ -6,19 +6,19 @@
 #include <math.h>
 
 #include "types.h"
-#include "DMA.h"
+#include "DMAController.h"
 #include "BitMath.h"
-#include "ARM60REGISTER.h"
-#include "ARM60REGISTERS.h"
-#include "ARM60VECTORS.h"
+#include "ARM60Register.h"
+#include "ARM60Registers.h"
+#include "ARM60Vectors.h"
 
 class ARM60CPU
 {
 public:
-   ARM60CPU::ARM60CPU ();
-   ARM60CPU::~ARM60CPU ();
+   ARM60CPU ();
+   ~ARM60CPU ();
 
-   DMA* DMA;
+   DMAController* DMA;
    bool BIGEND;
    bool LOCK;
 
@@ -49,3 +49,4 @@ private:
 };
 
 #endif // _INC_ARM60CPU
+

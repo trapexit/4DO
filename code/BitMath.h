@@ -15,3 +15,4 @@ char* CharToBitString (char value);
 char* UintToBitString (uint value);
 
 #endif //_INC_BITMATH
+

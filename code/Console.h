@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "ARM60CPU.h"
-#include "DMA.h"
+#include "DMAController.h"
 
 //////////////////////////////////////////////////
 
@@ -14,8 +14,9 @@ public:
    ~Console ();
 
 private:
-   DMA*      m_DMA;
-   ARM60CPU* m_CPU;
+   DMAController*  m_DMA;
+   ARM60CPU*       m_CPU;
 };
 
 #endif //_INC_CONSOLE
+

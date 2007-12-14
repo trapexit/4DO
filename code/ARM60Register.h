@@ -11,3 +11,4 @@ public:
 };
 
 #endif // _INC_ARM60REGISTER
+

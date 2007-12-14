@@ -100,5 +100,6 @@ void FourDOApp::OnMenuToolsBrowseISO (wxCommandEvent& WXUNUSED(event))
 
 void FourDOApp::OnMenuHelpAbout (wxCommandEvent& WXUNUSED(event))
 {
-   wxMessageBox (_T("FourDO - An Open-Source HLE 3DO Emulator\r\n\r\nVersion 0.0.0.1"), _T("About 4DO"), wxOK | wxICON_INFORMATION);
+   wxMessageBox (_T("FourDO - An Open-Source HLE 3DO Emulator\n\nVersion 0.0.0.1"), _T("About 4DO"), wxOK | wxICON_INFORMATION);
 }
+

@@ -3,10 +3,10 @@
 Console::Console ()
 {
    // Constructor
-   m_DMA = new DMA ();
+   m_DMA = new DMAController ();
    
    m_CPU = new ARM60CPU ();
-   m_CPU->DMA = m_DMA;
+   m_CPU->dma = m_DMA;
 }
 
 Console::~Console ()
@@ -15,3 +15,4 @@ Console::~Console ()
    delete m_DMA;
    delete m_CPU;
 }
+

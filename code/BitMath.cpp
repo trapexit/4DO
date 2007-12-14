@@ -39,3 +39,4 @@ char* UintToBitString (uint value)
 
    return retVal;
 }
+
