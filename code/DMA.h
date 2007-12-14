@@ -8,8 +8,8 @@
 class DMA
 {
 public:
-   DMA::DMA ();
-   DMA::~DMA ();
+   DMA ();
+   ~DMA ();
 
    uint GetValue (uint address);
    void SetValue (uint address, uint value);

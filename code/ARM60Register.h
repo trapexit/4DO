@@ -6,7 +6,7 @@
 class ARM60Register
 {
 public:
-   ARM60Register::ARM60Register (uint* value);
+   ARM60Register (uint* value);
    uint* Value;
 };
 

@@ -10,8 +10,8 @@
 class Console
 {
 public:
-   Console::Console ();
-   Console::~Console ();
+   Console ();
+   ~Console ();
 
 private:
    DMA*      m_DMA;

@@ -18,7 +18,7 @@ enum CPUMode
 class ARM60PSRegister : public ARM60Register
 {
 public:
-   ARM60PSRegister::ARM60PSRegister (uint* value);
+   ARM60PSRegister (uint* value);
    
    bool GetNegative ();
    bool GetZero ();
