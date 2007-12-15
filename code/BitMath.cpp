@@ -10,10 +10,11 @@ uint SetBits (uint value, uint setMask, uint setValue)
    return (value & ~setMask) + (setMask & setValue);
 }
 
-char* CharToBitString (char value)
+wxString CharToBitString (char value)
 {
-   const int bits = 8;
-   char* retVal;
+   const int  bits = 8;
+   char*      retVal;
+   wxString   newRetVal;
 
    retVal = new char[bits + 1];
    for (int x = 0; x < bits; x++)
@@ -21,14 +22,18 @@ char* CharToBitString (char value)
       sprintf (&retVal [x], "%d", ((value & ((uint) pow ((double) 2, bits - x - 1))) > 0) ? 1 : 0);
    }
    retVal [bits] = 0;
-
-   return retVal;
+   
+   newRetVal = _T (retVal);
+   delete retVal;
+   
+   return newRetVal;
 }
 
-char* UintToBitString (uint value)
+wxString UintToBitString (uint value)
 {
-   const int bits = 32;
-   char* retVal;
+   const int  bits = 32;
+   char*      retVal;
+   wxString   newRetVal;
 
    retVal = new char[bits + 1];
    for (int x = 0; x < bits; x++)
@@ -36,7 +41,9 @@ char* UintToBitString (uint value)
       sprintf (&retVal [x], "%d", ((value & ((uint) pow ((double) 2, bits - x - 1))) > 0) ? 1 : 0);
    }
    retVal [bits] = 0;
+   
+   newRetVal = _T (retVal);
+   delete retVal;
 
-   return retVal;
+   return newRetVal;
 }
-

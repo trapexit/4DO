@@ -14,9 +14,7 @@ enum Menu
    ID_MENU_FILE_OPENISO = 1,
    ID_MENU_FILE_EXIT,
    ID_MENU_TOOLS_BROWSEISO,
-   ID_MENU_HELP_ABOUT,
-   
-   ID_BUTTON
+   ID_MENU_HELP_ABOUT
 };
 
 BEGIN_EVENT_TABLE(FourDOApp, wxApp)
@@ -29,31 +27,175 @@ END_EVENT_TABLE()
 /////////////////////////////////////////////////////////////////////////
 // Application startup
 /////////////////////////////////////////////////////////////////////////
-
 bool FourDOApp::OnInit()
 {
-	// TODO: Find out how to load and use command-line arguments.
-	
+   // Parse command line arguments.
+   
+   if (!this->ParseCommandLineArgs ())
+   {
+      return false;
+   }
+   
+   // Set up main window.
 	wxFrame* main = new wxFrame ((wxFrame*) NULL, -1, _T("4DO"));
-   InitializeMenu (main);	
-	main->SetIcon (wxIcon(kill_icon_xpm));
-	main->CreateStatusBar ();
-	main->SetStatusText (_T("4DO: Open-Source HLE 3DO Emulator"));
+   main->SetIcon (wxIcon(kill_icon_xpm));
 	main->SetSize (640, 480);
 	main->CenterOnScreen ();
 	main->SetBackgroundColour (wxColor (0xFF000000));
+	main->CreateStatusBar ();
+	main->SetStatusText (_T("4DO: Open-Source HLE 3DO Emulator"));
+   InitializeMenu (main);	
 	
-   wxGridSizer *sizer = new wxGridSizer (1, 2, 0, 0);
+	// A quick debug textbox.
+	//txtBox = new wxTextCtrl (main, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
+	grdDebug = new wxGrid (main, -1, wxDefaultPosition, wxDefaultSize);
+	grdDebug->CreateGrid (0, 1, wxGrid::wxGridSelectCells);
+	
+   // Set up a sizer with empty panel and a debug output area.
+   wxFlexGridSizer *sizer = new wxFlexGridSizer (1, 2, 0, 0);
    main->SetSizer (sizer);
-
-   sizer->Add (new wxPanel (main), 2, 0, 0);
-   wxTextCtrl* txtBox = new wxTextCtrl (main, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
-   sizer->Add (txtBox, 2, wxEXPAND, 0);
+   sizer->AddGrowableCol (0, 5);
+   sizer->AddGrowableCol (1, 1);
+   sizer->AddGrowableRow (0, 0);
+   sizer->SetFlexibleDirection (wxBOTH);
+   sizer->Add (grdDebug, 0, wxEXPAND, 0);
+   sizer->Add (new wxPanel (main), 0, wxEXPAND, 0);
    
+   if (m_isDebug)
+   {
+      // Do our test here.
+      this->DoTest ();
+   }
+   
+   // Show the form.
 	main->Show (TRUE);
 	SetTopWindow (main);
 	
 	return true;
+}
+
+bool FourDOApp::ParseCommandLineArgs ()
+{
+   int       n;
+   bool      showUsage = false;
+   bool      isDebug = false;
+   bool      loadImage = false;
+   wxString  fileName;
+   wxString  arg;
+   
+   for (n = 1; n < this->argc; n++)
+   {
+      arg = (argv [n]);
+      arg = arg.Trim ().MakeUpper ();
+      if (arg.length() > 1 && (arg.StartsWith ("/") || arg.StartsWith ("-")))
+      {
+         // Correct format
+         arg = arg.Mid (1);
+         
+         if (arg.Cmp ("D") == 0 || arg.Cmp ("DEBUG") == 0)
+         {
+            // Using debug mode.
+            isDebug = true;
+         }
+         else if (arg.Cmp ("LI") == 0 || arg.Cmp ("LOADIMAGE") == 0)
+         {
+            if (n + 1 == this->argc)
+            {
+               // This was the last argument! There's no file to load.
+               showUsage = true;
+            }
+            else
+            {
+               n++;
+               fileName = this->argv [n];
+            }
+         }
+      }
+      else
+      {
+         // Incorrect format.
+         showUsage = true;
+      }
+   }
+   
+   // If we're supposed to load an image. See if the image file exists first.
+   if (loadImage)
+   {
+      if (!wxFileExists (fileName))
+      {
+         showUsage = true;
+      }
+   }
+   
+   // Now return failure/success.
+   if (showUsage)
+   {
+      // Something went wrong.
+      // TODO: Output usage summary?
+      return false;
+   }
+   else
+   {
+      // We don't need to display the usage summary.
+      m_isDebug = isDebug;
+      m_loadFile = loadImage;
+      m_fileName = fileName;
+      return true;
+   }
+   
+   // TODO: Investigate use of wxCmdLineParser... I found out about it after I coded this.
+   /*
+   static const wxCmdLineEntryDesc cmdLineDesc[] =
+   {
+       { wxCMD_LINE_SWITCH, _T("d"),  _T("debug"),     _T("Enable debug information") },
+       { wxCMD_LINE_OPTION, _T("li"), _T("loadimage"), _T("Image file to load")       },
+       { wxCMD_LINE_PARAM,  NULL, NULL, "input file", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_MULTIPLE },
+       { wxCMD_LINE_NONE }
+   };
+   
+   //this->
+   wxCmdLineParser* parser = new wxCmdLineParser ();
+   parser->SetDesc (cmdLineDesc);
+   parser->SetCmdLine (this->argc, this->argv);
+   
+   return true;
+   */
+   
+}
+
+void FourDOApp::DoTest ()
+{
+   wxFileInputStream* stream;
+   
+   wxString  disp;
+   uint      token;
+   int       row;
+   
+   stream = new wxFileInputStream (m_fileName);
+   
+   grdDebug->EnableDragRowSize (false);
+   grdDebug->EnableEditing (false);
+   
+   
+   grdDebug->SetColLabelValue (0, "Instruction");
+   
+   for (row = 0; row < 500; row++)
+   {
+      token = stream->GetC ();
+      token = (token << 8) + stream->GetC ();
+      token = (token << 8) + stream->GetC ();
+      token = (token << 8) + stream->GetC ();
+      
+      grdDebug->InsertRows (grdDebug->GetRows ());
+      
+      grdDebug->SetCellValue (row, 0, _T(UintToBitString (token)));
+      grdDebug->SetRowLabelValue (row, wxString::Format ("%d", row));
+   }
+   
+   grdDebug->AutoSizeColumns ();
+   
+   delete stream;
+   
 }
 
 void FourDOApp::InitializeMenu (wxFrame* frame)

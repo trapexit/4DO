@@ -2,6 +2,7 @@
 #define _INC_BITMATH
 
 #include "types.h"
+#include "wx/wx.h"
 
 #include <math.h>
 #include <cstdio>
@@ -11,8 +12,7 @@
 uint SetBit (uint value, int bitNumber, bool bitValue);
 uint SetBits (uint value, uint setMask, uint setValue);
 
-char* CharToBitString (char value);
-char* UintToBitString (uint value);
+wxString CharToBitString (char value);
+wxString UintToBitString (uint value);
 
 #endif //_INC_BITMATH
-
