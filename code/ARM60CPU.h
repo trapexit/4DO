@@ -21,7 +21,7 @@ public:
    DMAController* DMA;
    bool BIGEND;
    bool LOCK;
-
+   
 private:
    ARM60Registers* m_reg;
    ARM60Vectors*   m_vect;
@@ -44,6 +44,7 @@ private:
    void DoSTR (uint address, RegisterType sourceReg, bool isByte);
 
    uint ReadShiftedRegisterOperand (uint instruction, bool* newCarry);
+   uint DoAdd (uint op1, uint op2, bool oldCarry, bool* newCarry);
 
    bool CheckCondition (uint instruction);
 };

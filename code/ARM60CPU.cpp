@@ -1,6 +1,3 @@
-#include <iostream>
-using namespace std;
-
 #include "ARM60CPU.h"
 #include "BitMath.h"
 
@@ -106,10 +103,6 @@ void ARM60CPU::ProcessInstruction (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBranch (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "Branch   " << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -142,10 +135,6 @@ void ARM60CPU::ProcessBranch (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessDataProcessing (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "Data Proc" << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -158,17 +147,16 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
    //////////////////////
    
    //////////////////////
-   bool    newCarry = false;
-   bool    setCond;
-   bool    writeResult = true; // NOTE: The assembler allegegly always sets S to false here.
-   bool    isLogicOp = true;
-   uint    op1;
-   uint    op2;
-   uint    result = 0;
-   long long resultLong = 0;
-   int     opCode;
-   int     regDest;
-   int     shift;
+   bool newCarry = false;
+   bool setCond;
+   bool writeResult = true; // NOTE: The assembler allegegly always sets S to false here.
+   bool isLogicOp = true;
+   uint op1;
+   uint op2;
+   uint result = 0;
+   int  opCode;
+   int  regDest;
+   int  shift;
 
    opCode = (instruction & 0x01E00000) >> 21;
    setCond = (instruction & 0x00100000) > 0;
@@ -209,99 +197,97 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
    {
    case 0x0:
       // AND
-      resultLong = op1 & op2;
+      result = op1 & op2;
       break;
    
    case 0x1:
       // EOR
-      resultLong = op1 ^ op2;
+      result = op1 ^ op2;
       break;
    
    case 0x2:
       // SUB
       isLogicOp = false;
-      resultLong = op1 - op2;
+      result = DoAdd (op1, -op2, false, &newCarry);
       break;
    
    case 0x3:
       // RSB
       isLogicOp = false;
-      resultLong = op2 - op1;
+      result = DoAdd (op2, -op1, false, &newCarry);
       break;
    
    case 0x4:
       // ADD
       isLogicOp = false;
-      resultLong = op1 + op2;
+      result = DoAdd (op1, op2, false, &newCarry);
       break;
    
    case 0x5:
       // ADC
       isLogicOp = false;
-      resultLong = op1 + op2 + (m_reg->CPSR ()->GetCarry () ? 1 : 0);
+      result = DoAdd (op1, op2, m_reg->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0x6:
       // SBC
       isLogicOp = false;
-      resultLong = op1 - op2 + (m_reg->CPSR ()->GetCarry () ? 1 : 0) - 1;
+      result = DoAdd (op1, -op2, m_reg->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0x7:
       // RSC
       isLogicOp = false;
-      resultLong = op2 - op1 + (m_reg->CPSR ()->GetCarry () ? 1 : 0) - 1;
+      result = DoAdd (op2, -op1, m_reg->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0x8:
       // TST
       writeResult = false;
-      resultLong = op2 & op1;
+      result = op2 & op1;
       break;
    
    case 0x9:
       // TEQ
       writeResult = false;
-      resultLong = op2 ^ op1;
+      result = op2 ^ op1;
       break;
    
    case 0xA:
       // CMP
       writeResult = false;
       isLogicOp = false;
-      resultLong = op2 - op1;
+      result = DoAdd (op1, -op2, m_reg->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0xB:
       // CMN
       writeResult = false;
       isLogicOp = false;
-      resultLong = op2 - op1;
+      result = DoAdd (op1, -op2, m_reg->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0xC:
       // ORR
-      resultLong = op2 | op1;
+      result = op2 | op1;
       break;
    
    case 0xD:
       // MOV
-      resultLong = op2;
+      result = op2;
       break;
 
    case 0xE:
       // BIC
-      resultLong = op1 & (~op2);
+      result = op1 & (~op2);
       break;
 
    case 0xF:
       // MVN
-      resultLong = ~op2;
+      result = ~op2;
       break;
 
    }
-
-   result = (uint) resultLong;
 
    ///////////////////////
    // Write result if necessary.
@@ -353,7 +339,7 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
             // Overflow is impossible.
             m_reg->CPSR ()->SetOverflow (false);
          }
-         m_reg->CPSR ()->SetCarry (((resultLong >> 16) & 0x10000) > 0);
+         m_reg->CPSR ()->SetCarry (newCarry);
          m_reg->CPSR ()->SetZero (result == 0);
          m_reg->CPSR ()->SetNegative ((result & 0x80000000) > 0);
       }
@@ -365,10 +351,6 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessPSRTransfer (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "PSR Tran" << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -455,10 +437,6 @@ void ARM60CPU::ProcessPSRTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessMultiply (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "MULT" << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -528,10 +506,6 @@ void ARM60CPU::ProcessMultiply (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "Single DT" << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -627,10 +601,6 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "Block DT" << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -767,10 +737,6 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "Single SWP" << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -818,10 +784,6 @@ void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "Soft Int" << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -843,10 +805,6 @@ void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorDataOperations (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "Coproc DO" << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -864,10 +822,6 @@ void ARM60CPU::ProcessCoprocessorDataOperations (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorDataTransfers (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "Coproc DT" << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -885,10 +839,6 @@ void ARM60CPU::ProcessCoprocessorDataTransfers (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorRegisterTransfers (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "Coproc RT" << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -906,10 +856,6 @@ void ARM60CPU::ProcessCoprocessorRegisterTransfers (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessUndefined (uint instruction)
 {
-   #ifdef _DEBUG
-   cout << "Undefined" << "\t" << UintToBitString (instruction) << endl;
-   #endif
-
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -1258,4 +1204,17 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
    }
 
    return op;
+}
+
+uint ARM60CPU::DoAdd (uint op1, uint op2, bool oldCarry, bool* newCarry)
+{
+   uint lowerSum;
+   uint higherSum;
+   
+   lowerSum = (op1 & 0x0000FFFF) + (op2 & 0x0000FFFF) + (oldCarry ? 1 : 0);
+   higherSum =  ((op1 & 0xFFFF0000) >> 16) + ((op2 & 0xFFFF0000) >> 16) + (lowerSum >> 16);
+   
+   *newCarry = (higherSum & 0xFFFF0000) > 1;
+   
+   return op1 + op2 + (oldCarry ? 1 : 0);
 }

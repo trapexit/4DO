@@ -1,4 +1,5 @@
 #include "Main.h"
+#include <iostream>
 
 #include "types.h"
 #include "Console.h"
@@ -10,36 +11,46 @@ IMPLEMENT_APP(FourDOApp)
 /////////////////////////////////////////////////////////////////////////
 enum Menu
 {
-   Menu_File_OpenISO = 1,
-   Menu_File_Exit = 1,
-   Menu_Tools_BrowseISO,
-   Menu_Help_About
+   ID_MENU_FILE_OPENISO = 1,
+   ID_MENU_FILE_EXIT,
+   ID_MENU_TOOLS_BROWSEISO,
+   ID_MENU_HELP_ABOUT,
+   
+   ID_BUTTON
 };
 
 BEGIN_EVENT_TABLE(FourDOApp, wxApp)
-   EVT_MENU(Menu_File_OpenISO, FourDOApp::OnMenuFileOpenISO)
-   EVT_MENU(Menu_File_Exit, FourDOApp::OnMenuFileExit)
-   EVT_MENU(Menu_Tools_BrowseISO, FourDOApp::OnMenuToolsBrowseISO)
-   EVT_MENU(Menu_Help_About, FourDOApp::OnMenuHelpAbout)
+   EVT_MENU(ID_MENU_FILE_OPENISO, FourDOApp::OnMenuFileOpenISO)
+   EVT_MENU(ID_MENU_FILE_EXIT, FourDOApp::OnMenuFileExit)
+   EVT_MENU(ID_MENU_TOOLS_BROWSEISO, FourDOApp::OnMenuToolsBrowseISO)
+   EVT_MENU(ID_MENU_HELP_ABOUT, FourDOApp::OnMenuHelpAbout)
 END_EVENT_TABLE()
-
 
 /////////////////////////////////////////////////////////////////////////
 // Application startup
 /////////////////////////////////////////////////////////////////////////
+
 bool FourDOApp::OnInit()
 {
 	// TODO: Find out how to load and use command-line arguments.
 	
 	wxFrame* main = new wxFrame ((wxFrame*) NULL, -1, _T("4DO"));
+   InitializeMenu (main);	
 	main->SetIcon (wxIcon(kill_icon_xpm));
 	main->CreateStatusBar ();
 	main->SetStatusText (_T("4DO: Open-Source HLE 3DO Emulator"));
 	main->SetSize (640, 480);
-   InitializeMenu (main);	
 	main->CenterOnScreen ();
-	main->Show (TRUE);
+	main->SetBackgroundColour (wxColor (0xFF000000));
 	
+   wxGridSizer *sizer = new wxGridSizer (1, 2, 0, 0);
+   main->SetSizer (sizer);
+
+   sizer->Add (new wxPanel (main), 2, 0, 0);
+   wxTextCtrl* txtBox = new wxTextCtrl (main, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
+   sizer->Add (txtBox, 2, wxEXPAND, 0);
+   
+	main->Show (TRUE);
 	SetTopWindow (main);
 	
 	return true;
@@ -57,19 +68,19 @@ void FourDOApp::InitializeMenu (wxFrame* frame)
    //////////////////////
    // File menu
    mnuMain->Append (mnuFile, _T("&File"));
-   mnuFile->Append (Menu_File_OpenISO, _T("&Open ISO...\tCtrl+O"));
+   mnuFile->Append (ID_MENU_FILE_OPENISO, _T("&Open ISO...\tCtrl+O"));
    mnuFile->AppendSeparator ();
-   mnuFile->Append (Menu_File_Exit, _T("&Exit\tCtrl+X"));
+   mnuFile->Append (ID_MENU_FILE_EXIT, _T("&Exit\tCtrl+X"));
 
    //////////////////////
    // Tools menu
    mnuMain->Append (mnuTools, _T("&Tools"));
-   mnuTools->Append (Menu_Tools_BrowseISO, _T("&Browse ISO...\tCtrl+B"));
+   mnuTools->Append (ID_MENU_TOOLS_BROWSEISO, _T("&Browse ISO...\tCtrl+B"));
    
    //////////////////////
    // Help menu
    mnuMain->Append (mnuHelp, _T("&Help"));
-   mnuHelp->Append (Menu_Help_About, _T("&About...\tShift+F1"));
+   mnuHelp->Append (ID_MENU_HELP_ABOUT, _T("&About...\tShift+F1"));
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -102,4 +113,3 @@ void FourDOApp::OnMenuHelpAbout (wxCommandEvent& WXUNUSED(event))
 {
    wxMessageBox (_T("FourDO - An Open-Source HLE 3DO Emulator\n\nVersion 0.0.0.1"), _T("About 4DO"), wxOK | wxICON_INFORMATION);
 }
-
