@@ -213,4 +213,3 @@ InternalRegisterType ARM60Registers::GetInternalRegisterNum (RegisterType reg)
       return (InternalRegisterType) retVal;
    }
 }
-

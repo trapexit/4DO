@@ -10,8 +10,11 @@
 class Console
 {
 public:
-   Console ();
+   Console  ();
    ~Console ();
+   
+   ARM60CPU*      CPU ();
+   DMAController* DMA ();
 
 private:
    DMAController*  m_DMA;
@@ -19,4 +22,3 @@ private:
 };
 
 #endif //_INC_CONSOLE
-

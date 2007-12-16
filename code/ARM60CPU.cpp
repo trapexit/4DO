@@ -3,14 +3,19 @@
 
 ARM60CPU::ARM60CPU ()
 {
-   m_reg = new ARM60Registers ();
+   REG = new ARM60Registers ();
    m_vect = new ARM60Vectors ();
 }
 
 ARM60CPU::~ARM60CPU ()
 {
-   delete m_reg;
+   delete REG;
    delete m_vect;
+}
+
+void ARM60CPU::DoSingleInstruction ()
+{
+   this->ProcessInstruction (DMA->GetValue (*(REG->PC()->Value)));
 }
 
 void ARM60CPU::ProcessInstruction (uint instruction)
@@ -103,6 +108,10 @@ void ARM60CPU::ProcessInstruction (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBranch (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "Branch";
+   #endif
+   
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -118,7 +127,7 @@ void ARM60CPU::ProcessBranch (uint instruction)
    if ((instruction & 0x01000000) == 0x01000000)
    {
       // TODO: Check on prefetch logic.
-      *(m_reg->Reg (ARM60_R14)) = *(m_reg->PC ()->Value);
+      *(REG->Reg (ARM60_R14)) = *(REG->PC ()->Value);
    }
    
    // Offset is bit shifted left two, then sign extended to 32 bits.
@@ -127,7 +136,7 @@ void ARM60CPU::ProcessBranch (uint instruction)
    {
       offset &= 0xFC000000;
    }
-   (*(m_reg->PC ()->Value)) += offset;
+   (*(REG->PC ()->Value)) += offset;
 }
 
 ////////////////////////////////////////////////////////////
@@ -135,6 +144,10 @@ void ARM60CPU::ProcessBranch (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessDataProcessing (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "Data Proc";
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -165,7 +178,7 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 
    ////////////////////////////
    // Get first operand value.
-   op1 = *(m_reg->Reg ((RegisterType) (instruction & 0x000F0000)));
+   op1 = *(REG->Reg ((RegisterType) (instruction & 0x000F0000)));
    
    ////////////////////////////
    // Get second operand value.
@@ -208,13 +221,13 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
    case 0x2:
       // SUB
       isLogicOp = false;
-      result = DoAdd (op1, -op2, false, &newCarry);
+      result = DoAdd (op1, (~op2)+1, false, &newCarry);
       break;
    
    case 0x3:
       // RSB
       isLogicOp = false;
-      result = DoAdd (op2, -op1, false, &newCarry);
+      result = DoAdd (op2, (~op1)+1, false, &newCarry);
       break;
    
    case 0x4:
@@ -226,19 +239,19 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
    case 0x5:
       // ADC
       isLogicOp = false;
-      result = DoAdd (op1, op2, m_reg->CPSR ()->GetCarry (), &newCarry);
+      result = DoAdd (op1, op2, REG->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0x6:
       // SBC
       isLogicOp = false;
-      result = DoAdd (op1, -op2, m_reg->CPSR ()->GetCarry (), &newCarry);
+      result = DoAdd (op1, (~op2)+1, REG->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0x7:
       // RSC
       isLogicOp = false;
-      result = DoAdd (op2, -op1, m_reg->CPSR ()->GetCarry (), &newCarry);
+      result = DoAdd (op2, (~op1)+1, REG->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0x8:
@@ -257,14 +270,14 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
       // CMP
       writeResult = false;
       isLogicOp = false;
-      result = DoAdd (op1, -op2, m_reg->CPSR ()->GetCarry (), &newCarry);
+      result = DoAdd (op1, -op2, REG->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0xB:
       // CMN
       writeResult = false;
       isLogicOp = false;
-      result = DoAdd (op1, -op2, m_reg->CPSR ()->GetCarry (), &newCarry);
+      result = DoAdd (op1, -op2, REG->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0xC:
@@ -293,7 +306,7 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
    // Write result if necessary.
    if (writeResult)
    {
-      (*(m_reg->Reg ((RegisterType) regDest))) = result;
+      (*(REG->Reg ((RegisterType) regDest))) = result;
    }
 
    ///////////////////////
@@ -303,7 +316,7 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
    {
       if (regDest == (int) ARM60_PC)
       {
-         if (m_reg->CPSR ()->GetCPUMode() == CPUMODE_USR)
+         if (REG->CPSR ()->GetCPUMode() == CPUMODE_USR)
          {
             // Hm, this shouldn't happen.
             // TODO: Error?
@@ -311,16 +324,16 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
          else
          {
             // SPSR of current mode is written to CPSR;
-            *(m_reg->Reg (ARM60_CPSR)) = *(m_reg->Reg (ARM60_SPSR));
+            *(REG->Reg (ARM60_CPSR)) = *(REG->Reg (ARM60_SPSR));
          }
       }
       
       if (isLogicOp)
       {
          // Overflow bit is not changed in this scenario.
-         m_reg->CPSR ()->SetCarry (newCarry);
-         m_reg->CPSR ()->SetZero (result == 0);
-         m_reg->CPSR ()->SetNegative ((result & 0x80000000) > 0);
+         REG->CPSR ()->SetCarry (newCarry);
+         REG->CPSR ()->SetZero (result == 0);
+         REG->CPSR ()->SetNegative ((result & 0x80000000) > 0);
       }
       else
       {
@@ -331,17 +344,17 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
          // from the sign of the result.
          if ((op1 & 0x80000000) == (op2 & 0x80000000))
          {
-            m_reg->CPSR ()->SetOverflow (!
+            REG->CPSR ()->SetOverflow (!
                   ((result & 0x80000000) == (op1 & 0x80000000)));
          }
          else
          {
             // Overflow is impossible.
-            m_reg->CPSR ()->SetOverflow (false);
+            REG->CPSR ()->SetOverflow (false);
          }
-         m_reg->CPSR ()->SetCarry (newCarry);
-         m_reg->CPSR ()->SetZero (result == 0);
-         m_reg->CPSR ()->SetNegative ((result & 0x80000000) > 0);
+         REG->CPSR ()->SetCarry (newCarry);
+         REG->CPSR ()->SetZero (result == 0);
+         REG->CPSR ()->SetNegative ((result & 0x80000000) > 0);
       }
    }
 }
@@ -351,6 +364,10 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessPSRTransfer (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "PSR Trans";
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -368,14 +385,14 @@ void ARM60CPU::ProcessPSRTransfer (uint instruction)
       if ((instruction & 0x00400000) > 0)
       {
          // Source is SPSR
-         *(m_reg->Reg ((RegisterType) ((instruction & 0x0000F000) > 12))) = 
-            *(m_reg->Reg (ARM60_SPSR));
+         *(REG->Reg ((RegisterType) ((instruction & 0x0000F000) > 12))) = 
+            *(REG->Reg (ARM60_SPSR));
       }
       else
       {
          // Source is CPSR
-         *(m_reg->Reg ((RegisterType) ((instruction & 0x0000F000) > 12))) = 
-            *(m_reg->Reg (ARM60_CPSR));
+         *(REG->Reg ((RegisterType) ((instruction & 0x0000F000) > 12))) = 
+            *(REG->Reg (ARM60_CPSR));
       }
       break;
 
@@ -384,14 +401,14 @@ void ARM60CPU::ProcessPSRTransfer (uint instruction)
       if ((instruction & 0x00400000) > 0)
       {
          // Destination is SPSR
-         *(m_reg->Reg (ARM60_SPSR)) = 
-            *(m_reg->Reg ((RegisterType) (instruction & 0x0000000F)));
+         *(REG->Reg (ARM60_SPSR)) = 
+            *(REG->Reg ((RegisterType) (instruction & 0x0000000F)));
       }
       else
       {
          // Destination is CPSR
-         *(m_reg->Reg (ARM60_CPSR)) = 
-            *(m_reg->Reg ((RegisterType) (instruction & 0x0000000F)));
+         *(REG->Reg (ARM60_CPSR)) = 
+            *(REG->Reg ((RegisterType) (instruction & 0x0000000F)));
       }
       break;
 
@@ -413,7 +430,7 @@ void ARM60CPU::ProcessPSRTransfer (uint instruction)
       else
       {
          // Register value.
-         sourceVal = *(m_reg->Reg ((RegisterType) (instruction & 0x0000000F)));
+         sourceVal = *(REG->Reg ((RegisterType) (instruction & 0x0000000F)));
       }
       
       //////////////
@@ -421,12 +438,12 @@ void ARM60CPU::ProcessPSRTransfer (uint instruction)
       if ((instruction & 0x00400000) > 0)
       {
          // Destination is SPSR
-         *(m_reg->Reg (ARM60_SPSR)) = sourceVal;
+         *(REG->Reg (ARM60_SPSR)) = sourceVal;
       }
       else
       {
          // Destination is CPSR
-         *(m_reg->Reg (ARM60_CPSR)) = sourceVal;
+         *(REG->Reg (ARM60_CPSR)) = sourceVal;
       }
       break;
    }
@@ -437,6 +454,10 @@ void ARM60CPU::ProcessPSRTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessMultiply (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "Multiply";
+   #endif
+ 
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -463,7 +484,7 @@ void ARM60CPU::ProcessMultiply (uint instruction)
    Rm = (RegisterType) (instruction & 0x0000000F);
    accumulate = (instruction & 0x00200000) > 0;
 
-   result = (*(m_reg->Reg (Rm))) * (*(m_reg->Reg (Rs)));
+   result = (*(REG->Reg (Rm))) * (*(REG->Reg (Rs)));
 
    if (Rm == Rd)
    {
@@ -481,11 +502,11 @@ void ARM60CPU::ProcessMultiply (uint instruction)
    // Optionally add Rn
    if (accumulate)
    {
-      result += *(m_reg->Reg (Rn));
+      result += *(REG->Reg (Rn));
    }
 
    // Set the result to Rd
-   *(m_reg->Reg ((RegisterType) (instruction & 0x000F0000))) = result;
+   *(REG->Reg ((RegisterType) (instruction & 0x000F0000))) = result;
    
    // Optionally set CPSR values.
    if ((instruction & 0x00100000) > 0)
@@ -495,9 +516,9 @@ void ARM60CPU::ProcessMultiply (uint instruction)
       // NOTE: Overflow is unaffected.
 
       // NOTE: Carry is set to a "meaningless value".
-      m_reg->CPSR ()->SetCarry (0);
-      m_reg->CPSR ()->SetZero (result == 0);
-      m_reg->CPSR ()->SetNegative ((result & 0x80000000) > 0);
+      REG->CPSR ()->SetCarry (0);
+      REG->CPSR ()->SetZero (result == 0);
+      REG->CPSR ()->SetNegative ((result & 0x80000000) > 0);
    }
 }
 
@@ -506,6 +527,10 @@ void ARM60CPU::ProcessMultiply (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "Single DT";
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -526,7 +551,7 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 
    ////////////////////////////////////////////////////////
 
-   baseReg = m_reg->Reg ((RegisterType) (0x000F0000 >> 16));
+   baseReg = REG->Reg ((RegisterType) (0x000F0000 >> 16));
 
    // TODO: Special cases around use of R15 (prefetch).
    // TODO: Abort logic.
@@ -587,7 +612,7 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
    ////////////////////
    if ((instruction & 0x00100000) > 0)
    {
-      *(m_reg->Reg((RegisterType) (0x0000F000 >> 12))) = 
+      *(REG->Reg((RegisterType) (0x0000F000 >> 12))) = 
          DoLDR (address, (instruction & 0x00400000) > 0);
    }
    else
@@ -601,6 +626,10 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "Block DT";
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -652,7 +681,7 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
    isLoad = (instruction & 0x00100000) > 0;
    
    // Get base address.
-   baseReg = m_reg->Reg ((RegisterType) (instruction & 0x000F0000));
+   baseReg = REG->Reg ((RegisterType) (instruction & 0x000F0000));
    address = *baseReg;
 
    /////////////////////////
@@ -683,24 +712,24 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
                   // SPSR_mode is transferred to CPSR at the same as R15 is loaded.
 
                   // In all other respectes, this mode is normal.
-                  destReg = m_reg->Reg ((RegisterType) reg);
+                  destReg = REG->Reg ((RegisterType) reg);
                }
                else
                {
                   // Use the user mode's registers regardless of current mode.
-                  destReg = m_reg->Reg ((InternalRegisterType) reg);
+                  destReg = REG->Reg ((InternalRegisterType) reg);
                }
             }
             else
             {
                // Use the user mode's registers regardless of current mode.
-               destReg = m_reg->Reg ((InternalRegisterType) reg);
+               destReg = REG->Reg ((InternalRegisterType) reg);
             }
          }
          else
          {
             // Normal operation.
-            destReg = m_reg->Reg ((RegisterType) reg);
+            destReg = REG->Reg ((RegisterType) reg);
          }
 
          ////////////////////
@@ -711,7 +740,7 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
             if (isPSR && isR15used && isLoad)
             {
                // SPSR_mode is transferred to CPSR at the same as R15 is loaded.
-               *(m_reg->Reg (ARM60_CPSR)) = *(m_reg->Reg (ARM60_SPSR));
+               *(REG->Reg (ARM60_CPSR)) = *(REG->Reg (ARM60_SPSR));
             }
          }
          else
@@ -737,6 +766,10 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "Data Swap";
+   #endif
+   
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -770,11 +803,11 @@ void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 
    LOCK = true;
    
-   address = *(m_reg->Reg (baseReg));
+   address = *(REG->Reg (baseReg));
    
    value = DoLDR (address, isByte);
    DoSTR (address, sourceReg, isByte);
-   *(m_reg->Reg (destReg)) = value;
+   *(REG->Reg (destReg)) = value;
 
    LOCK = false;
 }
@@ -784,6 +817,10 @@ void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "Software Int";
+   #endif
+   
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -795,7 +832,7 @@ void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)
    //     1111
    ///////////////////////////
    
-   //m_reg->
+   //REG->
 
    //TODO: Software interrupt.
 }
@@ -805,6 +842,10 @@ void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorDataOperations (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "Coproc DO";
+   #endif
+   
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -822,6 +863,10 @@ void ARM60CPU::ProcessCoprocessorDataOperations (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorDataTransfers (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "Coproc DT";
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -839,6 +884,10 @@ void ARM60CPU::ProcessCoprocessorDataTransfers (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorRegisterTransfers (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "Coproc Reg";
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -856,6 +905,10 @@ void ARM60CPU::ProcessCoprocessorRegisterTransfers (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessUndefined (uint instruction)
 {
+   #ifdef __WXDEBUG__
+   LastResult = "Undefined";
+   #endif
+
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -959,20 +1012,20 @@ void ARM60CPU::DoSTR (uint address, RegisterType sourceReg, bool isByte)
       // Storing a byte...
       // We store the bottom byte repeated four times.
       // TODO: Is this supposed be be affected by big endian vs little?
-      value = *(m_reg->Reg (sourceReg)) & 0x000000FF;
+      value = *(REG->Reg (sourceReg)) & 0x000000FF;
       value = value | (value << 8) | (value << 16) | (value << 24);
       DMA->SetValue (address, value);
    }
    else
    {
       // Storing a word. Easy.
-      DMA->SetValue (address, *(m_reg->Reg (sourceReg)));
+      DMA->SetValue (address, *(REG->Reg (sourceReg)));
    }
 }
 
 bool ARM60CPU::CheckCondition (uint instruction)
 {
-   ARM60PSRegister* CPSR = m_reg->CPSR ();
+   ARM60PSRegister* CPSR = REG->CPSR ();
    uint cond;
 
    cond = instruction & 0xF0000000;
@@ -1085,7 +1138,7 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
       // NOTE: In this case, this operation causes prefetch to be 12 bytes instead of 8.
 
       regShift = (RegisterType) ((instruction & 0x00000F00) >> 8);
-      shift = (*(m_reg->Reg (regShift))) & 0x000000FF;
+      shift = (*(REG->Reg (regShift))) & 0x000000FF;
 
       if (shift == 0)
       {
@@ -1100,7 +1153,7 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
    }
    
    // Get the value out of the register specified by Rm.
-   op = *(m_reg->Reg ((RegisterType) (instruction & 0x0000000F)));
+   op = *(REG->Reg ((RegisterType) (instruction & 0x0000000F)));
 
    switch (instruction & 0x00000060)
    {
@@ -1109,7 +1162,7 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
       if (shift == 0)
       {
          // This is a documented special case in which C is preserved.
-         *newCarry = m_reg-> CPSR()->GetCarry ();
+         *newCarry = REG-> CPSR()->GetCarry ();
          op <<= shift;
       }
       else if (shift == 32)
@@ -1192,7 +1245,7 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
          // This is a special "Rotate Right Extended" in which everything
          // is shifted right one bit including the carry bit.
          *newCarry = (op & 0x00000001) > 0;
-         op = (op >> 1) & (m_reg->CPSR ()->GetCarry () ? 0x80000000 : 0);
+         op = (op >> 1) & (REG->CPSR ()->GetCarry () ? 0x80000000 : 0);
       }
       else
       {

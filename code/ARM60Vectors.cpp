@@ -20,4 +20,3 @@ uint* ARM60Vectors::Vector (VectorType vect)
 {
    return &m_vects [vect];
 }
-

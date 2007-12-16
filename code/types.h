@@ -1,4 +1,5 @@
-typedef unsigned int uint;
+typedef unsigned int  uint;
+typedef unsigned char uchar;
 
 // NOTE: I don't understand this, but when I switched to Visual C++ 2005 (from 6.0),
 //       I had to take this typedef out of the inclusion check.
@@ -11,4 +12,3 @@ typedef unsigned int uint;
 
 #endif //_INC_TYPES
 */
-

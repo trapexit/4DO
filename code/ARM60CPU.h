@@ -18,14 +18,21 @@ public:
    ARM60CPU ();
    ~ARM60CPU ();
 
-   DMAController* DMA;
-   bool BIGEND;
+   DMAController*  DMA;
+   ARM60Registers* REG;
+   
+   bool BIGEND; // BIGEND is always true in the 3DO!
    bool LOCK;
    
+   #ifdef __WXDEBUG__
+   wxString LastResult;
+   #endif
+   
+   void DoSingleInstruction ();
+   
 private:
-   ARM60Registers* m_reg;
    ARM60Vectors*   m_vect;
-
+   
    void ProcessInstruction (uint instruction);
    void ProcessBranch (uint instruction);
    void ProcessDataProcessing (uint instruction);
@@ -50,4 +57,3 @@ private:
 };
 
 #endif // _INC_ARM60CPU
-

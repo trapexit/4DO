@@ -36,9 +36,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\lib\vc_lib\mswd&quot;;&quot;$(WXWIN)\include&quot;"
-				PreprocessorDefinitions="WINVER=0x0400;__WXMSW__;__WXDEBUG__"
+				AdditionalIncludeDirectories="&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswd&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\vc_mswd\grid/grid.pch"
+				WarningLevel="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -51,8 +54,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxmsw28d_adv.lib wxmsw28d_html.lib wxbase28d_xml.lib wxmsw28d_core.lib wxbase28d.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib wxregexd.lib wxexpatd.lib winmm.lib comctl32.lib rpcrt4.lib wsock32.lib odbc32.lib"
-				AdditionalLibraryDirectories="&quot;$(WXWIN)\lib\vc_lib&quot;"
+				AdditionalDependencies="wxmsw28d_adv.lib wxmsw28d_html.lib wxbase28d_xml.lib wxmsw28d_core.lib wxbase28d.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib wxregexd.lib wxexpatd.lib winmm.lib comctl32.lib rpcrt4.lib wsock32.lib oleacc.lib shell32.lib gdi32.lib kernel32.lib user32.lib comdlg32.lib ole32.lib oleaut32.lib advapi32.lib"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;$(WXWIN)\lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;"
+				GenerateManifest="true"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -102,8 +110,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\lib\vc_lib\msw&quot;;&quot;$(WXWIN)\include&quot;"
-				PreprocessorDefinitions="WINVER=0x0400;__WXMSW__"
+				AdditionalIncludeDirectories="&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\msw&quot;"
+				PreprocessorDefinitions="WIN32;__WXMSW__;_WINDOWS;NOPCH;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 			/>
 			<Tool
@@ -117,8 +125,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxmsw28_adv.lib wxmsw28_html.lib wxbase28_xml.lib wxmsw28_core.lib wxbase28.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex.lib wxexpat.lib winmm.lib comctl32.lib rpcrt4.lib wsock32.lib odbc32.lib"
-				AdditionalLibraryDirectories="&quot;$(WXWIN)\lib\vc_lib&quot;"
+				AdditionalDependencies="wxmsw28_adv.lib wxmsw28_html.lib wxbase28_xml.lib wxmsw28_core.lib wxbase28.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex.lib wxexpat.lib winmm.lib comctl32.lib rpcrt4.lib wsock32.lib oleacc.lib odbc32.lib shell32.lib gdi32.lib kernel32.lib user32.lib comdlg32.lib ole32.lib oleaut32.lib advapi32.lib"
+				AdditionalLibraryDirectories="&quot;$(WXWIN)\lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;"
+				GenerateManifest="true"
 			/>
 			<Tool
 				Name="VCALinkTool"

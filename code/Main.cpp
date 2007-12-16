@@ -27,10 +27,10 @@ END_EVENT_TABLE()
 /////////////////////////////////////////////////////////////////////////
 // Application startup
 /////////////////////////////////////////////////////////////////////////
+
 bool FourDOApp::OnInit()
 {
    // Parse command line arguments.
-   
    if (!this->ParseCommandLineArgs ())
    {
       return false;
@@ -49,8 +49,8 @@ bool FourDOApp::OnInit()
 	// A quick debug textbox.
 	//txtBox = new wxTextCtrl (main, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
 	grdDebug = new wxGrid (main, -1, wxDefaultPosition, wxDefaultSize);
-	grdDebug->CreateGrid (0, 1, wxGrid::wxGridSelectCells);
-	
+
+   /*
    // Set up a sizer with empty panel and a debug output area.
    wxFlexGridSizer *sizer = new wxFlexGridSizer (1, 2, 0, 0);
    main->SetSizer (sizer);
@@ -60,6 +60,7 @@ bool FourDOApp::OnInit()
    sizer->SetFlexibleDirection (wxBOTH);
    sizer->Add (grdDebug, 0, wxEXPAND, 0);
    sizer->Add (new wxPanel (main), 0, wxEXPAND, 0);
+   */
    
    if (m_isDebug)
    {
@@ -165,37 +166,57 @@ bool FourDOApp::ParseCommandLineArgs ()
 
 void FourDOApp::DoTest ()
 {
+   #define BYTE_COUNT 500
+   
    wxFileInputStream* stream;
    
-   wxString  disp;
+   wxString  bits;
    uint      token;
    int       row;
    
+   Console*  con;
+   
+   con = new Console ();
+   
    stream = new wxFileInputStream (m_fileName);
+   
+   grdDebug->CreateGrid (0, 3, wxGrid::wxGridSelectCells);
    
    grdDebug->EnableDragRowSize (false);
    grdDebug->EnableEditing (false);
    
+   grdDebug->SetColLabelValue (0, "Cnd");
+   grdDebug->SetColLabelValue (1, "Instruction");
    
-   grdDebug->SetColLabelValue (0, "Instruction");
-   
-   for (row = 0; row < 500; row++)
+   for (row = 0; row < BYTE_COUNT; row++)
    {
       token = stream->GetC ();
       token = (token << 8) + stream->GetC ();
       token = (token << 8) + stream->GetC ();
       token = (token << 8) + stream->GetC ();
       
+      con->DMA()->SetValue(row * 4, token);
+      token = con->DMA()->GetValue(row * 4);
+      
+      bits = _T(UintToBitString (token));
+      
       grdDebug->InsertRows (grdDebug->GetRows ());
       
-      grdDebug->SetCellValue (row, 0, _T(UintToBitString (token)));
+      *(con->CPU ()->REG->PC ()->Value) = row * 4;
+      
+      con->CPU ()->DoSingleInstruction ();
+      
+      grdDebug->SetCellValue (row, 0, bits.Mid (0, 4));
+      grdDebug->SetCellValue (row, 1, bits.Mid (4));
+      grdDebug->SetCellValue (row, 2, con->CPU ()->LastResult);
+      
       grdDebug->SetRowLabelValue (row, wxString::Format ("%d", row));
    }
    
    grdDebug->AutoSizeColumns ();
    
+   delete con;
    delete stream;
-   
 }
 
 void FourDOApp::InitializeMenu (wxFrame* frame)

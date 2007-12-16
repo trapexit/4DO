@@ -5,6 +5,8 @@
 
 //////////////////////////////////////////////////
 
+#define DRAM_SIZE 0x200000 // 2 megs of DRAM
+
 class DMAController
 {
 public:
@@ -15,7 +17,7 @@ public:
    void SetValue (uint address, uint value);
 
 private:
+   uchar* m_DRAM;
 };
 
 #endif //_INC_DMA
-

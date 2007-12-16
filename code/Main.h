@@ -1,6 +1,7 @@
 #include "wx/wx.h"
 #include "wx/wfstream.h"
 #include "wx/grid.h"
+#include "ARM60CPU.h"
 //#include "wx/cmdline.h"
 //#include "wx/process.h"
 

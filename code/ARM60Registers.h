@@ -79,7 +79,7 @@ public:
    uint* Reg (RegisterType reg);
    uint* Reg (InternalRegisterType reg);
 
-   ARM60Register* PC ();
+   ARM60Register*   PC ();
    ARM60PSRegister* CPSR ();
 
 private:
@@ -92,4 +92,3 @@ private:
 };
 
 #endif // _INC_ARM60REGISTERH
-

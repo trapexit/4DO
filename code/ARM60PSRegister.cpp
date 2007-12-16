@@ -99,4 +99,3 @@ void ARM60PSRegister::SetCPUMode (CPUMode value)
 {
    *Value = SetBits (*Value, 0x0000001F, value);
 }
-

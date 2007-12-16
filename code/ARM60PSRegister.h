@@ -38,4 +38,3 @@ public:
 };
 
 #endif //_INC_ARM60PSREGISTER
-

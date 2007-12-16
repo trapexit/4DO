@@ -4,4 +4,3 @@ ARM60Register::ARM60Register (uint* value)
 {
    Value = value;
 }
-
