@@ -4,6 +4,8 @@
 #include "types.h"
 #include "Console.h"
 
+#include "filesystem\file.h"
+
 IMPLEMENT_APP(FourDOApp)
 
 /////////////////////////////////////////////////////////////////////////
@@ -251,10 +253,42 @@ void FourDOApp::InitializeMenu (wxFrame* frame)
 /////////////////////////////////////////////////////////////////////////
 void FourDOApp::OnMenuFileOpenISO (wxCommandEvent& WXUNUSED(event))
 {
+   bool ret;
    wxString fileName = wxFileSelector (_T("Open 3DO ISO File"), NULL, NULL, NULL, _T("ISO Files (*.iso)|*.iso|All files (*.*)|*.*"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
    if (!fileName.empty())
    {
-       wxMessageBox (_T("This will load an ISO"));
+       File f(fileName.c_str());
+
+	   ret = f.openFile("/AppStartup");
+	   
+	   if (!ret)
+	   {
+	       wxMessageBox(_T("Error opening AppStartup"));
+		   return;
+	   }
+
+       uint32_t bufLength = f.getFileSize(), bytesRead;
+       uint8_t  *buf = new uint8_t[bufLength];
+
+       ret = f.read(buf, bufLength, &bytesRead);
+
+       if (!ret)
+       {
+           printf("read failed\n");
+
+           if (buf)
+               delete[] buf;
+
+           return;
+       }
+
+	   wxString fileContents(buf, bytesRead);
+
+	   wxMessageBox(fileContents);
+
+       if (buf)
+           delete[] buf;
    }
 }
 
