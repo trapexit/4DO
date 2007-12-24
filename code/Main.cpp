@@ -263,18 +263,15 @@ void FourDOApp::OnMenuFileOpenISO (wxCommandEvent& WXUNUSED(event))
 
    if (!fileName.empty())
    {
-      bool             ret;
-      Directory*       dir;
-      DirectoryEntry*  de;
+      bool            ret;
+      Directory       dir(fileName.c_str());
+      DirectoryEntry  de;
       
-      dir = new Directory (fileName.c_str ());
-      ret = dir->openDirectory ("/");
-      while (dir->enumerateDirectory (de))
-      {
-         wxMessageBox (wxString (de->fileName));
-      };
+      ret = dir.openDirectory("/");
+      while (dir.enumerateDirectory(&de))
+         wxMessageBox (wxString (de.fileName));
       
-      ret = dir->closeDirectory ();
+      ret = dir.closeDirectory ();
       
       /*
       FileSystem* fs;
