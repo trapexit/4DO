@@ -67,10 +67,12 @@ bool Directory::openDirectory(const char *path)
 		if (strcmp(dirPath, separator) == 0)
 		{
 			endOfDir = false;
+			delete dirPath;
 			return true;
 		}
 
 		printf("openDirectory(): couldn't find any /'s in the path\n");
+		delete dirPath;
 		return false;
 	}
 
@@ -81,7 +83,7 @@ bool Directory::openDirectory(const char *path)
 		if (!ret)
 		{
 			printf("openDirectory(): could not read directory entry from the filesystem\n");
-			return false;
+			break;
 		}
 
 		fileSystem.printDirectoryEntry(&dirEntry);
@@ -98,7 +100,7 @@ bool Directory::openDirectory(const char *path)
 			if (!ret)
 			{
 				printf("openDirectory(): couldn't seek to directory %s\n", token);
-				return false;
+				break;
 			}
 
 			ret = fileSystem.readDirectoryHeader(&directoryHeader);
@@ -106,7 +108,7 @@ bool Directory::openDirectory(const char *path)
 			if (!ret)
 			{
 				printf("openDirectory: found the directory but failed to read it's header\n");
-				return false;
+				break;
 			}
 
 			fileSystem.printDirectoryHeader(&directoryHeader);
@@ -129,7 +131,7 @@ bool Directory::openDirectory(const char *path)
 			if (!ret)
 			{
 				printf("enumerateDirectory(): failed to seek to beginning of new directory header\n");
-				return false;
+				break;
 			}
 
 			ret = fileSystem.readDirectoryHeader(&directoryHeader);
@@ -137,7 +139,7 @@ bool Directory::openDirectory(const char *path)
 			if (!ret)
 			{
 				printf("enumerateDirectory(): failed to read the next directory header\n");
-				return false;
+				break;
 			}
 
 			FileSystem::printDirectoryHeader(&directoryHeader);
@@ -147,12 +149,15 @@ bool Directory::openDirectory(const char *path)
 			printf(
 				"openDirectory(): couldn't find the path element %s, bailing out\n",
 				token);
-			return false;
+			break;
 		}
 	}
 
 	// enable enumeration
 	endOfDir = false;
+
+	if (dirPath)
+		delete dirPath;
 
 	return true;
 }
