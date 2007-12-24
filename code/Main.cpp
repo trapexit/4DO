@@ -30,6 +30,11 @@ END_EVENT_TABLE()
 // Application startup
 /////////////////////////////////////////////////////////////////////////
 
+int main(int argc, char* argv[])
+{
+	return WinMain(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), SW_SHOWNORMAL);
+}
+
 bool FourDOApp::OnInit()
 {
    // Parse command line arguments.
@@ -258,37 +263,70 @@ void FourDOApp::OnMenuFileOpenISO (wxCommandEvent& WXUNUSED(event))
 
    if (!fileName.empty())
    {
-       File f(fileName.c_str());
+      bool             ret;
+      Directory*       dir;
+      DirectoryEntry*  de;
+      
+      dir = new Directory (fileName.c_str ());
+      ret = dir->openDirectory ("/");
+      while (dir->enumerateDirectory (de))
+      {
+         wxMessageBox (wxString (de->fileName));
+      };
+      
+      ret = dir->closeDirectory ();
+      
+      /*
+      FileSystem* fs;
+      
+      fs = new FileSystem ();
+      fs->mount (fileName.c_str ());
 
-	   ret = f.openFile("/AppStartup");
-	   
-	   if (!ret)
-	   {
-	       wxMessageBox(_T("Error opening AppStartup"));
-		   return;
-	   }
+      Directory dir;
+      
+      
+      
+      director
+      
+      fs->printDirectoryHeader (
+      */
+      
+      /*
+      
+      File f(fileName.c_str());
 
-       uint32_t bufLength = f.getFileSize(), bytesRead;
-       uint8_t  *buf = new uint8_t[bufLength];
+      ret = f.openFile("/AppStartup");
+      
+      
 
-       ret = f.read(buf, bufLength, &bytesRead);
+      if (!ret)
+      {
+         wxMessageBox(_T("Error opening AppStartup"));
+         return;
+      }
 
-       if (!ret)
-       {
-           printf("read failed\n");
+      uint32_t bufLength = f.getFileSize(), bytesRead;
+      uint8_t  *buf = new uint8_t[bufLength];
 
-           if (buf)
-               delete[] buf;
+      ret = f.read(buf, bufLength, &bytesRead);
 
-           return;
-       }
+      if (!ret)
+      {
+         printf("read failed\n");
 
-	   wxString fileContents(buf, bytesRead);
+         if (buf)
+            delete[] buf;
 
-	   wxMessageBox(fileContents);
+         return;
+      }
 
-       if (buf)
-           delete[] buf;
+      wxString fileContents(buf, bytesRead);
+
+      wxMessageBox(fileContents);
+
+      if (buf)
+         delete[] buf;
+      */
    }
 }
 
