@@ -40,7 +40,7 @@ bool FileSystem::mount(const char *path)
 
 	if (fp == INVALID_HANDLE_VALUE)
 	{
-		printf("error: couldn't open pinball.iso, %d\n", GetLastError());
+		printf("error: couldn't open iso, %d\n", GetLastError());
 		return false;
 	}
 
