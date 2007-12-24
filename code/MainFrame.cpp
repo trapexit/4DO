@@ -1,13 +1,4 @@
-#include "Main.h"
-#include <iostream>
-
-#include "types.h"
-#include "Console.h"
-
-#include "ISOBrowser.h"
-#include "filesystem\file.h"
-
-IMPLEMENT_APP(FourDOApp)
+#include "MainFrame.h"
 
 /////////////////////////////////////////////////////////////////////////
 // Menu items.
@@ -20,43 +11,32 @@ enum Menu
    ID_MENU_HELP_ABOUT
 };
 
-BEGIN_EVENT_TABLE(FourDOApp, wxApp)
-   EVT_MENU(ID_MENU_FILE_OPENISO, FourDOApp::OnMenuFileOpenISO)
-   EVT_MENU(ID_MENU_FILE_EXIT, FourDOApp::OnMenuFileExit)
-   EVT_MENU(ID_MENU_TOOLS_BROWSEISO, FourDOApp::OnMenuToolsBrowseISO)
-   EVT_MENU(ID_MENU_HELP_ABOUT, FourDOApp::OnMenuHelpAbout)
+BEGIN_EVENT_TABLE(MainFrame, wxFrame)
+   EVT_MENU(ID_MENU_FILE_OPENISO, MainFrame::OnMenuFileOpenISO)
+   EVT_MENU(ID_MENU_FILE_EXIT, MainFrame::OnMenuFileExit)
+   EVT_MENU(ID_MENU_TOOLS_BROWSEISO, MainFrame::OnMenuToolsBrowseISO)
+   EVT_MENU(ID_MENU_HELP_ABOUT, MainFrame::OnMenuHelpAbout)
 END_EVENT_TABLE()
 
 /////////////////////////////////////////////////////////////////////////
-// Application startup
+// Frame startup
 /////////////////////////////////////////////////////////////////////////
 
-int main(int argc, char* argv[])
+MainFrame::MainFrame()
+      : wxFrame((wxFrame *) NULL, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize)
 {
-	return WinMain(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), SW_SHOWNORMAL);
-}
-
-bool FourDOApp::OnInit()
-{
-   // Parse command line arguments.
-   if (!this->ParseCommandLineArgs ())
-   {
-      return false;
-   }
-   
-   // Set up main window.
-	wxFrame* main = new wxFrame ((wxFrame*) NULL, -1, _T("4DO"));
-   main->SetIcon (wxIcon(kill_icon_xpm));
-	main->SetSize (640, 480);
-	main->CenterOnScreen ();
-	main->SetBackgroundColour (wxColor (0xFF000000));
-	main->CreateStatusBar ();
-	main->SetStatusText (_T("4DO: Open-Source HLE 3DO Emulator"));
-   InitializeMenu (main);	
+   this->SetTitle ("4DO");
+   this->SetIcon (wxIcon(fourdo_xpm));
+	this->SetSize (640, 480);
+	this->CenterOnScreen ();
+	this->SetBackgroundColour (wxColor (0xFF000000));
+	this->CreateStatusBar ();
+	this->SetStatusText (_T("4DO: Open-Source HLE 3DO Emulator"));
+   this->InitializeMenu ();	
 	
 	// A quick debug textbox.
 	//txtBox = new wxTextCtrl (main, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
-	grdDebug = new wxGrid (main, -1, wxDefaultPosition, wxDefaultSize);
+	grdDebug = new wxGrid (this, -1, wxDefaultPosition, wxDefaultSize);
 
    /*
    // Set up a sizer with empty panel and a debug output area.
@@ -70,21 +50,23 @@ bool FourDOApp::OnInit()
    sizer->Add (new wxPanel (main), 0, wxEXPAND, 0);
    */
    
+   /*
    if (m_isDebug)
    {
       // Do our test here.
       this->DoTest ();
    }
-   
-   // Show the form.
-	main->Show (TRUE);
-	SetTopWindow (main);
-	
-	return true;
+   */
 }
 
-bool FourDOApp::ParseCommandLineArgs ()
+MainFrame::~MainFrame()
 {
+   
+}
+
+bool MainFrame::ParseCommandLineArgs ()
+{
+   /*
    int       n;
    bool      showUsage = false;
    bool      isDebug = false;
@@ -153,26 +135,11 @@ bool FourDOApp::ParseCommandLineArgs ()
    }
    
    // TODO: Investigate use of wxCmdLineParser... I found out about it after I coded this.
-   /*
-   static const wxCmdLineEntryDesc cmdLineDesc[] =
-   {
-       { wxCMD_LINE_SWITCH, _T("d"),  _T("debug"),     _T("Enable debug information") },
-       { wxCMD_LINE_OPTION, _T("li"), _T("loadimage"), _T("Image file to load")       },
-       { wxCMD_LINE_PARAM,  NULL, NULL, "input file", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_MULTIPLE },
-       { wxCMD_LINE_NONE }
-   };
-   
-   //this->
-   wxCmdLineParser* parser = new wxCmdLineParser ();
-   parser->SetDesc (cmdLineDesc);
-   parser->SetCmdLine (this->argc, this->argv);
-   
-   return true;
    */
-   
+   return true;
 }
 
-void FourDOApp::DoTest ()
+void MainFrame::DoTest ()
 {
    #define BYTE_COUNT 500
    
@@ -227,14 +194,14 @@ void FourDOApp::DoTest ()
    delete stream;
 }
 
-void FourDOApp::InitializeMenu (wxFrame* frame)
+void MainFrame::InitializeMenu ()
 {
    wxMenuBar* mnuMain = new wxMenuBar ();
    wxMenu*    mnuFile = new wxMenu ();
    wxMenu*    mnuTools = new wxMenu ();
    wxMenu*    mnuHelp = new wxMenu ();
    
-   frame->SetMenuBar (mnuMain);
+   this->SetMenuBar (mnuMain);
    
    //////////////////////
    // File menu
@@ -257,7 +224,7 @@ void FourDOApp::InitializeMenu (wxFrame* frame)
 /////////////////////////////////////////////////////////////////////////
 // Event handlers
 /////////////////////////////////////////////////////////////////////////
-void FourDOApp::OnMenuFileOpenISO (wxCommandEvent& WXUNUSED(event))
+void MainFrame::OnMenuFileOpenISO (wxCommandEvent& WXUNUSED(event))
 {
    wxString fileName = wxFileSelector (_T("Open 3DO ISO File"), NULL, NULL, NULL, _T("ISO Files (*.iso)|*.iso|All files (*.*)|*.*"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
@@ -267,34 +234,24 @@ void FourDOApp::OnMenuFileOpenISO (wxCommandEvent& WXUNUSED(event))
    }
 }
 
-void FourDOApp::OnMenuFileExit (wxCommandEvent& WXUNUSED(event))
+void MainFrame::OnMenuFileExit (wxCommandEvent& WXUNUSED(event))
 {
-   this->Exit ();
+   this->Close ();
 }
 
-void FourDOApp::OnMenuToolsBrowseISO (wxCommandEvent& WXUNUSED(event))
+void MainFrame::OnMenuToolsBrowseISO (wxCommandEvent& WXUNUSED(event))
 {
    wxString fileName = wxFileSelector (_T("Open 3DO ISO File"), NULL, NULL, NULL, _T("ISO Files (*.iso)|*.iso|All files (*.*)|*.*"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
    
    if (!fileName.empty())
    {
-      /*
-      bool            ret;
-      Directory       dir(fileName.c_str());
-      DirectoryEntry  de;
-      
-      ret = dir.openDirectory("/");
-      while (dir.enumerateDirectory(&de))
-         wxMessageBox (wxString (de.fileName));
-      
-      ret = dir.closeDirectory ();
-      */
-	   ISOBrowser browser (("Your very own dialog"), 100, 100, 200, 200);
-      browser.Show ();
+	   ISOBrowser* browser;
+	   browser = new ISOBrowser (this, fileName);
+      browser->Show();
    }
 }
 
-void FourDOApp::OnMenuHelpAbout (wxCommandEvent& WXUNUSED(event))
+void MainFrame::OnMenuHelpAbout (wxCommandEvent& WXUNUSED(event))
 {
    wxMessageBox (_T("FourDO - An Open-Source HLE 3DO Emulator\n\nVersion 0.0.0.1"), _T("About 4DO"), wxOK | wxICON_INFORMATION);
 }

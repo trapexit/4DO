@@ -207,7 +207,15 @@
 			Name="Resources"
 			>
 			<File
-				RelativePath=".\4DO.xpm"
+				RelativePath=".\folder.xpm"
+				>
+			</File>
+			<File
+				RelativePath=".\fourdo.xpm"
+				>
+			</File>
+			<File
+				RelativePath=".\plugin.xpm"
 				>
 			</File>
 		</Filter>
@@ -247,14 +255,34 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\Main.cpp"
+		<Filter
+			Name="GUI"
 			>
-		</File>
-		<File
-			RelativePath=".\Main.h"
-			>
-		</File>
+			<File
+				RelativePath=".\FourDOApp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FourDOApp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ISOBrowser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ISOBrowser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MainFrame.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MainFrame.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
