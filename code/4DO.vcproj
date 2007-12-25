@@ -207,15 +207,15 @@
 			Name="Resources"
 			>
 			<File
+				RelativePath=".\file.xpm"
+				>
+			</File>
+			<File
 				RelativePath=".\folder.xpm"
 				>
 			</File>
 			<File
 				RelativePath=".\fourdo.xpm"
-				>
-			</File>
-			<File
-				RelativePath=".\plugin.xpm"
 				>
 			</File>
 		</Filter>
