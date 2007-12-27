@@ -161,3 +161,13 @@ uint32_t File::getFileSize()
 {
 	return dirEntry.entryLengthBytes;
 }
+
+uint32_t File::getFileType()
+{
+	return (dirEntry.flags & DirectoryEntryTypeMask);
+}
+
+const uint8_t *File::getFileExt()
+{
+	return dirEntry.ext;
+}

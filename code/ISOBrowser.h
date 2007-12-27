@@ -16,11 +16,18 @@ public:
    ISOBrowser(wxFrame* parent, wxString fileName);
    ~ISOBrowser();
    
+   void onActivated(wxListEvent &event);
+   void paintCurrentDirContents();
 private:
    wxTreeCtrl*   tvwMain;
+   wxTreeItemId  m_currentTreeRoot;
    wxListView*   lvwMain; 
    wxImageList*  imlIcons;
    wxString      m_fileName;
+
+   wxString      m_currentPath;
+
+   DECLARE_EVENT_TABLE();
 };
 
 #endif // _INC_ISOBROWSE

@@ -68,6 +68,32 @@ class File
 		//     will return 0 if there is no file currently open
 		// 
 		uint32_t getFileSize();
+
+		// 
+		// getFileType:
+		//     returns the type of the currently opened file
+		// 
+		// arguments:
+		//     none
+		// 
+		// return value:
+		//     a uint32_t value representing the type of the file
+		//     possibilities are DirectoryEntryTypeFile and DirectoryEntryTypeFolder
+		//     will return 0 on failure (file not open etc)
+		// 
+		uint32_t getFileType();
+
+		// 
+		// getFileExt:
+		//     returns the file extension, if any, for the currently opened file
+		// 
+		// arguments:
+		//     none
+		// 
+		// return value:
+		//     a constant pointer to a uint8_t buffer 4 bytes in length.
+		// 
+		const uint8_t *getFileExt();
 	
 	private:
 		FileSystem fileSystem;

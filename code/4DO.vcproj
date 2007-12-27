@@ -267,6 +267,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ImageViewer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ImageViewer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ISOBrowser.cpp"
 				>
 			</File>
