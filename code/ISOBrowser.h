@@ -16,8 +16,10 @@ public:
    ISOBrowser(wxFrame* parent, wxString fileName);
    ~ISOBrowser();
    
-   void onActivated(wxListEvent &event);
+   void onListActivated(wxListEvent &event);
    void paintCurrentDirContents();
+
+   wxTreeItemId findTreeItem(wxTreeItemId root, const wxString folder);
 private:
    wxTreeCtrl*   tvwMain;
    wxTreeItemId  m_currentTreeRoot;

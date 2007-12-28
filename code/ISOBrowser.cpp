@@ -17,12 +17,23 @@ enum imageIds
 // Event declaration
 /////////////////////////////////////////////////////////////////////////
 BEGIN_EVENT_TABLE(ISOBrowser, wxFrame)
-	EVT_LIST_ITEM_ACTIVATED(ID_LIST_VIEW, ISOBrowser::onActivated)
+	EVT_LIST_ITEM_ACTIVATED(ID_LIST_VIEW, ISOBrowser::onListActivated)
 END_EVENT_TABLE()
 
 /////////////////////////////////////////////////////////////////////////
 // Frame startup
 /////////////////////////////////////////////////////////////////////////
+
+int wxCALLBACK listSortFunction(long item1, long item2, long WXUNUSED(data))
+{
+	if (item1 > item2)
+		return 1;
+	else if (item1 < item2)
+		return -1;
+	else
+		return 0;
+}
+
 ISOBrowser::ISOBrowser(wxFrame* parent, wxString fileName)
       : wxFrame (parent, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize)
 {
@@ -41,10 +52,9 @@ ISOBrowser::ISOBrowser(wxFrame* parent, wxString fileName)
    imlIcons->Add (wxIcon (folder_xpm));
    imlIcons->Add (wxIcon (file_xpm));
    
-   tvwMain = new wxTreeCtrl (this, ID_TREE_VIEW, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT);
+   tvwMain = new wxTreeCtrl (this, ID_TREE_VIEW);
    tvwMain->SetImageList (imlIcons);
-   m_currentTreeRoot = tvwMain->AddRoot (_T("My Root"), 0);
-   m_currentTreeRoot = tvwMain->AppendItem (m_currentTreeRoot, _T("/"), IMAGE_ID_FOLDER);
+   m_currentTreeRoot = tvwMain->AddRoot (_T(m_currentPath), 0);
 
    lvwMain = new wxListView (this, ID_LIST_VIEW);
    lvwMain->SetImageList (imlIcons, wxIMAGE_LIST_SMALL);
@@ -83,7 +93,7 @@ ISOBrowser::~ISOBrowser()
    delete imlIcons;
 }
 
-void ISOBrowser::onActivated(wxListEvent &event)
+void ISOBrowser::onListActivated(wxListEvent &event)
 {
 	bool     ret;
 	File     f(m_fileName);
@@ -101,6 +111,12 @@ void ISOBrowser::onActivated(wxListEvent &event)
 		// 
 		m_currentPath = m_currentPath.BeforeLast('/');
 		m_currentPath = m_currentPath.BeforeLast('/') + _T("/");
+
+		// 
+		// move back up the folder tree
+		// 
+		m_currentTreeRoot = tvwMain->GetItemParent(m_currentTreeRoot);
+		tvwMain->SelectItem(m_currentTreeRoot);
 
 		paintCurrentDirContents();
 		return;
@@ -123,6 +139,15 @@ void ISOBrowser::onActivated(wxListEvent &event)
 		// 
 		m_currentPath += eventText + _T("/");
 
+		// 
+		// set our new tree root and select it
+		// 
+		m_currentTreeRoot = findTreeItem(m_currentTreeRoot, eventText);
+		tvwMain->SelectItem(m_currentTreeRoot, true);
+
+		// 
+		// paint the contents of our new directory
+		// 
 		paintCurrentDirContents();
 	}
 	else if (type == DirectoryEntryTypeFile)
@@ -132,7 +157,7 @@ void ISOBrowser::onActivated(wxListEvent &event)
 		// 
 		// image
 		// 
-		if (ext == "img " || ext == "IMAG")
+		if (ext.MakeLower() == "img " || ext.MakeLower() == "imag")
 		{
 			ImageViewer* imageViewer;
 			imageViewer = new ImageViewer(this, m_fileName, wxString::Format("%s%s", m_currentPath, eventText));
@@ -141,7 +166,7 @@ void ISOBrowser::onActivated(wxListEvent &event)
 		// 
 		// cel
 		// 
-		else if (ext == "cel")
+		else if (ext == "cel ")
 		{
 			wxMessageBox(_T("Don't know how to render cels yet"));
 			return;
@@ -164,11 +189,13 @@ void ISOBrowser::paintCurrentDirContents()
 	Directory       dir (m_fileName);
 	DirectoryEntry  de;
 	int             image;
+	long            newItem;
 
 	// 
 	// clear our directory listing first
 	// 
 	lvwMain->DeleteAllItems();
+	tvwMain->DeleteChildren(m_currentTreeRoot);
 
 	// 
 	// entry for '..' so we can go back if desired
@@ -176,16 +203,20 @@ void ISOBrowser::paintCurrentDirContents()
 	// 
 	if (m_currentPath != "/")
 	{
-		lvwMain->InsertItem (lvwMain->GetItemCount (), _T(".."), IMAGE_ID_FOLDER);
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 1, wxString::Format ("%d", 0));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 2, wxString::Format ("%d", 0));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 3, wxString::Format ("%d", 0));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 4, wxString::Format ("%d", 0));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 5, wxString (""));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 6, wxString::Format ("%d", 0));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 7, wxString::Format ("%d", 0));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 8, wxString::Format ("%d", 0));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 9, wxString::Format ("%d", 0));
+		newItem = lvwMain->InsertItem (lvwMain->GetItemCount (), _T(".."), IMAGE_ID_FOLDER);
+		lvwMain->SetItem (newItem, 1, wxString::Format ("%d", 0));
+		lvwMain->SetItem (newItem, 2, wxString::Format ("%d", 0));
+		lvwMain->SetItem (newItem, 3, wxString::Format ("%d", 0));
+		lvwMain->SetItem (newItem, 4, wxString::Format ("%d", 0));
+		lvwMain->SetItem (newItem, 5, wxString (""));
+		lvwMain->SetItem (newItem, 6, wxString::Format ("%d", 0));
+		lvwMain->SetItem (newItem, 7, wxString::Format ("%d", 0));
+		lvwMain->SetItem (newItem, 8, wxString::Format ("%d", 0));
+		lvwMain->SetItem (newItem, 9, wxString::Format ("%d", 0));
+
+		// data to sort by later. this one gets a lower value so 
+		// it will sort to the top
+		lvwMain->SetItemData(newItem, -1);
 	}
 
 	dir.openDirectory (m_currentPath.c_str());
@@ -204,20 +235,51 @@ void ISOBrowser::paintCurrentDirContents()
 		}
 
 		// Always append to the listview.
-		lvwMain->InsertItem (lvwMain->GetItemCount (), wxString (de.fileName), image);
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 1, wxString::Format ("%d", de.blockSize));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 2, wxString::Format ("%d", de.copies));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 3, wxString::Format ("%d", de.entryLengthBlocks));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 4, wxString::Format ("%d", de.entryLengthBytes));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 5, wxString (de.ext));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 6, wxString::Format ("%d", de.flags));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 7, wxString::Format ("%d", de.gap));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 8, wxString::Format ("%d", de.id));
-		lvwMain->SetItem (lvwMain->GetItemCount () - 1, 9, wxString::Format ("%d", de.lastCopy));
+		newItem = lvwMain->InsertItem (lvwMain->GetItemCount (), wxString (de.fileName), image);
+		lvwMain->SetItem (newItem, 1, wxString::Format ("%d", de.blockSize));
+		lvwMain->SetItem (newItem, 2, wxString::Format ("%d", de.copies));
+		lvwMain->SetItem (newItem, 3, wxString::Format ("%d", de.entryLengthBlocks));
+		lvwMain->SetItem (newItem, 4, wxString::Format ("%d", de.entryLengthBytes));
+		lvwMain->SetItem (newItem, 5, wxString (de.ext));
+		lvwMain->SetItem (newItem, 6, wxString::Format ("%d", de.flags));
+		lvwMain->SetItem (newItem, 7, wxString::Format ("%d", de.gap));
+		lvwMain->SetItem (newItem, 8, wxString::Format ("%d", de.id));
+		lvwMain->SetItem (newItem, 9, wxString::Format ("%d", de.lastCopy));
+
+		// data to sort by later
+		lvwMain->SetItemData(newItem, image);
 	}
+
+	// 
+	// separate dirs and files
+	// 
+	lvwMain->SortItems(listSortFunction, 0);
+
+	// 
+	// expand the current tree root if it isn't already
+	// 
+	tvwMain->Expand(m_currentTreeRoot);
 
 	for (int x = 0; x < lvwMain->GetColumnCount(); x++)
 	{
 		lvwMain->SetColumnWidth (x, wxLIST_AUTOSIZE_USEHEADER);
 	}
+}
+
+wxTreeItemId ISOBrowser::findTreeItem(wxTreeItemId root, const wxString folder)
+{
+	wxTreeItemId      ret;
+	wxTreeItemIdValue cookie;
+
+	ret = tvwMain->GetFirstChild(root, cookie);
+
+	while (ret.IsOk())
+	{
+		if (tvwMain->GetItemText(ret) == folder)
+			break;
+
+		ret = tvwMain->GetNextChild(root, cookie);
+	}
+
+	return ret;
 }
