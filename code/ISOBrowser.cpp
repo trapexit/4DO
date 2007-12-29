@@ -154,6 +154,13 @@ void ISOBrowser::onListActivated(wxListEvent &event)
 	{
 		wxString ext(f.getFileExt(), 4);
 
+      // NOTE: Some images are actually ".cel" or have no extension at all
+      //       so I'll allow them to just attempt to view antyhing.
+		ImageViewer* imageViewer;
+		imageViewer = new ImageViewer(this, m_fileName, wxString::Format("%s%s", m_currentPath, eventText));
+		imageViewer->Show();		
+
+	   /*
 		// 
 		// image
 		// 
@@ -176,6 +183,7 @@ void ISOBrowser::onListActivated(wxListEvent &event)
 			wxMessageBox(wxString::Format("Don't know how to display %s", eventText));
 			return;
 		}
+		*/
 	}
 	else
 	{

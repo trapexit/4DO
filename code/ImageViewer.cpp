@@ -62,19 +62,17 @@ void ImageViewer::onPaint(wxPaintEvent &WXUNUSED(event))
 	{
 		for (int x = 0; x < width; x++)
 		{
-		// RRRRRGG0GGGBBBBB
-		/* 
-			uint8_t r = bmp[i] >> 3;
-			uint8_t g = (((bmp[i] >> 1) & 0x03) << 3) | (bmp[i + 1] >> 5);
-			uint8_t b = bmp[i + 1] & 0x1F;
-		*/
-		// 0RRRRRGGGGGBBBBB
-			uint8_t r = (bmp[i] >> 2) & 0x1F;
-			uint8_t g = ((bmp[i] & 0x03) << 2) | (bmp[i + 1] >> 5);
-			uint8_t b = bmp[i + 1] & 0x1F;
-
-			image.SetRGB(x, y, r * 8, g * 8, b * 8);
-
+		   uint8_t r;
+		   uint8_t g;
+		   uint8_t b;
+		   
+		   // 0RRRRRGGGGGBBBBB
+			r = (bmp[i] >> 2) & 0x1F;
+			g = ((bmp[i] & 0x03) << 3) | (bmp[i + 1] >> 5);
+			b = bmp[i + 1] & 0x1F;
+			
+   		image.SetRGB(x, y, r * 8, g * 8, b * 8);
+         
 			i += 2;
 		}
 	}
