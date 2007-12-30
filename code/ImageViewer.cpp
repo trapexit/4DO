@@ -56,7 +56,7 @@ ImageViewer::~ImageViewer()
 void ImageViewer::onPaint(wxPaintEvent &WXUNUSED(event))
 {
 	int     i = 0;
-	wxImage image(width, height);
+	wxImage image(width, height * 2);
 
 	for (int y = 0; y < height; y++)
 	{
@@ -70,8 +70,17 @@ void ImageViewer::onPaint(wxPaintEvent &WXUNUSED(event))
 			r = (bmp[i] >> 2) & 0x1F;
 			g = ((bmp[i] & 0x03) << 3) | (bmp[i + 1] >> 5);
 			b = bmp[i + 1] & 0x1F;
-			
-   		image.SetRGB(x, y, r * 8, g * 8, b * 8);
+   		
+   		if (x % 2 == 0)
+   		{
+   		   image.SetRGB(x, y * 2, r * 8, g * 8, b * 8);
+   		   image.SetRGB(x + 1, y * 2, r * 8, g * 8, b * 8);
+   		}
+   		else
+   		{
+   		   image.SetRGB(x - 1, y * 2 + 1, r * 8, g * 8, b * 8);
+   		   image.SetRGB(x, y * 2 + 1, r * 8, g * 8, b * 8);
+   		}
          
 			i += 2;
 		}
