@@ -31,7 +31,6 @@ bool Directory::openDirectory(const char *path)
 	char *token, *context, *dirPath;
 	// TODO: separator should be in filesystem?
 	char separator[] = "/";
-	DirectoryHeader dirHeader;
 	DirectoryEntry  dirEntry;
 
 	if (!strlen(path))
@@ -48,7 +47,7 @@ bool Directory::openDirectory(const char *path)
 		return false;
 	}
 
-	ret = fileSystem.readDirectoryHeader(&dirHeader);
+	ret = fileSystem.readDirectoryHeader(&directoryHeader);
 
 	if (!ret)
 	{
@@ -56,7 +55,7 @@ bool Directory::openDirectory(const char *path)
 		return false;
 	}
 
-	fileSystem.printDirectoryHeader(&dirHeader);
+	fileSystem.printDirectoryHeader(&directoryHeader);
 
 	// TODO: relative paths
 	token = strtok_s(dirPath, separator, &context);
