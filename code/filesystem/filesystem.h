@@ -9,8 +9,7 @@
 #ifndef _FILESYSTEM_H_
 #define _FILESYSTEM_H_
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include "wx/file.h"
 
 typedef unsigned char  uint8_t;
 typedef unsigned short uint16_t;
@@ -187,7 +186,7 @@ class FileSystem
 		// return value:
 		//     true on success, false otherwise
 		// 
-		bool read(uint8_t *buf, const uint32_t bufLength, uint32_t *bytesRead);
+		bool read(void *buf, const uint32_t bufLength, uint32_t *bytesRead);
 
 		// 
 		// seekToBlock: 
@@ -265,7 +264,7 @@ class FileSystem
 		void endianSwap(int32_t &x);
 
 		// file handle to the iso/rom we're mounting
-		HANDLE fp;
+		wxFile file;
 
 		VolumeHeader volumeHeader;
 

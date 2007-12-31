@@ -1,6 +1,6 @@
-// TODO: memset dirEntry to 0 in constructor?
-
 #include "file.h"
+#include "wx/log.h"
+
 #include <stdio.h>
 
 File::File(const char *rom)
@@ -9,6 +9,8 @@ File::File(const char *rom)
 	// mount the filesystem
 	// 
 	fileSystem.mount(rom);
+
+	memset(&dirEntry, 0, sizeof(dirEntry));
 
 	// 
 	// seems like a decent thing to do. 
@@ -34,7 +36,7 @@ bool File::openFile(const char *path)
 
 	if (!filePath)
 	{
-		printf("openFile(): _strdup failed to allocate memory\n");
+		wxLogMessage("openFile(): _strdup failed to allocate memory");
 		return false;
 	}
 
@@ -49,7 +51,7 @@ bool File::openFile(const char *path)
 		// TODO: file in / and relative paths
 		if (!fileNameStart || !strlen(fileNameStart))
 		{
-			printf("openFile(): didn't find any /'s in the path or no filename in the path\n");
+			wxLogMessage("openFile(): didn't find any /'s in the path or no filename in the path");
 			ret = false;
 			break;
 		}
@@ -59,7 +61,7 @@ bool File::openFile(const char *path)
 
 		if (!fileName)
 		{
-			printf("openFile(): _strdup failed to allocate memory\n");
+			wxLogMessage("openFile(): _strdup failed to allocate memory");
 			ret = false;
 			break;
 		}
@@ -78,7 +80,7 @@ bool File::openFile(const char *path)
 
 		if (!ret)
 		{
-			printf("openFile(): openDirectory failed\n");
+			wxLogMessage("openFile(): openDirectory failed");
 			break;
 		}
 
@@ -95,13 +97,11 @@ bool File::openFile(const char *path)
 			// 
 			if (strcmp((char *)dirEntry.fileName, fileName) == 0)
 			{
-				FileSystem::printDirectoryEntry(&dirEntry);
-
 				ret = fileSystem.seekToBlock(dirEntry.copies, false);
 
 				if (!ret)
 				{
-					printf("openFile(): could not seek to block %08x to open file\n", dirEntry.copies);
+					wxLogMessage("openFile(): could not seek to block %08x to open file", dirEntry.copies);
 					break;
 				}
 
@@ -133,7 +133,7 @@ bool File::read(uint8_t *buf, const uint32_t bufLength, uint32_t *bytesRead)
 
 	if (endOfFile)
 	{
-		printf("read(): end of file\n");
+		wxLogMessage("read(): end of file");
 		return false;
 	}
 
@@ -150,7 +150,7 @@ bool File::readLine(uint8_t *buf, const uint32_t bufLength, uint32_t *bytesRead)
 {
 	if (endOfFile)
 	{
-		printf("read(): end of file\n");
+		wxLogMessage("read(): end of file");
 		return false;
 	}
 

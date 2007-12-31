@@ -1,4 +1,5 @@
 #include "FourDOApp.h"
+#include "wx/log.h"
 
 IMPLEMENT_APP(FourDOApp)
 
@@ -13,6 +14,12 @@ int main(int argc, char* argv[])
 
 bool FourDOApp::OnInit()
 {
+   // 
+   // logger
+   // 
+   wxLog::SetActiveTarget(new wxLogStderr(fopen("fourdo.log", "a")));
+   wxLogMessage("=====================================================");
+
    wxFrame* main = new MainFrame ();
    main->Show ();
    SetTopWindow (main);

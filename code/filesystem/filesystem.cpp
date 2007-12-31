@@ -1,16 +1,16 @@
 // 
-// TODO: change printfs to some logger facility
-// TODO: handle directory headers that span blocks
+// TODO: throw some debug logging in here
 // TODO: maybe use relative file positioning instead of 
 //       starting from the beginning every time
 // 
 
 #include "filesystem.h"
+#include "wx/log.h"
+
 #include <stdio.h>
 
 FileSystem::FileSystem()
 {
-	fp = INVALID_HANDLE_VALUE;
 	imageName = NULL;
 
 	memset(&volumeHeader, 0, sizeof(volumeHeader));
@@ -18,9 +18,6 @@ FileSystem::FileSystem()
 
 FileSystem::~FileSystem()
 {
-	if (fp != INVALID_HANDLE_VALUE)
-		CloseHandle(fp);
-	
 	if (imageName)
 		delete imageName;
 }
@@ -29,18 +26,11 @@ bool FileSystem::mount(const char *path)
 {
 	bool ret;
 
-	fp = CreateFileA(
-		path,
-		GENERIC_READ,
-		FILE_SHARE_READ,
-		NULL,
-		OPEN_ALWAYS,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
+	ret = file.Open((const wxChar *)path);
 
-	if (fp == INVALID_HANDLE_VALUE)
+	if (!ret)
 	{
-		printf("error: couldn't open iso, %d\n", GetLastError());
+		wxLogMessage("FileSystem::mount(): couldn't open iso located at %s", path);
 		return false;
 	}
 
@@ -48,7 +38,7 @@ bool FileSystem::mount(const char *path)
 
 	if (!ret)
 	{
-		printf("mount(): could not read volume header from the filesystem\n");
+		wxLogMessage("FileSystem::mount(): could not read volume header from the filesystem");
 		return false;
 	}
 
@@ -56,7 +46,7 @@ bool FileSystem::mount(const char *path)
 
 	if (!imageName)
 	{
-		printf("mount(): could not allocate memory for a copy of the image name\n");
+		wxLogMessage("FileSystem::mount(): could not allocate memory for a copy of the image name");
 		return false;
 	}
 
@@ -65,27 +55,19 @@ bool FileSystem::mount(const char *path)
 
 void FileSystem::unmount()
 {
-	if (fp != INVALID_HANDLE_VALUE)
-		CloseHandle(fp);
-	
-	fp = INVALID_HANDLE_VALUE;
+	file.Close();
 }
 
 bool FileSystem::readVolumeHeader(VolumeHeader *vh)
 {
-	DWORD bytesRead;
-	BOOL  ret;
+	uint32_t bytesRead;
+	bool     ret;
 
-	ret = ReadFile(
-		fp,
-		vh,
-		volumeHeaderSize,
-		&bytesRead,
-		NULL);
+	ret = read(vh, volumeHeaderSize, &bytesRead);
 
 	if (!ret)
 	{
-		printf("FileSystem::readVolumeHeader: couldn't read volume header from the iso, %d\n", GetLastError());
+		wxLogMessage("FileSystem::readVolumeHeader: couldn't read volume header");
 		return false;
 	}
 
@@ -117,23 +99,16 @@ bool FileSystem::readVolumeHeader(VolumeHeader *vh)
 
 bool FileSystem::readDirectoryHeader(DirectoryHeader *dh)
 {
-	DWORD bytesRead;
-	BOOL  ret;
+	uint32_t bytesRead;
+	bool     ret;
 
-	ret = ReadFile(
-		fp,
-		dh,
-		directoryHeaderSize,
-		&bytesRead,
-		NULL);
+	ret = read(dh, directoryHeaderSize, &bytesRead);
 
 	if (!ret)
 	{
-		printf("error: couldn't directory header from the iso, %d\n", GetLastError());
+		wxLogMessage("FileSystem::readDirectoryHeader(): couldn't read directory header");
 		return false;
 	}
-
-	printf("\ngot %d bytes from the file\n\n", bytesRead);
 
 	// 
 	// make all relevant fields little endian
@@ -150,23 +125,16 @@ bool FileSystem::readDirectoryHeader(DirectoryHeader *dh)
 
 bool FileSystem::readDirectoryEntry(DirectoryEntry *de)
 {
-		DWORD bytesRead;
-		BOOL  ret;
+		uint32_t bytesRead;
+		bool     ret;
 
-		ret = ReadFile(
-			fp,
-			de,
-			directoryEntrySize,
-			&bytesRead,
-			NULL);
+		ret = read(de, directoryEntrySize, &bytesRead);
 
 		if (!ret)
 		{
-			printf("error: couldn't directory entry from the iso, %d\n", GetLastError());
+			wxLogMessage("FileSystem::readDirectoryEntry(): couldn't read directory entry");
 			return false;
 		}
-
-		printf("\ngot %d bytes from the file\n\n", bytesRead);
 
 		// 
 		// make all relevant fields little endian
@@ -193,11 +161,6 @@ bool FileSystem::readDirectoryEntry(DirectoryEntry *de)
 		{
 			int32_t pos = de->lastCopy * 4;
 
-			printf(
-				"moving fp forward %d bytes (%d copies)\n", 
-				pos,
-				de->lastCopy);
-
 			ret = seekToByte(pos, true);
 
 			if (!ret)
@@ -207,52 +170,39 @@ bool FileSystem::readDirectoryEntry(DirectoryEntry *de)
 		return true;
 }
 
-// TODO: do we care about the block boundaries here?
-bool FileSystem::read(uint8_t *buf, const uint32_t bufLength, uint32_t *bytesRead)
+bool FileSystem::read(void *buf, const uint32_t bufLength, uint32_t *bytesRead)
 {
-	BOOL ret;
+	size_t ret;
 
 	if (!bufLength)
 	{
-		printf("read(): bufLength size of %d is invalid\n", bufLength);
+		wxLogMessage("FileSystem::read(): bufLength size of %d is invalid", bufLength);
 		return false;
 	}
 
-	ret = ReadFile(
-		fp,
-		buf,
-		bufLength,
-		(DWORD *)bytesRead,
-		NULL);
+	ret = file.Read(buf, bufLength);
 
-	if (!ret)
+	if (ret == wxInvalidOffset)
 	{
-		printf("FileSystem::read(): failed to read from filesystem: %d\n", GetLastError());
+		wxLogMessage("FileSystem::read(): failed to read from filesystem: %d", ret);
 		return false;
 	}
-
-	printf("read(): read %d bytes from the file system\n", *bytesRead);
 
 	return true;
 }
 
 bool FileSystem::seekToBlock(const uint32_t block, const bool relative)
 {
-	DWORD    fpPos;
+	bool ret;
 	uint32_t pos = (volumeHeader.blockSize * block);
 
-	fpPos = SetFilePointer(
-		fp,
-		pos,
-		NULL,
-		(relative ? FILE_CURRENT : FILE_BEGIN));
+	ret = seekToByte(pos, relative);
 
-	if (fpPos == INVALID_SET_FILE_POINTER)
+	if (!ret)
 	{
-		printf(
-			"seekToBlock(): couldn't set file pointer position of %08x, %d\n", 
-			pos,
-			GetLastError());
+		wxLogMessage(
+			"FileSystem::seekToBlock(): couldn't set file pointer position of %d", 
+			pos);
 		return false;
 	}
 
@@ -261,20 +211,17 @@ bool FileSystem::seekToBlock(const uint32_t block, const bool relative)
 
 bool FileSystem::seekToByte(const uint32_t byte, const bool relative)
 {
-	DWORD    fpPos;
+	wxFileOffset ret, pos = byte;
 	
-	fpPos = SetFilePointer(
-		fp,
-		byte,
-		NULL,
-		(relative ? FILE_CURRENT : FILE_BEGIN));
+	wxLogDebug("FileSystem::seekToByte(): moving fp forward %d bytes", pos);
 
-	if (fpPos == INVALID_SET_FILE_POINTER)
+	ret = file.Seek(pos, (relative ? wxFromCurrent : wxFromStart));
+
+	if (ret == wxInvalidOffset)
 	{
-		printf(
-			"seekToBlock(): couldn't set file pointer position of %08x, %d\n", 
-			byte,
-			GetLastError());
+		wxLogMessage(
+			"FileSystem::seekToBlock(): couldn't set file pointer position of %d", 
+			pos);
 		return false;
 	}
 
@@ -294,67 +241,67 @@ const char *FileSystem::getImageName()
 
 void FileSystem::printVolumeHeader(const VolumeHeader *vh)
 {
-	printf("recordType       = %02x\n", vh->recordType);
-	printf("syncBytes        = ");
+	wxLogMessage("recordType       = %02x", vh->recordType);
+	wxLogMessage("syncBytes        = ");
 	for (int i = 0; i < 5; i++)
-		printf("%02x", vh->syncBytes[i]);
-	printf("\n");
-	printf("recordVersion    = %02x\n", vh->recordVersion);
-	printf("volumeFlags      = %02x\n", vh->flags);
-	printf("volumeComment    = ");
+		wxLogMessage("%02x", vh->syncBytes[i]);
+	wxLogMessage("");
+	wxLogMessage("recordVersion    = %02x", vh->recordVersion);
+	wxLogMessage("volumeFlags      = %02x", vh->flags);
+	wxLogMessage("volumeComment    = ");
 	for (int i = 0; i < 32; i++)
-		printf("%c", vh->comment[i]);
-	printf("\n");
-	printf("volumeLabel      = ");
+		wxLogMessage("%c", vh->comment[i]);
+	wxLogMessage("");
+	wxLogMessage("volumeLabel      = ");
 	for (int i = 0; i < 32; i++)
-		printf("%c", vh->label[i]);
-	printf("\n");
-	printf("volumeId         = %08x\n", vh->id);
-	printf("blockSize        = %08x (%d bytes)\n", vh->blockSize, vh->blockSize);
-	printf("blockCount       = %08x (%d KB in volume)\n", vh->blockCount, (vh->blockCount * vh->blockSize) / 1024);
-	printf("rootDirId        = %08x\n", vh->rootDirId);
-	printf("rootDirBlocks    = %08x (%d blocks)\n", vh->rootDirBlocks, vh->rootDirBlocks);
-	printf("rootDirBlockSize = %08x (%d bytes)\n", vh->rootDirBlockSize, vh->rootDirBlockSize);
-	printf("lastRootDirCopy  = %08x\n", vh->lastRootDirCopy);
-	printf("rootDirCopies    = ");
+		wxLogMessage("%c", vh->label[i]);
+	wxLogMessage("");
+	wxLogMessage("volumeId         = %08x", vh->id);
+	wxLogMessage("blockSize        = %08x (%d bytes)", vh->blockSize, vh->blockSize);
+	wxLogMessage("blockCount       = %08x (%d KB in volume)", vh->blockCount, (vh->blockCount * vh->blockSize) / 1024);
+	wxLogMessage("rootDirId        = %08x", vh->rootDirId);
+	wxLogMessage("rootDirBlocks    = %08x (%d blocks)", vh->rootDirBlocks, vh->rootDirBlocks);
+	wxLogMessage("rootDirBlockSize = %08x (%d bytes)", vh->rootDirBlockSize, vh->rootDirBlockSize);
+	wxLogMessage("lastRootDirCopy  = %08x", vh->lastRootDirCopy);
+	wxLogMessage("rootDirCopies    = ");
 	for (int i = 0; i < 8; i++)
 	{
-		printf("%08x", vh->rootDirCopies[i]);
+		wxLogMessage("%08x", vh->rootDirCopies[i]);
 
 		if (i + 1 < 8)
-			printf(" ");
+			wxLogMessage(" ");
 	}
-	printf("\n");
+	wxLogMessage("");
 }
 
 void FileSystem::printDirectoryHeader(const DirectoryHeader *dh)
 {
-	printf("nextBlock       = %08x\n", dh->nextBlock);
-	printf("prevBlock       = %08x\n", dh->prevBlock);
-	printf("flags           = %08x\n", dh->flags);
-	printf("unusedOffset    = %08x\n", dh->unusedOffset);
-	printf("directoryOffset = %08x\n", dh->directoryOffset);
+	wxLogMessage("nextBlock       = %08x", dh->nextBlock);
+	wxLogMessage("prevBlock       = %08x", dh->prevBlock);
+	wxLogMessage("flags           = %08x", dh->flags);
+	wxLogMessage("unusedOffset    = %08x", dh->unusedOffset);
+	wxLogMessage("directoryOffset = %08x", dh->directoryOffset);
 }
 
 void FileSystem::printDirectoryEntry(const DirectoryEntry *de)
 {
-	printf("flags             = %08x\n", de->flags);
-	printf("id                = %08x\n", de->id);
-	printf("ext               = ");
+	wxLogMessage("flags             = %08x", de->flags);
+	wxLogMessage("id                = %08x", de->id);
+	wxLogMessage("ext               = ");
 	for (int i = 0; i < 4; i++)
-		printf("%c", de->ext[i]);
-	printf("\n");
-	printf("blockSize         = %08x\n", de->blockSize);
-	printf("entryLengthBytes  = %08x\n", de->entryLengthBytes);
-	printf("entryLengthBlocks = %08x\n", de->entryLengthBlocks);
-	printf("burst             = %08x\n", de->burst);
-	printf("gap               = %08x\n", de->gap);
-	printf("fileName          = ");
+		wxLogMessage("%c", de->ext[i]);
+	wxLogMessage("");
+	wxLogMessage("blockSize         = %08x", de->blockSize);
+	wxLogMessage("entryLengthBytes  = %08x", de->entryLengthBytes);
+	wxLogMessage("entryLengthBlocks = %08x", de->entryLengthBlocks);
+	wxLogMessage("burst             = %08x", de->burst);
+	wxLogMessage("gap               = %08x", de->gap);
+	wxLogMessage("fileName          = ");
 	for (int i = 0; i < 32; i++)
-		printf("%c", de->fileName[i]);
-	printf("\n");
-	printf("lastCopy          = %08x\n", de->lastCopy);
-	printf("copies            = %08x\n", de->copies);
+		wxLogMessage("%c", de->fileName[i]);
+	wxLogMessage("");
+	wxLogMessage("lastCopy          = %08x", de->lastCopy);
+	wxLogMessage("copies            = %08x", de->copies);
 }
 
 void FileSystem::printString(const char *str)
@@ -372,12 +319,12 @@ void FileSystem::printString(const uint8_t *str, const uint32_t strLength)
 		// a line feed before every carriage return
 		// 
 		if (str[i] == 0x0D)
-			printf("\n");
+			wxLogMessage("");
 
-		printf("%c", str[i]);
+		wxLogMessage("%c", str[i]);
 	}
 
-	printf("\n");
+	wxLogMessage("");
 }
 
 void FileSystem::endianSwap(uint16_t &x)

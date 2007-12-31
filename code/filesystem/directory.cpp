@@ -3,6 +3,8 @@
 // 
 
 #include "directory.h"
+#include "wx/log.h"
+
 #include <stdio.h>
 
 Directory::Directory(const char *rom)
@@ -11,6 +13,8 @@ Directory::Directory(const char *rom)
 	// mount the filesystem
 	// 
 	fileSystem.mount(rom);
+
+	memset(&directoryHeader, 0, sizeof(directoryHeader));
 
 	// 
 	// seems like a decent thing to do.  keeps you from
@@ -35,7 +39,7 @@ bool Directory::openDirectory(const char *path)
 
 	if (!strlen(path))
 	{
-		printf("openDirectory(): path is non-existent\n");
+		wxLogMessage("openDirectory(): path is non-existent");
 		return false;
 	}
 
@@ -43,7 +47,7 @@ bool Directory::openDirectory(const char *path)
 
 	if (!dirPath)
 	{
-		printf("openDirectory(): _strdup failed to allocate memory\n");
+		wxLogMessage("openDirectory(): _strdup failed to allocate memory");
 		return false;
 	}
 
@@ -51,11 +55,9 @@ bool Directory::openDirectory(const char *path)
 
 	if (!ret)
 	{
-		printf("openDirectory(): could not read directory header from the filesystem\n");
+		wxLogMessage("openDirectory(): could not read directory header from the filesystem");
 		return false;
 	}
-
-	fileSystem.printDirectoryHeader(&directoryHeader);
 
 	// TODO: relative paths
 	token = strtok_s(dirPath, separator, &context);
@@ -70,7 +72,7 @@ bool Directory::openDirectory(const char *path)
 			return true;
 		}
 
-		printf("openDirectory(): couldn't find any /'s in the path\n");
+		wxLogMessage("openDirectory(): couldn't find any /'s in the path");
 		delete dirPath;
 		return false;
 	}
@@ -81,11 +83,9 @@ bool Directory::openDirectory(const char *path)
 
 		if (!ret)
 		{
-			printf("openDirectory(): could not read directory entry from the filesystem\n");
+			wxLogMessage("openDirectory(): could not read directory entry from the filesystem");
 			break;
 		}
-
-		fileSystem.printDirectoryEntry(&dirEntry);
 
 		if (strcmp((char *)dirEntry.fileName, token) == 0)
 		{
@@ -98,7 +98,7 @@ bool Directory::openDirectory(const char *path)
 
 			if (!ret)
 			{
-				printf("openDirectory(): couldn't seek to directory %s\n", token);
+				wxLogMessage("openDirectory(): couldn't seek to directory %s", token);
 				break;
 			}
 
@@ -106,11 +106,9 @@ bool Directory::openDirectory(const char *path)
 
 			if (!ret)
 			{
-				printf("openDirectory: found the directory but failed to read it's header\n");
+				wxLogMessage("openDirectory: found the directory but failed to read it's header");
 				break;
 			}
-
-			fileSystem.printDirectoryHeader(&directoryHeader);
 
 			token = strtok_s(NULL, separator, &context);
 
@@ -129,7 +127,7 @@ bool Directory::openDirectory(const char *path)
 
 			if (!ret)
 			{
-				printf("enumerateDirectory(): failed to seek to beginning of new directory header\n");
+				wxLogMessage("enumerateDirectory(): failed to seek to beginning of new directory header");
 				break;
 			}
 
@@ -137,16 +135,14 @@ bool Directory::openDirectory(const char *path)
 
 			if (!ret)
 			{
-				printf("enumerateDirectory(): failed to read the next directory header\n");
+				wxLogMessage("enumerateDirectory(): failed to read the next directory header");
 				break;
 			}
-
-			FileSystem::printDirectoryHeader(&directoryHeader);
 		}
 		else if ((dirEntry.flags & DirectoryEntryPosMask) == DirectoryEntryPosLastInDir)
 		{
-			printf(
-				"openDirectory(): couldn't find the path element %s, bailing out\n",
+			wxLogMessage(
+				"openDirectory(): couldn't find the path element %s, bailing out",
 				token);
 			break;
 		}
@@ -186,7 +182,7 @@ bool Directory::enumerateDirectory(DirectoryEntry *de)
 	// 
 	if (endOfDir)
 	{
-		printf("enumerateDirectory(): no more directories left to enumerate.\n");
+		wxLogMessage("enumerateDirectory(): no more directories left to enumerate.");
 		return false;
 	}
 
@@ -194,7 +190,7 @@ bool Directory::enumerateDirectory(DirectoryEntry *de)
 
 	if (!ret)
 	{
-		printf("enumerateDirectory(): readDirectoryEntry failed.\n");
+		wxLogMessage("enumerateDirectory(): readDirectoryEntry failed.");
 		return false;
 	}
 	else if ((de->flags & DirectoryEntryPosMask) == DirectoryEntryPosLastInBlock)
@@ -208,7 +204,7 @@ bool Directory::enumerateDirectory(DirectoryEntry *de)
 
 		if (!ret)
 		{
-			printf("enumerateDirectory(): failed to seek to beginning of new directory header\n");
+			wxLogMessage("enumerateDirectory(): failed to seek to beginning of new directory header");
 			return false;
 		}
 
@@ -216,16 +212,15 @@ bool Directory::enumerateDirectory(DirectoryEntry *de)
 
 		if (!ret)
 		{
-			printf("enumerateDirectory(): failed to read the next directory header\n");
+			wxLogMessage("enumerateDirectory(): failed to read the next directory header");
 			return false;
 		}
 
-		FileSystem::printDirectoryHeader(&directoryHeader);
 		return true;
 	}
 	else if ((de->flags & DirectoryEntryPosMask) == DirectoryEntryPosLastInDir)
 	{
-		printf("enumerateDirectory(): found last directory entry in the directory.\n");
+		wxLogMessage("enumerateDirectory(): found last directory entry in the directory.");
 		endOfDir = true;
 	}
 
