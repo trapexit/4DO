@@ -2,6 +2,8 @@
 #define _INC_FOURDOAPP
 
 #include "wx/wx.h"
+#include "wx/cmdline.h"
+
 #include "MainFrame.h"
 #include "types.h"
 #include "Console.h"

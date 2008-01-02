@@ -22,9 +22,19 @@ END_EVENT_TABLE()
 // Frame startup
 /////////////////////////////////////////////////////////////////////////
 
-MainFrame::MainFrame()
+MainFrame::MainFrame(wxCmdLineParser* parser)
       : wxFrame((wxFrame *) NULL, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize)
 {
+   /////////////////////
+   // Handle command-line arguments.
+   m_isDebug = parser->Found ("d");
+   if (parser->Found ("li"))
+   {
+      parser->Found ("li", &m_fileName);
+   }
+   
+   /////////////////////
+   // GUI Setup.
    this->SetTitle ("4DO");
    this->SetIcon (wxIcon(fourdo_xpm));
 	this->SetSize (640, 480);
@@ -35,7 +45,6 @@ MainFrame::MainFrame()
    this->InitializeMenu ();	
 	
 	// A quick debug textbox.
-	//txtBox = new wxTextCtrl (main, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
 	grdDebug = new wxGrid (this, -1, wxDefaultPosition, wxDefaultSize);
 
    /*
@@ -50,93 +59,15 @@ MainFrame::MainFrame()
    sizer->Add (new wxPanel (main), 0, wxEXPAND, 0);
    */
    
-   /*
    if (m_isDebug)
    {
       // Do our test here.
       this->DoTest ();
    }
-   */
 }
 
 MainFrame::~MainFrame()
 {
-   
-}
-
-bool MainFrame::ParseCommandLineArgs ()
-{
-   /*
-   int       n;
-   bool      showUsage = false;
-   bool      isDebug = false;
-   bool      loadImage = false;
-   wxString  fileName;
-   wxString  arg;
-   
-   for (n = 1; n < this->argc; n++)
-   {
-      arg = (argv [n]);
-      arg = arg.Trim ().MakeUpper ();
-      if (arg.length() > 1 && (arg.StartsWith ("/") || arg.StartsWith ("-")))
-      {
-         // Correct format
-         arg = arg.Mid (1);
-         
-         if (arg.Cmp ("D") == 0 || arg.Cmp ("DEBUG") == 0)
-         {
-            // Using debug mode.
-            isDebug = true;
-         }
-         else if (arg.Cmp ("LI") == 0 || arg.Cmp ("LOADIMAGE") == 0)
-         {
-            if (n + 1 == this->argc)
-            {
-               // This was the last argument! There's no file to load.
-               showUsage = true;
-            }
-            else
-            {
-               n++;
-               fileName = this->argv [n];
-            }
-         }
-      }
-      else
-      {
-         // Incorrect format.
-         showUsage = true;
-      }
-   }
-   
-   // If we're supposed to load an image. See if the image file exists first.
-   if (loadImage)
-   {
-      if (!wxFileExists (fileName))
-      {
-         showUsage = true;
-      }
-   }
-   
-   // Now return failure/success.
-   if (showUsage)
-   {
-      // Something went wrong.
-      // TODO: Output usage summary?
-      return false;
-   }
-   else
-   {
-      // We don't need to display the usage summary.
-      m_isDebug = isDebug;
-      m_loadFile = loadImage;
-      m_fileName = fileName;
-      return true;
-   }
-   
-   // TODO: Investigate use of wxCmdLineParser... I found out about it after I coded this.
-   */
-   return true;
 }
 
 void MainFrame::DoTest ()
@@ -241,17 +172,29 @@ void MainFrame::OnMenuFileExit (wxCommandEvent& WXUNUSED(event))
 
 void MainFrame::OnMenuToolsBrowseISO (wxCommandEvent& WXUNUSED(event))
 {
-   wxString fileName = wxFileSelector (_T("Open 3DO ISO File"), NULL, NULL, NULL, _T("ISO Files (*.iso)|*.iso|All files (*.*)|*.*"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-   
-   if (!fileName.empty())
-   {
-	   ISOBrowser* browser;
-	   browser = new ISOBrowser (this, fileName);
-      browser->Show();
-   }
+   this->BrowseIso ();
 }
 
 void MainFrame::OnMenuHelpAbout (wxCommandEvent& WXUNUSED(event))
 {
    wxMessageBox (_T("FourDO - An Open-Source HLE 3DO Emulator\n\nVersion 0.0.0.1"), _T("About 4DO"), wxOK | wxICON_INFORMATION);
+}
+
+void MainFrame::BrowseIso ()
+{
+   wxString fileName = wxFileSelector (_T("Open 3DO ISO File"), NULL, NULL, NULL, _T("ISO Files (*.iso)|*.iso|All files (*.*)|*.*"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+   
+   if (!fileName.empty())
+   {
+      this->BrowseIso (fileName);
+   }
+}
+
+void MainFrame::BrowseIso (wxString fileName)
+{
+   ISOBrowser* browser;
+   browser = new ISOBrowser (this, fileName);
+   browser->Show();
+   //ISOBrowser browser = ISOBrowser (this, fileName);
+   //browser.Show();
 }
