@@ -73,56 +73,70 @@ MainFrame::~MainFrame()
 void MainFrame::DoTest ()
 {
    #define BYTE_COUNT 500
-   
-   wxFileInputStream* stream;
-   
+
    wxString  bits;
-   uint      token;
-   int       row;
-   
    Console*  con;
+   bool      success;
    
    con = new Console ();
    
-   stream = new wxFileInputStream (m_fileName);
+   /////////////////
+   // Open Launchme!
+	uint8_t   file[BYTE_COUNT];
+	uint32_t  bytesRead;
+	
+	File f(m_fileName);
+
+	success = f.openFile("/launchme");
+	if (!success)
+	{
+		// Error opening
+		delete con;
+		return;
+	}
    
+   f.read(file, BYTE_COUNT, &bytesRead);
+   
+   /////////////////
+   // Setup grid.
    grdDebug->CreateGrid (0, 3, wxGrid::wxGridSelectCells);
-   
    grdDebug->EnableDragRowSize (false);
    grdDebug->EnableEditing (false);
-   
    grdDebug->SetColLabelValue (0, "Cnd");
    grdDebug->SetColLabelValue (1, "Instruction");
+   grdDebug->SetColLabelValue (2, "Last CPU Result");
    
-   for (row = 0; row < BYTE_COUNT; row++)
+   for (uint row = 0; row < BYTE_COUNT; row++)
    {
-      token = stream->GetC ();
-      token = (token << 8) + stream->GetC ();
-      token = (token << 8) + stream->GetC ();
-      token = (token << 8) + stream->GetC ();
-      
-      con->DMA()->SetValue(row * 4, token);
-      token = con->DMA()->GetValue(row * 4);
-      
-      bits = _T(UintToBitString (token));
-      
-      grdDebug->InsertRows (grdDebug->GetRows ());
-      
+      // Read an instruction.
+      uint token;
+      token = (file[(row * 4)] << 24) + (file[(row * 4 + 1)] << 16) + (file[(row * 4 + 2)] << 8) + file[(row * 4 + 3)];
+      bits = UintToBitString (token);
+
+      // Write it memory temporarily...
+      con->DMA ()->SetValue (row * 4, token);
+      // Set PC there.
       *(con->CPU ()->REG->PC ()->Value) = row * 4;
-      
+      // Process it.
       con->CPU ()->DoSingleInstruction ();
+
+      //////////////
+      // Make a new row.
+      wxString cond;
       
-      grdDebug->SetCellValue (row, 0, bits.Mid (0, 4));
+      cond = wxString::Format ("%s (%s)",  bits.Mid (0, 4), con->CPU ()->LastCond);
+      grdDebug->InsertRows (grdDebug->GetRows ());
+      grdDebug->SetCellValue (row, 0, cond);
       grdDebug->SetCellValue (row, 1, bits.Mid (4));
       grdDebug->SetCellValue (row, 2, con->CPU ()->LastResult);
-      
       grdDebug->SetRowLabelValue (row, wxString::Format ("%d", row));
    }
    
+   /////////////////////
+   // Auto size columns.
    grdDebug->AutoSizeColumns ();
    
    delete con;
-   delete stream;
 }
 
 void MainFrame::InitializeMenu ()

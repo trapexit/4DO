@@ -109,6 +109,7 @@ void ARM60CPU::ProcessInstruction (uint instruction)
 void ARM60CPU::ProcessBranch (uint instruction)
 {
    #ifdef __WXDEBUG__
+   wxLogMessage ("Processed Branch");
    LastResult = "Branch";
    #endif
    
@@ -145,9 +146,10 @@ void ARM60CPU::ProcessBranch (uint instruction)
 void ARM60CPU::ProcessDataProcessing (uint instruction)
 {
    #ifdef __WXDEBUG__
+   wxLogMessage ("Processed Branch");
    LastResult = "Data Proc";
    #endif
-
+   
    // Check condition Field.
    if (! CheckCondition (instruction))
       return;
@@ -1034,14 +1036,23 @@ bool ARM60CPU::CheckCondition (uint instruction)
    {
    case 0x00000000:
       // EQ - Z set (equal)
+      #ifdef __WXDEBUG__
+      LastCond = "EQ";
+      #endif
       return CPSR->GetZero ();
    
    case 0x10000000:
       // NE - Z clear (not equal)
+      #ifdef __WXDEBUG__
+      LastCond = "NE";
+      #endif
       return !CPSR->GetZero ();
    
    case 0x20000000:
       // CS - C set (unsigned higher or same)
+      #ifdef __WXDEBUG__
+      LastCond = "CS";
+      #endif
       return CPSR->GetCarry ();
    
    case 0x30000000:
@@ -1050,56 +1061,92 @@ bool ARM60CPU::CheckCondition (uint instruction)
    
    case 0x40000000:
       // MI - N set (negative)
+      #ifdef __WXDEBUG__
+      LastCond = "MI";
+      #endif
       return CPSR->GetNegative ();
    
    case 0x50000000:
       // PL - N clear (positive or zero)
+      #ifdef __WXDEBUG__
+      LastCond = "PL";
+      #endif
       return !CPSR->GetNegative ();
    
    case 0x60000000:
       // VS - V set (overflow)
+      #ifdef __WXDEBUG__
+      LastCond = "VS";
+      #endif
       return CPSR->GetOverflow ();
    
    case 0x70000000:
       // VC - V clear (no overflow)
+      #ifdef __WXDEBUG__
+      LastCond = "VC";
+      #endif
       return !CPSR->GetOverflow ();
    
    case 0x80000000:
       // HI - C set and Z clear (unsigned higher)
+      #ifdef __WXDEBUG__
+      LastCond = "HI";
+      #endif
       return CPSR->GetCarry () && (!CPSR->GetZero ());
    
    case 0x90000000:
       // LS - C clear or Z set (unsigned lower or same)
+      #ifdef __WXDEBUG__
+      LastCond = "LS";
+      #endif
       return (!CPSR->GetCarry ()) || CPSR->GetZero ();
    
    case 0xA0000000:
       // GE - N set and V set, or N clear and V clear (greater or equal)
+      #ifdef __WXDEBUG__
+      LastCond = "GE";
+      #endif
       return (CPSR->GetNegative ()&& CPSR->GetOverflow ())
             || ((!CPSR->GetNegative ()) && (!CPSR->GetOverflow ()));
    
    case 0xB0000000:
       // LT - N set and V clear, or N clear and V set (less than)
+      #ifdef __WXDEBUG__
+      LastCond = "LT";
+      #endif
       return (CPSR->GetNegative  () && (!CPSR->GetOverflow ()))
             || ((!CPSR->GetNegative ()) && CPSR->GetOverflow ());
    
    case 0xC0000000:
       // GT - Z clear, and either N set and V set, or N clear and V clear (greater than)
+      #ifdef __WXDEBUG__
+      LastCond = "GT";
+      #endif
       return (!CPSR->GetZero ())
             && ((CPSR->GetNegative  () && CPSR->GetOverflow ())
                || ((!CPSR->GetNegative ()) && (!CPSR->GetOverflow ())));
    
    case 0xD0000000:
       // LE - Z set, or N set and V clear, or N clear and V set (less than or equal)
+      #ifdef __WXDEBUG__
+      LastCond = "LE";
+      #endif
       return CPSR->GetZero ()
             || (CPSR->GetNegative  () && (!CPSR->GetOverflow ()))
             || ((!CPSR->GetNegative ()) && CPSR->GetOverflow ());
 
    case 0xE0000000:
       // AL - always
+      #ifdef __WXDEBUG__
+      LastCond = "AL";
+      #endif
       return true;
 
    case 0xF0000000:
       // NV - never
+      #ifdef __WXDEBUG__
+      LastCond = "NV";
+      #endif
       
       // NOTE: The documentation specifies that the NV condition should
       //       not be used because it will be redifined in later ARM

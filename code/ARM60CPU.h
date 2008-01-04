@@ -26,6 +26,7 @@ public:
    
    #ifdef __WXDEBUG__
    wxString LastResult;
+   wxString LastCond;
    #endif
    
    void DoSingleInstruction ();
