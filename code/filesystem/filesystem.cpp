@@ -213,7 +213,10 @@ bool FileSystem::seekToByte(const uint32_t byte, const bool relative)
 {
 	wxFileOffset ret, pos = byte;
 	
-	wxLogDebug("FileSystem::seekToByte(): moving fp forward %d bytes", pos);
+	wxLogDebug(
+		"FileSystem::seekToByte(): setting fp to position %d, relative = %d", 
+		pos, 
+		(relative ? 1 : 0));
 
 	ret = file.Seek(pos, (relative ? wxFromCurrent : wxFromStart));
 
@@ -231,7 +234,7 @@ bool FileSystem::seekToByte(const uint32_t byte, const bool relative)
 uint32_t FileSystem::getBlockSize()
 {
 	// XXX: is this always true?
-	return volumeHeader.blockSize;
+	return volumeHeader.rootDirBlockSize;
 }
 
 const char *FileSystem::getImageName()

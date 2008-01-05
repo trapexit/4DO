@@ -195,6 +195,11 @@ bool Directory::enumerateDirectory(DirectoryEntry *de)
 	}
 	else if ((de->flags & DirectoryEntryPosMask) == DirectoryEntryPosLastInBlock)
 	{
+		wxLogMessage(
+			"enumerateDirectory(): found last entry in block, block size is %d, unused offset is %d",
+			fileSystem.getBlockSize(),
+			directoryHeader.unusedOffset);
+
 		// 
 		// move to the beginning of the next directory header
 		// 
