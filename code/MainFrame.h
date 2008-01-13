@@ -25,6 +25,7 @@ public:
    void OnMenuFileOpenISO (wxCommandEvent& event);
    void OnMenuFileExit (wxCommandEvent& event);
    void OnMenuToolsBrowseISO (wxCommandEvent& event);
+   void OnMenuToolsViewCode (wxCommandEvent &event);
    void OnMenuHelpAbout (wxCommandEvent& event);
 
 private:

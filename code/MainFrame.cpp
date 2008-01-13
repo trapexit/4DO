@@ -1,4 +1,5 @@
 #include "MainFrame.h"
+#include "CodeViewer.h"
 
 /////////////////////////////////////////////////////////////////////////
 // Menu items.
@@ -8,6 +9,7 @@ enum Menu
    ID_MENU_FILE_OPENISO = 1,
    ID_MENU_FILE_EXIT,
    ID_MENU_TOOLS_BROWSEISO,
+   ID_MENU_TOOLS_VIEWCODE,
    ID_MENU_HELP_ABOUT
 };
 
@@ -15,6 +17,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
    EVT_MENU(ID_MENU_FILE_OPENISO, MainFrame::OnMenuFileOpenISO)
    EVT_MENU(ID_MENU_FILE_EXIT, MainFrame::OnMenuFileExit)
    EVT_MENU(ID_MENU_TOOLS_BROWSEISO, MainFrame::OnMenuToolsBrowseISO)
+   EVT_MENU(ID_MENU_TOOLS_VIEWCODE, MainFrame::OnMenuToolsViewCode)
    EVT_MENU(ID_MENU_HELP_ABOUT, MainFrame::OnMenuHelpAbout)
 END_EVENT_TABLE()
 
@@ -128,7 +131,7 @@ void MainFrame::DoTest ()
       grdDebug->InsertRows (grdDebug->GetRows ());
       grdDebug->SetCellValue (row, 0, cond);
       grdDebug->SetCellValue (row, 1, bits.Mid (4));
-      grdDebug->SetCellValue (row, 2, con->CPU ()->LastResult);
+      //grdDebug->SetCellValue (row, 2, con->CPU ()->LastResult);
       grdDebug->SetRowLabelValue (row, wxString::Format ("%d", row));
    }
    
@@ -159,6 +162,7 @@ void MainFrame::InitializeMenu ()
    // Tools menu
    mnuMain->Append (mnuTools, _T("&Tools"));
    mnuTools->Append (ID_MENU_TOOLS_BROWSEISO, _T("&Browse ISO...\tCtrl+B"));
+   mnuTools->Append (ID_MENU_TOOLS_VIEWCODE, _T("&View ARM60 Code"));
    
    //////////////////////
    // Help menu
@@ -194,6 +198,17 @@ void MainFrame::OnMenuHelpAbout (wxCommandEvent& WXUNUSED(event))
    wxMessageBox (_T("FourDO - An Open-Source HLE 3DO Emulator\n\nVersion 0.0.0.1"), _T("About 4DO"), wxOK | wxICON_INFORMATION);
 }
 
+void MainFrame::OnMenuToolsViewCode (wxCommandEvent &WXUNUSED(event))
+{
+   wxString fileName = wxFileSelector (_T("Open ARM60 file"), NULL, NULL, NULL, _T("All files (*.*)|*.*"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+   
+   if (!fileName.empty())
+   {
+      CodeViewer *codeViewer = new CodeViewer(this, fileName);
+	  codeViewer->Show();
+   }
+}
+
 void MainFrame::BrowseIso ()
 {
    wxString fileName = wxFileSelector (_T("Open 3DO ISO File"), NULL, NULL, NULL, _T("ISO Files (*.iso)|*.iso|All files (*.*)|*.*"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
@@ -209,6 +224,4 @@ void MainFrame::BrowseIso (wxString fileName)
    ISOBrowser* browser;
    browser = new ISOBrowser (this, fileName);
    browser->Show();
-   //ISOBrowser browser = ISOBrowser (this, fileName);
-   //browser.Show();
 }

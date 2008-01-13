@@ -17,6 +17,13 @@ public:
    ~ISOBrowser();
    
    void onListActivated(wxListEvent &event);
+   void onListRightClick(wxListEvent &event);
+   void onListFocused(wxListEvent &event);
+
+   void onPopupMenuOpenImage(wxCommandEvent &event);
+   void onPopupMenuOpenCode(wxCommandEvent &event);
+   void onPopupMenuOpenText(wxCommandEvent &event);
+
    void paintCurrentDirContents();
 
    wxTreeItemId findTreeItem(wxTreeItemId root, const wxString folder);
@@ -27,7 +34,13 @@ private:
    wxImageList*  imlIcons;
    wxString      m_fileName;
 
-   wxString      m_currentPath;
+   // 
+   // the filename of the list item that currently has
+   // focuse in the iso browser
+   // 
+   wxString      m_focusedFile;
+
+   Directory     *m_dir;
 
    DECLARE_EVENT_TABLE();
 };

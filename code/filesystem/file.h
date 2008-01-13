@@ -94,6 +94,18 @@ class File
 		//     a constant pointer to a uint8_t buffer 4 bytes in length.
 		// 
 		const uint8_t *getFileExt();
+
+		// 
+		// getFileName:
+		//     returns the file name of the currently opened file
+		// 
+		// arguments:
+		//     none
+		// 
+		// return value:
+		//     a constant pointer to a char array containing the file name
+		// 
+		const char *getFileName();
 	
 	private:
 		FileSystem fileSystem;

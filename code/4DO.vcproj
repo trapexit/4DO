@@ -261,6 +261,14 @@
 			Name="GUI"
 			>
 			<File
+				RelativePath=".\CodeViewer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CodeViewer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\FourDOApp.cpp"
 				>
 			</File>

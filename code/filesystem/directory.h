@@ -2,6 +2,7 @@
 #define _DIRECTORY_H_
 
 #include "filesystem.h"
+#include <list>
 
 class Directory
 {
@@ -50,7 +51,18 @@ class Directory
 		// 
 		bool changeDirectory(const char *path);
 
-		bool getDirectory(const char *path);
+		// 
+		// getPath:
+		//     returns the current filesystem path
+		// 
+		// arguments:
+		//     none
+		// 
+		// return value:
+		//     constant character pointer to a c string containing 
+		//     the current filesystem path of the directory object
+		// 
+		const char *getPath();
 
 		// 
 		// enumerateDirectory:
@@ -67,6 +79,24 @@ class Directory
 		//     true on success, false otherwise
 		// 
 		bool enumerateDirectory(DirectoryEntry *de);
+
+		// 
+		// findInCurrentDirectory:
+		//     finds a folder of the given name in the currently 
+		//     opened folder.  if the item is found, this function will
+		//     move the filesystem fp to the beginning of the directory
+		//     and read the directory header.  also the directory tree and
+		//     current filesystem path will be updated
+		// 
+		// arguments:
+		//     1) const char *item (IN): the string to search for
+		//     2) DirectoryEntry *dirEntry (OUT): will contain the directory
+		//         information of the folder requested, if found.
+		// 
+		// return value:
+		//     true if the folder is found, false otherwise
+		// 
+		bool findInCurrentDirectory(const char *item, DirectoryEntry *dirEntry);
 	private:
 		// 
 		// the file system.
@@ -78,6 +108,16 @@ class Directory
 		// after openDirectory was called.  basically the current directory
 		// 
 		DirectoryHeader directoryHeader;
+
+		// 
+		// the directory hierarchy.  used for searching based on relative paths
+		// 
+		std::list<DirectoryEntry *> dirTree;
+
+		// 
+		// our current directory path
+		// 
+		wxString path;
 
 		// 
 		// used in enumerateDirectory so we know when we've seen the last

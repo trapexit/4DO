@@ -1,7 +1,5 @@
 // 
 // TODO: throw some debug logging in here
-// TODO: maybe use relative file positioning instead of 
-//       starting from the beginning every time
 // 
 
 #include "filesystem.h"
@@ -31,14 +29,6 @@ bool FileSystem::mount(const char *path)
 	if (!ret)
 	{
 		wxLogMessage("FileSystem::mount(): couldn't open iso located at %s", path);
-		return false;
-	}
-
-	ret = readVolumeHeader(&volumeHeader);
-
-	if (!ret)
-	{
-		wxLogMessage("FileSystem::mount(): could not read volume header from the filesystem");
 		return false;
 	}
 
@@ -84,6 +74,11 @@ bool FileSystem::readVolumeHeader(VolumeHeader *vh)
 	endianSwap(vh->lastRootDirCopy);
 	for (int i = 0; i < 8; i++)
 		endianSwap(vh->rootDirCopies[i]);
+	
+	// 
+	// keep a local copy for ourselves
+	// 
+	memcpy(&volumeHeader, vh, sizeof(VolumeHeader));
 	
 	// 
 	// go ahead and move the fp forward to the root dir location
@@ -194,7 +189,7 @@ bool FileSystem::read(void *buf, const uint32_t bufLength, uint32_t *bytesRead)
 bool FileSystem::seekToBlock(const uint32_t block, const bool relative)
 {
 	bool ret;
-	uint32_t pos = (volumeHeader.blockSize * block);
+	uint32_t pos = (getBlockSize() * block);
 
 	ret = seekToByte(pos, relative);
 

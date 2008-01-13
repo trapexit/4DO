@@ -5,10 +5,17 @@
 
 File::File(const char *rom)
 {
+	VolumeHeader vh;
+
 	// 
 	// mount the filesystem
 	// 
 	fileSystem.mount(rom);
+
+	// 
+	// read the volume header first
+	// 
+	fileSystem.readVolumeHeader(&vh);
 
 	memset(&dirEntry, 0, sizeof(dirEntry));
 
@@ -87,7 +94,6 @@ bool File::openFile(const char *path)
 		// 
 		// enumerate through the directory contents to find our file
 		// 
-
 		while (dir.enumerateDirectory(&dirEntry))
 		{
 			// 
@@ -170,4 +176,9 @@ uint32_t File::getFileType()
 const uint8_t *File::getFileExt()
 {
 	return dirEntry.ext;
+}
+
+const char *File::getFileName()
+{
+	return (const char *)dirEntry.fileName;
 }
