@@ -173,6 +173,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ARM60Pipeline.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ARM60Pipeline.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ARM60PSRegister.cpp"
 				>
 			</File>

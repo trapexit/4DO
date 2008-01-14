@@ -11,6 +11,7 @@
 #include "ARM60Register.h"
 #include "ARM60Registers.h"
 #include "ARM60Vectors.h"
+#include "ARM60Pipeline.h"
 
 class ARM60CPU
 {
@@ -24,15 +25,14 @@ public:
    bool BIGEND; // BIGEND is always true in the 3DO!
    bool LOCK;
    
-   #ifdef __WXDEBUG__
    wxString LastResult;
    wxString LastCond;
-   #endif
    
    void DoSingleInstruction ();
    
 private:
    ARM60Vectors*   m_vect;
+   ARM60Pipeline*  m_pipe;
    
    void ProcessInstruction (uint instruction);
    void ProcessBranch (uint instruction);

@@ -75,7 +75,7 @@ MainFrame::~MainFrame()
 
 void MainFrame::DoTest ()
 {
-   #define BYTE_COUNT 500
+   #define BYTE_COUNT 3000
 
    wxString  bits;
    Console*  con;
@@ -131,7 +131,7 @@ void MainFrame::DoTest ()
       grdDebug->InsertRows (grdDebug->GetRows ());
       grdDebug->SetCellValue (row, 0, cond);
       grdDebug->SetCellValue (row, 1, bits.Mid (4));
-      //grdDebug->SetCellValue (row, 2, con->CPU ()->LastResult);
+      grdDebug->SetCellValue (row, 2, con->CPU ()->LastResult);
       grdDebug->SetRowLabelValue (row, wxString::Format ("%d", row));
    }
    

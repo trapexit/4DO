@@ -1,16 +1,17 @@
 #include "ARM60CPU.h"
-#include "BitMath.h"
 
 ARM60CPU::ARM60CPU ()
 {
    REG = new ARM60Registers ();
    m_vect = new ARM60Vectors ();
+   m_pipe = new ARM60Pipeline (3);
 }
 
 ARM60CPU::~ARM60CPU ()
 {
    delete REG;
    delete m_vect;
+   delete m_pipe;
 }
 
 void ARM60CPU::DoSingleInstruction ()
@@ -272,14 +273,14 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
       // CMP
       writeResult = false;
       isLogicOp = false;
-      result = DoAdd (op1, -op2, REG->CPSR ()->GetCarry (), &newCarry);
+      result = DoAdd (op1, -(int)op2, REG->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0xB:
       // CMN
       writeResult = false;
       isLogicOp = false;
-      result = DoAdd (op1, -op2, REG->CPSR ()->GetCarry (), &newCarry);
+      result = DoAdd (op1, -(int)op2, REG->CPSR ()->GetCarry (), &newCarry);
       break;
    
    case 0xC:
