@@ -136,7 +136,7 @@ void CodeViewer::viewCode(uint8_t *instructions, const uint32_t length)
 		m_grid->InsertRows (m_grid->GetRows ());
 		m_grid->SetCellValue (row, 0, cond);
 		m_grid->SetCellValue (row, 1, bits.Mid (4));
-		//m_grid->SetCellValue (row, 2, con->CPU ()->LastResult);
+		m_grid->SetCellValue (row, 2, con->CPU ()->LastResult);
 		m_grid->SetRowLabelValue (row, wxString::Format ("%d", row));
 	}
 

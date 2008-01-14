@@ -16,7 +16,12 @@ ARM60CPU::~ARM60CPU ()
 
 void ARM60CPU::DoSingleInstruction ()
 {
-   this->ProcessInstruction (DMA->GetValue (*(REG->PC()->Value)));
+   this->DoSingleInstruction (DMA->GetValue (*(REG->PC()->Value)));
+}
+
+void ARM60CPU::DoSingleInstruction (uint instruction)
+{
+   this->ProcessInstruction (instruction);
 }
 
 void ARM60CPU::ProcessInstruction (uint instruction)

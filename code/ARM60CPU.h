@@ -29,6 +29,7 @@ public:
    wxString LastCond;
    
    void DoSingleInstruction ();
+   void DoSingleInstruction (uint instruction);
    
 private:
    ARM60Vectors*   m_vect;
