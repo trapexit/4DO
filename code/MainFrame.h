@@ -36,7 +36,8 @@ private:
    void BrowseIso ();
    void BrowseIso (wxString fileName);
 
-   wxGrid*  grdDebug;
+   wxGrid*   grdDebug;
+   wxGrid*   grdCPUStatus;
    
    bool     m_isDebug;
    bool     m_loadFile;

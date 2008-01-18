@@ -42,26 +42,40 @@ MainFrame::MainFrame(wxCmdLineParser* parser)
    this->SetIcon (wxIcon(fourdo_xpm));
 	this->SetSize (640, 480);
 	this->CenterOnScreen ();
-	this->SetBackgroundColour (wxColor (0xFF000000));
+	
+	//this->SetBackgroundStyle (wxBackgroundStyle::wxBG_STYLE_SYSTEM);
+	//this->SetBackgroundColour (wxSystemColour::wxSYS_COLOUR_3DFACE);
+	this->SetBackgroundColour (wxColor (0xFFFFFFFF));
 	this->CreateStatusBar ();
 	this->SetStatusText (_T("4DO: Open-Source HLE 3DO Emulator"));
    this->InitializeMenu ();	
 	
-	// A quick debug textbox.
-	grdDebug = new wxGrid (this, -1, wxDefaultPosition, wxDefaultSize);
-
-   /*
    // Set up a sizer with empty panel and a debug output area.
-   wxFlexGridSizer *sizer = new wxFlexGridSizer (1, 2, 0, 0);
-   main->SetSizer (sizer);
-   sizer->AddGrowableCol (0, 5);
-   sizer->AddGrowableCol (1, 1);
-   sizer->AddGrowableRow (0, 0);
-   sizer->SetFlexibleDirection (wxBOTH);
-   sizer->Add (grdDebug, 0, wxEXPAND, 0);
-   sizer->Add (new wxPanel (main), 0, wxEXPAND, 0);
-   */
+   wxFlexGridSizer *sizerMain = new wxFlexGridSizer (1, 2, 0, 0);
+   this->SetSizer (sizerMain);
+   sizerMain->AddGrowableCol (0, 4);
+   sizerMain->AddGrowableCol (1, 2);
+   sizerMain->AddGrowableRow (0, 0);
+   sizerMain->SetFlexibleDirection (wxBOTH);
+	
+	// A quick debug grid
+	grdDebug = new wxGrid (this, wxID_ANY);
+   sizerMain->Add (grdDebug, 0, wxEXPAND, 0);
+
+   // CPU Status panel
+	wxStaticBox *fraCPUStatus = new wxStaticBox(this, wxID_ANY, _T("&CPU Status"));
+   wxSizer *sizerStatus = new wxStaticBoxSizer(fraCPUStatus, wxBOTH);
+   sizerMain->Add (sizerStatus, 0, wxEXPAND, 0);
+   fraCPUStatus->SetBackgroundColour (wxColor (0xFFFFFFFF));
    
+   grdCPUStatus = new wxGrid (this, wxID_ANY);
+   grdCPUStatus->CreateGrid (1, 2, wxGrid::wxGridSelectCells);
+   grdCPUStatus->SetRowLabelSize (0);
+   grdCPUStatus->SetColLabelSize (0);
+   
+   sizerStatus->Add (grdCPUStatus, 0, wxALL | wxGROW, 5);
+	
+   ///////////////   
    if (m_isDebug)
    {
       // Do our test here.
@@ -109,6 +123,10 @@ void MainFrame::DoTest ()
    grdDebug->SetColLabelValue (1, "Instruction");
    grdDebug->SetColLabelValue (2, "Last CPU Result");
    
+   // Setup Status Grid
+   grdCPUStatus->EnableDragRowSize (false);
+   grdCPUStatus->EnableEditing (false);
+   
    for (uint row = 0; row < BYTE_COUNT; row++)
    {
       // Read an instruction.
@@ -123,6 +141,86 @@ void MainFrame::DoTest ()
       // Process it.
       con->CPU ()->DoSingleInstruction ();
 
+      // Update CPU Status
+      grdCPUStatus->DeleteRows (0, grdCPUStatus->GetRows ());
+      grdCPUStatus->InsertRows (0, 37);
+
+      int regNum = 0;
+      grdCPUStatus->SetCellValue (regNum, 0, "R00");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R00))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R01");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R01))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R02");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R02))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R03");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R03))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R04");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R04))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R05");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R05))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R06");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R06))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R07");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R07))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R08");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R08))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R09");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R09))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R10");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R10))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R11");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R11))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R12");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R12))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R13");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R13))));
+      grdCPUStatus->SetCellValue (regNum, 0, "R14");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R14))));
+      grdCPUStatus->SetCellValue (regNum, 0, "PC");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_PC))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R08_FIQ");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R08_FIQ))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R09_FIQ");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R09_FIQ))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R10_FIQ");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R10_FIQ))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R11_FIQ");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R11_FIQ))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R12_FIQ");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R12_FIQ))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R13_FIQ");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R13_FIQ))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R14_FIQ");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R14_FIQ))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R13_SVC");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R13_SVC))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R14_SVC");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R14_SVC))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R13_ABT");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R13_ABT))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R14_ABT");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R14_ABT))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R13_IRQ");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R13_IRQ))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R14_IRQ");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R14_IRQ))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R13_UND");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R13_UND))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_R14_UND");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_R14_UND))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_CPSR");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_CPSR))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_SPSR_FIQ");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_SPSR_FIQ))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_SPSR_SVC");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_SPSR_SVC))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_SPSR_ABT");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_SPSR_ABT))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_SPSR_IRQ");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_SPSR_IRQ))));
+      grdCPUStatus->SetCellValue (regNum, 0, "IR_SPSR_UND");
+      grdCPUStatus->SetCellValue (regNum++, 1, wxString::Format ("%u", *(con->CPU ()->REG->Reg (IR_SPSR_UND))));
+      
       //////////////
       // Make a new row.
       wxString cond;
@@ -138,6 +236,7 @@ void MainFrame::DoTest ()
    /////////////////////
    // Auto size columns.
    grdDebug->AutoSizeColumns ();
+   //grdDebug->AutoSizeRowLabelSize (0);
    
    delete con;
 }
