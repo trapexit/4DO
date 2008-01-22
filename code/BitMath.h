@@ -14,5 +14,6 @@ uint SetBits (uint value, uint setMask, uint setValue);
 
 wxString CharToBitString (char value);
 wxString UintToBitString (uint value);
+wxString UintToHexString (uint value);
 
 #endif //_INC_BITMATH

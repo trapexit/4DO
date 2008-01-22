@@ -32,6 +32,8 @@ private:
    void InitializeMenu ();
    void DoTest ();
    bool ParseCommandLineArgs ();
+   
+   void UpdateGridRow (Console* con, int row, wxString caption, InternalRegisterType reg);
 
    void BrowseIso ();
    void BrowseIso (wxString fileName);

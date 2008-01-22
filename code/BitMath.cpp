@@ -47,3 +47,24 @@ wxString UintToBitString (uint value)
 
    return newRetVal;
 }
+
+wxString UintToHexString (uint value)
+{
+   int       value1;
+   int       value2;
+   int       value3;
+   int       value4;
+   wxString  ret;
+
+   value1 = value >> 24;
+   value2 = (value >> 16) & 0x000000FF;
+   value3 = (value >> 8) & 0x000000FF;
+   value4 = value & 0x000000FF;
+   
+   ret = wxDecToHex (value1);
+   ret.append (wxDecToHex (value2));
+   ret.append (wxDecToHex (value3));
+   ret.append (wxDecToHex (value4));
+   
+   return ret;
+}

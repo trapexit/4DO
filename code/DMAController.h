@@ -15,6 +15,7 @@ public:
 
    uint GetValue (uint address);
    void SetValue (uint address, uint value);
+   uchar* GetDRAMPointer (uint address);
 
 private:
    uchar* m_DRAM;

@@ -111,3 +111,8 @@ void DMAController::SetValue (uint address, uint value)
       // IO Controller
    }
 }
+
+uchar* DMAController::GetDRAMPointer (uint address)
+{
+   return &(m_DRAM [address]);
+}
