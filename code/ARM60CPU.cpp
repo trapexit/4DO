@@ -133,7 +133,9 @@ void ARM60CPU::ProcessBranch (uint instruction)
 
    if ((instruction & 0x01000000) == 0x01000000)
    {
-      *(REG->Reg (ARM60_R14)) = *(REG->PC ()->Value);
+      // Save the PC value (+ 4)
+      // This saves the address of the register following the branch instruction.
+      *(REG->Reg (ARM60_R14)) = *(REG->PC ()->Value) + 4;
    }
    
    // Offset is bit shifted left two, then sign extended to 32 bits.
@@ -171,6 +173,8 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
    //////////////////////
    
    //////////////////////
+   RegisterType op1Type;
+   
    bool newCarry = false;
    bool setCond;
    bool writeResult = true; // NOTE: The assembler allegegly always sets S to false here.
@@ -188,7 +192,13 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
    
    ////////////////////////////
    // Get first operand value.
-   op1 = *(REG->Reg ((RegisterType) ((instruction & 0x000F0000) >> 16)));
+   op1Type = (RegisterType) ((instruction & 0x000F0000) >> 16);
+   op1 = *(REG->Reg (op1Type));
+   
+   // TODO: Is this prefetch affected by use of 
+   //       a register with the shift of operand 2?
+   if (op1Type == RegisterType::ARM60_PC)
+      op1 += 8;
    
    ////////////////////////////
    // Get second operand value.

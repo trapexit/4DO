@@ -40,7 +40,7 @@ MainFrame::MainFrame(wxCmdLineParser* parser)
    // GUI Setup.
    this->SetTitle ("4DO");
    this->SetIcon (wxIcon(fourdo_xpm));
-	this->SetSize (1000, 800);
+	this->SetSize (1100, 800);
 	this->CenterOnScreen ();
 	
 	//this->SetBackgroundStyle (wxBackgroundStyle::wxBG_STYLE_SYSTEM);
@@ -90,7 +90,7 @@ MainFrame::~MainFrame()
 void MainFrame::DoTest ()
 {
    #define ROM_LOAD_ADDRESS 0x00100000
-   #define INSTRUCTIONS     8
+   #define INSTRUCTIONS     14
 
    wxString  bits;
    Console*  con;
@@ -132,9 +132,9 @@ void MainFrame::DoTest ()
    grdCPUStatus->EnableEditing (false);
    
    grdCPUStatus->SetColLabelValue (0, "Reg");
-   grdCPUStatus->SetColLabelValue (1, "Val");
-   grdCPUStatus->SetColLabelValue (2, "Val (Bin)");
-   grdCPUStatus->SetColLabelValue (3, "Val (Hex)");
+   grdCPUStatus->SetColLabelValue (1, "Val Hex[Neg]");
+   grdCPUStatus->SetColLabelValue (2, "Val Dec[Neg]");
+   grdCPUStatus->SetColLabelValue (3, "Val Bin");
    
    *(con->CPU ()->REG->PC ()->Value) = ROM_LOAD_ADDRESS;
    
@@ -212,7 +212,7 @@ void MainFrame::DoTest ()
       grdDebug->SetCellValue (row, 0, cond);
       grdDebug->SetCellValue (row, 1, bits.Mid (4));
       grdDebug->SetCellValue (row, 2, con->CPU ()->LastResult);
-      grdDebug->SetRowLabelValue (row, wxString::Format ("%d", row));
+      grdDebug->SetRowLabelValue (row, UintToHexString (PCBefore));
    }
    
    /////////////////////
@@ -229,6 +229,7 @@ void MainFrame::UpdateGridRow (Console* con, int row, wxString caption, Internal
    uint      regValue; 
    wxString  bits;
    wxString  hex;
+   wxString  hexNeg;
    
    // Get the value of the register.
    regValue = *(con->CPU ()->REG->Reg (reg));
@@ -236,12 +237,13 @@ void MainFrame::UpdateGridRow (Console* con, int row, wxString caption, Internal
    // Turn it into a bit string.
    bits = UintToBitString (regValue);
    hex = UintToHexString (regValue);
+   hexNeg = UintToHexString ((~regValue)+1);
    
    grdCPUStatus->SetCellValue (row, 0, caption);
    grdCPUStatus->SetCellTextColour (row, 0, wxColour (128, 128, 128));
-   grdCPUStatus->SetCellValue (row, 1, wxString::Format ("%u", regValue));
-   grdCPUStatus->SetCellValue (row, 2, bits);
-   grdCPUStatus->SetCellValue (row, 3, hex);
+   grdCPUStatus->SetCellValue (row, 1, wxString::Format ("%s [%s]", hex, hexNeg));
+   grdCPUStatus->SetCellValue (row, 2, wxString::Format ("%u [%i]", regValue, regValue));
+   grdCPUStatus->SetCellValue (row, 3, bits);
 }
 
 void MainFrame::InitializeMenu ()
