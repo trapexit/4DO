@@ -8,6 +8,8 @@ Console::Console ()
    m_CPU = new ARM60CPU ();
    m_CPU->DMA = m_DMA;
    m_CPU->BIGEND = true; // Big endian is always true!
+   
+   m_CPU->REG->CPSR ()->SetCPUMode (CPUMode::CPUMODE_USR);
 }
 
 ARM60CPU* Console::CPU ()

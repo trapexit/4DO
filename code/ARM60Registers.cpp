@@ -10,8 +10,8 @@ ARM60Registers::ARM60Registers ()
       m_regs [x] = 0;
    }
 
-   m_PC = new ARM60Register (&m_regs [(int) ARM60_PC]);
-   m_CPSR = new ARM60PSRegister (&m_regs [(int) ARM60_CPSR]);
+   m_PC = new ARM60Register (&m_regs [(int) InternalRegisterType::IR_PC]);
+   m_CPSR = new ARM60PSRegister (&m_regs [(int) InternalRegisterType::IR_CPSR]);
 }
 
 ARM60Registers::~ARM60Registers ()

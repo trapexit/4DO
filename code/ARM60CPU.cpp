@@ -133,7 +133,6 @@ void ARM60CPU::ProcessBranch (uint instruction)
 
    if ((instruction & 0x01000000) == 0x01000000)
    {
-      // TODO: Check on prefetch logic.
       *(REG->Reg (ARM60_R14)) = *(REG->PC ()->Value);
    }
    
@@ -143,6 +142,10 @@ void ARM60CPU::ProcessBranch (uint instruction)
    {
       offset &= 0xFC000000;
    }
+   
+   // Add 8 bytes for prefetch.
+   offset += 8;
+   
    (*(REG->PC ()->Value)) += offset;
 }
 
@@ -152,7 +155,7 @@ void ARM60CPU::ProcessBranch (uint instruction)
 void ARM60CPU::ProcessDataProcessing (uint instruction)
 {
    #ifdef __WXDEBUG__
-   wxLogMessage ("Processed Branch");
+   wxLogMessage ("Processed Data Processing");
    LastResult = "Data Proc";
    #endif
    
@@ -181,17 +184,14 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 
    opCode = (instruction & 0x01E00000) >> 21;
    setCond = (instruction & 0x00100000) > 0;
+   regDest = (instruction & 0x0000F000) >> 12;
    
-   regDest = (instruction & 0x000F000) >> 12;
-
    ////////////////////////////
    // Get first operand value.
-   op1 = *(REG->Reg ((RegisterType) (instruction & 0x000F0000)));
+   op1 = *(REG->Reg ((RegisterType) ((instruction & 0x000F0000) >> 16)));
    
    ////////////////////////////
    // Get second operand value.
-
-   // TODO: When the operand is R15 (PC), prefetch may need to be added.
 
    // Check Immediate Operand.
    if ((instruction & 0x02000000) > 0)
@@ -230,6 +230,11 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
       // SUB
       isLogicOp = false;
       result = DoAdd (op1, (~op2)+1, false, &newCarry);
+
+      wxLogMessage ("Processing SUB");
+      wxLogMessage (wxString::Format ("Op1 is %i OR %u", op1, op1));
+      wxLogMessage (wxString::Format ("Op2 is %i OR %u", (~op2)+1, (~op2)+1));
+      wxLogMessage (wxString::Format ("Result is %i OR %u", result, result));
       break;
    
    case 0x3:
@@ -242,6 +247,11 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
       // ADD
       isLogicOp = false;
       result = DoAdd (op1, op2, false, &newCarry);
+
+      wxLogMessage ("Processing ADD");
+      wxLogMessage (wxString::Format ("Op1 is %i OR %u", op1, op1));
+      wxLogMessage (wxString::Format ("Op2 is %i OR %u", op2, op2));
+      wxLogMessage (wxString::Format ("Result is %i OR %u", result, result));
       break;
    
    case 0x5:
@@ -552,14 +562,18 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
    //                (dest)
    ///////////////////////////
 
+   RegisterType baseRegNum;
+   
    bool  newCarry = false;
    int   offset;
    uint* baseReg;
    uint  address;
 
    ////////////////////////////////////////////////////////
+   baseRegNum = (RegisterType) ((instruction & 0x000F0000) >> 16);
+   baseReg = REG->Reg (baseRegNum);
 
-   baseReg = REG->Reg ((RegisterType) (0x000F0000 >> 16));
+   wxLogMessage (wxString::Format ("baseReg is %i", ((instruction & 0x000F0000) >> 16)));
 
    // TODO: Special cases around use of R15 (prefetch).
    // TODO: Abort logic.
@@ -584,6 +598,8 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
       // We're supposed to subtract the offset.
       offset = -offset;
    }
+
+   wxLogMessage (wxString::Format ("Offset is %i", offset));
 
    if ((instruction & 0x01000000) > 0)
    {
@@ -620,12 +636,19 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
    ////////////////////
    if ((instruction & 0x00100000) > 0)
    {
-      *(REG->Reg((RegisterType) (0x0000F000 >> 12))) = 
+      // LDR
+      
+      // Account for prefetch!
+      if (baseRegNum == RegisterType::ARM60_PC)
+         address += 8;
+      
+      // Do LDR operation.
+      *(REG->Reg((RegisterType) ((instruction & 0x0000F000) >> 12))) = 
          DoLDR (address, (instruction & 0x00400000) > 0);
    }
    else
    {
-      DoSTR (address, (RegisterType) (0x0000F000 >> 12), (instruction & 0x00400000) > 0);
+      DoSTR (address, (RegisterType) ((instruction & 0x0000F000) >> 12), (instruction & 0x00400000) > 0);
    }
 }
 
@@ -937,6 +960,8 @@ uint ARM60CPU::DoLDR (uint address, bool isByte)
 {
    uint value;
 
+   wxLogMessage (wxString::Format ("Read from address %i OR %u", address, address));
+
    value = DMA->GetValue (address);
    
    if (isByte)
@@ -1012,23 +1037,32 @@ uint ARM60CPU::DoLDR (uint address, bool isByte)
 
 void ARM60CPU::DoSTR (uint address, RegisterType sourceReg, bool isByte)
 {
+   // Store to memory!
    uint value;
 
-   // Store to memory
+   value = *(REG->Reg (sourceReg));
+   
+   // Account for prefetch.
+   if (sourceReg == RegisterType::ARM60_PC)
+      value += 12;
+   
    if (isByte)
    {
       // Storing a byte...
       // We store the bottom byte repeated four times.
       // TODO: Is this supposed be be affected by big endian vs little?
-      value = *(REG->Reg (sourceReg)) & 0x000000FF;
+      value = value & 0x000000FF;
       value = value | (value << 8) | (value << 16) | (value << 24);
       DMA->SetValue (address, value);
    }
    else
    {
       // Storing a word. Easy.
-      DMA->SetValue (address, *(REG->Reg (sourceReg)));
    }
+   
+   wxLogMessage (wxString::Format ("Storing the value [%u] into memory loc [%u]", value, address));
+   
+   DMA->SetValue (address, value);
 }
 
 bool ARM60CPU::CheckCondition (uint instruction)
@@ -1169,11 +1203,14 @@ bool ARM60CPU::CheckCondition (uint instruction)
 uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
 {
    RegisterType regShift;
-
+   RegisterType opReg;
+   
    uint shiftType;
    uint op;
    int  shift;
    bool topBit;
+   
+   bool isRegShift;
    
    ////////////////////////
    //  1 0 9 8 7 6 5 4 3 2 1 0
@@ -1182,13 +1219,27 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
    // Get the shift type.
    shiftType = (instruction & 0x00000060);
 
+   // Get the value out of the register specified by Rm.
+   opReg = (RegisterType) (instruction & 0x0000000F);
+   op = *(REG->Reg (opReg));
+   
+   // Get the shift value's "type". (immediate vs. reg value)
+   isRegShift = (instruction & 0x00000010) > 0;
+   
+   // Check for a prefetch case.
+   if (opReg == RegisterType::ARM60_PC)
+   {
+      // We used PC, we need to add a prefetch value.
+      if (isRegShift)
+         op += 12;
+      else
+         op += 8;
+   }
+   
    // Check shift type to get the shift value.
-   if ((instruction & 0x00000010) > 0)
+   if (isRegShift)
    {
       // Shift by amount in bottom byte of a register
-
-      // TODO: Add prefetch logic?
-      // NOTE: In this case, this operation causes prefetch to be 12 bytes instead of 8.
 
       regShift = (RegisterType) ((instruction & 0x00000F00) >> 8);
       shift = (*(REG->Reg (regShift))) & 0x000000FF;
@@ -1204,9 +1255,6 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
       // Shift by a certain amount.
       shift = (instruction & 0x00000F80) >> 7;
    }
-   
-   // Get the value out of the register specified by Rm.
-   op = *(REG->Reg ((RegisterType) (instruction & 0x0000000F)));
 
    switch (instruction & 0x00000060)
    {

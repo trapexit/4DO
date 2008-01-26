@@ -40,7 +40,7 @@ MainFrame::MainFrame(wxCmdLineParser* parser)
    // GUI Setup.
    this->SetTitle ("4DO");
    this->SetIcon (wxIcon(fourdo_xpm));
-	this->SetSize (640, 480);
+	this->SetSize (1000, 800);
 	this->CenterOnScreen ();
 	
 	//this->SetBackgroundStyle (wxBackgroundStyle::wxBG_STYLE_SYSTEM);
@@ -90,6 +90,7 @@ MainFrame::~MainFrame()
 void MainFrame::DoTest ()
 {
    #define ROM_LOAD_ADDRESS 0x00100000
+   #define INSTRUCTIONS     8
 
    wxString  bits;
    Console*  con;
@@ -135,20 +136,29 @@ void MainFrame::DoTest ()
    grdCPUStatus->SetColLabelValue (2, "Val (Bin)");
    grdCPUStatus->SetColLabelValue (3, "Val (Hex)");
    
-   for (uint row = 0; row < 50; row++)
+   *(con->CPU ()->REG->PC ()->Value) = ROM_LOAD_ADDRESS;
+   
+   for (uint row = 0; row < INSTRUCTIONS; row++)
    {
       // Read an instruction.
       uint token;
-      token = con->DMA ()->GetValue (ROM_LOAD_ADDRESS + row * 4);
-
-      // Set the PC there (for now).
-      *(con->CPU ()->REG->PC ()->Value) = ROM_LOAD_ADDRESS + row * 4;
+      uint PCBefore;
+      uint PCAfter;
+      
+      PCBefore = *(con->CPU ()->REG->PC ()->Value);
+      token = con->DMA ()->GetValue (PCBefore);
 
       // Convert this thing to bits.
       bits = UintToBitString (token);
 
       // Process it.
+      PCBefore = *(con->CPU ()->REG->PC ()->Value);
       con->CPU ()->DoSingleInstruction ();
+      PCAfter = *(con->CPU ()->REG->PC ()->Value);
+
+      // Increment PC if no change was made.
+      if (PCBefore == PCAfter)
+         *(con->CPU ()->REG->PC ()->Value) += 4;
 
       // Update CPU Status
       grdCPUStatus->DeleteRows (0, grdCPUStatus->GetRows ());
