@@ -43,7 +43,8 @@ private:
    
    bool     m_isDebug;
    bool     m_loadFile;
-   wxString m_fileName;
+   wxString m_imageFileName;
+   wxString m_codeFileName;
    
    DECLARE_EVENT_TABLE ()
 };

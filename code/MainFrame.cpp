@@ -33,7 +33,11 @@ MainFrame::MainFrame(wxCmdLineParser* parser)
    m_isDebug = parser->Found ("d");
    if (parser->Found ("li"))
    {
-      parser->Found ("li", &m_fileName);
+      parser->Found ("li", &m_imageFileName);
+   }
+   if (parser->Found ("lc"))
+   {
+      parser->Found ("lc", &m_codeFileName);
    }
    
    /////////////////////
@@ -89,8 +93,8 @@ MainFrame::~MainFrame()
 
 void MainFrame::DoTest ()
 {
-   #define ROM_LOAD_ADDRESS 0x00100000
-   #define INSTRUCTIONS     14
+   #define ROM_LOAD_ADDRESS 0x03000000
+   #define INSTRUCTIONS     16
 
    wxString  bits;
    Console*  con;
@@ -100,23 +104,35 @@ void MainFrame::DoTest ()
    con = new Console ();
    
    /////////////////
-   // Open Launchme!
-	uint32_t  bytesRead;
-	
-	File f(m_fileName);
-
-	success = f.openFile("/launchme");
-	if (!success)
-	{
-		// Error opening
-		delete con;
-		return;
-	}
    
-   /////////////////
-   // Load it into memory.
-   fileSize = f.getFileSize ();
-   f.read (con->DMA ()->GetDRAMPointer (ROM_LOAD_ADDRESS), f.getFileSize (), &bytesRead);
+	if (m_imageFileName.Length () > 0)
+	{
+      // Open the Launchme of this CD image.
+      uint32_t  bytesRead;
+	   File f(m_imageFileName);
+
+	   success = f.openFile("/launchme");
+	   if (!success)
+	   {
+		   // Error opening
+		   delete con;
+		   return;
+	   }
+   
+      // Load it into memory.
+      fileSize = f.getFileSize ();
+      f.read (con->DMA ()->GetRAMPointer (ROM_LOAD_ADDRESS), f.getFileSize (), &bytesRead);
+      wxLogMessage (wxString::Format ("File size is %u", fileSize));
+   }
+   else if (m_codeFileName.Length () > 0)
+   {
+      // Open a code file.
+      wxFile file;
+      
+      file.Open (m_codeFileName);
+      file.Read (con->DMA()->GetRAMPointer (ROM_LOAD_ADDRESS), file.Length ());
+      file.Close ();
+   }
    
    /////////////////
    // Setup grid.

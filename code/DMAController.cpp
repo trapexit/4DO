@@ -5,10 +5,18 @@ DMAController::DMAController ()
    // Constructor
    
    m_DRAM = new uchar [DRAM_SIZE];
+   m_BIOS = new uchar [BIOS_SIZE];
+   
    // Potentially pointless initialization.
    for (int x = 0; x < DRAM_SIZE; x++)
    {
       m_DRAM [x] = 0;
+   }
+
+   // Potentially pointless initialization.
+   for (int x = 0; x < BIOS_SIZE; x++)
+   {
+      m_BIOS [x] = 0;
    }
 }
 
@@ -46,6 +54,9 @@ uint DMAController::GetValue (uint address)
    else if (address >= 0x03000000 && address <= 0x030FFFFF)
    {
       // BIOS
+      address -= 0x03000000;
+      address -= address % 4;
+      return (m_BIOS [address] << 24) + (m_BIOS [address + 1] << 16) + (m_BIOS [address + 2] << 8) + m_BIOS [address + 3];
    }
    else if (address >= 0x03140000 && address <= 0x0315FFFF)
    {
@@ -89,6 +100,12 @@ void DMAController::SetValue (uint address, uint value)
    else if (address >= 0x03000000 && address <= 0x030FFFFF)
    {
       // BIOS
+      address -= 0x03000000;
+      address -= address % 4;
+      m_BIOS [address] = (uchar) ((value & 0xFF000000) >> 24);
+      m_BIOS [address + 1] = (uchar) ((value & 0x00FF0000) >> 16);
+      m_BIOS [address + 2] = (uchar) ((value & 0x0000FF00) >> 8);
+      m_BIOS [address + 3] = (uchar) (value & 0x000000FF);
    }
    else if (address >= 0x03140000 && address <= 0x0315FFFF)
    {
@@ -112,7 +129,16 @@ void DMAController::SetValue (uint address, uint value)
    }
 }
 
-uchar* DMAController::GetDRAMPointer (uint address)
+uchar* DMAController::GetRAMPointer (uint address)
 {
-   return &(m_DRAM [address]);
+   if (address >= 0x03000000 && address <= 0x030FFFFF)
+   {
+      // BIOS
+      return &(m_BIOS [address - 0x03000000]);
+   }
+   else
+   {
+      // just use DRAM
+      return &(m_DRAM [address]);
+   }
 }
