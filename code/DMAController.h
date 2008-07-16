@@ -24,7 +24,6 @@ private:
    uchar* m_DRAM;
    uchar* m_VRAM;
    uchar* m_BIOS;
-   uchar* m_VRAM;
 };
 
 #endif //_INC_DMA
