@@ -116,6 +116,7 @@ void ARM60CPU::ProcessBranch (uint instruction)
 {
 #ifdef __WXDEBUG__
 wxLogMessage( "Processed Branch" );
+LastResult = _T( "Branch (Unused)" );
 #endif
 
 // Check condition Field.
@@ -144,7 +145,7 @@ if( isLink)
 offset = ( instruction & 0x00FFFFFF ) << 2;
 if( ( offset & 0x02000000 ) > 0 )
 	{
-   offset &= 0xFC000000;
+   offset |= 0xFC000000;
 	}
 
 // Add 8 bytes for prefetch.
@@ -385,8 +386,16 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
          // from the sign of the result.
          if ((op1 & 0x80000000) == (op2 & 0x80000000))
          {
-            REG->CPSR ()->SetOverflow (!
-                  ((result & 0x80000000) == (op1 & 0x80000000)));
+            //////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////
+            //TODO: overflow logic is confirmed to be BAD!!
+            //////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////
+            
+            //REG->CPSR ()->SetOverflow (!
+            //      ((result & 0x80000000) == (op1 & 0x80000000)));
          }
          else
          {
@@ -1072,10 +1081,15 @@ void ARM60CPU::DoSTR (uint address, RegisterType sourceReg, bool isByte)
    if (isByte)
    {
       // Storing a byte...
-      // We store the bottom byte repeated four times.
-      // TODO: Is this supposed be be affected by big endian vs little?
+      
       value = value & 0x000000FF;
-      value = value | (value << 8) | (value << 16) | (value << 24);
+      // NOTE: I used to think that we were supposed to store the
+      //       bottom byte repeated four times. It didn't actually
+      //       seem to happen this way.
+      // value = value | (value << 8) | (value << 16) | (value << 24);
+      // TODO: Track down the documentation that misled me here.
+      // TODO: Is this supposed be be affected by big endian vs little?
+      
       DMA->SetValue (address, value);
    }
    else
