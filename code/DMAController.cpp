@@ -7,7 +7,6 @@ DMAController::DMAController ()
    m_DRAM = new uchar [DRAM_SIZE];
    m_VRAM = new uchar [VRAM_SIZE];
    m_BIOS = new uchar [BIOS_SIZE];
-   m_VRAM = new uchar [VRAM_SIZE];
    
    // Potentially pointless initialization.
    for (int x = 0; x < DRAM_SIZE; x++)
@@ -25,12 +24,6 @@ DMAController::DMAController ()
    for (int x = 0; x < BIOS_SIZE; x++)
    {
       m_BIOS [x] = 0;
-   }
-
-   // Potentially pointless initialization.
-   for (int x = 0; x < VRAM_SIZE; x++)
-   {
-      m_VRAM [x] = 0;
    }
 }
 
