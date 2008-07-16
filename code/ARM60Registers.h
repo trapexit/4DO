@@ -85,7 +85,7 @@ public:
 private:
    InternalRegisterType GetInternalRegisterNum (RegisterType reg);
 
-   uint* m_regs;
+   uint m_regs[ REG_COUNT ];
 
    ARM60Register*   m_PC;
    ARM60PSRegister* m_CPSR;

@@ -2,7 +2,7 @@
 
 ARM60Registers::ARM60Registers ()
 {
-   m_regs = new uint [REG_COUNT];
+   //m_regs = new uint [REG_COUNT];
 
    // Potentially pointless initialization.
    for (int x = 0; x < REG_COUNT; x++)
@@ -16,7 +16,7 @@ ARM60Registers::ARM60Registers ()
 
 ARM60Registers::~ARM60Registers ()
 {
-   delete m_regs;
+   //delete m_regs;
    delete m_PC;
    delete m_CPSR;
 }

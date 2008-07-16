@@ -40,6 +40,7 @@ private:
 
    wxGrid*   grdDebug;
    wxGrid*   grdCPUStatus;
+   wxButton* btnNext;
    
    bool     m_isDebug;
    bool     m_loadFile;

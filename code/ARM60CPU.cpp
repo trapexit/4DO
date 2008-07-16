@@ -114,41 +114,54 @@ void ARM60CPU::ProcessInstruction (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBranch (uint instruction)
 {
-   #ifdef __WXDEBUG__
-   wxLogMessage ("Processed Branch");
-   LastResult = "Branch";
-   #endif
-   
-   // Check condition Field.
-   if (! CheckCondition (instruction))
-      return;
+#ifdef __WXDEBUG__
+wxLogMessage( "Processed Branch" );
+#endif
 
-   //////////////////////
-   //  3         2         1         0
-   // 10987654321098765432109876543210
-   // Cond   L
-   //     101 [________Offset________]
-   //////////////////////
-   int  offset;
+// Check condition Field.
+if( !CheckCondition( instruction ) )
+   return;
 
-   if ((instruction & 0x01000000) == 0x01000000)
-   {
-      // Save the PC value (+ 4)
-      // This saves the address of the register following the branch instruction.
-      *(REG->Reg (ARM60_R14)) = *(REG->PC ()->Value) + 4;
-   }
-   
-   // Offset is bit shifted left two, then sign extended to 32 bits.
-   offset = (instruction & 0x00FFFFFF) << 2;
-   if ((offset & 0x02000000) > 0)
-   {
-      offset &= 0xFC000000;
-   }
-   
-   // Add 8 bytes for prefetch.
-   offset += 8;
-   
-   (*(REG->PC ()->Value)) += offset;
+//////////////////////
+//  3         2         1         0
+// 10987654321098765432109876543210
+// Cond   L
+//     101 [________Offset________]
+//////////////////////
+int  offset;
+bool isLink;
+
+isLink = ( instruction & 0x01000000 ) == 0x01000000;
+
+if( isLink)
+	{
+   // Save the PC value (+ 4)
+   // This saves the address of the register following the branch instruction.
+	*(REG->Reg (ARM60_R14)) = *(REG->PC ()->Value) + 4;
+	}
+
+// Offset is bit shifted left two, then sign extended to 32 bits.
+offset = ( instruction & 0x00FFFFFF ) << 2;
+if( ( offset & 0x02000000 ) > 0 )
+	{
+   offset &= 0xFC000000;
+	}
+
+// Add 8 bytes for prefetch.
+offset += 8;
+
+#ifdef __WXDEBUG__
+// Give detailed info about this instruction.
+LastResult = _T( "Branch" );
+if( isLink )
+	LastResult.Append( _T( "(with Link)" ) );
+LastResult.Append( 
+	wxString::Format( _T( " to %s" ), 
+	UintToHexString( ( *( REG->PC()->Value ) ) + offset ) ) );
+#endif
+
+// Move the PC
+( *( REG->PC()->Value ) ) += offset;
 }
 
 ////////////////////////////////////////////////////////////
@@ -1199,7 +1212,7 @@ bool ARM60CPU::CheckCondition (uint instruction)
       #endif
       
       // NOTE: The documentation specifies that the NV condition should
-      //       not be used because it will be redifined in later ARM
+      //       not be used because it will be redefined in later ARM
       //       versions.
       return false;
    }

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="4DO"
 	ProjectGUID="{9F538DD6-FEE8-41F5-AD82-030DAC287251}"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -18,7 +19,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="2"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -39,7 +40,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswd&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH;_CRT_SECURE_NO_DEPRECATE;wxUSE_CMDLINE_PARSER=1"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\vc_mswd\grid/grid.pch"
 				WarningLevel="4"
 				DebugInformationFormat="3"
@@ -60,8 +61,11 @@
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(WXWIN)\lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;"
 				GenerateManifest="true"
+				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -81,9 +85,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -115,7 +116,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\msw&quot;"
 				PreprocessorDefinitions="WIN32;__WXMSW__;_WINDOWS;NOPCH;_CRT_SECURE_NO_DEPRECATE"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -131,6 +132,8 @@
 				AdditionalDependencies="wxmsw28_adv.lib wxmsw28_html.lib wxbase28_xml.lib wxmsw28_core.lib wxbase28.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex.lib wxexpat.lib winmm.lib comctl32.lib rpcrt4.lib wsock32.lib oleacc.lib odbc32.lib shell32.lib gdi32.lib kernel32.lib user32.lib comdlg32.lib ole32.lib oleaut32.lib advapi32.lib"
 				AdditionalLibraryDirectories="&quot;$(WXWIN)\lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;"
 				GenerateManifest="true"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -149,9 +152,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
