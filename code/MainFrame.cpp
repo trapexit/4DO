@@ -1,24 +1,27 @@
 #include "MainFrame.h"
 #include "CodeViewer.h"
+#include "ImageTest.h"
 
 /////////////////////////////////////////////////////////////////////////
 // Menu items.
 /////////////////////////////////////////////////////////////////////////
 enum Menu
 {
-	ID_MENU_FILE_OPENISO = 1,
-	ID_MENU_FILE_EXIT,
-	ID_MENU_TOOLS_BROWSEISO,
-	ID_MENU_TOOLS_VIEWCODE,
-	ID_MENU_HELP_ABOUT
+   ID_MENU_FILE_OPENISO = 1,
+   ID_MENU_FILE_EXIT,
+   ID_MENU_TOOLS_BROWSEISO,
+   ID_MENU_TOOLS_VIEWCODE,
+   ID_MENU_TOOLS_TESTVRAM,
+   ID_MENU_HELP_ABOUT
 };
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
-	EVT_MENU(ID_MENU_FILE_OPENISO, MainFrame::OnMenuFileOpenISO)
-	EVT_MENU(ID_MENU_FILE_EXIT, MainFrame::OnMenuFileExit)
-	EVT_MENU(ID_MENU_TOOLS_BROWSEISO, MainFrame::OnMenuToolsBrowseISO)
-	EVT_MENU(ID_MENU_TOOLS_VIEWCODE, MainFrame::OnMenuToolsViewCode)
-	EVT_MENU(ID_MENU_HELP_ABOUT, MainFrame::OnMenuHelpAbout)
+   EVT_MENU(ID_MENU_FILE_OPENISO, MainFrame::OnMenuFileOpenISO)
+   EVT_MENU(ID_MENU_FILE_EXIT, MainFrame::OnMenuFileExit)
+   EVT_MENU(ID_MENU_TOOLS_BROWSEISO, MainFrame::OnMenuToolsBrowseISO)
+   EVT_MENU(ID_MENU_TOOLS_VIEWCODE, MainFrame::OnMenuToolsViewCode)
+   EVT_MENU(ID_MENU_TOOLS_TESTVRAM, MainFrame::OnMenuToolsTestVram)
+   EVT_MENU(ID_MENU_HELP_ABOUT, MainFrame::OnMenuHelpAbout)
 END_EVENT_TABLE()
 
 /////////////////////////////////////////////////////////////////////////
@@ -282,16 +285,17 @@ void MainFrame::InitializeMenu ()
 	mnuFile->AppendSeparator ();
 	mnuFile->Append (ID_MENU_FILE_EXIT, _T("&Exit\tCtrl+X"));
 
-	//////////////////////
-	// Tools menu
-	mnuMain->Append (mnuTools, _T("&Tools"));
-	mnuTools->Append (ID_MENU_TOOLS_BROWSEISO, _T("&Browse ISO...\tCtrl+B"));
-	mnuTools->Append (ID_MENU_TOOLS_VIEWCODE, _T("&View ARM60 Code"));
-	
-	//////////////////////
-	// Help menu
-	mnuMain->Append (mnuHelp, _T("&Help"));
-	mnuHelp->Append (ID_MENU_HELP_ABOUT, _T("&About...\tShift+F1"));
+   //////////////////////
+   // Tools menu
+   mnuMain->Append (mnuTools, _T("&Tools"));
+   mnuTools->Append (ID_MENU_TOOLS_BROWSEISO, _T("&Browse ISO...\tCtrl+B"));
+   mnuTools->Append (ID_MENU_TOOLS_VIEWCODE, _T("&View ARM60 Code"));
+   mnuTools->Append (ID_MENU_TOOLS_TESTVRAM, _T("&Test VRAM"));
+   
+   //////////////////////
+   // Help menu
+   mnuMain->Append (mnuHelp, _T("&Help"));
+   mnuHelp->Append (ID_MENU_HELP_ABOUT, _T("&About...\tShift+F1"));
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -331,6 +335,12 @@ void MainFrame::OnMenuToolsViewCode (wxCommandEvent &WXUNUSED(event))
 		CodeViewer *codeViewer = new CodeViewer(this, fileName);
 	  codeViewer->Show();
 	}
+}
+
+void MainFrame::OnMenuToolsTestVram (wxCommandEvent &WXUNUSED(event))
+{
+	ImageTest *imageTest = new ImageTest(this);
+	imageTest->Show();
 }
 
 void MainFrame::BrowseIso ()
