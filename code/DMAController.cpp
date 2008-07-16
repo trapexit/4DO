@@ -7,6 +7,7 @@ DMAController::DMAController ()
    m_DRAM = new uchar [DRAM_SIZE];
    m_VRAM = new uchar [VRAM_SIZE];
    m_BIOS = new uchar [BIOS_SIZE];
+   m_VRAM = new uchar [VRAM_SIZE];
    
    // Potentially pointless initialization.
    for (int x = 0; x < DRAM_SIZE; x++)
@@ -24,6 +25,12 @@ DMAController::DMAController ()
    for (int x = 0; x < BIOS_SIZE; x++)
    {
       m_BIOS [x] = 0;
+   }
+
+   // Potentially pointless initialization.
+   for (int x = 0; x < VRAM_SIZE; x++)
+   {
+      m_VRAM [x] = 0;
    }
 }
 
@@ -57,7 +64,7 @@ uint DMAController::GetValue (uint address)
    else if (address >= 0x00200000 && address <= 0x002FFFFF)
    {
       // VRAM
-      address -= 0x02000000;
+      address -= 0x0200000;
       address -= address % 4;
       return (m_VRAM [address] << 24) + (m_VRAM [address + 1] << 16) + (m_VRAM [address + 2] << 8) + m_VRAM [address + 3];
    }
@@ -106,7 +113,7 @@ void DMAController::SetValue (uint address, uint value)
    else if (address >= 0x00200000 && address <= 0x002FFFFF)
    {
       // VRAM
-      address -= 0x00200000;
+      address -= 0x0200000;
       address -= address % 4;
       m_VRAM [address] = (uchar) ((value & 0xFF000000) >> 24);
       m_VRAM [address + 1] = (uchar) ((value & 0x00FF0000) >> 16);

@@ -285,6 +285,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ImageTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ImageTest.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ImageViewer.cpp"
 				>
 			</File>
