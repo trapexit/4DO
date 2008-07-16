@@ -152,6 +152,11 @@ uchar* DMAController::GetRAMPointer (uint address)
       // BIOS
       return &(m_BIOS [address - 0x03000000]);
    }
+   else if (address >= 0x00200000 && address <= 0x002FFFFF)
+   {
+      // VRAM
+      return &(m_VRAM [address - 0x00200000]);
+   }
    else
    {
       // just use DRAM
