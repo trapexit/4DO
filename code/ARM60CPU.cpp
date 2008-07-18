@@ -16,7 +16,16 @@ ARM60CPU::~ARM60CPU ()
 
 void ARM60CPU::DoSingleInstruction ()
 {
-	this->DoSingleInstruction (DMA->GetWord (*(REG->PC()->Value)));
+	uint instruction;
+	
+	//Read next instruction
+	instruction = DMA->GetWord (*(REG->PC()->Value));
+	
+	// Move the PC.
+	*(REG->PC()->Value) += 4;
+
+	// Process it.
+	this->DoSingleInstruction( instruction );
 }
 
 void ARM60CPU::DoSingleInstruction (uint instruction)
@@ -148,8 +157,8 @@ if( ( offset & 0x02000000 ) > 0 )
 	offset |= 0xFC000000;
 	}
 
-// Add 8 bytes for prefetch.
-offset += 8;
+// Add 4 bytes for prefetch.
+offset += 4;
 
 #ifdef __WXDEBUG__
 // Give detailed info about this instruction.
@@ -212,7 +221,7 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 	// TODO: Is this prefetch affected by use of 
 	//       a register with the shift of operand 2?
 	if (op1Type == RegisterType::ARM60_PC)
-		op1 += 8;
+		op1 += 4;
 	
 	////////////////////////////
 	// Get second operand value.
@@ -672,7 +681,7 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 		
 		// Account for prefetch!
 		if (baseRegNum == RegisterType::ARM60_PC)
-			address += 8;
+			address += 4;
 		
 		// Do LDR operation.
 		*(REG->Reg((RegisterType) ((instruction & 0x0000F000) >> 12))) = 
@@ -1076,7 +1085,7 @@ void ARM60CPU::DoSTR (uint address, RegisterType sourceReg, bool isByte)
 	
 	// Account for prefetch.
 	if (sourceReg == RegisterType::ARM60_PC)
-		value += 12;
+		value += 8;
 	
 	if (isByte)
 	{
@@ -1267,9 +1276,9 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
 	{
 		// We used PC, we need to add a prefetch value.
 		if (isRegShift)
-			op += 12;
-		else
 			op += 8;
+		else
+			op += 4;
 	}
 	
 	// Check shift type to get the shift value.

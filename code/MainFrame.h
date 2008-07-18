@@ -22,12 +22,13 @@ public:
     MainFrame(wxCmdLineParser* parser);
     ~MainFrame();
 
-   void OnMenuFileOpenISO (wxCommandEvent& event);
-   void OnMenuFileExit (wxCommandEvent& event);
-   void OnMenuToolsBrowseISO (wxCommandEvent& event);
-   void OnMenuToolsViewCode (wxCommandEvent &event);
-   void OnMenuToolsTestVram (wxCommandEvent &event);
-   void OnMenuHelpAbout (wxCommandEvent& event);
+   void OnMenuFileOpenISO    (wxCommandEvent &event);
+   void OnMenuFileOpenBinary (wxCommandEvent &event);
+   void OnMenuFileExit       (wxCommandEvent &event);
+   void OnMenuToolsBrowseISO (wxCommandEvent &event);
+   void OnMenuToolsViewCode  (wxCommandEvent &event);
+   void OnMenuToolsTestVram  (wxCommandEvent &event);
+   void OnMenuHelpAbout      (wxCommandEvent &event);
 
 private:
    void InitializeMenu ();

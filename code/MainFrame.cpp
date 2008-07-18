@@ -1,6 +1,5 @@
 #include "MainFrame.h"
 #include "CodeViewer.h"
-#include "ImageTest.h"
 #include "ImageViewer.h"
 
 /////////////////////////////////////////////////////////////////////////
@@ -9,6 +8,7 @@
 enum Menu
 {
    ID_MENU_FILE_OPENISO = 1,
+   ID_MENU_FILE_OPENBINARY,
    ID_MENU_FILE_EXIT,
    ID_MENU_TOOLS_BROWSEISO,
    ID_MENU_TOOLS_VIEWCODE,
@@ -18,10 +18,10 @@ enum Menu
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
    EVT_MENU(ID_MENU_FILE_OPENISO, MainFrame::OnMenuFileOpenISO)
+   EVT_MENU(ID_MENU_FILE_OPENBINARY, MainFrame::OnMenuFileOpenBinary)
    EVT_MENU(ID_MENU_FILE_EXIT, MainFrame::OnMenuFileExit)
    EVT_MENU(ID_MENU_TOOLS_BROWSEISO, MainFrame::OnMenuToolsBrowseISO)
    EVT_MENU(ID_MENU_TOOLS_VIEWCODE, MainFrame::OnMenuToolsViewCode)
-   EVT_MENU(ID_MENU_TOOLS_TESTVRAM, MainFrame::OnMenuToolsTestVram)
    EVT_MENU(ID_MENU_HELP_ABOUT, MainFrame::OnMenuHelpAbout)
 END_EVENT_TABLE()
 
@@ -109,7 +109,6 @@ void MainFrame::DoTest ()
 	bool      success;
 	uint      fileSize;
 	uint	  PCBefore;
-	uint	  PCAfter;
 	
 	con = new Console ();
 	
@@ -176,14 +175,8 @@ void MainFrame::DoTest ()
 		bits = UintToBitString (token);
 		
 		// Process it.
-		PCBefore = *(con->CPU ()->REG->PC ()->Value);
 		con->CPU ()->DoSingleInstruction ();
-		PCAfter = *(con->CPU ()->REG->PC ()->Value);
 
-		// Increment PC if no change was made.
-		if (PCBefore == PCAfter)
-			*(con->CPU ()->REG->PC ()->Value) += 4;
-		
 		// Update CPU Status
 		grdCPUStatus->DeleteRows (0, grdCPUStatus->GetRows ());
 		grdCPUStatus->InsertRows (0, 37);
@@ -286,7 +279,8 @@ void MainFrame::InitializeMenu ()
 	//////////////////////
 	// File menu
 	mnuMain->Append (mnuFile, _T("&File"));
-	mnuFile->Append (ID_MENU_FILE_OPENISO, _T("&Open ISO...\tCtrl+O"));
+	mnuFile->Append (ID_MENU_FILE_OPENISO,    _T("&Open ISO...\tCtrl+O"));
+	mnuFile->Append (ID_MENU_FILE_OPENBINARY, _T("&Open ARM Binary..."));
 	mnuFile->AppendSeparator ();
 	mnuFile->Append (ID_MENU_FILE_EXIT, _T("&Exit\tCtrl+X"));
 
@@ -307,6 +301,16 @@ void MainFrame::InitializeMenu ()
 // Event handlers
 /////////////////////////////////////////////////////////////////////////
 void MainFrame::OnMenuFileOpenISO (wxCommandEvent& WXUNUSED(event))
+{
+	wxString fileName = wxFileSelector (_T("Open 3DO ISO File"), NULL, NULL, NULL, _T("ISO Files (*.iso)|*.iso|All files (*.*)|*.*"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+	if (!fileName.empty())
+	{
+		wxMessageBox (wxString ("Nothing here yet. Try the browser."));
+	}
+}
+
+void MainFrame::OnMenuFileOpenBinary (wxCommandEvent& WXUNUSED(event))
 {
 	wxString fileName = wxFileSelector (_T("Open 3DO ISO File"), NULL, NULL, NULL, _T("ISO Files (*.iso)|*.iso|All files (*.*)|*.*"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
@@ -340,12 +344,6 @@ void MainFrame::OnMenuToolsViewCode (wxCommandEvent &WXUNUSED(event))
 		CodeViewer *codeViewer = new CodeViewer(this, fileName);
 	  codeViewer->Show();
 	}
-}
-
-void MainFrame::OnMenuToolsTestVram (wxCommandEvent &WXUNUSED(event))
-{
-	ImageTest *imageTest = new ImageTest(this);
-	imageTest->Show();
 }
 
 void MainFrame::BrowseIso ()
