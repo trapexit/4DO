@@ -16,7 +16,7 @@ ARM60CPU::~ARM60CPU ()
 
 void ARM60CPU::DoSingleInstruction ()
 {
-	this->DoSingleInstruction (DMA->GetValue (*(REG->PC()->Value)));
+	this->DoSingleInstruction (DMA->GetWord (*(REG->PC()->Value)));
 }
 
 void ARM60CPU::DoSingleInstruction (uint instruction)
@@ -799,7 +799,7 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 			// Perform operation here.
 			if (isLoad)
 			{
-				*(destReg) = DMA->GetValue (address);
+				*(destReg) = DMA->GetWord (address);
 				if (isPSR && isR15used && isLoad)
 				{
 					// SPSR_mode is transferred to CPSR at the same as R15 is loaded.
@@ -808,7 +808,7 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 			}
 			else
 			{
-				DMA->SetValue (address, *(destReg));
+				DMA->SetWord (address, *(destReg));
 			}
 
 			////////////////////
@@ -994,7 +994,7 @@ uint ARM60CPU::DoLDR (uint address, bool isByte)
 
 	wxLogMessage (wxString::Format ("Read from address %i OR %u", address, address));
 
-	value = DMA->GetValue (address);
+	value = DMA->GetWord (address);
 	
 	if (isByte)
 	{
@@ -1090,16 +1090,15 @@ void ARM60CPU::DoSTR (uint address, RegisterType sourceReg, bool isByte)
 		// TODO: Track down the documentation that misled me here.
 		// TODO: Is this supposed be be affected by big endian vs little?
 		
-		DMA->SetValue (address, value);
+		DMA->SetByte (address, (uchar) value);
 	}
 	else
 	{
 		// Storing a word. Easy.
+		DMA->SetWord (address, value);
 	}
 	
 	wxLogMessage (wxString::Format ("Storing the value [%u] into memory loc [%u]", value, address));
-	
-	DMA->SetValue (address, value);
 }
 
 bool ARM60CPU::CheckCondition (uint instruction)

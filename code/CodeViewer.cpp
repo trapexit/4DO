@@ -122,7 +122,7 @@ void CodeViewer::viewCode(uint8_t *instructions, const uint32_t length)
 		bits = UintToBitString (token);
 
 		// Write it memory temporarily...
-		con->DMA ()->SetValue (row * 4, token);
+		con->DMA ()->SetWord (row * 4, token);
 		// Set PC there.
 		*(con->CPU ()->REG->PC ()->Value) = row * 4;
 		// Process it.

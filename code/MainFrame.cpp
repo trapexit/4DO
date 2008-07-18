@@ -1,6 +1,7 @@
 #include "MainFrame.h"
 #include "CodeViewer.h"
 #include "ImageTest.h"
+#include "ImageViewer.h"
 
 /////////////////////////////////////////////////////////////////////////
 // Menu items.
@@ -101,12 +102,14 @@ MainFrame::~MainFrame()
 void MainFrame::DoTest ()
 {
 	#define ROM_LOAD_ADDRESS 0x03000000
-	#define INSTRUCTIONS     30
+	#define INSTRUCTIONS     300
 
 	wxString  bits;
 	Console*  con;
 	bool      success;
 	uint      fileSize;
+	uint	  PCBefore;
+	uint	  PCAfter;
 	
 	con = new Console ();
 	
@@ -165,15 +168,13 @@ void MainFrame::DoTest ()
 	{
 		// Read an instruction.
 		uint token;
-		uint PCBefore;
-		uint PCAfter;
 		
 		PCBefore = *(con->CPU ()->REG->PC ()->Value);
-		token = con->DMA ()->GetValue (PCBefore);
+		token = con->DMA ()->GetWord (PCBefore);
 
 		// Convert this thing to bits.
 		bits = UintToBitString (token);
-
+		
 		// Process it.
 		PCBefore = *(con->CPU ()->REG->PC ()->Value);
 		con->CPU ()->DoSingleInstruction ();
@@ -182,7 +183,7 @@ void MainFrame::DoTest ()
 		// Increment PC if no change was made.
 		if (PCBefore == PCAfter)
 			*(con->CPU ()->REG->PC ()->Value) += 4;
-
+		
 		// Update CPU Status
 		grdCPUStatus->DeleteRows (0, grdCPUStatus->GetRows ());
 		grdCPUStatus->InsertRows (0, 37);
@@ -243,6 +244,10 @@ void MainFrame::DoTest ()
 	grdDebug->AutoSizeColumns ();
 	grdCPUStatus->AutoSizeColumns ();
 	//grdDebug->AutoSizeRowLabelSize (0);
+	
+	ImageViewer* imageViewer;
+	imageViewer = new ImageViewer(this, con->DMA()->GetRAMPointer (0x002c0000));
+	imageViewer->Show();		
 	
 	delete con;
 }

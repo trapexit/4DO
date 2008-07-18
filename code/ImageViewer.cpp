@@ -10,6 +10,27 @@ END_EVENT_TABLE()
 /////////////////////////////////////////////////////////////////////////
 // Frame startup
 /////////////////////////////////////////////////////////////////////////
+ImageViewer::ImageViewer(wxFrame* parent, uint8_t* ramPointer)
+      : wxFrame (parent, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize)
+{
+	const uint32_t headerLength = 36;
+	uint32_t       bytesRead;
+	uint8_t        header[headerLength];
+	bool           ret;
+
+	bmpLength = 0x00025834;
+	bmp = ramPointer;
+
+	width  = 640;
+	height = 120;
+
+	// I'm doing this for the resize handle.
+	this->SetStatusBar (new wxStatusBar (this));
+   
+	this->SetSize ((320 * 2) + 10, (240 * 2) + 45);
+	this->CenterOnScreen ();
+}
+
 ImageViewer::ImageViewer(wxFrame* parent, wxString isoPath, wxString filePath)
       : wxFrame (parent, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize)
 {

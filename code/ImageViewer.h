@@ -9,6 +9,7 @@
 class ImageViewer : public wxFrame
 {
 public:
+   ImageViewer(wxFrame* parent,                   uint8_t*   ramPointer);
    ImageViewer(wxFrame* parent, wxString isoPath, wxString filePath);
    ~ImageViewer();
    

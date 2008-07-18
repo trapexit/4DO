@@ -13,17 +13,20 @@
 class DMAController
 {
 public:
-   DMAController ();
-   ~DMAController ();
+	DMAController ();
+	~DMAController();
 
-   uint GetValue (uint address);
-   void SetValue (uint address, uint value);
-   uchar* GetRAMPointer (uint address);
+	uchar GetByte( uint address );
+	void  SetByte( uint address, uchar value );
+
+	uint  GetWord( uint address );
+	void  SetWord( uint address, uint  value );
+	uchar* GetRAMPointer( uint address );
 
 private:
-   uchar* m_DRAM;
-   uchar* m_VRAM;
-   uchar* m_BIOS;
+	uchar* m_DRAM;
+	uchar* m_VRAM;
+	uchar* m_BIOS;
 };
 
 #endif //_INC_DMA

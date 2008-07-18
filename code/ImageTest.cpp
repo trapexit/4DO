@@ -18,15 +18,18 @@ ImageTest::ImageTest(wxFrame* parent)
 	this->SetTitle (wxString().Format("BMP test"));
 
 	DMA = new DMAController();
-	int address = 0x002bffff;
-	int color = 1;
+	int address = 0x002C0000;
+	int color = 0;
 
 	while (address < 0x002e57ff)
 	{
-		DMA->SetValue(address, color);
-
-		color = (color % 255) + 1;
+		color += 5;
+		DMA->SetByte(address, (uchar) color);
 		address++;
+		if (color == 255)
+		{
+			color = 0;
+		}
 	}
 
 	// I'm doing this for the resize handle.
@@ -50,8 +53,8 @@ void ImageTest::onPaint(wxPaintEvent &WXUNUSED(event))
 	{
 		for (int x = 0; x < width; x++)
 		{
-			int byte1 = DMA->GetValue(address++);
-			int byte2 = DMA->GetValue(address++);
+			int byte1 = DMA->GetWord(address++);
+			int byte2 = DMA->GetWord(address++);
 			
 			// 0RRRRRGGGGGBBBBB
 			int r = (byte1 >> 2) & 0x1F;
