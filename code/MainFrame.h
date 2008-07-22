@@ -7,6 +7,8 @@
 #include "wx/cmdline.h"
 #include "wx/stopwatch.h"
 
+#include "MainCanvas.h"
+
 #include "ARM60CPU.h"
 #include "types.h"
 #include "Console.h"
@@ -18,37 +20,35 @@
 class MainFrame : public wxFrame
 {
 public:
-    MainFrame(wxCmdLineParser* parser);
-    ~MainFrame();
+	 MainFrame(wxCmdLineParser* parser);
+	 ~MainFrame();
 
-   void OnMenuFileOpenISO    (wxCommandEvent &event);
-   void OnMenuFileOpenBinary (wxCommandEvent &event);
-   void OnMenuFileExit       (wxCommandEvent &event);
-   void OnMenuToolsBrowseISO (wxCommandEvent &event);
-   void OnMenuToolsViewCode  (wxCommandEvent &event);
-   void OnMenuToolsTestVram  (wxCommandEvent &event);
-   void OnMenuHelpAbout      (wxCommandEvent &event);
+	void OnMenuFileOpenISO    (wxCommandEvent &event);
+	void OnMenuFileOpenBinary (wxCommandEvent &event);
+	void OnMenuFileExit       (wxCommandEvent &event);
+	void OnMenuToolsBrowseISO (wxCommandEvent &event);
+	void OnMenuToolsViewCode  (wxCommandEvent &event);
+	void OnMenuToolsTestVram  (wxCommandEvent &event);
+	void OnMenuHelpAbout      (wxCommandEvent &event);
 
 private:
-   void InitializeMenu ();
-   void DoTest ();
-   bool ParseCommandLineArgs ();
-   
-   void UpdateGridRow (Console* con, int row, wxString caption, InternalRegisterType reg);
+	void InitializeMenu ();
+	void DoTest ();
+	bool ParseCommandLineArgs ();
+	
+	void BrowseIso ();
+	void BrowseIso (wxString fileName);
 
-   void BrowseIso ();
-   void BrowseIso (wxString fileName);
-
-   wxGrid*   grdDebug;
-   wxGrid*   grdCPUStatus;
-   wxButton* btnNext;
-   
-   bool     m_isDebug;
-   bool     m_loadFile;
-   wxString m_imageFileName;
-   wxString m_codeFileName;
-   
-   DECLARE_EVENT_TABLE ()
+	MainCanvas* ctlCanvas;
+	
+	Console* m_con;
+	
+	bool     m_isDebug;
+	bool     m_loadFile;
+	wxString m_imageFileName;
+	wxString m_codeFileName;
+	
+	DECLARE_EVENT_TABLE ()
 };
 
 #endif //_INC_MAINFRAME

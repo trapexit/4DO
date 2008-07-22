@@ -108,7 +108,7 @@ void ImageViewer::onPaint(wxPaintEvent &WXUNUSED(event))
 	}
 
 	wxBitmap bitmap(image.Scale(320 * 2, 240 * 2));
-
+	
 	wxPaintDC dc( this );
 	dc.DrawBitmap( bitmap, 0, 0, true /* use mask */ );
 }

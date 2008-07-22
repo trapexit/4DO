@@ -31,6 +31,8 @@ DMAController::~DMAController()
 {
 	// Destructor
 	delete m_DRAM;
+	delete m_VRAM;
+	delete m_BIOS;
 }
 
 uchar DMAController::GetByte(uint address)
