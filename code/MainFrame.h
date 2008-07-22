@@ -1,12 +1,11 @@
 #ifndef _INC_MAINFRAME
 #define _INC_MAINFRAME
 
-#include <iostream>
-
 #include "wx/wx.h"
 #include "wx/wfstream.h"
 #include "wx/grid.h"
 #include "wx/cmdline.h"
+#include "wx/stopwatch.h"
 
 #include "ARM60CPU.h"
 #include "types.h"

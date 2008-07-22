@@ -3,16 +3,49 @@
 ARM60CPU::ARM60CPU ()
 {
 	REG = new ARM60Registers ();
-	m_vect = new ARM60Vectors ();
-	m_pipe = new ARM60Pipeline (3);
 }
 
 ARM60CPU::~ARM60CPU ()
 {
 	delete REG;
-	delete m_vect;
-	delete m_pipe;
 }
+
+//The following is a condition table used to quickly check the condition
+//field of the instruction against the CPSR.
+//
+//Credit given to Altmer for the idea.
+//
+//Most of these checks are simple, but some have multiple possible CPSR
+//values that result success. To handle this, the table values below
+//are shifted to the right by the current value in the CPSR, and the
+//result is AND compared to the number "1". This allows multiple comparisons
+//to be done in one operation.
+//
+// NOTE: The documentation specifies that the absence of a condition
+//       code acts as though "always" had been specified, although
+//       I don't see how this is possible.
+const static uint condition_table[]=
+	{
+    0xf0f0, // EQ - Z set (equal)
+    0x0f0f, // NE - Z clear (not equal)
+    0xcccc, // CS - C set (unsigned higher or same)
+    0x3333, // CC - C clear (unsigned lower)
+    0xff00, // MI - N set (negative)
+    0x00ff, // PL - N clear (positive or zero)
+    0xaaaa, // VS - V set (overflow)
+    0x5555, // VC - V clear (no overflow)
+    0x0c0c, // HI - C set and Z clear (unsigned higher)
+    0xf3f3, // LS - C clear or Z set (unsigned lower or same)
+    0xaa55, // GE - N set and V set, or N clear and V clear (greater or equal)
+    0x55aa, // LT - N set and V clear, or N clear and V set (less than)
+    0x0a05, // GT - Z clear, and either N set and V set, or N clear and V clear (greater than)
+    0xf5fa, // LE - Z set, or N set and V clear, or N clear and V set (less than or equal)
+    0xffff, // AL - always
+    0x0000  // NV - never
+			// NOTE: The documentation specifies that the NV condition should
+			//       not be used because it will be redefined in later ARM
+			//       versions.
+	};
 
 void ARM60CPU::DoSingleInstruction ()
 {
@@ -25,16 +58,30 @@ void ARM60CPU::DoSingleInstruction ()
 	*(REG->PC()->Value) += 4;
 
 	// Process it.
-	this->DoSingleInstruction( instruction );
-}
-
-void ARM60CPU::DoSingleInstruction (uint instruction)
-{
-	this->ProcessInstruction (instruction);
+	this->ProcessInstruction( instruction );
 }
 
 void ARM60CPU::ProcessInstruction (uint instruction)
 {
+	// Check condition here.
+	if
+		(!
+			(
+				(
+				condition_table[(((uint)instruction)>>28)]
+				>> (*(REG->CPSR ()->Value)>>28)
+				)
+				& 1
+			)
+		)
+	{
+		#ifdef __FOURDODEBUG__
+		wxLogMessage( "Condition check failed" );
+		LastResult = _T( "Skip (Cond)" );
+		#endif
+		return;	
+	}
+	
 	/////////////////////
 	// Some of these (especially those starting with 00
 	// are rather cryptic, but I am sure they're a
@@ -123,14 +170,10 @@ void ARM60CPU::ProcessInstruction (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBranch (uint instruction)
 {
-#ifdef __WXDEBUG__
+#ifdef __FOURDODEBUG__
 wxLogMessage( "Processed Branch" );
 LastResult = _T( "Branch (Unused)" );
 #endif
-
-// Check condition Field.
-if( !CheckCondition( instruction ) )
-	return;
 
 //////////////////////
 //  3         2         1         0
@@ -160,7 +203,7 @@ if( ( offset & 0x02000000 ) > 0 )
 // Add 4 bytes for prefetch.
 offset += 4;
 
-#ifdef __WXDEBUG__
+#ifdef __FOURDODEBUG__
 // Give detailed info about this instruction.
 LastResult = _T( "Branch" );
 if( isLink )
@@ -179,14 +222,10 @@ LastResult.Append(
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessDataProcessing (uint instruction)
 {
-	#ifdef __WXDEBUG__
+	#ifdef __FOURDODEBUG__
 	wxLogMessage ("Processed Data Processing");
 	LastResult = "Data Proc";
 	#endif
-	
-	// Check condition Field.
-	if (! CheckCondition (instruction))
-		return;
 
 	//////////////////////
 	//  3         2         1         0
@@ -423,13 +462,9 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessPSRTransfer (uint instruction)
 {
-	#ifdef __WXDEBUG__
+	#ifdef __FOURDODEBUG__
 	LastResult = "PSR Trans";
 	#endif
-
-	// Check condition Field.
-	if (! CheckCondition (instruction))
-		return;
 
 	//////////////////////////
 	uint sourceVal;
@@ -513,14 +548,10 @@ void ARM60CPU::ProcessPSRTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessMultiply (uint instruction)
 {
-	#ifdef __WXDEBUG__
+	#ifdef __FOURDODEBUG__
 	LastResult = "Multiply";
 	#endif
  
-	// Check condition Field.
-	if (! CheckCondition (instruction))
-		return;
-
 	//////////////////////
 	//  3         2         1         0
 	// 10987654321098765432109876543210
@@ -586,13 +617,9 @@ void ARM60CPU::ProcessMultiply (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 {
-	#ifdef __WXDEBUG__
+	#ifdef __FOURDODEBUG__
 	LastResult = "Single DT";
 	#endif
-
-	// Check condition Field.
-	if (! CheckCondition (instruction))
-		return;
 
 	//////////////////////
 	//  3         2         1         0
@@ -698,13 +725,9 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 {
-	#ifdef __WXDEBUG__
+	#ifdef __FOURDODEBUG__
 	LastResult = "Block DT";
 	#endif
-
-	// Check condition Field.
-	if (! CheckCondition (instruction))
-		return;
 
 	//////////////////////
 	//  3         2         1         0
@@ -838,14 +861,10 @@ void ARM60CPU::ProcessBlockDataTransfer (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 {
-	#ifdef __WXDEBUG__
+	#ifdef __FOURDODEBUG__
 	LastResult = "Data Swap";
 	#endif
 	
-	// Check condition Field.
-	if (! CheckCondition (instruction))
-		return;
-
 	///////////////////////////
 	//  3         2         1         0
 	// 10987654321098765432109876543210
@@ -889,14 +908,10 @@ void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)
 {
-	#ifdef __WXDEBUG__
+	#ifdef __FOURDODEBUG__
 	LastResult = "Software Int";
 	#endif
 	
-	// Check condition Field.
-	if (! CheckCondition (instruction))
-		return;
-
 	///////////////////////////
 	//  3         2         1         0
 	// 10987654321098765432109876543210
@@ -914,14 +929,10 @@ void ARM60CPU::ProcessSoftwareInterrupt (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorDataOperations (uint instruction)
 {
-	#ifdef __WXDEBUG__
+	#ifdef __FOURDODEBUG__
 	LastResult = "Coproc DO";
 	#endif
 	
-	// Check condition Field.
-	if (! CheckCondition (instruction))
-		return;
-
 	///////////////////////////
 	//  3         2         1         0
 	// 10987654321098765432109876543210
@@ -935,13 +946,9 @@ void ARM60CPU::ProcessCoprocessorDataOperations (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorDataTransfers (uint instruction)
 {
-	#ifdef __WXDEBUG__
+	#ifdef __FOURDODEBUG__
 	LastResult = "Coproc DT";
 	#endif
-
-	// Check condition Field.
-	if (! CheckCondition (instruction))
-		return;
 
 	///////////////////////////
 	//  3         2         1         0
@@ -956,13 +963,9 @@ void ARM60CPU::ProcessCoprocessorDataTransfers (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessCoprocessorRegisterTransfers (uint instruction)
 {
-	#ifdef __WXDEBUG__
+	#ifdef __FOURDODEBUG__
 	LastResult = "Coproc Reg";
 	#endif
-
-	// Check condition Field.
-	if (! CheckCondition (instruction))
-		return;
 
 	///////////////////////////
 	//  3         2         1         0
@@ -977,13 +980,9 @@ void ARM60CPU::ProcessCoprocessorRegisterTransfers (uint instruction)
 ////////////////////////////////////////////////////////////
 void ARM60CPU::ProcessUndefined (uint instruction)
 {
-	#ifdef __WXDEBUG__
+	#ifdef __FOURDODEBUG__
 	LastResult = "Undefined";
 	#endif
-
-	// Check condition Field.
-	if (! CheckCondition (instruction))
-		return;
 
 	///////////////////////////
 	//  3         2         1         0
@@ -1108,141 +1107,6 @@ void ARM60CPU::DoSTR (uint address, RegisterType sourceReg, bool isByte)
 	}
 	
 	wxLogMessage (wxString::Format ("Storing the value [%u] into memory loc [%u]", value, address));
-}
-
-bool ARM60CPU::CheckCondition (uint instruction)
-{
-	ARM60PSRegister* CPSR = REG->CPSR ();
-	uint cond;
-
-	cond = instruction & 0xF0000000;
-
-	switch (cond)
-	{
-	case 0x00000000:
-		// EQ - Z set (equal)
-		#ifdef __WXDEBUG__
-		LastCond = "EQ";
-		#endif
-		return CPSR->GetZero ();
-	
-	case 0x10000000:
-		// NE - Z clear (not equal)
-		#ifdef __WXDEBUG__
-		LastCond = "NE";
-		#endif
-		return !CPSR->GetZero ();
-	
-	case 0x20000000:
-		// CS - C set (unsigned higher or same)
-		#ifdef __WXDEBUG__
-		LastCond = "CS";
-		#endif
-		return CPSR->GetCarry ();
-	
-	case 0x30000000:
-		// CC - C clear (unsigned lower)
-		return !CPSR->GetCarry ();
-	
-	case 0x40000000:
-		// MI - N set (negative)
-		#ifdef __WXDEBUG__
-		LastCond = "MI";
-		#endif
-		return CPSR->GetNegative ();
-	
-	case 0x50000000:
-		// PL - N clear (positive or zero)
-		#ifdef __WXDEBUG__
-		LastCond = "PL";
-		#endif
-		return !CPSR->GetNegative ();
-	
-	case 0x60000000:
-		// VS - V set (overflow)
-		#ifdef __WXDEBUG__
-		LastCond = "VS";
-		#endif
-		return CPSR->GetOverflow ();
-	
-	case 0x70000000:
-		// VC - V clear (no overflow)
-		#ifdef __WXDEBUG__
-		LastCond = "VC";
-		#endif
-		return !CPSR->GetOverflow ();
-	
-	case 0x80000000:
-		// HI - C set and Z clear (unsigned higher)
-		#ifdef __WXDEBUG__
-		LastCond = "HI";
-		#endif
-		return CPSR->GetCarry () && (!CPSR->GetZero ());
-	
-	case 0x90000000:
-		// LS - C clear or Z set (unsigned lower or same)
-		#ifdef __WXDEBUG__
-		LastCond = "LS";
-		#endif
-		return (!CPSR->GetCarry ()) || CPSR->GetZero ();
-	
-	case 0xA0000000:
-		// GE - N set and V set, or N clear and V clear (greater or equal)
-		#ifdef __WXDEBUG__
-		LastCond = "GE";
-		#endif
-		return (CPSR->GetNegative ()&& CPSR->GetOverflow ())
-				|| ((!CPSR->GetNegative ()) && (!CPSR->GetOverflow ()));
-	
-	case 0xB0000000:
-		// LT - N set and V clear, or N clear and V set (less than)
-		#ifdef __WXDEBUG__
-		LastCond = "LT";
-		#endif
-		return (CPSR->GetNegative  () && (!CPSR->GetOverflow ()))
-				|| ((!CPSR->GetNegative ()) && CPSR->GetOverflow ());
-	
-	case 0xC0000000:
-		// GT - Z clear, and either N set and V set, or N clear and V clear (greater than)
-		#ifdef __WXDEBUG__
-		LastCond = "GT";
-		#endif
-		return (!CPSR->GetZero ())
-				&& ((CPSR->GetNegative  () && CPSR->GetOverflow ())
-					|| ((!CPSR->GetNegative ()) && (!CPSR->GetOverflow ())));
-	
-	case 0xD0000000:
-		// LE - Z set, or N set and V clear, or N clear and V set (less than or equal)
-		#ifdef __WXDEBUG__
-		LastCond = "LE";
-		#endif
-		return CPSR->GetZero ()
-				|| (CPSR->GetNegative  () && (!CPSR->GetOverflow ()))
-				|| ((!CPSR->GetNegative ()) && CPSR->GetOverflow ());
-
-	case 0xE0000000:
-		// AL - always
-		#ifdef __WXDEBUG__
-		LastCond = "AL";
-		#endif
-		return true;
-
-	case 0xF0000000:
-		// NV - never
-		#ifdef __WXDEBUG__
-		LastCond = "NV";
-		#endif
-		
-		// NOTE: The documentation specifies that the NV condition should
-		//       not be used because it will be redefined in later ARM
-		//       versions.
-		return false;
-	}
-
-	// NOTE: The documentation specifies that the absence of a condition
-	//       code acts as though "always" had been specified, although
-	//       I don't see how this is possible.
-	return true;
 }
 
 uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)

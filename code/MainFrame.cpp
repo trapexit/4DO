@@ -59,7 +59,6 @@ MainFrame::MainFrame(wxCmdLineParser* parser)
 	wxBoxSizer * mainSizer = new wxBoxSizer (wxHORIZONTAL);
 	wxBoxSizer * leftSizer = new wxBoxSizer (wxVERTICAL);
 	wxBoxSizer * buttonSizer = new wxBoxSizer (wxHORIZONTAL);
-	wxWindow *   winButtons;
 	
 	// Process the next message button.
 	btnNext = new wxButton (this, wxID_ANY, _T("&Next"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, wxButtonNameStr);
@@ -102,13 +101,14 @@ MainFrame::~MainFrame()
 void MainFrame::DoTest ()
 {
 	#define ROM_LOAD_ADDRESS 0x03000000
-	#define INSTRUCTIONS     300
+	#define INSTRUCTIONS     11000
 
-	wxString  bits;
-	Console*  con;
-	bool      success;
-	uint      fileSize;
-	uint	  PCBefore;
+	wxString 	bits;
+	Console* 	con;
+	bool     	success;
+	uint     	fileSize;
+	uint	 	PCBefore;
+	wxStopWatch sw;
 	
 	con = new Console ();
 	
@@ -163,6 +163,7 @@ void MainFrame::DoTest ()
 	
 	*(con->CPU ()->REG->PC ()->Value) = ROM_LOAD_ADDRESS;
 	
+	/*
 	for (uint row = 0; row < INSTRUCTIONS; row++)
 	{
 		// Read an instruction.
@@ -231,6 +232,30 @@ void MainFrame::DoTest ()
 		grdDebug->SetCellValue (row, 2, con->CPU ()->LastResult);
 		grdDebug->SetRowLabelValue (row, UintToHexString (PCBefore));
 	}
+	
+	*/
+	
+	// Start timer.
+	sw.Start ();
+	
+	// Run the program.
+	for (uint row = 0; row < INSTRUCTIONS; row++)
+	{
+		// Process it.
+		con->CPU ()->DoSingleInstruction ();
+	}
+	
+	// End timer.
+	sw.Pause ();
+	
+	// Display total time metric
+	grdDebug->InsertRows( grdDebug->GetRows () );
+	grdDebug->SetCellValue
+		( 
+		grdDebug->GetRows () - 1,  
+		0, 
+		wxString::Format("Time: %ldms", sw.Time() ) 
+		);
 	
 	/////////////////////
 	// Auto size columns.

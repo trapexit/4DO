@@ -29,12 +29,8 @@ public:
    wxString LastCond;
    
    void DoSingleInstruction ();
-   void DoSingleInstruction (uint instruction);
    
 private:
-   ARM60Vectors*   m_vect;
-   ARM60Pipeline*  m_pipe;
-   
    void ProcessInstruction (uint instruction);
    void ProcessBranch (uint instruction);
    void ProcessDataProcessing (uint instruction);
@@ -54,8 +50,6 @@ private:
 
    uint ReadShiftedRegisterOperand (uint instruction, bool* newCarry);
    uint DoAdd (uint op1, uint op2, bool oldCarry, bool* newCarry);
-
-   bool CheckCondition (uint instruction);
 };
 
 #endif // _INC_ARM60CPU
