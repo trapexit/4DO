@@ -10,8 +10,6 @@
 #include "BitMath.h"
 #include "ARM60Register.h"
 #include "ARM60Registers.h"
-#include "ARM60Vectors.h"
-#include "ARM60Pipeline.h"
 
 class ARM60CPU
 {
