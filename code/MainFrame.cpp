@@ -4,6 +4,8 @@
 
 #include "wx/settings.h"
 
+#define  INSTRUCTIONS 11000
+
 //Status bar
 enum StatusBar
 {
@@ -70,11 +72,8 @@ MainFrame::MainFrame(wxCmdLineParser* parser)
 	
 	wxBoxSizer* mainSizer = new wxBoxSizer (wxHORIZONTAL);
 	ctlCanvas = new MainCanvas (this, wxID_ANY, m_con->DMA()->GetRAMPointer (0x002c0000));
-	ctlCanvas->SetBackgroundColour (*wxBLACK);
+	ctlCanvas->SetBackgroundColour (*wxLIGHT_GREY);
 	mainSizer->Add (ctlCanvas, 1, wxEXPAND, 0, NULL);
-	//pnlCanvas = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, wxPanelNameStr );
-	//pnlCanvas->SetBackgroundColour (*wxRED);
-	//mainSizer->Add (pnlCanvas, 1, wxEXPAND, 0, NULL);
 	this->SetSizer(mainSizer);
 
 	this->CreateStatusBar ();
@@ -97,8 +96,7 @@ MainFrame::~MainFrame()
 void MainFrame::DoTest ()
 {
 	#define ROM_LOAD_ADDRESS 0x03000000
-	#define INSTRUCTIONS     1100
-
+	
 	wxString 	bits;
 	bool     	success;
 	uint     	fileSize;
