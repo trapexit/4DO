@@ -303,10 +303,12 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 		isLogicOp = false;
 		result = DoAdd (op1, (~op2)+1, false, &newCarry);
 
+		#ifdef __FOURDODEBUG__
 		wxLogMessage ("Processing SUB");
 		wxLogMessage (wxString::Format ("Op1 is %i OR %u", op1, op1));
 		wxLogMessage (wxString::Format ("Op2 is %i OR %u", (~op2)+1, (~op2)+1));
 		wxLogMessage (wxString::Format ("Result is %i OR %u", result, result));
+		#endif
 		break;
 	
 	case 0x3:
@@ -320,10 +322,12 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 		isLogicOp = false;
 		result = DoAdd (op1, op2, false, &newCarry);
 
+		#ifdef __FOURDODEBUG__
 		wxLogMessage ("Processing ADD");
 		wxLogMessage (wxString::Format ("Op1 is %i OR %u", op1, op1));
 		wxLogMessage (wxString::Format ("Op2 is %i OR %u", op2, op2));
 		wxLogMessage (wxString::Format ("Result is %i OR %u", result, result));
+		#endif
 		break;
 	
 	case 0x5:
@@ -641,7 +645,9 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 	baseRegNum = (RegisterType) ((instruction & 0x000F0000) >> 16);
 	baseReg = REG->Reg (baseRegNum);
 
+	#ifdef __FOURDODEBUG__
 	wxLogMessage (wxString::Format ("baseReg is %i", ((instruction & 0x000F0000) >> 16)));
+	#endif
 
 	// TODO: Special cases around use of R15 (prefetch).
 	// TODO: Abort logic.
@@ -667,7 +673,9 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 		offset = -offset;
 	}
 
+	#ifdef __FOURDODEBUG__
 	wxLogMessage (wxString::Format ("Offset is %i", offset));
+	#endif
 
 	if ((instruction & 0x01000000) > 0)
 	{
@@ -1000,7 +1008,9 @@ uint ARM60CPU::DoLDR (uint address, bool isByte)
 {
 	uint value;
 
+	#ifdef __FOURDODEBUG__
 	wxLogMessage (wxString::Format ("Read from address %i OR %u", address, address));
+	#endif
 
 	value = DMA->GetWord (address);
 	
@@ -1106,7 +1116,9 @@ void ARM60CPU::DoSTR (uint address, RegisterType sourceReg, bool isByte)
 		DMA->SetWord (address, value);
 	}
 	
+	#ifdef __FOURDODEBUG__
 	wxLogMessage (wxString::Format ("Storing the value [%u] into memory loc [%u]", value, address));
+	#endif
 }
 
 uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)

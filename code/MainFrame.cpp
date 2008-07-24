@@ -4,7 +4,7 @@
 
 #include "wx/settings.h"
 
-#define  INSTRUCTIONS 11000
+#define  INSTRUCTIONS 1100000
 
 //Status bar
 enum StatusBar
