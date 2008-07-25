@@ -9,16 +9,20 @@ class MainCanvas : public wxPanel
 {
 public:
 	MainCanvas( wxWindow* parent, wxWindowID id, uchar* ramPointer  );
+	~MainCanvas();
+
+	void UpdateImage();
 
 	void OnSize( wxSizeEvent& event );
 	void OnPaint( wxPaintEvent& event );
-
-   
+	
 private:
-	uchar*   bmp;
-	uint     bmpLength;
-	int      width;
-	int 	 height;
+	uchar*    bmp;
+	uint      bmpLength;
+	
+	int       m_width;
+	int 	  m_height;
+	wxImage*  m_image;
 };
 
 #endif

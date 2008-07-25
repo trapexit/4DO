@@ -4,7 +4,8 @@
 
 #include "wx/settings.h"
 
-#define  INSTRUCTIONS 1100000
+#define  INSTRUCTIONS   0x0040000
+#define  REFRESH_DELAY  100
 
 //Status bar
 enum StatusBar
@@ -28,6 +29,11 @@ enum Menu
    ID_MENU_HELP_ABOUT
 };
 
+enum Timer
+{
+	ID_TIMER_MAIN = 1,
+};
+
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
    EVT_MENU (ID_MENU_FILE_OPENISO,    MainFrame::OnMenuFileOpenISO)
    EVT_MENU (ID_MENU_FILE_OPENBINARY, MainFrame::OnMenuFileOpenBinary)
@@ -35,6 +41,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
    EVT_MENU (ID_MENU_TOOLS_BROWSEISO, MainFrame::OnMenuToolsBrowseISO)
    EVT_MENU (ID_MENU_TOOLS_VIEWCODE,  MainFrame::OnMenuToolsViewCode)
    EVT_MENU (ID_MENU_HELP_ABOUT,      MainFrame::OnMenuHelpAbout)
+   EVT_TIMER (ID_TIMER_MAIN,	      MainFrame::OnMainTimer)
 END_EVENT_TABLE()
 
 /////////////////////////////////////////////////////////////////////////
@@ -73,12 +80,18 @@ MainFrame::MainFrame(wxCmdLineParser* parser)
 	wxBoxSizer* mainSizer = new wxBoxSizer (wxHORIZONTAL);
 	ctlCanvas = new MainCanvas (this, wxID_ANY, m_con->DMA()->GetRAMPointer (0x002c0000));
 	ctlCanvas->SetBackgroundColour (*wxLIGHT_GREY);
+	//ctlCanvas->SetBackgroundColour (*wxBLACK);
 	mainSizer->Add (ctlCanvas, 1, wxEXPAND, 0, NULL);
 	this->SetSizer(mainSizer);
 
 	this->CreateStatusBar ();
 	this->GetStatusBar()->SetFieldsCount( SB_CNT );
 	this->SetStatusText( _T( "4DO: Open-Source HLE 3DO Emulator" ), SB_MENU );
+
+	///////////////
+	// Set up timer?
+	tmrMain = new wxTimer( this, ID_TIMER_MAIN );
+	tmrMain->Start(REFRESH_DELAY);
 
 	///////////////   
 	if (m_isDebug)
@@ -100,7 +113,6 @@ void MainFrame::DoTest ()
 	wxString 	bits;
 	bool     	success;
 	uint     	fileSize;
-	wxStopWatch sw;
 	
 	/////////////////
 	// Load the test
@@ -136,6 +148,13 @@ void MainFrame::DoTest ()
 	//////////////////////////
 	// Run program
 	*(m_con->CPU ()->REG->PC ()->Value) = ROM_LOAD_ADDRESS;
+	
+	this->DoMoreTest();
+}
+
+void MainFrame::DoMoreTest () 
+{
+	wxStopWatch sw;
 	
 	// Start timer.
 	sw.Start ();
@@ -231,6 +250,13 @@ void MainFrame::OnMenuToolsViewCode (wxCommandEvent &WXUNUSED(event))
 		CodeViewer *codeViewer = new CodeViewer(this, fileName);
 	  codeViewer->Show();
 	}
+}
+
+void MainFrame::OnMainTimer	(wxTimerEvent &event)
+{
+	this->DoMoreTest();
+	ctlCanvas->UpdateImage();
+	ctlCanvas->Refresh();
 }
 
 void MainFrame::BrowseIso ()

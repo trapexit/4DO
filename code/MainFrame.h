@@ -30,16 +30,19 @@ public:
 	void OnMenuToolsViewCode  (wxCommandEvent &event);
 	void OnMenuToolsTestVram  (wxCommandEvent &event);
 	void OnMenuHelpAbout      (wxCommandEvent &event);
+	void OnMainTimer	      (wxTimerEvent   &event);
 
 private:
 	void InitializeMenu ();
 	void DoTest ();
+	void DoMoreTest ();
 	bool ParseCommandLineArgs ();
 	
 	void BrowseIso ();
 	void BrowseIso (wxString fileName);
 
 	MainCanvas* ctlCanvas;
+	wxTimer*	tmrMain;
 	
 	Console* m_con;
 	

@@ -726,6 +726,12 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 	{
 		DoSTR (address, (RegisterType) ((instruction & 0x0000F000) >> 12), (instruction & 0x00400000) > 0);
 	}
+	
+	if ((instruction & 0x00200000) > 0)
+	{
+		// Write it back to the base register after the transfer has completed.
+		*(baseReg) += offset;
+	}
 }
 
 ////////////////////////////////////////////////////////////
@@ -1291,5 +1297,13 @@ uint ARM60CPU::DoAdd (uint op1, uint op2, bool oldCarry, bool* newCarry)
 	
 	*newCarry = (higherSum & 0xFFFF0000) > 1;
 	
-	return op1 + op2 + (oldCarry ? 1 : 0);
+	//TODO: Fix this hack
+	if (((int) op1) == ((int) (-op2)))
+	{
+		return 0;
+	}
+	else
+	{
+		return op1 + op2 + (oldCarry ? 1 : 0);
+	}
 }

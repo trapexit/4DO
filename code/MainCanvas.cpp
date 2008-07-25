@@ -7,21 +7,27 @@ MainCanvas::MainCanvas( wxWindow* parent, wxWindowID id, uchar* ramPointer )
 	bmp = ramPointer;
 	bmpLength = 0x00025834;
 
-	width  = 640;
-	height = 120;
+	m_width  = 640;
+	m_height = 120;
 	
+	m_image = new wxImage (m_width, m_height * 2);
 	Connect( wxEVT_PAINT, wxPaintEventHandler(MainCanvas::OnPaint ) );
-	Connect( wxEVT_SIZE, wxSizeEventHandler(MainCanvas::OnSize ) );
+	
+	this->UpdateImage();
 }
 
-void MainCanvas::OnPaint( wxPaintEvent& event )
+MainCanvas::~MainCanvas()
+{
+	delete m_image;
+}
+
+void MainCanvas::UpdateImage()
 {
 	int     i = 0;
-	wxImage image(width, height * 2);
 
-	for (int y = 0; y < height; y++)
+	for (int y = 0; y < m_height; y++)
 	{
-		for (int x = 0; x < width; x++)
+		for (int x = 0; x < m_width; x++)
 		{
 		   uchar r;
 		   uchar g;
@@ -34,26 +40,24 @@ void MainCanvas::OnPaint( wxPaintEvent& event )
    		
    		if (x % 2 == 0)
    		{
-   		   image.SetRGB(x, y * 2, r * 8, g * 8, b * 8);
-   		   image.SetRGB(x + 1, y * 2, r * 8, g * 8, b * 8);
+   		   m_image->SetRGB(x, y * 2, r * 8, g * 8, b * 8);
+   		   m_image->SetRGB(x + 1, y * 2, r * 8, g * 8, b * 8);
    		}
    		else
    		{
-   		   image.SetRGB(x - 1, y * 2 + 1, r * 8, g * 8, b * 8);
-   		   image.SetRGB(x, y * 2 + 1, r * 8, g * 8, b * 8);
+   		   m_image->SetRGB(x - 1, y * 2 + 1, r * 8, g * 8, b * 8);
+   		   m_image->SetRGB(x, y * 2 + 1, r * 8, g * 8, b * 8);
    		}
          
 			i += 2;
 		}
 	}
-
-	wxBitmap bitmap(image.Scale(320 * 2, 240 * 2));
-	
-	wxPaintDC dc( this );
-	dc.DrawBitmap( bitmap, 0, 0, true );
 }
 
-void MainCanvas::OnSize(wxSizeEvent& event)
+void MainCanvas::OnPaint( wxPaintEvent& event )
 {
-	this->Refresh();
+	wxPaintDC   dc( this );
+	wxBitmap    bitmap( m_image->Scale( 320 * 2, 240 * 2 ) );
+	
+	dc.DrawBitmap( bitmap, 0, 0, true );
 }
