@@ -13,16 +13,19 @@ public:
 
 	void UpdateImage();
 
-	void OnSize( wxSizeEvent& event );
 	void OnPaint( wxPaintEvent& event );
+	void OnSize( wxSizeEvent& event );
+	void OnErase( wxEraseEvent& event );
 	
 private:
+	void UpdateBitmap();
+	
 	uchar*    bmp;
 	uint      bmpLength;
 	
-	int       m_width;
-	int 	  m_height;
 	wxImage*  m_image;
+	
+	wxBitmap* m_bitmap;
 };
 
 #endif
