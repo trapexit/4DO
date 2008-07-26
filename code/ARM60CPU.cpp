@@ -3,6 +3,7 @@
 ARM60CPU::ARM60CPU ()
 {
 	REG = new ARM60Registers ();
+	m_cycleCount = 0;
 }
 
 ARM60CPU::~ARM60CPU ()
@@ -47,6 +48,32 @@ const static uint condition_table[]=
 			//       versions.
 	};
 
+///////////////////////////////////////////////////////////////////
+// ExecuteCycles.
+//////////////
+// This will execute the specified number of cycles.
+///////////////////////////////////////////////////////////////////
+void ARM60CPU::ExecuteCycles( uint cycles )
+{
+	uint instruction;
+	
+	// Reset our cycle count to nothing.
+	m_cycleCount = 0;
+	
+	// Cycle until we meet the specified quota.
+	while (m_cycleCount < cycles)
+	{
+		// Read the next instruction.
+		instruction = DMA->GetWord (*(REG->PC()->Value));
+
+		// Move the PC.
+		*(REG->PC()->Value) += 4;
+
+		// Process it.
+		this->ProcessInstruction( instruction );
+	}
+}
+
 void ARM60CPU::DoSingleInstruction ()
 {
 	uint instruction;
@@ -63,7 +90,8 @@ void ARM60CPU::DoSingleInstruction ()
 
 void ARM60CPU::ProcessInstruction (uint instruction)
 {
-	// Check condition here.
+	/////////////////////////////////////////
+	// Check condition of the instruction to see if we should skip it.
 	if
 		(!
 			(
@@ -79,6 +107,9 @@ void ARM60CPU::ProcessInstruction (uint instruction)
 		wxLogMessage( "Condition check failed" );
 		LastResult = _T( "Skip (Cond)" );
 		#endif
+		
+		// Skipping an operation still takes cycles...
+		m_cycleCount += ( SCYCLES * 2 ) + NCYCLES;
 		return;	
 	}
 	
@@ -174,7 +205,6 @@ void ARM60CPU::ProcessBranch (uint instruction)
 wxLogMessage( "Processed Branch" );
 LastResult = _T( "Branch (Unused)" );
 #endif
-
 //////////////////////
 //  3         2         1         0
 // 10987654321098765432109876543210
@@ -212,6 +242,9 @@ LastResult.Append(
 	wxString::Format( _T( " to %s" ), 
 	UintToHexString( ( *( REG->PC()->Value ) ) + offset ) ) );
 #endif
+
+// Calculate # of cycles used.
+m_cycleCount += ( SCYCLES * 2 ) + NCYCLES;
 
 // Move the PC
 ( *( REG->PC()->Value ) ) += offset;
@@ -302,13 +335,6 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 		// SUB
 		isLogicOp = false;
 		result = DoAdd (op1, (~op2)+1, false, &newCarry);
-
-		#ifdef __FOURDODEBUG__
-		wxLogMessage ("Processing SUB");
-		wxLogMessage (wxString::Format ("Op1 is %i OR %u", op1, op1));
-		wxLogMessage (wxString::Format ("Op2 is %i OR %u", (~op2)+1, (~op2)+1));
-		wxLogMessage (wxString::Format ("Result is %i OR %u", result, result));
-		#endif
 		break;
 	
 	case 0x3:
@@ -321,13 +347,6 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 		// ADD
 		isLogicOp = false;
 		result = DoAdd (op1, op2, false, &newCarry);
-
-		#ifdef __FOURDODEBUG__
-		wxLogMessage ("Processing ADD");
-		wxLogMessage (wxString::Format ("Op1 is %i OR %u", op1, op1));
-		wxLogMessage (wxString::Format ("Op2 is %i OR %u", op2, op2));
-		wxLogMessage (wxString::Format ("Result is %i OR %u", result, result));
-		#endif
 		break;
 	
 	case 0x5:
@@ -400,7 +419,21 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 	// Write result if necessary.
 	if (writeResult)
 	{
-		(*(REG->Reg ((RegisterType) regDest))) = result;
+		if (regDest == (int) ARM60_PC)
+		{
+			// Writing to the PC, eh?
+			
+			// This takes some extra cycles.
+			m_cycleCount += SCYCLES + NCYCLES;
+			
+			// Write it to the PC, but make sure it's a multiple of 4. (falls on word boundary)
+			(*(REG->Reg ((RegisterType) regDest))) = result & 0xfffffffc;
+		}
+		else
+		{
+			// Normal write.
+			(*(REG->Reg ((RegisterType) regDest))) = result;
+		}
 	}
 
 	///////////////////////
@@ -459,6 +492,9 @@ void ARM60CPU::ProcessDataProcessing (uint instruction)
 			REG->CPSR ()->SetNegative ((result & 0x80000000) > 0);
 		}
 	}
+	
+	// These operations typically take just a single S cycle to run
+	m_cycleCount += SCYCLES;
 }
 
 ////////////////////////////////////////////////////////////
@@ -614,6 +650,8 @@ void ARM60CPU::ProcessMultiply (uint instruction)
 		REG->CPSR ()->SetZero (result == 0);
 		REG->CPSR ()->SetNegative ((result & 0x80000000) > 0);
 	}
+	
+	// TODO: Calculate cycles.
 }
 
 ////////////////////////////////////////////////////////////
@@ -644,10 +682,6 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 	////////////////////////////////////////////////////////
 	baseRegNum = (RegisterType) ((instruction & 0x000F0000) >> 16);
 	baseReg = REG->Reg (baseRegNum);
-
-	#ifdef __FOURDODEBUG__
-	wxLogMessage (wxString::Format ("baseReg is %i", ((instruction & 0x000F0000) >> 16)));
-	#endif
 
 	// TODO: Special cases around use of R15 (prefetch).
 	// TODO: Abort logic.
@@ -709,22 +743,47 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 		//       use of this hardware"
 	}
 
-	////////////////////
+	/////////////////////////////
 	if ((instruction & 0x00100000) > 0)
 	{
-		// LDR
+		///////////////////////
+		// LDR Operation
+		
+		RegisterType regToLoad;
 		
 		// Account for prefetch!
-		if (baseRegNum == RegisterType::ARM60_PC)
+		if( baseRegNum == RegisterType::ARM60_PC )
 			address += 4;
 		
 		// Do LDR operation.
-		*(REG->Reg((RegisterType) ((instruction & 0x0000F000) >> 12))) = 
-			DoLDR (address, (instruction & 0x00400000) > 0);
+		regToLoad = (RegisterType) ( ( instruction & 0x0000F000 ) >> 12 );
+		if( regToLoad == RegisterType::ARM60_PC )
+		{
+			// Load into PC, but only as a multiple of 4.
+			*(REG->Reg( regToLoad )) = 
+				DoLDR (address, (instruction & 0x00400000) > 0)
+				& 0xfffffffc;
+			
+			// This is gonna cost a little extra...
+			m_cycleCount += SCYCLES + NCYCLES;
+		}
+		else
+		{
+			// Typical load operation
+			*(REG->Reg( regToLoad )) = DoLDR (address, (instruction & 0x00400000) > 0);
+		}
+		
+		// Add a typical load's cycle usage.
+		m_cycleCount += SCYCLES + NCYCLES + ICYCLES;
 	}
 	else
 	{
+		///////////////////////
+		// STR Operation
 		DoSTR (address, (RegisterType) ((instruction & 0x0000F000) >> 12), (instruction & 0x00400000) > 0);
+
+		// Add STR cycle usage.
+		m_cycleCount += ( NCYCLES * 2 );
 	}
 	
 	if ((instruction & 0x00200000) > 0)
@@ -915,6 +974,9 @@ void ARM60CPU::ProcessSingleDataSwap (uint instruction)
 	*(REG->Reg (destReg)) = value;
 
 	LOCK = false;
+	
+	// Calculate cycle usage.
+	m_cycleCount += SCYCLES + (2 * NCYCLES) + ICYCLES;
 }
 
 ////////////////////////////////////////////////////////////
@@ -1176,6 +1238,9 @@ uint ARM60CPU::ReadShiftedRegisterOperand (uint instruction, bool* newCarry)
 			// More documented special case processing. In this case, we force LSL 0!
 			shiftType = 0;
 		}
+		
+		// This takes an extra I cycle!
+		m_cycleCount += ICYCLES;
 	}
 	else
 	{

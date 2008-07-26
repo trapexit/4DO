@@ -23,33 +23,36 @@ public:
 	 MainFrame(wxCmdLineParser* parser);
 	 ~MainFrame();
 
-	void OnMenuFileOpenISO    (wxCommandEvent &event);
-	void OnMenuFileOpenBinary (wxCommandEvent &event);
-	void OnMenuFileExit       (wxCommandEvent &event);
-	void OnMenuToolsBrowseISO (wxCommandEvent &event);
-	void OnMenuToolsViewCode  (wxCommandEvent &event);
-	void OnMenuToolsTestVram  (wxCommandEvent &event);
-	void OnMenuHelpAbout      (wxCommandEvent &event);
-	void OnMainTimer	      (wxTimerEvent   &event);
+	void OnMenuFileOpenISO   ( wxCommandEvent &event );
+	void OnMenuFileOpenCode  ( wxCommandEvent &event );
+	void OnMenuFileExit      ( wxCommandEvent &event );
+	void OnMenuToolsBrowseISO( wxCommandEvent &event );
+	void OnMenuConsoleReset  ( wxCommandEvent &event );
+	void OnMenuHelpAbout     ( wxCommandEvent &event );
+	void OnMainTimer	     ( wxTimerEvent   &event );
 
 private:
 	void InitializeMenu ();
-	void DoTest ();
-	void DoMoreTest ();
-	bool ParseCommandLineArgs ();
+	void DoTest();
+	void RunCycles();
+	bool ParseCommandLineArgs();
 	
-	void BrowseIso ();
-	void BrowseIso (wxString fileName);
+	void BrowseIso();
+	void BrowseIso(wxString fileName);
 
-	MainCanvas* ctlCanvas;
-	wxTimer*	tmrMain;
+	void ConsoleReset();
+	void ConsoleLoadIso( wxString imageFileName );
+	void ConsoleLoadCode( wxString imageFileName );
 	
 	Console* m_con;
+	bool     m_consoleRunning;
+
+	MainCanvas*  ctlCanvas;
+	wxTimer*	 tmrMain;
 	
 	bool     m_isDebug;
-	bool     m_loadFile;
-	wxString m_imageFileName;
-	wxString m_codeFileName;
+	bool     m_loadIso;
+	wxString m_fileName;
 	
 	DECLARE_EVENT_TABLE ()
 };

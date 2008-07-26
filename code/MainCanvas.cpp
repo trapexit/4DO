@@ -4,9 +4,13 @@
 #define NATIVE_WDTH 320
 #define NATIVE_HGHT 240
 
+#define SCREEN_CURRENT m_bitmap[ m_currentScreen ];
+
 MainCanvas::MainCanvas( wxWindow* parent, wxWindowID id, uchar* ramPointer )
       : wxPanel( parent, id, wxDefaultPosition, wxSize(-1, 30), wxNO_BORDER )
 {
+	m_currentScreen = 0;
+	
 	bmp = ramPointer;
 	bmpLength = 0x00025834;
 
@@ -15,7 +19,8 @@ MainCanvas::MainCanvas( wxWindow* parent, wxWindowID id, uchar* ramPointer )
 	Connect( wxEVT_PAINT,            wxPaintEventHandler(MainCanvas::OnPaint ) );
 	Connect( wxEVT_SIZE,             wxSizeEventHandler (MainCanvas::OnSize  ) );
 	
-	m_bitmap = new wxBitmap( NATIVE_WDTH, NATIVE_HGHT, -1 );
+	m_bitmap[ 0 ] = new wxBitmap( NATIVE_WDTH, NATIVE_HGHT, -1 );
+	m_bitmap[ 1 ] = new wxBitmap( NATIVE_WDTH, NATIVE_HGHT, -1 );
 	
 	this->UpdateImage();
 }
@@ -23,7 +28,8 @@ MainCanvas::MainCanvas( wxWindow* parent, wxWindowID id, uchar* ramPointer )
 MainCanvas::~MainCanvas()
 {
 	delete m_image;
-	delete m_bitmap;
+	delete m_bitmap[ 0 ];
+	delete m_bitmap[ 1 ];
 }
 
 void MainCanvas::UpdateImage()
@@ -71,19 +77,53 @@ void MainCanvas::UpdateBitmap()
 	wxImage  image;
 	
 	this->GetSize( &width, &height );
-	//image = m_image->Scale( width, height, wxIMAGE_QUALITY_NORMAL );
-	image = m_image->Scale( NATIVE_WDTH * 2, NATIVE_HGHT * 2, wxIMAGE_QUALITY_NORMAL );
+	image = m_image->Scale( width, height, wxIMAGE_QUALITY_NORMAL );
+	//image = m_image->Scale( width, height, wxIMAGE_QUALITY_HIGH );
+	//image = m_image->Scale( NATIVE_WDTH, NATIVE_HGHT, wxIMAGE_QUALITY_NORMAL );
+	//image = m_image->Scale( NATIVE_WDTH * 2, NATIVE_HGHT * 2, wxIMAGE_QUALITY_NORMAL );
 	
-	m_bitmap = new wxBitmap( image, -1 );
+	if( m_currentScreen == 0 )
+	{
+		delete m_bitmap[ 1 ];
+		m_bitmap[ 1 ] = new wxBitmap( image, -1 );
+		m_currentScreen = 1;
+	}
+	else
+	{
+		delete m_bitmap[ 0 ];
+		m_bitmap[ 0 ] = new wxBitmap( image, -1 );
+		m_currentScreen = 0;
+	}
 }
 
 void MainCanvas::OnPaint( wxPaintEvent& event )
 {
+	int       width;
+	int       height;
+	wxBrush   brush;
+	wxPen     pen;
+	wxBitmap* bitmap;
+	
+	this->GetSize( &width, &height );
+
 	// Create DC for canvas (required)
 	wxPaintDC   dc( this );
 	
+	// Get the size of our window.
+	this->GetSize( &width, &height );
+	
 	// Draw whatever bitmap we have stored.
-	dc.DrawBitmap( *m_bitmap, 0, 0, true );
+	bitmap = m_bitmap[ m_currentScreen ];
+	dc.DrawBitmap( *bitmap, 0, 0, true );
+	
+	// Draw gray on the rest.
+	brush = *wxLIGHT_GREY_BRUSH;
+	pen = *wxLIGHT_GREY_PEN;
+	
+	dc.SetBrush ( brush );
+	dc.SetPen ( pen );
+	dc.DrawRectangle( bitmap->GetWidth (), 0, width - bitmap->GetWidth(), height );
+	dc.DrawRectangle( 0,  bitmap->GetHeight (), width, height - bitmap->GetHeight() );
 }
 
 void MainCanvas::OnSize( wxSizeEvent& event )

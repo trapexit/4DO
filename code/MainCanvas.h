@@ -5,6 +5,8 @@
 
 #include "types.h"
 
+#define SCREEN_COUNT 2
+
 class MainCanvas : public wxPanel
 {
 public:
@@ -25,7 +27,8 @@ private:
 	
 	wxImage*  m_image;
 	
-	wxBitmap* m_bitmap;
+	wxBitmap* m_bitmap[ SCREEN_COUNT ];
+	int       m_currentScreen;
 };
 
 #endif
