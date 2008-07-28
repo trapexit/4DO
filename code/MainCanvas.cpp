@@ -77,6 +77,10 @@ void MainCanvas::UpdateBitmap()
 	wxImage  image;
 	
 	this->GetSize( &width, &height );
+
+	if( width <= 0 || height <= 0 )
+		return;
+
 	image = m_image->Scale( width, height, wxIMAGE_QUALITY_NORMAL );
 	//image = m_image->Scale( width, height, wxIMAGE_QUALITY_HIGH );
 	//image = m_image->Scale( NATIVE_WDTH, NATIVE_HGHT, wxIMAGE_QUALITY_NORMAL );

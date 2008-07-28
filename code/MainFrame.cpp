@@ -145,10 +145,12 @@ void MainFrame::InitializeMenu ()
 	mnuFile->AppendSeparator();
 	mnuFile->Append( ID_MENU_FILE_EXIT, _T( "&Exit\tCtrl+X" ) );
 
+	/*
 	//////////////////////
 	// Console menu
 	mnuMain->Append( mnuConsole, _T( "&Console" ) );
 	mnuConsole->Append( ID_MENU_CONSOLE_RESET, _T( "&Reset...\tCtrl+R" ) );
+	*/
 
 	//////////////////////
 	// Tools menu
