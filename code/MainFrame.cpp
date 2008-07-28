@@ -123,7 +123,7 @@ void MainFrame::RunCycles()
 	else
 	{
 		// Display total time metric
-		this->SetStatusText( _T( "Not Running" ));
+		this->SetStatusText( _T( "Not Running" ), SB_INFO );
 	}
 }
 

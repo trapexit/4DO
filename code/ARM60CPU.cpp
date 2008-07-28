@@ -675,6 +675,7 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 	RegisterType baseRegNum;
 	
 	bool  newCarry = false;
+	bool  preIndex = false;
 	int   offset;
 	uint* baseReg;
 	uint  address;
@@ -682,6 +683,7 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 	////////////////////////////////////////////////////////
 	baseRegNum = (RegisterType) ((instruction & 0x000F0000) >> 16);
 	baseReg = REG->Reg (baseRegNum);
+	preIndex = (instruction & 0x01000000) > 0;
 
 	// TODO: Special cases around use of R15 (prefetch).
 	// TODO: Abort logic.
@@ -711,7 +713,7 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 	wxLogMessage (wxString::Format ("Offset is %i", offset));
 	#endif
 
-	if ((instruction & 0x01000000) > 0)
+	if( preIndex )
 	{
 		// Pre-indexed.
 		// offset modification is performed before the base is used as the address.
@@ -731,12 +733,10 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 	else
 	{
 		// Post-indexed. 
-		// offset modification is performed after the base is used as the address.
-		// I don't see what this means... doesn't mean the offset just isn't done?
+		// offset modification is performed AFTER the base is used as the address.
 		address = *(baseReg);
 
-		// NOTE: Use of the write-back bit is meaningless here except for 
-		//       some mention of this as a practice in privileged mode, where
+		// NOTE: There is some mention of this as a practice in privileged mode, where
 		//       setting the W bit forces non-privileged mode for the transfer,
 		//       "allowing the operating system to generate a user address
 		//       in a system where the memory management hardware makes suitable
@@ -786,7 +786,9 @@ void ARM60CPU::ProcessSingleDataTransfer (uint instruction)
 		m_cycleCount += ( NCYCLES * 2 );
 	}
 	
-	if ((instruction & 0x00200000) > 0)
+	////////////////
+	// Optionally do a post-
+	if (!preIndex && (instruction & 0x00200000) > 0)
 	{
 		// Write it back to the base register after the transfer has completed.
 		*(baseReg) += offset;
