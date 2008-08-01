@@ -2,7 +2,7 @@
 #define _INC_CONSOLE
 
 #include "types.h"
-#include "ARM60CPU.h"
+#include "ARMCPU.h"
 #include "DMAController.h"
 
 //////////////////////////////////////////////////
@@ -13,12 +13,12 @@ public:
    Console  ();
    ~Console ();
    
-   ARM60CPU*      CPU ();
-   DMAController* DMA ();
+   ARMCPU*         CPU ();
+   DMAController*  DMA ();
 
 private:
    DMAController*  m_DMA;
-   ARM60CPU*       m_CPU;
+   ARMCPU*         m_CPU;
 };
 
 #endif //_INC_CONSOLE

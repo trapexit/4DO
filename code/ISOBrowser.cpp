@@ -1,6 +1,5 @@
 #include "ISOBrowser.h"
 #include "ImageViewer.h"
-#include "CodeViewer.h"
 
 enum IDs
 {
@@ -36,7 +35,6 @@ BEGIN_EVENT_TABLE(ISOBrowser, wxFrame)
 	EVT_LIST_ITEM_RIGHT_CLICK(ID_LIST_VIEW, ISOBrowser::onListRightClick)
 	EVT_LIST_ITEM_FOCUSED(ID_LIST_VIEW, ISOBrowser::onListFocused)
 	EVT_MENU(ID_MENU_OPEN_IMAGE, ISOBrowser::onPopupMenuOpenImage)
-	EVT_MENU(ID_MENU_OPEN_CODE, ISOBrowser::onPopupMenuOpenCode)
 	EVT_MENU(ID_MENU_OPEN_TEXT, ISOBrowser::onPopupMenuOpenText)
 END_EVENT_TABLE()
 
@@ -193,13 +191,6 @@ void ISOBrowser::onPopupMenuOpenImage(wxCommandEvent &event)
 	ImageViewer* imageViewer;
 	imageViewer = new ImageViewer(this, m_fileName, wxString::Format("%s%s", m_dir->getPath(), m_focusedFile));
 	imageViewer->Show();		
-}
-
-void ISOBrowser::onPopupMenuOpenCode(wxCommandEvent &event)
-{
-	CodeViewer* codeViewer;
-	codeViewer = new CodeViewer(this, m_fileName, wxString::Format("%s%s", m_dir->getPath(), m_focusedFile));
-	codeViewer->Show(true);		
 }
 
 void ISOBrowser::onPopupMenuOpenText(wxCommandEvent &event)

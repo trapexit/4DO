@@ -21,7 +21,6 @@ public:
    void onListFocused(wxListEvent &event);
 
    void onPopupMenuOpenImage(wxCommandEvent &event);
-   void onPopupMenuOpenCode(wxCommandEvent &event);
    void onPopupMenuOpenText(wxCommandEvent &event);
 
    void paintCurrentDirContents();

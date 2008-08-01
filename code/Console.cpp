@@ -5,14 +5,14 @@ Console::Console ()
    // Constructor
    m_DMA = new DMAController ();
    
-   m_CPU = new ARM60CPU ();
+   m_CPU = new ARMCPU ();
    m_CPU->DMA = m_DMA;
-   m_CPU->BIGEND = true; // Big endian is always true!
    
-   m_CPU->REG->CPSR ()->SetCPUMode (CPUMode::CPUMODE_USR);
+   // Set to user mode;
+   m_CPU->SetCPSR(0x00000010);
 }
 
-ARM60CPU* Console::CPU ()
+ARMCPU* Console::CPU ()
 {
    return m_CPU;
 }

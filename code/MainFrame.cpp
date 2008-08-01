@@ -1,5 +1,4 @@
 #include "MainFrame.h"
-#include "CodeViewer.h"
 #include "ImageViewer.h"
 
 #include "wx/settings.h"
@@ -54,6 +53,7 @@ MainFrame::MainFrame( wxCmdLineParser* parser )
 
 	// Create a console
 	m_con = new Console();
+	m_con->CPU()->SetPC( ROM_LOAD_ADDRESS );
 
 	/////////////////////
 	// GUI Setup.
@@ -112,7 +112,7 @@ void MainFrame::RunCycles()
 		
 		//cycles = time_used / 0.00008;
 		cycles = REFRESH_DELAY / 0.00008;
-		m_con->CPU()->ExecuteCycles( cycles );
+		m_con->CPU()->Execute( cycles );
 
 		// End execution timer.
 		sw.Pause();
@@ -131,7 +131,6 @@ void MainFrame::InitializeMenu ()
 {
 	wxMenuBar* mnuMain    = new wxMenuBar ();
 	wxMenu*    mnuFile    = new wxMenu ();
-	wxMenu*    mnuConsole = new wxMenu ();
 	wxMenu*    mnuTools   = new wxMenu ();
 	wxMenu*    mnuHelp    = new wxMenu ();
 
@@ -236,7 +235,7 @@ void MainFrame::ConsoleReset ()
 	// TODO: Properly reset console
 	
 	// Initialize the PC
-	*( m_con->CPU ()->REG->PC ()->Value ) = ROM_LOAD_ADDRESS;
+	m_con->CPU()->Reset();
 	
 	m_loadIso = false;
 	m_fileName = wxEmptyString;
@@ -267,7 +266,7 @@ void MainFrame::ConsoleLoadIso( wxString fileName )
 	f.read( m_con->DMA ()->GetRAMPointer( ROM_LOAD_ADDRESS ), f.getFileSize (), &bytesRead );
 	
 	// Initialize the PC
-	*( m_con->CPU ()->REG->PC ()->Value ) = ROM_LOAD_ADDRESS;
+	m_con->CPU()->SetPC( ROM_LOAD_ADDRESS );
 
 	m_loadIso = true;
 	m_fileName = fileName;
@@ -284,7 +283,7 @@ void MainFrame::ConsoleLoadCode ( wxString fileName )
 	file.Close();
 
 	// Initialize the PC
-	*( m_con->CPU ()->REG->PC ()->Value ) = ROM_LOAD_ADDRESS;
+	m_con->CPU()->SetPC( ROM_LOAD_ADDRESS );
 	
 	m_loadIso = false;
 	m_fileName = fileName;

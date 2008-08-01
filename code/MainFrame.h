@@ -15,6 +15,8 @@
 #include "ISOBrowser.h"
 #include "filesystem\file.h"
 
+#include "arm.h"
+
 #include "fourdo.xpm" // Include the application's icon
 
 class MainFrame : public wxFrame

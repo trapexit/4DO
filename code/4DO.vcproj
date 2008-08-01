@@ -238,42 +238,6 @@
 	</References>
 	<Files>
 		<Filter
-			Name="ARM60"
-			>
-			<File
-				RelativePath=".\ARM60CPU.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ARM60CPU.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ARM60PSRegister.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ARM60PSRegister.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ARM60Register.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ARM60Register.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ARM60Registers.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ARM60Registers.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Resources"
 			>
 			<File
@@ -329,14 +293,6 @@
 			Name="GUI"
 			>
 			<File
-				RelativePath=".\CodeViewer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CodeViewer.h"
-				>
-			</File>
-			<File
 				RelativePath=".\FourDOApp.cpp"
 				>
 			</File>
@@ -374,6 +330,18 @@
 			</File>
 			<File
 				RelativePath=".\MainFrame.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="ARMCPU"
+			>
+			<File
+				RelativePath=".\ARMCPU.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ARMCPU.h"
 				>
 			</File>
 		</Filter>

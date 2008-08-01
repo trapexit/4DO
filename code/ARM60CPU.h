@@ -1,6 +1,16 @@
 #ifndef _INC_ARM60CPU
 #define _INC_ARM60CPU
 
+/*
+ Phoenix ARM60-emulator source code ( from 2007,  used for FreeDO Project - www.freedo.org )
+ Written by Maxim L. Grishin ( homepage - http://altmer.arts-union.ru )
+ .desrever sthgir llA ;)
+ 
+ Adapted for FourDO by Johnny... many, many thanks to Altmer!
+ 
+ This replaces my slower ARM emulator that never saw a full release. :(
+ */
+
 ////////////////////
 // Cycle definitions (will never change!)
 #define NCYCLES 4 // Number of cycles needed for a N-cycle (Non-sequential cycle)
