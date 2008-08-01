@@ -1137,7 +1137,7 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 
 				{
 				  // TODO: IMPORT BDT CODE
-				  //bdt_core(cmd);
+				  bdt_core(cmd);
 				  if(MAS_Access_Exept)
 				  {
 							//sprintf(str,"*PC: 0x%8.8X DataAbort!!!\n",REG_PC);
@@ -1208,4 +1208,541 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 
 	} // for(CYCLES)
 	return CYCLES;
+}
+
+void __inline ARMCPU::bdt_core(unsigned int opc)
+{
+ unsigned int base,i,rn_ind,bold;
+ unsigned int *addr;
+ unsigned short list=opc&0xffff;
+ 
+	//decode_mrt(opc);
+	//return;
+
+	rn_ind=(opc>>16)&0xf;
+
+	if(rn_ind==0xf)base=RON_USER[rn_ind]+8;
+	else base=RON_USER[rn_ind];
+
+		
+	
+	if(opc&(1<<20))	//из памяти в регистр?
+	{	
+		if(opc&0x8000)CYCLES-=SCYCLE+NCYCLE;
+
+		addr=can_multy_read_direct(base, opc);	//проверка на безопасность
+		if(addr)	//возможна безопасная запись?
+		{
+			bold=base;
+			if((opc&(1<<22)) && !(opc&0x8000)) //пользовательский банк регистров?
+			{
+				
+				if(opc&(1<<23)) //инкремент?
+				{
+					i=0;
+					if(opc&(1<<24))	//до?
+					{
+						while(list)
+						{
+							if(list&1){addr++;loadusr(i,*addr);base+=4;}
+							i++;
+							list>>=1;
+						}
+					}
+					else
+					{
+						while(list)
+						{
+							if(list&1){loadusr(i,*addr);addr++;base+=4;}
+							i++;
+							list>>=1;
+						}
+					}
+					
+				}
+				else	//декремент
+				{
+					i=14;
+					list<<=1;
+					if(opc&(1<<24))	//до?
+					{
+						while(list)
+						{
+							if(list&0x8000){addr--;loadusr(i,*addr);base-=4;}
+							i--;
+							list<<=1;
+						}
+					}
+					else	//после
+					{
+						while(list)
+						{
+							if(list&0x8000){loadusr(i,*addr);addr--;base-=4;}
+							i--;
+							list<<=1;
+						}
+					}					
+				}
+				if((opc&(1<<21)) && !(opc&(1<<(rn_ind)))) RON_USER[rn_ind]=base;
+				
+			}
+			else	//текущий банк регистров
+			{
+				
+				if(opc&(1<<23))	//инкремент?
+				{
+					i=0;
+					if(opc&(1<<24))
+					{
+						while(list)
+						{
+							if(list&1){addr++;RON_USER[i]=*addr;base+=4;}
+							i++;
+							list>>=1;
+						}
+					}
+					else
+					{
+						while(list)
+						{
+							if(list&1){RON_USER[i]=*addr;addr++;base+=4;}
+							i++;
+							list>>=1;
+						}
+					}
+				}
+				else	//декримент
+				{
+					i=15;
+					if(opc&(1<<24))
+					{
+						while(list)
+						{
+							if(list&0x8000){addr--;RON_USER[i]=*addr;base-=4;}
+							i--;
+							list<<=1;
+						}
+					}
+					else
+					{
+						while(list)
+						{
+							if(list&0x8000){RON_USER[i]=*addr;addr--;base-=4;}
+							i--;
+							list<<=1;
+						}
+					}	
+				}
+				if((opc&(1<<21)) && !(opc&(1<<(rn_ind)))) RON_USER[rn_ind]=base;
+
+				if((opc&(1<<22)) && arm_mode_table[MODE]) SetCPSR(SPSR[arm_mode_table[MODE]]);
+				
+			}
+			
+			CYCLES-=NCYCLE+ICYCLE-SCYCLE;
+			if(base<bold)CYCLES-=SCYCLE*((bold-base)>>2);
+			else CYCLES-=SCYCLE*((base-bold)>>2);
+			 
+		}
+		else	//безопасная запись невозможна
+		{
+			ldm_accur(opc,base,rn_ind);
+		}
+	}
+	else //из регистра в память
+	{		
+		if((opc&(1<<(rn_ind))))
+		{
+			stm_accur(opc,base,rn_ind);
+			return;
+		}
+		addr=can_multy_write_direct(base, opc);	//проверка на безопасность
+		if(addr)	//возможна безопасная запись?
+		{
+			bold=base;
+			if(opc&(1<<22)) //работа с пользовательскими регистрами?
+			{					
+				if(opc&(1<<23)) //инкремент?
+				{
+					list&=0x7fff;
+					i=0;					
+					if(opc&(1<<24))	//до?
+					{
+						while(list)
+						{
+							if(list&1)
+							{
+								addr++;								
+								*addr=rreadusr(i);
+								base+=4;
+							}
+							i++;
+							list>>=1;
+						}
+						if(opc&0x8000)
+						{
+							addr++;
+							base+=4;
+							*addr=REG_PC+8;							
+						}
+					}
+					else
+					{
+						while(list)
+						{
+							if(list&1){*addr=rreadusr(i);addr++;base+=4;}
+							i++;
+							list>>=1;
+						}
+						if(opc&0x8000)
+						{							
+							*addr=REG_PC+8;	
+							addr++;
+							base+=4;
+						}
+					}					
+				}
+				else	//декремент
+				{
+					i=14;
+					list<<=1;
+					if(opc&(1<<24))	//до?
+					{
+						if(opc&0x8000)
+						{
+							addr--;
+							base-=4;
+							*addr=REG_PC+8;							
+						}
+						while(list)
+						{
+							if(list&0x8000){addr--;*addr=rreadusr(i);base-=4;}
+							i--;
+							list<<=1;
+						}
+					}
+					else	//после
+					{
+						if(opc&0x8000)
+						{							
+							*addr=REG_PC+8;	
+							addr--;
+							base-=4;
+						}
+						while(list)
+						{
+							if(list&0x8000){*addr=rreadusr(i);addr--;base-=4;}
+							i--;
+							list<<=1;
+						}
+					}					
+				}
+				if((opc&(1<<21))) RON_USER[rn_ind]=base;
+			}
+			else //работа с текущим банком
+			{
+				if(opc&(1<<23)) //инкремент?
+				{
+					list&=0x7fff;
+					i=0;					
+					if(opc&(1<<24))	//до?
+					{
+						while(list)
+						{
+							if(list&1)
+							{
+								addr++;								
+								*addr=RON_USER[i];
+								base+=4;
+							}
+							i++;
+							list>>=1;
+						}
+						if(opc&0x8000)
+						{
+							addr++;
+							base+=4;
+							*addr=REG_PC+8;							
+						}
+					}
+					else
+					{
+						while(list)
+						{
+							if(list&1){*addr=RON_USER[i];addr++;base+=4;}
+							i++;
+							list>>=1;
+						}
+						if(opc&0x8000)
+						{							
+							*addr=REG_PC+8;	
+							addr++;
+							base+=4;
+						}
+					}					
+				}
+				else	//декремент
+				{
+					i=14;
+					list<<=1;
+					if(opc&(1<<24))	//до?
+					{
+						if(opc&0x8000)
+						{
+							addr--;
+							base-=4;
+							*addr=REG_PC+8;							
+						}
+						while(list)
+						{
+							if(list&0x8000){addr--;*addr=RON_USER[i];base-=4;}
+							i--;
+							list<<=1;							
+						}
+					}
+					else	//после
+					{
+						if(opc&0x8000)
+						{							
+							*addr=REG_PC+8;	
+							addr--;
+							base-=4;
+						}
+						while(list)
+						{
+							if(list&0x8000){*addr=RON_USER[i];addr--;base-=4;}
+							i--;
+							list<<=1;							
+						}
+					}					
+				}
+				if((opc&(1<<21))) RON_USER[rn_ind]=base;				
+			}
+
+			CYCLES-=NCYCLE+NCYCLE-SCYCLE-SCYCLE;
+			if(base<bold)CYCLES-=SCYCLE*((bold-base)>>2);
+			else CYCLES-=SCYCLE*((base-bold)>>2);
+		}
+		else
+		{
+			stm_accur(opc,base,rn_ind);
+		}
+	}
+	
+}
+
+__inline void ARMCPU::ldm_accur(unsigned int opc, unsigned int base, unsigned int rn_ind)
+{
+ unsigned short x=opc&0xffff;
+ unsigned short list=opc&0xffff;
+ unsigned int base_comp,	//по ней шагаем
+				i=0,tmp;
+ 
+	x = (x & 0x5555) + ((x >> 1) & 0x5555); 
+	x = (x & 0x3333) + ((x >> 2) & 0x3333); 
+	x = (x & 0xff) + (x >> 8);
+	x = (x & 0xf) + (x >> 4);
+	
+	switch((opc>>23)&3)
+	{
+	 case 0:
+		base-=(x<<2);
+		base_comp=base+4;
+		break;
+	 case 1:
+		base_comp=base;
+		base+=(x<<2);
+		break;
+	 case 2:
+		base_comp=base=base-(x<<2);
+		break;
+	 case 3:
+		base_comp=base+4;
+		base+=(x<<2);
+		break;
+	}
+
+	//base_comp&=~3;
+
+	if(opc&(1<<21))RON_USER[rn_ind]=base;
+	
+	if((opc&(1<<22)) && !(opc&0x8000))
+	{
+		while(list)
+		{
+			if(list&1)
+			{
+				tmp=mreadw(base_comp);
+				if(MAS_Access_Exept)
+				{
+					if(opc&(1<<21))RON_USER[rn_ind]=base;
+					break;
+				}
+				loadusr(i,tmp);				
+				base_comp+=4;
+			}
+			i++;
+			list>>=1;
+		}
+	}
+	else
+	{
+		while(list)
+		{
+			if(list&1)
+			{
+				tmp=mreadw(base_comp);
+				if(MAS_Access_Exept)
+				{
+					if(opc&(1<<21))RON_USER[rn_ind]=base;
+					break;
+				}
+				RON_USER[i]=tmp;	
+				base_comp+=4;
+			}
+			i++;
+			list>>=1;
+		}
+		if((opc&(1<<22)) && arm_mode_table[MODE] && !MAS_Access_Exept) SetCPSR(SPSR[arm_mode_table[MODE]]);
+	}
+
+	CYCLES-=(x-1)*SCYCLE+NCYCLE+ICYCLE;
+
+}
+
+
+__inline void ARMCPU::stm_accur(unsigned int opc, unsigned int base, unsigned int rn_ind)
+{
+ unsigned short x=opc&0xffff;
+ unsigned short list=opc&0x7fff;
+ unsigned int base_comp,	//по ней шагаем
+				i=0;
+ 
+	x = (x & 0x5555) + ((x >> 1) & 0x5555); 
+	x = (x & 0x3333) + ((x >> 2) & 0x3333); 
+	x = (x & 0xff) + (x >> 8);
+	x = (x & 0xf) + (x >> 4);
+	
+	switch((opc>>23)&3)
+	{
+	 case 0:
+		base-=(x<<2);
+		base_comp=base+4;
+		break;
+	 case 1:
+		base_comp=base;
+		base+=(x<<2);
+		break;
+	 case 2:
+		base_comp=base=base-(x<<2);
+		break;
+	 case 3:
+		base_comp=base+4;
+		base+=(x<<2);
+		break;
+	}
+
+	//base_comp&=~3;
+
+	if(opc&(1<<21) && rn_ind)RON_USER[rn_ind]=base;
+	
+	if((opc&(1<<22)))
+	{
+		while(list)
+		{
+			if(list&1)
+			{
+				mwritew(base_comp,rreadusr(i));
+				if(MAS_Access_Exept)break;							
+				base_comp+=4;
+			}
+			i++;
+			list>>=1;
+		}
+	}
+	else
+	{
+		while(list)
+		{
+			if(list&1)
+			{
+				mwritew(base_comp,RON_USER[i]);
+				if(MAS_Access_Exept)break;							
+				base_comp+=4;
+			}
+			i++;
+			list>>=1;
+		}
+		
+	}
+
+	if((opc&0x8000) && !MAS_Access_Exept)mwritew(base_comp,RON_USER[15]+8);
+	if(opc&(1<<21))RON_USER[rn_ind]=base;
+
+	CYCLES-=(x-2)*SCYCLE+NCYCLE+NCYCLE;
+
+}
+
+__inline unsigned int* ARMCPU::can_multy_read_direct(unsigned int base, unsigned int opc)
+{
+	return (unsigned int *)DMA->GetRAMPointer( base );
+/*
+ unsigned int index;
+	base&=~3;
+	if(opc&(1<<23))
+	{
+		if (base<0x00300000 && (base+68)<0x00300000) //dram1&dram2&vram
+		{
+			return (unsigned int*)(pRam+base);
+			
+		}
+		else if (!((index=(base^0x03000000)) & ~0xFFFFF) && !(((base+68)^0x03000000) & ~0xFFFFF)) //rom
+		{
+			if(!gSecondROM) // 2nd rom
+			    return (unsigned int*)(pRom+index);
+			else
+			    return (unsigned int*)(pRom+index+1024*1024);
+		}
+	}
+	else
+	{
+		if (base<0x00300000 && ((unsigned int)(base-68))<0x00300000) //dram1&dram2&vram
+		{
+			return (unsigned int*)(pRam+base);
+			
+		}
+		else if (!((index=(base^0x03000000)) & ~0xFFFFF) && !(((base-68)^0x03000000) & ~0xFFFFF)) //rom
+		{
+			if(!gSecondROM) // 2nd rom
+			    return (unsigned int*)(pRom+index);
+			else
+			    return (unsigned int*)(pRom+index+1024*1024);
+		}
+	}
+	return NULL;
+*/
+}
+
+
+__inline unsigned int* ARMCPU::can_multy_write_direct(unsigned int base, unsigned int opc)
+{
+	return (unsigned int *)DMA->GetRAMPointer( base );
+/*
+	base&=~3;
+	if(opc&(1<<23))
+	{
+		if (base<0x00300000 && (base+68)<0x00300000) //dram1&dram2&vram
+		{
+			return (unsigned int*)(pRam+base);			
+		}
+	}
+	else
+	{
+		if (base<0x00300000 && ((unsigned int)(base-68))<0x00300000) //dram1&dram2&vram
+		{
+			return (unsigned int*)(pRam+base);			
+		}
+	}
+	return NULL;
+*/
 }

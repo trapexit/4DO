@@ -9,13 +9,10 @@
 
 #include "MainCanvas.h"
 
-#include "ARM60CPU.h"
 #include "types.h"
 #include "Console.h"
 #include "ISOBrowser.h"
 #include "filesystem\file.h"
-
-#include "arm.h"
 
 #include "fourdo.xpm" // Include the application's icon
 
