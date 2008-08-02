@@ -14,10 +14,7 @@ ImageViewer::ImageViewer(wxFrame* parent, uint8_t* ramPointer)
       : wxFrame (parent, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize)
 {
 	const uint32_t headerLength = 36;
-	uint32_t       bytesRead;
-	uint8_t        header[headerLength];
-	bool           ret;
-
+	
 	bmpLength = 0x00025834;
 	bmp = ramPointer;
 

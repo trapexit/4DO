@@ -1,6 +1,6 @@
 #include "BitMath.h"
 
-uint SetBit (uint value, int bitNumber, bool bitValue)
+uint SetBit (uint value, int bitNumber, bool )
 {
    return SetBits (value, ((uint) pow ((double) 2, bitNumber)), 0xFFFFFFFF);
 }

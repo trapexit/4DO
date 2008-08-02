@@ -100,7 +100,7 @@ void MainCanvas::UpdateBitmap()
 	}
 }
 
-void MainCanvas::OnPaint( wxPaintEvent& event )
+void MainCanvas::OnPaint( wxPaintEvent& )
 {
 	int       width;
 	int       height;
@@ -130,12 +130,12 @@ void MainCanvas::OnPaint( wxPaintEvent& event )
 	dc.DrawRectangle( 0,  bitmap->GetHeight (), width, height - bitmap->GetHeight() );
 }
 
-void MainCanvas::OnSize( wxSizeEvent& event )
+void MainCanvas::OnSize( wxSizeEvent& )
 {
 	this->UpdateBitmap();
 }
 
-void MainCanvas::OnErase( wxEraseEvent& event )
+void MainCanvas::OnErase( wxEraseEvent& )
 {
 	// We don't want to erase!
 }

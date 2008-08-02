@@ -184,7 +184,7 @@ void ISOBrowser::onListRightClick(wxListEvent &event)
 	}
 }
 
-void ISOBrowser::onPopupMenuOpenImage(wxCommandEvent &event)
+void ISOBrowser::onPopupMenuOpenImage(wxCommandEvent &)
 {
 	// NOTE: Some images are actually ".cel" or have no extension at all
 	//       so I'll allow them to just attempt to view antyhing.
@@ -193,7 +193,7 @@ void ISOBrowser::onPopupMenuOpenImage(wxCommandEvent &event)
 	imageViewer->Show();		
 }
 
-void ISOBrowser::onPopupMenuOpenText(wxCommandEvent &event)
+void ISOBrowser::onPopupMenuOpenText(wxCommandEvent &)
 {
 	wxMessageBox("show text");
 }

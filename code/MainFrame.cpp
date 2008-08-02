@@ -111,7 +111,8 @@ void MainFrame::RunCycles()
 		sw.Start();
 		
 		//cycles = time_used / 0.00008;
-		cycles = REFRESH_DELAY / 0.00008;
+		//cycles = REFRESH_DELAY / 0.00008;
+		cycles = REFRESH_DELAY / 0.00008 * 1.2;
 		m_con->CPU()->Execute( cycles );
 
 		// End execution timer.
@@ -165,7 +166,7 @@ void MainFrame::InitializeMenu ()
 /////////////////////////////////////////////////////////////////////////
 // Event handlers
 /////////////////////////////////////////////////////////////////////////
-void MainFrame::OnMainTimer( wxTimerEvent &event )
+void MainFrame::OnMainTimer( wxTimerEvent & )
 {
 	this->RunCycles();
 	ctlCanvas->UpdateImage();

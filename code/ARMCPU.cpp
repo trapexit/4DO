@@ -1136,7 +1136,6 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 			case 0x9:
 
 				{
-				  // TODO: IMPORT BDT CODE
 				  bdt_core(cmd);
 				  if(MAS_Access_Exept)
 				  {
@@ -1171,7 +1170,9 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 
 			case 0xf:	//SWI		  				
 					// TODO: IMPORT SWI CODE
-					//decode_swi(cmd);			  
+					decode_swi(cmd);			  
+					CYCLES-=0;
+					
 					break;
 			//---------  
 			default:	//сопроцессор
@@ -1210,10 +1211,17 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 	return CYCLES;
 }
 
+//JMK NOTE:
+//I've altered this code to use the "standard" DMA controller,
+//because Altmer's code originally assumes that all the bytes
+//it is reading are pre-swapped. 
+//
+//I'm unsure if this was really necessary to do, and replacing 
+//this bdt_core with the original would certainly perform better!
 void __inline ARMCPU::bdt_core(unsigned int opc)
 {
  unsigned int base,i,rn_ind,bold;
- unsigned int *addr;
+ unsigned int addr;
  unsigned short list=opc&0xffff;
  
 	//decode_mrt(opc);
@@ -1230,7 +1238,8 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 	{	
 		if(opc&0x8000)CYCLES-=SCYCLE+NCYCLE;
 
-		addr=can_multy_read_direct(base, opc);	//проверка на безопасность
+		//addr=can_multy_read_direct(base, opc);	//проверка на безопасность
+		addr=base;
 		if(addr)	//возможна безопасная запись?
 		{
 			bold=base;
@@ -1244,7 +1253,7 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						while(list)
 						{
-							if(list&1){addr++;loadusr(i,*addr);base+=4;}
+							if(list&1){addr+=4;loadusr(i,mreadw(addr));base+=4;}
 							i++;
 							list>>=1;
 						}
@@ -1253,7 +1262,7 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						while(list)
 						{
-							if(list&1){loadusr(i,*addr);addr++;base+=4;}
+							if(list&1){loadusr(i,mreadw(addr));addr+=4;base+=4;}
 							i++;
 							list>>=1;
 						}
@@ -1268,7 +1277,7 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						while(list)
 						{
-							if(list&0x8000){addr--;loadusr(i,*addr);base-=4;}
+							if(list&0x8000){addr-=4;loadusr(i,mreadw(addr));base-=4;}
 							i--;
 							list<<=1;
 						}
@@ -1277,7 +1286,7 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						while(list)
 						{
-							if(list&0x8000){loadusr(i,*addr);addr--;base-=4;}
+							if(list&0x8000){loadusr(i,mreadw(addr));addr-=4;base-=4;}
 							i--;
 							list<<=1;
 						}
@@ -1296,7 +1305,7 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						while(list)
 						{
-							if(list&1){addr++;RON_USER[i]=*addr;base+=4;}
+							if(list&1){addr+=4;RON_USER[i]=mreadw(addr);base+=4;}
 							i++;
 							list>>=1;
 						}
@@ -1305,7 +1314,7 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						while(list)
 						{
-							if(list&1){RON_USER[i]=*addr;addr++;base+=4;}
+							if(list&1){RON_USER[i]=mreadw(addr);addr+=4;base+=4;}
 							i++;
 							list>>=1;
 						}
@@ -1318,7 +1327,7 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						while(list)
 						{
-							if(list&0x8000){addr--;RON_USER[i]=*addr;base-=4;}
+							if(list&0x8000){addr-=4;RON_USER[i]=mreadw(addr);base-=4;}
 							i--;
 							list<<=1;
 						}
@@ -1327,7 +1336,7 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						while(list)
 						{
-							if(list&0x8000){RON_USER[i]=*addr;addr--;base-=4;}
+							if(list&0x8000){RON_USER[i]=mreadw(addr);addr-=4;base-=4;}
 							i--;
 							list<<=1;
 						}
@@ -1356,7 +1365,8 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 			stm_accur(opc,base,rn_ind);
 			return;
 		}
-		addr=can_multy_write_direct(base, opc);	//проверка на безопасность
+		//addr=can_multy_write_direct(base, opc);	//проверка на безопасность
+		addr=base;
 		if(addr)	//возможна безопасная запись?
 		{
 			bold=base;
@@ -1372,8 +1382,8 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 						{
 							if(list&1)
 							{
-								addr++;								
-								*addr=rreadusr(i);
+								addr+=4;
+								mwritew(addr,rreadusr(i));
 								base+=4;
 							}
 							i++;
@@ -1381,23 +1391,23 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 						}
 						if(opc&0x8000)
 						{
-							addr++;
+							addr+=4;
 							base+=4;
-							*addr=REG_PC+8;							
+							mwritew(addr,REG_PC+8);
 						}
 					}
 					else
 					{
 						while(list)
 						{
-							if(list&1){*addr=rreadusr(i);addr++;base+=4;}
+							if(list&1){mwritew(addr,rreadusr(i));addr+=4;base+=4;}
 							i++;
 							list>>=1;
 						}
 						if(opc&0x8000)
 						{							
-							*addr=REG_PC+8;	
-							addr++;
+							mwritew(addr,REG_PC+8);
+							addr+=4;
 							base+=4;
 						}
 					}					
@@ -1410,13 +1420,13 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						if(opc&0x8000)
 						{
-							addr--;
+							addr-=4;
 							base-=4;
-							*addr=REG_PC+8;							
+							mwritew(addr,REG_PC+8);
 						}
 						while(list)
 						{
-							if(list&0x8000){addr--;*addr=rreadusr(i);base-=4;}
+							if(list&0x8000){addr-=4;mwritew(addr,rreadusr(i));base-=4;}
 							i--;
 							list<<=1;
 						}
@@ -1425,13 +1435,13 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						if(opc&0x8000)
 						{							
-							*addr=REG_PC+8;	
-							addr--;
+							mwritew(addr,REG_PC+8);
+							addr-=4;
 							base-=4;
 						}
 						while(list)
 						{
-							if(list&0x8000){*addr=rreadusr(i);addr--;base-=4;}
+							if(list&0x8000){mwritew(addr,rreadusr(i));addr-=4;base-=4;}
 							i--;
 							list<<=1;
 						}
@@ -1451,8 +1461,8 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 						{
 							if(list&1)
 							{
-								addr++;								
-								*addr=RON_USER[i];
+								addr+=4;								
+								mwritew(addr,RON_USER[i]);
 								base+=4;
 							}
 							i++;
@@ -1460,23 +1470,23 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 						}
 						if(opc&0x8000)
 						{
-							addr++;
+							addr+=4;
 							base+=4;
-							*addr=REG_PC+8;							
+							mwritew(addr,REG_PC+8);
 						}
 					}
 					else
 					{
 						while(list)
 						{
-							if(list&1){*addr=RON_USER[i];addr++;base+=4;}
+							if(list&1){mwritew(addr,RON_USER[i]);addr+=4;base+=4;}
 							i++;
 							list>>=1;
 						}
 						if(opc&0x8000)
 						{							
-							*addr=REG_PC+8;	
-							addr++;
+							mwritew(addr,REG_PC+8);
+							addr+=4;
 							base+=4;
 						}
 					}					
@@ -1489,13 +1499,13 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						if(opc&0x8000)
 						{
-							addr--;
+							addr-=4;
 							base-=4;
-							*addr=REG_PC+8;							
+							mwritew(addr,REG_PC+8);
 						}
 						while(list)
 						{
-							if(list&0x8000){addr--;*addr=RON_USER[i];base-=4;}
+							if(list&0x8000){addr-=4;mwritew(addr,RON_USER[i]);base-=4;}
 							i--;
 							list<<=1;							
 						}
@@ -1504,13 +1514,13 @@ void __inline ARMCPU::bdt_core(unsigned int opc)
 					{
 						if(opc&0x8000)
 						{							
-							*addr=REG_PC+8;	
-							addr--;
+							mwritew(addr,REG_PC+8);
+							addr-=4;
 							base-=4;
 						}
 						while(list)
 						{
-							if(list&0x8000){*addr=RON_USER[i];addr--;base-=4;}
+							if(list&0x8000){mwritew(addr,RON_USER[i]);addr-=4;base-=4;}
 							i--;
 							list<<=1;							
 						}
@@ -1683,7 +1693,7 @@ __inline void ARMCPU::stm_accur(unsigned int opc, unsigned int base, unsigned in
 
 }
 
-__inline unsigned int* ARMCPU::can_multy_read_direct(unsigned int base, unsigned int opc)
+__inline unsigned int* ARMCPU::can_multy_read_direct(unsigned int base, unsigned int )
 {
 	return (unsigned int *)DMA->GetRAMPointer( base );
 /*
@@ -1724,7 +1734,7 @@ __inline unsigned int* ARMCPU::can_multy_read_direct(unsigned int base, unsigned
 }
 
 
-__inline unsigned int* ARMCPU::can_multy_write_direct(unsigned int base, unsigned int opc)
+__inline unsigned int* ARMCPU::can_multy_write_direct(unsigned int base, unsigned int )
 {
 	return (unsigned int *)DMA->GetRAMPointer( base );
 /*
@@ -1745,4 +1755,22 @@ __inline unsigned int* ARMCPU::can_multy_write_direct(unsigned int base, unsigne
 	}
 	return NULL;
 */
+}
+
+void inline __fastcall ARMCPU::decode_swi(unsigned int cmd)
+{
+    CYCLES-=SCYCLE+NCYCLE; // +2S+1N
+    
+    // JMK NOTE: This is the goal line! Woo!
+    
+    /*
+    SPSR[arm_mode_table[0x13]]=CPSR;
+    
+    SETI(1);
+    SETM(0x13);
+
+	load(14,REG_PC);
+    
+    REG_PC=0x00000008;  
+	*/
 }

@@ -61,6 +61,7 @@ public:
 	
 private:
 	__inline bool ALU_Exec(uint32 inst, uint8 opc, uint32 op1, uint32 op2, uint32 *Rd);
+	void inline __fastcall decode_swi(unsigned int i);
 
 	unsigned int __fastcall calcbits(unsigned int num);
 	__inline uint32 SHIFT_NSC(uint32 value, uint8 shift, uint8 type);
