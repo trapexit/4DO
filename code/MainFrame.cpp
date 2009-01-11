@@ -4,7 +4,8 @@
 #include "wx/settings.h"
 
 #define  REFRESH_DELAY    50
-#define  ROM_LOAD_ADDRESS 0x03000000
+#define  ROM_LOAD_ADDRESS  0x00100000
+#define  BIOS_LOAD_ADDRESS 0x03000000
 
 //Status bar
 enum StatusBar
@@ -279,9 +280,25 @@ void MainFrame::ConsoleLoadCode ( wxString fileName )
 	// Open a code file.
 	wxFile file;
 	
+	// Load the code into memory
 	file.Open( fileName );
 	file.Read( m_con->DMA()->GetRAMPointer( ROM_LOAD_ADDRESS ), file.Length () );
 	file.Close();
+
+	// Load BIOS
+	file.Open ("C:\\FourDO\\Freedo\\bios.rom" );
+	file.Read( m_con->DMA()->GetRAMPointer( BIOS_LOAD_ADDRESS ), file.Length () );
+	file.Close();
+	
+	// Set up vector table
+	m_con->DMA()->SetWord(0,  0);
+	m_con->DMA()->SetWord(4,  3925886382);
+	m_con->DMA()->SetWord(8,  3925886486);
+	m_con->DMA()->SetWord(12, 3925886392);
+	m_con->DMA()->SetWord(16, 3925886405);
+	m_con->DMA()->SetWord(20, 0);
+	m_con->DMA()->SetWord(24, 3925886582);
+	m_con->DMA()->SetWord(28, 3925886586);
 
 	// Initialize the PC
 	m_con->CPU()->SetPC( ROM_LOAD_ADDRESS );
