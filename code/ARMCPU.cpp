@@ -24,6 +24,14 @@
 #define ARM_MODE_UND    5
 #define ARM_MODE_UNK    0xff
 
+// ARM Mode Codes (the values stored in PSR, and used to fetch from arm_mode_table)
+#define ARM_MODE_CODE_USER   0x10
+#define ARM_MODE_CODE_FIQ    0x11
+#define ARM_MODE_CODE_IRQ    0x12
+#define ARM_MODE_CODE_SVC    0x13
+#define ARM_MODE_CODE_ABT    0x17
+#define ARM_MODE_CODE_UND    0x1b
+
 // Definition of the relative cycle lengths
 #define NCYCLE 4
 #define SCYCLE 1
@@ -161,7 +169,7 @@ for(i=0;i<7;i++)
 MAS_Access_Exept=false;
 
 REG_PC=0x00000000;
-SetCPSR(0x13); //set svc mode
+SetCPSR(ARM_MODE_CODE_SVC); //set svc mode
 gFIQ=false;		//no FIQ!!!
 gSecondROM=0;
 
@@ -857,9 +865,9 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 			//CDebug::DPrint(str);
 			//!!Exeption!!
 
-			SPSR[arm_mode_table[0x17]]=CPSR;    
+			SPSR[arm_mode_table[ARM_MODE_CODE_ABT]]=CPSR;    
 			SETI(1);
-			SETM(0x17);
+			SETM(ARM_MODE_CODE_ABT);
 			load(14,REG_PC);    
 			REG_PC=0x0000000C;  
 			CYCLES-=SCYCLE+NCYCLE;
@@ -913,9 +921,9 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 							//CDebug::DPrint(str);
 							//!!Exeption!!
 
-							SPSR[arm_mode_table[0x17]]=CPSR;    
+							SPSR[arm_mode_table[ARM_MODE_CODE_ABT]]=CPSR;    
 							SETI(1);
-							SETM(0x17);
+							SETM(ARM_MODE_CODE_ABT);
 							load(14,REG_PC+4);    
 							REG_PC=0x00000010;  
 							CYCLES-=SCYCLE+NCYCLE;
@@ -1003,9 +1011,9 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 					//CDebug::DPrint(str);
 					//!!Exeption!!
 
-					SPSR[arm_mode_table[0x1b]]=CPSR;    
+					SPSR[arm_mode_table[ARM_MODE_CODE_UND]]=CPSR;    
 					SETI(1);
-					SETM(0x1b);
+					SETM(ARM_MODE_CODE_UND);
 					load(14,REG_PC);    
 					REG_PC=0x00000004;  // (-4) fetch!!!
 					CYCLES-=SCYCLE+NCYCLE; // +2S+1N
@@ -1120,9 +1128,9 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 							//CDebug::DPrint(str);
 						    //!!Exeption!!
 
-							SPSR[arm_mode_table[0x17]]=CPSR;    
+							SPSR[arm_mode_table[ARM_MODE_CODE_ABT]]=CPSR;    
 							SETI(1);
-							SETM(0x17);
+							SETM(ARM_MODE_CODE_ABT);
 							load(14,REG_PC+4);    
 							REG_PC=0x00000010;  
 							CYCLES-=SCYCLE+NCYCLE;
@@ -1143,9 +1151,9 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 							//CDebug::DPrint(str);
 							//!!Exeption!!
 
-							SPSR[arm_mode_table[0x17]]=CPSR;    
+							SPSR[arm_mode_table[ARM_MODE_CODE_ABT]]=CPSR;    
 							SETI(1);
-							SETM(0x17);
+							SETM(ARM_MODE_CODE_ABT);
 							load(14,REG_PC+4);    
 							REG_PC=0x00000010;  
 							CYCLES-=SCYCLE+NCYCLE;
@@ -1180,9 +1188,9 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 					//CDebug::DPrint(str);
 					//!!Exeption!!
 
-					SPSR[arm_mode_table[0x1b]]=CPSR;    
+					SPSR[arm_mode_table[ARM_MODE_CODE_UND]]=CPSR;    
 					SETI(1);
-					SETM(0x1b);
+					SETM(ARM_MODE_CODE_UND);
 					load(14,REG_PC);    
 					REG_PC=0x00000004;  
 					CYCLES-=SCYCLE+NCYCLE; 
@@ -1199,10 +1207,10 @@ int __fastcall ARMCPU::Execute(unsigned int MCLKs)
 					//_madam_FSM=FSM_SUSPENDED;
 					gFIQ=0;
 					
-					SPSR[arm_mode_table[0x11]]=CPSR;
+					SPSR[arm_mode_table[ARM_MODE_CODE_FIQ]]=CPSR;
 					SETF(1);
 					SETI(1);
-					SETM(0x11);
+					SETM(ARM_MODE_CODE_FIQ);
 					load(14,REG_PC+4);
 					REG_PC=0x0000001c;//1c
 			}
@@ -1760,14 +1768,25 @@ __inline unsigned int* ARMCPU::can_multy_write_direct(unsigned int base, unsigne
 void inline __fastcall ARMCPU::decode_swi(unsigned int cmd)
 {
     CYCLES-=SCYCLE+NCYCLE; // +2S+1N
-    
+
+	uint32  swi;
+	
+	swi = cmd & 0x00FFFFFF;
+
+	SPSR[arm_mode_table[ARM_MODE_CODE_SVC]]=CPSR;  // Save CPSR in SPSR_svc  
+	SETI(1);						               // Set interrupt status flag
+	SETM(ARM_MODE_CODE_SVC);				       // Go into supervisor mode
+	load(14,REG_PC+4);							   // Save address of instruction (+4) into R14_svc
+	REG_PC=0x00000008;			                   // Force PC to fetch next instruction from vector table
+	CYCLES-=SCYCLE+NCYCLE;
+	
     // JMK NOTE: This is the goal line! Woo!
     
     /*
-    SPSR[arm_mode_table[0x13]]=CPSR;
+    SPSR[arm_mode_table[ARM_MODE_CODE_SVC]]=CPSR;
     
     SETI(1);
-    SETM(0x13);
+    SETM(ARM_MODE_CODE_SVC);
 
 	load(14,REG_PC);
     
