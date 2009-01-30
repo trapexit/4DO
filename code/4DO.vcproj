@@ -38,7 +38,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswd&quot;"
+				AdditionalIncludeDirectories="&quot;$(WXWIN)\include\msvc&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswd&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH;_CRT_SECURE_NO_DEPRECATE;wxUSE_CMDLINE_PARSER=1"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\vc_mswd\grid/grid.pch"
