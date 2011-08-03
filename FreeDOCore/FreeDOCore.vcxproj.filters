@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="FreeDO">
+      <UniqueIdentifier>{630cd803-9010-4bd0-8c63-6032037e1587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FreeDO\Source Files">
+      <UniqueIdentifier>{27b263fc-e285-45b7-88bd-3bbc84123543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FreeDO\Header Files">
+      <UniqueIdentifier>{18fcaa91-9a34-4db4-8071-f093a6ae1250}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FreeDOFuncs.cpp" />
+    <ClCompile Include="FreeDO\_3do_sys.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeDO\arm.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeDO\bitop.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeDO\Clio.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeDO\DiagPort.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeDO\DSP.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeDO\Iso.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeDO\Madam.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeDO\quarz.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeDO\SPORT.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeDO\vdlp.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeDO\XBUS.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FreeDOFuncs.h" />
+    <ClInclude Include="FreeDO\quarz.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\XBUS.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\SPORT.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\types.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\vdlp.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\Madam.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\IsoXBUS.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\arm.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\bitop.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\Clio.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\DiagPort.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\DSP.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\freedoconfig.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeDO\freedocore.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
