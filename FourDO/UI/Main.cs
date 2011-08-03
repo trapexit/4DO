@@ -164,6 +164,11 @@ namespace FourDO.UI
             Properties.Settings.Default.Save();
         }
 
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoShowSettings();
+        }
+
         #endregion // Event Handlers
 
         #region Private Methods
@@ -343,6 +348,12 @@ namespace FourDO.UI
             {
                 FPSStripItem.Text = "FPS: ---.--";
             }
+        }
+
+        private void DoShowSettings()
+        {
+            Settings settingsForm = new Settings();
+            settingsForm.ShowDialog(this);
         }
 
         #endregion // Private Methods

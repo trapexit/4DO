@@ -38,7 +38,7 @@ namespace FourDO.Emulation
 
         private volatile FrameSpeedCalculator speedCalculator = new FrameSpeedCalculator(4);
 
-        private IAudioPlugin audioPlugin = PluginLoader.LoadAudioPlugin();
+        private IAudioPlugin audioPlugin = PluginLoader.GetAudioPlugin();
 
         #endregion //Private Variables
 

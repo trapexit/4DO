@@ -5,16 +5,16 @@
     <Setting Name="BiosRomFile" Provider="FourDO.UI.PortableSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="GameRomFile" Type="System.String" Scope="User">
+    <Setting Name="GameRomFile" Provider="FourDO.UI.PortableSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AutoLoadGameFile" Type="System.Boolean" Scope="User">
+    <Setting Name="AutoLoadGameFile" Provider="FourDO.UI.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="AutoLoadLastSave" Type="System.Boolean" Scope="User">
+    <Setting Name="AutoLoadLastSave" Provider="FourDO.UI.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="SaveStateSlot" Type="System.Int32" Scope="User">
+    <Setting Name="SaveStateSlot" Provider="FourDO.UI.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>

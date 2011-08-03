@@ -39,6 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -70,8 +71,24 @@
     <Compile Include="Emulation\GameConsole.cs" />
     <Compile Include="Emulation\FreeDO\FreeDOCore.cs" />
     <Compile Include="Emulation\FreeDO\VDLFrame.cs" />
+    <Compile Include="Emulation\Plugins\IInputPlugin.cs" />
+    <Compile Include="Emulation\Plugins\Input\DefaultInputButton.cs" />
+    <Compile Include="Emulation\Plugins\Input\DefaultInputPlugin.cs" />
+    <Compile Include="Emulation\Plugins\Input\DefaultInputSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Emulation\Plugins\Input\DefaultInputSettings.Designer.cs">
+      <DependentUpon>DefaultInputSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Emulation\Plugins\PluginLoader.cs" />
+    <Compile Include="UI\Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\Error.cs" />
+    <Compile Include="Utilities\GlobalKeyboardHook.cs" />
     <Compile Include="Utilities\Memory.cs" />
     <Compile Include="Utilities\PerformanceCounter.cs" />
     <Compile Include="Utilities\ReflectionUtility.cs" />
@@ -98,6 +115,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\PortableSettingsProvider.cs" />
+    <EmbeddedResource Include="Emulation\Plugins\Input\DefaultInputSettings.resx">
+      <DependentUpon>DefaultInputSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\GameCanvas.resx">
       <DependentUpon>GameCanvas.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -120,6 +140,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="VoidImage.bmp" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
@@ -162,6 +185,9 @@
       <Project>{D72CC69F-2065-4BA2-A499-ABF352C0733D}</Project>
       <Name>WaveLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FourDO.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
