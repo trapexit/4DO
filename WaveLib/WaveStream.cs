@@ -94,7 +94,7 @@ namespace WaveLib
 		{
 			Dispose();
 		}
-		public void Dispose()
+		public new void Dispose()
 		{
 			if (m_Stream != null)
 				m_Stream.Close();

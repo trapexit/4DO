@@ -96,6 +96,11 @@ namespace FourDO.UI
             }
         }
 
+        private void MainMenuStrip_MenuActivate(object sender, EventArgs e)
+        {
+            this.UpdateUI();
+        }
+
         private void RomNagBox_CloseClicked(object sender, EventArgs e)
         {
             this.DoHideRomNag();
@@ -234,6 +239,8 @@ namespace FourDO.UI
                 Properties.Settings.Default.Save();
                 this.DoShowRomNag();
             }
+
+            this.UpdateUI();
         }
 
         private void DoConsoleReset()
@@ -264,6 +271,8 @@ namespace FourDO.UI
             {
                 Properties.Settings.Default.BiosRomFile = openDialog.FileName;
                 Properties.Settings.Default.Save();
+
+                this.DoConsoleStart();
             }
         }
 

@@ -27,6 +27,7 @@ namespace FourDO.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string BiosRomFile {
             get {
                 return ((string)(this["BiosRomFile"]));
@@ -40,6 +41,7 @@ namespace FourDO.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public string GameRomFile {
             get {
                 return ((string)(this["GameRomFile"]));
@@ -53,6 +55,7 @@ namespace FourDO.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public bool AutoLoadGameFile {
             get {
                 return ((bool)(this["AutoLoadGameFile"]));
@@ -66,6 +69,7 @@ namespace FourDO.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public bool AutoLoadLastSave {
             get {
                 return ((bool)(this["AutoLoadLastSave"]));
@@ -79,6 +83,7 @@ namespace FourDO.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public int SaveStateSlot {
             get {
                 return ((int)(this["SaveStateSlot"]));

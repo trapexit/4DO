@@ -29,7 +29,7 @@ Felix Lazarev
 	#include <windows.h>
 
 	#define __temporalfixes 1
-	#define RESSCALE  1
+	#define RESSCALE  0
 	#define DEBUG_CORE
 
 #else

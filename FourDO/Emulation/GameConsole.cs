@@ -21,11 +21,17 @@ namespace FourDO.Emulation
         private const int ROM_SIZE = 1 * 1024 * 1024;
         private const int NVRAM_SIZE = 32 * 1024;
 
+        private const int PBUS_DATA_MAX_SIZE = 16;
+
         private byte[] biosRomCopy;
 
         private byte[] frame;
         private IntPtr framePtr;
         private GCHandle frameHandle;
+
+        private byte[] pbusData;
+        private IntPtr pbusDataPtr;
+        private GCHandle pbusDataHandle;
 
         private Thread workerThread;
         private volatile bool stopWorkerSignal = false;
@@ -39,6 +45,7 @@ namespace FourDO.Emulation
         private volatile FrameSpeedCalculator speedCalculator = new FrameSpeedCalculator(4);
 
         private IAudioPlugin audioPlugin = PluginLoader.GetAudioPlugin();
+        private IInputPlugin inputPlugin = PluginLoader.GetInputPlugin();
 
         #endregion //Private Variables
 
@@ -89,6 +96,10 @@ namespace FourDO.Emulation
             frame = new byte[VDLFrameSize];
             frameHandle = GCHandle.Alloc(frame, GCHandleType.Pinned);
             framePtr = frameHandle.AddrOfPinnedObject();
+
+            pbusData = new byte[PBUS_DATA_MAX_SIZE];
+            pbusDataHandle = GCHandle.Alloc(pbusData, GCHandleType.Pinned);
+            pbusDataPtr = pbusDataHandle.AddrOfPinnedObject();
         }
 
         public void Destroy()
@@ -329,12 +340,32 @@ namespace FourDO.Emulation
 
         private int ExternalInterface_GetPbusLength()
         {
-            return 0;
+            // Ask input plugin for Pbus data.
+            byte[] pbusDataCopy = inputPlugin.GetPbusData();
+
+            if (pbusDataCopy == null)
+                return 0;
+
+            //////////////////
+            // Copy the pbus data. We'll return it to the core soon when it asks.
+            uint copyLength = (uint)pbusDataCopy.Length;
+            if (copyLength > 16)
+                copyLength = 16;
+
+            unsafe
+            {
+                fixed (byte* srcPtr = pbusDataCopy)
+                {
+                    Utilities.Memory.CopyMemory(this.pbusDataPtr, new IntPtr(srcPtr), copyLength);
+                }
+            }
+
+            return (int)copyLength;
         }
 
         private IntPtr ExternalInterface_GetPbusData()
         {
-            return new IntPtr(0);
+            return this.pbusDataPtr;
         }
 
         private void ExternalInterface_KPrint(IntPtr value)

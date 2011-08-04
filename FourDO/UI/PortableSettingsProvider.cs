@@ -1,4 +1,15 @@
-﻿using Microsoft.VisualBasic;
+﻿////////////////////////////////
+// JMK NOTES
+//
+// This portable settings provider found at http://www.codeproject.com/KB/vb/CustomSettingsProvider.aspx
+// The original was in VB, but it was easy enough to convert it to C#
+//
+// I have seriously hacked up how this provider determines the filename to
+// save to. But, here's the result.
+//  * FourDO's default save always goes to FourDO.settings.
+//  * All other settings using the provider will use the class name.
+////////////////////////////////
+using Microsoft.VisualBasic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,8 +25,6 @@ using System.Xml;
 
 namespace FourDO.UI
 {
-    // This portable settings provider found at http://www.codeproject.com/KB/vb/CustomSettingsProvider.aspx
-    // The original was in VB, but it was easy enough to convert it to C#
     public class PortableSettingsProvider : SettingsProvider
     {
         //XML Root Node
@@ -44,21 +53,10 @@ namespace FourDO.UI
             set { }
         }
 
-        public virtual string GetAppSettingsPath()
-        {
-            //Used to determine where to store the settings
-            System.IO.FileInfo fi = new System.IO.FileInfo(Application.ExecutablePath);
-            return fi.DirectoryName;
-        }
-
-        public virtual string GetAppSettingsFilename()
-        {
-            //Used to determine the filename to store the settings
-            return ApplicationName + ".settings";
-        }
-
         public override void SetPropertyValues(SettingsContext context, SettingsPropertyValueCollection propvals)
         {
+            this.CalcSettingsFilename(context);
+            
             //Iterate through the settings to be stored
             //Only dirty settings are included in propvals, and only ones relevant to this provider
             foreach (SettingsPropertyValue propval in propvals)
@@ -68,7 +66,7 @@ namespace FourDO.UI
 
             try
             {
-                SettingsXML.Save(System.IO.Path.Combine(GetAppSettingsPath(), GetAppSettingsFilename()));
+                SettingsXML.Save(m_xmlFileName);
             }
             catch
             {
@@ -78,6 +76,8 @@ namespace FourDO.UI
 
         public override SettingsPropertyValueCollection GetPropertyValues(SettingsContext context, SettingsPropertyCollection props)
         {
+            this.CalcSettingsFilename(context);
+
             //Create new collection of values
             SettingsPropertyValueCollection values = new SettingsPropertyValueCollection();
 
@@ -93,8 +93,38 @@ namespace FourDO.UI
             return values;
         }
 
-
+        private string m_xmlFileName = null;
         private System.Xml.XmlDocument m_SettingsXML = null;
+
+        private void CalcSettingsFilename(SettingsContext context)
+        {
+            if (m_xmlFileName != null)
+                return;
+
+            ////////////////
+            // Determine the settings file name.
+
+            System.IO.FileInfo fi = new System.IO.FileInfo(Application.ExecutablePath);
+            string directoryName = fi.DirectoryName;
+
+            // We'll leave fourdo's main settings as FourDo.settings.
+            // Everything else will use the class name.
+            string className;
+            string groupName = (string)context["GroupName"];
+            if (groupName == Properties.Settings.Default.GetType().FullName)
+            {
+                className = "FourDO";
+            }
+            else
+            {
+                string[] groupParts = groupName.Split('.');
+                string lastPart = groupParts[groupParts.Length - 1];
+                className = lastPart;
+            }
+
+            m_xmlFileName = System.IO.Path.Combine(directoryName, className + ".settings");
+        }
+
         private XmlDocument SettingsXML
         {
             get
@@ -107,7 +137,7 @@ namespace FourDO.UI
 
                     try
                     {
-                        m_SettingsXML.Load(System.IO.Path.Combine(GetAppSettingsPath(), GetAppSettingsFilename()));
+                        m_SettingsXML.Load(m_xmlFileName);
                     }
                     catch
                     {

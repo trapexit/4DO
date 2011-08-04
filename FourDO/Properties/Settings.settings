@@ -2,19 +2,19 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FourDO.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="BiosRomFile" Provider="FourDO.UI.PortableSettingsProvider" Type="System.String" Scope="User">
+    <Setting Name="BiosRomFile" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="GameRomFile" Provider="FourDO.UI.PortableSettingsProvider" Type="System.String" Scope="User">
+    <Setting Name="GameRomFile" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AutoLoadGameFile" Provider="FourDO.UI.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+    <Setting Name="AutoLoadGameFile" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="AutoLoadLastSave" Provider="FourDO.UI.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+    <Setting Name="AutoLoadLastSave" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="SaveStateSlot" Provider="FourDO.UI.PortableSettingsProvider" Type="System.Int32" Scope="User">
+    <Setting Name="SaveStateSlot" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>

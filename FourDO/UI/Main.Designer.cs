@@ -33,7 +33,7 @@
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusStripItem = new System.Windows.Forms.ToolStripStatusLabel();
             this.FPSStripItem = new System.Windows.Forms.ToolStripStatusLabel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.MainMenuBar = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openCDImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadLastGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,13 +49,13 @@
             this.chooseBiosRomMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RefreshFpsTimer = new System.Windows.Forms.Timer(this.components);
             this.RomNagBox = new FourDO.UI.NagBox();
             this.gameCanvas1 = new FourDO.UI.GameCanvas();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainStatusStrip.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.MainMenuBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainStatusStrip
@@ -80,16 +80,17 @@
             this.FPSStripItem.Size = new System.Drawing.Size(603, 17);
             this.FPSStripItem.Spring = true;
             // 
-            // menuStrip1
+            // MainMenuBar
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MainMenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.optionsToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(744, 24);
-            this.menuStrip1.TabIndex = 2;
-            this.menuStrip1.Text = "menuStrip1";
+            this.MainMenuBar.Location = new System.Drawing.Point(0, 0);
+            this.MainMenuBar.Name = "MainMenuBar";
+            this.MainMenuBar.Size = new System.Drawing.Size(744, 24);
+            this.MainMenuBar.TabIndex = 2;
+            this.MainMenuBar.Text = "menuStrip1";
+            this.MainMenuBar.MenuActivate += new System.EventHandler(this.MainMenuStrip_MenuActivate);
             // 
             // fileToolStripMenuItem
             // 
@@ -212,6 +213,21 @@
             this.exitMenuItem.Text = "E&xit";
             this.exitMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsToolStripMenuItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "&Options";
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.settingsToolStripMenuItem.Text = "&Settings...";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
             // RefreshFpsTimer
             // 
             this.RefreshFpsTimer.Enabled = true;
@@ -244,21 +260,6 @@
             this.gameCanvas1.Size = new System.Drawing.Size(744, 557);
             this.gameCanvas1.TabIndex = 3;
             // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsToolStripMenuItem});
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.optionsToolStripMenuItem.Text = "&Options";
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.settingsToolStripMenuItem.Text = "&Settings...";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -267,9 +268,8 @@
             this.Controls.Add(this.RomNagBox);
             this.Controls.Add(this.gameCanvas1);
             this.Controls.Add(this.MainStatusStrip);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.MainMenuBar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FourDO";
@@ -277,8 +277,8 @@
             this.Load += new System.EventHandler(this.Main_Load);
             this.MainStatusStrip.ResumeLayout(false);
             this.MainStatusStrip.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.MainMenuBar.ResumeLayout(false);
+            this.MainMenuBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -289,7 +289,7 @@
         private System.Windows.Forms.StatusStrip MainStatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel StatusStripItem;
         private NagBox RomNagBox;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip MainMenuBar;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chooseBiosRomMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;

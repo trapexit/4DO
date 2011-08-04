@@ -36,6 +36,8 @@ namespace FourDO.Emulation.Plugins.Input
             this.AddListItem(DefaultInputButton.P, "P (Play/Pause button)");
             this.AddListItem(DefaultInputButton.L, "Left Shoulder");
             this.AddListItem(DefaultInputButton.R, "Right Shoulder");
+
+            this.UpdateUI();
         }
 
         private void UpdateUI()
@@ -61,7 +63,7 @@ namespace FourDO.Emulation.Plugins.Input
             
             ListViewItem newItem = new ListViewItem(friendlyCaption);
             newItem.Name = button.ToString();
-            newItem.Tag = currentKey;
+            newItem.Tag = currentKey == null ? (Keys?)null : (Keys?)outValue;
             newItem.SubItems.Add("");
 
             this.ControlsListView.Items.Add(newItem);

@@ -72,6 +72,12 @@
     <Compile Include="Emulation\FreeDO\FreeDOCore.cs" />
     <Compile Include="Emulation\FreeDO\VDLFrame.cs" />
     <Compile Include="Emulation\Plugins\IInputPlugin.cs" />
+    <Compile Include="Emulation\Plugins\Input\DefaultInput.cs" />
+    <Compile Include="Emulation\Plugins\Input\DefaultInput.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>DefaultInput.settings</DependentUpon>
+    </Compile>
     <Compile Include="Emulation\Plugins\Input\DefaultInputButton.cs" />
     <Compile Include="Emulation\Plugins\Input\DefaultInputPlugin.cs" />
     <Compile Include="Emulation\Plugins\Input\DefaultInputSettings.cs">
@@ -143,6 +149,10 @@
     <EmbeddedResource Include="UI\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Emulation\Plugins\Input\DefaultInput.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>DefaultInput.Designer.cs</LastGenOutput>
+    </None>
     <None Include="VoidImage.bmp" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

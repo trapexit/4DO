@@ -7,7 +7,6 @@ namespace FourDO.Emulation
 {
     internal class FrameSpeedCalculator
     {
-        DateTime? lastFrame;
         bool filled;
         int currentSample;
         double[] samples;
@@ -35,23 +34,6 @@ namespace FourDO.Emulation
         }
 
         public double CurrentAverage { get; protected set; }
-
-        /*
-        public double SampleNow()
-        {
-            if (lastFrame.HasValue == false)
-            {
-                lastFrame = DateTime.Now;
-                return 0;
-            }
-            
-            DateTime currentFrame = DateTime.Now;
-            double sample = currentFrame.Subtract(lastFrame.Value).TotalMilliseconds;
-            lastFrame = currentFrame;
-
-            return AddSample(sample);
-        }
-        */
         
         public double AddSample(double sample)
         {

@@ -20,8 +20,8 @@ namespace FourDO.UI
     {
         private readonly bool preserveAspectRatio = false;
 
-        private const int bitmapWidth = 640;
-        private const int bitmapHeight = 480;
+        private const int bitmapWidth = 320;
+        private const int bitmapHeight = 240;
 
         private Bitmap bitmapA = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format24bppRgb);
         private Bitmap bitmapB = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format24bppRgb);

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.CloseButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.OKButton = new System.Windows.Forms.Button();
             this.ClearAllButton = new System.Windows.Forms.Button();
@@ -41,7 +41,7 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.CancelButton);
+            this.panel1.Controls.Add(this.CloseButton);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.OKButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -50,16 +50,16 @@
             this.panel1.Size = new System.Drawing.Size(308, 50);
             this.panel1.TabIndex = 1;
             // 
-            // CancelButton
+            // CloseButton
             // 
-            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CancelButton.Location = new System.Drawing.Point(221, 16);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 1;
-            this.CancelButton.Text = "&Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseButton.Location = new System.Drawing.Point(221, 16);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(75, 23);
+            this.CloseButton.TabIndex = 1;
+            this.CloseButton.Text = "&Cancel";
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // groupBox1
             // 
@@ -131,6 +131,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.CloseButton;
             this.ClientSize = new System.Drawing.Size(308, 335);
             this.Controls.Add(this.ControlsListView);
             this.Controls.Add(this.ClearAllButton);
@@ -150,7 +151,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.Button ClearAllButton;
