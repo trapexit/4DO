@@ -93,6 +93,7 @@
     <Compile Include="UI\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\DisplayHelper.cs" />
     <Compile Include="Utilities\Error.cs" />
     <Compile Include="Utilities\GlobalKeyboardHook.cs" />
     <Compile Include="Utilities\Memory.cs" />

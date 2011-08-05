@@ -32,6 +32,12 @@ namespace FourDO.UI
         
         private object bitmapSemaphore = new object();
 
+        // I added a frameskip to help ensure that the goofy main form controls can update. Damn windows forms!!
+        private volatile int frameSkip = 1; 
+        private long frameNum = 0;
+
+        private long scanDrawTime = 0;
+
         public GameCanvas()
         {
             InitializeComponent();
@@ -40,10 +46,18 @@ namespace FourDO.UI
             lastDrawnBackgroundBitmap = bitmapB;
 
             GameConsole.Instance.FrameDone += new EventHandler(Instance_FrameDone);
-        }
 
+            double maxRefreshRate = (double)Utilities.DisplayHelper.GetMaximumRefreshRate();
+            this.scanDrawTime = (long)((1 / maxRefreshRate) * Utilities.PerformanceCounter.Frequency);
+        }
+        
         private unsafe void Instance_FrameDone(object sender, EventArgs e)
         {
+            // Skip frames?
+            this.frameNum++;
+            if (this.frameNum % (this.frameSkip + 1) > 0)
+                return;
+            
             /////////////// 
             // Choose the best bitmap to do a background render to
             Bitmap bitmapToCalc;
@@ -82,14 +96,33 @@ namespace FourDO.UI
             bitmapToCalc.UnlockBits(bitmapData);
 
             lastDrawnBackgroundBitmap = bitmapToCalc;
-            
-            this.Invalidate();
+
+            this.Invalidate(this.getBlitRect());
         }
 
         private void GameCanvas_Paint(object sender, PaintEventArgs e)
         {
+            long sampleBefore = Utilities.PerformanceCounter.Current;
             currentFrontendBitmap = lastDrawnBackgroundBitmap;
 
+            Rectangle blitRect = this.getBlitRect();
+            Graphics g = e.Graphics;
+            g.DrawImage(currentFrontendBitmap, blitRect);
+            g.DrawRectangle(new Pen(Color.FromArgb(50,50,50)), blitRect.X - 1, blitRect.Y - 1, blitRect.Width + 1, blitRect.Height + 1);
+
+            // If we're taking longer than half of the scan time to draw, do the frame skip.
+            if ((Utilities.PerformanceCounter.Current - sampleBefore) * 2 > scanDrawTime)
+            {
+                this.frameSkip = 1;
+            }
+            else
+            {
+                this.frameSkip = 0;
+            }
+        }
+
+        private Rectangle getBlitRect()
+        {
             double imageAspect = bitmapWidth / (double)bitmapHeight;
             double screenAspect = this.Width / (double)this.Height;
 
@@ -120,10 +153,8 @@ namespace FourDO.UI
                     blitRect.Y = (this.Height - blitRect.Height) / 2;
                 }
             }
-            Graphics g = e.Graphics;
-            g.DrawImage(currentFrontendBitmap, blitRect);
-            g.DrawRectangle(new Pen(Color.FromArgb(50,50,50)), blitRect.X - 1, blitRect.Y - 1, blitRect.Width + 1, blitRect.Height + 1);
-            
+
+            return blitRect;
         }
     }
 }
