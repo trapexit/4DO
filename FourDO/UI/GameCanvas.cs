@@ -18,8 +18,6 @@ namespace FourDO.UI
 {
     public partial class GameCanvas : UserControl
     {
-        private readonly bool preserveAspectRatio = false;
-
         private const int bitmapWidth = 320;
         private const int bitmapHeight = 240;
 
@@ -38,6 +36,8 @@ namespace FourDO.UI
 
         private long scanDrawTime = 0;
 
+        private bool preserveAspectRatio = true;
+
         public GameCanvas()
         {
             InitializeComponent();
@@ -49,6 +49,19 @@ namespace FourDO.UI
 
             double maxRefreshRate = (double)Utilities.DisplayHelper.GetMaximumRefreshRate();
             this.scanDrawTime = (long)((1 / maxRefreshRate) * Utilities.PerformanceCounter.Frequency);
+        }
+
+        public bool PreserveAspectRatio
+        {
+            get
+            {
+                return this.preserveAspectRatio;
+            }
+            set
+            {
+                this.preserveAspectRatio = value;
+                this.Invalidate();
+            }
         }
         
         private unsafe void Instance_FrameDone(object sender, EventArgs e)
@@ -128,7 +141,7 @@ namespace FourDO.UI
 
             Rectangle blitRect = new Rectangle();
 
-            if (preserveAspectRatio == true)
+            if (this.preserveAspectRatio == false)
             {
                 blitRect.X = 0;
                 blitRect.Y = 0;

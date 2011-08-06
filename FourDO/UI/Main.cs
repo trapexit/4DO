@@ -12,6 +12,11 @@ namespace FourDO.UI
 {
     public partial class Main : Form
     {
+        private const int BASE_WIDTH = 320;
+        private const int BASE_HEIGHT = 240;
+
+        private SizeGuard sizeGuard = new SizeGuard();
+
         public Main()
         {
             InitializeComponent();
@@ -19,6 +24,49 @@ namespace FourDO.UI
 
         private void Main_Load(object sender, EventArgs e)
         {
+            // Some basic form updates.
+            this.sizeBox.BaseWidth = BASE_WIDTH;
+            this.sizeBox.BaseHeight = BASE_HEIGHT;
+            
+            this.sizeGuard.BaseWidth = BASE_WIDTH;
+            this.sizeGuard.BaseHeight = BASE_HEIGHT;
+            this.sizeGuard.WindowExtraWidth = this.Width - this.ClientSize.Width;
+            this.sizeGuard.WindowExtraHeight = (this.Height - this.ClientSize.Height) + this.MainMenuBar.Height + this.MainStatusStrip.Height;
+
+            // Initial form size.
+            int savedWidth = Properties.Settings.Default.WindowWidth;
+            int savedHeight = Properties.Settings.Default.WindowHeight;
+            this.Width = (savedWidth > 0) ? savedWidth : this.sizeGuard.BaseWidth * 2 + this.sizeGuard.WindowExtraWidth;
+            this.Height = (savedHeight > 0) ? savedHeight : this.sizeGuard.BaseHeight * 2 + this.sizeGuard.WindowExtraHeight;
+            if (savedWidth > 0 || savedHeight > 0)
+                this.DoSaveWindowSize();
+            this.sizeBox.Visible = false; // Shut that damn thing up.
+
+            // Copy some menu items to the quick display settings menu.
+            foreach (ToolStripItem item in this.displayMenuItem.DropDownItems)
+            {
+                ToolStripItem newItem = null;
+                if (item is ToolStripSeparator)
+                    newItem = new ToolStripSeparator();
+                else if (item is ToolStripMenuItem)
+                {
+                    newItem = new ToolStripMenuItem();
+                    newItem.Text = item.Text;
+
+                    if (item == fullScreenMenuItem)
+                        newItem.Click += new EventHandler(this.fullScreenMenuItem_Click);
+
+                    if (item == snapWindowMenuItem)
+                        newItem.Click += new EventHandler(this.snapWindowMenuItem_Click);
+
+                    if (item == preserveRatioMenuItem)
+                        newItem.Click += new EventHandler(this.preserveRatioMenuItem_Click);
+                }
+                newItem.Tag = item;
+
+                this.quickDisplayDropDownButton.DropDownItems.Add(newItem);
+            }
+
             /////////////
             // Handle ROM file nag box
             if (!File.Exists(Properties.Settings.Default.BiosRomFile))
@@ -90,10 +138,30 @@ namespace FourDO.UI
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomFile)
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoLoadGameFile)
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoLoadLastSave)
-                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.SaveStateSlot))
+                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.SaveStateSlot)
+                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowFullScreen)
+                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowPreseveRatio)
+                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowSnapSize))
             {
                 this.UpdateUI();
             }
+        }
+
+        private void Main_Resize(object sender, EventArgs e)
+        {
+            sizeBox.UpdateSizeText(gameCanvas.Width, gameCanvas.Height);
+            sizeBox.SetBounds(
+                    this.ClientSize.Width - 6 - this.sizeBox.PreferredSize.Width,
+                    this.ClientSize.Height - 28 - this.sizeBox.PreferredSize.Height,
+                    this.sizeBox.PreferredSize.Width,
+                    this.sizeBox.PreferredSize.Height);
+            this.DoSaveWindowSize();
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            this.sizeGuard.WatchForResize(ref m);
+            base.WndProc(ref m);
         }
 
         private void MainMenuStrip_MenuActivate(object sender, EventArgs e)
@@ -174,6 +242,21 @@ namespace FourDO.UI
             this.DoShowSettings();
         }
 
+        private void fullScreenMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoToggleFullScreen();
+        }
+
+        private void snapWindowMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoToggleSnapWindow();
+        }
+
+        private void preserveRatioMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoTogglePreserveRatio();
+        }
+
         #endregion // Event Handlers
 
         #region Private Methods
@@ -183,21 +266,37 @@ namespace FourDO.UI
             bool isValidBiosRomSelected = (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == false);
             bool consoleRunning = GameConsole.Instance.Running;
 
-            // Menu enabled/disabled.
-            openCDImageMenuItem.Enabled = isValidBiosRomSelected;
-            loadLastGameMenuItem.Enabled = true;
-            saveStateMenuItem.Enabled = isValidBiosRomSelected && consoleRunning;
-            loadStateMenuItem.Enabled = isValidBiosRomSelected && consoleRunning;
-            saveStateSlotMenuItem.Enabled = true;
-            foreach (ToolStripItem menuItem in saveStateSlotMenuItem.DropDownItems)
+            ////////////////////////
+            // File menu
+
+            this.openCDImageMenuItem.Enabled = isValidBiosRomSelected;
+            this.loadLastGameMenuItem.Enabled = true;
+            this.saveStateMenuItem.Enabled = isValidBiosRomSelected && consoleRunning;
+            this.loadStateMenuItem.Enabled = isValidBiosRomSelected && consoleRunning;
+            this.saveStateSlotMenuItem.Enabled = true;
+            foreach (ToolStripItem menuItem in this.saveStateSlotMenuItem.DropDownItems)
                 menuItem.Enabled = true;
-            loadLastSaveMenuItem.Enabled = true;
-            chooseBiosRomMenuItem.Enabled = true;
-            exitMenuItem.Enabled = true;
+            this.loadLastSaveMenuItem.Enabled = true;
+            this.chooseBiosRomMenuItem.Enabled = true;
+            this.exitMenuItem.Enabled = true;
 
             // Various Checked/Unchecked
             loadLastGameMenuItem.Checked = Properties.Settings.Default.AutoLoadGameFile;
             loadLastSaveMenuItem.Checked = Properties.Settings.Default.AutoLoadLastSave;
+
+            ////////////////////////
+            // Display menus. (always enabled)
+
+            this.fullScreenMenuItem.Checked = Properties.Settings.Default.WindowFullScreen;
+            this.GetQuickDisplayMenuItem(fullScreenMenuItem).Checked = fullScreenMenuItem.Checked;
+
+            this.snapWindowMenuItem.Checked = Properties.Settings.Default.WindowSnapSize;
+            this.GetQuickDisplayMenuItem(snapWindowMenuItem).Checked = snapWindowMenuItem.Checked;
+            this.sizeGuard.Enabled = this.snapWindowMenuItem.Checked;
+
+            this.preserveRatioMenuItem.Checked = Properties.Settings.Default.WindowPreseveRatio;
+            this.GetQuickDisplayMenuItem(preserveRatioMenuItem).Checked = preserveRatioMenuItem.Checked;
+            this.gameCanvas.PreserveAspectRatio = this.preserveRatioMenuItem.Checked;
             
             // Save slot
             foreach (ToolStripItem menuItem in saveStateSlotMenuItem.DropDownItems)
@@ -208,6 +307,9 @@ namespace FourDO.UI
                 if (menuItem.Tag != null)
                     ((ToolStripMenuItem)menuItem).Checked = (Properties.Settings.Default.SaveStateSlot == (int)menuItem.Tag);
             }
+
+            // Misc form stuff.
+            this.sizeGuard.Enabled = Properties.Settings.Default.WindowSnapSize;
             
             // Hide, but never show the rom nag box in this function. 
             // The rom nag box only makes itself visible on when emulation fails to start due to an invalid bios.
@@ -351,11 +453,11 @@ namespace FourDO.UI
                 {
                     fps = 999.99;
                 }
-                FPSStripItem.Text = string.Format("FPS: {0:000.00}", fps);
+                FPSStripItem.Text = string.Format("Core FPS: {0:000.00}", fps);
             }
             else
             {
-                FPSStripItem.Text = "FPS: ---.--";
+                FPSStripItem.Text = "Core FPS: ---.--";
             }
         }
 
@@ -363,6 +465,41 @@ namespace FourDO.UI
         {
             Settings settingsForm = new Settings();
             settingsForm.ShowDialog(this);
+        }
+
+        private void DoToggleFullScreen()
+        {
+            Properties.Settings.Default.WindowFullScreen = !Properties.Settings.Default.WindowFullScreen;
+            Properties.Settings.Default.Save();
+        }
+
+        private void DoToggleSnapWindow()
+        {
+            Properties.Settings.Default.WindowSnapSize = !Properties.Settings.Default.WindowSnapSize;
+            Properties.Settings.Default.Save();
+        }
+
+        private void DoTogglePreserveRatio()
+        {
+            Properties.Settings.Default.WindowPreseveRatio = !Properties.Settings.Default.WindowPreseveRatio;
+            Properties.Settings.Default.Save();
+        }
+
+        private void DoSaveWindowSize()
+        {
+            Properties.Settings.Default.WindowWidth = this.Width;
+            Properties.Settings.Default.WindowHeight = this.Height;
+            Properties.Settings.Default.Save();
+        }
+
+        private ToolStripMenuItem GetQuickDisplayMenuItem(ToolStripMenuItem displayMenuItem)
+        {
+            foreach (ToolStripItem item in quickDisplayDropDownButton.DropDownItems)
+            {
+                if (item.Tag == displayMenuItem)
+                    return (ToolStripMenuItem)item;
+            }
+            return null;
         }
 
         #endregion // Private Methods

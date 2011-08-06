@@ -93,6 +93,13 @@
     <Compile Include="UI\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SizeBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\SizeBox.Designer.cs">
+      <DependentUpon>SizeBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SizeGuard.cs" />
     <Compile Include="Utilities\DisplayHelper.cs" />
     <Compile Include="Utilities\Error.cs" />
     <Compile Include="Utilities\GlobalKeyboardHook.cs" />
@@ -150,6 +157,9 @@
     <EmbeddedResource Include="UI\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\SizeBox.resx">
+      <DependentUpon>SizeBox.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Emulation\Plugins\Input\DefaultInput.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>DefaultInput.Designer.cs</LastGenOutput>
@@ -199,6 +209,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FourDO.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UI\SizeHorizontal.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UI\SizeVertical.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

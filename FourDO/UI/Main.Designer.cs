@@ -33,8 +33,9 @@
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusStripItem = new System.Windows.Forms.ToolStripStatusLabel();
             this.FPSStripItem = new System.Windows.Forms.ToolStripStatusLabel();
+            this.quickDisplayDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.MainMenuBar = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openCDImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadLastGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -49,11 +50,17 @@
             this.chooseBiosRomMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fullScreenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.snapWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.preserveRatioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RefreshFpsTimer = new System.Windows.Forms.Timer(this.components);
+            this.sizeBox = new FourDO.UI.SizeBox();
             this.RomNagBox = new FourDO.UI.NagBox();
-            this.gameCanvas1 = new FourDO.UI.GameCanvas();
+            this.gameCanvas = new FourDO.UI.GameCanvas();
             this.MainStatusStrip.SuspendLayout();
             this.MainMenuBar.SuspendLayout();
             this.SuspendLayout();
@@ -62,7 +69,8 @@
             // 
             this.MainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusStripItem,
-            this.FPSStripItem});
+            this.FPSStripItem,
+            this.quickDisplayDropDownButton});
             this.MainStatusStrip.Location = new System.Drawing.Point(0, 581);
             this.MainStatusStrip.Name = "MainStatusStrip";
             this.MainStatusStrip.Size = new System.Drawing.Size(744, 22);
@@ -77,14 +85,24 @@
             // FPSStripItem
             // 
             this.FPSStripItem.Name = "FPSStripItem";
-            this.FPSStripItem.Size = new System.Drawing.Size(603, 17);
+            this.FPSStripItem.Size = new System.Drawing.Size(453, 17);
             this.FPSStripItem.Spring = true;
+            // 
+            // quickDisplayDropDownButton
+            // 
+            this.quickDisplayDropDownButton.BackColor = System.Drawing.SystemColors.Window;
+            this.quickDisplayDropDownButton.Image = ((System.Drawing.Image)(resources.GetObject("quickDisplayDropDownButton.Image")));
+            this.quickDisplayDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.quickDisplayDropDownButton.Name = "quickDisplayDropDownButton";
+            this.quickDisplayDropDownButton.Size = new System.Drawing.Size(119, 20);
+            this.quickDisplayDropDownButton.Text = "Display Options";
             // 
             // MainMenuBar
             // 
             this.MainMenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.optionsToolStripMenuItem});
+            this.fileMenuItem,
+            this.displayMenuItem,
+            this.optionsMenuItem});
             this.MainMenuBar.Location = new System.Drawing.Point(0, 0);
             this.MainMenuBar.Name = "MainMenuBar";
             this.MainMenuBar.Size = new System.Drawing.Size(744, 24);
@@ -92,9 +110,9 @@
             this.MainMenuBar.Text = "menuStrip1";
             this.MainMenuBar.MenuActivate += new System.EventHandler(this.MainMenuStrip_MenuActivate);
             // 
-            // fileToolStripMenuItem
+            // fileMenuItem
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openCDImageMenuItem,
             this.loadLastGameMenuItem,
             this.toolStripSeparator1,
@@ -106,9 +124,9 @@
             this.chooseBiosRomMenuItem,
             this.toolStripSeparator2,
             this.exitMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "&File";
+            this.fileMenuItem.Name = "fileMenuItem";
+            this.fileMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileMenuItem.Text = "&File";
             // 
             // openCDImageMenuItem
             // 
@@ -213,26 +231,79 @@
             this.exitMenuItem.Text = "E&xit";
             this.exitMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // optionsToolStripMenuItem
+            // displayMenuItem
             // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsToolStripMenuItem});
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.optionsToolStripMenuItem.Text = "&Options";
+            this.displayMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fullScreenMenuItem,
+            this.toolStripSeparator5,
+            this.snapWindowMenuItem,
+            this.preserveRatioMenuItem});
+            this.displayMenuItem.Name = "displayMenuItem";
+            this.displayMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.displayMenuItem.Text = "&Display";
             // 
-            // settingsToolStripMenuItem
+            // fullScreenMenuItem
             // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.settingsToolStripMenuItem.Text = "&Settings...";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            this.fullScreenMenuItem.Name = "fullScreenMenuItem";
+            this.fullScreenMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this.fullScreenMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.fullScreenMenuItem.Text = "Full Screen";
+            this.fullScreenMenuItem.Click += new System.EventHandler(this.fullScreenMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(253, 6);
+            // 
+            // snapWindowMenuItem
+            // 
+            this.snapWindowMenuItem.Checked = true;
+            this.snapWindowMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.snapWindowMenuItem.Name = "snapWindowMenuItem";
+            this.snapWindowMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.snapWindowMenuItem.Text = "Snap Window to Clean Increments";
+            this.snapWindowMenuItem.Click += new System.EventHandler(this.snapWindowMenuItem_Click);
+            // 
+            // preserveRatioMenuItem
+            // 
+            this.preserveRatioMenuItem.Checked = true;
+            this.preserveRatioMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.preserveRatioMenuItem.Name = "preserveRatioMenuItem";
+            this.preserveRatioMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.preserveRatioMenuItem.Text = "Preserve Aspect Ratio";
+            this.preserveRatioMenuItem.Click += new System.EventHandler(this.preserveRatioMenuItem_Click);
+            // 
+            // optionsMenuItem
+            // 
+            this.optionsMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsMenuItem});
+            this.optionsMenuItem.Name = "optionsMenuItem";
+            this.optionsMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsMenuItem.Text = "&Options";
+            // 
+            // settingsMenuItem
+            // 
+            this.settingsMenuItem.Name = "settingsMenuItem";
+            this.settingsMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.settingsMenuItem.Text = "&Settings...";
+            this.settingsMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // RefreshFpsTimer
             // 
             this.RefreshFpsTimer.Enabled = true;
             this.RefreshFpsTimer.Interval = 300;
             this.RefreshFpsTimer.Tick += new System.EventHandler(this.RefreshFpsTimer_Tick);
+            // 
+            // sizeBox
+            // 
+            this.sizeBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.sizeBox.BaseHeight = 0;
+            this.sizeBox.BaseWidth = 0;
+            this.sizeBox.Location = new System.Drawing.Point(604, 551);
+            this.sizeBox.Name = "sizeBox";
+            this.sizeBox.Size = new System.Drawing.Size(118, 30);
+            this.sizeBox.TabIndex = 4;
+            this.sizeBox.Visible = false;
             // 
             // RomNagBox
             // 
@@ -250,23 +321,25 @@
             this.RomNagBox.CloseClicked += new System.EventHandler(this.RomNagBox_CloseClicked);
             this.RomNagBox.LinkClicked += new System.EventHandler(this.RomNagBox_LinkClicked);
             // 
-            // gameCanvas1
+            // gameCanvas
             // 
-            this.gameCanvas1.BackColor = System.Drawing.Color.Black;
-            this.gameCanvas1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameCanvas1.BackgroundImage")));
-            this.gameCanvas1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gameCanvas1.Location = new System.Drawing.Point(0, 24);
-            this.gameCanvas1.Name = "gameCanvas1";
-            this.gameCanvas1.Size = new System.Drawing.Size(744, 557);
-            this.gameCanvas1.TabIndex = 3;
+            this.gameCanvas.BackColor = System.Drawing.Color.Black;
+            this.gameCanvas.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameCanvas.BackgroundImage")));
+            this.gameCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gameCanvas.Location = new System.Drawing.Point(0, 24);
+            this.gameCanvas.Name = "gameCanvas";
+            this.gameCanvas.PreserveAspectRatio = true;
+            this.gameCanvas.Size = new System.Drawing.Size(744, 557);
+            this.gameCanvas.TabIndex = 3;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(744, 603);
+            this.Controls.Add(this.sizeBox);
             this.Controls.Add(this.RomNagBox);
-            this.Controls.Add(this.gameCanvas1);
+            this.Controls.Add(this.gameCanvas);
             this.Controls.Add(this.MainStatusStrip);
             this.Controls.Add(this.MainMenuBar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -275,6 +348,7 @@
             this.Text = "FourDO";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);
+            this.Resize += new System.EventHandler(this.Main_Resize);
             this.MainStatusStrip.ResumeLayout(false);
             this.MainStatusStrip.PerformLayout();
             this.MainMenuBar.ResumeLayout(false);
@@ -290,11 +364,11 @@
         private System.Windows.Forms.ToolStripStatusLabel StatusStripItem;
         private NagBox RomNagBox;
         private System.Windows.Forms.MenuStrip MainMenuBar;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fileMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chooseBiosRomMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
-        private GameCanvas gameCanvas1;
+        private GameCanvas gameCanvas;
         private System.Windows.Forms.ToolStripStatusLabel FPSStripItem;
         private System.Windows.Forms.Timer RefreshFpsTimer;
         private System.Windows.Forms.ToolStripMenuItem openCDImageMenuItem;
@@ -308,8 +382,15 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsMenuItem;
+        private SizeBox sizeBox;
+        private System.Windows.Forms.ToolStripDropDownButton quickDisplayDropDownButton;
+        private System.Windows.Forms.ToolStripMenuItem displayMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fullScreenMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem snapWindowMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem preserveRatioMenuItem;
 
     }
 }
