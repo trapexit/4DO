@@ -79,13 +79,13 @@
             // StatusStripItem
             // 
             this.StatusStripItem.Name = "StatusStripItem";
-            this.StatusStripItem.Size = new System.Drawing.Size(126, 17);
-            this.StatusStripItem.Text = "FourDO Version 1.0.0.0";
+            this.StatusStripItem.Size = new System.Drawing.Size(84, 17);
+            this.StatusStripItem.Text = "FourDO 1.0.0.5";
             // 
             // FPSStripItem
             // 
             this.FPSStripItem.Name = "FPSStripItem";
-            this.FPSStripItem.Size = new System.Drawing.Size(453, 17);
+            this.FPSStripItem.Size = new System.Drawing.Size(526, 17);
             this.FPSStripItem.Spring = true;
             // 
             // quickDisplayDropDownButton
@@ -299,9 +299,9 @@
             this.sizeBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.sizeBox.BaseHeight = 0;
             this.sizeBox.BaseWidth = 0;
-            this.sizeBox.Location = new System.Drawing.Point(604, 551);
+            this.sizeBox.Location = new System.Drawing.Point(494, 557);
             this.sizeBox.Name = "sizeBox";
-            this.sizeBox.Size = new System.Drawing.Size(118, 30);
+            this.sizeBox.Size = new System.Drawing.Size(228, 24);
             this.sizeBox.TabIndex = 4;
             this.sizeBox.Visible = false;
             // 
@@ -344,7 +344,6 @@
             this.Controls.Add(this.MainMenuBar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FourDO";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);

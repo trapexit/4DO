@@ -162,5 +162,17 @@ namespace FourDO.Properties {
                 this["WindowPreseveRatio"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WindowFullScreenDevice {
+            get {
+                return ((int)(this["WindowFullScreenDevice"]));
+            }
+            set {
+                this["WindowFullScreenDevice"] = value;
+            }
+        }
     }
 }

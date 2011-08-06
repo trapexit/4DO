@@ -59,7 +59,6 @@ namespace FourDO.UI
             this.HeightPixLabel.Left = HeightPercentLabel.Right;
             this.HeightPixLabel.Top = HeightPercentLabel.Top;
             
-            this.Visible = true;
             this.HideTimer.Enabled = false;
             this.HideTimer.Enabled = true;
         }

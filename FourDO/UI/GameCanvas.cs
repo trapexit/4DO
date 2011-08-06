@@ -21,6 +21,9 @@ namespace FourDO.UI
         private const int bitmapWidth = 320;
         private const int bitmapHeight = 240;
 
+        private Pen thickBlackPen = new Pen(Color.FromArgb(0, 0, 0), 5);
+        private Pen screenBorderPen = new Pen(Color.FromArgb(50, 50, 50));
+
         private Bitmap bitmapA = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format24bppRgb);
         private Bitmap bitmapB = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format24bppRgb);
         private Bitmap bitmapC = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format24bppRgb);
@@ -120,8 +123,12 @@ namespace FourDO.UI
 
             Rectangle blitRect = this.getBlitRect();
             Graphics g = e.Graphics;
-            g.DrawImage(currentFrontendBitmap, blitRect);
-            g.DrawRectangle(new Pen(Color.FromArgb(50,50,50)), blitRect.X - 1, blitRect.Y - 1, blitRect.Width + 1, blitRect.Height + 1);
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bilinear;
+
+            int rectFudgeFactor = (blitRect.Width / bitmapWidth) / 4;
+            g.DrawRectangle(this.thickBlackPen, blitRect.X + 2, blitRect.Y + 2, blitRect.Width - 4, blitRect.Height - 4);
+            g.DrawImage(currentFrontendBitmap, blitRect.X, blitRect.Y, blitRect.Width, blitRect.Height);
+            g.DrawRectangle(this.screenBorderPen, blitRect.X - 1, blitRect.Y - 1, blitRect.Width + 1, blitRect.Height + 1);
 
             // If we're taking longer than half of the scan time to draw, do the frame skip.
             if ((Utilities.PerformanceCounter.Current - sampleBefore) * 2 > scanDrawTime)

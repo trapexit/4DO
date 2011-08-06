@@ -17,6 +17,9 @@ namespace FourDO.UI
 
         private SizeGuard sizeGuard = new SizeGuard();
 
+        private Point pointBeforeFullScreen;
+        private bool isWindowFullScreen = false;
+
         public Main()
         {
             InitializeComponent();
@@ -32,8 +35,30 @@ namespace FourDO.UI
             this.sizeGuard.BaseHeight = BASE_HEIGHT;
             this.sizeGuard.WindowExtraWidth = this.Width - this.ClientSize.Width;
             this.sizeGuard.WindowExtraHeight = (this.Height - this.ClientSize.Height) + this.MainMenuBar.Height + this.MainStatusStrip.Height;
+            
+            // If they were in full screen when they exited, set ourselves at the top+left in the correct screen.
+            if (Properties.Settings.Default.WindowFullScreen)
+            {
+                int screenNum = 0;
+                Screen screenToUse = null;
+                foreach (Screen screen in Screen.AllScreens)
+                {
+                    if (screenNum == Properties.Settings.Default.WindowFullScreenDevice)
+                    {
+                        screenToUse = screen;
+                        break;
+                    }
+                    screenNum++;
+                }
+                if (screenToUse != null)
+                {
+                    this.Left = screenToUse.Bounds.Left;
+                    this.Top = screenToUse.Bounds.Top;
+                }
+            }
 
             // Initial form size.
+            this.pointBeforeFullScreen = new Point(this.Left, this.Top);
             int savedWidth = Properties.Settings.Default.WindowWidth;
             int savedHeight = Properties.Settings.Default.WindowHeight;
             this.Width = (savedWidth > 0) ? savedWidth : this.sizeGuard.BaseWidth * 2 + this.sizeGuard.WindowExtraWidth;
@@ -149,12 +174,17 @@ namespace FourDO.UI
 
         private void Main_Resize(object sender, EventArgs e)
         {
+            if (this.isWindowFullScreen == true)
+                return;
+
             sizeBox.UpdateSizeText(gameCanvas.Width, gameCanvas.Height);
             sizeBox.SetBounds(
                     this.ClientSize.Width - 6 - this.sizeBox.PreferredSize.Width,
-                    this.ClientSize.Height - 28 - this.sizeBox.PreferredSize.Height,
+                    this.ClientSize.Height - this.MainStatusStrip.Height - 6 - this.sizeBox.PreferredSize.Height,
                     this.sizeBox.PreferredSize.Width,
                     this.sizeBox.PreferredSize.Height);
+            sizeBox.Visible = true;
+            
             this.DoSaveWindowSize();
         }
 
@@ -292,11 +322,15 @@ namespace FourDO.UI
 
             this.snapWindowMenuItem.Checked = Properties.Settings.Default.WindowSnapSize;
             this.GetQuickDisplayMenuItem(snapWindowMenuItem).Checked = snapWindowMenuItem.Checked;
-            this.sizeGuard.Enabled = this.snapWindowMenuItem.Checked;
+            this.sizeGuard.Enabled = this.snapWindowMenuItem.Checked && (Properties.Settings.Default.WindowFullScreen == false);
 
             this.preserveRatioMenuItem.Checked = Properties.Settings.Default.WindowPreseveRatio;
             this.GetQuickDisplayMenuItem(preserveRatioMenuItem).Checked = preserveRatioMenuItem.Checked;
             this.gameCanvas.PreserveAspectRatio = this.preserveRatioMenuItem.Checked;
+
+            // If we need to switch full screen status, do it now.
+            if (this.isWindowFullScreen != Properties.Settings.Default.WindowFullScreen)
+                this.SetFullScreen(Properties.Settings.Default.WindowFullScreen);
             
             // Save slot
             foreach (ToolStripItem menuItem in saveStateSlotMenuItem.DropDownItems)
@@ -500,6 +534,102 @@ namespace FourDO.UI
                     return (ToolStripMenuItem)item;
             }
             return null;
+        }
+
+        private void SetFullScreen(bool enableFullScreen)
+        {
+            // Keep the window from redrawing
+            this.SuspendLayout();
+
+            // Change border style (this causes a resize)
+            // and set the full screen enabled flag.
+            if (enableFullScreen)
+            {
+                this.isWindowFullScreen = enableFullScreen;
+                this.FormBorderStyle = enableFullScreen ? FormBorderStyle.None : FormBorderStyle.Sizable;
+            }
+            else
+            {
+                this.FormBorderStyle = enableFullScreen ? FormBorderStyle.None : FormBorderStyle.Sizable;
+                this.isWindowFullScreen = enableFullScreen;
+            }
+
+            //////////////////
+            // Enable full screen
+            if (enableFullScreen == true)
+            {
+                this.pointBeforeFullScreen = new Point(this.Left, this.Top);
+
+                ///////////
+                // Find the screen we're on (use the middle of the form).
+                System.Drawing.Point point = new Point();
+                point.X = this.Left + this.Width / 2;
+                point.Y = this.Height + this.Height / 2;
+
+                int screenNum = 0;
+                Screen screenToUse = null;
+                foreach (Screen screen in Screen.AllScreens)
+                {
+                    if (screen.Bounds.Contains(point))
+                    {
+                        screenToUse = screen;
+                        break;
+                    }
+                    screenNum++;
+                }
+                if (screenToUse == null)
+                {
+                    screenNum = 0;
+                    foreach (Screen screen in Screen.AllScreens)
+                    {
+                        if (screen.Bounds.IntersectsWith(this.Bounds))
+                        {
+                            screenToUse = screen;
+                            break;
+                        }
+                        screenNum++;
+                    }
+                }
+                if (screenToUse == null) // Yes, it could happen!
+                {
+                    screenNum = 0;
+                    foreach (Screen screen in Screen.AllScreens)
+                    {
+                        if (screen.Bounds.IntersectsWith(this.Bounds))
+                        {
+                            screenToUse = Screen.PrimaryScreen;
+                            break;
+                        }
+                        screenNum++;
+                    }
+                }
+
+                // We've got the screen.
+                Properties.Settings.Default.WindowFullScreenDevice = screenNum;
+                this.Bounds = screenToUse.Bounds;
+            }
+            
+            //////////////////
+            // Otherwise, disable full screen.
+            else
+            {
+                int savedWidth = Properties.Settings.Default.WindowWidth;
+                int savedHeight = Properties.Settings.Default.WindowHeight;
+
+                this.SetBounds(
+                    this.pointBeforeFullScreen.X,
+                    this.pointBeforeFullScreen.Y,
+                    savedWidth,
+                    savedHeight);
+            }
+
+            this.MainMenuBar.Visible = (enableFullScreen == false);
+            this.MainStatusStrip.Visible = (enableFullScreen == false);
+            this.sizeBox.Visible = false;
+            this.TopMost = enableFullScreen;
+
+            this.Refresh();
+            this.ResumeLayout();
         }
 
         #endregion // Private Methods
