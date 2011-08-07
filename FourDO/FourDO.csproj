@@ -104,6 +104,9 @@
     <Compile Include="Utilities\Error.cs" />
     <Compile Include="Utilities\GlobalKeyboardHook.cs" />
     <Compile Include="Utilities\Memory.cs" />
+    <Compile Include="Utilities\MouseHook\LocalWindowsHook.cs" />
+    <Compile Include="Utilities\MouseHook\MouseHook.cs" />
+    <Compile Include="Utilities\MouseHook\MouseHookEventArgs.cs" />
     <Compile Include="Utilities\PerformanceCounter.cs" />
     <Compile Include="Utilities\ReflectionUtility.cs" />
     <Compile Include="Settings.cs" />
@@ -216,6 +219,7 @@
   <ItemGroup>
     <None Include="UI\SizeVertical.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

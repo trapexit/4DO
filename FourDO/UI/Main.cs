@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FourDO.Emulation;
+using FourDO.Utilities;
+using FourDO.Utilities.MouseHook;
 
 namespace FourDO.UI
 {
@@ -21,6 +23,8 @@ namespace FourDO.UI
         private bool maximizedBeforeFullScreen = false;
         private bool isWindowFullScreen = false;
 
+        private MouseHook mouseHook = new MouseHook();
+
         public Main()
         {
             InitializeComponent();
@@ -28,7 +32,7 @@ namespace FourDO.UI
 
         private void Main_Load(object sender, EventArgs e)
         {
-            // Some basic form updates.
+            // Some basic form setup.
             this.sizeBox.BaseWidth = BASE_WIDTH;
             this.sizeBox.BaseHeight = BASE_HEIGHT;
             
@@ -36,6 +40,12 @@ namespace FourDO.UI
             this.sizeGuard.BaseHeight = BASE_HEIGHT;
             this.sizeGuard.WindowExtraWidth = this.Width - this.ClientSize.Width;
             this.sizeGuard.WindowExtraHeight = (this.Height - this.ClientSize.Height) + this.MainMenuBar.Height + this.MainStatusStrip.Height;
+
+            this.mouseHook.Install();
+            this.mouseHook.MouseMove += new MouseHookEventHandler(mouseHook_MouseMove);
+            this.mouseHook.MouseDown += new MouseHookEventHandler(mouseHook_MouseDown);
+
+            this.quickDisplayDropDownButton.DropDownDirection = ToolStripDropDownDirection.AboveLeft;
 
             ////////////////////
             // Form size and position.
@@ -98,6 +108,7 @@ namespace FourDO.UI
                 {
                     newItem = new ToolStripMenuItem();
                     newItem.Text = item.Text;
+                    newItem.Font = item.Font;
 
                     if (item == fullScreenMenuItem)
                         newItem.Click += new EventHandler(this.fullScreenMenuItem_Click);
@@ -331,6 +342,40 @@ namespace FourDO.UI
             {
                 this.DoToggleFullScreen();
             }
+        }
+
+        void mouseHook_MouseMove(object sender, MouseHookEventArgs e)
+        {
+            if (this.isWindowFullScreen == false)
+                return;
+
+            Screen currentScreen = DisplayHelper.GetCurrentScreen(this);
+            if ((e.Y - currentScreen.WorkingArea.Top) < (this.MainMenuBar.Height))
+            {
+                this.MainMenuBar.Visible = true;
+                this.hideMenuTimer.Enabled = false;
+                this.hideMenuTimer.Enabled = true;
+            }
+        }
+
+        void mouseHook_MouseDown(object sender, MouseHookEventArgs e)
+        {
+            if (this.isWindowFullScreen == false)
+                return;
+
+            Screen currentScreen = DisplayHelper.GetCurrentScreen(this);
+            if ((e.Y - currentScreen.WorkingArea.Top) >= (this.MainMenuBar.Height))
+                this.MainMenuBar.Visible = (this.isWindowFullScreen == false);
+        }
+
+        private void hideMenuTimer_Tick(object sender, EventArgs e)
+        {
+            // Delay hiding the menu if the user is using the menus.
+            if (this.MainMenuBar.Focused)
+                return; 
+            
+            this.MainMenuBar.Visible = (this.isWindowFullScreen == false);
+            this.hideMenuTimer.Enabled = false;
         }
 
         #endregion // Event Handlers
@@ -622,7 +667,17 @@ namespace FourDO.UI
                 Screen currentScreen = Utilities.DisplayHelper.GetCurrentScreen(this, out screenNum);
                 Properties.Settings.Default.WindowFullScreenDevice = screenNum;
 
+                // Set form bounds.
                 this.Bounds = currentScreen.Bounds;
+
+                // Undock the main menu so it doesn't steal real estate from the game window. 
+                this.MainMenuBar.Dock = DockStyle.None;
+                this.MainMenuBar.SetBounds(
+                    this.ClientRectangle.Left,
+                    this.ClientRectangle.Top,
+                    this.ClientRectangle.Width,
+                    this.MainMenuBar.Height);
+                this.MainMenuBar.BringToFront();
             }
             
             //////////////////
@@ -648,6 +703,9 @@ namespace FourDO.UI
                         savedWidth,
                         savedHeight);
                 }
+
+                this.MainMenuBar.Dock = DockStyle.Top;
+                this.MainMenuBar.SendToBack();
             }
 
             this.MainMenuBar.Visible = (enableFullScreen == false);

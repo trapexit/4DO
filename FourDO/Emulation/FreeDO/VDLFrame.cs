@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FourDO.Emulation.FreeDO
 {
-    internal unsafe struct VDLFrame
+    public unsafe struct VDLFrame
     {
         public fixed byte lines[(240 * 4) *  // This was the original intended size of this array.
             // The rest are the components of VDLLine... *sigh*
@@ -22,7 +22,7 @@ namespace FourDO.Emulation.FreeDO
         public uint srch;
     }
 
-    internal unsafe struct VDLLine
+    public unsafe struct VDLLine
     {
         public fixed ushort line[320 * 4];
         public fixed byte xCLUTB[32];

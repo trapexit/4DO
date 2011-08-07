@@ -53,8 +53,8 @@
             this.displayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullScreenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.preserveRatioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.smoothResizingMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.preserveRatioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.snapWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,6 +63,7 @@
             this.sizeBox = new FourDO.UI.SizeBox();
             this.RomNagBox = new FourDO.UI.NagBox();
             this.gameCanvas = new FourDO.UI.GameCanvas();
+            this.hideMenuTimer = new System.Windows.Forms.Timer(this.components);
             this.MainStatusStrip.SuspendLayout();
             this.MainMenuBar.SuspendLayout();
             this.SuspendLayout();
@@ -133,7 +134,7 @@
             // openCDImageMenuItem
             // 
             this.openCDImageMenuItem.Name = "openCDImageMenuItem";
-            this.openCDImageMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.openCDImageMenuItem.Size = new System.Drawing.Size(233, 22);
             this.openCDImageMenuItem.Text = "Open CD &Image File (*.iso)...";
             this.openCDImageMenuItem.Click += new System.EventHandler(this.openCDImageMenuItem_Click);
             // 
@@ -142,21 +143,22 @@
             this.loadLastGameMenuItem.Checked = true;
             this.loadLastGameMenuItem.CheckOnClick = true;
             this.loadLastGameMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.loadLastGameMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
             this.loadLastGameMenuItem.Name = "loadLastGameMenuItem";
-            this.loadLastGameMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.loadLastGameMenuItem.Size = new System.Drawing.Size(233, 22);
             this.loadLastGameMenuItem.Text = "Load Last Game on Startup";
             this.loadLastGameMenuItem.Click += new System.EventHandler(this.loadLastGameMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(250, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(230, 6);
             // 
             // saveStateMenuItem
             // 
             this.saveStateMenuItem.Name = "saveStateMenuItem";
             this.saveStateMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.saveStateMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.saveStateMenuItem.Size = new System.Drawing.Size(233, 22);
             this.saveStateMenuItem.Text = "&Save State";
             this.saveStateMenuItem.Click += new System.EventHandler(this.saveStateMenuItem_Click);
             // 
@@ -164,7 +166,7 @@
             // 
             this.loadStateMenuItem.Name = "loadStateMenuItem";
             this.loadStateMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.loadStateMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.loadStateMenuItem.Size = new System.Drawing.Size(233, 22);
             this.loadStateMenuItem.Text = "&Load State";
             this.loadStateMenuItem.Click += new System.EventHandler(this.loadStateMenuItem_Click);
             // 
@@ -175,7 +177,7 @@
             this.nextSlotMenuItem,
             this.toolStripSeparator4});
             this.saveStateSlotMenuItem.Name = "saveStateSlotMenuItem";
-            this.saveStateSlotMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.saveStateSlotMenuItem.Size = new System.Drawing.Size(233, 22);
             this.saveStateSlotMenuItem.Text = "Save State Slot";
             // 
             // previousSlotMenuItem
@@ -204,32 +206,33 @@
             this.loadLastSaveMenuItem.Checked = true;
             this.loadLastSaveMenuItem.CheckOnClick = true;
             this.loadLastSaveMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.loadLastSaveMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
             this.loadLastSaveMenuItem.Name = "loadLastSaveMenuItem";
-            this.loadLastSaveMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.loadLastSaveMenuItem.Size = new System.Drawing.Size(233, 22);
             this.loadLastSaveMenuItem.Text = "Load Last Save (of slot) on Startup";
             this.loadLastSaveMenuItem.Click += new System.EventHandler(this.loadLastSaveMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(250, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(230, 6);
             // 
             // chooseBiosRomMenuItem
             // 
             this.chooseBiosRomMenuItem.Name = "chooseBiosRomMenuItem";
-            this.chooseBiosRomMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.chooseBiosRomMenuItem.Size = new System.Drawing.Size(233, 22);
             this.chooseBiosRomMenuItem.Text = "Choose &BIOS Rom File...";
             this.chooseBiosRomMenuItem.Click += new System.EventHandler(this.chooseBiosRomMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(250, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(230, 6);
             // 
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.exitMenuItem.Size = new System.Drawing.Size(233, 22);
             this.exitMenuItem.Text = "E&xit";
             this.exitMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -248,46 +251,50 @@
             // 
             // fullScreenMenuItem
             // 
+            this.fullScreenMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
             this.fullScreenMenuItem.Name = "fullScreenMenuItem";
             this.fullScreenMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.fullScreenMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.fullScreenMenuItem.Size = new System.Drawing.Size(232, 22);
             this.fullScreenMenuItem.Text = "Full Screen";
             this.fullScreenMenuItem.Click += new System.EventHandler(this.fullScreenMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(253, 6);
-            // 
-            // preserveRatioMenuItem
-            // 
-            this.preserveRatioMenuItem.Checked = true;
-            this.preserveRatioMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.preserveRatioMenuItem.Name = "preserveRatioMenuItem";
-            this.preserveRatioMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.preserveRatioMenuItem.Text = "Preserve Aspect Ratio";
-            this.preserveRatioMenuItem.Click += new System.EventHandler(this.preserveRatioMenuItem_Click);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(229, 6);
             // 
             // smoothResizingMenuItem
             // 
             this.smoothResizingMenuItem.Checked = true;
             this.smoothResizingMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.smoothResizingMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
             this.smoothResizingMenuItem.Name = "smoothResizingMenuItem";
-            this.smoothResizingMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.smoothResizingMenuItem.Size = new System.Drawing.Size(232, 22);
             this.smoothResizingMenuItem.Text = "Smooth Image Resizing";
             this.smoothResizingMenuItem.Click += new System.EventHandler(this.smoothResizingMenuItem_Click);
+            // 
+            // preserveRatioMenuItem
+            // 
+            this.preserveRatioMenuItem.Checked = true;
+            this.preserveRatioMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.preserveRatioMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
+            this.preserveRatioMenuItem.Name = "preserveRatioMenuItem";
+            this.preserveRatioMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.preserveRatioMenuItem.Text = "Preserve Aspect Ratio";
+            this.preserveRatioMenuItem.Click += new System.EventHandler(this.preserveRatioMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(253, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(229, 6);
             // 
             // snapWindowMenuItem
             // 
             this.snapWindowMenuItem.Checked = true;
             this.snapWindowMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.snapWindowMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
             this.snapWindowMenuItem.Name = "snapWindowMenuItem";
-            this.snapWindowMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.snapWindowMenuItem.Size = new System.Drawing.Size(232, 22);
             this.snapWindowMenuItem.Text = "Snap Window to Clean Increments";
             this.snapWindowMenuItem.Click += new System.EventHandler(this.snapWindowMenuItem_Click);
             // 
@@ -351,6 +358,11 @@
             this.gameCanvas.Size = new System.Drawing.Size(744, 557);
             this.gameCanvas.TabIndex = 3;
             // 
+            // hideMenuTimer
+            // 
+            this.hideMenuTimer.Interval = 2000;
+            this.hideMenuTimer.Tick += new System.EventHandler(this.hideMenuTimer_Tick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -413,6 +425,7 @@
         private System.Windows.Forms.ToolStripMenuItem preserveRatioMenuItem;
         private System.Windows.Forms.ToolStripMenuItem smoothResizingMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.Timer hideMenuTimer;
 
     }
 }
