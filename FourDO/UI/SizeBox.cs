@@ -38,6 +38,14 @@ namespace FourDO.UI
             this.UpdateLabel();
         }
 
+        public int HideDelay
+        {
+            get
+            {
+                return this.HideTimer.Interval;
+            }
+        }
+
         private void UpdateLabel()
         {
             WidthPixLabel.Text = width.ToString() + " ";

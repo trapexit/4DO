@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,8 @@ namespace FourDO.UI
 {
     public partial class GameCanvas : UserControl
     {
+        private const InterpolationMode SMOOTH_SCALING_MODE = InterpolationMode.Low;
+        
         private const int bitmapWidth = 320;
         private const int bitmapHeight = 240;
 
@@ -34,12 +37,16 @@ namespace FourDO.UI
         private object bitmapSemaphore = new object();
 
         // I added a frameskip to help ensure that the goofy main form controls can update. Damn windows forms!!
+        private volatile int refreshReliefSkips = 0; 
         private volatile int frameSkip = 1; 
         private long frameNum = 0;
 
         private long scanDrawTime = 0;
 
         private bool preserveAspectRatio = true;
+        private InterpolationMode scalingMode = SMOOTH_SCALING_MODE;
+
+        private bool isGraphicsIntensive = false;
 
         public GameCanvas()
         {
@@ -66,14 +73,44 @@ namespace FourDO.UI
                 this.Invalidate();
             }
         }
+
+        public bool ImageSmoothing
+        {
+            get
+            {
+                return (this.scalingMode == SMOOTH_SCALING_MODE);
+            }
+            set
+            {
+                this.scalingMode = value ? SMOOTH_SCALING_MODE : InterpolationMode.NearestNeighbor;
+                this.Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Requests the draw canvas to skip a few frames so that base UI can update.
+        /// </summary>
+        /// <returns></returns>
+        public void RequestRefresh()
+        {
+            // If we're nowhere near choking the UI, screw them.
+            if (this.isGraphicsIntensive == false)
+                return;
+
+            refreshReliefSkips = 5;
+        }
         
         private unsafe void Instance_FrameDone(object sender, EventArgs e)
         {
             // Skip frames?
             this.frameNum++;
-            if (this.frameNum % (this.frameSkip + 1) > 0)
+            if (this.frameNum % (this.frameSkip + 1 + refreshReliefSkips) > 0)
+            {
+                if (refreshReliefSkips > 0)
+                    refreshReliefSkips--;
                 return;
-            
+            }
+
             /////////////// 
             // Choose the best bitmap to do a background render to
             Bitmap bitmapToCalc;
@@ -123,20 +160,22 @@ namespace FourDO.UI
 
             Rectangle blitRect = this.getBlitRect();
             Graphics g = e.Graphics;
-            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bilinear;
+            g.InterpolationMode = this.scalingMode;
 
             int rectFudgeFactor = (blitRect.Width / bitmapWidth) / 4;
             g.DrawRectangle(this.thickBlackPen, blitRect.X + 2, blitRect.Y + 2, blitRect.Width - 4, blitRect.Height - 4);
             g.DrawImage(currentFrontendBitmap, blitRect.X, blitRect.Y, blitRect.Width, blitRect.Height);
             g.DrawRectangle(this.screenBorderPen, blitRect.X - 1, blitRect.Y - 1, blitRect.Width + 1, blitRect.Height + 1);
 
-            // If we're taking longer than half of the scan time to draw, do the frame skip.
+            // If we're taking longer than half of the scan time to draw, do a frame skip.
             if ((Utilities.PerformanceCounter.Current - sampleBefore) * 2 > scanDrawTime)
             {
+                this.isGraphicsIntensive = true;
                 this.frameSkip = 1;
             }
             else
             {
+                this.isGraphicsIntensive = false;
                 this.frameSkip = 0;
             }
         }

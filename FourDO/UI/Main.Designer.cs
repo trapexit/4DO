@@ -53,11 +53,13 @@
             this.displayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullScreenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.snapWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preserveRatioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.smoothResizingMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.snapWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RefreshFpsTimer = new System.Windows.Forms.Timer(this.components);
+            this.refreshFpsTimer = new System.Windows.Forms.Timer(this.components);
             this.sizeBox = new FourDO.UI.SizeBox();
             this.RomNagBox = new FourDO.UI.NagBox();
             this.gameCanvas = new FourDO.UI.GameCanvas();
@@ -79,13 +81,13 @@
             // StatusStripItem
             // 
             this.StatusStripItem.Name = "StatusStripItem";
-            this.StatusStripItem.Size = new System.Drawing.Size(84, 17);
-            this.StatusStripItem.Text = "FourDO 1.0.0.5";
+            this.StatusStripItem.Size = new System.Drawing.Size(90, 17);
+            this.StatusStripItem.Text = "FourDO 1.0.2.35";
             // 
             // FPSStripItem
             // 
             this.FPSStripItem.Name = "FPSStripItem";
-            this.FPSStripItem.Size = new System.Drawing.Size(526, 17);
+            this.FPSStripItem.Size = new System.Drawing.Size(520, 17);
             this.FPSStripItem.Spring = true;
             // 
             // quickDisplayDropDownButton
@@ -236,8 +238,10 @@
             this.displayMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fullScreenMenuItem,
             this.toolStripSeparator5,
-            this.snapWindowMenuItem,
-            this.preserveRatioMenuItem});
+            this.smoothResizingMenuItem,
+            this.preserveRatioMenuItem,
+            this.toolStripSeparator6,
+            this.snapWindowMenuItem});
             this.displayMenuItem.Name = "displayMenuItem";
             this.displayMenuItem.Size = new System.Drawing.Size(57, 20);
             this.displayMenuItem.Text = "&Display";
@@ -255,15 +259,6 @@
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(253, 6);
             // 
-            // snapWindowMenuItem
-            // 
-            this.snapWindowMenuItem.Checked = true;
-            this.snapWindowMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.snapWindowMenuItem.Name = "snapWindowMenuItem";
-            this.snapWindowMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.snapWindowMenuItem.Text = "Snap Window to Clean Increments";
-            this.snapWindowMenuItem.Click += new System.EventHandler(this.snapWindowMenuItem_Click);
-            // 
             // preserveRatioMenuItem
             // 
             this.preserveRatioMenuItem.Checked = true;
@@ -272,6 +267,29 @@
             this.preserveRatioMenuItem.Size = new System.Drawing.Size(256, 22);
             this.preserveRatioMenuItem.Text = "Preserve Aspect Ratio";
             this.preserveRatioMenuItem.Click += new System.EventHandler(this.preserveRatioMenuItem_Click);
+            // 
+            // smoothResizingMenuItem
+            // 
+            this.smoothResizingMenuItem.Checked = true;
+            this.smoothResizingMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.smoothResizingMenuItem.Name = "smoothResizingMenuItem";
+            this.smoothResizingMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.smoothResizingMenuItem.Text = "Smooth Image Resizing";
+            this.smoothResizingMenuItem.Click += new System.EventHandler(this.smoothResizingMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(253, 6);
+            // 
+            // snapWindowMenuItem
+            // 
+            this.snapWindowMenuItem.Checked = true;
+            this.snapWindowMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.snapWindowMenuItem.Name = "snapWindowMenuItem";
+            this.snapWindowMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.snapWindowMenuItem.Text = "Snap Window to Clean Increments";
+            this.snapWindowMenuItem.Click += new System.EventHandler(this.snapWindowMenuItem_Click);
             // 
             // optionsMenuItem
             // 
@@ -288,11 +306,11 @@
             this.settingsMenuItem.Text = "&Settings...";
             this.settingsMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
-            // RefreshFpsTimer
+            // refreshFpsTimer
             // 
-            this.RefreshFpsTimer.Enabled = true;
-            this.RefreshFpsTimer.Interval = 300;
-            this.RefreshFpsTimer.Tick += new System.EventHandler(this.RefreshFpsTimer_Tick);
+            this.refreshFpsTimer.Enabled = true;
+            this.refreshFpsTimer.Interval = 300;
+            this.refreshFpsTimer.Tick += new System.EventHandler(this.RefreshFpsTimer_Tick);
             // 
             // sizeBox
             // 
@@ -326,6 +344,7 @@
             this.gameCanvas.BackColor = System.Drawing.Color.Black;
             this.gameCanvas.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameCanvas.BackgroundImage")));
             this.gameCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gameCanvas.ImageSmoothing = true;
             this.gameCanvas.Location = new System.Drawing.Point(0, 24);
             this.gameCanvas.Name = "gameCanvas";
             this.gameCanvas.PreserveAspectRatio = true;
@@ -343,10 +362,12 @@
             this.Controls.Add(this.MainStatusStrip);
             this.Controls.Add(this.MainMenuBar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "Main";
             this.Text = "FourDO";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_KeyDown);
             this.Resize += new System.EventHandler(this.Main_Resize);
             this.MainStatusStrip.ResumeLayout(false);
             this.MainStatusStrip.PerformLayout();
@@ -369,7 +390,7 @@
         private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
         private GameCanvas gameCanvas;
         private System.Windows.Forms.ToolStripStatusLabel FPSStripItem;
-        private System.Windows.Forms.Timer RefreshFpsTimer;
+        private System.Windows.Forms.Timer refreshFpsTimer;
         private System.Windows.Forms.ToolStripMenuItem openCDImageMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadLastGameMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveStateMenuItem;
@@ -390,6 +411,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem snapWindowMenuItem;
         private System.Windows.Forms.ToolStripMenuItem preserveRatioMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem smoothResizingMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
@@ -115,6 +116,104 @@ namespace FourDO.Utilities
             }
 
             return refreshRate;
+        }
+
+        /// <summary>
+        /// Try to figure out if the form is Left/Right docked in windows 7.
+        /// </summary>
+        public static bool IsFormDocked(Form form)
+        {
+            Screen screen = DisplayHelper.GetCurrentScreen(form);
+            
+            // Just use the size. I see no API calls that I can use to determine if my window is docked.
+            if (form.Height == screen.WorkingArea.Height 
+                && (form.Left == screen.WorkingArea.Left || form.Right == screen.WorkingArea.Right)
+                && (form.Width == screen.WorkingArea.Width / 2 || form.Width == screen.WorkingArea.Width / 2 + 1))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Try to figure out if the form is vertically bound (in windows 7).
+        /// A user can do this by resizing the top of the window to the top of the screen.
+        /// I don't know that many people are really aware of this, but I want to ignore
+        /// these situations as well.
+        /// </summary>
+        public static bool IsFormVerticallyBound(Form form)
+        {
+            Screen screen = DisplayHelper.GetCurrentScreen(form);
+
+            if (form.Height == screen.WorkingArea.Height
+                && (form.Left == screen.WorkingArea.Left || form.Right == screen.WorkingArea.Right)
+                && (form.Width == screen.WorkingArea.Width / 2 || form.Width == screen.WorkingArea.Width / 2 + 1))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determine the screen best suited to be considered the parent of the form 
+        /// by analyzing its position in relation to the screens.
+        /// </summary>
+        public static Screen GetCurrentScreen(Form form)
+        {
+            int screenNumber;
+            return DisplayHelper.GetCurrentScreen(form, out screenNumber);
+        }
+
+        /// <summary>
+        /// Determine the screen best suited to be considered the parent of the form 
+        /// by analyzing its position in relation to the screens.
+        /// </summary>
+        public static Screen GetCurrentScreen(Form form, out int screenNumber)
+        {
+            ///////////
+            // Find the screen we're on (use the middle of the form).
+            System.Drawing.Point point = new Point();
+            point.X = form.Left + form.Width / 2;
+            point.Y = form.Top + form.Height / 2;
+
+            int screenNum = 0;
+            Screen screenToUse = null;
+            foreach (Screen screen in Screen.AllScreens)
+            {
+                if (screen.Bounds.Contains(point))
+                {
+                    screenToUse = screen;
+                    break;
+                }
+                screenNum++;
+            }
+            if (screenToUse == null)
+            {
+                screenNum = 0;
+                foreach (Screen screen in Screen.AllScreens)
+                {
+                    if (screen.Bounds.IntersectsWith(form.Bounds))
+                    {
+                        screenToUse = screen;
+                        break;
+                    }
+                    screenNum++;
+                }
+            }
+            if (screenToUse == null) // Yes, it could happen!
+            {
+                screenNum = 0;
+                foreach (Screen screen in Screen.AllScreens)
+                {
+                    if (screen.Bounds.IntersectsWith(form.Bounds))
+                    {
+                        screenToUse = Screen.PrimaryScreen;
+                        break;
+                    }
+                    screenNum++;
+                }
+            }
+
+            screenNumber = screenNum;
+            return screenToUse;
         }
     }
 }

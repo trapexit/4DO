@@ -18,6 +18,7 @@ namespace FourDO.UI
         private SizeGuard sizeGuard = new SizeGuard();
 
         private Point pointBeforeFullScreen;
+        private bool maximizedBeforeFullScreen = false;
         private bool isWindowFullScreen = false;
 
         public Main()
@@ -35,10 +36,20 @@ namespace FourDO.UI
             this.sizeGuard.BaseHeight = BASE_HEIGHT;
             this.sizeGuard.WindowExtraWidth = this.Width - this.ClientSize.Width;
             this.sizeGuard.WindowExtraHeight = (this.Height - this.ClientSize.Height) + this.MainMenuBar.Height + this.MainStatusStrip.Height;
+
+            ////////////////////
+            // Form size and position.
+
+            // Initial form size.
+            int savedWidth = Properties.Settings.Default.WindowWidth;
+            int savedHeight = Properties.Settings.Default.WindowHeight;
+            this.Width = (savedWidth > 0) ? savedWidth : this.sizeGuard.BaseWidth * 2 + this.sizeGuard.WindowExtraWidth;
+            this.Height = (savedHeight > 0) ? savedHeight : this.sizeGuard.BaseHeight * 2 + this.sizeGuard.WindowExtraHeight;
             
-            // If they were in full screen when they exited, set ourselves at the top+left in the correct screen.
+            // Initial form position.
             if (Properties.Settings.Default.WindowFullScreen)
             {
+                // If they were in full screen when they exited, set ourselves at the top+left in the correct screen.
                 int screenNum = 0;
                 Screen screenToUse = null;
                 foreach (Screen screen in Screen.AllScreens)
@@ -50,23 +61,33 @@ namespace FourDO.UI
                     }
                     screenNum++;
                 }
+
                 if (screenToUse != null)
-                {
-                    this.Left = screenToUse.Bounds.Left;
-                    this.Top = screenToUse.Bounds.Top;
-                }
+                    screenToUse = Screen.PrimaryScreen;
+
+                this.Left = screenToUse.WorkingArea.Left;
+                this.Top = screenToUse.WorkingArea.Top;
             }
-
-            // Initial form size.
-            this.pointBeforeFullScreen = new Point(this.Left, this.Top);
-            int savedWidth = Properties.Settings.Default.WindowWidth;
-            int savedHeight = Properties.Settings.Default.WindowHeight;
-            this.Width = (savedWidth > 0) ? savedWidth : this.sizeGuard.BaseWidth * 2 + this.sizeGuard.WindowExtraWidth;
-            this.Height = (savedHeight > 0) ? savedHeight : this.sizeGuard.BaseHeight * 2 + this.sizeGuard.WindowExtraHeight;
-            if (savedWidth > 0 || savedHeight > 0)
+            
+            // Let's ensure we don't go off the bounds of the screen.
+            Screen currentScreen = Utilities.DisplayHelper.GetCurrentScreen(this);
+            if (this.Bottom > currentScreen.WorkingArea.Bottom)
+            {
+                this.Top -= (this.Bottom - currentScreen.WorkingArea.Bottom);
+                this.Top = Math.Max(this.Top, currentScreen.WorkingArea.Top);
+            }
+            if (this.Right > currentScreen.WorkingArea.Right)
+            {
+                this.Left -= (this.Right - currentScreen.WorkingArea.Right);
+                this.Left = Math.Max(this.Left, currentScreen.WorkingArea.Left);
+            }
+            
+            // If we updated the size ourselves (we had no valid default) save it now.
+            if (savedWidth <= 0 || savedHeight <= 0)
                 this.DoSaveWindowSize();
-            this.sizeBox.Visible = false; // Shut that damn thing up.
-
+            this.sizeBox.Visible = false; // and shut that damn thing up!
+            
+            ////////////////
             // Copy some menu items to the quick display settings menu.
             foreach (ToolStripItem item in this.displayMenuItem.DropDownItems)
             {
@@ -80,6 +101,9 @@ namespace FourDO.UI
 
                     if (item == fullScreenMenuItem)
                         newItem.Click += new EventHandler(this.fullScreenMenuItem_Click);
+
+                    if (item == smoothResizingMenuItem)
+                        newItem.Click += new EventHandler(this.smoothResizingMenuItem_Click);
 
                     if (item == snapWindowMenuItem)
                         newItem.Click += new EventHandler(this.snapWindowMenuItem_Click);
@@ -166,7 +190,8 @@ namespace FourDO.UI
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.SaveStateSlot)
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowFullScreen)
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowPreseveRatio)
-                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowSnapSize))
+                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowSnapSize)
+                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowImageSmoothing))
             {
                 this.UpdateUI();
             }
@@ -174,9 +199,16 @@ namespace FourDO.UI
 
         private void Main_Resize(object sender, EventArgs e)
         {
-            if (this.isWindowFullScreen == true)
+            if (this.isWindowFullScreen == true
+                || this.WindowState == FormWindowState.Maximized
+                || this.WindowState == FormWindowState.Minimized
+                || Utilities.DisplayHelper.IsFormDocked(this))
+            {
+                this.sizeBox.Visible = false;
                 return;
+            }
 
+            this.SuspendLayout();
             sizeBox.UpdateSizeText(gameCanvas.Width, gameCanvas.Height);
             sizeBox.SetBounds(
                     this.ClientSize.Width - 6 - this.sizeBox.PreferredSize.Width,
@@ -184,6 +216,7 @@ namespace FourDO.UI
                     this.sizeBox.PreferredSize.Width,
                     this.sizeBox.PreferredSize.Height);
             sizeBox.Visible = true;
+            this.ResumeLayout();
             
             this.DoSaveWindowSize();
         }
@@ -287,6 +320,19 @@ namespace FourDO.UI
             this.DoTogglePreserveRatio();
         }
 
+        private void smoothResizingMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoToggleImageSmoothing();
+        }
+
+        private void Main_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape && this.isWindowFullScreen)
+            {
+                this.DoToggleFullScreen();
+            }
+        }
+
         #endregion // Event Handlers
 
         #region Private Methods
@@ -319,6 +365,10 @@ namespace FourDO.UI
 
             this.fullScreenMenuItem.Checked = Properties.Settings.Default.WindowFullScreen;
             this.GetQuickDisplayMenuItem(fullScreenMenuItem).Checked = fullScreenMenuItem.Checked;
+
+            this.smoothResizingMenuItem.Checked = Properties.Settings.Default.WindowImageSmoothing;
+            this.GetQuickDisplayMenuItem(smoothResizingMenuItem).Checked = smoothResizingMenuItem.Checked;
+            this.gameCanvas.ImageSmoothing = this.smoothResizingMenuItem.Checked;
 
             this.snapWindowMenuItem.Checked = Properties.Settings.Default.WindowSnapSize;
             this.GetQuickDisplayMenuItem(snapWindowMenuItem).Checked = snapWindowMenuItem.Checked;
@@ -483,15 +533,12 @@ namespace FourDO.UI
                 {
                     fps = 1 / (fps);
                 }
-                if (fps > 999.99)
-                {
-                    fps = 999.99;
-                }
-                FPSStripItem.Text = string.Format("Core FPS: {0:000.00}", fps);
+                fps = Math.Min(fps, 99.99);
+                FPSStripItem.Text = string.Format("Core FPS: {0:00.00}", fps);
             }
             else
             {
-                FPSStripItem.Text = "Core FPS: ---.--";
+                FPSStripItem.Text = "Core FPS: --.--";
             }
         }
 
@@ -516,6 +563,12 @@ namespace FourDO.UI
         private void DoTogglePreserveRatio()
         {
             Properties.Settings.Default.WindowPreseveRatio = !Properties.Settings.Default.WindowPreseveRatio;
+            Properties.Settings.Default.Save();
+        }
+
+        private void DoToggleImageSmoothing()
+        {
+            Properties.Settings.Default.WindowImageSmoothing = !Properties.Settings.Default.WindowImageSmoothing;
             Properties.Settings.Default.Save();
         }
 
@@ -558,55 +611,18 @@ namespace FourDO.UI
             // Enable full screen
             if (enableFullScreen == true)
             {
-                this.pointBeforeFullScreen = new Point(this.Left, this.Top);
+                this.maximizedBeforeFullScreen = (this.WindowState == FormWindowState.Maximized);
+                if (this.maximizedBeforeFullScreen)
+                    this.WindowState = FormWindowState.Normal;
+                else
+                    this.pointBeforeFullScreen = new Point(this.Left, this.Top);
 
-                ///////////
-                // Find the screen we're on (use the middle of the form).
-                System.Drawing.Point point = new Point();
-                point.X = this.Left + this.Width / 2;
-                point.Y = this.Height + this.Height / 2;
-
-                int screenNum = 0;
-                Screen screenToUse = null;
-                foreach (Screen screen in Screen.AllScreens)
-                {
-                    if (screen.Bounds.Contains(point))
-                    {
-                        screenToUse = screen;
-                        break;
-                    }
-                    screenNum++;
-                }
-                if (screenToUse == null)
-                {
-                    screenNum = 0;
-                    foreach (Screen screen in Screen.AllScreens)
-                    {
-                        if (screen.Bounds.IntersectsWith(this.Bounds))
-                        {
-                            screenToUse = screen;
-                            break;
-                        }
-                        screenNum++;
-                    }
-                }
-                if (screenToUse == null) // Yes, it could happen!
-                {
-                    screenNum = 0;
-                    foreach (Screen screen in Screen.AllScreens)
-                    {
-                        if (screen.Bounds.IntersectsWith(this.Bounds))
-                        {
-                            screenToUse = Screen.PrimaryScreen;
-                            break;
-                        }
-                        screenNum++;
-                    }
-                }
-
-                // We've got the screen.
+                // Find, use, and save the current screen.
+                int screenNum;
+                Screen currentScreen = Utilities.DisplayHelper.GetCurrentScreen(this, out screenNum);
                 Properties.Settings.Default.WindowFullScreenDevice = screenNum;
-                this.Bounds = screenToUse.Bounds;
+
+                this.Bounds = currentScreen.Bounds;
             }
             
             //////////////////
@@ -616,11 +632,22 @@ namespace FourDO.UI
                 int savedWidth = Properties.Settings.Default.WindowWidth;
                 int savedHeight = Properties.Settings.Default.WindowHeight;
 
-                this.SetBounds(
-                    this.pointBeforeFullScreen.X,
-                    this.pointBeforeFullScreen.Y,
-                    savedWidth,
-                    savedHeight);
+                if (this.maximizedBeforeFullScreen)
+                {
+                    // Restore size but not position.
+                    // Windows will remember this size for us when the user returns from maximized state
+                    this.Width = savedWidth;
+                    this.Height = savedHeight;
+                    this.WindowState = FormWindowState.Maximized;
+                }
+                else
+                {
+                    this.SetBounds(
+                        this.pointBeforeFullScreen.X,
+                        this.pointBeforeFullScreen.Y,
+                        savedWidth,
+                        savedHeight);
+                }
             }
 
             this.MainMenuBar.Visible = (enableFullScreen == false);
