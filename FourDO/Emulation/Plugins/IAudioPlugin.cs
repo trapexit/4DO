@@ -13,6 +13,9 @@ namespace FourDO.Emulation.Plugins
         bool GetHasSettings();
         void ShowSettings(IWin32Window owner);
 
+        void Start();
+        void Stop();
+
         void PushSample(uint dspSample);
     }
 }

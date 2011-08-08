@@ -26,6 +26,7 @@ namespace FourDO.Emulation.Plugins.Audio
 {
     internal class DefaultAudioPlugin : IAudioPlugin
     {
+        private const int BUFFER_SIZE = 16384;
         private const int bytesPerSample = 4;
         
         private WaveOutPlayer player;
@@ -37,10 +38,7 @@ namespace FourDO.Emulation.Plugins.Audio
 
         internal DefaultAudioPlugin()
         {
-            format = new WaveFormat(88200, 8 * bytesPerSample, 1);
-            player = new WaveOutPlayer(-1, format, 16384, 3, new WaveLib.BufferFillEventHandler(this.FillerCallback));
-
-            internalBuffer = new byte[16384 * 3 * bytesPerSample];
+            internalBuffer = new byte[BUFFER_SIZE * 3 * bytesPerSample];
             internalPosition = 0;
             internalReadStream = new MemoryStream(internalBuffer);
         }
@@ -74,10 +72,39 @@ namespace FourDO.Emulation.Plugins.Audio
 
         public void Destroy()
         {
-            player.Dispose();
+            if (player != null)
+                player.Dispose();
+        }
+
+        public void Start()
+        {
+            this.InternalStart();
+        }
+
+        public void Stop()
+        {
+            this.InternalStop();
         }
 
         #endregion // IAudioPlugin Implementation
+
+        private void InternalStart()
+        {
+            format = new WaveFormat(88200, 8 * bytesPerSample, 1);
+            try
+            {
+                player = new WaveOutPlayer(-1, format, BUFFER_SIZE, 3, new WaveLib.BufferFillEventHandler(this.FillerCallback));
+            }
+            catch (Exception)
+            {
+                // TODO: I got it on my XP machine. I'm not sure if others will too.
+            }
+        }
+
+        private void InternalStop()
+        {
+            this.Destroy();
+        }
 
         private void FillerCallback(IntPtr data, int size)
         {

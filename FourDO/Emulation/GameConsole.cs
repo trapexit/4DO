@@ -9,12 +9,32 @@ using System.Threading;
 
 namespace FourDO.Emulation
 {
+    public enum ConsoleState
+    {
+        Stopped = 0,
+        Paused = 1,
+        Running = 2
+    }
+
+    public class ConsoleStateChangeEventArgs : EventArgs
+    {
+        public ConsoleState NewState {get; private set;}
+
+        public ConsoleStateChangeEventArgs(ConsoleState newState)
+        {
+            this.NewState = newState;
+        }
+    }
+
+    public delegate void ConsoleStateChangeHandler(ConsoleStateChangeEventArgs e);
+
     internal class GameConsole
     {
         public event EventHandler FrameDone;
+        public event ConsoleStateChangeHandler ConsoleStateChange;
 
         public class BadBiosRomException : Exception {};
-        public class BadGameRomException : Exception { };
+        public class BadGameRomException : Exception {};
         
         #region Private Variables
 
@@ -108,7 +128,21 @@ namespace FourDO.Emulation
                 audioPlugin.Destroy();
         }
 
-        public bool Running { get; private set; }
+        private ConsoleState internalConsoleState;
+        public ConsoleState State 
+        { 
+            get
+            {
+                return internalConsoleState;
+            }
+
+            set
+            {
+                internalConsoleState = value;
+                if (ConsoleStateChange != null)
+                    this.ConsoleStateChange(new ConsoleStateChangeEventArgs(value));
+            }
+        }
 
         public IntPtr CurrentFrame
         {
@@ -179,41 +213,65 @@ namespace FourDO.Emulation
 
             /////////////////
             // Start the core.
-            
-            Running = true;
             FreeDOCore.Initialize();
-
-            this.InternalStart();
+            this.InternalResume(false);
         }
 
         public void Stop()
         {
             // Are we already stopped?
-            if (this.workerThread == null)
+            if (this.State == ConsoleState.Stopped)
                 return;
 
-            if (this.workerThread.ManagedThreadId == Thread.CurrentThread.ManagedThreadId)
-                {} // I dunno what to do. Screw it.
+            if (this.workerThread != null && this.workerThread.ManagedThreadId == Thread.CurrentThread.ManagedThreadId)
+                {} // The worker's trying to kill itself? I dunno what to do. Screw it.
 
             /////////////////
             // Stop the core.
 
-            this.InternalStop();
+            if (this.State == ConsoleState.Running)
+                this.InternalPause();
 
             if (this.gameRomReader != null)
                 this.gameRomReader.Close();
 
             // Done!
             FreeDOCore.Destroy();
-            Running = false;
+            this.State = ConsoleState.Stopped;
+        }
+
+        public void Pause()
+        {
+            if (this.State != ConsoleState.Running)
+                return;
+
+            this.InternalPause();
+        }
+
+        public void Resume()
+        {
+            if (this.State != ConsoleState.Paused)
+                return;
+
+            this.InternalResume(false);
+        }
+
+        public void AdvanceSingleFrame()
+        {
+            if (this.State != ConsoleState.Paused)
+                return;
+
+            this.InternalAdvanceSingleFrame();
         }
 
         public void SaveState(string saveStateFileName)
         {
-            // TODO: Should I raise an error if we're not running?
+            if (this.State == ConsoleState.Stopped)
+                return;
             
-            if (this.Running)
-                this.InternalStop();
+            bool systemWasRunning = (this.State == ConsoleState.Running);
+            if (systemWasRunning == true)
+                this.InternalPause();
 
             BinaryWriter writer = null;
             try
@@ -241,17 +299,19 @@ namespace FourDO.Emulation
                 if (writer != null)
                     writer.Close();
 
-                if (this.Running)
-                    this.InternalStart();
+                if (systemWasRunning == true)
+                    this.InternalResume(false);
             }
         }
 
         public void LoadState(string saveStateFileName)
         {
-            // TODO: Should I raise an error if we're not running?
+            if (this.State == ConsoleState.Stopped)
+                return;
 
-            if (this.Running)
-                this.InternalStop();
+            bool systemWasRunning = (this.State == ConsoleState.Running);
+            if (systemWasRunning == true)
+                this.InternalPause();
 
             BinaryReader reader = null;
             try
@@ -277,25 +337,38 @@ namespace FourDO.Emulation
                 if (reader != null)
                     reader.Close();
 
-                if (this.Running)
-                    this.InternalStart();
+                if (systemWasRunning == true)
+                    this.InternalResume(false);
             }
         }
 
-        private void InternalStart()
+        private void InternalResume(bool singleFrame)
         {
-            stopWorkerSignal = false;
+            stopWorkerSignal = singleFrame;
             this.workerThread = new Thread(new ThreadStart(this.WorkerThread));
             this.workerThread.Priority = ThreadPriority.Highest;
             this.workerThread.Start();
+            this.audioPlugin.Start();
+
+            if (singleFrame == false)
+                this.State = ConsoleState.Running;
         }
 
-        private void InternalStop()
+        private void InternalPause()
         {
             // Signal a shutdown and wait for it.
             stopWorkerSignal = true;
             this.workerThread.Join();
             this.workerThread = null;
+            this.audioPlugin.Stop();
+
+            this.State = ConsoleState.Paused;
+        }
+
+        private void InternalAdvanceSingleFrame()
+        {
+            this.InternalResume(true);
+            this.InternalPause();
         }
 
         #region FreeDO External Interface

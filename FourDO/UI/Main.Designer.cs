@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.StatusStripItem = new System.Windows.Forms.ToolStripStatusLabel();
+            this.VersionStripItem = new System.Windows.Forms.ToolStripStatusLabel();
             this.FPSStripItem = new System.Windows.Forms.ToolStripStatusLabel();
             this.quickDisplayDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.MainMenuBar = new System.Windows.Forms.MenuStrip();
@@ -39,17 +39,21 @@
             this.openCDImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadLastGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.chooseBiosRomMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.consoleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveStateMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadStateMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadLastSaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.saveStateSlotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.previousSlotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nextSlotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.loadLastSaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.chooseBiosRomMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pauseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullScreenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -59,11 +63,15 @@
             this.snapWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshFpsTimer = new System.Windows.Forms.Timer(this.components);
+            this.hideMenuTimer = new System.Windows.Forms.Timer(this.components);
+            this.rememberPauseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.advanceFrameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sizeBox = new FourDO.UI.SizeBox();
             this.RomNagBox = new FourDO.UI.NagBox();
             this.gameCanvas = new FourDO.UI.GameCanvas();
-            this.hideMenuTimer = new System.Windows.Forms.Timer(this.components);
             this.MainStatusStrip.SuspendLayout();
             this.MainMenuBar.SuspendLayout();
             this.SuspendLayout();
@@ -71,7 +79,7 @@
             // MainStatusStrip
             // 
             this.MainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StatusStripItem,
+            this.VersionStripItem,
             this.FPSStripItem,
             this.quickDisplayDropDownButton});
             this.MainStatusStrip.Location = new System.Drawing.Point(0, 581);
@@ -79,16 +87,16 @@
             this.MainStatusStrip.Size = new System.Drawing.Size(744, 22);
             this.MainStatusStrip.TabIndex = 0;
             // 
-            // StatusStripItem
+            // VersionStripItem
             // 
-            this.StatusStripItem.Name = "StatusStripItem";
-            this.StatusStripItem.Size = new System.Drawing.Size(90, 17);
-            this.StatusStripItem.Text = "FourDO 1.0.2.35";
+            this.VersionStripItem.Name = "VersionStripItem";
+            this.VersionStripItem.Size = new System.Drawing.Size(62, 17);
+            this.VersionStripItem.Text = "4DO x.x.x.x";
             // 
             // FPSStripItem
             // 
             this.FPSStripItem.Name = "FPSStripItem";
-            this.FPSStripItem.Size = new System.Drawing.Size(520, 17);
+            this.FPSStripItem.Size = new System.Drawing.Size(548, 17);
             this.FPSStripItem.Spring = true;
             // 
             // quickDisplayDropDownButton
@@ -104,8 +112,10 @@
             // 
             this.MainMenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileMenuItem,
+            this.consoleMenuItem,
             this.displayMenuItem,
-            this.optionsMenuItem});
+            this.optionsMenuItem,
+            this.helpToolStripMenuItem});
             this.MainMenuBar.Location = new System.Drawing.Point(0, 0);
             this.MainMenuBar.Name = "MainMenuBar";
             this.MainMenuBar.Size = new System.Drawing.Size(744, 24);
@@ -119,11 +129,6 @@
             this.openCDImageMenuItem,
             this.loadLastGameMenuItem,
             this.toolStripSeparator1,
-            this.saveStateMenuItem,
-            this.loadStateMenuItem,
-            this.saveStateSlotMenuItem,
-            this.loadLastSaveMenuItem,
-            this.toolStripSeparator3,
             this.chooseBiosRomMenuItem,
             this.toolStripSeparator2,
             this.exitMenuItem});
@@ -134,7 +139,7 @@
             // openCDImageMenuItem
             // 
             this.openCDImageMenuItem.Name = "openCDImageMenuItem";
-            this.openCDImageMenuItem.Size = new System.Drawing.Size(233, 22);
+            this.openCDImageMenuItem.Size = new System.Drawing.Size(222, 22);
             this.openCDImageMenuItem.Text = "Open CD &Image File (*.iso)...";
             this.openCDImageMenuItem.Click += new System.EventHandler(this.openCDImageMenuItem_Click);
             // 
@@ -145,20 +150,56 @@
             this.loadLastGameMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.loadLastGameMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
             this.loadLastGameMenuItem.Name = "loadLastGameMenuItem";
-            this.loadLastGameMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.loadLastGameMenuItem.Text = "Load Last Game on Startup";
+            this.loadLastGameMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.loadLastGameMenuItem.Text = "    On Startup, Load Last Game";
             this.loadLastGameMenuItem.Click += new System.EventHandler(this.loadLastGameMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(230, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(219, 6);
+            // 
+            // chooseBiosRomMenuItem
+            // 
+            this.chooseBiosRomMenuItem.Name = "chooseBiosRomMenuItem";
+            this.chooseBiosRomMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.chooseBiosRomMenuItem.Text = "Choose &BIOS Rom File...";
+            this.chooseBiosRomMenuItem.Click += new System.EventHandler(this.chooseBiosRomMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(219, 6);
+            // 
+            // exitMenuItem
+            // 
+            this.exitMenuItem.Name = "exitMenuItem";
+            this.exitMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.exitMenuItem.Text = "E&xit";
+            this.exitMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // consoleMenuItem
+            // 
+            this.consoleMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveStateMenuItem,
+            this.loadStateMenuItem,
+            this.loadLastSaveMenuItem,
+            this.toolStripSeparator7,
+            this.saveStateSlotMenuItem,
+            this.toolStripSeparator3,
+            this.pauseMenuItem,
+            this.advanceFrameMenuItem,
+            this.resetMenuItem,
+            this.rememberPauseMenuItem});
+            this.consoleMenuItem.Name = "consoleMenuItem";
+            this.consoleMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.consoleMenuItem.Text = "&Console";
             // 
             // saveStateMenuItem
             // 
             this.saveStateMenuItem.Name = "saveStateMenuItem";
             this.saveStateMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.saveStateMenuItem.Size = new System.Drawing.Size(233, 22);
+            this.saveStateMenuItem.Size = new System.Drawing.Size(259, 22);
             this.saveStateMenuItem.Text = "&Save State";
             this.saveStateMenuItem.Click += new System.EventHandler(this.saveStateMenuItem_Click);
             // 
@@ -166,9 +207,25 @@
             // 
             this.loadStateMenuItem.Name = "loadStateMenuItem";
             this.loadStateMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.loadStateMenuItem.Size = new System.Drawing.Size(233, 22);
+            this.loadStateMenuItem.Size = new System.Drawing.Size(259, 22);
             this.loadStateMenuItem.Text = "&Load State";
             this.loadStateMenuItem.Click += new System.EventHandler(this.loadStateMenuItem_Click);
+            // 
+            // loadLastSaveMenuItem
+            // 
+            this.loadLastSaveMenuItem.Checked = true;
+            this.loadLastSaveMenuItem.CheckOnClick = true;
+            this.loadLastSaveMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.loadLastSaveMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
+            this.loadLastSaveMenuItem.Name = "loadLastSaveMenuItem";
+            this.loadLastSaveMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.loadLastSaveMenuItem.Text = "    On Startup, L&oad Last Save (of Slot)";
+            this.loadLastSaveMenuItem.Click += new System.EventHandler(this.loadLastGameMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(256, 6);
             // 
             // saveStateSlotMenuItem
             // 
@@ -177,8 +234,8 @@
             this.nextSlotMenuItem,
             this.toolStripSeparator4});
             this.saveStateSlotMenuItem.Name = "saveStateSlotMenuItem";
-            this.saveStateSlotMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.saveStateSlotMenuItem.Text = "Save State Slot";
+            this.saveStateSlotMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.saveStateSlotMenuItem.Text = "Save State Slo&t";
             // 
             // previousSlotMenuItem
             // 
@@ -201,40 +258,26 @@
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(192, 6);
             // 
-            // loadLastSaveMenuItem
-            // 
-            this.loadLastSaveMenuItem.Checked = true;
-            this.loadLastSaveMenuItem.CheckOnClick = true;
-            this.loadLastSaveMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.loadLastSaveMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
-            this.loadLastSaveMenuItem.Name = "loadLastSaveMenuItem";
-            this.loadLastSaveMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.loadLastSaveMenuItem.Text = "Load Last Save (of slot) on Startup";
-            this.loadLastSaveMenuItem.Click += new System.EventHandler(this.loadLastSaveMenuItem_Click);
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(230, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(256, 6);
             // 
-            // chooseBiosRomMenuItem
+            // resetMenuItem
             // 
-            this.chooseBiosRomMenuItem.Name = "chooseBiosRomMenuItem";
-            this.chooseBiosRomMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.chooseBiosRomMenuItem.Text = "Choose &BIOS Rom File...";
-            this.chooseBiosRomMenuItem.Click += new System.EventHandler(this.chooseBiosRomMenuItem_Click);
+            this.resetMenuItem.Name = "resetMenuItem";
+            this.resetMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
+            this.resetMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.resetMenuItem.Text = "&Reset";
+            this.resetMenuItem.Click += new System.EventHandler(this.resetMenuItem_Click);
             // 
-            // toolStripSeparator2
+            // pauseMenuItem
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(230, 6);
-            // 
-            // exitMenuItem
-            // 
-            this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.exitMenuItem.Text = "E&xit";
-            this.exitMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.pauseMenuItem.Name = "pauseMenuItem";
+            this.pauseMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
+            this.pauseMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.pauseMenuItem.Text = "&Pause";
+            this.pauseMenuItem.Click += new System.EventHandler(this.pauseMenuItem_Click);
             // 
             // displayMenuItem
             // 
@@ -255,7 +298,7 @@
             this.fullScreenMenuItem.Name = "fullScreenMenuItem";
             this.fullScreenMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
             this.fullScreenMenuItem.Size = new System.Drawing.Size(232, 22);
-            this.fullScreenMenuItem.Text = "Full Screen";
+            this.fullScreenMenuItem.Text = "&Full Screen";
             this.fullScreenMenuItem.Click += new System.EventHandler(this.fullScreenMenuItem_Click);
             // 
             // toolStripSeparator5
@@ -270,7 +313,7 @@
             this.smoothResizingMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
             this.smoothResizingMenuItem.Name = "smoothResizingMenuItem";
             this.smoothResizingMenuItem.Size = new System.Drawing.Size(232, 22);
-            this.smoothResizingMenuItem.Text = "Smooth Image Resizing";
+            this.smoothResizingMenuItem.Text = "&Smooth Image Resizing";
             this.smoothResizingMenuItem.Click += new System.EventHandler(this.smoothResizingMenuItem_Click);
             // 
             // preserveRatioMenuItem
@@ -280,7 +323,7 @@
             this.preserveRatioMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
             this.preserveRatioMenuItem.Name = "preserveRatioMenuItem";
             this.preserveRatioMenuItem.Size = new System.Drawing.Size(232, 22);
-            this.preserveRatioMenuItem.Text = "Preserve Aspect Ratio";
+            this.preserveRatioMenuItem.Text = "Preserve Aspect &Ratio";
             this.preserveRatioMenuItem.Click += new System.EventHandler(this.preserveRatioMenuItem_Click);
             // 
             // toolStripSeparator6
@@ -295,7 +338,7 @@
             this.snapWindowMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
             this.snapWindowMenuItem.Name = "snapWindowMenuItem";
             this.snapWindowMenuItem.Size = new System.Drawing.Size(232, 22);
-            this.snapWindowMenuItem.Text = "Snap Window to Clean Increments";
+            this.snapWindowMenuItem.Text = "Snap &Window to Clean Increments";
             this.snapWindowMenuItem.Click += new System.EventHandler(this.snapWindowMenuItem_Click);
             // 
             // optionsMenuItem
@@ -313,11 +356,47 @@
             this.settingsMenuItem.Text = "&Settings...";
             this.settingsMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.aboutToolStripMenuItem.Text = "&About 4DO...";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
             // refreshFpsTimer
             // 
             this.refreshFpsTimer.Enabled = true;
             this.refreshFpsTimer.Interval = 300;
             this.refreshFpsTimer.Tick += new System.EventHandler(this.RefreshFpsTimer_Tick);
+            // 
+            // hideMenuTimer
+            // 
+            this.hideMenuTimer.Interval = 2000;
+            this.hideMenuTimer.Tick += new System.EventHandler(this.hideMenuTimer_Tick);
+            // 
+            // rememberPauseMenuItem
+            // 
+            this.rememberPauseMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
+            this.rememberPauseMenuItem.Name = "rememberPauseMenuItem";
+            this.rememberPauseMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.rememberPauseMenuItem.Text = "    On Startup, Re&member Paused Status";
+            this.rememberPauseMenuItem.Click += new System.EventHandler(this.rememberPauseMenuItem_Click);
+            // 
+            // advanceFrameMenuItem
+            // 
+            this.advanceFrameMenuItem.Name = "advanceFrameMenuItem";
+            this.advanceFrameMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
+            this.advanceFrameMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.advanceFrameMenuItem.Text = "&Advance by a Single Frame";
+            this.advanceFrameMenuItem.Click += new System.EventHandler(this.advanceFrameMenuItem_Click);
             // 
             // sizeBox
             // 
@@ -358,11 +437,6 @@
             this.gameCanvas.Size = new System.Drawing.Size(744, 557);
             this.gameCanvas.TabIndex = 3;
             // 
-            // hideMenuTimer
-            // 
-            this.hideMenuTimer.Interval = 2000;
-            this.hideMenuTimer.Tick += new System.EventHandler(this.hideMenuTimer_Tick);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -376,7 +450,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "Main";
-            this.Text = "FourDO";
+            this.Text = "4DO";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_KeyDown);
@@ -393,7 +467,7 @@
         #endregion
 
         private System.Windows.Forms.StatusStrip MainStatusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel StatusStripItem;
+        private System.Windows.Forms.ToolStripStatusLabel VersionStripItem;
         private NagBox RomNagBox;
         private System.Windows.Forms.MenuStrip MainMenuBar;
         private System.Windows.Forms.ToolStripMenuItem fileMenuItem;
@@ -405,15 +479,7 @@
         private System.Windows.Forms.Timer refreshFpsTimer;
         private System.Windows.Forms.ToolStripMenuItem openCDImageMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadLastGameMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveStateMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadStateMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveStateSlotMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem nextSlotMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem previousSlotMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadLastSaveMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem optionsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsMenuItem;
         private SizeBox sizeBox;
@@ -426,6 +492,22 @@
         private System.Windows.Forms.ToolStripMenuItem smoothResizingMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.Timer hideMenuTimer;
+        private System.Windows.Forms.ToolStripMenuItem consoleMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pauseMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveStateMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadStateMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadLastSaveMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem saveStateSlotMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem previousSlotMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nextSlotMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem rememberPauseMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem advanceFrameMenuItem;
 
     }
 }

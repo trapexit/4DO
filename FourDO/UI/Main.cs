@@ -46,6 +46,10 @@ namespace FourDO.UI
             this.mouseHook.MouseDown += new MouseHookEventHandler(mouseHook_MouseDown);
 
             this.quickDisplayDropDownButton.DropDownDirection = ToolStripDropDownDirection.AboveLeft;
+            
+            this.VersionStripItem.Text = "4DO " + Application.ProductVersion;
+
+            GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
 
             ////////////////////
             // Form size and position.
@@ -159,20 +163,40 @@ namespace FourDO.UI
                 Properties.Settings.Default.GameRomFile = null;
                 Properties.Settings.Default.Save();
             }
-            
-            //////////////
+
+            // Clear pause status if we aren't remembering pause
+            if (Properties.Settings.Default.AutoRememberPause == false 
+                && Properties.Settings.Default.LastPauseStatus == true)
+            {
+                Properties.Settings.Default.LastPauseStatus = false;
+                Properties.Settings.Default.Save();
+            }
+            // Remember this now, because we can't count it after the console's been started.
+            bool lastPauseStatus = Properties.Settings.Default.LastPauseStatus;
+
+            ///////////
+            // Now that settings have been mucked with, subscribe to their change event.
             Properties.Settings.Default.PropertyChanged += new PropertyChangedEventHandler(Settings_PropertyChanged);
 
+            //////////////
+            // Fire her up!
             this.DoConsoleStart();
 
-            if (Properties.Settings.Default.AutoLoadLastSave)
+            if (Properties.Settings.Default.AutoLoadLastSave == true)
                 this.DoLoadState();
 
+            if (Properties.Settings.Default.AutoRememberPause == true && lastPauseStatus == true)
+                this.DoConsoleTogglePause();
+                
             this.UpdateUI();
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
+            // Ignore console state changes from now on. The console will be shutting itself down.
+            GameConsole.Instance.ConsoleStateChange -= new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
+            
+            this.mouseHook.Uninstall();
             GameConsole.Instance.Stop();
             GameConsole.Instance.Destroy();
         }
@@ -198,6 +222,7 @@ namespace FourDO.UI
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomFile)
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoLoadGameFile)
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoLoadLastSave)
+                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoRememberPause)
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.SaveStateSlot)
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowFullScreen)
                     || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowPreseveRatio)
@@ -371,11 +396,58 @@ namespace FourDO.UI
         private void hideMenuTimer_Tick(object sender, EventArgs e)
         {
             // Delay hiding the menu if the user is using the menus.
-            if (this.MainMenuBar.Focused)
+            if (this.MainMenuBar.Focused || this.MainMenuBar.Capture || this.MainMenuBar.ContainsFocus)
                 return; 
             
             this.MainMenuBar.Visible = (this.isWindowFullScreen == false);
             this.hideMenuTimer.Enabled = false;
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About aboutForm = new About();
+            aboutForm.ShowDialog(this);
+        }
+
+        private void resetMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoConsoleReset();
+        }
+
+        private void pauseMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoConsoleTogglePause();
+        }
+
+        private void advanceFrameMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoConsoleAdvanceFrame();
+        }
+
+        private void rememberPauseMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoToggleRememberPause();
+        }
+
+        private void Instance_ConsoleStateChange(ConsoleStateChangeEventArgs e)
+        {
+            // Should we remember the status?
+            if (Properties.Settings.Default.AutoRememberPause)
+            {
+                if (e.NewState == ConsoleState.Paused)
+                {
+                    Properties.Settings.Default.LastPauseStatus = true;
+                    Properties.Settings.Default.Save();
+                }
+                else if (e.NewState == ConsoleState.Running)
+                {
+                    Properties.Settings.Default.LastPauseStatus = false;
+                    Properties.Settings.Default.Save();
+                }
+            }
+
+            // Some menu items depend on console status.
+            this.UpdateUI();
         }
 
         #endregion // Event Handlers
@@ -385,25 +457,44 @@ namespace FourDO.UI
         private void UpdateUI()
         {
             bool isValidBiosRomSelected = (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == false);
-            bool consoleRunning = GameConsole.Instance.Running;
+            bool consoleActive = (GameConsole.Instance.State != ConsoleState.Stopped);
 
             ////////////////////////
             // File menu
 
             this.openCDImageMenuItem.Enabled = isValidBiosRomSelected;
             this.loadLastGameMenuItem.Enabled = true;
-            this.saveStateMenuItem.Enabled = isValidBiosRomSelected && consoleRunning;
-            this.loadStateMenuItem.Enabled = isValidBiosRomSelected && consoleRunning;
-            this.saveStateSlotMenuItem.Enabled = true;
-            foreach (ToolStripItem menuItem in this.saveStateSlotMenuItem.DropDownItems)
-                menuItem.Enabled = true;
-            this.loadLastSaveMenuItem.Enabled = true;
             this.chooseBiosRomMenuItem.Enabled = true;
             this.exitMenuItem.Enabled = true;
 
-            // Various Checked/Unchecked
-            loadLastGameMenuItem.Checked = Properties.Settings.Default.AutoLoadGameFile;
-            loadLastSaveMenuItem.Checked = Properties.Settings.Default.AutoLoadLastSave;
+            this.loadLastGameMenuItem.Checked = Properties.Settings.Default.AutoLoadGameFile;
+
+            ////////////////////////
+            // Console menu
+
+            this.saveStateMenuItem.Enabled = isValidBiosRomSelected && consoleActive;
+            this.loadStateMenuItem.Enabled = isValidBiosRomSelected && consoleActive;
+            this.loadLastSaveMenuItem.Enabled = true;
+            this.saveStateSlotMenuItem.Enabled = true;
+            foreach (ToolStripItem menuItem in this.saveStateSlotMenuItem.DropDownItems)
+                menuItem.Enabled = true;
+            this.pauseMenuItem.Enabled = consoleActive;
+            this.advanceFrameMenuItem.Enabled = consoleActive;
+            this.resetMenuItem.Enabled = consoleActive;
+
+            this.pauseMenuItem.Checked = (GameConsole.Instance.State == ConsoleState.Paused);
+            this.rememberPauseMenuItem.Checked = Properties.Settings.Default.AutoRememberPause;
+            this.loadLastSaveMenuItem.Checked = Properties.Settings.Default.AutoLoadLastSave;
+
+            // Save slot
+            foreach (ToolStripItem menuItem in saveStateSlotMenuItem.DropDownItems)
+            {
+                if (!(menuItem is ToolStripMenuItem))
+                    continue;
+
+                if (menuItem.Tag != null)
+                    ((ToolStripMenuItem)menuItem).Checked = (Properties.Settings.Default.SaveStateSlot == (int)menuItem.Tag);
+            }
 
             ////////////////////////
             // Display menus. (always enabled)
@@ -423,19 +514,13 @@ namespace FourDO.UI
             this.GetQuickDisplayMenuItem(preserveRatioMenuItem).Checked = preserveRatioMenuItem.Checked;
             this.gameCanvas.PreserveAspectRatio = this.preserveRatioMenuItem.Checked;
 
+            ////////////////////////
+            // Other non-menu stuff.
+
+
             // If we need to switch full screen status, do it now.
             if (this.isWindowFullScreen != Properties.Settings.Default.WindowFullScreen)
                 this.SetFullScreen(Properties.Settings.Default.WindowFullScreen);
-            
-            // Save slot
-            foreach (ToolStripItem menuItem in saveStateSlotMenuItem.DropDownItems)
-            {
-                if (!(menuItem is ToolStripMenuItem))
-                    continue;
-
-                if (menuItem.Tag != null)
-                    ((ToolStripMenuItem)menuItem).Checked = (Properties.Settings.Default.SaveStateSlot == (int)menuItem.Tag);
-            }
 
             // Misc form stuff.
             this.sizeGuard.Enabled = Properties.Settings.Default.WindowSnapSize;
@@ -478,6 +563,27 @@ namespace FourDO.UI
         {
             GameConsole.Instance.Stop();
             this.DoConsoleStart();
+        }
+
+        private void DoConsoleTogglePause()
+        {
+            if (GameConsole.Instance.State == ConsoleState.Running)
+                GameConsole.Instance.Pause();
+            else if (GameConsole.Instance.State == ConsoleState.Paused)
+                GameConsole.Instance.Resume();
+        }
+
+        private void DoConsoleAdvanceFrame()
+        {
+            if (GameConsole.Instance.State == ConsoleState.Stopped)
+                return;
+            
+            // Pause it if we need to.
+            if (GameConsole.Instance.State == ConsoleState.Running)
+                GameConsole.Instance.Pause();
+
+            if (GameConsole.Instance.State == ConsoleState.Paused)
+                GameConsole.Instance.AdvanceSingleFrame();
         }
         
         private void DoShowRomNag()
@@ -528,7 +634,7 @@ namespace FourDO.UI
 
         private void DoSaveState()
         {
-            if (GameConsole.Instance.Running)
+            if (GameConsole.Instance.State != ConsoleState.Stopped)
             {
                 string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameRomFileName, Properties.Settings.Default.SaveStateSlot);
                 GameConsole.Instance.SaveState(saveStateFileName);
@@ -537,7 +643,7 @@ namespace FourDO.UI
 
         private void DoLoadState()
         {
-            if (GameConsole.Instance.Running)
+            if (GameConsole.Instance.State != ConsoleState.Stopped)
             {
                 string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameRomFileName, Properties.Settings.Default.SaveStateSlot);
                 if (System.IO.File.Exists(saveStateFileName))
@@ -571,7 +677,7 @@ namespace FourDO.UI
 
         private void DoUpdateFPS()
         {
-            if (GameConsole.Instance.Running)
+            if (GameConsole.Instance.State == ConsoleState.Running)
             {
                 double fps = GameConsole.Instance.CurrentFrameSpeed;
                 if (fps != 0)
@@ -614,6 +720,12 @@ namespace FourDO.UI
         private void DoToggleImageSmoothing()
         {
             Properties.Settings.Default.WindowImageSmoothing = !Properties.Settings.Default.WindowImageSmoothing;
+            Properties.Settings.Default.Save();
+        }
+
+        private void DoToggleRememberPause()
+        {
+            Properties.Settings.Default.AutoRememberPause = !Properties.Settings.Default.AutoRememberPause;
             Properties.Settings.Default.Save();
         }
 
