@@ -35,7 +35,8 @@ namespace FourDO.Emulation
 
         public class BadBiosRomException : Exception {};
         public class BadGameRomException : Exception {};
-        
+        public class BadNvramFileException : Exception {};
+
         #region Private Variables
 
         private const int ROM_SIZE = 1 * 1024 * 1024;
@@ -61,6 +62,10 @@ namespace FourDO.Emulation
 
         private string gameRomFileName;
         private BinaryReader gameRomReader;
+
+        private string nvramFileName;
+        private byte[] nvramCopy;
+        private System.Timers.Timer nvramTimer = new System.Timers.Timer(250);
 
         private volatile FrameSpeedCalculator speedCalculator = new FrameSpeedCalculator(4);
 
@@ -103,6 +108,10 @@ namespace FourDO.Emulation
             FreeDOCore.GetDiscSizeEvent = new FreeDOCore.GetDiscSizeDelegate(ExternalInterface_GetDiscSize);
             FreeDOCore.OnSectorEvent = new FreeDOCore.OnSectorDelegate(ExternalInterface_OnSector);
 
+            // Set up NVRAM save timer.
+            nvramTimer.Elapsed += new ElapsedEventHandler(nvramTimer_Elapsed);
+            nvramTimer.Enabled = false;
+
             ///////////////
             // Allocate the VDLFrames
 
@@ -120,6 +129,14 @@ namespace FourDO.Emulation
             pbusData = new byte[PBUS_DATA_MAX_SIZE];
             pbusDataHandle = GCHandle.Alloc(pbusData, GCHandleType.Pinned);
             pbusDataPtr = pbusDataHandle.AddrOfPinnedObject();
+        }
+
+        public int NvramSize
+        {
+            get
+            {
+                return NVRAM_SIZE;
+            }
         }
 
         public void Destroy()
@@ -168,7 +185,15 @@ namespace FourDO.Emulation
             }
         }
 
-        public void Start(string biosRomFileName, string gameRomFileName)
+        public string NvramFileName
+        {
+            get
+            {
+                return nvramFileName;
+            }
+        }
+
+        public void Start(string biosRomFileName, string gameRomFileName, string nvramFileName)
         {
             // Are we already started?
             if (this.workerThread != null)
@@ -185,10 +210,27 @@ namespace FourDO.Emulation
                 throw new BadBiosRomException();
             }
 
-
             // Also get outta here if the rom file isn't the right length.
             if (this.biosRomCopy.Length != ROM_SIZE)
                 throw new BadBiosRomException();
+
+            //////////////
+            // Load a copy of the nvram.
+            try
+            {
+                this.nvramCopy = System.IO.File.ReadAllBytes(nvramFileName);
+            }
+            catch 
+            {
+                throw new BadNvramFileException();
+            }
+
+            // Freak out if the nvram isn't the right size.
+            if (this.nvramCopy.Length != NVRAM_SIZE)
+                throw new BadNvramFileException();
+            
+            // Remember the file name.
+            this.nvramFileName = nvramFileName;
 
             //////////////
             // Attempt to open a binary reader to the game rom.
@@ -371,6 +413,11 @@ namespace FourDO.Emulation
             this.InternalPause();
         }
 
+        private void nvramTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            nvramTimer.Enabled = false;
+        }
+
         #region FreeDO External Interface
 
         private void ExternalInterface_ReadRom(IntPtr romPointer)
@@ -391,12 +438,22 @@ namespace FourDO.Emulation
             }
         }
 
-        private void ExternalInterface_ReadNvram(IntPtr nvramPointer)
+        private unsafe void ExternalInterface_ReadNvram(IntPtr nvramPointer)
         {
+            fixed (byte* sourcePtr = this.nvramCopy)
+            {
+                Utilities.Memory.CopyMemory(nvramPointer, new IntPtr((int)sourcePtr), NVRAM_SIZE);
+            }
         }
 
-        private void ExternalInterface_WriteNvram(IntPtr nvramPointer)
+        private unsafe void ExternalInterface_WriteNvram(IntPtr nvramPointer)
         {
+            fixed (byte* sourcePtr = this.nvramCopy)
+            {
+                Utilities.Memory.CopyMemory(new IntPtr((int)sourcePtr), nvramPointer, NVRAM_SIZE);
+            }
+            nvramTimer.Enabled = false;
+            nvramTimer.Enabled = true;
         }
 
         private IntPtr ExternalInterface_SwapFrame(IntPtr currentFrame)
@@ -421,7 +478,7 @@ namespace FourDO.Emulation
 
             //////////////////
             // Copy the pbus data. We'll return it to the core soon when it asks.
-            uint copyLength = (uint)pbusDataCopy.Length;
+            int copyLength = pbusDataCopy.Length;
             if (copyLength > 16)
                 copyLength = 16;
 

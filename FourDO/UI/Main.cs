@@ -537,9 +537,20 @@ namespace FourDO.UI
                 return;
 
             ////////////////
+            // Ensure existence of an NVRAM file.
+            string nvramFile = System.IO.Path.Combine(new System.IO.FileInfo(Application.ExecutablePath).DirectoryName, "NVRAM_SaveData.ram");
+            if (System.IO.File.Exists(nvramFile) == false)
+            {
+                FileStream nvramStream = new FileStream(nvramFile, FileMode.CreateNew);
+                byte[] nvramBytes = new byte[GameConsole.Instance.NvramSize];
+                nvramStream.Write(nvramBytes, 0, nvramBytes.Length);
+                nvramStream.Close();
+            }
+            
+            ////////////////
             try
             {
-                GameConsole.Instance.Start(Properties.Settings.Default.BiosRomFile, Properties.Settings.Default.GameRomFile);
+                GameConsole.Instance.Start(Properties.Settings.Default.BiosRomFile, Properties.Settings.Default.GameRomFile, nvramFile);
             }
             catch (GameConsole.BadBiosRomException)
             {
@@ -553,7 +564,10 @@ namespace FourDO.UI
                 Utilities.Error.ShowError(string.Format("The selected game file ({0}) was either missing or corrupt. Please choose another.", Properties.Settings.Default.GameRomFile));
                 Properties.Settings.Default.GameRomFile = ""; // Changing this value will update the UI.
                 Properties.Settings.Default.Save();
-                this.DoShowRomNag();
+            }
+            catch (GameConsole.BadNvramFileException)
+            {
+                Utilities.Error.ShowError(string.Format("The nvram file ({0}) could not be loaded. Emulation cannot start.", nvramFile));
             }
 
             this.UpdateUI();

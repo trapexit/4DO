@@ -215,7 +215,8 @@ namespace FourDO.UI
             //Check to see if the node exists, if so then set its new value
             if ((SettingNode != null))
             {
-                SettingNode.InnerText = propVal.SerializedValue.ToString();
+                object tempVal = propVal.SerializedValue;
+                SettingNode.InnerText = tempVal == null ? null : tempVal.ToString();
             }
             else
             {

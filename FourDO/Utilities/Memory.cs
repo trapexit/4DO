@@ -7,7 +7,12 @@ namespace FourDO.Utilities
     public static class Memory
     {
         [DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
-        public static extern void CopyMemory(IntPtr destination, IntPtr source, uint lngth);
+        private static extern void InternalCopyMemory(IntPtr destination, IntPtr source, uint length);
+
+        public static void CopyMemory(IntPtr destination, IntPtr source, int length)
+        {
+            InternalCopyMemory(destination, source, (uint)length);
+        }
 
         public static unsafe bool WriteMemoryDump(string fileName, IntPtr memoryLocation, int length)
         {
