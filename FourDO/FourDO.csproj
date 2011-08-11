@@ -65,6 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Emulation\GameSource\DiscGameSource.cs" />
+    <Compile Include="Emulation\GameSource\EmptyGameSource.cs" />
+    <Compile Include="Emulation\GameSource\FileGameSource.cs" />
+    <Compile Include="Emulation\GameSource\IGameSource.cs" />
     <Compile Include="Emulation\Plugins\IAudioPlugin.cs" />
     <Compile Include="Emulation\Plugins\Audio\DefaultAudioPlugin.cs" />
     <Compile Include="Emulation\FPSCalculator.cs" />
@@ -214,6 +218,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CDLib\CDLib.csproj">
+      <Project>{E3BD3EDE-B721-48A8-8EE1-1BA4FAFE5884}</Project>
+      <Name>CDLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WaveLib\WaveLib.csproj">
       <Project>{D72CC69F-2065-4BA2-A499-ABF352C0733D}</Project>
       <Name>WaveLib</Name>

@@ -8,7 +8,7 @@
     <Setting Name="GameRomFile" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AutoLoadGameFile" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.Boolean" Scope="User">
+    <Setting Name="AutoOpenGameFile" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="AutoLoadLastSave" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.Boolean" Scope="User">
@@ -43,6 +43,12 @@
     </Setting>
     <Setting Name="LastPauseStatus" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="GameRomDrive" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.Char" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="GameRomSourceType" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

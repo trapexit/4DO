@@ -9,9 +9,19 @@ using System.Windows.Forms;
 using FourDO.Emulation;
 using FourDO.Utilities;
 using FourDO.Utilities.MouseHook;
+using CDLib;
+using FourDO.Emulation.GameSource;
 
 namespace FourDO.UI
 {
+    internal enum GameSourceType
+    {
+        None = 0,
+        File,
+        Disc,
+        BinaryFile,
+    }
+
     public partial class Main : Form
     {
         private const int BASE_WIDTH = 320;
@@ -24,6 +34,8 @@ namespace FourDO.UI
         private bool isWindowFullScreen = false;
 
         private MouseHook mouseHook = new MouseHook();
+
+        #region Load/Close Form Events
 
         public Main()
         {
@@ -102,6 +114,18 @@ namespace FourDO.UI
             this.sizeBox.Visible = false; // and shut that damn thing up!
             
             ////////////////
+            // Create "Open Disc" menu items for each CD Drive.
+            int menuInsertIndex = fileMenuItem.DropDownItems.IndexOf(openCDImageMenuItem) + 1;
+            foreach (char drive in CDDrive.GetCDDriveLetters())
+            {
+                ToolStripMenuItem newItem = new ToolStripMenuItem("Open Disc Drive - " + drive + ":");
+                newItem.Tag = drive;
+                newItem.Click += new EventHandler(openFromDriveMenuItem_Click);
+                fileMenuItem.DropDownItems.Insert(menuInsertIndex, newItem);
+                menuInsertIndex++;
+            }
+            
+            ////////////////
             // Copy some menu items to the quick display settings menu.
             foreach (ToolStripItem item in this.displayMenuItem.DropDownItems)
             {
@@ -158,9 +182,9 @@ namespace FourDO.UI
             }
 
             // Clear the last loaded game if they don't want us to automatically loading games.
-            if (Properties.Settings.Default.AutoLoadGameFile == false)
+            if (Properties.Settings.Default.AutoOpenGameFile == false)
             {
-                Properties.Settings.Default.GameRomFile = null;
+                Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
                 Properties.Settings.Default.Save();
             }
 
@@ -180,10 +204,7 @@ namespace FourDO.UI
 
             //////////////
             // Fire her up!
-            this.DoConsoleStart();
-
-            if (Properties.Settings.Default.AutoLoadLastSave == true)
-                this.DoLoadState();
+            this.DoConsoleStart(true);
 
             if (Properties.Settings.Default.AutoRememberPause == true && lastPauseStatus == true)
                 this.DoConsoleTogglePause();
@@ -200,6 +221,8 @@ namespace FourDO.UI
             GameConsole.Instance.Stop();
             GameConsole.Instance.Destroy();
         }
+
+        #endregion // Load/Close Form Events
 
         #region Event Handlers
 
@@ -218,16 +241,14 @@ namespace FourDO.UI
                     this.DoHideRomNag();
             }
 
-            if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.BiosRomFile)
-                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomFile)
-                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoLoadGameFile)
-                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoLoadLastSave)
-                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoRememberPause)
-                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.SaveStateSlot)
-                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowFullScreen)
-                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowPreseveRatio)
-                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowSnapSize)
-                    || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowImageSmoothing))
+            if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoOpenGameFile)
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoLoadLastSave)
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoRememberPause)
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.SaveStateSlot)
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowFullScreen)
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowPreseveRatio)
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowSnapSize)
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowImageSmoothing))
             {
                 this.UpdateUI();
             }
@@ -326,7 +347,7 @@ namespace FourDO.UI
 
         private void loadLastGameMenuItem_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.AutoLoadGameFile = !Properties.Settings.Default.AutoLoadGameFile;
+            Properties.Settings.Default.AutoOpenGameFile = !Properties.Settings.Default.AutoOpenGameFile;
             Properties.Settings.Default.Save();
         }
 
@@ -411,7 +432,7 @@ namespace FourDO.UI
 
         private void resetMenuItem_Click(object sender, EventArgs e)
         {
-            this.DoConsoleReset();
+            this.DoConsoleReset(false);
         }
 
         private void pauseMenuItem_Click(object sender, EventArgs e)
@@ -450,6 +471,11 @@ namespace FourDO.UI
             this.UpdateUI();
         }
 
+        void openFromDriveMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoOpenDiscDrive((char)((ToolStripMenuItem)sender).Tag);
+        }
+
         #endregion // Event Handlers
 
         #region Private Methods
@@ -467,7 +493,7 @@ namespace FourDO.UI
             this.chooseBiosRomMenuItem.Enabled = true;
             this.exitMenuItem.Enabled = true;
 
-            this.loadLastGameMenuItem.Checked = Properties.Settings.Default.AutoLoadGameFile;
+            this.loadLastGameMenuItem.Checked = Properties.Settings.Default.AutoOpenGameFile;
 
             ////////////////////////
             // Console menu
@@ -517,7 +543,6 @@ namespace FourDO.UI
             ////////////////////////
             // Other non-menu stuff.
 
-
             // If we need to switch full screen status, do it now.
             if (this.isWindowFullScreen != Properties.Settings.Default.WindowFullScreen)
                 this.SetFullScreen(Properties.Settings.Default.WindowFullScreen);
@@ -531,7 +556,7 @@ namespace FourDO.UI
                 this.DoHideRomNag();
         }
 
-        private void DoConsoleStart()
+        private void DoConsoleStart(bool alsoAllowLoadState)
         {
             if (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == true)
                 return;
@@ -546,23 +571,34 @@ namespace FourDO.UI
                 nvramStream.Write(nvramBytes, 0, nvramBytes.Length);
                 nvramStream.Close();
             }
+
+            ////////////////
+            // Create an appropriate game source
+            IGameSource gameSource = this.CreateGameSource();
             
             ////////////////
             try
             {
-                GameConsole.Instance.Start(Properties.Settings.Default.BiosRomFile, Properties.Settings.Default.GameRomFile, nvramFile);
+                GameConsole.Instance.Start(Properties.Settings.Default.BiosRomFile, gameSource, nvramFile);
             }
             catch (GameConsole.BadBiosRomException)
             {
-                Utilities.Error.ShowError(string.Format("The selected bios file ({0}) was either missing or corrupt. Please choose another.", Properties.Settings.Default.BiosRomFile));
-                Properties.Settings.Default.BiosRomFile = ""; // Changing this value will update the UI.
+                Utilities.Error.ShowError(string.Format("The bios file ({0}) failed to load. Please choose another.", Properties.Settings.Default.BiosRomFile));
+                Properties.Settings.Default.BiosRomFile = "";
                 Properties.Settings.Default.Save();
                 this.DoShowRomNag();
             }
             catch (GameConsole.BadGameRomException)
             {
-                Utilities.Error.ShowError(string.Format("The selected game file ({0}) was either missing or corrupt. Please choose another.", Properties.Settings.Default.GameRomFile));
-                Properties.Settings.Default.GameRomFile = ""; // Changing this value will update the UI.
+                string errorMessage = null;
+                if (gameSource is FileGameSource)
+                    errorMessage = string.Format("The game file ({0}) failed to load. Please choose another.", ((FileGameSource)gameSource).GameFilePath);
+                else
+                    errorMessage = "The game failed to load. Please choose another.";
+                Utilities.Error.ShowError(errorMessage);
+
+                // Since it failed to load, we want to un-remember this as the last loaded game.
+                Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
                 Properties.Settings.Default.Save();
             }
             catch (GameConsole.BadNvramFileException)
@@ -570,13 +606,51 @@ namespace FourDO.UI
                 Utilities.Error.ShowError(string.Format("The nvram file ({0}) could not be loaded. Emulation cannot start.", nvramFile));
             }
 
+            // Optionally load state.
+            if (alsoAllowLoadState == true)
+            {
+                if (Properties.Settings.Default.AutoLoadLastSave == true)
+                    this.DoLoadState();
+            }
+
             this.UpdateUI();
         }
 
-        private void DoConsoleReset()
+        private IGameSource CreateGameSource()
+        {
+            // Determine the game rom source type.
+            int sourceTypeNumber = Properties.Settings.Default.GameRomSourceType;
+            GameSourceType sourceType = GameSourceType.None;
+            try
+            {
+                sourceType = (GameSourceType)sourceTypeNumber;
+            }
+            catch
+            {
+                // If there was a problem, assume a type of "none".
+                Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
+                Properties.Settings.Default.Save();
+            }
+            
+            if (sourceType == GameSourceType.None)
+                return new EmptyGameSource();
+
+            if (sourceType == GameSourceType.File)
+                return new FileGameSource(Properties.Settings.Default.GameRomFile);
+
+            if (sourceType == GameSourceType.Disc)
+                return new DiscGameSource(Properties.Settings.Default.GameRomDrive);
+
+            // Must be a currently unsupported type.
+            return new EmptyGameSource();
+        }
+
+        private void DoConsoleReset(bool alsoAllowLoadState)
         {
             GameConsole.Instance.Stop();
-            this.DoConsoleStart();
+            
+            // Restart, but don't allow it to load state.
+            this.DoConsoleStart(alsoAllowLoadState);
         }
 
         private void DoConsoleTogglePause()
@@ -623,7 +697,7 @@ namespace FourDO.UI
                 Properties.Settings.Default.BiosRomFile = openDialog.FileName;
                 Properties.Settings.Default.Save();
 
-                this.DoConsoleStart();
+                this.DoConsoleStart(true);
             }
         }
 
@@ -638,19 +712,30 @@ namespace FourDO.UI
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
                 Properties.Settings.Default.GameRomFile = openDialog.FileName;
+                Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.File;
                 Properties.Settings.Default.Save();
 
                 // Start it for them.
-                // TODO: Some people may want a prompt. However, I never like this. It's a toss up.
-                this.DoConsoleReset();
+                // Some people may want a prompt. However, I never like this. So, screw em.
+                this.DoConsoleReset(true);
             }
+        }
+
+        private void DoOpenDiscDrive(char driveLetter)
+        {
+            Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.Disc;
+            Properties.Settings.Default.GameRomDrive = driveLetter;
+            Properties.Settings.Default.Save();
+
+            // Start it for them. Don't bother prompting, because you're a badass.
+            this.DoConsoleReset(true);
         }
 
         private void DoSaveState()
         {
             if (GameConsole.Instance.State != ConsoleState.Stopped)
             {
-                string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameRomFileName, Properties.Settings.Default.SaveStateSlot);
+                string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
                 GameConsole.Instance.SaveState(saveStateFileName);
             }
         }
@@ -659,7 +744,7 @@ namespace FourDO.UI
         {
             if (GameConsole.Instance.State != ConsoleState.Stopped)
             {
-                string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameRomFileName, Properties.Settings.Default.SaveStateSlot);
+                string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
                 if (System.IO.File.Exists(saveStateFileName))
                     GameConsole.Instance.LoadState(saveStateFileName);
             }
@@ -683,10 +768,17 @@ namespace FourDO.UI
             Properties.Settings.Default.Save();
         }
 
-        private string GetSaveStateFileName(string gameRomFileName, int saveStateSlot)
+        private string GetSaveStateFileName(IGameSource gameSource, int saveStateSlot)
         {
             const string SAVE_STATE_EXTENSION = ".4dosav";
-            return (gameRomFileName + "." + saveStateSlot.ToString() + SAVE_STATE_EXTENSION);
+
+            string saveGameName = "unknown_source"; // Hopefully nobody causes this.
+            if (gameSource is FileGameSource)
+            {
+                saveGameName = ((FileGameSource)gameSource).GameFilePath;
+            }
+
+            return (saveGameName + "." + saveStateSlot.ToString() + SAVE_STATE_EXTENSION);
         }
 
         private void DoUpdateFPS()

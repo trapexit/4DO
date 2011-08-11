@@ -56,12 +56,12 @@ namespace FourDO.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool AutoLoadGameFile {
+        public bool AutoOpenGameFile {
             get {
-                return ((bool)(this["AutoLoadGameFile"]));
+                return ((bool)(this["AutoOpenGameFile"]));
             }
             set {
-                this["AutoLoadGameFile"] = value;
+                this["AutoOpenGameFile"] = value;
             }
         }
         
@@ -216,6 +216,33 @@ namespace FourDO.Properties {
             }
             set {
                 this["LastPauseStatus"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public char GameRomDrive {
+            get {
+                return ((char)(this["GameRomDrive"]));
+            }
+            set {
+                this["GameRomDrive"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public int GameRomSourceType {
+            get {
+                return ((int)(this["GameRomSourceType"]));
+            }
+            set {
+                this["GameRomSourceType"] = value;
             }
         }
     }

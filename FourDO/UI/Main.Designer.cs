@@ -52,8 +52,10 @@
             this.nextSlotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.resetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.advanceFrameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rememberPauseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullScreenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -67,8 +69,6 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshFpsTimer = new System.Windows.Forms.Timer(this.components);
             this.hideMenuTimer = new System.Windows.Forms.Timer(this.components);
-            this.rememberPauseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.advanceFrameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sizeBox = new FourDO.UI.SizeBox();
             this.RomNagBox = new FourDO.UI.NagBox();
             this.gameCanvas = new FourDO.UI.GameCanvas();
@@ -139,7 +139,7 @@
             // openCDImageMenuItem
             // 
             this.openCDImageMenuItem.Name = "openCDImageMenuItem";
-            this.openCDImageMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.openCDImageMenuItem.Size = new System.Drawing.Size(227, 22);
             this.openCDImageMenuItem.Text = "Open CD &Image File (*.iso)...";
             this.openCDImageMenuItem.Click += new System.EventHandler(this.openCDImageMenuItem_Click);
             // 
@@ -150,31 +150,31 @@
             this.loadLastGameMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.loadLastGameMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
             this.loadLastGameMenuItem.Name = "loadLastGameMenuItem";
-            this.loadLastGameMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.loadLastGameMenuItem.Text = "    On Startup, Load Last Game";
+            this.loadLastGameMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.loadLastGameMenuItem.Text = "    After Startup, Open Last Game";
             this.loadLastGameMenuItem.Click += new System.EventHandler(this.loadLastGameMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(219, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(224, 6);
             // 
             // chooseBiosRomMenuItem
             // 
             this.chooseBiosRomMenuItem.Name = "chooseBiosRomMenuItem";
-            this.chooseBiosRomMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.chooseBiosRomMenuItem.Size = new System.Drawing.Size(227, 22);
             this.chooseBiosRomMenuItem.Text = "Choose &BIOS Rom File...";
             this.chooseBiosRomMenuItem.Click += new System.EventHandler(this.chooseBiosRomMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(219, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(224, 6);
             // 
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.exitMenuItem.Size = new System.Drawing.Size(227, 22);
             this.exitMenuItem.Text = "E&xit";
             this.exitMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -199,7 +199,7 @@
             // 
             this.saveStateMenuItem.Name = "saveStateMenuItem";
             this.saveStateMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.saveStateMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.saveStateMenuItem.Size = new System.Drawing.Size(302, 22);
             this.saveStateMenuItem.Text = "&Save State";
             this.saveStateMenuItem.Click += new System.EventHandler(this.saveStateMenuItem_Click);
             // 
@@ -207,7 +207,7 @@
             // 
             this.loadStateMenuItem.Name = "loadStateMenuItem";
             this.loadStateMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
-            this.loadStateMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.loadStateMenuItem.Size = new System.Drawing.Size(302, 22);
             this.loadStateMenuItem.Text = "&Load State";
             this.loadStateMenuItem.Click += new System.EventHandler(this.loadStateMenuItem_Click);
             // 
@@ -218,14 +218,14 @@
             this.loadLastSaveMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.loadLastSaveMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
             this.loadLastSaveMenuItem.Name = "loadLastSaveMenuItem";
-            this.loadLastSaveMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.loadLastSaveMenuItem.Text = "    On Startup, L&oad Last Save (of Slot)";
-            this.loadLastSaveMenuItem.Click += new System.EventHandler(this.loadLastGameMenuItem_Click);
+            this.loadLastSaveMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.loadLastSaveMenuItem.Text = "    After Game is Opened, L&oad Last Save (of Slot)";
+            this.loadLastSaveMenuItem.Click += new System.EventHandler(this.loadLastSaveMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(256, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(299, 6);
             // 
             // saveStateSlotMenuItem
             // 
@@ -234,7 +234,7 @@
             this.nextSlotMenuItem,
             this.toolStripSeparator4});
             this.saveStateSlotMenuItem.Name = "saveStateSlotMenuItem";
-            this.saveStateSlotMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.saveStateSlotMenuItem.Size = new System.Drawing.Size(302, 22);
             this.saveStateSlotMenuItem.Text = "Save State Slo&t";
             // 
             // previousSlotMenuItem
@@ -261,23 +261,39 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(256, 6);
-            // 
-            // resetMenuItem
-            // 
-            this.resetMenuItem.Name = "resetMenuItem";
-            this.resetMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
-            this.resetMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.resetMenuItem.Text = "&Reset";
-            this.resetMenuItem.Click += new System.EventHandler(this.resetMenuItem_Click);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(299, 6);
             // 
             // pauseMenuItem
             // 
             this.pauseMenuItem.Name = "pauseMenuItem";
             this.pauseMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.pauseMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.pauseMenuItem.Size = new System.Drawing.Size(302, 22);
             this.pauseMenuItem.Text = "&Pause";
             this.pauseMenuItem.Click += new System.EventHandler(this.pauseMenuItem_Click);
+            // 
+            // advanceFrameMenuItem
+            // 
+            this.advanceFrameMenuItem.Name = "advanceFrameMenuItem";
+            this.advanceFrameMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
+            this.advanceFrameMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.advanceFrameMenuItem.Text = "&Advance by a Single Frame";
+            this.advanceFrameMenuItem.Click += new System.EventHandler(this.advanceFrameMenuItem_Click);
+            // 
+            // resetMenuItem
+            // 
+            this.resetMenuItem.Name = "resetMenuItem";
+            this.resetMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
+            this.resetMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.resetMenuItem.Text = "&Reset";
+            this.resetMenuItem.Click += new System.EventHandler(this.resetMenuItem_Click);
+            // 
+            // rememberPauseMenuItem
+            // 
+            this.rememberPauseMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
+            this.rememberPauseMenuItem.Name = "rememberPauseMenuItem";
+            this.rememberPauseMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.rememberPauseMenuItem.Text = "    After Startup, Re&call On/Off Paused Status";
+            this.rememberPauseMenuItem.Click += new System.EventHandler(this.rememberPauseMenuItem_Click);
             // 
             // displayMenuItem
             // 
@@ -381,22 +397,6 @@
             // 
             this.hideMenuTimer.Interval = 2000;
             this.hideMenuTimer.Tick += new System.EventHandler(this.hideMenuTimer_Tick);
-            // 
-            // rememberPauseMenuItem
-            // 
-            this.rememberPauseMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
-            this.rememberPauseMenuItem.Name = "rememberPauseMenuItem";
-            this.rememberPauseMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.rememberPauseMenuItem.Text = "    On Startup, Re&member Paused Status";
-            this.rememberPauseMenuItem.Click += new System.EventHandler(this.rememberPauseMenuItem_Click);
-            // 
-            // advanceFrameMenuItem
-            // 
-            this.advanceFrameMenuItem.Name = "advanceFrameMenuItem";
-            this.advanceFrameMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.advanceFrameMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.advanceFrameMenuItem.Text = "&Advance by a Single Frame";
-            this.advanceFrameMenuItem.Click += new System.EventHandler(this.advanceFrameMenuItem_Click);
             // 
             // sizeBox
             // 

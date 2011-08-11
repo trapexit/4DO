@@ -1,4 +1,5 @@
-﻿using FourDO.Emulation.FreeDO;
+﻿using FourDO.Emulation.GameSource;
+using FourDO.Emulation.FreeDO;
 using FourDO.Emulation.Plugins;
 using FourDO.Utilities;
 using System;
@@ -59,9 +60,6 @@ namespace FourDO.Emulation
 
         private int currentSector = 0;
         private bool isSwapFrameSignaled = false;
-
-        private string gameRomFileName;
-        private BinaryReader gameRomReader;
 
         private string nvramFileName;
         private byte[] nvramCopy;
@@ -177,13 +175,7 @@ namespace FourDO.Emulation
             }
         }
 
-        public string GameRomFileName
-        {
-            get
-            {
-                return gameRomFileName;
-            }
-        }
+        public IGameSource GameSource { get; private set; }
 
         public string NvramFileName
         {
@@ -193,11 +185,13 @@ namespace FourDO.Emulation
             }
         }
 
-        public void Start(string biosRomFileName, string gameRomFileName, string nvramFileName)
+        public void Start(string biosRomFileName, IGameSource gameSource, string nvramFileName)
         {
             // Are we already started?
             if (this.workerThread != null)
                 return;
+
+            this.GameSource = gameSource;
             
             //////////////
             // Attempt to load a copy of the rom. Make sure it's the right size!
@@ -233,24 +227,14 @@ namespace FourDO.Emulation
             this.nvramFileName = nvramFileName;
 
             //////////////
-            // Attempt to open a binary reader to the game rom.
-            if (string.IsNullOrEmpty(gameRomFileName) == false)
+            // Attempt to start up the game source (it is allowed to throw errors).
+            try
             {
-                try
-                {
-                    this.gameRomReader = new BinaryReader(new FileStream(gameRomFileName, FileMode.Open));
-                    this.gameRomFileName = gameRomFileName;
-                }
-                catch
-                {
-                    throw new BadGameRomException();
-                }
+                this.GameSource.Open();
             }
-            else
+            catch
             {
-                // It is valid to start without a loaded game.
-                this.gameRomReader = null;
-                this.gameRomFileName = null;
+                throw new BadGameRomException();
             }
 
             /////////////////
@@ -274,8 +258,12 @@ namespace FourDO.Emulation
             if (this.State == ConsoleState.Running)
                 this.InternalPause();
 
-            if (this.gameRomReader != null)
-                this.gameRomReader.Close();
+            // Close the game source.
+            try
+            {
+                this.GameSource.Close();
+            }
+            catch { } // Might happen, but I don't care. The game source shouldn't have done that.
 
             // Done!
             FreeDOCore.Destroy();
@@ -513,33 +501,12 @@ namespace FourDO.Emulation
 
         private void ExternalInterface_Read2048(IntPtr buffer)
         {
-            if (this.gameRomReader == null)
-                return; // No game loaded.
-
-            this.gameRomReader.BaseStream.Position = 2048 * currentSector;
-            byte[] bytesToCopy = this.gameRomReader.ReadBytes(2048);
-
-            ////////
-            // Now copy!
-            unsafe
-            {
-                fixed (byte* sourceRomBytesPointer = bytesToCopy)
-                {
-                    long* sourcePtr = (long*)sourceRomBytesPointer;
-                    long* destPtr = (long*)buffer.ToPointer();
-                    for (int x = 0; x < 2048 / 8; x++)
-                    {
-                        *destPtr++ = *sourcePtr++;
-                    }
-                }
-            }
+            this.GameSource.ReadSector(buffer, this.currentSector);
         }
 
         private int ExternalInterface_GetDiscSize()
         {
-            if (this.gameRomReader == null)
-                return 0;
-            return (int)(this.gameRomReader.BaseStream.Length >> 11);
+            return this.GameSource.GetSectorCount();
         }
 
         private void ExternalInterface_OnSector(int sectorNumber)
