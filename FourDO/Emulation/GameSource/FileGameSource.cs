@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace FourDO.Emulation.GameSource
 {
-    internal class FileGameSource : IGameSource
+    internal class FileGameSource : GameSourceBase
     {
         private BinaryReader gameRomReader = null;
 
@@ -21,7 +21,7 @@ namespace FourDO.Emulation.GameSource
 
         #region IGameSource Implementation
 
-        public void Open()
+        protected override void OnOpen()
         {
             try
             {
@@ -34,20 +34,13 @@ namespace FourDO.Emulation.GameSource
             }
         }
 
-        public void Close()
+        protected override void OnClose()
         {
             if (this.gameRomReader != null)
                 this.gameRomReader.Close();
         }
 
-        public int GetSectorCount()
-        {
-            if (this.gameRomReader == null)
-                return 0;
-            return (int)(this.gameRomReader.BaseStream.Length / 2048);
-        }
-
-        public void ReadSector(IntPtr destinationBuffer, int sectorNumber)
+        protected override void OnReadSector(IntPtr destinationBuffer, int sectorNumber)
         {
             if (this.gameRomReader == null)
                 return; // No game loaded.

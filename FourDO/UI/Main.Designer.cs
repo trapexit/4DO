@@ -72,6 +72,8 @@
             this.sizeBox = new FourDO.UI.SizeBox();
             this.RomNagBox = new FourDO.UI.NagBox();
             this.gameCanvas = new FourDO.UI.GameCanvas();
+            this.closeGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.MainStatusStrip.SuspendLayout();
             this.MainMenuBar.SuspendLayout();
             this.SuspendLayout();
@@ -126,6 +128,8 @@
             // fileMenuItem
             // 
             this.fileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeGameMenuItem,
+            this.toolStripSeparator8,
             this.openCDImageMenuItem,
             this.loadLastGameMenuItem,
             this.toolStripSeparator1,
@@ -437,6 +441,18 @@
             this.gameCanvas.Size = new System.Drawing.Size(744, 557);
             this.gameCanvas.TabIndex = 3;
             // 
+            // closeGameMenuItem
+            // 
+            this.closeGameMenuItem.Name = "closeGameMenuItem";
+            this.closeGameMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.closeGameMenuItem.Text = "&Close Game";
+            this.closeGameMenuItem.Click += new System.EventHandler(this.closeGameMenuItem_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(224, 6);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -508,6 +524,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem rememberPauseMenuItem;
         private System.Windows.Forms.ToolStripMenuItem advanceFrameMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeGameMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
 
     }
 }

@@ -35,6 +35,8 @@ namespace FourDO.UI
 
         private MouseHook mouseHook = new MouseHook();
 
+        private List<ToolStripMenuItem> openGameMenuItems = new List<ToolStripMenuItem>();
+
         #region Load/Close Form Events
 
         public Main()
@@ -122,8 +124,10 @@ namespace FourDO.UI
                 newItem.Tag = drive;
                 newItem.Click += new EventHandler(openFromDriveMenuItem_Click);
                 fileMenuItem.DropDownItems.Insert(menuInsertIndex, newItem);
+                openGameMenuItems.Add(newItem);
                 menuInsertIndex++;
             }
+            openGameMenuItems.Add(openCDImageMenuItem);
             
             ////////////////
             // Copy some menu items to the quick display settings menu.
@@ -218,7 +222,9 @@ namespace FourDO.UI
             GameConsole.Instance.ConsoleStateChange -= new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
             
             this.mouseHook.Uninstall();
-            GameConsole.Instance.Stop();
+
+            this.DoConsoleStop();
+
             GameConsole.Instance.Destroy();
         }
 
@@ -248,7 +254,11 @@ namespace FourDO.UI
                 || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowFullScreen)
                 || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowPreseveRatio)
                 || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowSnapSize)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowImageSmoothing))
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowImageSmoothing)
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomSourceType)
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomLastDirectory)
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomFile)
+                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomDrive))
             {
                 this.UpdateUI();
             }
@@ -471,9 +481,14 @@ namespace FourDO.UI
             this.UpdateUI();
         }
 
-        void openFromDriveMenuItem_Click(object sender, EventArgs e)
+        private void openFromDriveMenuItem_Click(object sender, EventArgs e)
         {
             this.DoOpenDiscDrive((char)((ToolStripMenuItem)sender).Tag);
+        }
+
+        private void closeGameMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoCloseGame();
         }
 
         #endregion // Event Handlers
@@ -494,6 +509,30 @@ namespace FourDO.UI
             this.exitMenuItem.Enabled = true;
 
             this.loadLastGameMenuItem.Checked = Properties.Settings.Default.AutoOpenGameFile;
+
+            // Find the menu item that matches the currently loaded game.
+            ToolStripMenuItem currentOpenMenu = null;
+            if (Properties.Settings.Default.GameRomSourceType == (int)GameSourceType.File)
+                currentOpenMenu = openCDImageMenuItem;
+            else if (Properties.Settings.Default.GameRomSourceType == (int)GameSourceType.Disc)
+            {
+                foreach (ToolStripMenuItem item in this.openGameMenuItems)
+                {
+                    if ((char?)item.Tag == Properties.Settings.Default.GameRomDrive)
+                    {
+                        currentOpenMenu = (ToolStripMenuItem)item;
+                        break;
+                    }
+                }
+            }
+            
+            // Accentuate the menu item identifying the currently open item.
+            foreach (ToolStripMenuItem item in this.openGameMenuItems)
+            {
+                bool currentItem = (item == currentOpenMenu);
+                item.Font = currentItem ? new Font(fileMenuItem.Font, FontStyle.Italic) : fileMenuItem.Font;
+                item.Checked = currentItem;
+            }
 
             ////////////////////////
             // Console menu
@@ -555,6 +594,8 @@ namespace FourDO.UI
             if (isValidBiosRomSelected == true)
                 this.DoHideRomNag();
         }
+
+        #region Console Control
 
         private void DoConsoleStart(bool alsoAllowLoadState)
         {
@@ -647,7 +688,7 @@ namespace FourDO.UI
 
         private void DoConsoleReset(bool alsoAllowLoadState)
         {
-            GameConsole.Instance.Stop();
+            this.DoConsoleStop();
             
             // Restart, but don't allow it to load state.
             this.DoConsoleStart(alsoAllowLoadState);
@@ -673,6 +714,20 @@ namespace FourDO.UI
             if (GameConsole.Instance.State == ConsoleState.Paused)
                 GameConsole.Instance.AdvanceSingleFrame();
         }
+
+        private void DoConsoleStop()
+        {
+            GameConsole.Instance.Stop();
+        }
+
+        #endregion // Console Control
+
+        private void DoCloseGame()
+        {
+            Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
+            Properties.Settings.Default.Save();
+            this.DoConsoleStop();
+        }
         
         private void DoShowRomNag()
         {
@@ -688,13 +743,14 @@ namespace FourDO.UI
         {
             OpenFileDialog openDialog = new OpenFileDialog();
 
-            openDialog.InitialDirectory = Environment.CurrentDirectory;
+            openDialog.InitialDirectory = this.GetLastRomDirectory();
             openDialog.Filter = "rom files (*.rom)|*.rom|All files (*.*)|*.*";
             openDialog.RestoreDirectory = true;
 
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
                 Properties.Settings.Default.BiosRomFile = openDialog.FileName;
+                Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
                 Properties.Settings.Default.Save();
 
                 this.DoConsoleStart(true);
@@ -705,7 +761,7 @@ namespace FourDO.UI
         {
             OpenFileDialog openDialog = new OpenFileDialog();
 
-            openDialog.InitialDirectory = Environment.CurrentDirectory;
+            openDialog.InitialDirectory = this.GetLastRomDirectory();
             openDialog.Filter = "iso files (*.iso)|*.iso|All files (*.*)|*.*";
             openDialog.RestoreDirectory = true;
 
@@ -713,6 +769,7 @@ namespace FourDO.UI
             {
                 Properties.Settings.Default.GameRomFile = openDialog.FileName;
                 Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.File;
+                Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
                 Properties.Settings.Default.Save();
 
                 // Start it for them.
@@ -729,6 +786,27 @@ namespace FourDO.UI
 
             // Start it for them. Don't bother prompting, because you're a badass.
             this.DoConsoleReset(true);
+        }
+
+        private string GetLastRomDirectory()
+        {
+            string returnValue = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+
+            string lastDirectory = Properties.Settings.Default.GameRomLastDirectory;
+            if (string.IsNullOrEmpty(lastDirectory) == false)
+            {
+                if (Directory.Exists(lastDirectory) == true)
+                {
+                    returnValue = lastDirectory;
+                }
+                else
+                {
+                    Properties.Settings.Default.GameRomLastDirectory = null;
+                    Properties.Settings.Default.Save();
+                }
+            }
+
+            return returnValue;
         }
 
         private void DoSaveState()

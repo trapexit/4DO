@@ -54,28 +54,13 @@ namespace FourDO.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool AutoOpenGameFile {
+        public char GameRomDrive {
             get {
-                return ((bool)(this["AutoOpenGameFile"]));
+                return ((char)(this["GameRomDrive"]));
             }
             set {
-                this["AutoOpenGameFile"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public bool AutoLoadLastSave {
-            get {
-                return ((bool)(this["AutoLoadLastSave"]));
-            }
-            set {
-                this["AutoLoadLastSave"] = value;
+                this["GameRomDrive"] = value;
             }
         }
         
@@ -84,12 +69,12 @@ namespace FourDO.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public int SaveStateSlot {
+        public int GameRomSourceType {
             get {
-                return ((int)(this["SaveStateSlot"]));
+                return ((int)(this["GameRomSourceType"]));
             }
             set {
-                this["SaveStateSlot"] = value;
+                this["GameRomSourceType"] = value;
             }
         }
         
@@ -194,6 +179,34 @@ namespace FourDO.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public bool AutoOpenGameFile {
+            get {
+                return ((bool)(this["AutoOpenGameFile"]));
+            }
+            set {
+                this["AutoOpenGameFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public bool AutoLoadLastSave {
+            get {
+                return ((bool)(this["AutoLoadLastSave"]));
+            }
+            set {
+                this["AutoLoadLastSave"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public bool AutoRememberPause {
@@ -202,6 +215,20 @@ namespace FourDO.Properties {
             }
             set {
                 this["AutoRememberPause"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public int SaveStateSlot {
+            get {
+                return ((int)(this["SaveStateSlot"]));
+            }
+            set {
+                this["SaveStateSlot"] = value;
             }
         }
         
@@ -222,27 +249,14 @@ namespace FourDO.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public char GameRomDrive {
+        public string GameRomLastDirectory {
             get {
-                return ((char)(this["GameRomDrive"]));
+                return ((string)(this["GameRomLastDirectory"]));
             }
             set {
-                this["GameRomDrive"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public int GameRomSourceType {
-            get {
-                return ((int)(this["GameRomSourceType"]));
-            }
-            set {
-                this["GameRomSourceType"] = value;
+                this["GameRomLastDirectory"] = value;
             }
         }
     }

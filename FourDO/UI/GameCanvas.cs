@@ -30,7 +30,8 @@ namespace FourDO.UI
         private Bitmap bitmapA = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format24bppRgb);
         private Bitmap bitmapB = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format24bppRgb);
         private Bitmap bitmapC = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format24bppRgb);
-        
+        private Bitmap bitmapEmpty = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format24bppRgb);
+
         private Bitmap currentFrontendBitmap;
         private Bitmap lastDrawnBackgroundBitmap;
         
@@ -47,6 +48,7 @@ namespace FourDO.UI
         private InterpolationMode scalingMode = SMOOTH_SCALING_MODE;
 
         private bool isGraphicsIntensive = false;
+        private bool isConsoleStopped = true;
 
         public GameCanvas()
         {
@@ -55,7 +57,8 @@ namespace FourDO.UI
             currentFrontendBitmap = bitmapA;
             lastDrawnBackgroundBitmap = bitmapB;
 
-            GameConsole.Instance.FrameDone += new EventHandler(Instance_FrameDone);
+            GameConsole.Instance.FrameDone += new EventHandler(GameConsole_FrameDone);
+            GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(GameConsole_ConsoleStateChange);
 
             double maxRefreshRate = (double)Utilities.DisplayHelper.GetMaximumRefreshRate();
             this.scanDrawTime = (long)((1 / maxRefreshRate) * Utilities.PerformanceCounter.Frequency);
@@ -99,8 +102,8 @@ namespace FourDO.UI
 
             refreshReliefSkips = 5;
         }
-        
-        private unsafe void Instance_FrameDone(object sender, EventArgs e)
+
+        private unsafe void GameConsole_FrameDone(object sender, EventArgs e)
         {
             // Skip frames?
             this.frameNum++;
@@ -156,7 +159,10 @@ namespace FourDO.UI
         private void GameCanvas_Paint(object sender, PaintEventArgs e)
         {
             long sampleBefore = Utilities.PerformanceCounter.Current;
-            currentFrontendBitmap = lastDrawnBackgroundBitmap;
+            if (isConsoleStopped == true)
+                currentFrontendBitmap = bitmapEmpty;
+            else
+                currentFrontendBitmap = lastDrawnBackgroundBitmap;
 
             Rectangle blitRect = this.getBlitRect();
             Graphics g = e.Graphics;
@@ -214,6 +220,11 @@ namespace FourDO.UI
             }
 
             return blitRect;
+        }
+
+        private void GameConsole_ConsoleStateChange(ConsoleStateChangeEventArgs e)
+        {
+            this.isConsoleStopped = (e.NewState == ConsoleState.Stopped);
         }
     }
 }

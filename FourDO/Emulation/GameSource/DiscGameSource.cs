@@ -9,9 +9,10 @@ using CDLib;
 
 namespace FourDO.Emulation.GameSource
 {
-    internal class DiscGameSource : IGameSource
+    internal class DiscGameSource : GameSourceBase
     {
         private CDDrive drive;
+        private int sectorCount = 0;
 
         public DiscGameSource(char driveLetter)
         {
@@ -20,9 +21,7 @@ namespace FourDO.Emulation.GameSource
 
         public char DriveLetter { get; private set; }
 
-        #region IGameSource Implementation
-
-        public void Open()
+        protected override void OnOpen()
         {
             try
             {
@@ -53,32 +52,18 @@ namespace FourDO.Emulation.GameSource
             }
         }
 
-        public void Close()
+        protected override void OnClose()
         {
             this.drive.Close();
             this.drive = null;
         }
 
-        public int GetSectorCount()
-        {
-            if (this.drive == null || (this.drive.IsOpened == false))
-                return 0;
-
-            return ((int)this.drive.GetCDSizeInBytes()) / 2048;
-        }
-
-        public void ReadSector(IntPtr destinationBuffer, int sectorNumber)
+        protected override void OnReadSector(IntPtr destinationBuffer, int sectorNumber)
         {
             if (this.drive == null || (this.drive.IsOpened == false))
                 return;
 
             this.drive.ReadSector(sectorNumber, destinationBuffer);
-        }
-
-        #endregion // IGameSource Implementation
-
-        public void ReadTrackData_Done(object sender, DataReadEventArgs ea)
-        {
         }
     }
 }
