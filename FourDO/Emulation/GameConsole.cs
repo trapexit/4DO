@@ -55,15 +55,18 @@ namespace FourDO.Emulation
         private IntPtr pbusDataPtr;
         private GCHandle pbusDataHandle;
 
+        private volatile object nvramCopySemaphore = new object();
+        private string nvramFileName;
+        private byte[] nvramCopy;
+        private IntPtr nvramCopyPtr;
+        private GCHandle nvramCopyHandle;
+        private System.Timers.Timer nvramTimer = new System.Timers.Timer(250);
+
         private Thread workerThread;
         private volatile bool stopWorkerSignal = false;
 
         private int currentSector = 0;
         private bool isSwapFrameSignaled = false;
-
-        private string nvramFileName;
-        private byte[] nvramCopy;
-        private System.Timers.Timer nvramTimer = new System.Timers.Timer(250);
 
         private volatile FrameSpeedCalculator speedCalculator = new FrameSpeedCalculator(4);
 
@@ -107,8 +110,8 @@ namespace FourDO.Emulation
             FreeDOCore.OnSectorEvent = new FreeDOCore.OnSectorDelegate(ExternalInterface_OnSector);
 
             // Set up NVRAM save timer.
-            nvramTimer.Elapsed += new ElapsedEventHandler(nvramTimer_Elapsed);
-            nvramTimer.Enabled = false;
+            this.nvramTimer.Elapsed += new ElapsedEventHandler(nvramTimer_Elapsed);
+            this.nvramTimer.Enabled = false;
 
             ///////////////
             // Allocate the VDLFrames
@@ -120,13 +123,17 @@ namespace FourDO.Emulation
                 VDLFrameSize = sizeof(VDLFrame);
             }
 
-            frame = new byte[VDLFrameSize];
-            frameHandle = GCHandle.Alloc(frame, GCHandleType.Pinned);
-            framePtr = frameHandle.AddrOfPinnedObject();
+            this.frame = new byte[VDLFrameSize];
+            this.frameHandle = GCHandle.Alloc(this.frame, GCHandleType.Pinned);
+            this.framePtr = this.frameHandle.AddrOfPinnedObject();
 
-            pbusData = new byte[PBUS_DATA_MAX_SIZE];
-            pbusDataHandle = GCHandle.Alloc(pbusData, GCHandleType.Pinned);
-            pbusDataPtr = pbusDataHandle.AddrOfPinnedObject();
+            this.pbusData = new byte[PBUS_DATA_MAX_SIZE];
+            this.pbusDataHandle = GCHandle.Alloc(this.pbusData, GCHandleType.Pinned);
+            this.pbusDataPtr = this.pbusDataHandle.AddrOfPinnedObject();
+
+            this.nvramCopy = new byte[NVRAM_SIZE];
+            this.nvramCopyHandle = GCHandle.Alloc(this.nvramCopy, GCHandleType.Pinned);
+            this.nvramCopyPtr = this.nvramCopyHandle.AddrOfPinnedObject();
         }
 
         public int NvramSize
@@ -212,7 +219,22 @@ namespace FourDO.Emulation
             // Load a copy of the nvram.
             try
             {
-                this.nvramCopy = System.IO.File.ReadAllBytes(nvramFileName);
+                // If we previously had a game open, and they have now loaded
+                // a new game, we want to make sure the game that was previously
+                // open does not accidentally save.
+                lock (nvramCopySemaphore)
+                {
+                    // Note that we copy to the OLD nvram file name, just in case.
+                    if (this.nvramTimer.Enabled == true)
+                    {
+                        Memory.WriteMemoryDump(this.nvramFileName, this.nvramCopyPtr, NVRAM_SIZE);
+                    }
+
+                    this.nvramTimer.Enabled = false;
+
+                    // Read the new NVRAM into memory.
+                    Memory.ReadMemoryDump(this.nvramCopy, nvramFileName, NVRAM_SIZE);
+                }
             }
             catch 
             {
@@ -403,7 +425,11 @@ namespace FourDO.Emulation
 
         private void nvramTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            nvramTimer.Enabled = false;
+            lock (this.nvramCopySemaphore)
+            {
+                Memory.WriteMemoryDump(this.nvramFileName, this.nvramCopyPtr, NVRAM_SIZE);
+                this.nvramTimer.Enabled = false;
+            }
         }
 
         #region FreeDO External Interface
@@ -436,24 +462,24 @@ namespace FourDO.Emulation
 
         private unsafe void ExternalInterface_WriteNvram(IntPtr nvramPointer)
         {
-            fixed (byte* sourcePtr = this.nvramCopy)
+            lock (this.nvramCopySemaphore)
             {
-                Utilities.Memory.CopyMemory(new IntPtr((int)sourcePtr), nvramPointer, NVRAM_SIZE);
+                Utilities.Memory.CopyMemory(new IntPtr((int)this.nvramCopyPtr), nvramPointer, NVRAM_SIZE);
+                this.nvramTimer.Enabled = false;
+                this.nvramTimer.Enabled = true;
             }
-            nvramTimer.Enabled = false;
-            nvramTimer.Enabled = true;
         }
 
         private IntPtr ExternalInterface_SwapFrame(IntPtr currentFrame)
         {
-            isSwapFrameSignaled = true;
+            this.isSwapFrameSignaled = true;
             return currentFrame;
         }
 
         private void ExternalInterface_PushSample(uint dspSample)
         {
-            if (audioPlugin != null)
-                audioPlugin.PushSample(dspSample);
+            if (this.audioPlugin != null)
+                this.audioPlugin.PushSample(dspSample);
         }
 
         private int ExternalInterface_GetPbusLength()

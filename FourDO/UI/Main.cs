@@ -503,6 +503,7 @@ namespace FourDO.UI
             ////////////////////////
             // File menu
 
+            this.closeGameMenuItem.Enabled = consoleActive;
             this.openCDImageMenuItem.Enabled = isValidBiosRomSelected;
             this.loadLastGameMenuItem.Enabled = true;
             this.chooseBiosRomMenuItem.Enabled = true;
@@ -532,13 +533,14 @@ namespace FourDO.UI
                 bool currentItem = (item == currentOpenMenu);
                 item.Font = currentItem ? new Font(fileMenuItem.Font, FontStyle.Italic) : fileMenuItem.Font;
                 item.Checked = currentItem;
+                item.Enabled = isValidBiosRomSelected;
             }
 
             ////////////////////////
             // Console menu
 
-            this.saveStateMenuItem.Enabled = isValidBiosRomSelected && consoleActive;
-            this.loadStateMenuItem.Enabled = isValidBiosRomSelected && consoleActive;
+            this.saveStateMenuItem.Enabled = consoleActive;
+            this.loadStateMenuItem.Enabled = consoleActive;
             this.loadLastSaveMenuItem.Enabled = true;
             this.saveStateSlotMenuItem.Enabled = true;
             foreach (ToolStripItem menuItem in this.saveStateSlotMenuItem.DropDownItems)

@@ -16,9 +16,10 @@ namespace FourDO.Utilities
 
         public static unsafe bool WriteMemoryDump(string fileName, IntPtr memoryLocation, int length)
         {
+            BinaryWriter writer = null;
             try
             {
-                using (BinaryWriter writer = new BinaryWriter(new FileStream(fileName, FileMode.Create)))
+                using (writer = new BinaryWriter(new FileStream(fileName, FileMode.Create)))
                 {
                     byte* memPtr = (byte*)memoryLocation.ToPointer();
                     for (int byteNum = 0; byteNum < length; byteNum++)
@@ -29,6 +30,27 @@ namespace FourDO.Utilities
             }
             catch
             {
+                if (writer != null)
+                    writer.Close();
+                return false;
+            }
+            return true;
+        }
+
+        public static unsafe bool ReadMemoryDump(byte[] targetMemoryBuffer, string fileName, int length)
+        {
+            BinaryReader reader = null;
+            try
+            {
+                using (reader = new BinaryReader(new FileStream(fileName, FileMode.Open)))
+                {
+                    reader.Read(targetMemoryBuffer, 0, length);
+                }
+            }
+            catch
+            {
+                if (reader != null)
+                    reader.Close(); 
                 return false;
             }
             return true;
