@@ -609,8 +609,16 @@ namespace FourDO.UI
             string nvramFile = System.IO.Path.Combine(new System.IO.FileInfo(Application.ExecutablePath).DirectoryName, "NVRAM_SaveData.ram");
             if (System.IO.File.Exists(nvramFile) == false)
             {
+                // No NVRAM! Initialize one.
                 FileStream nvramStream = new FileStream(nvramFile, FileMode.CreateNew);
                 byte[] nvramBytes = new byte[GameConsole.Instance.NvramSize];
+                unsafe
+                {
+                    fixed (byte* nvramBytePointer = nvramBytes)
+                    {
+                        EmulationHelper.InitializeNvram(new IntPtr((int)nvramBytePointer));
+                    }
+                }
                 nvramStream.Write(nvramBytes, 0, nvramBytes.Length);
                 nvramStream.Close();
             }

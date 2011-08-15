@@ -12,7 +12,6 @@ namespace FourDO.Emulation.GameSource
     internal class DiscGameSource : GameSourceBase
     {
         private CDDrive drive;
-        private int sectorCount = 0;
 
         public DiscGameSource(char driveLetter)
         {

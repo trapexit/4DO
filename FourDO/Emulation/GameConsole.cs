@@ -56,11 +56,11 @@ namespace FourDO.Emulation
         private GCHandle pbusDataHandle;
 
         private volatile object nvramCopySemaphore = new object();
-        private string nvramFileName;
-        private byte[] nvramCopy;
-        private IntPtr nvramCopyPtr;
+        private volatile string nvramFileName;
+        private volatile byte[] nvramCopy;
+        private volatile IntPtr nvramCopyPtr;
         private GCHandle nvramCopyHandle;
-        private System.Timers.Timer nvramTimer = new System.Timers.Timer(250);
+        private volatile System.Timers.Timer nvramTimer = new System.Timers.Timer(250);
 
         private Thread workerThread;
         private volatile bool stopWorkerSignal = false;
@@ -612,7 +612,7 @@ namespace FourDO.Emulation
 
                 ///////////
                 // We're awake! Wreak havoc!
-                
+
                 // Execute a frame.
                 isSwapFrameSignaled = false;
                 lastFrameCount = 0;
