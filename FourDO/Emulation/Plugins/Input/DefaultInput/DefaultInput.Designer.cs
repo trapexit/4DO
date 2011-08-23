@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FourDO.Emulation.Plugins.Input {
+namespace FourDO.Emulation.Plugins.Input.DefaultInput {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

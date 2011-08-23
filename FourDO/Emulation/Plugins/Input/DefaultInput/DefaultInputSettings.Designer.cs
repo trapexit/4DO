@@ -1,4 +1,4 @@
-﻿namespace FourDO.Emulation.Plugins.Input
+﻿namespace FourDO.Emulation.Plugins.Input.DefaultInput
 {
     partial class DefaultInputSettings
     {

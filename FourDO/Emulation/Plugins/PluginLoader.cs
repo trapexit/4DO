@@ -1,6 +1,6 @@
 ﻿using System;
 using FourDO.Emulation.Plugins.Audio;
-using FourDO.Emulation.Plugins.Input;
+using FourDO.Emulation.Plugins.Input.JohnnyInput;
 
 namespace FourDO.Emulation.Plugins
 {
@@ -20,7 +20,7 @@ namespace FourDO.Emulation.Plugins
         public static IInputPlugin GetInputPlugin()
         {
             if (currentInputPlugin == null)
-                currentInputPlugin = new DefaultInputPlugin();
+                currentInputPlugin = new JohnnyInputPlugin();
 
             return currentInputPlugin;
         }

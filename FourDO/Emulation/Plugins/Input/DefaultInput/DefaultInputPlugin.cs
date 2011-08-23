@@ -8,11 +8,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using FourDO.Utilities;
 
-namespace FourDO.Emulation.Plugins.Input
+namespace FourDO.Emulation.Plugins.Input.DefaultInput
 {
     internal class DefaultInputPlugin : IInputPlugin
     {
