@@ -20,5 +20,6 @@
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
     <StartAction>Project</StartAction>
     <StartProgram>F:\trunk\FourDO\bin\Release\4DO.exe</StartProgram>
+    <StartArguments>-debugStartForm ConfigureInput</StartArguments>
   </PropertyGroup>
 </Project>

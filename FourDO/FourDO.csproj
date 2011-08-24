@@ -100,13 +100,11 @@
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\ControllerPreview.Designer.cs">
       <DependentUpon>ControllerPreview.cs</DependentUpon>
     </Compile>
-    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInput.cs" />
-    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInput.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>JohnnyInput.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputButton.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBinding.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingSet.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingSets.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputButton.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputTrigger.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputPlugin.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputSettings.cs">
       <SubType>Form</SubType>
@@ -114,6 +112,7 @@
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputSettings.Designer.cs">
       <DependentUpon>JohnnyInputSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\KeyboardInputTrigger.cs" />
     <Compile Include="Emulation\Plugins\PluginLoader.cs" />
     <Compile Include="UI\About.cs">
       <SubType>Form</SubType>
@@ -212,11 +211,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Emulation\Plugins\Input\JohnnyInput\controller.pptx" />
-    <None Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInput.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>JohnnyInput.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="VoidImage.bmp" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

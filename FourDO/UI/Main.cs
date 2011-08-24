@@ -11,6 +11,7 @@ using FourDO.Utilities;
 using FourDO.Utilities.MouseHook;
 using CDLib;
 using FourDO.Emulation.GameSource;
+using FourDO.Emulation.Plugins;
 
 namespace FourDO.UI
 {
@@ -39,10 +40,16 @@ namespace FourDO.UI
 
         #region Load/Close Form Events
 
+        #region Public Members
+
         public Main()
         {
             InitializeComponent();
         }
+
+        public string StartForm { get; set; }
+
+        #endregion // Public Members
 
         private void Main_Load(object sender, EventArgs e)
         {
@@ -206,7 +213,7 @@ namespace FourDO.UI
             // Now that settings have been mucked with, subscribe to their change event.
             Properties.Settings.Default.PropertyChanged += new PropertyChangedEventHandler(Settings_PropertyChanged);
 
-            //////////////
+            ///////////////////////////
             // Fire her up!
             this.DoConsoleStart(true);
 
@@ -214,6 +221,10 @@ namespace FourDO.UI
                 this.DoConsoleTogglePause();
                 
             this.UpdateUI();
+
+            // Oh, and start automatically launch a form if requested.
+            if (this.StartForm.ToLower() == "configureinput")
+                this.DoShowConfigureInput();
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
@@ -370,6 +381,11 @@ namespace FourDO.UI
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.DoShowSettings();
+        }
+
+        private void configureInputMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DoShowConfigureInput();
         }
 
         private void fullScreenMenuItem_Click(object sender, EventArgs e)
@@ -580,6 +596,12 @@ namespace FourDO.UI
             this.preserveRatioMenuItem.Checked = Properties.Settings.Default.WindowPreseveRatio;
             this.GetQuickDisplayMenuItem(preserveRatioMenuItem).Checked = preserveRatioMenuItem.Checked;
             this.gameCanvas.PreserveAspectRatio = this.preserveRatioMenuItem.Checked;
+
+            ////////////////////////
+            // Settings menus. (almost always enabled)
+            this.settingsMenuItem.Enabled = true;
+            this.configureInputMenuItem.Enabled = (GameConsole.Instance.InputPlugin != null)
+                    && (GameConsole.Instance.InputPlugin.GetHasSettings());
 
             ////////////////////////
             // Other non-menu stuff.
@@ -891,6 +913,13 @@ namespace FourDO.UI
         {
             Settings settingsForm = new Settings();
             settingsForm.ShowDialog(this);
+        }
+
+        private void DoShowConfigureInput()
+        {
+            IInputPlugin plugin = GameConsole.Instance.InputPlugin;
+            if (plugin != null && plugin.GetHasSettings() == true)
+                plugin.ShowSettings(this);
         }
 
         private void DoToggleFullScreen()

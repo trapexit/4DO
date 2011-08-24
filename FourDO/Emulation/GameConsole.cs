@@ -136,6 +136,22 @@ namespace FourDO.Emulation
             this.nvramCopyPtr = this.nvramCopyHandle.AddrOfPinnedObject();
         }
 
+        public IAudioPlugin AudioPlugin
+        {
+            get
+            {
+                return this.audioPlugin;
+            }
+        }
+
+        public IInputPlugin InputPlugin
+        {
+            get
+            {
+                return this.inputPlugin;
+            }
+        }
+
         public int NvramSize
         {
             get

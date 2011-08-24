@@ -36,6 +36,8 @@
             this.quickDisplayDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.MainMenuBar = new System.Windows.Forms.MenuStrip();
             this.fileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.openCDImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadLastGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -65,6 +67,8 @@
             this.snapWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.configureInputMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshFpsTimer = new System.Windows.Forms.Timer(this.components);
@@ -72,8 +76,6 @@
             this.sizeBox = new FourDO.UI.SizeBox();
             this.RomNagBox = new FourDO.UI.NagBox();
             this.gameCanvas = new FourDO.UI.GameCanvas();
-            this.closeGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.MainStatusStrip.SuspendLayout();
             this.MainMenuBar.SuspendLayout();
             this.SuspendLayout();
@@ -139,6 +141,18 @@
             this.fileMenuItem.Name = "fileMenuItem";
             this.fileMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileMenuItem.Text = "&File";
+            // 
+            // closeGameMenuItem
+            // 
+            this.closeGameMenuItem.Name = "closeGameMenuItem";
+            this.closeGameMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.closeGameMenuItem.Text = "&Close Game";
+            this.closeGameMenuItem.Click += new System.EventHandler(this.closeGameMenuItem_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(224, 6);
             // 
             // openCDImageMenuItem
             // 
@@ -364,7 +378,9 @@
             // optionsMenuItem
             // 
             this.optionsMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsMenuItem});
+            this.settingsMenuItem,
+            this.toolStripSeparator9,
+            this.configureInputMenuItem});
             this.optionsMenuItem.Name = "optionsMenuItem";
             this.optionsMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsMenuItem.Text = "&Options";
@@ -372,9 +388,21 @@
             // settingsMenuItem
             // 
             this.settingsMenuItem.Name = "settingsMenuItem";
-            this.settingsMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.settingsMenuItem.Text = "&Settings...";
+            this.settingsMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.settingsMenuItem.Text = "&General Settings...";
             this.settingsMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(201, 6);
+            // 
+            // configureInputMenuItem
+            // 
+            this.configureInputMenuItem.Name = "configureInputMenuItem";
+            this.configureInputMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.configureInputMenuItem.Text = "Configure &Input Plugin...";
+            this.configureInputMenuItem.Click += new System.EventHandler(this.configureInputMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -440,18 +468,6 @@
             this.gameCanvas.PreserveAspectRatio = true;
             this.gameCanvas.Size = new System.Drawing.Size(744, 557);
             this.gameCanvas.TabIndex = 3;
-            // 
-            // closeGameMenuItem
-            // 
-            this.closeGameMenuItem.Name = "closeGameMenuItem";
-            this.closeGameMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.closeGameMenuItem.Text = "&Close Game";
-            this.closeGameMenuItem.Click += new System.EventHandler(this.closeGameMenuItem_Click);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(224, 6);
             // 
             // Main
             // 
@@ -526,6 +542,8 @@
         private System.Windows.Forms.ToolStripMenuItem advanceFrameMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeGameMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem configureInputMenuItem;
 
     }
 }

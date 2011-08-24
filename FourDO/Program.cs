@@ -11,11 +11,19 @@ namespace FourDO
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+            string startForm = null;
+            if (args[0].ToLower() == "-debugstartform" && args.Length >= 2)
+                startForm = args[1];
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FourDO.UI.Main());
+
+            var mainForm = new FourDO.UI.Main();
+            mainForm.StartForm = startForm;
+
+            Application.Run(mainForm);
         }
     }
 }
