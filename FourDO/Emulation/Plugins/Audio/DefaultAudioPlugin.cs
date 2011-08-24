@@ -27,8 +27,10 @@ namespace FourDO.Emulation.Plugins.Audio
 {
     internal class DefaultAudioPlugin : IAudioPlugin
     {
+        private bool audioEnabled;
+        private int bytesPerSample;
+        
         private const int BUFFER_SIZE = 4098;
-        private const int bytesPerSample = 4;
 
         private WaveOutPlayer player;
         private WaveFormat format;
@@ -43,6 +45,8 @@ namespace FourDO.Emulation.Plugins.Audio
 
         internal DefaultAudioPlugin()
         {
+            this.IdentifyBytesPerSample();
+
             // Create a buffer on our side to write into.
             this.buffer = new byte[BUFFER_SIZE * 3 * bytesPerSample];
             this.bufferHandle = GCHandle.Alloc(this.buffer, GCHandleType.Pinned);
@@ -71,8 +75,29 @@ namespace FourDO.Emulation.Plugins.Audio
         {
             unsafe
             {
-                uint* bufferSamplePointer = (uint*)this.bufferPtr.ToPointer();
-                bufferSamplePointer[this.bufferWritePosition++] = dspSample;
+                if (bytesPerSample == 4)
+                {
+                    UInt32* bufferSamplePointer = (UInt32*)this.bufferPtr.ToPointer();
+                    bufferSamplePointer[this.bufferWritePosition++] = dspSample;
+                }
+                else if (bytesPerSample == 3)
+                {
+                    byte* bufferSamplePointer = (byte*)this.bufferPtr.ToPointer();
+                    bufferSamplePointer[3 * this.bufferWritePosition + 0] = (byte)(dspSample >> 24);
+                    bufferSamplePointer[3 * this.bufferWritePosition + 1] = (byte)(dspSample >> 16);
+                    bufferSamplePointer[3 * this.bufferWritePosition + 2] = (byte)(dspSample >> 8);
+                    this.bufferWritePosition++;
+                }
+                else if (bytesPerSample == 2)
+                {
+                    UInt16* bufferSamplePointer = (UInt16*)this.bufferPtr.ToPointer();
+                    bufferSamplePointer[this.bufferWritePosition++] = (UInt16)(dspSample >> 16);
+                }
+                else if (bytesPerSample == 1)
+                {
+                    byte* bufferSamplePointer = (byte*)this.bufferPtr.ToPointer();
+                    bufferSamplePointer[this.bufferWritePosition++] = (byte)((dspSample >> 24) + 128);
+                }
                 if (this.bufferWritePosition == this.bufferLengthInSamples)
                     this.bufferWritePosition = 0;
             }
@@ -99,13 +124,16 @@ namespace FourDO.Emulation.Plugins.Audio
         private void InternalStart()
         {
             format = new WaveFormat(44100, 8 * bytesPerSample, 1);
+            if (this.audioEnabled == false)
+                return;
+
             try
             {
                 player = new WaveOutPlayer(-1, format, BUFFER_SIZE, 3, new WaveLib.BufferFillEventHandler(this.FillerCallback));
             }
-            catch (Exception)
+            catch
             {
-                // TODO: I got it on my XP machine. I'm not sure if others will too.
+                // TODO: Shouldn't get this if initialization worked right.
             }
         }
 
@@ -190,5 +218,44 @@ namespace FourDO.Emulation.Plugins.Audio
             }
                 
         }
+
+        #region Super fidelity identification hack!
+
+        private void IdentifyBytesPerSample()
+        {
+            bool working = false;
+            bytesPerSample = 4;
+
+            do
+            {
+                try
+                {
+                    format = new WaveFormat(44100, 8 * bytesPerSample, 1);
+                    using (WaveOutPlayer newPlayer = new WaveOutPlayer(-1, format, BUFFER_SIZE, 3, new WaveLib.BufferFillEventHandler(this.TestFillerCallback)))
+                    {
+                        working = true;
+                    }
+                }
+                catch
+                {
+                    bytesPerSample--;
+                }
+            } while (!working && bytesPerSample > 0);
+
+            if (bytesPerSample == 0)
+            {
+                this.audioEnabled = false;
+                this.bytesPerSample = 1;
+            }
+            else
+                this.audioEnabled = true;
+        }
+
+        private void TestFillerCallback(IntPtr data, int size)
+        {
+            // Black hole!
+        }
+
+        #endregion
     }
 }

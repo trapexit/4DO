@@ -77,11 +77,66 @@ namespace WaveLib
             public int reserved; // reserved for driver
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Auto)]
+        public struct WAVEOUTCAPS
+        {
+            public short wMid;
+            public short wPid;
+            public int vDriverVersion;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+            private string szPname;
+            public uint dwFormats;
+            public short wChannels;
+            public short wReserved;
+            public uint dwSupport;
+
+            public override string ToString()
+            {
+                return string.Format("wMid:{0}|wPid:{1}|vDriverVersion:{2}|'szPname:{3}'|dwFormats:{4}|wChannels:{5}|wReserved:{6}|dwSupport:{7}", new object[] { wMid, wPid, vDriverVersion, szPname, dwFormats, wChannels, wReserved, dwSupport });
+            }
+        }
+
+        public static WAVEOUTCAPS[] GetDevCapsPlayback()
+        {
+            int waveOutDevicesCount = waveOutGetNumDevs();
+            if (waveOutDevicesCount > 0)
+            {
+                WAVEOUTCAPS[] list = new WAVEOUTCAPS[waveOutDevicesCount];
+                for (int uDeviceID = 0; uDeviceID < waveOutDevicesCount; uDeviceID++)
+                {
+                    WAVEOUTCAPS waveOutCaps = new WAVEOUTCAPS();
+                    waveOutGetDevCaps(uDeviceID, ref waveOutCaps, Marshal.SizeOf(typeof(WAVEOUTCAPS)));
+                    System.Diagnostics.Debug.WriteLine("\n" + waveOutCaps.ToString());
+                    list[uDeviceID] = waveOutCaps;
+                }
+                return list;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public const int WAVE_FORMAT_1M08 = 0x00000001;
+        public const int WAVE_FORMAT_1M16 = 0x00000004;
+        public const int WAVE_FORMAT_1S08 = 0x00000002;
+        public const int WAVE_FORMAT_1S16 = 0x00000008;
+        public const int WAVE_FORMAT_2M08 = 0x00000010;
+        public const int WAVE_FORMAT_2M16 = 0x00000040;
+        public const int WAVE_FORMAT_2S08 = 0x00000020;
+        public const int WAVE_FORMAT_2S16 = 0x00000080;
+        public const int WAVE_FORMAT_4M08 = 0x00000100;
+        public const int WAVE_FORMAT_4M16 = 0x00000400;
+        public const int WAVE_FORMAT_4S08 = 0x00000200;
+        public const int WAVE_FORMAT_4S16 = 0x00000800;
+
         private const string mmdll = "winmm.dll";
 
         // native calls
         [DllImport(mmdll)]
         public static extern int waveOutGetNumDevs();
+        [DllImport(mmdll, CharSet = CharSet.Auto)]
+        public static extern uint waveOutGetDevCaps(int hwo, ref WAVEOUTCAPS pwoc, /*uint*/ int cbwoc);
         [DllImport(mmdll)]
         public static extern int waveOutPrepareHeader(IntPtr hWaveOut, ref WaveHdr lpWaveOutHdr, int uSize);
         [DllImport(mmdll)]
