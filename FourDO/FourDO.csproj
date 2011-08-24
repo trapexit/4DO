@@ -133,6 +133,7 @@
       <DependentUpon>SizeBox.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SizeGuard.cs" />
+    <Compile Include="Utilities\CustomXmlSerializer.cs" />
     <Compile Include="Utilities\DisplayHelper.cs" />
     <Compile Include="Utilities\Error.cs" />
     <Compile Include="Utilities\GlobalKeyboardHook.cs" />

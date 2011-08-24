@@ -6,11 +6,12 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
+using FourDO.Utilities;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
     [Serializable]
-    public class InputBindingSets : IEnumerable<InputBindingSet> , ICloneable
+    public class InputBindingSets : IEnumerable<InputBindingSet>, ICloneable
     {
         #region Public static methods
         
@@ -36,8 +37,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
         public static InputBindingSets LoadFromFile(string fileName)
         {
-            var serializer = new XmlSerializer(typeof(InputBindingSets));
-            return (InputBindingSets)serializer.Deserialize(new FileStream(fileName, FileMode.Open));
+            InputBindingSets result = null;
+            CustomXmlSerializer serializer = new CustomXmlSerializer();
+            serializer.ReadXml(fileName, result);
+            return result;
         }
 
         #endregion // Public static methods
@@ -47,13 +50,13 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
         public InputBindingSets()
         {
             var newSet = new InputBindingSet();
-            sets.Add(newSet); // Always have one set!
         }
 
         public void SaveToFile(string fileName)
         {
-            var serializer = new XmlSerializer(typeof(InputBindingSets));
-            serializer.Serialize(new FileStream(fileName, FileMode.Open), this);
+            InputBindingSets result = null;
+            CustomXmlSerializer serializer = new CustomXmlSerializer();
+            serializer.WriteFile(this, fileName);
         }
 
         public void SetBinding(int setNumber, InputButton button, InputTrigger trigger)
@@ -149,5 +152,14 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
         }
 
         #endregion // ICloneable Implementation
+
+        #region Serialization Functions
+
+        public void Add(InputBindingSet set)
+        {
+            this.sets.Add(set);
+        }
+
+        #endregion // Serialization Functions
     }
 }

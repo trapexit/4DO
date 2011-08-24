@@ -45,16 +45,6 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.InitializeGrid();
 
 			this.DeviceTypeComboBox.SelectedIndex = 0;
-
-            /*
-            FileStream stream = new FileStream(@"C:\jmk\teststream.txt", FileMode.Create);
-            XmlSerializer serializer = new XmlSerializer(this.gridItems.GetType());
-            serializer.Serialize(stream, this.gridItems);
-
-            stream.Close();
-            stream = new FileStream(@"C:\jmk\teststream.txt", FileMode.Open);
-            this.gridItems = (List<GridItem>)(serializer.Deserialize(stream));
-            */
         }
 
 		private void CloseButton_Click(object sender, EventArgs e)
@@ -64,7 +54,23 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void OKButton_Click(object sender, EventArgs e)
 		{
-			this.Close();
+            bool savedSuccessfully = false;
+
+            try
+            {
+                this.bindings.SaveToFile(this.BindingsFilePath);
+                savedSuccessfully = true;
+            }
+            catch (Exception ex)
+            {
+                Utilities.Error.ShowError("Unexpected error saving the bindings to file : " + this.BindingsFilePath + "\r\n\r\nDetails: " + ex.ToString());
+            }
+
+            if (savedSuccessfully)
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
 		}
 
         private void ControlsGridView_MouseMove(object sender, MouseEventArgs e)
@@ -210,8 +216,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
             this.ControlsGridView.AutoResizeColumns();
 
 			// Done
-            this.ControlsGridView.CurrentCell = this.ControlsGridView[(int)GridColumn.ButtonName, 0];
-		}
+            this.ControlsGridView.ClearSelection();
+ 		}
 
 		private void AddGridItem(InputButton button, string buttonName)
 		{

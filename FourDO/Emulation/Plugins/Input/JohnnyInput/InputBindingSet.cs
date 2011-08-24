@@ -6,7 +6,7 @@ using System.Text;
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
     [Serializable]
-    public class InputBindingSet
+    public class InputBindingSet : IEnumerable<InputBinding>
     {
         protected Dictionary<InputButton, InputBinding> bindings = new Dictionary<InputButton, InputBinding>();
 
@@ -25,5 +25,24 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
             else
                 return null;
         }
+
+        #region Serialization Functions
+        
+        public IEnumerator<InputBinding> GetEnumerator()
+        {
+            return this.bindings.Values.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.bindings.Values.GetEnumerator();
+        }
+
+        public void Add(InputBinding binding)
+        {
+            this.bindings[binding.Button] = binding;
+        }
+
+        #endregion // Serialization Functions
     }
 }

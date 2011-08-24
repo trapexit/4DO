@@ -8,6 +8,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
     [Serializable]
     public class InputBinding
     {
+        public InputBinding()
+        {
+        }
+
         public InputBinding(InputButton button, InputTrigger trigger)
         {
             this.Button = button;
