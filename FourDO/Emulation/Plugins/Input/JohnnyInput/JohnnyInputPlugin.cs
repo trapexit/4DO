@@ -106,7 +106,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
             {
                 newBindings = InputBindingSets.LoadFromFile(JohnnyInputPlugin.bindingsFilePath);
             }
-            catch {}
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed when loading bindings: " + ex.ToString());
+            }
 
             if (newBindings == null)
                 newBindings = InputBindingSets.LoadDefault();

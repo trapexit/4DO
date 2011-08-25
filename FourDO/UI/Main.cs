@@ -223,7 +223,7 @@ namespace FourDO.UI
             this.UpdateUI();
 
             // Oh, and start automatically launch a form if requested.
-            if (this.StartForm.ToLower() == "configureinput")
+            if (this.StartForm != null && this.StartForm.ToLower() == "configureinput")
                 this.DoShowConfigureInput();
         }
 

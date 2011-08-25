@@ -14,7 +14,7 @@ namespace FourDO
         static void Main(string[] args)
         {
             string startForm = null;
-            if (args[0].ToLower() == "-debugstartform" && args.Length >= 2)
+            if (args.Length >= 2 && args[0].ToLower() == "-debugstartform")
                 startForm = args[1];
 
             Application.EnableVisualStyles();

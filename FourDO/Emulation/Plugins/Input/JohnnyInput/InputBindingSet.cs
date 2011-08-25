@@ -26,6 +26,11 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
                 return null;
         }
 
+        public void Clear()
+        {
+            this.bindings.Clear();
+        }
+
         #region Serialization Functions
         
         public IEnumerator<InputBinding> GetEnumerator()

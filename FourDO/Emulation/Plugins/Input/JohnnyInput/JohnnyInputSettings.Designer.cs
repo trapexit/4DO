@@ -37,20 +37,20 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel6 = new System.Windows.Forms.Panel();
             this.ControlsGridView = new System.Windows.Forms.DataGridView();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.RemoveDeviceButton = new System.Windows.Forms.Button();
             this.DeviceTypeComboBox = new System.Windows.Forms.ComboBox();
             this.DeviceTypeLabel = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.controllerPreview = new FourDO.Emulation.Plugins.Input.JohnnyInput.ControllerPreview();
             this.panel1.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ControlsGridView)).BeginInit();
-            this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -88,6 +88,7 @@
             // OKButton
             // 
             this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.OKButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.OKButton.Location = new System.Drawing.Point(526, 10);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
@@ -106,7 +107,7 @@
             this.MainTabControl.Name = "MainTabControl";
             this.MainTabControl.SelectedIndex = 0;
             this.MainTabControl.Size = new System.Drawing.Size(667, 385);
-            this.MainTabControl.TabIndex = 6;
+            this.MainTabControl.TabIndex = 0;
             // 
             // tabPage2
             // 
@@ -151,9 +152,25 @@
             this.ControlsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.ControlsGridView.ShowCellToolTips = false;
             this.ControlsGridView.Size = new System.Drawing.Size(380, 317);
-            this.ControlsGridView.TabIndex = 18;
+            this.ControlsGridView.StandardTab = true;
+            this.ControlsGridView.TabIndex = 0;
+            this.ControlsGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlsGridView_CellClick);
+            this.ControlsGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlsGridView_CellDoubleClick);
+            this.ControlsGridView.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlsGridView_CellEnter);
+            this.ControlsGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ControlsGridView_CellMouseDown);
+            this.ControlsGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ControlsGridView_KeyDown);
+            this.ControlsGridView.Leave += new System.EventHandler(this.ControlsGridView_Leave);
             this.ControlsGridView.MouseLeave += new System.EventHandler(this.ControlsGridView_MouseLeave);
             this.ControlsGridView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ControlsGridView_MouseMove);
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.controllerPreview);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(270, 317);
+            this.panel4.TabIndex = 19;
             // 
             // panel5
             // 
@@ -172,7 +189,7 @@
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(653, 36);
-            this.panel2.TabIndex = 8;
+            this.panel2.TabIndex = 0;
             // 
             // RemoveDeviceButton
             // 
@@ -205,15 +222,6 @@
             this.DeviceTypeLabel.TabIndex = 0;
             this.DeviceTypeLabel.Text = "Device Type:";
             // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.controllerPreview);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(270, 317);
-            this.panel4.TabIndex = 19;
-            // 
             // controllerPreview
             // 
             this.controllerPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -227,31 +235,32 @@
             this.controllerPreview.Location = new System.Drawing.Point(0, 0);
             this.controllerPreview.Name = "controllerPreview";
             this.controllerPreview.Size = new System.Drawing.Size(264, 317);
-            this.controllerPreview.TabIndex = 3;
+            this.controllerPreview.TabIndex = 0;
             // 
             // JohnnyInputSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CloseButton;
             this.ClientSize = new System.Drawing.Size(691, 448);
             this.Controls.Add(this.MainTabControl);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "JohnnyInputSettings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configure Input Settings";
             this.Load += new System.EventHandler(this.JohnnyInputSettings_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.JohnnyInputSettings_KeyDown);
             this.panel1.ResumeLayout(false);
             this.MainTabControl.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ControlsGridView)).EndInit();
+            this.panel4.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

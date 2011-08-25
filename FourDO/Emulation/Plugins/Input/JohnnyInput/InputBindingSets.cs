@@ -37,7 +37,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
         public static InputBindingSets LoadFromFile(string fileName)
         {
-            InputBindingSets result = null;
+            InputBindingSets result = new InputBindingSets();
             CustomXmlSerializer serializer = new CustomXmlSerializer();
             serializer.ReadXml(fileName, result);
             return result;
@@ -54,9 +54,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
         public void SaveToFile(string fileName)
         {
-            InputBindingSets result = null;
             CustomXmlSerializer serializer = new CustomXmlSerializer();
-            serializer.WriteFile(this, fileName);
+            serializer.IncludeClassNameAttribute = true;
+            serializer.WriteFile(this, fileName, true);
         }
 
         public void SetBinding(int setNumber, InputButton button, InputTrigger trigger)
