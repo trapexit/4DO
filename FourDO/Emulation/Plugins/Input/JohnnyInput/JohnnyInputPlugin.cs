@@ -132,8 +132,15 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
             foreach (InputTrigger trigger in triggers)
             {
-                if ((GetKeyState((int)((KeyboardInputTrigger)trigger).Key) & KEY_PRESSED) > 0)
-                    return true;
+				if (trigger is KeyboardInputTrigger)
+				{
+					if ((GetKeyState((int)((KeyboardInputTrigger)trigger).Key) & KEY_PRESSED) > 0)
+						return true;
+				}
+				else if (trigger is JoystickTrigger)
+				{
+					JoystickTrigger joyTrigger = (JoystickTrigger)trigger;
+				}
             }
   
             return false;

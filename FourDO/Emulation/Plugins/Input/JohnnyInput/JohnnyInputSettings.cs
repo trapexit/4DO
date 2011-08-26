@@ -29,6 +29,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
         private DataGridViewCell editedCell = null;
         private bool isSettingAll = false;
 
+		private JoyWatcher watcher = new JoyWatcher();
+
         InputBindingSets bindings;
 
         DataGridViewCellStyle linkStyleNormal;
@@ -90,6 +92,18 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+		}
+
+		private void JoystickTimer_Tick(object sender, EventArgs e)
+		{
+			JoystickTrigger newTrigger = watcher.WatchForTrigger();
+			if (newTrigger != null)
+			{
+				if (this.isEditingButton)
+				{
+					this.DoStopEditButton(newTrigger);
+				}
+			}
 		}
 
         private void JohnnyInputSettings_KeyDown(object sender, KeyEventArgs e)

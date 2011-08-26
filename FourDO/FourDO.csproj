@@ -52,6 +52,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SlimDX, Version=4.0.11.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -80,38 +81,44 @@
     <Compile Include="Emulation\FreeDO\FreeDOCore.cs" />
     <Compile Include="Emulation\FreeDO\VDLFrame.cs" />
     <Compile Include="Emulation\Plugins\IInputPlugin.cs" />
-    <Compile Include="Emulation\Plugins\Input\DefaultInput\DefaultInput.cs" />
-    <Compile Include="Emulation\Plugins\Input\DefaultInput\DefaultInput.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>DefaultInput.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Emulation\Plugins\Input\DefaultInput\DefaultInputButton.cs" />
-    <Compile Include="Emulation\Plugins\Input\DefaultInput\DefaultInputPlugin.cs" />
-    <Compile Include="Emulation\Plugins\Input\DefaultInput\DefaultInputSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Emulation\Plugins\Input\DefaultInput\DefaultInputSettings.Designer.cs">
-      <DependentUpon>DefaultInputSettings.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyInputWatcher.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoystickTriggerPovDirection.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\ControllerPreview.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\ControllerPreview.Designer.cs">
       <DependentUpon>ControllerPreview.cs</DependentUpon>
     </Compile>
-    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBinding.cs" />
-    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingSet.cs" />
-    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingSets.cs" />
-    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputButton.cs" />
-    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputTrigger.cs" />
-    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputPlugin.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBinding.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingSet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingSets.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputTrigger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputPlugin.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputSettings.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputSettings.Designer.cs">
       <DependentUpon>JohnnyInputSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoystickTrigger.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoystickTriggerAxis.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoystickTriggerType.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\KeyboardInputTrigger.cs" />
     <Compile Include="Emulation\Plugins\PluginLoader.cs" />
     <Compile Include="UI\About.cs">
@@ -166,9 +173,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\PortableSettingsProvider.cs" />
-    <EmbeddedResource Include="Emulation\Plugins\Input\DefaultInput\DefaultInputSettings.resx">
-      <DependentUpon>DefaultInputSettings.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Emulation\Plugins\Input\JohnnyInput\ControllerPreview.resx">
       <DependentUpon>ControllerPreview.cs</DependentUpon>
     </EmbeddedResource>
@@ -206,11 +210,7 @@
     <EmbeddedResource Include="UI\SizeBox.resx">
       <DependentUpon>SizeBox.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Emulation\Plugins\Input\DefaultInput\DefaultInput.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>DefaultInput.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Emulation\Plugins\Input\JohnnyInput\Controller.png" />
     <None Include="Emulation\Plugins\Input\JohnnyInput\controller.pptx" />
     <None Include="VoidImage.bmp" />
     <None Include="app.config" />
@@ -274,9 +274,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\FreeDO.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Emulation\Plugins\Input\JohnnyInput\Controller.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
