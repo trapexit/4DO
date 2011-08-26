@@ -9,16 +9,16 @@ using System.Windows.Forms;
 
 namespace FourDO.UI
 {
-    public partial class About : Form
-    {
-        public About()
-        {
-            InitializeComponent();
-        }
+	public partial class About : Form
+	{
+		public About()
+		{
+			InitializeComponent();
+		}
 
-        private void About_Load(object sender, EventArgs e)
-        {
-            VersionTextBox.Text = Application.ProductVersion;
-        }
-    }
+		private void About_Load(object sender, EventArgs e)
+		{
+			VersionTextBox.Text = Application.ProductVersion;
+		}
+	}
 }

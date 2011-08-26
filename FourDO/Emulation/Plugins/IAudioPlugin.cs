@@ -6,16 +6,16 @@ using System.Windows.Forms;
 
 namespace FourDO.Emulation.Plugins
 {
-    public interface IAudioPlugin
-    {
-        void Destroy();
+	public interface IAudioPlugin
+	{
+		void Destroy();
 
-        bool GetHasSettings();
-        void ShowSettings(IWin32Window owner);
+		bool GetHasSettings();
+		void ShowSettings(IWin32Window owner);
 
-        void Start();
-        void Stop();
+		void Start();
+		void Stop();
 
-        void PushSample(uint dspSample);
-    }
+		void PushSample(uint dspSample);
+	}
 }

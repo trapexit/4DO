@@ -15,1043 +15,1043 @@ using FourDO.Emulation.Plugins;
 
 namespace FourDO.UI
 {
-    internal enum GameSourceType
-    {
-        None = 0,
-        File,
-        Disc,
-        BinaryFile,
-    }
-
-    public partial class Main : Form
-    {
-        private const int BASE_WIDTH = 320;
-        private const int BASE_HEIGHT = 240;
-
-        private SizeGuard sizeGuard = new SizeGuard();
-
-        private Point pointBeforeFullScreen;
-        private bool maximizedBeforeFullScreen = false;
-        private bool isWindowFullScreen = false;
-
-        private MouseHook mouseHook = new MouseHook();
-
-        private List<ToolStripMenuItem> openGameMenuItems = new List<ToolStripMenuItem>();
-
-        #region Load/Close Form Events
-
-        #region Public Members
-
-        public Main()
-        {
-            InitializeComponent();
-        }
-
-        public string StartForm { get; set; }
-
-        #endregion // Public Members
-
-        private void Main_Load(object sender, EventArgs e)
-        {
-            // Some basic form setup.
-            this.sizeBox.BaseWidth = BASE_WIDTH;
-            this.sizeBox.BaseHeight = BASE_HEIGHT;
-            
-            this.sizeGuard.BaseWidth = BASE_WIDTH;
-            this.sizeGuard.BaseHeight = BASE_HEIGHT;
-            this.sizeGuard.WindowExtraWidth = this.Width - this.ClientSize.Width;
-            this.sizeGuard.WindowExtraHeight = (this.Height - this.ClientSize.Height) + this.MainMenuBar.Height + this.MainStatusStrip.Height;
-
-            this.mouseHook.Install();
-            this.mouseHook.MouseMove += new MouseHookEventHandler(mouseHook_MouseMove);
-            this.mouseHook.MouseDown += new MouseHookEventHandler(mouseHook_MouseDown);
-
-            this.quickDisplayDropDownButton.DropDownDirection = ToolStripDropDownDirection.AboveLeft;
-            
-            this.VersionStripItem.Text = "4DO " + Application.ProductVersion;
-
-            GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
-
-            ////////////////////
-            // Form size and position.
-
-            // Initial form size.
-            int savedWidth = Properties.Settings.Default.WindowWidth;
-            int savedHeight = Properties.Settings.Default.WindowHeight;
-            this.Width = (savedWidth > 0) ? savedWidth : this.sizeGuard.BaseWidth * 2 + this.sizeGuard.WindowExtraWidth;
-            this.Height = (savedHeight > 0) ? savedHeight : this.sizeGuard.BaseHeight * 2 + this.sizeGuard.WindowExtraHeight;
-            
-            // Initial form position.
-            if (Properties.Settings.Default.WindowFullScreen)
-            {
-                // If they were in full screen when they exited, set ourselves at the top+left in the correct screen.
-                int screenNum = 0;
-                Screen screenToUse = null;
-                foreach (Screen screen in Screen.AllScreens)
-                {
-                    if (screenNum == Properties.Settings.Default.WindowFullScreenDevice)
-                    {
-                        screenToUse = screen;
-                        break;
-                    }
-                    screenNum++;
-                }
-
-                if (screenToUse != null)
-                    screenToUse = Screen.PrimaryScreen;
-
-                this.Left = screenToUse.WorkingArea.Left;
-                this.Top = screenToUse.WorkingArea.Top;
-            }
-            
-            // Let's ensure we don't go off the bounds of the screen.
-            Screen currentScreen = Utilities.DisplayHelper.GetCurrentScreen(this);
-            if (this.Bottom > currentScreen.WorkingArea.Bottom)
-            {
-                this.Top -= (this.Bottom - currentScreen.WorkingArea.Bottom);
-                this.Top = Math.Max(this.Top, currentScreen.WorkingArea.Top);
-            }
-            if (this.Right > currentScreen.WorkingArea.Right)
-            {
-                this.Left -= (this.Right - currentScreen.WorkingArea.Right);
-                this.Left = Math.Max(this.Left, currentScreen.WorkingArea.Left);
-            }
-            
-            // If we updated the size ourselves (we had no valid default) save it now.
-            if (savedWidth <= 0 || savedHeight <= 0)
-                this.DoSaveWindowSize();
-            this.sizeBox.Visible = false; // and shut that damn thing up!
-            
-            ////////////////
-            // Create "Open Disc" menu items for each CD Drive.
-            int menuInsertIndex = fileMenuItem.DropDownItems.IndexOf(openCDImageMenuItem) + 1;
-            foreach (char drive in CDDrive.GetCDDriveLetters())
-            {
-                ToolStripMenuItem newItem = new ToolStripMenuItem("Open Disc Drive - " + drive + ":");
-                newItem.Tag = drive;
-                newItem.Click += new EventHandler(openFromDriveMenuItem_Click);
-                fileMenuItem.DropDownItems.Insert(menuInsertIndex, newItem);
-                openGameMenuItems.Add(newItem);
-                menuInsertIndex++;
-            }
-            openGameMenuItems.Add(openCDImageMenuItem);
-            
-            ////////////////
-            // Copy some menu items to the quick display settings menu.
-            foreach (ToolStripItem item in this.displayMenuItem.DropDownItems)
-            {
-                ToolStripItem newItem = null;
-                if (item is ToolStripSeparator)
-                    newItem = new ToolStripSeparator();
-                else if (item is ToolStripMenuItem)
-                {
-                    newItem = new ToolStripMenuItem();
-                    newItem.Text = item.Text;
-                    newItem.Font = item.Font;
-
-                    if (item == fullScreenMenuItem)
-                        newItem.Click += new EventHandler(this.fullScreenMenuItem_Click);
-
-                    if (item == smoothResizingMenuItem)
-                        newItem.Click += new EventHandler(this.smoothResizingMenuItem_Click);
-
-                    if (item == snapWindowMenuItem)
-                        newItem.Click += new EventHandler(this.snapWindowMenuItem_Click);
-
-                    if (item == preserveRatioMenuItem)
-                        newItem.Click += new EventHandler(this.preserveRatioMenuItem_Click);
-                }
-                newItem.Tag = item;
-
-                this.quickDisplayDropDownButton.DropDownItems.Add(newItem);
-            }
-
-            /////////////
-            // Handle ROM file nag box
-            if (!File.Exists(Properties.Settings.Default.BiosRomFile))
-            {
-                Properties.Settings.Default.BiosRomFile = "";
-                Properties.Settings.Default.Save();
-                this.DoShowRomNag();
-            }
-
-            //////////////
-            // Add save slot menu items.
-            if (Properties.Settings.Default.SaveStateSlot < 0 || Properties.Settings.Default.SaveStateSlot > 9)
-            {
-                Properties.Settings.Default.SaveStateSlot = 0;
-                Properties.Settings.Default.Save();
-            }
-
-            for (int x = 0; x < 10; x++)
-            {
-                ToolStripMenuItem newItem = new ToolStripMenuItem("Slot " + x.ToString());
-                newItem.Name = "saveSlotMenuItem" + x.ToString();
-                newItem.Tag = x;
-                newItem.Click += new EventHandler(saveSlotMenuItem_Click);
-                saveStateSlotMenuItem.DropDownItems.Add(newItem);
-            }
-
-            // Clear the last loaded game if they don't want us to automatically loading games.
-            if (Properties.Settings.Default.AutoOpenGameFile == false)
-            {
-                Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
-                Properties.Settings.Default.Save();
-            }
-
-            // Clear pause status if we aren't remembering pause
-            if (Properties.Settings.Default.AutoRememberPause == false 
-                && Properties.Settings.Default.LastPauseStatus == true)
-            {
-                Properties.Settings.Default.LastPauseStatus = false;
-                Properties.Settings.Default.Save();
-            }
-            // Remember this now, because we can't count it after the console's been started.
-            bool lastPauseStatus = Properties.Settings.Default.LastPauseStatus;
-
-            ///////////
-            // Now that settings have been mucked with, subscribe to their change event.
-            Properties.Settings.Default.PropertyChanged += new PropertyChangedEventHandler(Settings_PropertyChanged);
-
-            ///////////////////////////
-            // Fire her up!
-            this.DoConsoleStart(true);
-
-            if (Properties.Settings.Default.AutoRememberPause == true && lastPauseStatus == true)
-                this.DoConsoleTogglePause();
-                
-            this.UpdateUI();
-
-            // Oh, and start automatically launch a form if requested.
-            if (this.StartForm != null && this.StartForm.ToLower() == "configureinput")
-                this.DoShowConfigureInput();
-        }
-
-        private void Main_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            // Ignore console state changes from now on. The console will be shutting itself down.
-            GameConsole.Instance.ConsoleStateChange -= new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
-            
-            this.mouseHook.Uninstall();
-
-            this.DoConsoleStop();
-
-            GameConsole.Instance.Destroy();
-        }
-
-        #endregion // Load/Close Form Events
-
-        #region Event Handlers
-
-        private void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            // This is here in case some option box in the future updates the setting for us.
-            // We hide ourselves here in order to keep ourselves from looking like a liar.
-            //
-            // It would be a bad idea to add something like a prompt to restart here, since
-            // this setting could presumably be changed anywhere. We'll leave prompting the
-            // user to the event handlers.
-            string RomFileProperty = Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.BiosRomFile);
-            if (e.PropertyName == RomFileProperty)
-            {
-                if (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == false)
-                    this.DoHideRomNag();
-            }
-
-            if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoOpenGameFile)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoLoadLastSave)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoRememberPause)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.SaveStateSlot)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowFullScreen)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowPreseveRatio)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowSnapSize)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowImageSmoothing)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomSourceType)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomLastDirectory)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomFile)
-                || e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomDrive))
-            {
-                this.UpdateUI();
-            }
-        }
-
-        private void Main_Resize(object sender, EventArgs e)
-        {
-            if (this.isWindowFullScreen == true
-                || this.WindowState == FormWindowState.Maximized
-                || this.WindowState == FormWindowState.Minimized
-                || Utilities.DisplayHelper.IsFormDocked(this))
-            {
-                this.sizeBox.Visible = false;
-                return;
-            }
-
-            this.SuspendLayout();
-            sizeBox.UpdateSizeText(gameCanvas.Width, gameCanvas.Height);
-            sizeBox.SetBounds(
-                    this.ClientSize.Width - 6 - this.sizeBox.PreferredSize.Width,
-                    this.ClientSize.Height - this.MainStatusStrip.Height - 6 - this.sizeBox.PreferredSize.Height,
-                    this.sizeBox.PreferredSize.Width,
-                    this.sizeBox.PreferredSize.Height);
-            sizeBox.Visible = true;
-            this.ResumeLayout();
-            
-            this.DoSaveWindowSize();
-        }
-
-        protected override void WndProc(ref Message m)
-        {
-            this.sizeGuard.WatchForResize(ref m);
-            base.WndProc(ref m);
-        }
-
-        private void MainMenuStrip_MenuActivate(object sender, EventArgs e)
-        {
-            this.UpdateUI();
-        }
-
-        private void RomNagBox_CloseClicked(object sender, EventArgs e)
-        {
-            this.DoHideRomNag();
-        }
-
-        private void RomNagBox_LinkClicked(object sender, EventArgs e)
-        {
-            this.DoChooseBiosRom();
-        }
-
-        private void chooseBiosRomMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoChooseBiosRom();
-        }
-
-        private void openCDImageMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoChooseGameRom();
-        }
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void RefreshFpsTimer_Tick(object sender, EventArgs e)
-        {
-            this.DoUpdateFPS();
-        }
-
-        private void saveStateMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoSaveState();
-        }
-
-        private void loadStateMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoLoadState();
-        }
-
-        private void previousSlotMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoAdvanceSaveSlot(false);
-        }
-
-        private void nextSlotMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoAdvanceSaveSlot(true);
-        }
-
-        void saveSlotMenuItem_Click(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.SaveStateSlot = (int)((ToolStripMenuItem)sender).Tag;
-            Properties.Settings.Default.Save();
-        }
-
-        private void loadLastGameMenuItem_Click(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.AutoOpenGameFile = !Properties.Settings.Default.AutoOpenGameFile;
-            Properties.Settings.Default.Save();
-        }
-
-        private void loadLastSaveMenuItem_Click(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.AutoLoadLastSave = !Properties.Settings.Default.AutoLoadLastSave;
-            Properties.Settings.Default.Save();
-        }
-
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoShowSettings();
-        }
-
-        private void configureInputMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoShowConfigureInput();
-        }
-
-        private void fullScreenMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoToggleFullScreen();
-        }
-
-        private void snapWindowMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoToggleSnapWindow();
-        }
-
-        private void preserveRatioMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoTogglePreserveRatio();
-        }
-
-        private void smoothResizingMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoToggleImageSmoothing();
-        }
-
-        private void Main_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape && this.isWindowFullScreen)
-            {
-                this.DoToggleFullScreen();
-            }
-        }
-
-        void mouseHook_MouseMove(object sender, MouseHookEventArgs e)
-        {
-            if (this.isWindowFullScreen == false)
-                return;
-
-            Screen currentScreen = DisplayHelper.GetCurrentScreen(this);
-            if ((e.Y - currentScreen.WorkingArea.Top) < (this.MainMenuBar.Height))
-            {
-                this.MainMenuBar.Visible = true;
-                this.hideMenuTimer.Enabled = false;
-                this.hideMenuTimer.Enabled = true;
-            }
-        }
-
-        void mouseHook_MouseDown(object sender, MouseHookEventArgs e)
-        {
-            if (this.isWindowFullScreen == false)
-                return;
-
-            Screen currentScreen = DisplayHelper.GetCurrentScreen(this);
-            if ((e.Y - currentScreen.WorkingArea.Top) >= (this.MainMenuBar.Height))
-                this.MainMenuBar.Visible = (this.isWindowFullScreen == false);
-        }
-
-        private void hideMenuTimer_Tick(object sender, EventArgs e)
-        {
-            // Delay hiding the menu if the user is using the menus.
-            if (this.MainMenuBar.Focused || this.MainMenuBar.Capture || this.MainMenuBar.ContainsFocus)
-                return; 
-            
-            this.MainMenuBar.Visible = (this.isWindowFullScreen == false);
-            this.hideMenuTimer.Enabled = false;
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            About aboutForm = new About();
-            aboutForm.ShowDialog(this);
-        }
-
-        private void resetMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoConsoleReset(false);
-        }
-
-        private void pauseMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoConsoleTogglePause();
-        }
-
-        private void advanceFrameMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoConsoleAdvanceFrame();
-        }
-
-        private void rememberPauseMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoToggleRememberPause();
-        }
-
-        private void Instance_ConsoleStateChange(ConsoleStateChangeEventArgs e)
-        {
-            // Should we remember the status?
-            if (Properties.Settings.Default.AutoRememberPause)
-            {
-                if (e.NewState == ConsoleState.Paused)
-                {
-                    Properties.Settings.Default.LastPauseStatus = true;
-                    Properties.Settings.Default.Save();
-                }
-                else if (e.NewState == ConsoleState.Running)
-                {
-                    Properties.Settings.Default.LastPauseStatus = false;
-                    Properties.Settings.Default.Save();
-                }
-            }
-
-            // Some menu items depend on console status.
-            this.UpdateUI();
-        }
-
-        private void openFromDriveMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoOpenDiscDrive((char)((ToolStripMenuItem)sender).Tag);
-        }
-
-        private void closeGameMenuItem_Click(object sender, EventArgs e)
-        {
-            this.DoCloseGame();
-        }
-
-        #endregion // Event Handlers
-
-        #region Private Methods
-
-        private void UpdateUI()
-        {
-            bool isValidBiosRomSelected = (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == false);
-            bool consoleActive = (GameConsole.Instance.State != ConsoleState.Stopped);
-
-            ////////////////////////
-            // File menu
-
-            this.closeGameMenuItem.Enabled = consoleActive;
-            this.openCDImageMenuItem.Enabled = isValidBiosRomSelected;
-            this.loadLastGameMenuItem.Enabled = true;
-            this.chooseBiosRomMenuItem.Enabled = true;
-            this.exitMenuItem.Enabled = true;
-
-            this.loadLastGameMenuItem.Checked = Properties.Settings.Default.AutoOpenGameFile;
-
-            // Find the menu item that matches the currently loaded game.
-            ToolStripMenuItem currentOpenMenu = null;
-            if (Properties.Settings.Default.GameRomSourceType == (int)GameSourceType.File)
-                currentOpenMenu = openCDImageMenuItem;
-            else if (Properties.Settings.Default.GameRomSourceType == (int)GameSourceType.Disc)
-            {
-                foreach (ToolStripMenuItem item in this.openGameMenuItems)
-                {
-                    if ((char?)item.Tag == Properties.Settings.Default.GameRomDrive)
-                    {
-                        currentOpenMenu = (ToolStripMenuItem)item;
-                        break;
-                    }
-                }
-            }
-            
-            // Accentuate the menu item identifying the currently open item.
-            foreach (ToolStripMenuItem item in this.openGameMenuItems)
-            {
-                bool currentItem = (item == currentOpenMenu);
-                item.Font = currentItem ? new Font(fileMenuItem.Font, FontStyle.Italic) : fileMenuItem.Font;
-                item.Checked = currentItem;
-                item.Enabled = isValidBiosRomSelected;
-            }
-
-            ////////////////////////
-            // Console menu
-
-            this.saveStateMenuItem.Enabled = consoleActive;
-            this.loadStateMenuItem.Enabled = consoleActive;
-            this.loadLastSaveMenuItem.Enabled = true;
-            this.saveStateSlotMenuItem.Enabled = true;
-            foreach (ToolStripItem menuItem in this.saveStateSlotMenuItem.DropDownItems)
-                menuItem.Enabled = true;
-            this.pauseMenuItem.Enabled = consoleActive;
-            this.advanceFrameMenuItem.Enabled = consoleActive;
-            this.resetMenuItem.Enabled = consoleActive;
-
-            this.pauseMenuItem.Checked = (GameConsole.Instance.State == ConsoleState.Paused);
-            this.rememberPauseMenuItem.Checked = Properties.Settings.Default.AutoRememberPause;
-            this.loadLastSaveMenuItem.Checked = Properties.Settings.Default.AutoLoadLastSave;
-
-            // Save slot
-            foreach (ToolStripItem menuItem in saveStateSlotMenuItem.DropDownItems)
-            {
-                if (!(menuItem is ToolStripMenuItem))
-                    continue;
-
-                if (menuItem.Tag != null)
-                    ((ToolStripMenuItem)menuItem).Checked = (Properties.Settings.Default.SaveStateSlot == (int)menuItem.Tag);
-            }
-
-            ////////////////////////
-            // Display menus. (always enabled)
-
-            this.fullScreenMenuItem.Checked = Properties.Settings.Default.WindowFullScreen;
-            this.GetQuickDisplayMenuItem(fullScreenMenuItem).Checked = fullScreenMenuItem.Checked;
-
-            this.smoothResizingMenuItem.Checked = Properties.Settings.Default.WindowImageSmoothing;
-            this.GetQuickDisplayMenuItem(smoothResizingMenuItem).Checked = smoothResizingMenuItem.Checked;
-            this.gameCanvas.ImageSmoothing = this.smoothResizingMenuItem.Checked;
-
-            this.snapWindowMenuItem.Checked = Properties.Settings.Default.WindowSnapSize;
-            this.GetQuickDisplayMenuItem(snapWindowMenuItem).Checked = snapWindowMenuItem.Checked;
-            this.sizeGuard.Enabled = this.snapWindowMenuItem.Checked && (Properties.Settings.Default.WindowFullScreen == false);
-
-            this.preserveRatioMenuItem.Checked = Properties.Settings.Default.WindowPreseveRatio;
-            this.GetQuickDisplayMenuItem(preserveRatioMenuItem).Checked = preserveRatioMenuItem.Checked;
-            this.gameCanvas.PreserveAspectRatio = this.preserveRatioMenuItem.Checked;
-
-            ////////////////////////
-            // Settings menus. (almost always enabled)
-            this.settingsMenuItem.Enabled = true;
-            this.configureInputMenuItem.Enabled = (GameConsole.Instance.InputPlugin != null)
-                    && (GameConsole.Instance.InputPlugin.GetHasSettings());
-
-            ////////////////////////
-            // Other non-menu stuff.
-
-            // If we need to switch full screen status, do it now.
-            if (this.isWindowFullScreen != Properties.Settings.Default.WindowFullScreen)
-                this.SetFullScreen(Properties.Settings.Default.WindowFullScreen);
-
-            // Misc form stuff.
-            this.sizeGuard.Enabled = Properties.Settings.Default.WindowSnapSize;
-            
-            // Hide, but never show the rom nag box in this function. 
-            // The rom nag box only makes itself visible on when emulation fails to start due to an invalid bios.
-            if (isValidBiosRomSelected == true)
-                this.DoHideRomNag();
-        }
-
-        #region Console Control
-
-        private void DoConsoleStart(bool alsoAllowLoadState)
-        {
-            if (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == true)
-                return;
-
-            ////////////////
-            // Ensure existence of an NVRAM file.
-            string nvramFile = System.IO.Path.Combine(new System.IO.FileInfo(Application.ExecutablePath).DirectoryName, "NVRAM_SaveData.ram");
-            if (System.IO.File.Exists(nvramFile) == false)
-            {
-                // No NVRAM! Initialize one.
-                FileStream nvramStream = new FileStream(nvramFile, FileMode.CreateNew);
-                byte[] nvramBytes = new byte[GameConsole.Instance.NvramSize];
-                unsafe
-                {
-                    fixed (byte* nvramBytePointer = nvramBytes)
-                    {
-                        EmulationHelper.InitializeNvram(new IntPtr((int)nvramBytePointer));
-                    }
-                }
-                nvramStream.Write(nvramBytes, 0, nvramBytes.Length);
-                nvramStream.Close();
-            }
-
-            ////////////////
-            // Create an appropriate game source
-            IGameSource gameSource = this.CreateGameSource();
-            
-            ////////////////
-            try
-            {
-                GameConsole.Instance.Start(Properties.Settings.Default.BiosRomFile, gameSource, nvramFile);
-            }
-            catch (GameConsole.BadBiosRomException)
-            {
-                Utilities.Error.ShowError(string.Format("The bios file ({0}) failed to load. Please choose another.", Properties.Settings.Default.BiosRomFile));
-                Properties.Settings.Default.BiosRomFile = "";
-                Properties.Settings.Default.Save();
-                this.DoShowRomNag();
-            }
-            catch (GameConsole.BadGameRomException)
-            {
-                string errorMessage = null;
-                if (gameSource is FileGameSource)
-                    errorMessage = string.Format("The game file ({0}) failed to load. Please choose another.", ((FileGameSource)gameSource).GameFilePath);
-                else
-                    errorMessage = "The game failed to load. Please choose another.";
-                Utilities.Error.ShowError(errorMessage);
-
-                // Since it failed to load, we want to un-remember this as the last loaded game.
-                Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
-                Properties.Settings.Default.Save();
-            }
-            catch (GameConsole.BadNvramFileException)
-            {
-                Utilities.Error.ShowError(string.Format("The nvram file ({0}) could not be loaded. Emulation cannot start.", nvramFile));
-            }
-
-            // Optionally load state.
-            if (alsoAllowLoadState == true)
-            {
-                if (Properties.Settings.Default.AutoLoadLastSave == true)
-                    this.DoLoadState();
-            }
-
-            this.UpdateUI();
-        }
-
-        private IGameSource CreateGameSource()
-        {
-            // Determine the game rom source type.
-            int sourceTypeNumber = Properties.Settings.Default.GameRomSourceType;
-            GameSourceType sourceType = GameSourceType.None;
-            try
-            {
-                sourceType = (GameSourceType)sourceTypeNumber;
-            }
-            catch
-            {
-                // If there was a problem, assume a type of "none".
-                Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
-                Properties.Settings.Default.Save();
-            }
-            
-            if (sourceType == GameSourceType.None)
-                return new EmptyGameSource();
-
-            if (sourceType == GameSourceType.File)
-                return new FileGameSource(Properties.Settings.Default.GameRomFile);
-
-            if (sourceType == GameSourceType.Disc)
-                return new DiscGameSource(Properties.Settings.Default.GameRomDrive);
-
-            // Must be a currently unsupported type.
-            return new EmptyGameSource();
-        }
-
-        private void DoConsoleReset(bool alsoAllowLoadState)
-        {
-            this.DoConsoleStop();
-            
-            // Restart, but don't allow it to load state.
-            this.DoConsoleStart(alsoAllowLoadState);
-        }
-
-        private void DoConsoleTogglePause()
-        {
-            if (GameConsole.Instance.State == ConsoleState.Running)
-                GameConsole.Instance.Pause();
-            else if (GameConsole.Instance.State == ConsoleState.Paused)
-                GameConsole.Instance.Resume();
-        }
-
-        private void DoConsoleAdvanceFrame()
-        {
-            if (GameConsole.Instance.State == ConsoleState.Stopped)
-                return;
-            
-            // Pause it if we need to.
-            if (GameConsole.Instance.State == ConsoleState.Running)
-                GameConsole.Instance.Pause();
-
-            if (GameConsole.Instance.State == ConsoleState.Paused)
-                GameConsole.Instance.AdvanceSingleFrame();
-        }
-
-        private void DoConsoleStop()
-        {
-            GameConsole.Instance.Stop();
-        }
-
-        #endregion // Console Control
-
-        private void DoCloseGame()
-        {
-            Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
-            Properties.Settings.Default.Save();
-            this.DoConsoleStop();
-        }
-        
-        private void DoShowRomNag()
-        {
-            RomNagBox.Visible = true;
-        }
-
-        private void DoHideRomNag()
-        {
-            RomNagBox.Visible = false;
-        }
-
-        private void DoChooseBiosRom()
-        {
-            OpenFileDialog openDialog = new OpenFileDialog();
-
-            openDialog.InitialDirectory = this.GetLastRomDirectory();
-            openDialog.Filter = "rom files (*.rom)|*.rom|All files (*.*)|*.*";
-            openDialog.RestoreDirectory = true;
-
-            if (openDialog.ShowDialog() == DialogResult.OK)
-            {
-                Properties.Settings.Default.BiosRomFile = openDialog.FileName;
-                Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
-                Properties.Settings.Default.Save();
-
-                this.DoConsoleStart(true);
-            }
-        }
-
-        private void DoChooseGameRom()
-        {
-            OpenFileDialog openDialog = new OpenFileDialog();
-
-            openDialog.InitialDirectory = this.GetLastRomDirectory();
-            openDialog.Filter = "iso files (*.iso)|*.iso|All files (*.*)|*.*";
-            openDialog.RestoreDirectory = true;
-
-            if (openDialog.ShowDialog() == DialogResult.OK)
-            {
-                Properties.Settings.Default.GameRomFile = openDialog.FileName;
-                Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.File;
-                Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
-                Properties.Settings.Default.Save();
-
-                // Start it for them.
-                // Some people may want a prompt. However, I never like this. So, screw em.
-                this.DoConsoleReset(true);
-            }
-        }
-
-        private void DoOpenDiscDrive(char driveLetter)
-        {
-            Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.Disc;
-            Properties.Settings.Default.GameRomDrive = driveLetter;
-            Properties.Settings.Default.Save();
-
-            // Start it for them. Don't bother prompting, because you're a badass.
-            this.DoConsoleReset(true);
-        }
-
-        private string GetLastRomDirectory()
-        {
-            string returnValue = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-
-            string lastDirectory = Properties.Settings.Default.GameRomLastDirectory;
-            if (string.IsNullOrEmpty(lastDirectory) == false)
-            {
-                if (Directory.Exists(lastDirectory) == true)
-                {
-                    returnValue = lastDirectory;
-                }
-                else
-                {
-                    Properties.Settings.Default.GameRomLastDirectory = null;
-                    Properties.Settings.Default.Save();
-                }
-            }
-
-            return returnValue;
-        }
-
-        private void DoSaveState()
-        {
-            if (GameConsole.Instance.State != ConsoleState.Stopped)
-            {
-                string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
-                GameConsole.Instance.SaveState(saveStateFileName);
-            }
-        }
-
-        private void DoLoadState()
-        {
-            if (GameConsole.Instance.State != ConsoleState.Stopped)
-            {
-                string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
-                if (System.IO.File.Exists(saveStateFileName))
-                    GameConsole.Instance.LoadState(saveStateFileName);
-            }
-        }
-
-        private void DoAdvanceSaveSlot(bool up)
-        {
-            int saveSlot = Properties.Settings.Default.SaveStateSlot;
-            if (up == true)
-                saveSlot++;
-            else
-                saveSlot--;
-
-            if (saveSlot == -1)
-                saveSlot = 9;
-
-            if (saveSlot == 10)
-                saveSlot = 0;
-
-            Properties.Settings.Default.SaveStateSlot = saveSlot;
-            Properties.Settings.Default.Save();
-        }
-
-        private string GetSaveStateFileName(IGameSource gameSource, int saveStateSlot)
-        {
-            const string SAVE_STATE_EXTENSION = ".4dosav";
-
-            string saveGameName = "unknown_source"; // Hopefully nobody causes this.
-            if (gameSource is FileGameSource)
-            {
-                saveGameName = ((FileGameSource)gameSource).GameFilePath;
-            }
-
-            return (saveGameName + "." + saveStateSlot.ToString() + SAVE_STATE_EXTENSION);
-        }
-
-        private void DoUpdateFPS()
-        {
-            if (GameConsole.Instance.State == ConsoleState.Running)
-            {
-                double fps = GameConsole.Instance.CurrentFrameSpeed;
-                if (fps != 0)
-                {
-                    fps = 1 / (fps);
-                }
-                fps = Math.Min(fps, 99.99);
-                FPSStripItem.Text = string.Format("Core FPS: {0:00.00}", fps);
-            }
-            else
-            {
-                FPSStripItem.Text = "Core FPS: --.--";
-            }
-        }
-
-        private void DoShowSettings()
-        {
-            Settings settingsForm = new Settings();
-            settingsForm.ShowDialog(this);
-        }
-
-        private void DoShowConfigureInput()
-        {
-            IInputPlugin plugin = GameConsole.Instance.InputPlugin;
-            if (plugin != null && plugin.GetHasSettings() == true)
-                plugin.ShowSettings(this);
-        }
-
-        private void DoToggleFullScreen()
-        {
-            Properties.Settings.Default.WindowFullScreen = !Properties.Settings.Default.WindowFullScreen;
-            Properties.Settings.Default.Save();
-        }
-
-        private void DoToggleSnapWindow()
-        {
-            Properties.Settings.Default.WindowSnapSize = !Properties.Settings.Default.WindowSnapSize;
-            Properties.Settings.Default.Save();
-        }
-
-        private void DoTogglePreserveRatio()
-        {
-            Properties.Settings.Default.WindowPreseveRatio = !Properties.Settings.Default.WindowPreseveRatio;
-            Properties.Settings.Default.Save();
-        }
-
-        private void DoToggleImageSmoothing()
-        {
-            Properties.Settings.Default.WindowImageSmoothing = !Properties.Settings.Default.WindowImageSmoothing;
-            Properties.Settings.Default.Save();
-        }
-
-        private void DoToggleRememberPause()
-        {
-            Properties.Settings.Default.AutoRememberPause = !Properties.Settings.Default.AutoRememberPause;
-            Properties.Settings.Default.Save();
-        }
-
-        private void DoSaveWindowSize()
-        {
-            Properties.Settings.Default.WindowWidth = this.Width;
-            Properties.Settings.Default.WindowHeight = this.Height;
-            Properties.Settings.Default.Save();
-        }
-
-        private ToolStripMenuItem GetQuickDisplayMenuItem(ToolStripMenuItem displayMenuItem)
-        {
-            foreach (ToolStripItem item in quickDisplayDropDownButton.DropDownItems)
-            {
-                if (item.Tag == displayMenuItem)
-                    return (ToolStripMenuItem)item;
-            }
-            return null;
-        }
-
-        private void SetFullScreen(bool enableFullScreen)
-        {
-            // Keep the window from redrawing
-            this.SuspendLayout();
-
-            // Change border style (this causes a resize)
-            // and set the full screen enabled flag.
-            if (enableFullScreen)
-            {
-                this.isWindowFullScreen = enableFullScreen;
-                this.FormBorderStyle = enableFullScreen ? FormBorderStyle.None : FormBorderStyle.Sizable;
-            }
-            else
-            {
-                this.FormBorderStyle = enableFullScreen ? FormBorderStyle.None : FormBorderStyle.Sizable;
-                this.isWindowFullScreen = enableFullScreen;
-            }
-
-            //////////////////
-            // Enable full screen
-            if (enableFullScreen == true)
-            {
-                this.maximizedBeforeFullScreen = (this.WindowState == FormWindowState.Maximized);
-                if (this.maximizedBeforeFullScreen)
-                    this.WindowState = FormWindowState.Normal;
-                else
-                    this.pointBeforeFullScreen = new Point(this.Left, this.Top);
-
-                // Find, use, and save the current screen.
-                int screenNum;
-                Screen currentScreen = Utilities.DisplayHelper.GetCurrentScreen(this, out screenNum);
-                Properties.Settings.Default.WindowFullScreenDevice = screenNum;
-
-                // Set form bounds.
-                this.Bounds = currentScreen.Bounds;
-
-                // Undock the main menu so it doesn't steal real estate from the game window. 
-                this.MainMenuBar.Dock = DockStyle.None;
-                this.MainMenuBar.SetBounds(
-                    this.ClientRectangle.Left,
-                    this.ClientRectangle.Top,
-                    this.ClientRectangle.Width,
-                    this.MainMenuBar.Height);
-                this.MainMenuBar.BringToFront();
-            }
-            
-            //////////////////
-            // Otherwise, disable full screen.
-            else
-            {
-                int savedWidth = Properties.Settings.Default.WindowWidth;
-                int savedHeight = Properties.Settings.Default.WindowHeight;
-
-                if (this.maximizedBeforeFullScreen)
-                {
-                    // Restore size but not position.
-                    // Windows will remember this size for us when the user returns from maximized state
-                    this.Width = savedWidth;
-                    this.Height = savedHeight;
-                    this.WindowState = FormWindowState.Maximized;
-                }
-                else
-                {
-                    this.SetBounds(
-                        this.pointBeforeFullScreen.X,
-                        this.pointBeforeFullScreen.Y,
-                        savedWidth,
-                        savedHeight);
-                }
-
-                this.MainMenuBar.Dock = DockStyle.Top;
-                this.MainMenuBar.SendToBack();
-            }
-
-            this.MainMenuBar.Visible = (enableFullScreen == false);
-            this.MainStatusStrip.Visible = (enableFullScreen == false);
-            this.sizeBox.Visible = false;
-            this.TopMost = enableFullScreen;
-
-            this.Refresh();
-            this.ResumeLayout();
-        }
-
-        #endregion // Private Methods
-    }
+	internal enum GameSourceType
+	{
+		None = 0,
+		File,
+		Disc,
+		BinaryFile,
+	}
+
+	public partial class Main : Form
+	{
+		private const int BASE_WIDTH = 320;
+		private const int BASE_HEIGHT = 240;
+
+		private SizeGuard sizeGuard = new SizeGuard();
+
+		private Point pointBeforeFullScreen;
+		private bool maximizedBeforeFullScreen = false;
+		private bool isWindowFullScreen = false;
+
+		private MouseHook mouseHook = new MouseHook();
+
+		private List<ToolStripMenuItem> openGameMenuItems = new List<ToolStripMenuItem>();
+
+		#region Load/Close Form Events
+
+		#region Public Members
+
+		public Main()
+		{
+			InitializeComponent();
+		}
+
+		public string StartForm { get; set; }
+
+		#endregion // Public Members
+
+		private void Main_Load(object sender, EventArgs e)
+		{
+			// Some basic form setup.
+			this.sizeBox.BaseWidth = BASE_WIDTH;
+			this.sizeBox.BaseHeight = BASE_HEIGHT;
+			
+			this.sizeGuard.BaseWidth = BASE_WIDTH;
+			this.sizeGuard.BaseHeight = BASE_HEIGHT;
+			this.sizeGuard.WindowExtraWidth = this.Width - this.ClientSize.Width;
+			this.sizeGuard.WindowExtraHeight = (this.Height - this.ClientSize.Height) + this.MainMenuBar.Height + this.MainStatusStrip.Height;
+
+			this.mouseHook.Install();
+			this.mouseHook.MouseMove += new MouseHookEventHandler(mouseHook_MouseMove);
+			this.mouseHook.MouseDown += new MouseHookEventHandler(mouseHook_MouseDown);
+
+			this.quickDisplayDropDownButton.DropDownDirection = ToolStripDropDownDirection.AboveLeft;
+			
+			this.VersionStripItem.Text = "4DO " + Application.ProductVersion;
+
+			GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
+
+			////////////////////
+			// Form size and position.
+
+			// Initial form size.
+			int savedWidth = Properties.Settings.Default.WindowWidth;
+			int savedHeight = Properties.Settings.Default.WindowHeight;
+			this.Width = (savedWidth > 0) ? savedWidth : this.sizeGuard.BaseWidth * 2 + this.sizeGuard.WindowExtraWidth;
+			this.Height = (savedHeight > 0) ? savedHeight : this.sizeGuard.BaseHeight * 2 + this.sizeGuard.WindowExtraHeight;
+			
+			// Initial form position.
+			if (Properties.Settings.Default.WindowFullScreen)
+			{
+				// If they were in full screen when they exited, set ourselves at the top+left in the correct screen.
+				int screenNum = 0;
+				Screen screenToUse = null;
+				foreach (Screen screen in Screen.AllScreens)
+				{
+					if (screenNum == Properties.Settings.Default.WindowFullScreenDevice)
+					{
+						screenToUse = screen;
+						break;
+					}
+					screenNum++;
+				}
+
+				if (screenToUse != null)
+					screenToUse = Screen.PrimaryScreen;
+
+				this.Left = screenToUse.WorkingArea.Left;
+				this.Top = screenToUse.WorkingArea.Top;
+			}
+			
+			// Let's ensure we don't go off the bounds of the screen.
+			Screen currentScreen = Utilities.DisplayHelper.GetCurrentScreen(this);
+			if (this.Bottom > currentScreen.WorkingArea.Bottom)
+			{
+				this.Top -= (this.Bottom - currentScreen.WorkingArea.Bottom);
+				this.Top = Math.Max(this.Top, currentScreen.WorkingArea.Top);
+			}
+			if (this.Right > currentScreen.WorkingArea.Right)
+			{
+				this.Left -= (this.Right - currentScreen.WorkingArea.Right);
+				this.Left = Math.Max(this.Left, currentScreen.WorkingArea.Left);
+			}
+			
+			// If we updated the size ourselves (we had no valid default) save it now.
+			if (savedWidth <= 0 || savedHeight <= 0)
+				this.DoSaveWindowSize();
+			this.sizeBox.Visible = false; // and shut that damn thing up!
+			
+			////////////////
+			// Create "Open Disc" menu items for each CD Drive.
+			int menuInsertIndex = fileMenuItem.DropDownItems.IndexOf(openCDImageMenuItem) + 1;
+			foreach (char drive in CDDrive.GetCDDriveLetters())
+			{
+				ToolStripMenuItem newItem = new ToolStripMenuItem("Open Disc Drive - " + drive + ":");
+				newItem.Tag = drive;
+				newItem.Click += new EventHandler(openFromDriveMenuItem_Click);
+				fileMenuItem.DropDownItems.Insert(menuInsertIndex, newItem);
+				openGameMenuItems.Add(newItem);
+				menuInsertIndex++;
+			}
+			openGameMenuItems.Add(openCDImageMenuItem);
+			
+			////////////////
+			// Copy some menu items to the quick display settings menu.
+			foreach (ToolStripItem item in this.displayMenuItem.DropDownItems)
+			{
+				ToolStripItem newItem = null;
+				if (item is ToolStripSeparator)
+					newItem = new ToolStripSeparator();
+				else if (item is ToolStripMenuItem)
+				{
+					newItem = new ToolStripMenuItem();
+					newItem.Text = item.Text;
+					newItem.Font = item.Font;
+
+					if (item == fullScreenMenuItem)
+						newItem.Click += new EventHandler(this.fullScreenMenuItem_Click);
+
+					if (item == smoothResizingMenuItem)
+						newItem.Click += new EventHandler(this.smoothResizingMenuItem_Click);
+
+					if (item == snapWindowMenuItem)
+						newItem.Click += new EventHandler(this.snapWindowMenuItem_Click);
+
+					if (item == preserveRatioMenuItem)
+						newItem.Click += new EventHandler(this.preserveRatioMenuItem_Click);
+				}
+				newItem.Tag = item;
+
+				this.quickDisplayDropDownButton.DropDownItems.Add(newItem);
+			}
+
+			/////////////
+			// Handle ROM file nag box
+			if (!File.Exists(Properties.Settings.Default.BiosRomFile))
+			{
+				Properties.Settings.Default.BiosRomFile = "";
+				Properties.Settings.Default.Save();
+				this.DoShowRomNag();
+			}
+
+			//////////////
+			// Add save slot menu items.
+			if (Properties.Settings.Default.SaveStateSlot < 0 || Properties.Settings.Default.SaveStateSlot > 9)
+			{
+				Properties.Settings.Default.SaveStateSlot = 0;
+				Properties.Settings.Default.Save();
+			}
+
+			for (int x = 0; x < 10; x++)
+			{
+				ToolStripMenuItem newItem = new ToolStripMenuItem("Slot " + x.ToString());
+				newItem.Name = "saveSlotMenuItem" + x.ToString();
+				newItem.Tag = x;
+				newItem.Click += new EventHandler(saveSlotMenuItem_Click);
+				saveStateSlotMenuItem.DropDownItems.Add(newItem);
+			}
+
+			// Clear the last loaded game if they don't want us to automatically loading games.
+			if (Properties.Settings.Default.AutoOpenGameFile == false)
+			{
+				Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
+				Properties.Settings.Default.Save();
+			}
+
+			// Clear pause status if we aren't remembering pause
+			if (Properties.Settings.Default.AutoRememberPause == false 
+				&& Properties.Settings.Default.LastPauseStatus == true)
+			{
+				Properties.Settings.Default.LastPauseStatus = false;
+				Properties.Settings.Default.Save();
+			}
+			// Remember this now, because we can't count it after the console's been started.
+			bool lastPauseStatus = Properties.Settings.Default.LastPauseStatus;
+
+			///////////
+			// Now that settings have been mucked with, subscribe to their change event.
+			Properties.Settings.Default.PropertyChanged += new PropertyChangedEventHandler(Settings_PropertyChanged);
+
+			///////////////////////////
+			// Fire her up!
+			this.DoConsoleStart(true);
+
+			if (Properties.Settings.Default.AutoRememberPause == true && lastPauseStatus == true)
+				this.DoConsoleTogglePause();
+				
+			this.UpdateUI();
+
+			// Oh, and start automatically launch a form if requested.
+			if (this.StartForm != null && this.StartForm.ToLower() == "configureinput")
+				this.DoShowConfigureInput();
+		}
+
+		private void Main_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			// Ignore console state changes from now on. The console will be shutting itself down.
+			GameConsole.Instance.ConsoleStateChange -= new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
+			
+			this.mouseHook.Uninstall();
+
+			this.DoConsoleStop();
+
+			GameConsole.Instance.Destroy();
+		}
+
+		#endregion // Load/Close Form Events
+
+		#region Event Handlers
+
+		private void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			// This is here in case some option box in the future updates the setting for us.
+			// We hide ourselves here in order to keep ourselves from looking like a liar.
+			//
+			// It would be a bad idea to add something like a prompt to restart here, since
+			// this setting could presumably be changed anywhere. We'll leave prompting the
+			// user to the event handlers.
+			string RomFileProperty = Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.BiosRomFile);
+			if (e.PropertyName == RomFileProperty)
+			{
+				if (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == false)
+					this.DoHideRomNag();
+			}
+
+			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoOpenGameFile)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoLoadLastSave)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoRememberPause)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.SaveStateSlot)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowFullScreen)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowPreseveRatio)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowSnapSize)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowImageSmoothing)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomSourceType)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomLastDirectory)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomFile)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomDrive))
+			{
+				this.UpdateUI();
+			}
+		}
+
+		private void Main_Resize(object sender, EventArgs e)
+		{
+			if (this.isWindowFullScreen == true
+				|| this.WindowState == FormWindowState.Maximized
+				|| this.WindowState == FormWindowState.Minimized
+				|| Utilities.DisplayHelper.IsFormDocked(this))
+			{
+				this.sizeBox.Visible = false;
+				return;
+			}
+
+			this.SuspendLayout();
+			sizeBox.UpdateSizeText(gameCanvas.Width, gameCanvas.Height);
+			sizeBox.SetBounds(
+					this.ClientSize.Width - 6 - this.sizeBox.PreferredSize.Width,
+					this.ClientSize.Height - this.MainStatusStrip.Height - 6 - this.sizeBox.PreferredSize.Height,
+					this.sizeBox.PreferredSize.Width,
+					this.sizeBox.PreferredSize.Height);
+			sizeBox.Visible = true;
+			this.ResumeLayout();
+			
+			this.DoSaveWindowSize();
+		}
+
+		protected override void WndProc(ref Message m)
+		{
+			this.sizeGuard.WatchForResize(ref m);
+			base.WndProc(ref m);
+		}
+
+		private void MainMenuStrip_MenuActivate(object sender, EventArgs e)
+		{
+			this.UpdateUI();
+		}
+
+		private void RomNagBox_CloseClicked(object sender, EventArgs e)
+		{
+			this.DoHideRomNag();
+		}
+
+		private void RomNagBox_LinkClicked(object sender, EventArgs e)
+		{
+			this.DoChooseBiosRom();
+		}
+
+		private void chooseBiosRomMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoChooseBiosRom();
+		}
+
+		private void openCDImageMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoChooseGameRom();
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
+
+		private void RefreshFpsTimer_Tick(object sender, EventArgs e)
+		{
+			this.DoUpdateFPS();
+		}
+
+		private void saveStateMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoSaveState();
+		}
+
+		private void loadStateMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoLoadState();
+		}
+
+		private void previousSlotMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoAdvanceSaveSlot(false);
+		}
+
+		private void nextSlotMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoAdvanceSaveSlot(true);
+		}
+
+		void saveSlotMenuItem_Click(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.SaveStateSlot = (int)((ToolStripMenuItem)sender).Tag;
+			Properties.Settings.Default.Save();
+		}
+
+		private void loadLastGameMenuItem_Click(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.AutoOpenGameFile = !Properties.Settings.Default.AutoOpenGameFile;
+			Properties.Settings.Default.Save();
+		}
+
+		private void loadLastSaveMenuItem_Click(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.AutoLoadLastSave = !Properties.Settings.Default.AutoLoadLastSave;
+			Properties.Settings.Default.Save();
+		}
+
+		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoShowSettings();
+		}
+
+		private void configureInputMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoShowConfigureInput();
+		}
+
+		private void fullScreenMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoToggleFullScreen();
+		}
+
+		private void snapWindowMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoToggleSnapWindow();
+		}
+
+		private void preserveRatioMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoTogglePreserveRatio();
+		}
+
+		private void smoothResizingMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoToggleImageSmoothing();
+		}
+
+		private void Main_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape && this.isWindowFullScreen)
+			{
+				this.DoToggleFullScreen();
+			}
+		}
+
+		void mouseHook_MouseMove(object sender, MouseHookEventArgs e)
+		{
+			if (this.isWindowFullScreen == false)
+				return;
+
+			Screen currentScreen = DisplayHelper.GetCurrentScreen(this);
+			if ((e.Y - currentScreen.WorkingArea.Top) < (this.MainMenuBar.Height))
+			{
+				this.MainMenuBar.Visible = true;
+				this.hideMenuTimer.Enabled = false;
+				this.hideMenuTimer.Enabled = true;
+			}
+		}
+
+		void mouseHook_MouseDown(object sender, MouseHookEventArgs e)
+		{
+			if (this.isWindowFullScreen == false)
+				return;
+
+			Screen currentScreen = DisplayHelper.GetCurrentScreen(this);
+			if ((e.Y - currentScreen.WorkingArea.Top) >= (this.MainMenuBar.Height))
+				this.MainMenuBar.Visible = (this.isWindowFullScreen == false);
+		}
+
+		private void hideMenuTimer_Tick(object sender, EventArgs e)
+		{
+			// Delay hiding the menu if the user is using the menus.
+			if (this.MainMenuBar.Focused || this.MainMenuBar.Capture || this.MainMenuBar.ContainsFocus)
+				return; 
+			
+			this.MainMenuBar.Visible = (this.isWindowFullScreen == false);
+			this.hideMenuTimer.Enabled = false;
+		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			About aboutForm = new About();
+			aboutForm.ShowDialog(this);
+		}
+
+		private void resetMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoConsoleReset(false);
+		}
+
+		private void pauseMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoConsoleTogglePause();
+		}
+
+		private void advanceFrameMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoConsoleAdvanceFrame();
+		}
+
+		private void rememberPauseMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoToggleRememberPause();
+		}
+
+		private void Instance_ConsoleStateChange(ConsoleStateChangeEventArgs e)
+		{
+			// Should we remember the status?
+			if (Properties.Settings.Default.AutoRememberPause)
+			{
+				if (e.NewState == ConsoleState.Paused)
+				{
+					Properties.Settings.Default.LastPauseStatus = true;
+					Properties.Settings.Default.Save();
+				}
+				else if (e.NewState == ConsoleState.Running)
+				{
+					Properties.Settings.Default.LastPauseStatus = false;
+					Properties.Settings.Default.Save();
+				}
+			}
+
+			// Some menu items depend on console status.
+			this.UpdateUI();
+		}
+
+		private void openFromDriveMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoOpenDiscDrive((char)((ToolStripMenuItem)sender).Tag);
+		}
+
+		private void closeGameMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoCloseGame();
+		}
+
+		#endregion // Event Handlers
+
+		#region Private Methods
+
+		private void UpdateUI()
+		{
+			bool isValidBiosRomSelected = (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == false);
+			bool consoleActive = (GameConsole.Instance.State != ConsoleState.Stopped);
+
+			////////////////////////
+			// File menu
+
+			this.closeGameMenuItem.Enabled = consoleActive;
+			this.openCDImageMenuItem.Enabled = isValidBiosRomSelected;
+			this.loadLastGameMenuItem.Enabled = true;
+			this.chooseBiosRomMenuItem.Enabled = true;
+			this.exitMenuItem.Enabled = true;
+
+			this.loadLastGameMenuItem.Checked = Properties.Settings.Default.AutoOpenGameFile;
+
+			// Find the menu item that matches the currently loaded game.
+			ToolStripMenuItem currentOpenMenu = null;
+			if (Properties.Settings.Default.GameRomSourceType == (int)GameSourceType.File)
+				currentOpenMenu = openCDImageMenuItem;
+			else if (Properties.Settings.Default.GameRomSourceType == (int)GameSourceType.Disc)
+			{
+				foreach (ToolStripMenuItem item in this.openGameMenuItems)
+				{
+					if ((char?)item.Tag == Properties.Settings.Default.GameRomDrive)
+					{
+						currentOpenMenu = (ToolStripMenuItem)item;
+						break;
+					}
+				}
+			}
+			
+			// Accentuate the menu item identifying the currently open item.
+			foreach (ToolStripMenuItem item in this.openGameMenuItems)
+			{
+				bool currentItem = (item == currentOpenMenu);
+				item.Font = currentItem ? new Font(fileMenuItem.Font, FontStyle.Italic) : fileMenuItem.Font;
+				item.Checked = currentItem;
+				item.Enabled = isValidBiosRomSelected;
+			}
+
+			////////////////////////
+			// Console menu
+
+			this.saveStateMenuItem.Enabled = consoleActive;
+			this.loadStateMenuItem.Enabled = consoleActive;
+			this.loadLastSaveMenuItem.Enabled = true;
+			this.saveStateSlotMenuItem.Enabled = true;
+			foreach (ToolStripItem menuItem in this.saveStateSlotMenuItem.DropDownItems)
+				menuItem.Enabled = true;
+			this.pauseMenuItem.Enabled = consoleActive;
+			this.advanceFrameMenuItem.Enabled = consoleActive;
+			this.resetMenuItem.Enabled = consoleActive;
+
+			this.pauseMenuItem.Checked = (GameConsole.Instance.State == ConsoleState.Paused);
+			this.rememberPauseMenuItem.Checked = Properties.Settings.Default.AutoRememberPause;
+			this.loadLastSaveMenuItem.Checked = Properties.Settings.Default.AutoLoadLastSave;
+
+			// Save slot
+			foreach (ToolStripItem menuItem in saveStateSlotMenuItem.DropDownItems)
+			{
+				if (!(menuItem is ToolStripMenuItem))
+					continue;
+
+				if (menuItem.Tag != null)
+					((ToolStripMenuItem)menuItem).Checked = (Properties.Settings.Default.SaveStateSlot == (int)menuItem.Tag);
+			}
+
+			////////////////////////
+			// Display menus. (always enabled)
+
+			this.fullScreenMenuItem.Checked = Properties.Settings.Default.WindowFullScreen;
+			this.GetQuickDisplayMenuItem(fullScreenMenuItem).Checked = fullScreenMenuItem.Checked;
+
+			this.smoothResizingMenuItem.Checked = Properties.Settings.Default.WindowImageSmoothing;
+			this.GetQuickDisplayMenuItem(smoothResizingMenuItem).Checked = smoothResizingMenuItem.Checked;
+			this.gameCanvas.ImageSmoothing = this.smoothResizingMenuItem.Checked;
+
+			this.snapWindowMenuItem.Checked = Properties.Settings.Default.WindowSnapSize;
+			this.GetQuickDisplayMenuItem(snapWindowMenuItem).Checked = snapWindowMenuItem.Checked;
+			this.sizeGuard.Enabled = this.snapWindowMenuItem.Checked && (Properties.Settings.Default.WindowFullScreen == false);
+
+			this.preserveRatioMenuItem.Checked = Properties.Settings.Default.WindowPreseveRatio;
+			this.GetQuickDisplayMenuItem(preserveRatioMenuItem).Checked = preserveRatioMenuItem.Checked;
+			this.gameCanvas.PreserveAspectRatio = this.preserveRatioMenuItem.Checked;
+
+			////////////////////////
+			// Settings menus. (almost always enabled)
+			this.settingsMenuItem.Enabled = true;
+			this.configureInputMenuItem.Enabled = (GameConsole.Instance.InputPlugin != null)
+					&& (GameConsole.Instance.InputPlugin.GetHasSettings());
+
+			////////////////////////
+			// Other non-menu stuff.
+
+			// If we need to switch full screen status, do it now.
+			if (this.isWindowFullScreen != Properties.Settings.Default.WindowFullScreen)
+				this.SetFullScreen(Properties.Settings.Default.WindowFullScreen);
+
+			// Misc form stuff.
+			this.sizeGuard.Enabled = Properties.Settings.Default.WindowSnapSize;
+			
+			// Hide, but never show the rom nag box in this function. 
+			// The rom nag box only makes itself visible on when emulation fails to start due to an invalid bios.
+			if (isValidBiosRomSelected == true)
+				this.DoHideRomNag();
+		}
+
+		#region Console Control
+
+		private void DoConsoleStart(bool alsoAllowLoadState)
+		{
+			if (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == true)
+				return;
+
+			////////////////
+			// Ensure existence of an NVRAM file.
+			string nvramFile = System.IO.Path.Combine(new System.IO.FileInfo(Application.ExecutablePath).DirectoryName, "NVRAM_SaveData.ram");
+			if (System.IO.File.Exists(nvramFile) == false)
+			{
+				// No NVRAM! Initialize one.
+				FileStream nvramStream = new FileStream(nvramFile, FileMode.CreateNew);
+				byte[] nvramBytes = new byte[GameConsole.Instance.NvramSize];
+				unsafe
+				{
+					fixed (byte* nvramBytePointer = nvramBytes)
+					{
+						EmulationHelper.InitializeNvram(new IntPtr((int)nvramBytePointer));
+					}
+				}
+				nvramStream.Write(nvramBytes, 0, nvramBytes.Length);
+				nvramStream.Close();
+			}
+
+			////////////////
+			// Create an appropriate game source
+			IGameSource gameSource = this.CreateGameSource();
+			
+			////////////////
+			try
+			{
+				GameConsole.Instance.Start(Properties.Settings.Default.BiosRomFile, gameSource, nvramFile);
+			}
+			catch (GameConsole.BadBiosRomException)
+			{
+				Utilities.Error.ShowError(string.Format("The bios file ({0}) failed to load. Please choose another.", Properties.Settings.Default.BiosRomFile));
+				Properties.Settings.Default.BiosRomFile = "";
+				Properties.Settings.Default.Save();
+				this.DoShowRomNag();
+			}
+			catch (GameConsole.BadGameRomException)
+			{
+				string errorMessage = null;
+				if (gameSource is FileGameSource)
+					errorMessage = string.Format("The game file ({0}) failed to load. Please choose another.", ((FileGameSource)gameSource).GameFilePath);
+				else
+					errorMessage = "The game failed to load. Please choose another.";
+				Utilities.Error.ShowError(errorMessage);
+
+				// Since it failed to load, we want to un-remember this as the last loaded game.
+				Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
+				Properties.Settings.Default.Save();
+			}
+			catch (GameConsole.BadNvramFileException)
+			{
+				Utilities.Error.ShowError(string.Format("The nvram file ({0}) could not be loaded. Emulation cannot start.", nvramFile));
+			}
+
+			// Optionally load state.
+			if (alsoAllowLoadState == true)
+			{
+				if (Properties.Settings.Default.AutoLoadLastSave == true)
+					this.DoLoadState();
+			}
+
+			this.UpdateUI();
+		}
+
+		private IGameSource CreateGameSource()
+		{
+			// Determine the game rom source type.
+			int sourceTypeNumber = Properties.Settings.Default.GameRomSourceType;
+			GameSourceType sourceType = GameSourceType.None;
+			try
+			{
+				sourceType = (GameSourceType)sourceTypeNumber;
+			}
+			catch
+			{
+				// If there was a problem, assume a type of "none".
+				Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
+				Properties.Settings.Default.Save();
+			}
+			
+			if (sourceType == GameSourceType.None)
+				return new EmptyGameSource();
+
+			if (sourceType == GameSourceType.File)
+				return new FileGameSource(Properties.Settings.Default.GameRomFile);
+
+			if (sourceType == GameSourceType.Disc)
+				return new DiscGameSource(Properties.Settings.Default.GameRomDrive);
+
+			// Must be a currently unsupported type.
+			return new EmptyGameSource();
+		}
+
+		private void DoConsoleReset(bool alsoAllowLoadState)
+		{
+			this.DoConsoleStop();
+			
+			// Restart, but don't allow it to load state.
+			this.DoConsoleStart(alsoAllowLoadState);
+		}
+
+		private void DoConsoleTogglePause()
+		{
+			if (GameConsole.Instance.State == ConsoleState.Running)
+				GameConsole.Instance.Pause();
+			else if (GameConsole.Instance.State == ConsoleState.Paused)
+				GameConsole.Instance.Resume();
+		}
+
+		private void DoConsoleAdvanceFrame()
+		{
+			if (GameConsole.Instance.State == ConsoleState.Stopped)
+				return;
+			
+			// Pause it if we need to.
+			if (GameConsole.Instance.State == ConsoleState.Running)
+				GameConsole.Instance.Pause();
+
+			if (GameConsole.Instance.State == ConsoleState.Paused)
+				GameConsole.Instance.AdvanceSingleFrame();
+		}
+
+		private void DoConsoleStop()
+		{
+			GameConsole.Instance.Stop();
+		}
+
+		#endregion // Console Control
+
+		private void DoCloseGame()
+		{
+			Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
+			Properties.Settings.Default.Save();
+			this.DoConsoleStop();
+		}
+		
+		private void DoShowRomNag()
+		{
+			RomNagBox.Visible = true;
+		}
+
+		private void DoHideRomNag()
+		{
+			RomNagBox.Visible = false;
+		}
+
+		private void DoChooseBiosRom()
+		{
+			OpenFileDialog openDialog = new OpenFileDialog();
+
+			openDialog.InitialDirectory = this.GetLastRomDirectory();
+			openDialog.Filter = "rom files (*.rom)|*.rom|All files (*.*)|*.*";
+			openDialog.RestoreDirectory = true;
+
+			if (openDialog.ShowDialog() == DialogResult.OK)
+			{
+				Properties.Settings.Default.BiosRomFile = openDialog.FileName;
+				Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
+				Properties.Settings.Default.Save();
+
+				this.DoConsoleStart(true);
+			}
+		}
+
+		private void DoChooseGameRom()
+		{
+			OpenFileDialog openDialog = new OpenFileDialog();
+
+			openDialog.InitialDirectory = this.GetLastRomDirectory();
+			openDialog.Filter = "iso files (*.iso)|*.iso|All files (*.*)|*.*";
+			openDialog.RestoreDirectory = true;
+
+			if (openDialog.ShowDialog() == DialogResult.OK)
+			{
+				Properties.Settings.Default.GameRomFile = openDialog.FileName;
+				Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.File;
+				Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
+				Properties.Settings.Default.Save();
+
+				// Start it for them.
+				// Some people may want a prompt. However, I never like this. So, screw em.
+				this.DoConsoleReset(true);
+			}
+		}
+
+		private void DoOpenDiscDrive(char driveLetter)
+		{
+			Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.Disc;
+			Properties.Settings.Default.GameRomDrive = driveLetter;
+			Properties.Settings.Default.Save();
+
+			// Start it for them. Don't bother prompting, because you're a badass.
+			this.DoConsoleReset(true);
+		}
+
+		private string GetLastRomDirectory()
+		{
+			string returnValue = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+
+			string lastDirectory = Properties.Settings.Default.GameRomLastDirectory;
+			if (string.IsNullOrEmpty(lastDirectory) == false)
+			{
+				if (Directory.Exists(lastDirectory) == true)
+				{
+					returnValue = lastDirectory;
+				}
+				else
+				{
+					Properties.Settings.Default.GameRomLastDirectory = null;
+					Properties.Settings.Default.Save();
+				}
+			}
+
+			return returnValue;
+		}
+
+		private void DoSaveState()
+		{
+			if (GameConsole.Instance.State != ConsoleState.Stopped)
+			{
+				string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
+				GameConsole.Instance.SaveState(saveStateFileName);
+			}
+		}
+
+		private void DoLoadState()
+		{
+			if (GameConsole.Instance.State != ConsoleState.Stopped)
+			{
+				string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
+				if (System.IO.File.Exists(saveStateFileName))
+					GameConsole.Instance.LoadState(saveStateFileName);
+			}
+		}
+
+		private void DoAdvanceSaveSlot(bool up)
+		{
+			int saveSlot = Properties.Settings.Default.SaveStateSlot;
+			if (up == true)
+				saveSlot++;
+			else
+				saveSlot--;
+
+			if (saveSlot == -1)
+				saveSlot = 9;
+
+			if (saveSlot == 10)
+				saveSlot = 0;
+
+			Properties.Settings.Default.SaveStateSlot = saveSlot;
+			Properties.Settings.Default.Save();
+		}
+
+		private string GetSaveStateFileName(IGameSource gameSource, int saveStateSlot)
+		{
+			const string SAVE_STATE_EXTENSION = ".4dosav";
+
+			string saveGameName = "unknown_source"; // Hopefully nobody causes this.
+			if (gameSource is FileGameSource)
+			{
+				saveGameName = ((FileGameSource)gameSource).GameFilePath;
+			}
+
+			return (saveGameName + "." + saveStateSlot.ToString() + SAVE_STATE_EXTENSION);
+		}
+
+		private void DoUpdateFPS()
+		{
+			if (GameConsole.Instance.State == ConsoleState.Running)
+			{
+				double fps = GameConsole.Instance.CurrentFrameSpeed;
+				if (fps != 0)
+				{
+					fps = 1 / (fps);
+				}
+				fps = Math.Min(fps, 99.99);
+				FPSStripItem.Text = string.Format("Core FPS: {0:00.00}", fps);
+			}
+			else
+			{
+				FPSStripItem.Text = "Core FPS: --.--";
+			}
+		}
+
+		private void DoShowSettings()
+		{
+			Settings settingsForm = new Settings();
+			settingsForm.ShowDialog(this);
+		}
+
+		private void DoShowConfigureInput()
+		{
+			IInputPlugin plugin = GameConsole.Instance.InputPlugin;
+			if (plugin != null && plugin.GetHasSettings() == true)
+				plugin.ShowSettings(this);
+		}
+
+		private void DoToggleFullScreen()
+		{
+			Properties.Settings.Default.WindowFullScreen = !Properties.Settings.Default.WindowFullScreen;
+			Properties.Settings.Default.Save();
+		}
+
+		private void DoToggleSnapWindow()
+		{
+			Properties.Settings.Default.WindowSnapSize = !Properties.Settings.Default.WindowSnapSize;
+			Properties.Settings.Default.Save();
+		}
+
+		private void DoTogglePreserveRatio()
+		{
+			Properties.Settings.Default.WindowPreseveRatio = !Properties.Settings.Default.WindowPreseveRatio;
+			Properties.Settings.Default.Save();
+		}
+
+		private void DoToggleImageSmoothing()
+		{
+			Properties.Settings.Default.WindowImageSmoothing = !Properties.Settings.Default.WindowImageSmoothing;
+			Properties.Settings.Default.Save();
+		}
+
+		private void DoToggleRememberPause()
+		{
+			Properties.Settings.Default.AutoRememberPause = !Properties.Settings.Default.AutoRememberPause;
+			Properties.Settings.Default.Save();
+		}
+
+		private void DoSaveWindowSize()
+		{
+			Properties.Settings.Default.WindowWidth = this.Width;
+			Properties.Settings.Default.WindowHeight = this.Height;
+			Properties.Settings.Default.Save();
+		}
+
+		private ToolStripMenuItem GetQuickDisplayMenuItem(ToolStripMenuItem displayMenuItem)
+		{
+			foreach (ToolStripItem item in quickDisplayDropDownButton.DropDownItems)
+			{
+				if (item.Tag == displayMenuItem)
+					return (ToolStripMenuItem)item;
+			}
+			return null;
+		}
+
+		private void SetFullScreen(bool enableFullScreen)
+		{
+			// Keep the window from redrawing
+			this.SuspendLayout();
+
+			// Change border style (this causes a resize)
+			// and set the full screen enabled flag.
+			if (enableFullScreen)
+			{
+				this.isWindowFullScreen = enableFullScreen;
+				this.FormBorderStyle = enableFullScreen ? FormBorderStyle.None : FormBorderStyle.Sizable;
+			}
+			else
+			{
+				this.FormBorderStyle = enableFullScreen ? FormBorderStyle.None : FormBorderStyle.Sizable;
+				this.isWindowFullScreen = enableFullScreen;
+			}
+
+			//////////////////
+			// Enable full screen
+			if (enableFullScreen == true)
+			{
+				this.maximizedBeforeFullScreen = (this.WindowState == FormWindowState.Maximized);
+				if (this.maximizedBeforeFullScreen)
+					this.WindowState = FormWindowState.Normal;
+				else
+					this.pointBeforeFullScreen = new Point(this.Left, this.Top);
+
+				// Find, use, and save the current screen.
+				int screenNum;
+				Screen currentScreen = Utilities.DisplayHelper.GetCurrentScreen(this, out screenNum);
+				Properties.Settings.Default.WindowFullScreenDevice = screenNum;
+
+				// Set form bounds.
+				this.Bounds = currentScreen.Bounds;
+
+				// Undock the main menu so it doesn't steal real estate from the game window. 
+				this.MainMenuBar.Dock = DockStyle.None;
+				this.MainMenuBar.SetBounds(
+					this.ClientRectangle.Left,
+					this.ClientRectangle.Top,
+					this.ClientRectangle.Width,
+					this.MainMenuBar.Height);
+				this.MainMenuBar.BringToFront();
+			}
+			
+			//////////////////
+			// Otherwise, disable full screen.
+			else
+			{
+				int savedWidth = Properties.Settings.Default.WindowWidth;
+				int savedHeight = Properties.Settings.Default.WindowHeight;
+
+				if (this.maximizedBeforeFullScreen)
+				{
+					// Restore size but not position.
+					// Windows will remember this size for us when the user returns from maximized state
+					this.Width = savedWidth;
+					this.Height = savedHeight;
+					this.WindowState = FormWindowState.Maximized;
+				}
+				else
+				{
+					this.SetBounds(
+						this.pointBeforeFullScreen.X,
+						this.pointBeforeFullScreen.Y,
+						savedWidth,
+						savedHeight);
+				}
+
+				this.MainMenuBar.Dock = DockStyle.Top;
+				this.MainMenuBar.SendToBack();
+			}
+
+			this.MainMenuBar.Visible = (enableFullScreen == false);
+			this.MainStatusStrip.Visible = (enableFullScreen == false);
+			this.sizeBox.Visible = false;
+			this.TopMost = enableFullScreen;
+
+			this.Refresh();
+			this.ResumeLayout();
+		}
+
+		#endregion // Private Methods
+	}
 }

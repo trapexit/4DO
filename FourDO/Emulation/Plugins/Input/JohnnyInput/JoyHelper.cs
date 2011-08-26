@@ -6,13 +6,13 @@ using SlimDX.DirectInput;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
-    internal class JoyHelper
-    {
+	internal class JoyHelper
+	{
 		private static DirectInput directInput = new DirectInput();
 
 		public static List<DeviceInstance> GetJoystickDevices()
 		{
-            List<DeviceInstance> joystickDevices = new List<DeviceInstance>();
+			List<DeviceInstance> joystickDevices = new List<DeviceInstance>();
 
 			var devices = directInput.GetDevices();
 			
@@ -54,5 +54,5 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				default: return 0;
 			}
 		}
-    }
+	}
 }

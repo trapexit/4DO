@@ -5,12 +5,12 @@ using System.Text;
 
 namespace FourDO.Emulation.GameSource
 {
-    internal interface IGameSource
-    {
-        void Open();
-        void Close();
+	internal interface IGameSource
+	{
+		void Open();
+		void Close();
 
-        int GetSectorCount();
-        void ReadSector(IntPtr destinationBuffer, int sectorNumber);
-    }
+		int GetSectorCount();
+		void ReadSector(IntPtr destinationBuffer, int sectorNumber);
+	}
 }

@@ -6,13 +6,13 @@ using System.Windows.Forms;
 
 namespace FourDO.Emulation.Plugins
 {
-    public interface IInputPlugin
-    {
-        void Destroy();
+	public interface IInputPlugin
+	{
+		void Destroy();
 
-        bool GetHasSettings();
-        void ShowSettings(IWin32Window owner);
+		bool GetHasSettings();
+		void ShowSettings(IWin32Window owner);
 
-        byte[] GetPbusData();
-    }
+		byte[] GetPbusData();
+	}
 }

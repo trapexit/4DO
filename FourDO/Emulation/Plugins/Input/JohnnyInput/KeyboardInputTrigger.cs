@@ -6,9 +6,9 @@ using System.Windows.Forms;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
-    [Serializable]
+	[Serializable]
 	public class KeyboardInputTrigger : InputTrigger
-    {
+	{
 		// Empty constructor only for serialization
 		public KeyboardInputTrigger() { }
 
@@ -18,13 +18,13 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		}
 
 		public override string FriendlyName 
-        {
-            get
-            {
-                return this.Key.ToString();
-            }
-        }
+		{
+			get
+			{
+				return this.Key.ToString();
+			}
+		}
 
-        public Keys Key { get; set; }
-    }
+		public Keys Key { get; set; }
+	}
 }

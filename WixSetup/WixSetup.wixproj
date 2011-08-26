@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.5</ProductVersion>
+    <ProjectGuid>{f1fb542c-ac12-40fc-953b-3229d630c136}</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>WixSetup</OutputName>
+    <OutputType>Package</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Product.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CDLib\CDLib.csproj">
+      <Name>CDLib</Name>
+      <Project>{e3bd3ede-b721-48a8-8ee1-1ba4fafe5884}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\FourDO\FourDO.csproj">
+      <Name>FourDO</Name>
+      <Project>{0cd2afb0-e0c8-4295-8a2b-b5290c60fd0d}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\FreeDOCore\FreeDOCore.vcxproj">
+      <Name>FreeDOCore</Name>
+      <Project>{c099a7d5-70ff-42ad-b74e-b2f1eaeef14e}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\WaveLib\WaveLib.csproj">
+      <Name>WaveLib</Name>
+      <Project>{d72cc69f-2065-4ba2-a499-abf352c0733d}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" />
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

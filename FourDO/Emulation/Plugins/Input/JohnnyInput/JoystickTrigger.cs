@@ -7,7 +7,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
 	[Serializable]
 	public class JoystickTrigger : InputTrigger
-    {
+	{
 		// Empty constructor only for serialization
 		public JoystickTrigger() { }
 
@@ -17,9 +17,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		}
 
 		public override string FriendlyName 
-        {
-            get
-            {
+		{
+			get
+			{
 				switch (this.Type)
 				{
 					case JoystickTriggerType.Button:
@@ -36,8 +36,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 							(this.PovDirection == JoystickTriggerPovDirection.Right) ? @" >" : "");
 				}
 				return null;
-            }
-        }
+			}
+		}
 
 		public Guid DeviceInstance { get; set; } // Unique ID for the device
 		public JoystickTriggerType Type { get; set; }
@@ -47,5 +47,5 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		public bool AxisPositive { get; set; }
 		public int PovNumber { get; set; }
 		public JoystickTriggerPovDirection PovDirection { get; set; }
-    }
+	}
 }

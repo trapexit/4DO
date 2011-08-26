@@ -5,10 +5,10 @@ using System.Text;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
-    public enum JoystickTriggerType
-    {
-        Button,
-        Axis,
-        Pov
-    }
+	public enum JoystickTriggerType
+	{
+		Button,
+		Axis,
+		Pov
+	}
 }
