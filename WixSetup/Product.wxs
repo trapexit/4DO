@@ -3,16 +3,37 @@
 	<?define UpgradeCode="{6d69c0aa-a899-4de1-8c3f-8e6e20759ec6}"?>
 	<?define version="!(bind.FileVersion.FourDO_File)"?>
 
+	<?if $(var.Platform) = x64 ?>
+		<?define Win64 = "yes" ?>
+		<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+		<?define VCRuntimeModule = "Microsoft_VC100_CRT_x64.msm" ?>
+	<?else ?>
+		<?define Win64 = "no" ?>
+		<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+		<?define VCRuntimeModule = "Microsoft_VC100_CRT_x86.msm" ?>
+	<?endif ?>
+
+	<!-- (end of preprocessor setup) -->
+
 	<Product Id="*" Name="4DO !(bind.FileVersion.FourDO_File)" Language="1033" Version="$(var.version)" Manufacturer="Johnny" UpgradeCode="$(var.UpgradeCode)">
-		<Package Id="*" Description="4DO !(bind.FileVersion.FourDO_File)" InstallerVersion="200" Compressed="yes" InstallScope="perMachine"/>
+		<Package Id="*" Description="4DO !(bind.FileVersion.FourDO_File)" InstallerVersion="300" Compressed="yes" InstallScope="perMachine"/>
 		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes"/>
 		<Upgrade Id="$(var.UpgradeCode)">
 			<UpgradeVersion Minimum="$(var.version)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWPRODUCTFOUND"/>
 			<UpgradeVersion Maximum="$(var.version)" IncludeMaximum="yes" OnlyDetect="no" Property="OLDPRODUCTFOUND"/>
 		</Upgrade>
 
+		<!-- Microsoft VC++ Runtimes 2010 -->
+		<DirectoryRef Id="TARGETDIR">
+			<Merge Id="VCRedist" SourceFile="$(env.CommonProgramFiles)\Merge Modules\$(var.VCRuntimeModule)" DiskId="1" Language="0"/>
+		</DirectoryRef>
+		<Feature Id="VCRedist" Title="Visual C++ 10.0 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
+			<MergeRef Id="VCRedist"/>
+		</Feature>
+
+		<!-- 4DO and files within the same target directory -->
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder" Name="PFiles">
+			<Directory Id="$(var.PlatformProgramFilesFolder)" Name="PFiles">
 				<Directory Id="FourDO_Directory" Name="4DO">
 					<Component Id="FourDO_Component" Guid="e3f71e1c-077c-4346-b46b-2d156800cf43">
 						<File Id="FreeDOCoreDLL_File" Name="$(var.FreeDOCore.TargetFileName)" DiskId="1" Source="$(var.FreeDOCore.TargetPath)"/>
