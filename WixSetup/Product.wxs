@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="88b247c8-ba6e-448a-9e0f-884df2537535" Name="4DO" Language="1033" Version="$(var.Version)" Manufacturer="Johnny" UpgradeCode="6d69c0aa-a899-4de1-8c3f-8e6e20759ec6">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"/>
+	<?define UpgradeCode="{6d69c0aa-a899-4de1-8c3f-8e6e20759ec6}"?>
+	<?define version="!(bind.FileVersion.FourDO_File)"?>
 
-		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
-
-		<Feature Id="4DO" Level="1">
-			<ComponentRef Id="4DO"/>
-		</Feature>
+	<Product Id="*" Name="4DO !(bind.FileVersion.FourDO_File)" Language="1033" Version="$(var.version)" Manufacturer="Johnny" UpgradeCode="$(var.UpgradeCode)">
+		<Package Id="*" Description="4DO !(bind.FileVersion.FourDO_File)" InstallerVersion="200" Compressed="yes" InstallScope="perMachine"/>
+		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes"/>
+		<Upgrade Id="$(var.UpgradeCode)">
+			<UpgradeVersion Minimum="$(var.version)" IncludeMinimum="no" OnlyDetect="yes" Property="NEWPRODUCTFOUND"/>
+			<UpgradeVersion Maximum="$(var.version)" IncludeMaximum="yes" OnlyDetect="no" Property="OLDPRODUCTFOUND"/>
+		</Upgrade>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLLOCATION" Name="4DO">
-					<Component Id="4DO" Guid="e3f71e1c-077c-4346-b46b-2d156800cf43">
-						<!-- TODO: add here! -->
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="FourDO_Directory" Name="4DO">
+					<Component Id="FourDO_Component" Guid="e3f71e1c-077c-4346-b46b-2d156800cf43">
+						<File Id="FreeDOCoreDLL_File" Name="$(var.FreeDOCore.TargetFileName)" DiskId="1" Source="$(var.FreeDOCore.TargetPath)"/>
+						<File Id="WaveLibDLL_File" Name="$(var.WaveLib.TargetFileName)" DiskId="1" Source="$(var.WaveLib.TargetPath)"/>
+						<File Id="CDLibDLL_File" Name="$(var.CDLib.TargetFileName)" DiskId="1" Source="$(var.CDLib.TargetPath)"/>
+						<File Id="FourDO_File" Name="$(var.FourDO.TargetFileName)" DiskId="1" Source="$(var.FourDO.TargetPath)"/>
 					</Component>
 				</Directory>
 			</Directory>
 		</Directory>
 
-		<Feature Id="ProductFeature" Title="4DO.Installer" Level="1">
+		<Feature Id="FourDO_Feature" Title="FourDO" Level="1">
+			<ComponentRef Id="FourDO_Component"/>
+		</Feature>
+		<Feature Id="ProductFeature" Title="4DO" Level="1">
 			<ComponentGroupRef Id="Product.Generated" />
 		</Feature>
+
+		<CustomAction Id="PreventDowngrading" Error="A newer version is already installed. If you really want to install this older version, you could uninstall the newer one first."/>
+
+		<InstallExecuteSequence>
+			<Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+			<RemoveExistingProducts Before="InstallInitialize" />
+		</InstallExecuteSequence>
+		<InstallUISequence>
+			<!-- Prevent downgrading -->
+			<Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+		</InstallUISequence>
+
 	</Product>
 </Wix>
