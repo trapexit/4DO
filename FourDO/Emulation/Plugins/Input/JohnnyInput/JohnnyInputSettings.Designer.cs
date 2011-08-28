@@ -39,13 +39,13 @@
 			this.panel6 = new System.Windows.Forms.Panel();
 			this.ControlsGridView = new System.Windows.Forms.DataGridView();
 			this.panel4 = new System.Windows.Forms.Panel();
-			this.controllerPreview = new FourDO.Emulation.Plugins.Input.JohnnyInput.ControllerPreview();
 			this.panel5 = new System.Windows.Forms.Panel();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.RemoveDeviceButton = new System.Windows.Forms.Button();
 			this.DeviceTypeComboBox = new System.Windows.Forms.ComboBox();
 			this.DeviceTypeLabel = new System.Windows.Forms.Label();
 			this.JoystickTimer = new System.Windows.Forms.Timer(this.components);
+			this.controllerPreview = new FourDO.Emulation.Plugins.Input.JohnnyInput.ControllerPreview();
 			this.panel1.SuspendLayout();
 			this.MainTabControl.SuspendLayout();
 			this.tabPage2.SuspendLayout();
@@ -174,21 +174,6 @@
 			this.panel4.Size = new System.Drawing.Size(270, 317);
 			this.panel4.TabIndex = 19;
 			// 
-			// controllerPreview
-			// 
-			this.controllerPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.controllerPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(205)))), ((int)(((byte)(230)))));
-			this.controllerPreview.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("controllerPreview.BackgroundImage")));
-			this.controllerPreview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-			this.controllerPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.controllerPreview.HighlightedButton = null;
-			this.controllerPreview.Location = new System.Drawing.Point(0, 0);
-			this.controllerPreview.Name = "controllerPreview";
-			this.controllerPreview.Size = new System.Drawing.Size(264, 317);
-			this.controllerPreview.TabIndex = 0;
-			// 
 			// panel5
 			// 
 			this.panel5.Dock = System.Windows.Forms.DockStyle.Right;
@@ -243,6 +228,24 @@
 			// 
 			this.JoystickTimer.Enabled = true;
 			this.JoystickTimer.Tick += new System.EventHandler(this.JoystickTimer_Tick);
+			// 
+			// controllerPreview
+			// 
+			this.controllerPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.controllerPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(205)))), ((int)(((byte)(230)))));
+			this.controllerPreview.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("controllerPreview.BackgroundImage")));
+			this.controllerPreview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+			this.controllerPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.controllerPreview.HighlightedButton = null;
+			this.controllerPreview.Location = new System.Drawing.Point(0, 0);
+			this.controllerPreview.Name = "controllerPreview";
+			this.controllerPreview.Size = new System.Drawing.Size(264, 317);
+			this.controllerPreview.TabIndex = 0;
+			this.controllerPreview.MouseHoverButton += new FourDO.Emulation.Plugins.Input.JohnnyInput.ControllerPreview.MouseHoverButtonHandler(this.controllerPreview_MouseHoverButton);
+			this.controllerPreview.MouseClick += new System.Windows.Forms.MouseEventHandler(this.controllerPreview_MouseClick);
+			this.controllerPreview.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.controllerPreview_MouseDoubleClick);
 			// 
 			// JohnnyInputSettings
 			// 

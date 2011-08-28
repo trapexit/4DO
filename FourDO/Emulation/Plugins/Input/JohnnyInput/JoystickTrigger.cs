@@ -16,6 +16,36 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.Type = type;
 		}
 
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+
+		public override bool Equals(object obj)
+		{
+			JoystickTrigger other = obj as JoystickTrigger;
+
+			if (other == null)
+				return base.Equals(obj);
+
+			// NOTE: This could (and probably should) check the type.
+			//       But, I don't care. Less maintenence is my preference.
+			if (this.Type != other.Type)
+				return false;
+			if (this.ButtonNumber != other.ButtonNumber)
+				return false;
+			if (this.Axis != other.Axis)
+				return false;
+			if (this.AxisPositive != other.AxisPositive)
+				return false;
+			if (this.PovNumber != other.PovNumber)
+				return false;
+			if (this.PovDirection != other.PovDirection)
+				return false;
+
+			return true;
+		}
+
 		public override string FriendlyName 
 		{
 			get

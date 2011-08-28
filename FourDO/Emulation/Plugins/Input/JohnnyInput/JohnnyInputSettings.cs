@@ -94,31 +94,41 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			}
 		}
 
+		private static JoystickTrigger lastResult = null;
 		private void JoystickTimer_Tick(object sender, EventArgs e)
 		{
-			JoystickTrigger newTrigger = watcher.WatchForTrigger();
-			if (newTrigger != null)
+			JoystickTrigger newTrigger = this.watcher.WatchForTrigger();
+
+			if (newTrigger != null && !newTrigger.Equals(lastResult))
 			{
 				if (this.isEditingButton)
 				{
 					this.DoStopEditButton(newTrigger);
 				}
 			}
+
+			lastResult = newTrigger;
 		}
 
 		private void JohnnyInputSettings_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (this.isEditingButton == false)
-				return;
-
-			e.Handled = true;
-			if (e.KeyCode == Keys.Escape)
+			if (this.isEditingButton == true)
 			{
-				this.DoStopEditButton();
-				return;
-			}
+				e.Handled = true;
+				if (e.KeyCode == Keys.Escape)
+				{
+					this.DoStopEditButton();
+					return;
+				}
 
-			this.DoStopEditButton(new KeyboardInputTrigger(e.KeyCode));
+				this.DoStopEditButton(new KeyboardInputTrigger(e.KeyCode));
+			}
+			else
+			{
+				// We also allow them to clear individual bindings.
+				if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
+					this.DoClearCellBinding();
+			}
 		}
 
 		private void ControlsGridView_KeyDown(object sender, KeyEventArgs e)
@@ -150,7 +160,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			
 			DataGridView.HitTestInfo info = this.ControlsGridView.HitTest(e.X, e.Y);
 			DataGridViewCell cell = this.TryGetCell(info.ColumnIndex, info.RowIndex);
-			InputButton? highlightedButton = this.GetRowInputButton(info.RowIndex);
+			InputButton? highlightedButton = this.FindInputButtonForRow(info.RowIndex);
 
 			// Show a hand cursor over link-styled cells
 			if (cell != null && cell.Style.Font != null && cell.Style.Font.Underline)
@@ -190,7 +200,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			// Was it a link?
 			if (cell.Style.Font != null && cell.Style.Font.Underline)
 			{
-				int setNumber = this.GetColumnSetIndex(cell.ColumnIndex);
+				int setNumber = this.FindSetIndexForColumn(cell.ColumnIndex);
 
 				if ((string)cell.Value == DELETE_SET_TEXT)
 					this.DoDeleteBinding(setNumber);
@@ -215,6 +225,28 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private void ControlsGridView_CellEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			this.UpdatePreviewBasedOnGrid();
+		}
+
+		private void controllerPreview_MouseHoverButton(MouseHoverButtonEventArgs e)
+		{
+			if (this.isEditingButton)
+				return;
+			
+			DataGridViewCell newCell = this.FindBestCellForInputButton(e.InputButton);
+			if (newCell != null)
+				this.ControlsGridView.CurrentCell = newCell;
+		}
+
+		private void controllerPreview_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			this.controllerPreview_MouseClick(sender, e);
+		}
+
+		private void controllerPreview_MouseClick(object sender, MouseEventArgs e)
+		{
+			DataGridViewCell newCell = this.FindBestCellForInputButton(this.controllerPreview.HoveredButton);
+			if (newCell != null)
+				this.DoStartEditButton(newCell);
 		}
 
 		#endregion // Event Handlers
@@ -487,7 +519,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			do
 			{
 				startRow++;
-				button = this.GetRowInputButton(startRow);
+				button = this.FindInputButtonForRow(startRow);
 			}
 			while (!button.HasValue && startRow < this.ControlsGridView.Rows.Count);
 
@@ -515,7 +547,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void UpdatePreviewBasedOnGrid()
 		{
-			InputButton? button = this.GetRowInputButton(this.ControlsGridView.CurrentCell);
+			InputButton? button = this.FindInputButtonForRow(this.ControlsGridView.CurrentCell);
 
 			this.UpdatePreviewToButton(button);
 		}
@@ -528,16 +560,20 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			if (cell == null)
 				return;
 
-			int setIndex = this.GetColumnSetIndex(cell);
+			int setIndex = this.FindSetIndexForColumn(cell);
 			if (setIndex < 0 || setIndex >= this.bindings.Count)
 				return;
 
-			InputButton? button = this.GetRowInputButton(cell);
+			InputButton? button = this.FindInputButtonForRow(cell);
 			if (button.HasValue == false)
 				return;
 
 			//////////////////
 			// Okay! We've got a button to bind.
+
+			this.controllerPreview.HighlightedButton = button;
+			this.ControlsGridView.Focus();
+			this.ControlsGridView.CurrentCell = cell;
 			
 			this.isEditingButton = true;
 			this.editedCell = cell;
@@ -557,13 +593,13 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				return;
 
 			int currentRowIndex = this.editedCell.RowIndex;
-			var currentSetNumber = this.GetColumnSetIndex(this.editedCell);
+			var currentSetNumber = this.FindSetIndexForColumn(this.editedCell);
 
 			// If there was a trigger sent in to complete the button editing, then bind it!
-			InputButton? button = this.GetRowInputButton(this.editedCell);
+			InputButton? button = this.FindInputButtonForRow(this.editedCell);
 			if (trigger != null && button != null)
 			{
-				int setNumber = this.GetColumnSetIndex(this.editedCell);
+				int setNumber = this.FindSetIndexForColumn(this.editedCell);
 				this.bindings.SetBinding(setNumber, button.Value, trigger);
 			}
 			else
@@ -572,17 +608,28 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			}
 			
 			// Finalize editing here.
-			this.UpdateUI();
 			this.editedCell = null;
 			this.isEditingButton = false;
+			this.UpdateUI();
 
 			// Move on to the next cell down (unless we were forcibly cancelled).
+			// Also, if the mouse is over the controller preview, we might not move to
+			// the next item.
 			DataGridViewCell nextCell = null;
 			if (trigger != null)
 			{
 				nextCell = this.GetNextInputButtonCell(currentRowIndex, currentSetNumber);
 				if (nextCell != null)
-					this.ControlsGridView.CurrentCell = nextCell;
+				{
+					if (this.IsMouseOverPreview() && !this.isSettingAll)
+					{
+						// If the mouse if over the controller preview
+						// AND we're not "setting all", it's safe to
+						// forego moving to the next item.
+					}
+					else
+						this.ControlsGridView.CurrentCell = nextCell;
+				}
 			}
 
 			// If we're in "setting all" mode, we also start editing the next item.
@@ -595,6 +642,40 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			}
 		}
 
+		private bool IsMouseOverPreview()
+		{
+			Rectangle controllerScreenRect = 
+					this.controllerPreview.RectangleToScreen(
+						new Rectangle(new Point(0,0), this.controllerPreview.Size));
+			Console.WriteLine(System.Windows.Forms.Cursor.Position.ToString());
+
+			bool inBounds = controllerScreenRect.Contains(System.Windows.Forms.Cursor.Position);
+			return inBounds;
+		}
+
+		private void DoClearCellBinding()
+		{
+			this.DoClearCellBinding(this.ControlsGridView.CurrentCell);
+		}
+
+		private void DoClearCellBinding(DataGridViewCell cell)
+		{
+			if (cell == null)
+				return;
+
+			InputButton? button = this.FindInputButtonForRow(cell);
+			int setIndex = this.FindSetIndexForColumn(cell);
+
+			if (!button.HasValue)
+				return;
+
+			if (setIndex == -1)
+				return;
+
+			this.bindings.SetBinding(setIndex, button.Value, null);
+			this.UpdateUI();
+		}
+
 		private void UpdatePreviewToButton(InputButton? button)
 		{
 			if (this.isEditingButton == true)
@@ -603,12 +684,15 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.controllerPreview.HighlightedButton = button;
 		}
 
-		private int GetColumnSetIndex(DataGridViewCell cell)
+		private int FindSetIndexForColumn(DataGridViewCell cell)
 		{
-			return this.GetColumnSetIndex(cell.ColumnIndex);
+			if (cell == null)
+				return -1;
+
+			return this.FindSetIndexForColumn(cell.ColumnIndex);
 		}
 
-		private int GetColumnSetIndex(int columnIndex)
+		private int FindSetIndexForColumn(int columnIndex)
 		{
 			if (columnIndex == (int)GridColumn.InputButton
 				|| columnIndex == (int)GridColumn.ButtonName
@@ -618,12 +702,58 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			return (int)this.ControlsGridView.Columns[columnIndex].Tag;
 		}
 
-		private InputButton? GetRowInputButton(DataGridViewCell cell)
+		private DataGridViewCell FindBestCellForInputButton(InputButton? button)
 		{
-			return this.GetRowInputButton(cell.RowIndex);
+			if (!button.HasValue)
+				return null;
+
+			int rowIndex = this.FindRowForInputButton(button.Value);
+			if (rowIndex == -1)
+				return null;
+
+			int currentSetIndex = this.FindSetIndexForColumn(this.ControlsGridView.CurrentCell);
+			if (currentSetIndex == -1)
+				currentSetIndex = 0;
+
+			int columnToSelect = this.FindColumnForSetIndex(currentSetIndex);
+
+			return this.TryGetCell(columnToSelect, rowIndex);
+		}
+
+		private int FindRowForInputButton(InputButton button)
+		{
+			for (int row = 0; row < this.ControlsGridView.Rows.Count; row++)
+			{
+				InputButton? rowButton = this.FindInputButtonForRow(row);
+				if (rowButton.HasValue && rowButton.Value == button)
+					return row;
+			}
+			return -1;
+		}
+
+		private int FindColumnForSetIndex(int setIndex)
+		{
+			for (int col = 0; col < this.ControlsGridView.Columns.Count; col++)
+			{
+				if (this.ControlsGridView.Columns[col].Tag is int)
+				{
+					int colSetIndex = (int)this.ControlsGridView.Columns[col].Tag;
+					if (colSetIndex == setIndex)
+						return col;
+				}
+			}
+			return -1;
+		}
+
+		private InputButton? FindInputButtonForRow(DataGridViewCell cell)
+		{
+			if (cell == null)
+				return null;
+
+			return this.FindInputButtonForRow(cell.RowIndex);
 		}
 		
-		private InputButton? GetRowInputButton(int rowIndex)
+		private InputButton? FindInputButtonForRow(int rowIndex)
 		{
 			if (rowIndex < 0)
 				return null;

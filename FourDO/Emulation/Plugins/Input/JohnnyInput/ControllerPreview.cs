@@ -20,9 +20,36 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private const int GLOW_G = 0;
 		private const int GLOW_B = 0;
 
+		private InputButton? lastHoverButton = null;
+
 		private InputButton? highlightedButton;
 		private int currentAlpha = PULSATE_ALPHA_MIN;
 		private bool increaseAlpha = true;
+
+		public delegate void MouseHoverButtonHandler(MouseHoverButtonEventArgs e);
+		public event MouseHoverButtonHandler MouseHoverButton;
+
+		public InputButton? HighlightedButton
+		{
+			get
+			{
+				return this.highlightedButton;
+			}
+			set
+			{
+				this.highlightedButton = value;
+				this.UpdateUI();
+				this.Invalidate();
+			}
+		}
+
+		public InputButton? HoveredButton
+		{
+			get
+			{
+				return this.lastHoverButton;
+			}
+		}	
 
 		public ControllerPreview()
 		{
@@ -39,57 +66,26 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			this.ButtonLabel.ForeColor = Color.FromArgb(GLOW_R, GLOW_G, GLOW_B);
 		}
+		
+		protected void OnMouseHoverButton(InputButton? button)
+		{
+			if (button != this.lastHoverButton)
+			{
+				if (this.MouseHoverButton != null)
+					this.MouseHoverButton(new MouseHoverButtonEventArgs(button));
+			}
+
+			this.lastHoverButton = button;
+		}
 
 		private void ControllerPreview_Resize(object sender, EventArgs e)
 		{
 			this.RepositionPositionTable();
 		}
 
-		public InputButton? HighlightedButton
-		{
-			get
-			{
-				return this.highlightedButton;
-			}
-			set
-			{
-				this.highlightedButton = value;
-				this.UpdateUI();
-				this.Invalidate();
-			}
-		}
-
 		private Control GetHighlightedControl()
 		{
-			if (!this.HighlightedButton.HasValue)
-				return null;
-
-			switch (this.highlightedButton.Value)
-			{
-				case InputButton.A:
-					return this.APanel;
-				case InputButton.B:
-					return this.BPanel;
-				case InputButton.C:
-					return this.CPanel;
-				case InputButton.X:
-					return this.XPanel;
-				case InputButton.P:
-					return this.PPanel;
-				case InputButton.L:
-					return this.LPanel;
-				case InputButton.R:
-					return this.RPanel;
-				case InputButton.Left:
-					return this.LeftPanel;
-				case InputButton.Right:
-					return this.RightPanel;
-				case InputButton.Up:
-					return this.UpPanel;
-				case InputButton.Down:
-					return this.DownPanel;
-			}
-			return null;
+			return this.GetPanelForButton(this.highlightedButton);
 		}
 
 		private void UpdateUI()
@@ -219,6 +215,73 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			this.ButtonPositionPanel.Top = this.Height;
 			this.ButtonPositionPanel.Left = this.Width;
+		}
+
+		private void ControllerPreview_MouseLeave(object sender, EventArgs e)
+		{
+			this.OnMouseHoverButton(null);
+		}
+
+		private void ControllerPreview_MouseMove(object sender, MouseEventArgs e)
+		{
+			var buttons = (InputButton[]) Enum.GetValues(typeof(InputButton));
+			foreach (InputButton button in buttons)
+			{
+				Panel boundsPanel = this.GetPanelForButton(button);
+				if (boundsPanel != null)
+				{
+					Rectangle bounds = this.GetDescendantBounds(boundsPanel);
+					if (bounds.Contains(e.Location))
+					{
+						this.OnMouseHoverButton(button);
+						return;
+					}
+				}
+			}
+			this.OnMouseHoverButton(null);
+		}
+
+		private Panel GetPanelForButton(InputButton? button)
+		{
+			if (!button.HasValue)
+				return null;
+
+			switch (button.Value)
+			{
+				case InputButton.A:
+					return this.APanel;
+				case InputButton.B:
+					return this.BPanel;
+				case InputButton.C:
+					return this.CPanel;
+				case InputButton.X:
+					return this.XPanel;
+				case InputButton.P:
+					return this.PPanel;
+				case InputButton.L:
+					return this.LPanel;
+				case InputButton.R:
+					return this.RPanel;
+				case InputButton.Left:
+					return this.LeftPanel;
+				case InputButton.Right:
+					return this.RightPanel;
+				case InputButton.Up:
+					return this.UpPanel;
+				case InputButton.Down:
+					return this.DownPanel;
+			}
+			return null;
+		}
+	}
+
+	public class MouseHoverButtonEventArgs : EventArgs
+	{
+		public InputButton? InputButton { get; set; }
+
+		public MouseHoverButtonEventArgs(InputButton? button)
+		{
+			this.InputButton = button;
 		}
 	}
 }
