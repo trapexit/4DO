@@ -64,24 +64,24 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 						this.Joysticks.Add(new JoyCache { JoyStick = joystick });
 					}
 				}
+			}
 
-				/////////////////////
-				// Remove caches for any devices that no longer exist.
+			/////////////////////
+			// Remove caches for any devices that no longer exist.
 
-				// Identify removed items.
-				var removedCaches = new List<JoyCache>();
-				foreach (var joystick in this.Joysticks)
-				{
-					if (devices.Any<DeviceInstance>(x => x.InstanceGuid == joystick.JoyStick.Information.InstanceGuid) == false)
-						removedCaches.Add(joystick);
-				}
+			// Identify removed items.
+			var removedCaches = new List<JoyCache>();
+			foreach (var joystick in this.Joysticks)
+			{
+				if (devices.Any<DeviceInstance>(x => x.InstanceGuid == joystick.JoyStick.Information.InstanceGuid) == false)
+					removedCaches.Add(joystick);
+			}
 
-				// Remove each item.
-				foreach (var removedCache in removedCaches)
-				{
-					removedCache.JoyStick.Unacquire();
-					this.Joysticks.Remove(removedCache);
-				}
+			// Remove each item.
+			foreach (var removedCache in removedCaches)
+			{
+				removedCache.JoyStick.Unacquire();
+				this.Joysticks.Remove(removedCache);
 			}
 		}
 
@@ -118,6 +118,28 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				case JoystickTriggerAxis.Z: return state.Z;
 				default: return 0;
 			}
+		}
+
+		protected JoystickTriggerPovDirection GetPovDirection(int value, bool allowDiagonals = true)
+		{
+			if (value == 0)
+				return JoystickTriggerPovDirection.Up;
+			else if (value == 4500 && allowDiagonals)
+				return JoystickTriggerPovDirection.Up | JoystickTriggerPovDirection.Right;
+			else if (value == 9000)
+				return JoystickTriggerPovDirection.Right;
+			else if (value == 13500 && allowDiagonals)
+				return JoystickTriggerPovDirection.Right | JoystickTriggerPovDirection.Down;
+			else if (value == 18000)
+				return JoystickTriggerPovDirection.Down;
+			else if (value == 22500 && allowDiagonals)
+				return JoystickTriggerPovDirection.Down | JoystickTriggerPovDirection.Left;
+			else if (value == 27000)
+				return JoystickTriggerPovDirection.Left;
+			else if (value == 31500 && allowDiagonals)
+				return JoystickTriggerPovDirection.Left;
+
+			return 0; // er... yikes.
 		}
 	}
 }

@@ -50,26 +50,47 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			get
 			{
+				StringBuilder friendlyName = new StringBuilder();
+
+				friendlyName.Append("joy");
+				if (this.DeviceInstance != null)
+					friendlyName.Append(this.DeviceInstance.Substring(0,4).ToUpper());
+				friendlyName.Append(" : ");
+
 				switch (this.Type)
 				{
 					case JoystickTriggerType.Button:
-						return "Button " + this.ButtonNumber.ToString();
+						friendlyName.Append("Button ");
+						friendlyName.Append(this.ButtonNumber.ToString());
+						break;
 
 					case JoystickTriggerType.Axis:
-						return (this.AxisPositive ? "+" : "-") + this.Axis.ToString() + " Axis";
+						friendlyName.Append(this.AxisPositive ? "+" : "-");
+						friendlyName.Append(this.Axis.ToString());
+						friendlyName.Append(" Axis");
+						break;
 
 					case JoystickTriggerType.Pov:
-						return "PoV " + this.PovNumber.ToString() + " " +
-							((this.PovDirection == JoystickTriggerPovDirection.Up) ? @"/\" :
+						friendlyName.Append("PoV ");
+						friendlyName.Append(this.PovNumber.ToString());
+						friendlyName.Append(" ");
+						friendlyName.Append(
+							(this.PovDirection == JoystickTriggerPovDirection.Up) ? @"/\" :
 							(this.PovDirection == JoystickTriggerPovDirection.Down) ? @"\/" :
 							(this.PovDirection == JoystickTriggerPovDirection.Left) ? @"< " :
 							(this.PovDirection == JoystickTriggerPovDirection.Right) ? @" >" : "");
+						break;
 				}
-				return null;
+				return friendlyName.ToString();
 			}
 		}
 
-		public Guid DeviceInstance { get; set; } // Unique ID for the device
+		public Guid GetDeviceInstanceAsGuid()
+		{
+			return Guid.Parse(this.DeviceInstance);
+		}
+
+		public string DeviceInstance { get; set; } // Unique ID for the device
 		public JoystickTriggerType Type { get; set; }
 
 		public int ButtonNumber { get; set; }

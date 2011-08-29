@@ -8,14 +8,54 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
 	internal class JoyInputWatcher : JoyInput
 	{
-		public JoyInputWatcher() {}
+		public JoyInputWatcher() 
+		{
+			this.UpdateJoystickList();
+		}
+
+		public int GetCurrentJoystickCount()
+		{
+			return this.Joysticks.Count;
+		}
+
+		public string GetCurrentJoystickList()
+		{
+			var text = new StringBuilder();
+
+			text.AppendLine("Current Devices:");
+			text.AppendLine();
+
+			// Lie and say a keyboard is always detected. We're suckering them bad!.
+			text.AppendLine("#1. Keyboard");
+			text.AppendLine();
+
+			int devNumber = 2;
+			foreach (var joyCache in this.Joysticks)
+			{
+				text.Append("#");
+				text.Append(devNumber);
+				text.Append(". Joystick");
+				text.AppendLine();
+
+				text.AppendLine(joyCache.JoyStick.Information.InstanceGuid.ToString().ToUpper());
+				text.AppendLine(joyCache.JoyStick.Information.InstanceName);
+				text.AppendLine();
+
+				devNumber++;
+			}
+
+			return text.ToString();
+		}
+
+		public void UpdateJoystickListCache()
+		{
+			// update list of joysticks.
+			this.UpdateJoystickList();
+		}
 
 		public JoystickTrigger WatchForTrigger()
 		{
 			JoystickTrigger newTrigger = null;
-
-			// update list of joysticks.
-			this.UpdateJoystickList();
 
 			// For each cached device, watch for actions.
 			List<JoyCache> deadJoysticks = new List<JoyCache>();
@@ -67,6 +107,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				if (newButtons[button] && !oldButtons[button])
 				{
 					var newTrigger = new JoystickTrigger();
+					newTrigger.DeviceInstance = joystick.Information.InstanceGuid.ToString();
 					newTrigger.Type = JoystickTriggerType.Button;
 					newTrigger.ButtonNumber = button;
 					return newTrigger;
@@ -91,6 +132,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 						continue; // the axis isn't far enough. Screw em!
 
 					var newTrigger = new JoystickTrigger();
+					newTrigger.DeviceInstance = joystick.Information.InstanceGuid.ToString();
 					newTrigger.Type = JoystickTriggerType.Axis;
 					newTrigger.Axis = axis;
 					newTrigger.AxisPositive = positive; 
@@ -121,6 +163,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 						continue; // we don't accept diagnols here.
 						
 					var newTrigger = new JoystickTrigger();
+					newTrigger.DeviceInstance = joystick.Information.InstanceGuid.ToString();
 					newTrigger.Type = JoystickTriggerType.Pov;
 					newTrigger.PovNumber = pov;
 					newTrigger.PovDirection = direction;

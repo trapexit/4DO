@@ -452,8 +452,10 @@ namespace FourDO.UI
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			About aboutForm = new About();
-			aboutForm.ShowDialog(this);
+			using (var aboutForm = new About())
+			{
+				aboutForm.ShowDialog(this);
+			}
 		}
 
 		private void resetMenuItem_Click(object sender, EventArgs e)
@@ -773,40 +775,42 @@ namespace FourDO.UI
 
 		private void DoChooseBiosRom()
 		{
-			OpenFileDialog openDialog = new OpenFileDialog();
-
-			openDialog.InitialDirectory = this.GetLastRomDirectory();
-			openDialog.Filter = "rom files (*.rom)|*.rom|All files (*.*)|*.*";
-			openDialog.RestoreDirectory = true;
-
-			if (openDialog.ShowDialog() == DialogResult.OK)
+			using (var openDialog = new OpenFileDialog())
 			{
-				Properties.Settings.Default.BiosRomFile = openDialog.FileName;
-				Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
-				Properties.Settings.Default.Save();
+				openDialog.InitialDirectory = this.GetLastRomDirectory();
+				openDialog.Filter = "rom files (*.rom)|*.rom|All files (*.*)|*.*";
+				openDialog.RestoreDirectory = true;
 
-				this.DoConsoleStart(true);
+				if (openDialog.ShowDialog() == DialogResult.OK)
+				{
+					Properties.Settings.Default.BiosRomFile = openDialog.FileName;
+					Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
+					Properties.Settings.Default.Save();
+
+					this.DoConsoleStart(true);
+				}
 			}
 		}
 
 		private void DoChooseGameRom()
 		{
-			OpenFileDialog openDialog = new OpenFileDialog();
-
-			openDialog.InitialDirectory = this.GetLastRomDirectory();
-			openDialog.Filter = "iso files (*.iso)|*.iso|All files (*.*)|*.*";
-			openDialog.RestoreDirectory = true;
-
-			if (openDialog.ShowDialog() == DialogResult.OK)
+			using (var openDialog = new OpenFileDialog())
 			{
-				Properties.Settings.Default.GameRomFile = openDialog.FileName;
-				Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.File;
-				Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
-				Properties.Settings.Default.Save();
+				openDialog.InitialDirectory = this.GetLastRomDirectory();
+				openDialog.Filter = "iso files (*.iso)|*.iso|All files (*.*)|*.*";
+				openDialog.RestoreDirectory = true;
 
-				// Start it for them.
-				// Some people may want a prompt. However, I never like this. So, screw em.
-				this.DoConsoleReset(true);
+				if (openDialog.ShowDialog() == DialogResult.OK)
+				{
+					Properties.Settings.Default.GameRomFile = openDialog.FileName;
+					Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.File;
+					Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
+					Properties.Settings.Default.Save();
+
+					// Start it for them.
+					// Some people may want a prompt. However, I never like this. So, screw em.
+					this.DoConsoleReset(true);
+				}
 			}
 		}
 
@@ -911,8 +915,10 @@ namespace FourDO.UI
 
 		private void DoShowSettings()
 		{
-			Settings settingsForm = new Settings();
-			settingsForm.ShowDialog(this);
+			using (var settingsForm = new Settings())
+			{
+				settingsForm.ShowDialog(this);
+			}
 		}
 
 		private void DoShowConfigureInput()

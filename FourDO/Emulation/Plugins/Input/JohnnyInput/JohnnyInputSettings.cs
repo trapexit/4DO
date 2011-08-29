@@ -53,6 +53,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.DialogResult = DialogResult.Cancel;
 
 			this.InitializeComponent();
+
+			this.CurrentDevicesLabel.Bounds = this.controllerPreview.Bounds;
+			this.CurrentDevicesLabel.BringToFront();
+			this.CurrentDevicesLabel.Visible = false;
 		}
 
 		public string BindingsFilePath { get; private set; }
@@ -96,11 +100,22 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			}
 		}
 
-		private static JoystickTrigger lastResult = null;
+
+		private void controllerInfo_LinkMouseEnter(object sender, EventArgs e)
+		{
+			this.CurrentDevicesLabel.Text = this.watcher.GetCurrentJoystickList();
+			this.CurrentDevicesLabel.Visible = true;
+		}
+
+		private void controllerInfo_LinkMouseLeave(object sender, EventArgs e)
+		{
+			this.CurrentDevicesLabel.Visible = false;
+		}
+
+		private JoystickTrigger lastResult = null;
 		private void JoystickTimer_Tick(object sender, EventArgs e)
 		{
 			JoystickTrigger newTrigger = this.watcher.WatchForTrigger();
-
 			if (newTrigger != null && !newTrigger.Equals(lastResult))
 			{
 				if (this.isEditingButton)
@@ -112,9 +127,15 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			lastResult = newTrigger;
 		}
 
+		private void RefreshJoystickListTimer_Tick(object sender, EventArgs e)
+		{
+			this.watcher.UpdateJoystickListCache();
+			this.controllerInfo.DeviceCount = this.watcher.GetCurrentJoystickCount() + 1;
+		}
+
 		private void JohnnyInputSettings_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (this.isEditingButton == true)
+			if (this.isEditingButton)
 			{
 				e.Handled = true;
 				if (e.KeyCode == Keys.Escape)
@@ -138,7 +159,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			if (e.KeyCode == Keys.Enter)
 				e.Handled = true; // I never want the damn enter key to go to the next cell.
 
-			if (this.isEditingButton == true)
+			if (this.isEditingButton)
 				return;
 
 			if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
@@ -576,7 +597,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.controllerPreview.HighlightedButton = button;
 			this.ControlsGridView.Focus();
 			this.ControlsGridView.CurrentCell = cell;
-			
+
 			this.isEditingButton = true;
 			this.editedCell = cell;
 			this.editedCell.Style = editingStyle;
@@ -591,7 +612,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void DoStopEditButton(InputTrigger trigger)
 		{
-			if (this.isEditingButton == false)
+			if (!this.isEditingButton)
 				return;
 
 			int currentRowIndex = this.editedCell.RowIndex;
@@ -679,7 +700,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void UpdatePreviewToButton(InputButton? button)
 		{
-			if (this.isEditingButton == true)
+			if (this.isEditingButton)
 				return;
 
 			this.controllerPreview.HighlightedButton = button;

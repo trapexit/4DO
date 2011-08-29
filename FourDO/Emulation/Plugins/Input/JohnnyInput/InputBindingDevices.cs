@@ -37,6 +37,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		public static InputBindingDevices LoadFromFile(string fileName)
 		{
+			if (!File.Exists(fileName))
+				return null;
+
 			InputBindingDevices result = new InputBindingDevices();
 			CustomXmlSerializer serializer = new CustomXmlSerializer();
 			serializer.ReadXml(fileName, result);
@@ -74,16 +77,13 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			return device.BindingSets.GetTrigger(setNumber, button);
 		}
 
-		public List<InputTrigger> GetTriggers(InputButton button)
+		public List<InputTrigger> GetTriggers(int deviceNumber, InputButton button)
 		{
-			var returnValue = new List<InputTrigger>();
-			foreach (InputBindingDevice device in this.devices)
-			{
-				List<InputTrigger> newTriggers = device.BindingSets.GetTriggers(button);
-				if (newTriggers != null)
-					returnValue.AddRange(newTriggers);
-			}
-			return returnValue;
+			if (deviceNumber < 0 || deviceNumber >= this.devices.Count)
+				return null;
+
+			var device = this.devices[deviceNumber];
+			return device.BindingSets.GetTriggers(button);
 		}
 
 		public InputBindingDevice AddDevice()

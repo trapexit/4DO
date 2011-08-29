@@ -23,6 +23,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private static extern short GetKeyState(int keyCode);
 		private const int KEY_PRESSED = 0x8000;
 
+		private JoyInputChecker joyChecker = new JoyInputChecker();
 		private InputBindingDevices devices;
 		private static string bindingsFilePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), BINDINGS_FILE_NAME);
 
@@ -42,40 +43,51 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		public void ShowSettings(IWin32Window owner)
 		{
-			JohnnyInputSettings settingsForm = new JohnnyInputSettings(devices, JohnnyInputPlugin.bindingsFilePath);
-			if (settingsForm.ShowDialog(owner) != DialogResult.Cancel)
+			using (var settingsForm = new JohnnyInputSettings(this.devices, JohnnyInputPlugin.bindingsFilePath))
 			{
-				this.LoadKeys();
+				if (settingsForm.ShowDialog(owner) != DialogResult.Cancel)
+				{
+					this.LoadKeys();
+				}
 			}
 		}
 
+		static int frameNumber = 0;
 		public byte[] GetPbusData()
 		{
+			frameNumber++;
+			if (frameNumber % 60 == 0)
+				this.joyChecker.UpdateDeviceCache(); // NOTE: This is once every 60 frames... we could do it less often?
+			this.joyChecker.UpdateValueCache();
+
+			////////////////////////////
+			// Set up raw data to return.
+	
 			byte[] data = new byte[16];
 			byte calculatedByte = 0;
-
+			
 			data[0x0] = 0x00;
 			data[0x1] = 0x49;
 
 			calculatedByte = 0;
-			calculatedByte |= this.CheckDownButton(InputButton.X) ? (byte)0x10 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(InputButton.P) ? (byte)0x20 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(InputButton.C) ? (byte)0x40 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(InputButton.B) ? (byte)0x80 : (byte)0; // Positive!
-			//calculatedByte |= this.CheckDownButton(JohnnyInputButton.?) ? (byte)0x01 : (byte)0; // dunno
-			//calculatedByte |= this.CheckDownButton(JohnnyInputButton.?) ? (byte)0x02 : (byte)0; // dunno
-			calculatedByte |= this.CheckDownButton(InputButton.L) ? (byte)0x04 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(InputButton.R) ? (byte)0x08 : (byte)0; // Positive!
+			calculatedByte |= this.CheckDownButton(0, InputButton.X) ? (byte)0x10 : (byte)0; // Positive!
+			calculatedByte |= this.CheckDownButton(0, InputButton.P) ? (byte)0x20 : (byte)0; // Positive!
+			calculatedByte |= this.CheckDownButton(0, InputButton.C) ? (byte)0x40 : (byte)0; // Positive!
+			calculatedByte |= this.CheckDownButton(0, InputButton.B) ? (byte)0x80 : (byte)0; // Positive!
+			//calculatedByte |= this.CheckDownButton(0, JohnnyInputButton.?) ? (byte)0x01 : (byte)0; // dunno
+			//calculatedByte |= this.CheckDownButton(0, JohnnyInputButton.?) ? (byte)0x02 : (byte)0; // dunno
+			calculatedByte |= this.CheckDownButton(0, InputButton.L) ? (byte)0x04 : (byte)0; // Positive!
+			calculatedByte |= this.CheckDownButton(0, InputButton.R) ? (byte)0x08 : (byte)0; // Positive!
 			data[0x2] = calculatedByte;
 
 			calculatedByte = 0;
-			calculatedByte |= this.CheckDownButton(InputButton.A) ? (byte)0x01 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(InputButton.Left) ? (byte)0x02 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(InputButton.Right) ? (byte)0x04 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(InputButton.Up) ? (byte)0x08 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(InputButton.Down) ? (byte)0x10 : (byte)0; // Positive!
-			//calculatedByte |= this.CheckDownButton(JohnnyInputButton.?) ? (byte)0x20 : (byte)0; // dunno
-			//calculatedByte |= this.CheckDownButton(JohnnyInputButton.?) ? (byte)0x40 : (byte)0; // dunno
+			calculatedByte |= this.CheckDownButton(0, InputButton.A) ? (byte)0x01 : (byte)0; // Positive!
+			calculatedByte |= this.CheckDownButton(0, InputButton.Left) ? (byte)0x02 : (byte)0; // Positive!
+			calculatedByte |= this.CheckDownButton(0, InputButton.Right) ? (byte)0x04 : (byte)0; // Positive!
+			calculatedByte |= this.CheckDownButton(0, InputButton.Up) ? (byte)0x08 : (byte)0; // Positive!
+			calculatedByte |= this.CheckDownButton(0, InputButton.Down) ? (byte)0x10 : (byte)0; // Positive!
+			//calculatedByte |= this.CheckDownButton(0, JohnnyInputButton.?) ? (byte)0x20 : (byte)0; // dunno
+			//calculatedByte |= this.CheckDownButton(0, JohnnyInputButton.?) ? (byte)0x40 : (byte)0; // dunno
 			calculatedByte |= (byte)0x80;
 			data[0x3] = calculatedByte;
 
@@ -121,12 +133,12 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.devices = newDevices;
 		}
 
-		private bool CheckDownButton(InputButton button)
+		private bool CheckDownButton(int deviceNumber, InputButton button)
 		{
 			if (this.devices == null)
 				return false;
 
-			List<InputTrigger> triggers = this.devices.GetTriggers(button);
+			List<InputTrigger> triggers = this.devices.GetTriggers(deviceNumber, button);
 			if (triggers == null)
 				return false;
 
@@ -140,6 +152,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				else if (trigger is JoystickTrigger)
 				{
 					JoystickTrigger joyTrigger = (JoystickTrigger)trigger;
+					if (this.joyChecker.CheckTrigger(joyTrigger))
+						return true;
 				}
 			}
   

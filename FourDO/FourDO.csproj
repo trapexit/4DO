@@ -80,6 +80,12 @@
     <Compile Include="Emulation\FreeDO\FreeDOCore.cs" />
     <Compile Include="Emulation\FreeDO\VDLFrame.cs" />
     <Compile Include="Emulation\Plugins\IInputPlugin.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\ControllerInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\ControllerInfo.Designer.cs">
+      <DependentUpon>ControllerInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingDevice.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingDevices.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyHelper.cs" />
@@ -174,6 +180,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\PortableSettingsProvider.cs" />
+    <EmbeddedResource Include="Emulation\Plugins\Input\JohnnyInput\ControllerInfo.resx">
+      <DependentUpon>ControllerInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Emulation\Plugins\Input\JohnnyInput\ControllerPreview.resx">
       <DependentUpon>ControllerPreview.cs</DependentUpon>
     </EmbeddedResource>
