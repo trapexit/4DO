@@ -1,0 +1,123 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using SlimDX.DirectInput;
+
+namespace FourDO.Emulation.Plugins.Input.JohnnyInput
+{
+	abstract internal class JoyInput
+	{
+		protected class JoyCache
+		{
+			public Joystick JoyStick { get; set; }
+			public JoystickState LastState { get; set; }
+		}
+
+		protected List<JoyCache> Joysticks = new List<JoyCache>();
+		protected DirectInput DirectInput = new DirectInput();
+
+		protected JoystickState GetCurrentState(Joystick joyStick)
+		{
+			JoystickState currentState = new JoystickState();
+			SlimDX.Result result = joyStick.GetCurrentState(ref currentState);
+
+			// If we had a failure, try to revive the joystick.
+			if (result.IsFailure)
+			{
+				if (result.Code != ResultCode.InputLost.Code)
+					return null;
+				else
+				{
+					// We were un-acquired. Attempt to re-acquire.
+					if (joyStick.Acquire().IsFailure)
+					{
+						// We tried all we could.
+						return null;
+					}
+
+					// We reacquired! Try to get the data again.
+					if (joyStick.GetCurrentState(ref currentState).IsFailure)
+						return null;
+				}
+			}
+
+			// (if we got this far, we successfully acquired the data)
+
+			return currentState;
+		}
+
+		protected void UpdateJoystickList()
+		{
+			// Get all joysticks.
+			List<DeviceInstance> devices = JoyHelper.GetJoystickDevices();
+
+			foreach (var device in devices)
+			{
+				//////////////////////
+				// Add caches for anything we don't have.
+				if (this.Joysticks.Any<JoyCache>(x => x.JoyStick.Information.InstanceGuid == device.InstanceGuid) == false)
+				{
+					var joystick = new Joystick(this.DirectInput, device.InstanceGuid);
+					if (joystick.Acquire().IsSuccess)
+					{
+						this.Joysticks.Add(new JoyCache { JoyStick = joystick });
+					}
+				}
+
+				/////////////////////
+				// Remove caches for any devices that no longer exist.
+
+				// Identify removed items.
+				var removedCaches = new List<JoyCache>();
+				foreach (var joystick in this.Joysticks)
+				{
+					if (devices.Any<DeviceInstance>(x => x.InstanceGuid == joystick.JoyStick.Information.InstanceGuid) == false)
+						removedCaches.Add(joystick);
+				}
+
+				// Remove each item.
+				foreach (var removedCache in removedCaches)
+				{
+					removedCache.JoyStick.Unacquire();
+					this.Joysticks.Remove(removedCache);
+				}
+			}
+		}
+
+		protected static int GetAxisValue(JoystickState state, JoystickTriggerAxis axis)
+		{
+			if (state == null)
+				return 0;
+
+			switch (axis)
+			{
+				case JoystickTriggerAxis.AccelX: return state.AccelerationX;
+				case JoystickTriggerAxis.AccelY: return state.AccelerationY;
+				case JoystickTriggerAxis.AccelZ: return state.AccelerationZ;
+				case JoystickTriggerAxis.AngAccelX: return state.AngularAccelerationX;
+				case JoystickTriggerAxis.AngAccelY: return state.AngularAccelerationY;
+				case JoystickTriggerAxis.AngAccelZ: return state.AngularAccelerationZ;
+				case JoystickTriggerAxis.AngVelX: return state.AngularVelocityX;
+				case JoystickTriggerAxis.AngVelY: return state.AngularVelocityY;
+				case JoystickTriggerAxis.AngVelZ: return state.AngularVelocityZ;
+				case JoystickTriggerAxis.ForceX: return state.ForceX;
+				case JoystickTriggerAxis.ForceY: return state.ForceY;
+				case JoystickTriggerAxis.ForceZ: return state.ForceZ;
+				case JoystickTriggerAxis.RotX: return state.RotationX;
+				case JoystickTriggerAxis.RotY: return state.RotationY;
+				case JoystickTriggerAxis.RotZ: return state.RotationZ;
+				case JoystickTriggerAxis.TorqX: return state.TorqueX;
+				case JoystickTriggerAxis.TorqY: return state.TorqueY;
+				case JoystickTriggerAxis.TorqZ: return state.TorqueZ;
+				case JoystickTriggerAxis.VelX: return state.VelocityX;
+				case JoystickTriggerAxis.VelY: return state.VelocityY;
+				case JoystickTriggerAxis.VelZ: return state.VelocityZ;
+				case JoystickTriggerAxis.X: return state.X;
+				case JoystickTriggerAxis.Y: return state.Y;
+				case JoystickTriggerAxis.Z: return state.Z;
+				default: return 0;
+			}
+		}
+	}
+}

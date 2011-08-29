@@ -80,6 +80,11 @@
     <Compile Include="Emulation\FreeDO\FreeDOCore.cs" />
     <Compile Include="Emulation\FreeDO\VDLFrame.cs" />
     <Compile Include="Emulation\Plugins\IInputPlugin.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingDevice.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingDevices.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyHelper.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyInput.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyInputChecker.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyInputWatcher.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoystickTriggerPovDirection.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\ControllerPreview.cs">
@@ -111,9 +116,6 @@
     </Compile>
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputSettings.Designer.cs">
       <DependentUpon>JohnnyInputSettings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyHelper.cs">
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoystickTrigger.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoystickTriggerAxis.cs" />

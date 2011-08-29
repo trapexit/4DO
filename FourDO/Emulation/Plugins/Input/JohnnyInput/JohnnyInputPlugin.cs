@@ -23,7 +23,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private static extern short GetKeyState(int keyCode);
 		private const int KEY_PRESSED = 0x8000;
 
-		private InputBindingSets bindings;
+		private InputBindingDevices devices;
 		private static string bindingsFilePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), BINDINGS_FILE_NAME);
 
 		public JohnnyInputPlugin()
@@ -42,7 +42,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		public void ShowSettings(IWin32Window owner)
 		{
-			JohnnyInputSettings settingsForm = new JohnnyInputSettings(bindings, JohnnyInputPlugin.bindingsFilePath);
+			JohnnyInputSettings settingsForm = new JohnnyInputSettings(devices, JohnnyInputPlugin.bindingsFilePath);
 			if (settingsForm.ShowDialog(owner) != DialogResult.Cancel)
 			{
 				this.LoadKeys();
@@ -101,32 +101,32 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			JohnnyInputPlugin.bindingsFilePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), BINDINGS_FILE_NAME);
 
-			InputBindingSets newBindings = null;
+			InputBindingDevices newDevices = null;
 			try
 			{
-				newBindings = InputBindingSets.LoadFromFile(JohnnyInputPlugin.bindingsFilePath);
+				newDevices = InputBindingDevices.LoadFromFile(JohnnyInputPlugin.bindingsFilePath);
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("Failed when loading bindings: " + ex.ToString());
 			}
 
-			if (newBindings == null)
-				newBindings = InputBindingSets.LoadDefault();
+			if (newDevices == null)
+				newDevices = InputBindingDevices.LoadDefault();
 
 			/////////////
 			// Use the new bindings.
 
 			// TODO: Does this need to be thread protected?
-			this.bindings = newBindings;
+			this.devices = newDevices;
 		}
 
 		private bool CheckDownButton(InputButton button)
 		{
-			if (this.bindings == null)
+			if (this.devices == null)
 				return false;
 
-			List<InputTrigger> triggers = this.bindings.GetTriggers(button);
+			List<InputTrigger> triggers = this.devices.GetTriggers(button);
 			if (triggers == null)
 				return false;
 

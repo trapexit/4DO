@@ -6,18 +6,9 @@ using SlimDX.DirectInput;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
-	internal class JoyWatcher
+	internal class JoyInputWatcher : JoyInput
 	{
-		private class JoyCache
-		{
-			public Joystick JoyStick { get; set; }
-			public JoystickState LastState { get; set; }
-		}
-
-		private List<JoyCache> joysticks = new List<JoyCache>();
-		private DirectInput directInput = new DirectInput();
-
-		public JoyWatcher() {}
+		public JoyInputWatcher() {}
 
 		public JoystickTrigger WatchForTrigger()
 		{
@@ -28,7 +19,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			// For each cached device, watch for actions.
 			List<JoyCache> deadJoysticks = new List<JoyCache>();
-			foreach (var joyCache in this.joysticks)
+			foreach (var joyCache in this.Joysticks)
 			{
 				// Get the state.
 				JoystickState currentState = this.GetCurrentState(joyCache.JoyStick);
@@ -58,7 +49,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			}
 
 			// Kill any joysticks that have passed away.
-			deadJoysticks.ForEach(x => this.joysticks.Remove(x));
+			deadJoysticks.ForEach(x => this.Joysticks.Remove(x));
 
 			// Return what we found. If we found nothing, it'll be null.
 			return newTrigger;
@@ -87,8 +78,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			var axi = (JoystickTriggerAxis[]) Enum.GetValues(typeof(JoystickTriggerAxis));
 			foreach (JoystickTriggerAxis axis in axi)
 			{
-				int oldAxisValue = JoyHelper.GetAxisValue(oldState, axis);
-				int newAxisValue = JoyHelper.GetAxisValue(newState, axis);
+				int oldAxisValue = JoyInput.GetAxisValue(oldState, axis);
+				int newAxisValue = JoyInput.GetAxisValue(newState, axis);
 				if (oldAxisValue != newAxisValue)
 				{
 					bool positive;
@@ -139,74 +130,6 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			// We checked everything. There's no new trigger to be found.
 			return null;
-		}
-
-		private JoystickState GetCurrentState(Joystick joyStick)
-		{
-			JoystickState currentState = new JoystickState();
-			SlimDX.Result result = joyStick.GetCurrentState(ref currentState);
-
-			// If we had a failure, try to revive the joystick.
-			if (result.IsFailure)
-			{
-				if (result.Code != ResultCode.InputLost.Code)
-					return null;
-				else
-				{
-					// We were un-acquired. Attempt to re-acquire.
-					if (joyStick.Acquire().IsFailure)
-					{
-						// We tried all we could.
-						return null;
-					}
-
-					// We reacquired! Try to get the data again.
-					if (joyStick.GetCurrentState(ref currentState).IsFailure)
-						return null;
-				}
-			}
-
-			// (if we got this far, we successfully acquired the data)
-
-			return currentState;
-		}
-
-		private void UpdateJoystickList()
-		{
-			// Get all joysticks.
-			List<DeviceInstance> devices = JoyHelper.GetJoystickDevices();
-
-			foreach (var device in devices)
-			{
-				//////////////////////
-				// Add caches for anything we don't have.
-				if (this.joysticks.Any<JoyCache>(x => x.JoyStick.Information.InstanceGuid == device.InstanceGuid) == false)
-				{
-					var joystick = new Joystick(this.directInput, device.InstanceGuid);
-					if (joystick.Acquire().IsSuccess)
-					{
-						this.joysticks.Add(new JoyCache { JoyStick = joystick });
-					}
-				}
-
-				/////////////////////
-				// Remove caches for any devices that no longer exist.
-
-				// Identify removed items.
-				var removedCaches = new List<JoyCache>();
-				foreach (var joystick in this.joysticks)
-				{
-					if (devices.Any<DeviceInstance>(x => x.InstanceGuid == joystick.JoyStick.Information.InstanceGuid) == false)
-						removedCaches.Add(joystick);
-				}
-
-				// Remove each item.
-				foreach (var removedCache in removedCaches)
-				{
-					removedCache.JoyStick.Unacquire();
-					this.joysticks.Remove(removedCache);
-				}
-			}
 		}
 	}
 }

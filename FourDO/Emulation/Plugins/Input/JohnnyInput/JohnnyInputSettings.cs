@@ -29,9 +29,11 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private DataGridViewCell editedCell = null;
 		private bool isSettingAll = false;
 
-		private JoyWatcher watcher = new JoyWatcher();
+		private int deviceNumber = 0; // always 0 for now.
 
-		InputBindingSets bindings;
+		private JoyInputWatcher watcher = new JoyInputWatcher();
+
+		InputBindingDevices devices;
 
 		DataGridViewCellStyle linkStyleNormal;
 		DataGridViewCellStyle linkStyleBold;
@@ -43,9 +45,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		[DllImport("user32.dll")]
 		private static extern bool LockWindowUpdate(IntPtr hWndLock);
 
-		public JohnnyInputSettings(InputBindingSets originalBindings, string bindingsFilePath)
+		public JohnnyInputSettings(InputBindingDevices originalDeviceBindings, string bindingsFilePath)
 		{
-			this.bindings = (InputBindingSets)originalBindings.Clone();
+			this.devices = (InputBindingDevices)originalDeviceBindings.Clone();
 			this.BindingsFilePath = bindingsFilePath;
 
 			this.DialogResult = DialogResult.Cancel;
@@ -79,7 +81,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			try
 			{
-				this.bindings.SaveToFile(this.BindingsFilePath);
+				this.devices.SaveToFile(this.BindingsFilePath);
 				savedSuccessfully = true;
 			}
 			catch (Exception ex)
@@ -326,7 +328,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			//////////////////
 			// Set up datagrid columns
 			DataGridViewColumn column;
-			for (int newColumn = 0; newColumn < Enum.GetValues(typeof(GridColumn)).Length + this.bindings.Count + 1; newColumn++)
+			for (int newColumn = 0; newColumn < Enum.GetValues(typeof(GridColumn)).Length + this.devices[this.deviceNumber].BindingSets.Count + 1; newColumn++)
 				this.ControlsGridView.Columns.Add(null, null);
 
 			this.ControlsGridView.Columns[(int)GridColumn.InputButton].Visible = false;
@@ -339,9 +341,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			int columnIndex;
 			columnIndex = (int)GridColumn.ButtonName + 1;
-			for (int setNumber = 0; setNumber < this.bindings.Count; setNumber++)
+			for (int setNumber = 0; setNumber < this.devices[this.deviceNumber].BindingSets.Count; setNumber++)
 			{
-				InputBindingSet set = this.bindings[setNumber];
+				InputBindingSet set = this.devices[this.deviceNumber].BindingSets[setNumber];
 
 				column = this.ControlsGridView.Columns[columnIndex];
 				column.HeaderText = "Binding Set #" + (setNumber+1).ToString();
@@ -358,7 +360,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			column.DefaultCellStyle = this.disabledStyle.Clone();
 			column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			column.Tag = this.bindings.Count;
+			column.Tag = this.devices[this.deviceNumber].BindingSets.Count;
 
 			//////////////////
 			// Add some default rows
@@ -370,7 +372,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.ControlsGridView[(int)GridColumn.ButtonName, rowIndex].Style = this.disabledStyle;
 
 			columnIndex = (int)GridColumn.ButtonName + 1;
-			for (int setNumber = 0; setNumber < this.bindings.Count; setNumber++)
+			for (int setNumber = 0; setNumber < this.devices[this.deviceNumber].BindingSets.Count; setNumber++)
 			{
 				cell = this.ControlsGridView[columnIndex, rowIndex];
 				cell.Style = this.linkStyleBold;
@@ -391,7 +393,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.ControlsGridView[(int)GridColumn.ButtonName, rowIndex].Style = this.disabledStyle;
 
 			columnIndex = (int)GridColumn.ButtonName + 1;
-			for (int setNumber = 0; setNumber < this.bindings.Count; setNumber++)
+			for (int setNumber = 0; setNumber < this.devices[this.deviceNumber].BindingSets.Count; setNumber++)
 			{
 				cell = this.ControlsGridView[columnIndex, rowIndex];
 				cell.Style = this.linkStyleNormal;
@@ -404,7 +406,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.ControlsGridView[(int)GridColumn.ButtonName, rowIndex].Style = this.disabledStyle;
 
 			columnIndex = (int)GridColumn.ButtonName + 1;
-			for (int setNumber = 0; setNumber < this.bindings.Count; setNumber++)
+			for (int setNumber = 0; setNumber < this.devices[this.deviceNumber].BindingSets.Count; setNumber++)
 			{
 				cell = this.ControlsGridView[columnIndex, rowIndex];
 				cell.Style = this.linkStyleNormal;
@@ -465,9 +467,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.ControlsGridView[(int)GridColumn.ButtonName, rowIndex].Value = buttonName;
 			
 			int columnIndex = (int)GridColumn.ButtonName + 1;
-			for (int setNumber = 0; setNumber < this.bindings.Count; setNumber++)
+			for (int setNumber = 0; setNumber < this.devices[this.deviceNumber].BindingSets.Count; setNumber++)
 			{
-				InputBindingSet set = this.bindings[setNumber];
+				InputBindingSet set = this.devices[this.deviceNumber].BindingSets[setNumber];
 
 				InputTrigger trigger = set.GetButtonTrigger(button);
 				DataGridViewCell cell = this.ControlsGridView[columnIndex, rowIndex];
@@ -480,13 +482,13 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void DoDeleteBinding(int setNumber)
 		{
-			this.bindings.RemoveSet(setNumber);
+			this.devices[this.deviceNumber].BindingSets.RemoveSet(setNumber);
 			this.UpdateUI();
 		}
 
 		private void DoAddBinding(int setNumber)
 		{
-			this.bindings.AddSet();
+			this.devices[this.deviceNumber].BindingSets.AddSet();
 			this.UpdateUI();
 		}
 
@@ -494,7 +496,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			this.isSettingAll = true;
 
-			if (this.bindings.Count > 0)
+			if (this.devices[this.deviceNumber].BindingSets.Count > 0)
 			{
 				DataGridViewCell cell = this.GetNextInputButtonCell(null, setNumber);
 				this.DoStartEditButton(cell);
@@ -511,7 +513,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			if (setNumber < 0)
 				return null;
 
-			if (setNumber >= this.bindings.Count)
+			if (setNumber >= this.devices[this.deviceNumber].BindingSets.Count)
 				return null;
 
 			// Find the next row that defines an input button.
@@ -541,7 +543,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void DoClearAll(int setNumber)
 		{
-			this.bindings[setNumber].Clear();
+			this.devices[this.deviceNumber].BindingSets[setNumber].Clear();
 			this.UpdateUI();
 		}
 
@@ -561,7 +563,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				return;
 
 			int setIndex = this.FindSetIndexForColumn(cell);
-			if (setIndex < 0 || setIndex >= this.bindings.Count)
+			if (setIndex < 0 || setIndex >= this.devices[this.deviceNumber].BindingSets.Count)
 				return;
 
 			InputButton? button = this.FindInputButtonForRow(cell);
@@ -600,7 +602,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			if (trigger != null && button != null)
 			{
 				int setNumber = this.FindSetIndexForColumn(this.editedCell);
-				this.bindings.SetBinding(setNumber, button.Value, trigger);
+				this.devices.SetBinding(deviceNumber, setNumber, button.Value, trigger);
 			}
 			else
 			{
@@ -647,7 +649,6 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			Rectangle controllerScreenRect = 
 					this.controllerPreview.RectangleToScreen(
 						new Rectangle(new Point(0,0), this.controllerPreview.Size));
-			Console.WriteLine(System.Windows.Forms.Cursor.Position.ToString());
 
 			bool inBounds = controllerScreenRect.Contains(System.Windows.Forms.Cursor.Position);
 			return inBounds;
@@ -672,7 +673,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			if (setIndex == -1)
 				return;
 
-			this.bindings.SetBinding(setIndex, button.Value, null);
+			this.devices.SetBinding(deviceNumber, setIndex, button.Value, null);
 			this.UpdateUI();
 		}
 
