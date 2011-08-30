@@ -62,49 +62,53 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			////////////////////////////
 			// Set up raw data to return.
-	
 			byte[] data = new byte[16];
-			byte calculatedByte = 0;
-			
 			data[0x0] = 0x00;
 			data[0x1] = 0x49;
-
-			calculatedByte = 0;
-			calculatedByte |= this.CheckDownButton(0, InputButton.X) ? (byte)0x10 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(0, InputButton.P) ? (byte)0x20 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(0, InputButton.C) ? (byte)0x40 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(0, InputButton.B) ? (byte)0x80 : (byte)0; // Positive!
-			//calculatedByte |= this.CheckDownButton(0, JohnnyInputButton.?) ? (byte)0x01 : (byte)0; // dunno
-			//calculatedByte |= this.CheckDownButton(0, JohnnyInputButton.?) ? (byte)0x02 : (byte)0; // dunno
-			calculatedByte |= this.CheckDownButton(0, InputButton.L) ? (byte)0x04 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(0, InputButton.R) ? (byte)0x08 : (byte)0; // Positive!
-			data[0x2] = calculatedByte;
-
-			calculatedByte = 0;
-			calculatedByte |= this.CheckDownButton(0, InputButton.A) ? (byte)0x01 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(0, InputButton.Left) ? (byte)0x02 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(0, InputButton.Right) ? (byte)0x04 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(0, InputButton.Up) ? (byte)0x08 : (byte)0; // Positive!
-			calculatedByte |= this.CheckDownButton(0, InputButton.Down) ? (byte)0x10 : (byte)0; // Positive!
-			//calculatedByte |= this.CheckDownButton(0, JohnnyInputButton.?) ? (byte)0x20 : (byte)0; // dunno
-			//calculatedByte |= this.CheckDownButton(0, JohnnyInputButton.?) ? (byte)0x40 : (byte)0; // dunno
-			calculatedByte |= (byte)0x80;
-			data[0x3] = calculatedByte;
-
-			data[0x4] = 0xFF;
-			data[0x5] = 0xFF;
-			data[0x6] = 0x00;
-			data[0x7] = 0x00;
-			data[0x8] = 0xFF;
-			data[0x9] = 0xFF;
-			data[0xA] = 0xFF;
-			data[0xB] = 0xFF;
-			data[0xC] = 0xFF;
-			data[0xD] = 0xFF;
-			data[0xE] = 0xFF;
-			data[0xF] = 0xFF;
+			data[0x2] = this.CalculateDeviceLowByte(0);
+			data[0x3] = this.CalculateDeviceHighByte(0);
+			data[0x4] = this.CalculateDeviceLowByte(1);
+			data[0x5] = this.CalculateDeviceHighByte(1);
+			data[0x6] = 0x00; // (blank?)
+			data[0x7] = 0x80;
+			data[0x8] = this.CalculateDeviceLowByte(3);
+			data[0x9] = this.CalculateDeviceHighByte(3);
+			data[0xA] = this.CalculateDeviceLowByte(2);
+			data[0xB] = this.CalculateDeviceHighByte(2);
+			data[0xC] = this.CalculateDeviceLowByte(5);
+			data[0xD] = this.CalculateDeviceHighByte(5);
+			data[0xE] = this.CalculateDeviceLowByte(4);
+			data[0xF] = this.CalculateDeviceHighByte(4);
 
 			return data;
+		}
+
+		private byte CalculateDeviceLowByte(int deviceNumber)
+		{
+			byte returnValue = 0;
+			returnValue |= 0x01 & 0; // unknown
+			returnValue |= 0x02 & 0; // unknown
+			returnValue |= this.CheckDownButton(deviceNumber, InputButton.L) ? (byte)0x04 : (byte)0;
+			returnValue |= this.CheckDownButton(deviceNumber, InputButton.R) ? (byte)0x08 : (byte)0;
+			returnValue |= this.CheckDownButton(deviceNumber, InputButton.X) ? (byte)0x10 : (byte)0;
+			returnValue |= this.CheckDownButton(deviceNumber, InputButton.P) ? (byte)0x20 : (byte)0;
+			returnValue |= this.CheckDownButton(deviceNumber, InputButton.C) ? (byte)0x40 : (byte)0;
+			returnValue |= this.CheckDownButton(deviceNumber, InputButton.B) ? (byte)0x80 : (byte)0;
+			return returnValue;
+		}
+
+		private byte CalculateDeviceHighByte(int deviceNumber)
+		{
+			byte returnValue = 0;
+			returnValue |= this.CheckDownButton(deviceNumber, InputButton.A)     ? (byte)0x01 : (byte)0;
+			returnValue |= this.CheckDownButton(deviceNumber, InputButton.Left)  ? (byte)0x02 : (byte)0;
+			returnValue |= this.CheckDownButton(deviceNumber, InputButton.Right) ? (byte)0x04 : (byte)0;
+			returnValue |= this.CheckDownButton(deviceNumber, InputButton.Up)    ? (byte)0x08 : (byte)0;
+			returnValue |= this.CheckDownButton(deviceNumber, InputButton.Down)  ? (byte)0x10 : (byte)0;
+			returnValue |= 0x20 & 0; // unknown
+			returnValue |= 0x40 & 0; // unknown
+			returnValue |= 0x80; // This last bit seems to indicate power and/or connectivity.
+			return returnValue;
 		}
 
 		#endregion // IInputPlugin Implementation

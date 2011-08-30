@@ -35,27 +35,27 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.OKButton = new System.Windows.Forms.Button();
 			this.MainTabControl = new System.Windows.Forms.TabControl();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
-			this.panel6 = new System.Windows.Forms.Panel();
+			this.Player1Tab = new System.Windows.Forms.TabPage();
+			this.panel5 = new System.Windows.Forms.Panel();
+			this.Player2Tab = new System.Windows.Forms.TabPage();
+			this.Player3Tab = new System.Windows.Forms.TabPage();
+			this.Player4Tab = new System.Windows.Forms.TabPage();
+			this.Player5Tab = new System.Windows.Forms.TabPage();
+			this.Player6Tab = new System.Windows.Forms.TabPage();
+			this.JoystickTimer = new System.Windows.Forms.Timer(this.components);
+			this.RefreshJoystickListTimer = new System.Windows.Forms.Timer(this.components);
+			this.ControllerPanel = new System.Windows.Forms.Panel();
 			this.ControlsGridView = new System.Windows.Forms.DataGridView();
 			this.panel4 = new System.Windows.Forms.Panel();
 			this.CurrentDevicesLabel = new System.Windows.Forms.Label();
 			this.controllerInfo = new FourDO.Emulation.Plugins.Input.JohnnyInput.ControllerInfo();
 			this.controllerPreview = new FourDO.Emulation.Plugins.Input.JohnnyInput.ControllerPreview();
-			this.panel5 = new System.Windows.Forms.Panel();
-			this.panel2 = new System.Windows.Forms.Panel();
-			this.RemoveDeviceButton = new System.Windows.Forms.Button();
-			this.DeviceTypeComboBox = new System.Windows.Forms.ComboBox();
-			this.DeviceTypeLabel = new System.Windows.Forms.Label();
-			this.JoystickTimer = new System.Windows.Forms.Timer(this.components);
-			this.RefreshJoystickListTimer = new System.Windows.Forms.Timer(this.components);
 			this.panel1.SuspendLayout();
 			this.MainTabControl.SuspendLayout();
-			this.tabPage2.SuspendLayout();
-			this.panel6.SuspendLayout();
+			this.Player1Tab.SuspendLayout();
+			this.ControllerPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ControlsGridView)).BeginInit();
 			this.panel4.SuspendLayout();
-			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panel1
@@ -64,7 +64,7 @@
 			this.panel1.Controls.Add(this.groupBox1);
 			this.panel1.Controls.Add(this.OKButton);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 426);
+			this.panel1.Location = new System.Drawing.Point(0, 369);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(793, 42);
 			this.panel1.TabIndex = 1;
@@ -107,35 +107,112 @@
 			this.MainTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.MainTabControl.Controls.Add(this.tabPage2);
+			this.MainTabControl.Controls.Add(this.Player1Tab);
+			this.MainTabControl.Controls.Add(this.Player2Tab);
+			this.MainTabControl.Controls.Add(this.Player3Tab);
+			this.MainTabControl.Controls.Add(this.Player4Tab);
+			this.MainTabControl.Controls.Add(this.Player5Tab);
+			this.MainTabControl.Controls.Add(this.Player6Tab);
 			this.MainTabControl.Location = new System.Drawing.Point(12, 12);
 			this.MainTabControl.Name = "MainTabControl";
 			this.MainTabControl.SelectedIndex = 0;
-			this.MainTabControl.Size = new System.Drawing.Size(769, 405);
+			this.MainTabControl.Size = new System.Drawing.Size(769, 348);
 			this.MainTabControl.TabIndex = 0;
+			this.MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
 			// 
-			// tabPage2
+			// Player1Tab
 			// 
-			this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-			this.tabPage2.Controls.Add(this.panel6);
-			this.tabPage2.Controls.Add(this.panel5);
-			this.tabPage2.Controls.Add(this.panel2);
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(761, 379);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "Device #1 - Control Pad";
+			this.Player1Tab.BackColor = System.Drawing.Color.Transparent;
+			this.Player1Tab.Controls.Add(this.panel5);
+			this.Player1Tab.Location = new System.Drawing.Point(4, 22);
+			this.Player1Tab.Name = "Player1Tab";
+			this.Player1Tab.Padding = new System.Windows.Forms.Padding(3);
+			this.Player1Tab.Size = new System.Drawing.Size(761, 322);
+			this.Player1Tab.TabIndex = 1;
+			this.Player1Tab.Text = "Player 1";
+			this.Player1Tab.UseVisualStyleBackColor = true;
 			// 
-			// panel6
+			// panel5
 			// 
-			this.panel6.Controls.Add(this.ControlsGridView);
-			this.panel6.Controls.Add(this.panel4);
-			this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel6.Location = new System.Drawing.Point(3, 39);
-			this.panel6.Name = "panel6";
-			this.panel6.Size = new System.Drawing.Size(752, 337);
-			this.panel6.TabIndex = 20;
+			this.panel5.Dock = System.Windows.Forms.DockStyle.Right;
+			this.panel5.Location = new System.Drawing.Point(755, 3);
+			this.panel5.Name = "panel5";
+			this.panel5.Size = new System.Drawing.Size(3, 316);
+			this.panel5.TabIndex = 15;
+			// 
+			// Player2Tab
+			// 
+			this.Player2Tab.BackColor = System.Drawing.Color.Transparent;
+			this.Player2Tab.Location = new System.Drawing.Point(4, 22);
+			this.Player2Tab.Name = "Player2Tab";
+			this.Player2Tab.Size = new System.Drawing.Size(761, 322);
+			this.Player2Tab.TabIndex = 2;
+			this.Player2Tab.Text = "Player 2";
+			this.Player2Tab.UseVisualStyleBackColor = true;
+			// 
+			// Player3Tab
+			// 
+			this.Player3Tab.BackColor = System.Drawing.Color.Transparent;
+			this.Player3Tab.Location = new System.Drawing.Point(4, 22);
+			this.Player3Tab.Name = "Player3Tab";
+			this.Player3Tab.Size = new System.Drawing.Size(761, 322);
+			this.Player3Tab.TabIndex = 3;
+			this.Player3Tab.Text = "Player 3";
+			this.Player3Tab.UseVisualStyleBackColor = true;
+			// 
+			// Player4Tab
+			// 
+			this.Player4Tab.BackColor = System.Drawing.Color.Transparent;
+			this.Player4Tab.Location = new System.Drawing.Point(4, 22);
+			this.Player4Tab.Name = "Player4Tab";
+			this.Player4Tab.Size = new System.Drawing.Size(761, 322);
+			this.Player4Tab.TabIndex = 4;
+			this.Player4Tab.Text = "Player 4";
+			this.Player4Tab.UseVisualStyleBackColor = true;
+			// 
+			// Player5Tab
+			// 
+			this.Player5Tab.BackColor = System.Drawing.Color.Transparent;
+			this.Player5Tab.Location = new System.Drawing.Point(4, 22);
+			this.Player5Tab.Name = "Player5Tab";
+			this.Player5Tab.Size = new System.Drawing.Size(761, 322);
+			this.Player5Tab.TabIndex = 5;
+			this.Player5Tab.Text = "Player 5";
+			this.Player5Tab.UseVisualStyleBackColor = true;
+			// 
+			// Player6Tab
+			// 
+			this.Player6Tab.BackColor = System.Drawing.Color.Transparent;
+			this.Player6Tab.Location = new System.Drawing.Point(4, 22);
+			this.Player6Tab.Name = "Player6Tab";
+			this.Player6Tab.Size = new System.Drawing.Size(761, 322);
+			this.Player6Tab.TabIndex = 6;
+			this.Player6Tab.Text = "Player 6";
+			this.Player6Tab.UseVisualStyleBackColor = true;
+			// 
+			// JoystickTimer
+			// 
+			this.JoystickTimer.Enabled = true;
+			this.JoystickTimer.Interval = 50;
+			this.JoystickTimer.Tick += new System.EventHandler(this.JoystickTimer_Tick);
+			// 
+			// RefreshJoystickListTimer
+			// 
+			this.RefreshJoystickListTimer.Enabled = true;
+			this.RefreshJoystickListTimer.Interval = 1000;
+			this.RefreshJoystickListTimer.Tick += new System.EventHandler(this.RefreshJoystickListTimer_Tick);
+			// 
+			// ControllerPanel
+			// 
+			this.ControllerPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.ControllerPanel.Controls.Add(this.ControlsGridView);
+			this.ControllerPanel.Controls.Add(this.panel4);
+			this.ControllerPanel.Location = new System.Drawing.Point(71, 55);
+			this.ControllerPanel.Name = "ControllerPanel";
+			this.ControllerPanel.Size = new System.Drawing.Size(576, 268);
+			this.ControllerPanel.TabIndex = 21;
 			// 
 			// ControlsGridView
 			// 
@@ -156,7 +233,7 @@
 			this.ControlsGridView.RowTemplate.Height = 18;
 			this.ControlsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
 			this.ControlsGridView.ShowCellToolTips = false;
-			this.ControlsGridView.Size = new System.Drawing.Size(482, 337);
+			this.ControlsGridView.Size = new System.Drawing.Size(306, 268);
 			this.ControlsGridView.StandardTab = true;
 			this.ControlsGridView.TabIndex = 0;
 			this.ControlsGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlsGridView_CellClick);
@@ -176,7 +253,7 @@
 			this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
 			this.panel4.Location = new System.Drawing.Point(0, 0);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(270, 337);
+			this.panel4.Size = new System.Drawing.Size(270, 268);
 			this.panel4.TabIndex = 19;
 			// 
 			// CurrentDevicesLabel
@@ -188,7 +265,7 @@
 			this.CurrentDevicesLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.CurrentDevicesLabel.Location = new System.Drawing.Point(0, 0);
 			this.CurrentDevicesLabel.Name = "CurrentDevicesLabel";
-			this.CurrentDevicesLabel.Size = new System.Drawing.Size(153, 87);
+			this.CurrentDevicesLabel.Size = new System.Drawing.Size(153, 18);
 			this.CurrentDevicesLabel.TabIndex = 21;
 			this.CurrentDevicesLabel.Text = "Current Devices:";
 			this.CurrentDevicesLabel.Visible = false;
@@ -200,7 +277,7 @@
 			this.controllerInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
 			this.controllerInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.controllerInfo.DeviceCount = 1;
-			this.controllerInfo.Location = new System.Drawing.Point(0, 248);
+			this.controllerInfo.Location = new System.Drawing.Point(0, 179);
 			this.controllerInfo.Name = "controllerInfo";
 			this.controllerInfo.Size = new System.Drawing.Size(264, 89);
 			this.controllerInfo.TabIndex = 1;
@@ -219,79 +296,18 @@
 			this.controllerPreview.HighlightedButton = null;
 			this.controllerPreview.Location = new System.Drawing.Point(0, 0);
 			this.controllerPreview.Name = "controllerPreview";
-			this.controllerPreview.Size = new System.Drawing.Size(264, 242);
+			this.controllerPreview.Size = new System.Drawing.Size(264, 173);
 			this.controllerPreview.TabIndex = 0;
 			this.controllerPreview.MouseHoverButton += new FourDO.Emulation.Plugins.Input.JohnnyInput.ControllerPreview.MouseHoverButtonHandler(this.controllerPreview_MouseHoverButton);
 			this.controllerPreview.MouseClick += new System.Windows.Forms.MouseEventHandler(this.controllerPreview_MouseClick);
 			this.controllerPreview.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.controllerPreview_MouseDoubleClick);
 			// 
-			// panel5
-			// 
-			this.panel5.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel5.Location = new System.Drawing.Point(755, 39);
-			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(3, 337);
-			this.panel5.TabIndex = 15;
-			// 
-			// panel2
-			// 
-			this.panel2.Controls.Add(this.RemoveDeviceButton);
-			this.panel2.Controls.Add(this.DeviceTypeComboBox);
-			this.panel2.Controls.Add(this.DeviceTypeLabel);
-			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel2.Location = new System.Drawing.Point(3, 3);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(755, 36);
-			this.panel2.TabIndex = 0;
-			// 
-			// RemoveDeviceButton
-			// 
-			this.RemoveDeviceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.RemoveDeviceButton.Enabled = false;
-			this.RemoveDeviceButton.Location = new System.Drawing.Point(622, 5);
-			this.RemoveDeviceButton.Name = "RemoveDeviceButton";
-			this.RemoveDeviceButton.Size = new System.Drawing.Size(130, 23);
-			this.RemoveDeviceButton.TabIndex = 2;
-			this.RemoveDeviceButton.Text = "&Remove This Device";
-			this.RemoveDeviceButton.UseVisualStyleBackColor = true;
-			// 
-			// DeviceTypeComboBox
-			// 
-			this.DeviceTypeComboBox.Enabled = false;
-			this.DeviceTypeComboBox.FormattingEnabled = true;
-			this.DeviceTypeComboBox.Items.AddRange(new object[] {
-            "Control Pad"});
-			this.DeviceTypeComboBox.Location = new System.Drawing.Point(80, 7);
-			this.DeviceTypeComboBox.Name = "DeviceTypeComboBox";
-			this.DeviceTypeComboBox.Size = new System.Drawing.Size(154, 21);
-			this.DeviceTypeComboBox.TabIndex = 1;
-			// 
-			// DeviceTypeLabel
-			// 
-			this.DeviceTypeLabel.AutoSize = true;
-			this.DeviceTypeLabel.Location = new System.Drawing.Point(3, 10);
-			this.DeviceTypeLabel.Name = "DeviceTypeLabel";
-			this.DeviceTypeLabel.Size = new System.Drawing.Size(71, 13);
-			this.DeviceTypeLabel.TabIndex = 0;
-			this.DeviceTypeLabel.Text = "Device Type:";
-			// 
-			// JoystickTimer
-			// 
-			this.JoystickTimer.Enabled = true;
-			this.JoystickTimer.Interval = 50;
-			this.JoystickTimer.Tick += new System.EventHandler(this.JoystickTimer_Tick);
-			// 
-			// RefreshJoystickListTimer
-			// 
-			this.RefreshJoystickListTimer.Enabled = true;
-			this.RefreshJoystickListTimer.Interval = 1000;
-			this.RefreshJoystickListTimer.Tick += new System.EventHandler(this.RefreshJoystickListTimer_Tick);
-			// 
 			// JohnnyInputSettings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(793, 468);
+			this.ClientSize = new System.Drawing.Size(793, 411);
+			this.Controls.Add(this.ControllerPanel);
 			this.Controls.Add(this.MainTabControl);
 			this.Controls.Add(this.panel1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -305,12 +321,10 @@
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.JohnnyInputSettings_KeyDown);
 			this.panel1.ResumeLayout(false);
 			this.MainTabControl.ResumeLayout(false);
-			this.tabPage2.ResumeLayout(false);
-			this.panel6.ResumeLayout(false);
+			this.Player1Tab.ResumeLayout(false);
+			this.ControllerPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.ControlsGridView)).EndInit();
 			this.panel4.ResumeLayout(false);
-			this.panel2.ResumeLayout(false);
-			this.panel2.PerformLayout();
 			this.ResumeLayout(false);
 
         }
@@ -322,19 +336,20 @@
         private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Button OKButton;
 		private System.Windows.Forms.TabControl MainTabControl;
-        private System.Windows.Forms.TabPage tabPage2;
-		private System.Windows.Forms.Panel panel2;
-		private System.Windows.Forms.Button RemoveDeviceButton;
-		private System.Windows.Forms.ComboBox DeviceTypeComboBox;
-        private System.Windows.Forms.Label DeviceTypeLabel;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.DataGridView ControlsGridView;
-        private System.Windows.Forms.Panel panel4;
-        private ControllerPreview controllerPreview;
+		private System.Windows.Forms.TabPage Player1Tab;
+		private System.Windows.Forms.Panel panel5;
 		private System.Windows.Forms.Timer JoystickTimer;
-		private ControllerInfo controllerInfo;
-		private System.Windows.Forms.Label CurrentDevicesLabel;
 		private System.Windows.Forms.Timer RefreshJoystickListTimer;
+		private System.Windows.Forms.TabPage Player2Tab;
+		private System.Windows.Forms.TabPage Player3Tab;
+		private System.Windows.Forms.TabPage Player4Tab;
+		private System.Windows.Forms.TabPage Player5Tab;
+		private System.Windows.Forms.TabPage Player6Tab;
+		private System.Windows.Forms.Panel ControllerPanel;
+		private System.Windows.Forms.DataGridView ControlsGridView;
+		private System.Windows.Forms.Panel panel4;
+		private System.Windows.Forms.Label CurrentDevicesLabel;
+		private ControllerInfo controllerInfo;
+		private ControllerPreview controllerPreview;
     }
 }

@@ -54,20 +54,37 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			this.InitializeComponent();
 
-			this.CurrentDevicesLabel.Bounds = this.controllerPreview.Bounds;
-			this.CurrentDevicesLabel.BringToFront();
-			this.CurrentDevicesLabel.Visible = false;
+			// This form requires 6 devices.
+			while (this.devices.Count < 6)
+				this.devices.AddDevice();
 		}
 
 		public string BindingsFilePath { get; private set; }
 
 		#region Event Handlers
 
+		private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			this.deviceNumber = this.MainTabControl.SelectedIndex;
+			this.UpdateUI();
+		}
+
 		private void JohnnyInputSettings_Load(object sender, EventArgs e)
 		{
 			this.InitializeGrid();
 
-			this.DeviceTypeComboBox.SelectedIndex = 0;
+			// Position controller panel over the tab control.
+			var newBounds = this.Player1Tab.Bounds;
+			newBounds.X += this.MainTabControl.Left + 3;
+			newBounds.Y += this.MainTabControl.Top + 4;
+			newBounds.Height -= 7;
+			newBounds.Width -= 9;
+			this.ControllerPanel.SetBounds(newBounds.X, newBounds.Y, newBounds.Width, newBounds.Height);
+
+			// Move devices label into position.
+			this.CurrentDevicesLabel.Bounds = this.controllerPreview.Bounds;
+			this.CurrentDevicesLabel.BringToFront();
+			this.CurrentDevicesLabel.Visible = false;
 
 			this.UpdateUI();
 
