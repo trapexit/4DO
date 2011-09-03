@@ -237,6 +237,7 @@ namespace FourDO.UI
 			this.DoConsoleStop();
 
 			GameConsole.Instance.Destroy();
+			this.gameCanvas.Destroy();
 		}
 
 		#endregion // Load/Close Form Events
@@ -507,6 +508,16 @@ namespace FourDO.UI
 		private void closeGameMenuItem_Click(object sender, EventArgs e)
 		{
 			this.DoCloseGame();
+		}
+
+		private void Main_ResizeBegin(object sender, EventArgs e)
+		{
+			this.gameCanvas.IsInResizeMode = true;
+		}
+
+		private void Main_ResizeEnd(object sender, EventArgs e)
+		{
+			this.gameCanvas.IsInResizeMode = false;
 		}
 
 		#endregion // Event Handlers

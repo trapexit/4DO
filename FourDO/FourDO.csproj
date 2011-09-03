@@ -29,25 +29,24 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
@@ -147,6 +146,12 @@
       <DependentUpon>SizeBox.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SizeGuard.cs" />
+    <Compile Include="UI\DX\SlimDXCanvas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DX\SlimDXCanvas.Designer.cs">
+      <DependentUpon>SlimDXCanvas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\CustomXmlSerializer.cs" />
     <Compile Include="Utilities\DisplayHelper.cs" />
     <Compile Include="Utilities\Error.cs" />
@@ -191,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DX\SlimDXCanvas.resx">
+      <DependentUpon>SlimDXCanvas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\GameCanvas.resx">
       <DependentUpon>GameCanvas.cs</DependentUpon>

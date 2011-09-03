@@ -11,12 +11,13 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
     <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <StartProgram>F:\trunk\FourDO\bin\Release\4DO.exe</StartProgram>
-    <StartArguments>-debugStartForm ConfigureInput</StartArguments>
+    <StartArguments>
+    </StartArguments>
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
     <RemoteDebugMachine>terabob</RemoteDebugMachine>
   </PropertyGroup>
