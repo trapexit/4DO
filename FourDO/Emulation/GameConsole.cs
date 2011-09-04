@@ -40,6 +40,8 @@ namespace FourDO.Emulation
 
 		#region Private Variables
 
+		private readonly bool doFreeDOMultitask = true;
+
 		private const int ROM_SIZE = 1 * 1024 * 1024;
 		private const int NVRAM_SIZE = 32 * 1024;
 
@@ -488,6 +490,9 @@ namespace FourDO.Emulation
 
 		private IntPtr ExternalInterface_SwapFrame(IntPtr currentFrame)
 		{
+			// This get signaled in non-multi task mode at the end of each frame.
+			// I'm not entirely certain why.
+
 			this.isSwapFrameSignaled = true;
 			return currentFrame;
 		}
@@ -539,6 +544,13 @@ namespace FourDO.Emulation
 
 		private void ExternalInterface_FrameTrigger()
 		{
+			// We got a signal that multi-task mode has completed a frame!
+
+			// Done with this frame.
+			this.isSwapFrameSignaled = true;
+			
+			// Use of multi-task mode requires that we ask the core to update our VDL frame for us.
+			FreeDOCore.DoFrameMultitask(this.framePtr);
 		}
 
 		private void ExternalInterface_Read2048(IntPtr buffer)
@@ -634,7 +646,11 @@ namespace FourDO.Emulation
 				lastFrameCount = 0;
 				do
 				{
-					FreeDOCore.DoExecuteFrame(this.framePtr);
+					if (this.doFreeDOMultitask)
+						FreeDOCore.DoExecuteFrameMultitask(this.framePtr);
+					else
+						FreeDOCore.DoExecuteFrame(this.framePtr);
+
 					lastFrameCount++;
 				} while (isSwapFrameSignaled == false && lastFrameCount < MAXIMUM_FRAME_COUNT);
 				
