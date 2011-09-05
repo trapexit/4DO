@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FourDO.Emulation.FreeDO;
+using FourDO.Emulation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,24 +12,38 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Security;
 using SlimDX;
-using D2D = SlimDX.Direct2D;
+using SlimDX.Direct3D9;
+using SlimDX.Windows;
 
-using FourDO.Emulation;
-using FourDO.Emulation.FreeDO;
+using Device = SlimDX.Direct3D9.Device;
+using Resource = SlimDX.Direct3D9.Resource;
+using DXGI = SlimDX.DXGI;
 
 namespace FourDO.UI.DX
 {
 	public partial class SlimDXCanvas : UserControl
 	{
+		protected struct TexturedVertex
+		{
+			public TexturedVertex(Vector3 position, Vector2 texture)
+			{
+				this.Position = position;
+				this.Texture = texture;
+			}
+
+			public Vector3 Position;
+			public Vector2 Texture;
+		}
+
 		public bool ImageSmoothing
 		{
 			get
 			{
-				return (this.interpolationMode == D2D.InterpolationMode.Linear);
+				return true;
 			}
 			set
 			{
-				this.interpolationMode = value ? D2D.InterpolationMode.Linear : D2D.InterpolationMode.NearestNeighbor;
+				//this.interpolationMode = value ? D2D.InterpolationMode.Linear : D2D.InterpolationMode.NearestNeighbor;
 			}
 		}
 
@@ -47,8 +63,6 @@ namespace FourDO.UI.DX
 		protected const int bitmapHeight = 240;
 		protected readonly Size bitmapSize = new Size(bitmapWidth, bitmapHeight);
 
-		protected D2D.Bitmap dxBitmap;
-
 		protected Bitmap bitmapA = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format32bppRgb);
 		protected Bitmap bitmapB = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format32bppRgb);
 		protected Bitmap bitmapC = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format32bppRgb);
@@ -58,12 +72,13 @@ namespace FourDO.UI.DX
 
 		protected object bitmapSemaphore = new object();
 
-		protected D2D.Factory factory;
-		protected D2D.WindowRenderTarget renderTarget;
-		
 		protected Color4 colorBlack = new Color4(0, 0, 0);
 
-		protected D2D.InterpolationMode interpolationMode = D2D.InterpolationMode.Linear;
+		protected VertexDeclaration vertexDeclaration;
+		protected VertexBuffer vertexBuffer;
+		protected Texture texture;
+		protected Direct3D direct3D;
+		protected Device device;
 
 		protected bool initialized = false;
 		
@@ -92,31 +107,63 @@ namespace FourDO.UI.DX
 
 			GameConsole.Instance.FrameDone += new EventHandler(GameConsole_FrameDone);
 
-			// Set up device.
-			this.factory = new D2D.Factory();
-
+			// Get maximum screen size.
 			Size maxSize = new Size(bitmapWidth, bitmapHeight);
 			foreach (var screen in Screen.AllScreens)
 			{
 				maxSize.Width = Math.Max(maxSize.Width, screen.Bounds.Width);
 				maxSize.Height = Math.Max(maxSize.Height, screen.Bounds.Height);
 			}
-			
-			this.renderTarget = new D2D.WindowRenderTarget(factory,
-				new D2D.WindowRenderTargetProperties { Handle = this.Handle, PixelSize = maxSize});
 
-			// Set up drawn image.
-			D2D.BitmapProperties bitmapProperties = new D2D.BitmapProperties();
-			bitmapProperties.PixelFormat = new D2D.PixelFormat(SlimDX.DXGI.Format.B8G8R8A8_UNorm, D2D.AlphaMode.Ignore);
-			this.dxBitmap = new D2D.Bitmap(this.renderTarget, this.bitmapSize, bitmapProperties);
+			/////////////////////////////////////////
+			// Initialize direct3d 9
+
+			this.direct3D = new Direct3D();
+
+			var presentParams = new PresentParameters();
+			presentParams.Windowed = true;
+			presentParams.SwapEffect = SwapEffect.Discard;
+			presentParams.DeviceWindowHandle = this.Handle;
+
+			this.device = new Device(this.direct3D, 0, DeviceType.Hardware, this.Handle, CreateFlags.HardwareVertexProcessing, presentParams);
+
+			this.device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
+			this.device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
+			this.device.SetRenderState(RenderState.Lighting, false);
+
+			/////////////////
+			// Set up texture.
+			//this.texture = Texture.FromFile(this.device, @"C:\jmk\screens\ihateit.bmp");
+			this.texture = new Texture(this.device, bitmapWidth, bitmapHeight, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
+
+			/////////////////
+			// Set up vertex buffer
+			this.vertexBuffer = new VertexBuffer(this.device
+				, 4 * (Marshal.SizeOf(typeof(TexturedVertex)))
+				, Usage.WriteOnly, VertexFormat.None, Pool.Default);
+			DataStream vertexStream = this.vertexBuffer.Lock(0, 0, LockFlags.None);
+			vertexStream.WriteRange(new[]{
+				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f,0.0f)),
+				new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(1.0f,0.0f)),
+				new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,1.0f)),
+				new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(1.0f,1.0f)) });
+
+			this.vertexBuffer.Unlock();
+
+			this.vertexDeclaration = new VertexDeclaration(this.device, new[] {
+                new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0), 
+                new VertexElement(0, 12, DeclarationType.Float2, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0), 
+                VertexElement.VertexDeclarationEnd});
 
 			initialized = true;
 		}
 
 		public void Destroy()
 		{
-			this.factory.Dispose();
-			this.renderTarget.Dispose();
+			this.vertexBuffer.Dispose();
+			this.texture.Dispose();
+			this.device.Dispose();
+			this.direct3D.Dispose();
 		}
 
 		protected void OnApplicationIdle(object sender, EventArgs e)
@@ -129,27 +176,34 @@ namespace FourDO.UI.DX
 
 		protected void Render()
 		{
-			this.renderTarget.BeginDraw();
-			this.renderTarget.Transform = Matrix3x2.Identity;
-			this.renderTarget.Clear(colorBlack);
-
+			///////////////////////////
+			// Update texture.
 			this.currentFrontendBitmap = this.lastDrawnBackgroundBitmap; // This keeps the background from updating it too.
 			Bitmap bitmapToDraw = this.currentFrontendBitmap;
-			if (bitmapToDraw != null)
-			{
-				BitmapData bitmapData = bitmapToDraw.LockBits(new Rectangle(0, 0, bitmapToDraw.Width, bitmapToDraw.Height), ImageLockMode.ReadOnly, bitmapToDraw.PixelFormat);
-				{
-					dxBitmap.FromMemory(bitmapData.Scan0, bitmapData.Stride);
-				}
-				bitmapToDraw.UnlockBits(bitmapData);
 
-				this.renderTarget.DrawBitmap(
-						dxBitmap,
-						new Rectangle(0, 0, (int)this.renderTarget.Size.Width, (int)this.renderTarget.Size.Height),
-						1f,
-						this.interpolationMode);
+			Surface textureSurface = this.texture.GetSurfaceLevel(0);
+			DataRectangle dataRect = textureSurface.LockRectangle(LockFlags.None);
+
+			BitmapData bitmapData = bitmapToDraw.LockBits(new Rectangle(0, 0, bitmapToDraw.Width, bitmapToDraw.Height), ImageLockMode.ReadOnly, bitmapToDraw.PixelFormat);
+			{
+				dataRect.Data.WriteRange(bitmapData.Scan0, bitmapData.Height * bitmapData.Stride);
 			}
-			this.renderTarget.EndDraw();
+			bitmapToDraw.UnlockBits(bitmapData);
+			textureSurface.UnlockRectangle();
+			///////////////////////////
+
+			//////////////////////
+			// Draw scene.
+			this.device.Clear(ClearFlags.Target, new Color4(0f, 0f, .5f), 1f, 0);
+			this.device.BeginScene();
+
+			this.device.SetTexture(0, this.texture);
+			this.device.SetStreamSource(0, this.vertexBuffer, 0, Marshal.SizeOf(typeof(TexturedVertex)));
+			this.device.VertexDeclaration = this.vertexDeclaration;
+			this.device.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+
+			this.device.EndScene();
+			this.device.Present();
 		}
 
 		protected unsafe void GameConsole_FrameDone(object sender, EventArgs e)
