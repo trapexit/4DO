@@ -472,12 +472,16 @@ namespace FourDO.Utilities
 				//FIX: July 13, 2006 - Support the scenario where the Item of an IEnumerable is itself an IEnumerable.
 				if (source is System.Collections.IEnumerable)
 				{
-					writer.WriteStartElement("System.Collections.IEnumerable");
-					foreach (object _Item in (System.Collections.IEnumerable) source)
+					// Only write crap if it's actually got crap in it.
+					if (((System.Collections.IEnumerable)source).GetEnumerator().MoveNext())
 					{
-						WriteXml(_Item, writer);
+						writer.WriteStartElement("System.Collections.IEnumerable");
+						foreach (object _Item in (System.Collections.IEnumerable)source)
+						{
+							WriteXml(_Item, writer);
+						}
+						writer.WriteEndElement();
 					}
-					writer.WriteEndElement();
 				}
 			}
 
