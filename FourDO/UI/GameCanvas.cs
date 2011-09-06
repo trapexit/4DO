@@ -17,7 +17,7 @@ using FourDO.Emulation.FreeDO;
 
 namespace FourDO.UI
 {
-	public partial class GameCanvas : UserControl
+	internal partial class GameCanvas : UserControl
 	{
 		private const InterpolationMode SMOOTH_SCALING_MODE = InterpolationMode.Low;
 		
@@ -27,9 +27,53 @@ namespace FourDO.UI
 		private Pen screenBorderPen = new Pen(Color.FromArgb(50, 50, 50));
 	
 		private bool preserveAspectRatio = true;
-		private InterpolationMode scalingMode = SMOOTH_SCALING_MODE;
 
 		private bool isConsoleStopped = true;
+
+		private VoidAreaPattern voidAreaPattern;
+
+		private bool voidAreaBorder;
+
+		public VoidAreaPattern VoidAreaPattern
+		{
+			get
+			{
+				return voidAreaPattern;
+			}
+			set
+			{
+				if (voidAreaPattern == value)
+					return;
+				
+				voidAreaPattern = value;
+				Bitmap newBackground = null;
+
+				if (voidAreaPattern == VoidAreaPattern.FourDO)
+					newBackground = Properties.Resources.VoidImage4DO;
+				else if (voidAreaPattern == VoidAreaPattern.Bumps)
+					newBackground = Properties.Resources.VoidImageBumps;
+				else if (voidAreaPattern == VoidAreaPattern.Metal)
+					newBackground = Properties.Resources.VoidImageMetal;
+
+				this.BackgroundImage = newBackground;
+			}
+		}
+
+		public bool VoidAreaBorder
+		{
+			get
+			{
+				return voidAreaBorder;
+			}
+			set
+			{
+				if (voidAreaBorder == value)
+					return;
+				
+				voidAreaBorder = value;
+				this.Invalidate();
+			}
+		}
 
 		public bool PreserveAspectRatio
 		{
@@ -90,9 +134,12 @@ namespace FourDO.UI
 
 		private void GameCanvas_Paint(object sender, PaintEventArgs e)
 		{
-			Graphics g = e.Graphics;
-			Rectangle gameRect = this.slimDXCanvas.Bounds;
-			g.DrawRectangle(this.screenBorderPen, gameRect.X - 1, gameRect.Y - 1, gameRect.Width + 1, gameRect.Height + 1);
+			if (this.voidAreaBorder)
+			{
+				Graphics g = e.Graphics;
+				Rectangle gameRect = this.slimDXCanvas.Bounds;
+				g.DrawRectangle(this.screenBorderPen, gameRect.X - 1, gameRect.Y - 1, gameRect.Width + 1, gameRect.Height + 1);
+			}
 		}
 
 		private void GameConsole_ConsoleStateChange(ConsoleStateChangeEventArgs e)
@@ -134,6 +181,50 @@ namespace FourDO.UI
 			}
 
 			return blitRect;
+		}
+
+		private void GameCanvas_MouseEnter(object sender, EventArgs e)
+		{
+			HideMouseTimer.Enabled = false;
+			HideMouseTimer.Enabled = true;
+		}
+
+		private void GameCanvas_MouseLeave(object sender, EventArgs e)
+		{
+			HideMouseTimer.Enabled = false;
+			MouseHider.Show();
+		}
+
+		private void GameCanvas_MouseMove(object sender, MouseEventArgs e)
+		{
+			MouseHider.Show();
+			HideMouseTimer.Enabled = false;
+			HideMouseTimer.Enabled = true;
+		}
+
+		private void HideMouseTimer_Tick(object sender, EventArgs e)
+		{
+			HideMouseTimer.Enabled = false;
+			MouseHider.Hide();
+		}
+
+		private void slimDXCanvas_MouseEnter(object sender, EventArgs e)
+		{
+			HideMouseTimer.Enabled = false;
+			HideMouseTimer.Enabled = true;
+		}
+
+		private void slimDXCanvas_MouseLeave(object sender, EventArgs e)
+		{
+			HideMouseTimer.Enabled = false;
+			MouseHider.Show();
+		}
+
+		private void slimDXCanvas_MouseMove(object sender, MouseEventArgs e)
+		{
+			MouseHider.Show();
+			HideMouseTimer.Enabled = false;
+			HideMouseTimer.Enabled = true;
 		}
 	}
 }

@@ -35,17 +35,7 @@ namespace FourDO.UI.DX
 			public Vector2 Texture;
 		}
 
-		public bool ImageSmoothing
-		{
-			get
-			{
-				return true;
-			}
-			set
-			{
-				//this.interpolationMode = value ? D2D.InterpolationMode.Linear : D2D.InterpolationMode.NearestNeighbor;
-			}
-		}
+		public bool ImageSmoothing { get; set; }
 
 		public bool IsInResizeMode
 		{
@@ -124,11 +114,11 @@ namespace FourDO.UI.DX
 			presentParams.Windowed = true;
 			presentParams.SwapEffect = SwapEffect.Discard;
 			presentParams.DeviceWindowHandle = this.Handle;
+			presentParams.BackBufferWidth = maxSize.Width;
+			presentParams.BackBufferHeight = maxSize.Height;
 
 			this.device = new Device(this.direct3D, 0, DeviceType.Hardware, this.Handle, CreateFlags.HardwareVertexProcessing, presentParams);
 
-			this.device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
-			this.device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
 			this.device.SetRenderState(RenderState.Lighting, false);
 
 			/////////////////
@@ -181,20 +171,27 @@ namespace FourDO.UI.DX
 			this.currentFrontendBitmap = this.lastDrawnBackgroundBitmap; // This keeps the background from updating it too.
 			Bitmap bitmapToDraw = this.currentFrontendBitmap;
 
-			Surface textureSurface = this.texture.GetSurfaceLevel(0);
-			DataRectangle dataRect = textureSurface.LockRectangle(LockFlags.None);
-
-			BitmapData bitmapData = bitmapToDraw.LockBits(new Rectangle(0, 0, bitmapToDraw.Width, bitmapToDraw.Height), ImageLockMode.ReadOnly, bitmapToDraw.PixelFormat);
+			if (bitmapToDraw != null)
 			{
-				dataRect.Data.WriteRange(bitmapData.Scan0, bitmapData.Height * bitmapData.Stride);
+				Surface textureSurface = this.texture.GetSurfaceLevel(0);
+				DataRectangle dataRect = textureSurface.LockRectangle(LockFlags.None);
+				BitmapData bitmapData = bitmapToDraw.LockBits(new Rectangle(0, 0, bitmapToDraw.Width, bitmapToDraw.Height), ImageLockMode.ReadOnly, bitmapToDraw.PixelFormat);
+				{
+					dataRect.Data.WriteRange(bitmapData.Scan0, bitmapData.Height * bitmapData.Stride);
+				}
+				bitmapToDraw.UnlockBits(bitmapData);
+				textureSurface.UnlockRectangle();
 			}
-			bitmapToDraw.UnlockBits(bitmapData);
-			textureSurface.UnlockRectangle();
+
 			///////////////////////////
+			// Set up scaling algorithm.
+			TextureFilter filter = this.ImageSmoothing ? TextureFilter.Linear : TextureFilter.Point;
+			this.device.SetSamplerState(0, SamplerState.MinFilter, filter);
+			this.device.SetSamplerState(0, SamplerState.MagFilter, filter);
 
 			//////////////////////
 			// Draw scene.
-			this.device.Clear(ClearFlags.Target, new Color4(0f, 0f, .5f), 1f, 0);
+			this.device.Clear(ClearFlags.Target, colorBlack, 1f, 0);
 			this.device.BeginScene();
 
 			this.device.SetTexture(0, this.texture);

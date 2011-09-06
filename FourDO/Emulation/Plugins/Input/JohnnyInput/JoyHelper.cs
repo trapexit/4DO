@@ -10,6 +10,12 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 	{
 		private static DirectInput directInput = new DirectInput();
 
+		private static List<int> validJoystickDeviceTypes = new List<int>
+			{
+			(int)DeviceType.Joystick,
+			(int)DeviceType.Gamepad
+			};
+
 		public static List<DeviceInstance> GetJoystickDevices()
 		{
 			List<DeviceInstance> joystickDevices = new List<DeviceInstance>();
@@ -17,7 +23,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			var devices = directInput.GetDevices();
 			
 			// The least significant byte of the device's "Type" identifies the DeviceType.
-			return devices.Where<DeviceInstance>(x => ((int)x.Type & 0xFF) == (int)DeviceType.Joystick).ToList<DeviceInstance>();
+			return devices.Where<DeviceInstance>(x => validJoystickDeviceTypes.Contains((int)x.Type & 0xFF)).ToList<DeviceInstance>();
 		}
 	}
 }

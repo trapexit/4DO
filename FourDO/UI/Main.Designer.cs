@@ -61,6 +61,14 @@
 			this.displayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.fullScreenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			this.VoidAreaMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.DrawBorderMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+			this.Pattern4DOMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.PatternBumpsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.PatternMetalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.PatternNoneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
 			this.smoothResizingMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.preserveRatioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
@@ -318,6 +326,8 @@
 			this.displayMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fullScreenMenuItem,
             this.toolStripSeparator5,
+            this.VoidAreaMenuItem,
+            this.toolStripSeparator10,
             this.smoothResizingMenuItem,
             this.preserveRatioMenuItem,
             this.toolStripSeparator6,
@@ -339,6 +349,69 @@
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
 			this.toolStripSeparator5.Size = new System.Drawing.Size(229, 6);
+			// 
+			// VoidAreaMenuItem
+			// 
+			this.VoidAreaMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DrawBorderMenuItem,
+            this.toolStripSeparator11,
+            this.Pattern4DOMenuItem,
+            this.PatternBumpsMenuItem,
+            this.PatternMetalMenuItem,
+            this.PatternNoneMenuItem});
+			this.VoidAreaMenuItem.Name = "VoidAreaMenuItem";
+			this.VoidAreaMenuItem.Size = new System.Drawing.Size(232, 22);
+			this.VoidAreaMenuItem.Text = "Blank (Void) Area";
+			// 
+			// DrawBorderMenuItem
+			// 
+			this.DrawBorderMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
+			this.DrawBorderMenuItem.Name = "DrawBorderMenuItem";
+			this.DrawBorderMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.DrawBorderMenuItem.Text = "Draw Gray Border";
+			this.DrawBorderMenuItem.Click += new System.EventHandler(this.DrawBorderMenuItem_Click);
+			// 
+			// toolStripSeparator11
+			// 
+			this.toolStripSeparator11.Name = "toolStripSeparator11";
+			this.toolStripSeparator11.Size = new System.Drawing.Size(155, 6);
+			// 
+			// Pattern4DOMenuItem
+			// 
+			this.Pattern4DOMenuItem.Image = global::FourDO.Properties.Resources.VoidImage4DO;
+			this.Pattern4DOMenuItem.Name = "Pattern4DOMenuItem";
+			this.Pattern4DOMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.Pattern4DOMenuItem.Text = "Pattern : 4DO";
+			this.Pattern4DOMenuItem.Click += new System.EventHandler(this.Pattern4DOMenuItem_Click);
+			// 
+			// PatternBumpsMenuItem
+			// 
+			this.PatternBumpsMenuItem.Image = global::FourDO.Properties.Resources.VoidImageBumps;
+			this.PatternBumpsMenuItem.Name = "PatternBumpsMenuItem";
+			this.PatternBumpsMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.PatternBumpsMenuItem.Text = "Pattern : Bumps";
+			this.PatternBumpsMenuItem.Click += new System.EventHandler(this.PatternBumpsMenuItem_Click);
+			// 
+			// PatternMetalMenuItem
+			// 
+			this.PatternMetalMenuItem.Image = global::FourDO.Properties.Resources.VoidImageMetal;
+			this.PatternMetalMenuItem.Name = "PatternMetalMenuItem";
+			this.PatternMetalMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.PatternMetalMenuItem.Text = "Pattern : Metal";
+			this.PatternMetalMenuItem.Click += new System.EventHandler(this.PatternMetalMenuItem_Click);
+			// 
+			// PatternNoneMenuItem
+			// 
+			this.PatternNoneMenuItem.Image = global::FourDO.Properties.Resources.VoidImageNone;
+			this.PatternNoneMenuItem.Name = "PatternNoneMenuItem";
+			this.PatternNoneMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.PatternNoneMenuItem.Text = "No Pattern";
+			this.PatternNoneMenuItem.Click += new System.EventHandler(this.PatternNoneMenuItem_Click);
+			// 
+			// toolStripSeparator10
+			// 
+			this.toolStripSeparator10.Name = "toolStripSeparator10";
+			this.toolStripSeparator10.Size = new System.Drawing.Size(229, 6);
 			// 
 			// smoothResizingMenuItem
 			// 
@@ -463,6 +536,7 @@
 			this.gameCanvas.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameCanvas.BackgroundImage")));
 			this.gameCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gameCanvas.ImageSmoothing = true;
+			this.gameCanvas.IsInResizeMode = false;
 			this.gameCanvas.Location = new System.Drawing.Point(0, 24);
 			this.gameCanvas.Name = "gameCanvas";
 			this.gameCanvas.PreserveAspectRatio = true;
@@ -546,6 +620,14 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem configureInputMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem VoidAreaMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem DrawBorderMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+		private System.Windows.Forms.ToolStripMenuItem Pattern4DOMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem PatternBumpsMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem PatternMetalMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem PatternNoneMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
 
     }
 }

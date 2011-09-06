@@ -138,6 +138,7 @@ namespace FourDO.UI
 			
 			////////////////
 			// Copy some menu items to the quick display settings menu.
+			ToolStripMenuItem voidAreaMenuItem = null;
 			foreach (ToolStripItem item in this.displayMenuItem.DropDownItems)
 			{
 				ToolStripItem newItem = null;
@@ -160,11 +161,53 @@ namespace FourDO.UI
 
 					if (item == preserveRatioMenuItem)
 						newItem.Click += new EventHandler(this.preserveRatioMenuItem_Click);
+
+					if (item == this.VoidAreaMenuItem)
+						voidAreaMenuItem = (ToolStripMenuItem)newItem; // We'll add to this one later.
 				}
 				newItem.Tag = item;
 
 				this.quickDisplayDropDownButton.DropDownItems.Add(newItem);
 			}
+
+			// Also clone child items of the void area menu.
+			foreach (ToolStripItem item in this.VoidAreaMenuItem.DropDownItems)
+			{
+				ToolStripItem newItem = null;
+				if (item is ToolStripSeparator)
+					newItem = new ToolStripSeparator();
+				else if (item is ToolStripMenuItem)
+				{
+					newItem = new ToolStripMenuItem();
+					newItem.Text = item.Text;
+					newItem.Font = item.Font;
+
+					if (item == this.PatternNoneMenuItem)
+						newItem.Click += new EventHandler(this.PatternNoneMenuItem_Click);
+
+					if (item == this.PatternMetalMenuItem)
+						newItem.Click += new EventHandler(this.PatternMetalMenuItem_Click);
+
+					if (item == this.PatternBumpsMenuItem)
+						newItem.Click += new EventHandler(this.PatternBumpsMenuItem_Click);
+
+					if (item == this.Pattern4DOMenuItem)
+						newItem.Click += new EventHandler(this.Pattern4DOMenuItem_Click);
+
+					if (item == this.DrawBorderMenuItem)
+						newItem.Click += new EventHandler(this.DrawBorderMenuItem_Click);
+				}
+				newItem.Tag = item;
+
+				voidAreaMenuItem.DropDownItems.Add(newItem);
+			}
+
+			/////////////
+			// Set tags for certain menu items.
+			Pattern4DOMenuItem.Tag = VoidAreaPattern.FourDO;
+			PatternBumpsMenuItem.Tag = VoidAreaPattern.Bumps;
+			PatternMetalMenuItem.Tag = VoidAreaPattern.Metal;
+			PatternNoneMenuItem.Tag = VoidAreaPattern.None;
 
 			/////////////
 			// Handle ROM file nag box
@@ -270,7 +313,9 @@ namespace FourDO.UI
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomSourceType)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomLastDirectory)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomFile)
-				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomDrive))
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomDrive)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.VoidAreaBorder)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.VoidAreaPattern))
 			{
 				this.UpdateUI();
 			}
@@ -407,6 +452,39 @@ namespace FourDO.UI
 		private void smoothResizingMenuItem_Click(object sender, EventArgs e)
 		{
 			this.DoToggleImageSmoothing();
+		}
+
+		private void DrawBorderMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoToggleVoidAreaBorder();
+		}
+
+		private void Pattern4DOMenuItem_Click(object sender, EventArgs e)
+		{
+			if (sender is ToolStripDropDownItem && ((ToolStripDropDownItem)sender).Tag is ToolStripDropDownItem)
+				sender = ((ToolStripDropDownItem)sender).Tag;
+			this.DoSetVoidAreaPattern((VoidAreaPattern)((ToolStripMenuItem)sender).Tag);
+		}
+
+		private void PatternBumpsMenuItem_Click(object sender, EventArgs e)
+		{
+			if (sender is ToolStripDropDownItem && ((ToolStripDropDownItem)sender).Tag is ToolStripDropDownItem)
+				sender = ((ToolStripDropDownItem)sender).Tag;
+			this.DoSetVoidAreaPattern((VoidAreaPattern)((ToolStripMenuItem)sender).Tag);
+		}
+
+		private void PatternMetalMenuItem_Click(object sender, EventArgs e)
+		{
+			if (sender is ToolStripDropDownItem && ((ToolStripDropDownItem)sender).Tag is ToolStripDropDownItem)
+				sender = ((ToolStripDropDownItem)sender).Tag;
+			this.DoSetVoidAreaPattern((VoidAreaPattern)((ToolStripMenuItem)sender).Tag);
+		}
+
+		private void PatternNoneMenuItem_Click(object sender, EventArgs e)
+		{
+			if (sender is ToolStripDropDownItem && ((ToolStripDropDownItem)sender).Tag is ToolStripDropDownItem)
+				sender = ((ToolStripDropDownItem)sender).Tag;
+			this.DoSetVoidAreaPattern((VoidAreaPattern)((ToolStripMenuItem)sender).Tag);
 		}
 
 		private void Main_KeyDown(object sender, KeyEventArgs e)
@@ -596,19 +674,42 @@ namespace FourDO.UI
 			// Display menus. (always enabled)
 
 			this.fullScreenMenuItem.Checked = Properties.Settings.Default.WindowFullScreen;
-			this.GetQuickDisplayMenuItem(fullScreenMenuItem).Checked = fullScreenMenuItem.Checked;
+
+			this.DrawBorderMenuItem.Checked = Properties.Settings.Default.VoidAreaBorder;
 
 			this.smoothResizingMenuItem.Checked = Properties.Settings.Default.WindowImageSmoothing;
-			this.GetQuickDisplayMenuItem(smoothResizingMenuItem).Checked = smoothResizingMenuItem.Checked;
 			this.gameCanvas.ImageSmoothing = this.smoothResizingMenuItem.Checked;
 
 			this.snapWindowMenuItem.Checked = Properties.Settings.Default.WindowSnapSize;
-			this.GetQuickDisplayMenuItem(snapWindowMenuItem).Checked = snapWindowMenuItem.Checked;
 			this.sizeGuard.Enabled = this.snapWindowMenuItem.Checked && (Properties.Settings.Default.WindowFullScreen == false);
 
 			this.preserveRatioMenuItem.Checked = Properties.Settings.Default.WindowPreseveRatio;
-			this.GetQuickDisplayMenuItem(preserveRatioMenuItem).Checked = preserveRatioMenuItem.Checked;
 			this.gameCanvas.PreserveAspectRatio = this.preserveRatioMenuItem.Checked;
+
+			// Individual void area patterns.
+			bool rightPattern;
+			
+			rightPattern = ((int)Properties.Settings.Default.VoidAreaPattern == (int)this.Pattern4DOMenuItem.Tag);
+ 			this.Pattern4DOMenuItem.Checked = rightPattern;
+			this.Pattern4DOMenuItem.Font = new Font(this.Pattern4DOMenuItem.Font, rightPattern ? FontStyle.Italic : FontStyle.Regular);
+			
+			rightPattern = ((int)Properties.Settings.Default.VoidAreaPattern == (int)this.PatternBumpsMenuItem.Tag);
+			this.PatternBumpsMenuItem.Checked = rightPattern;
+			this.PatternBumpsMenuItem.Font = new Font(this.PatternBumpsMenuItem.Font, rightPattern ? FontStyle.Italic : FontStyle.Regular);
+			
+			rightPattern = ((int)Properties.Settings.Default.VoidAreaPattern == (int)this.PatternMetalMenuItem.Tag);
+			this.PatternMetalMenuItem.Checked = rightPattern;
+			this.PatternMetalMenuItem.Font = new Font(this.PatternMetalMenuItem.Font, rightPattern ? FontStyle.Italic : FontStyle.Regular);
+
+			rightPattern = ((int)Properties.Settings.Default.VoidAreaPattern == (int)this.PatternNoneMenuItem.Tag);
+			this.PatternNoneMenuItem.Checked = rightPattern;
+			this.PatternNoneMenuItem.Font = new Font(this.PatternNoneMenuItem.Font, rightPattern ? FontStyle.Italic : FontStyle.Regular);
+
+			this.gameCanvas.VoidAreaPattern = (VoidAreaPattern)Properties.Settings.Default.VoidAreaPattern;
+			this.gameCanvas.VoidAreaBorder = Properties.Settings.Default.VoidAreaBorder;
+
+			// All "quick" display menu items will copy what we've done.
+			this.UpdateQuickMenuItems();
 
 			////////////////////////
 			// Settings menus. (almost always enabled)
@@ -631,6 +732,35 @@ namespace FourDO.UI
 			if (isValidBiosRomSelected == true)
 				this.DoHideRomNag();
 		}
+
+		private void UpdateQuickMenuItems()
+		{
+			this.UpdateQuickMenuItems(quickDisplayDropDownButton.DropDownItems);
+		}
+
+		private void UpdateQuickMenuItems(ToolStripItemCollection items)
+		{
+			foreach (ToolStripItem item in items)
+			{
+				if (item.Tag == null)
+					continue;
+
+				ToolStripMenuItem menuItem = item as ToolStripMenuItem;
+				if (menuItem == null)
+					continue;
+
+				ToolStripMenuItem originalItem = menuItem.Tag as ToolStripMenuItem;
+				if (originalItem == null)
+					continue;
+
+				menuItem.Font = originalItem.Font;
+				menuItem.Checked = originalItem.Checked;
+
+				if (menuItem.DropDownItems.Count > 0)
+					this.UpdateQuickMenuItems(menuItem.DropDownItems);
+			}
+		}
+
 
 		#region Console Control
 
@@ -976,14 +1106,16 @@ namespace FourDO.UI
 			Properties.Settings.Default.Save();
 		}
 
-		private ToolStripMenuItem GetQuickDisplayMenuItem(ToolStripMenuItem displayMenuItem)
+		private void DoToggleVoidAreaBorder()
 		{
-			foreach (ToolStripItem item in quickDisplayDropDownButton.DropDownItems)
-			{
-				if (item.Tag == displayMenuItem)
-					return (ToolStripMenuItem)item;
-			}
-			return null;
+			Properties.Settings.Default.VoidAreaBorder = !Properties.Settings.Default.VoidAreaBorder;
+			Properties.Settings.Default.Save();
+		}
+
+		private void DoSetVoidAreaPattern(VoidAreaPattern pattern)
+		{
+			Properties.Settings.Default.VoidAreaPattern = (int)pattern;
+			Properties.Settings.Default.Save();
 		}
 
 		private void SetFullScreen(bool enableFullScreen)
