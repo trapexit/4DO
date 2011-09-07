@@ -52,6 +52,8 @@ namespace FourDO.UI.DX
 		protected const int bitmapWidth = 320;
 		protected const int bitmapHeight = 240;
 		protected readonly Size bitmapSize = new Size(bitmapWidth, bitmapHeight);
+		protected readonly int textureWidth = RoundUpToNextPowerOfTwo(bitmapWidth);
+		protected readonly int textureHeight = RoundUpToNextPowerOfTwo(bitmapHeight);
 
 		protected Bitmap bitmapA = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format32bppRgb);
 		protected Bitmap bitmapB = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format32bppRgb);
@@ -124,7 +126,8 @@ namespace FourDO.UI.DX
 			/////////////////
 			// Set up texture.
 			//this.texture = Texture.FromFile(this.device, @"C:\jmk\screens\ihateit.bmp");
-			this.texture = new Texture(this.device, bitmapWidth, bitmapHeight, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
+			this.texture = new Texture(this.device, textureWidth, textureHeight, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
+			var desc = this.texture.GetLevelDescription(0);
 
 			/////////////////
 			// Set up vertex buffer
@@ -132,18 +135,20 @@ namespace FourDO.UI.DX
 				, 4 * (Marshal.SizeOf(typeof(TexturedVertex)))
 				, Usage.WriteOnly, VertexFormat.None, Pool.Default);
 			DataStream vertexStream = this.vertexBuffer.Lock(0, 0, LockFlags.None);
+			float maximumX = bitmapWidth / (float)textureWidth;
+			float maximumY = bitmapHeight / (float)textureHeight;
 			vertexStream.WriteRange(new[]{
 				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f,0.0f)),
-				new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(1.0f,0.0f)),
-				new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,1.0f)),
-				new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(1.0f,1.0f)) });
+				new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(maximumX,0.0f)),
+				new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,maximumY)),
+				new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX,maximumY)) });
 
 			this.vertexBuffer.Unlock();
 
 			this.vertexDeclaration = new VertexDeclaration(this.device, new[] {
-                new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0), 
-                new VertexElement(0, 12, DeclarationType.Float2, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0), 
-                VertexElement.VertexDeclarationEnd});
+				new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0), 
+				new VertexElement(0, 12, DeclarationType.Float2, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0), 
+				VertexElement.VertexDeclarationEnd});
 
 			initialized = true;
 		}
@@ -177,7 +182,16 @@ namespace FourDO.UI.DX
 				DataRectangle dataRect = textureSurface.LockRectangle(LockFlags.None);
 				BitmapData bitmapData = bitmapToDraw.LockBits(new Rectangle(0, 0, bitmapToDraw.Width, bitmapToDraw.Height), ImageLockMode.ReadOnly, bitmapToDraw.PixelFormat);
 				{
-					dataRect.Data.WriteRange(bitmapData.Scan0, bitmapData.Height * bitmapData.Stride);
+					DataStream stream = dataRect.Data;
+					int stride = bitmapData.Stride;
+					int bitDepth = bitmapData.Stride / bitmapData.Width;
+					IntPtr sourcePtr = bitmapData.Scan0;
+					for (int y = 0; y < bitmapData.Height; y++) 
+					{
+						stream.WriteRange(sourcePtr, stride);
+						stream.Position += (textureWidth - bitmapWidth) * bitDepth;
+						sourcePtr += stride;
+					}
 				}
 				bitmapToDraw.UnlockBits(bitmapData);
 				textureSurface.UnlockRectangle();
@@ -262,6 +276,18 @@ namespace FourDO.UI.DX
 		{
 			if (this.IsInResizeMode && this.initialized)
 				this.Render();
+		}
+
+		private static int RoundUpToNextPowerOfTwo(int x)
+		{
+			x--;
+			x |= x >> 1;  // handle  2 bit numbers
+			x |= x >> 2;  // handle  4 bit numbers
+			x |= x >> 4;  // handle  8 bit numbers
+			x |= x >> 8;  // handle 16 bit numbers
+			x++;
+
+			return x;
 		}
 	}
 }
