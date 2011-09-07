@@ -30,6 +30,7 @@ namespace FourDO.UI
 
 		private bool isConsoleStopped = true;
 
+		private bool patternSetOnce = false;
 		private VoidAreaPattern voidAreaPattern;
 
 		private bool voidAreaBorder;
@@ -42,20 +43,21 @@ namespace FourDO.UI
 			}
 			set
 			{
-				if (voidAreaPattern == value)
+				if (this.voidAreaPattern == value && this.patternSetOnce)
 					return;
 				
-				voidAreaPattern = value;
+				this.voidAreaPattern = value;
 				Bitmap newBackground = null;
 
-				if (voidAreaPattern == VoidAreaPattern.FourDO)
+				if (this.voidAreaPattern == VoidAreaPattern.FourDO)
 					newBackground = Properties.Resources.VoidImage4DO;
-				else if (voidAreaPattern == VoidAreaPattern.Bumps)
+				else if (this.voidAreaPattern == VoidAreaPattern.Bumps)
 					newBackground = Properties.Resources.VoidImageBumps;
-				else if (voidAreaPattern == VoidAreaPattern.Metal)
+				else if (this.voidAreaPattern == VoidAreaPattern.Metal)
 					newBackground = Properties.Resources.VoidImageMetal;
 
 				this.BackgroundImage = newBackground;
+				this.patternSetOnce = true;
 			}
 		}
 
