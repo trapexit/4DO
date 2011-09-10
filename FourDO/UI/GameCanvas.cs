@@ -28,7 +28,7 @@ namespace FourDO.UI
 	
 		private bool preserveAspectRatio = true;
 
-		private bool isConsoleStopped = true;
+		private bool isConsoleStopped;
 
 		private bool patternSetOnce = false;
 		private VoidAreaPattern voidAreaPattern;
@@ -114,9 +114,25 @@ namespace FourDO.UI
 			}
 		}
 
+		public bool IsConsoleStopped
+		{
+			get
+			{
+				return (this.isConsoleStopped);
+			}
+			set
+			{
+				this.isConsoleStopped = value;
+				this.pnlBlack.Visible = value;
+			}
+		}
+
 		public GameCanvas()
 		{
 			InitializeComponent();
+
+			this.isConsoleStopped = true;
+			this.pnlBlack.Dock = DockStyle.Fill;
 
 			GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(GameConsole_ConsoleStateChange);
 		}
@@ -146,7 +162,7 @@ namespace FourDO.UI
 
 		private void GameConsole_ConsoleStateChange(ConsoleStateChangeEventArgs e)
 		{
-			this.isConsoleStopped = (e.NewState == ConsoleState.Stopped);
+			this.IsConsoleStopped = (e.NewState == ConsoleState.Stopped);
 		}
 
 		private Rectangle getCanvasRect()

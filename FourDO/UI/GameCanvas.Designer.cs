@@ -31,6 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			this.slimDXCanvas = new FourDO.UI.DX.SlimDXCanvas();
 			this.HideMouseTimer = new System.Windows.Forms.Timer(this.components);
+			this.pnlBlack = new System.Windows.Forms.Panel();
 			this.SuspendLayout();
 			// 
 			// slimDXCanvas
@@ -50,12 +51,21 @@
 			this.HideMouseTimer.Interval = 1000;
 			this.HideMouseTimer.Tick += new System.EventHandler(this.HideMouseTimer_Tick);
 			// 
+			// pnlBlack
+			// 
+			this.pnlBlack.Location = new System.Drawing.Point(25, 156);
+			this.pnlBlack.Name = "pnlBlack";
+			this.pnlBlack.Size = new System.Drawing.Size(98, 58);
+			this.pnlBlack.TabIndex = 1;
+			this.pnlBlack.Visible = false;
+			// 
 			// GameCanvas
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
 			this.BackgroundImage = global::FourDO.Properties.Resources.VoidImageBumps;
+			this.Controls.Add(this.pnlBlack);
 			this.Controls.Add(this.slimDXCanvas);
 			this.DoubleBuffered = true;
 			this.Name = "GameCanvas";
@@ -73,5 +83,6 @@
 
 		private DX.SlimDXCanvas slimDXCanvas;
 		private System.Windows.Forms.Timer HideMouseTimer;
+		private System.Windows.Forms.Panel pnlBlack;
     }
 }

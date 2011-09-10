@@ -562,16 +562,8 @@ namespace FourDO.UI
 			// Should we remember the status?
 			if (Properties.Settings.Default.AutoRememberPause)
 			{
-				if (e.NewState == ConsoleState.Paused)
-				{
-					Properties.Settings.Default.LastPauseStatus = true;
-					Properties.Settings.Default.Save();
-				}
-				else if (e.NewState == ConsoleState.Running)
-				{
-					Properties.Settings.Default.LastPauseStatus = false;
-					Properties.Settings.Default.Save();
-				}
+				Properties.Settings.Default.LastPauseStatus = (e.NewState == ConsoleState.Paused);
+				Properties.Settings.Default.Save();
 			}
 
 			// Some menu items depend on console status.
@@ -610,7 +602,7 @@ namespace FourDO.UI
 			////////////////////////
 			// File menu
 
-			this.closeGameMenuItem.Enabled = consoleActive;
+			this.closeGameMenuItem.Enabled = consoleActive && !(GameConsole.Instance.GameSource is EmptyGameSource);
 			this.openCDImageMenuItem.Enabled = isValidBiosRomSelected;
 			this.loadLastGameMenuItem.Enabled = true;
 			this.chooseBiosRomMenuItem.Enabled = true;
@@ -901,7 +893,7 @@ namespace FourDO.UI
 		{
 			Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
 			Properties.Settings.Default.Save();
-			this.DoConsoleStop();
+			this.DoConsoleReset(false); // go back to start of bios.
 		}
 		
 		private void DoShowRomNag()
@@ -928,7 +920,8 @@ namespace FourDO.UI
 					Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
 					Properties.Settings.Default.Save();
 
-					this.DoConsoleStart(true);
+					if (GameConsole.Instance.GameSource == null || GameConsole.Instance.GameSource is EmptyGameSource)
+						this.DoConsoleReset(true);
 				}
 			}
 		}
