@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace FourDO.Emulation.GameSource
 {
-	internal class EmptyGameSource : IGameSource
+	internal class BiosOnlyGameSource : IGameSource
 	{
-		public EmptyGameSource()
+		public BiosOnlyGameSource()
 		{
 		}
 
@@ -32,9 +32,19 @@ namespace FourDO.Emulation.GameSource
 			return 0;
 		}
 
+		public string GetGameId()
+		{
+			return null;
+		}
+
+		public string GetGameName()
+		{
+			return null;
+		}
+
 		public void ReadSector(IntPtr destinationBuffer, int sectorNumber)
 		{
-			// I'll never talk!
+			// (nothing)
 		}
 
 		#endregion // IGameSource Implementation

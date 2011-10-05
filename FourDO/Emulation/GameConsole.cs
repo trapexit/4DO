@@ -346,6 +346,9 @@ namespace FourDO.Emulation
 			BinaryWriter writer = null;
 			try
 			{
+				string saveDirectory = Path.GetDirectoryName(saveStateFileName);
+				if (!Directory.Exists(saveDirectory))
+					Directory.CreateDirectory(saveDirectory);
 				writer = new BinaryWriter(new FileStream(saveStateFileName, FileMode.Create));
 
 				byte[] saveData = new byte[FreeDOCore.GetSaveSize()];

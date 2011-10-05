@@ -77,8 +77,9 @@
     <Compile Include="Emulation\GameSource\DiscGameSource.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Emulation\GameSource\EmptyGameSource.cs" />
+    <Compile Include="Emulation\GameSource\BiosOnlyGameSource.cs" />
     <Compile Include="Emulation\GameSource\FileGameSource.cs" />
+    <Compile Include="Emulation\GameSource\GameRegistrar.cs" />
     <Compile Include="Emulation\GameSource\GameSourceBase.cs" />
     <Compile Include="Emulation\GameSource\IGameSource.cs" />
     <Compile Include="Emulation\Plugins\IAudioPlugin.cs" />
@@ -148,6 +149,7 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MouseHider.cs" />
+    <Compile Include="UI\SaveHelper.cs" />
     <Compile Include="UI\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -240,7 +242,6 @@
     </EmbeddedResource>
     <None Include="Emulation\Plugins\Input\JohnnyInput\Controller.png" />
     <None Include="Emulation\Plugins\Input\JohnnyInput\controller.pptx" />
-    <None Include="VoidImage.bmp" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -291,6 +292,7 @@
     <None Include="UI\SizeVertical.ico" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Emulation\GameSource\GameDatabase.xml" />
     <Content Include="IconFourDO.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

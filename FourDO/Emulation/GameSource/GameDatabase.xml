@@ -1,0 +1,4132 @@
+<?xml version="1.0"?>
+<database>
+  <game>
+    <id>00256A21</id>
+    <checkSum>00256A21C9476CAADBBE49BDA7FE2050</checkSum>
+    <name>Out of this World</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>002C924F</id>
+    <checkSum>002C924F19D7B178966546F18D23CC72</checkSum>
+    <name>Shadow Warriors</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>T&amp;E Soft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>00E56476</id>
+    <checkSum>00E5647654226C92F37955A897214CF8</checkSum>
+    <name>MegaRace</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Multisoft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0128CDAF</id>
+    <checkSum>0128CDAFF032A7E9309E06597CF1289C</checkSum>
+    <name>Road Rash</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>01AE4085</id>
+    <checkSum>01AE4085AAB46462144F42B085C1EC7C</checkSum>
+    <name>Fatty Bear's Funpack</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Media Vision</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>04116B14</id>
+    <checkSum>04116B142EDD315A2FC3592E4497F4DA</checkSum>
+    <name>Battle Chess</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>04D3FE94</id>
+    <checkSum>04D3FE945F3434FCBCD8A10173D5617E</checkSum>
+    <name>Pyramid Intruder</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Taito</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0511D3D2</id>
+    <checkSum>0511D3D24AF8BA8FC1808525064E7731</checkSum>
+    <name>Alone in the Dark</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Pony Canyon</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>052603BE</id>
+    <checkSum>052603BE90F6B2E26C58B85DF8132831</checkSum>
+    <name>Way of the Warrior</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>064BAB53</id>
+    <checkSum>064BAB53F39F192E8A094789ED799027</checkSum>
+    <name>Insect War</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0703F255</id>
+    <checkSum>0703F25551B7E9B66FCAAA5F0DEF3CB1</checkSum>
+    <name>Soccer Kid</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>074BDE30</id>
+    <checkSum>074BDE3046305826DAB014EE3F5B0E9C</checkSum>
+    <name>Wing Commander III - Heart of the Tiger (Disc 2 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Origin</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>076C742F</id>
+    <checkSum>076C742F02E7F3418A18774DC30FB174</checkSum>
+    <name>Return Fire v1.0 EC19.1.1</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Prolific</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>07C32F10</id>
+    <checkSum>07C32F102496529FAF9261C816EB87D4</checkSum>
+    <name>Super Street Fighter II Turbo</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>07D402D1</id>
+    <checkSum>07D402D195ECCBF1890A18E5FE14B273</checkSum>
+    <name>Space Pirates</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>08456921</id>
+    <checkSum>08456921707EE5C12F3D77B38ED8F5AE</checkSum>
+    <name>Syndicate</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>0912FDF8</id>
+    <checkSum>0912FDF85F4B0700E4CBF8F48BB1DCF5</checkSum>
+    <name>Murphy Dayo Zenin Shuugou!! - Murphy's TV CD-ROM</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Vantan International</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0972FFCC</id>
+    <checkSum>0972FFCCEE21E10A7C730B198F47E441</checkSum>
+    <name>Woody Woodpecker and Friends - Volume One</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>MCA Universal Home Video</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>09AE74C3</id>
+    <checkSum>09AE74C3C873AC63598B442540F9ADD0</checkSum>
+    <name>Outer World</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>09C0EFB1</id>
+    <checkSum>09C0EFB1DBF38F05DA56CAA4A8BD1F5E</checkSum>
+    <name>Total Eclipse</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>0A09A649</id>
+    <checkSum>0A09A6496E04AE42EC86A6F8D52EC786</checkSum>
+    <name>Idol Mahjong Final Romance 2 - Hyper Edition</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Infini</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0A2BABC6</id>
+    <checkSum>0A2BABC6C777D95B6FEBC54A3CEA9F8C</checkSum>
+    <name>Captain Quazar</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>0A5BAAA6</id>
+    <checkSum>0A5BAAA6E2527D4237354AC000405055</checkSum>
+    <name>Chiki Chiki Machine Mou-Race 2 - In Space</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Future Pirates</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0AFE08D7</id>
+    <checkSum>0AFE08D786A6F1F0FE06AA088137D09A</checkSum>
+    <name>ESPN Golf - Tom Kite no Kore ga Golf Da! (Disc 1 of 3)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>BYSE</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0B879BE4</id>
+    <checkSum>0B879BE47C7D4CCE0CD6D74263D39C31</checkSum>
+    <name>Uchuu Seifutsu Furopon-kun</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>San-Ei Shobo Publishing</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0BE38B22</id>
+    <checkSum>0BE38B22987B40B5D48F70A167656049</checkSum>
+    <name>Lemmings</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Psygnosis</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>0C0C25A3</id>
+    <checkSum>0C0C25A376239D09B2908822112B372D</checkSum>
+    <name>Dragon's Lair</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Elite - ReadySoft</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>0C448B58</id>
+    <checkSum>0C448B5832E2FBB4CF709363148F5F33</checkSum>
+    <name>Supreme Warrior - Ying Heung (Disc 1 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Digital Pictures</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0D88A571</id>
+    <checkSum>0D88A5710875411DFE2345544013EE19</checkSum>
+    <name>Live! 3DO Magazine CD-ROM #11</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Tokumashoten Intermedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0D8AFE1D</id>
+    <checkSum>0D8AFE1DA1DC603442887FFBD10B83C9</checkSum>
+    <name>Life Stage, The - Virtual House</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0E787FFE</id>
+    <checkSum>0E787FFE915D7F42BE5B214D988B632C</checkSum>
+    <name>Yamamura Misa Suspense - Miyako Kurama Sansou Satsujinjiken (Disc 1 of 2)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0F10FA1E</id>
+    <checkSum>0F10FA1E6E2C90F2052E45B2204AFD82</checkSum>
+    <name>Yamamura Misa Suspense - Miyako Kurama Sansou Satsujinjiken (Disc 2 of 2)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>0F67A977</id>
+    <checkSum>0F67A977BA588E688129586C480FD3E3</checkSum>
+    <name>New How's 1 - Front How's '94-'95 v1.0</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>National</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>11005AAE</id>
+    <checkSum>11005AAE2EFBFD348F24E0A455A4A8F5</checkSum>
+    <name>Live! 3DO Magazine CD-ROM #08</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Tokumashoten Intermedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>112B53D0</id>
+    <checkSum>112B53D0A045484C6B61DBE4A5683759</checkSum>
+    <name>Space Ace</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>ReadySoft</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>113842B2</id>
+    <checkSum>113842B2169F59A4A0DF5B602CDA07CB</checkSum>
+    <name>Policenauts - Pilot Disk</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Konami</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1167308B</id>
+    <checkSum>1167308B9BBB96E45ADD4A906CFC6AB7</checkSum>
+    <name>Winning Post</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>KOEI</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>12126B4F</id>
+    <checkSum>12126B4FADE8B781E1F0FBCB1C57728C</checkSum>
+    <name>Nontan to Issho - Nohara de Asobo</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>127030E6</id>
+    <checkSum>127030E693928115DD5B8A6B4088A5D7</checkSum>
+    <name>Iron Angel of the Apocalypse</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Synergy</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>127BF39C</id>
+    <checkSum>127BF39CC19962871EBA5F85B1646C42</checkSum>
+    <name>Tsuukai Gameshow - Twisted</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>12B7C666</id>
+    <checkSum>12B7C666F3E255957AB50A6DCC469BA7</checkSum>
+    <name>Hirata Shiyougo Interactive Ehon - Ningyohime</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>ELCOM</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>12EF1F84</id>
+    <checkSum>12EF1F8439F58CCF7B5F8A1C2681F002</checkSum>
+    <name>Total Eclipse</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>14EA7E0F</id>
+    <checkSum>14EA7E0F97927A00A3D6FCF72D3D4365</checkSum>
+    <name>Idol Janshi Suchie-Pai Special</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Jaleco</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>14F7638D</id>
+    <checkSum>14F7638D69EC532C2104E55C02DDC3D7</checkSum>
+    <name>Powers Kingdom</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>15BAD6E9</id>
+    <checkSum>15BAD6E955999D5C9C465AD4E07E1B48</checkSum>
+    <name>Great! Soccer Kid</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>162BB9B8</id>
+    <checkSum>162BB9B84AD0736459ADCE89BEA5B4D0</checkSum>
+    <name>Sotsugyou II - Neo Generation Special</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Shar Rock</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>16766448</id>
+    <checkSum>16766448246E0626C78ABAF7BAC62854</checkSum>
+    <name>ESPN Let's Play Soccer with John Harkes and Mia Hamm</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IntelliPlay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>169F0254</id>
+    <checkSum>169F025489673F058742C12E4C7FE543</checkSum>
+    <name>Guardian War</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>CA-US</regions>
+  </game>
+  <game>
+    <id>1757408B</id>
+    <checkSum>1757408B5D319AF71E932D886486EB70</checkSum>
+    <name>Seal of the Pharaoh</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>1771ED98</id>
+    <checkSum>1771ED98FB0A1B0D0DE7970DD477E5A5</checkSum>
+    <name>BattleSport</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>18036597</id>
+    <checkSum>18036597B8D903CC68C5A73B16760A47</checkSum>
+    <name>Jurassic Park Interactive</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Universal Interactive Studios</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>181A66F1</id>
+    <checkSum>181A66F14B2158DE45D0BFB121EB7C12</checkSum>
+    <name>Slam 'N Jam '95</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>18470E25</id>
+    <checkSum>18470E258B51D04E3EF9A565EE5BE7C4</checkSum>
+    <name>Virtuoso</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Elite</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>188F0A63</id>
+    <checkSum>188F0A63DF4C7B59010EC838CB5C47D7</checkSum>
+    <name>Fire Ball !!</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>18C186D9</id>
+    <checkSum>18C186D94ED73ECD96634FCFE76B84C9</checkSum>
+    <name>Star Control II</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>1933F280</id>
+    <checkSum>1933F280F6625157D1B08954E0B247F7</checkSum>
+    <name>John Madden NFL Football</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>EA Sports</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>19355544</id>
+    <checkSum>193555448B046D2996221F0AA1827C2C</checkSum>
+    <name>Psychic Detective (Disc 1 of 3)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>19497684</id>
+    <checkSum>194976848401DA5C3EC05B50BE5CB81E</checkSum>
+    <name>EMIT Vol. 1 - Toki no Maigo</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>KOEI</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1A35B4B3</id>
+    <checkSum>1A35B4B3C96CA114FEAB4E96B454F507</checkSum>
+    <name>Wing Commander III - Heart of the Tiger (Disc 3 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Origin</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>1A370EBA</id>
+    <checkSum>1A370EBA9491CEFE6D6DB4906FD9AD76</checkSum>
+    <name>Microcosm</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>T&amp;E Soft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1A7222FC</id>
+    <checkSum>1A7222FCC41A1057084E317D1547798A</checkSum>
+    <name>Live! 3DO Magazine CD-ROM #06</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Tokumashoten Intermedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1AAE20E9</id>
+    <checkSum>1AAE20E90FC390D4B255988C903EB16B</checkSum>
+    <name>Chiki Chiki Machine Mou-Race</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Future Pirates</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1BB64E86</id>
+    <checkSum>1BB64E86E9E9EB98E93CD09D40D2558A</checkSum>
+    <name>Totsugeki Kikan! Megadasu!! (demo)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Warp</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1BD440E9</id>
+    <checkSum>1BD440E924D1E9DE653ADE51CB42B343</checkSum>
+    <name>ESPN Golf - Lower Your Score With Tom Kite - Shot Making (Disc 3 of 3)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IntelliPlay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>1BFE2BDE</id>
+    <checkSum>1BFE2BDE3A2E8BB4B31BAA5EEB063C2B</checkSum>
+    <name>J.League Virtual Stadium '95</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>EA Sports</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1CDE5C0B</id>
+    <checkSum>1CDE5C0BC8532F1AF692EAB7BE47C730</checkSum>
+    <name>Fun 'n Games - Soft no Omochabai</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Virgin</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1D50D017</id>
+    <checkSum>1D50D0178C70076329A90A715E3F62AD</checkSum>
+    <name>BladeForce</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1D5F4B6B</id>
+    <checkSum>1D5F4B6B7096FEBD6F6AAB84E0EA33EE</checkSum>
+    <name>Shock Wave</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>1D7E7D74</id>
+    <checkSum>1D7E7D74B5CC1B85AD7E07FB212E3512</checkSum>
+    <name>Return Fire v1.0 F322.1.3</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Silent Software</publisher>
+    <regions>EU-JP</regions>
+  </game>
+  <game>
+    <id>1D963E84</id>
+    <checkSum>1D963E844356D6F26A5D9C744D60952B</checkSum>
+    <name>Alone in the Dark 2</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>1DAEBE43</id>
+    <checkSum>1DAEBE43072DAC4213C22CBFAC8CA063</checkSum>
+    <name>Dragon Lore - The Legend Begins (Disc 1 of 3)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Mindscape</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>1DD6C305</id>
+    <checkSum>1DD6C305604E940C42282CF5088A4BCF</checkSum>
+    <name>Theatre Wars - Goraku no Dendou</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1E6D3539</id>
+    <checkSum>1E6D3539091FCD823BB858E374AA5716</checkSum>
+    <name>Plumbers Don't Wear Ties</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Kirin Entertainment</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>1E8D4F45</id>
+    <checkSum>1E8D4F4594363F9DF7A42D7E4FB770F9</checkSum>
+    <name>Wing Commander III - Heart of the Tiger (Disc 4 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Origin</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>1EA203A3</id>
+    <checkSum>1EA203A314CDC49CE3C26545C6909CC2</checkSum>
+    <name>Real Pinball</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>CA-US</regions>
+  </game>
+  <game>
+    <id>1F059B8F</id>
+    <checkSum>1F059B8FE80188C178133C6348869996</checkSum>
+    <name>Nova-Storm</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>T&amp;E Soft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1F311A64</id>
+    <checkSum>1F311A64100259CCFF0C0C3A8F1F6D6D</checkSum>
+    <name>Montana Jones</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Future Pirates Junior</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>1FEC4EC7</id>
+    <checkSum>1FEC4EC733483A5225FE90AA0C08A509</checkSum>
+    <name>Putt-Putt Goes to the Moon</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Humongous Entertainment</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>20FF6433</id>
+    <checkSum>20FF6433E741FA9384C8AC5581DCEBF5</checkSum>
+    <name>EMIT Vol. 3 - Watashi ni Sayonara o</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>KOEI</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>217344B0</id>
+    <checkSum>217344B0B501BE4BBB274AF4A49F7053</checkSum>
+    <name>Crash 'n Burn</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>21D8D5AD</id>
+    <checkSum>21D8D5AD3A70B9D5FE33554A3B95362C</checkSum>
+    <name>Coven, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Vivid Interactive</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>22746F39</id>
+    <checkSum>22746F39AB1D16B86B58DDD3CF3AB500</checkSum>
+    <name>Puzzle Bobble (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Micro Cabin</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>236F8774</id>
+    <checkSum>236F87741A6DCC026A6FE8748E2EB89C</checkSum>
+    <name>Burning Soldier</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>23B3EA05</id>
+    <checkSum>23B3EA0560F3768D2F74E81797E32FE3</checkSum>
+    <name>Kero Kero Keroppi to Origami no Tabibito</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Mizuki</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>2452B541</id>
+    <checkSum>2452B5419C39FB80A824DEBF7060D3B0</checkSum>
+    <name>Quarantine</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Gametek</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>24721BF4</id>
+    <checkSum>24721BF41AECC6BE3EB611B58AC0B4BD</checkSum>
+    <name>FIFA International Soccer</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>EA Sports</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>260DC12D</id>
+    <checkSum>260DC12DC9896F1D13F302B5EAC74F09</checkSum>
+    <name>Twisted - The Game Show</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>26FC0C60</id>
+    <checkSum>26FC0C600AFF0E1DB48F7627DC04123A</checkSum>
+    <name>NeuroDancer - Journey Into The Neuronet</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Pixis Interactive</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>27A64CFC</id>
+    <checkSum>27A64CFCC9EF42F064E1F66885ABBECF</checkSum>
+    <name>Cyberia</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>28049BA3</id>
+    <checkSum>28049BA35744FB1671299B515F112977</checkSum>
+    <name>Shanghai - Banri no Choujou</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Activision</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>28543369</id>
+    <checkSum>285433697F2C07A66762F97E4F3ED8D2</checkSum>
+    <name>Cannon Fodder</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Virgin</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>29B5BDF9</id>
+    <checkSum>29B5BDF985A872F74DE9E6454065F4B5</checkSum>
+    <name>Furopon World</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Warp</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>29DE5AA3</id>
+    <checkSum>29DE5AA357305F2E8C7DD6A9F7D75E15</checkSum>
+    <name>Marine Tour - Diving Spot Guide</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Office Create</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>2AABA5B9</id>
+    <checkSum>2AABA5B90F51A301D3A693D0CFA0FE1C</checkSum>
+    <name>Samurai Shodown</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>2BD9B140</id>
+    <checkSum>2BD9B14074ACD02C4B932034800FC0E1</checkSum>
+    <name>Mahjongkyou Jidai - AV Gal Seifuku Hen</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Micronet</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>2C564240</id>
+    <checkSum>2C564240BF9CA5AAFEC409899FD107F5</checkSum>
+    <name>StarBlade</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Namco</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>2CB7FE65</id>
+    <checkSum>2CB7FE65AA7FB54A50BD3BF479C80D5D</checkSum>
+    <name>Goal FH</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Carrozzeria Japan</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>2DDBB4AA</id>
+    <checkSum>2DDBB4AA783D255B060E13BDFE015033</checkSum>
+    <name>Killing Time</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>2E6F8EEE</id>
+    <checkSum>2E6F8EEEC6F92C478685C75232F9EED6</checkSum>
+    <name>Escape from Monster Manor - A Terrifying Hunt for the Undead</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>2F258D36</id>
+    <checkSum>2F258D361DCD3631E6D32FF0A92EDFF3</checkSum>
+    <name>World Cup Golf - Hyatt Dorado Beach</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>U.S. Gold</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>2FD69CAD</id>
+    <checkSum>2FD69CAD68A09C9BB3C905B8CABC15B7</checkSum>
+    <name>PO'ed</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>307EBFF9</id>
+    <checkSum>307EBFF9CD5D1D4376836B2CC0E5211C</checkSum>
+    <name>Montana Jones (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>31A3B2E7</id>
+    <checkSum>31A3B2E79EC3243136B20E0403DB21D0</checkSum>
+    <name>Fire Ball !!</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>31C1C839</id>
+    <checkSum>31C1C839A13513CF0B472351EDED821C</checkSum>
+    <name>Live! 3DO Magazine CD-ROM #01</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Tokumashoten Intermedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>31EE17D5</id>
+    <checkSum>31EE17D5168B3C0D0988A3D9091AA0FC</checkSum>
+    <name>PaTaank</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>PF.Magic</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>322B9EF3</id>
+    <checkSum>322B9EF376DFB3ED9D49607A768B6065</checkSum>
+    <name>Yamada Kamachi Bijutsukan - Kamachi's Museum</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>TV Asahi</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>3269CE6E</id>
+    <checkSum>3269CE6E8B0F843216057FC381811286</checkSum>
+    <name>Hirata Shiyougo Interactive Ehon - Aesop Monogatari 1</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>ELCOM</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>32AF9FE0</id>
+    <checkSum>32AF9FE09534E741F8D842714AD7DA1C</checkSum>
+    <name>Sword &amp; Sorcery</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Micro Cabin</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>32B08BE8</id>
+    <checkSum>32B08BE8A21F22E643B68D1A4DA409CB</checkSum>
+    <name>Psychic Detective (Disc 2 of 3)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>32BF6253</id>
+    <checkSum>32BF625308FE8625C3D4932A89EFAB5B</checkSum>
+    <name>StarBlade</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>32E53FF3</id>
+    <checkSum>32E53FF301989E00B9E52F8DE2748685</checkSum>
+    <name>Oukoku no Grand Chef</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Sala International</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>337813D7</id>
+    <checkSum>337813D7ECC5E472778BF9DCFF635254</checkSum>
+    <name>Flashback - The Quest for Identity</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>U.S. Gold</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>338613E5</id>
+    <checkSum>338613E5571877440BF6A4320A684539</checkSum>
+    <name>Konpeki no Kantai</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Micro Cabin</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>33E5AFE4</id>
+    <checkSum>33E5AFE454A7C4DA20B419A09E2045E2</checkSum>
+    <name>Theme Park</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>3402900A</id>
+    <checkSum>3402900AB856B50C8FDC0FE1AFF77BAA</checkSum>
+    <name>Sid Meier's C.P.U. Bach</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>MicroProse</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>34925FC5</id>
+    <checkSum>34925FC5667C6BF0D78BD9EBCA82BFC4</checkSum>
+    <name>Bakushou!! All Yoshimoto Quiz ou Ketteisen</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Yoshimoto Kogyo</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>3549173F</id>
+    <checkSum>3549173FFB8A6CE107DB41AF99552910</checkSum>
+    <name>Club 3DO - Station Invasion</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>358149FD</id>
+    <checkSum>358149FD24D6E3C5E20BCC47A3FBFCF0</checkSum>
+    <name>Life Stage, The - Virtual House</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>36A0885A</id>
+    <checkSum>36A0885AC8AE48069DDAEF78B859E440</checkSum>
+    <name>D no Shokutaku (Disc 1 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>San-Ei Shobo Publishing</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>36B40821</id>
+    <checkSum>36B40821F16B878C848D4B3526F7F39D</checkSum>
+    <name>Bishoujo Senshi Sailor Moon S (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>38F1154B</id>
+    <checkSum>38F1154BC07E895AAC01F97F1063B93C</checkSum>
+    <name>EMIT Vol. 2 - Meigake no Tabi</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>KOEI</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>3A06F837</id>
+    <checkSum>3A06F8376D431A37747B7C81C6F663A8</checkSum>
+    <name>Fatty Bear's Birthday Surprise - Fatty Bear no Bikkuri Tanjoubi!</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Media Vision</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>3A770C36</id>
+    <checkSum>3A770C36493E1AD3B58DCA3677E73235</checkSum>
+    <name>Putt-Putt's Fun Pack</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Media Vision</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>3B203C50</id>
+    <checkSum>3B203C5006272E0CF4A34649912F838D</checkSum>
+    <name>Mahjong Gokuu Tenjiku</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>ASCII</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>3CF36C7E</id>
+    <checkSum>3CF36C7E217F396E85D1FBD1429D369B</checkSum>
+    <name>Icebreaker</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>3D1B793D</id>
+    <checkSum>3D1B793DF21922AFDAF5E50D65DF54A2</checkSum>
+    <name>Horde, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>3DFCDBBF</id>
+    <checkSum>3DFCDBBFF14FFB59E157E27F18D9DF7B</checkSum>
+    <name>Wolfenstein 3d</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>3E1FEE64</id>
+    <checkSum>3E1FEE64F45350A4FF6ADEED08A4016F</checkSum>
+    <name>Return Fire - Maps O' Death v1.0 FB13.1.0</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Prolific</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>3E72649D</id>
+    <checkSum>3E72649D548AC76F34B427F775CB2B0F</checkSum>
+    <name>Ogura Hyakunin Isshuu</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Vansoft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>3EA4804D</id>
+    <checkSum>3EA4804DFB8A30CAD88BE8F0CC64F77E</checkSum>
+    <name>Wing Commander III - Heart of the Tiger (Disc 2 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Origin</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>3F05307C</id>
+    <checkSum>3F05307CDF0749D53705502417C1846C</checkSum>
+    <name>Shockwave 2 - Beyond the Gate (Disc 2 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>3F6327DB</id>
+    <checkSum>3F6327DB835A22E778FFC9DB5CDEFC2D</checkSum>
+    <name>Daedalus Encounter - Episode 1 - Nanpasen no Alien (Disc 3 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>HATNET</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>3F6C2BB4</id>
+    <checkSum>3F6C2BB49E11B424E6E4FCF8ADE3575D</checkSum>
+    <name>Touhaiden Akagi</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Micronet</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>3F72700D</id>
+    <checkSum>3F72700D784D0E480AAC3A9E23581FEE</checkSum>
+    <name>20th Century Video Almanac</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Software Toolworks</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>4022BBB5</id>
+    <checkSum>4022BBB529E7F9B12B82075A65D8744C</checkSum>
+    <name>Flying Nightmares</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Domark</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>41711EEE</id>
+    <checkSum>41711EEE55682AB0EFE3EB00908D1898</checkSum>
+    <name>Gridders v1.1</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>42806FC2</id>
+    <checkSum>42806FC20391AC8162FA4C0881D74C1A</checkSum>
+    <name>Cannon Fodder</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Virgin</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>42AC1555</id>
+    <checkSum>42AC15557C8595A354E7EF58C627549D</checkSum>
+    <name>Blue Forest Monogatari</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>42AC5A01</id>
+    <checkSum>42AC5A01BB9514C3D64F9DB5F7459EFC</checkSum>
+    <name>Slopestyle - An Interactive Learning Cube</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>L3</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>431A7ADE</id>
+    <checkSum>431A7ADE2D5C86EC22252A1D35BBFC10</checkSum>
+    <name>Uchuu Seifutsu Furopon-kun 2 (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Warp</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>439CEF83</id>
+    <checkSum>439CEF832A58EF9A46F8183A8F55463B</checkSum>
+    <name>Super Real Mahjong P.V</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Seta</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>455AB8B3</id>
+    <checkSum>455AB8B3A179200AF61607A9744E4C81</checkSum>
+    <name>Cowboy Casino - Interactive Poker</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IntelliPlay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>45DBE1F2</id>
+    <checkSum>45DBE1F27EA8F84E848882F8020A2CCA</checkSum>
+    <name>3DO Interactive Sampler CD #3, The</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>3DO Company</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>467ACB33</id>
+    <checkSum>467ACB334F3B2896D6C00FBF0CDFFD35</checkSum>
+    <name>Doraemons, The - Yuujou Densetsu</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>ShoPro</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>47165D91</id>
+    <checkSum>47165D9145EB3E6AC91E87B65515B300</checkSum>
+    <name>Mazer</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>4766A72C</id>
+    <checkSum>4766A72C580F738DE3BC155F4B3AE494</checkSum>
+    <name>Sotsugyou Graduation Final (demo)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Shar Rock</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>478C86FF</id>
+    <checkSum>478C86FF26172EC233131585BD8493A0</checkSum>
+    <name>Pro Yakyuu Virtual Stadium - Professional Baseball</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>EA Sports</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>4953DD81</id>
+    <checkSum>4953DD8143D4C899EE87E0D20545193E</checkSum>
+    <name>Panasonic REAL 3DO Interactive Multiplayer - Sampler CD</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>49BF36F6</id>
+    <checkSum>49BF36F62E0DEF9550C6F2DE5EC83E0F</checkSum>
+    <name>Brain Dead 13 Starring Fritz (Disc 2 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>ReadySoft</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>4A39F30D</id>
+    <checkSum>4A39F30DE6A3ECF18354A663447173F7</checkSum>
+    <name>Corpse Killer</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Digital Pictures</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>4A8B8CCE</id>
+    <checkSum>4A8B8CCE38FE6965BF83003688E07087</checkSum>
+    <name>Doraemons, The - Yuujou Densetsu (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>4AE94CBD</id>
+    <checkSum>4AE94CBD1AE086DE20F2922792B8883D</checkSum>
+    <name>Eigo de Go! - Gateway to English</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Gakken</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>4B65A32F</id>
+    <checkSum>4B65A32F409118A50E6BE0EE403221DC</checkSum>
+    <name>Ballz - The Director's Cut</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>
+    </regions>
+  </game>
+  <game>
+    <id>4CF3778F</id>
+    <checkSum>4CF3778F41AD587CE70F49D4E8D32296</checkSum>
+    <name>Puzzle Bobble</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Micro Cabin</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>4E06CB08</id>
+    <checkSum>4E06CB082B68B0D8FDD0FFE5BED58F12</checkSum>
+    <name>Shock Wave</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>4EFC5A24</id>
+    <checkSum>4EFC5A24D6170D2F8836563F7FC02200</checkSum>
+    <name>ESPN Let's Play Tennis with Tracy Austin</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IntelliPlay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>4FDE9371</id>
+    <checkSum>4FDE9371304038AE121CB3C84434191C</checkSum>
+    <name>Ishida Yoshio Kudan no Igo Seiha</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>50453A93</id>
+    <checkSum>50453A9310343402AB9D5EBE51C0D9B1</checkSum>
+    <name>Tarot Uranai</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Ariadne</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>523B0EE1</id>
+    <checkSum>523B0EE18FE20D6599AB19179DBCD68B</checkSum>
+    <name>Kurokishi no Kamen</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>524FFE1E</id>
+    <checkSum>524FFE1E404E1A7839977ABD530A684C</checkSum>
+    <name>Cyberia</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>5282889F</id>
+    <checkSum>5282889F1A84CDD0D4656B83605BFB3E</checkSum>
+    <name>Super Street Fighter II Turbo</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>534AE001</id>
+    <checkSum>534AE001D9074C732A70FA6BBE240377</checkSum>
+    <name>Putt-Putt Joins the Parade</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Humongous Entertainment</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>536CDB71</id>
+    <checkSum>536CDB7197C7B63C666167AFE086BC6A</checkSum>
+    <name>Panzer General</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Mindscape - SSi</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>538BC2B0</id>
+    <checkSum>538BC2B0F3F5C5FEFF56A5C271CC9B04</checkSum>
+    <name>Shelley Duvall's It's A Bird's Life</name>
+    <releaseYear>1992</releaseYear>
+    <publisher>Sanctuary Woods</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>53AFAF33</id>
+    <checkSum>53AFAF33673064B0E3ECF718A436068B</checkSum>
+    <name>Way of the Warrior</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Universal Interactive Studios</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>54F70E2C</id>
+    <checkSum>54F70E2C13ACEF9DB8CEA03C12C375EF</checkSum>
+    <name>Snowjob (Disc 2 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>5565A4DC</id>
+    <checkSum>5565A4DC23AC0573BD0626E337C40ABE</checkSum>
+    <name>Brain Dead 13 Starring Fritz v1.1 (Disc 1 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>ReadySoft</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>55A11E32</id>
+    <checkSum>55A11E32392F187007C55EE69452656C</checkSum>
+    <name>Hell - A Cyberpunk Thriller</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Take 2</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>55F8CCF1</id>
+    <checkSum>55F8CCF1C26D3301BCE9FC90967311E2</checkSum>
+    <name>Family Feud</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Gametek</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>56927592</id>
+    <checkSum>56927592FCF540759CFA4FFC4F3D60E5</checkSum>
+    <name>Worldcup Super Stadium</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>GAGA</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>56A9DFC8</id>
+    <checkSum>56A9DFC88092EDFEDDA78955136D9528</checkSum>
+    <name>Tokimeki Mahjong Paradise Special - Koi no Tenpai Beat</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Sonnet</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>57513843</id>
+    <checkSum>57513843DCAB0C5EBBC66EC3100A75FA</checkSum>
+    <name>3DO Storage Manager v2.1</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>3DO Company</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>5805A70E</id>
+    <checkSum>5805A70EFE09AE7AC32CCA493C002479</checkSum>
+    <name>PaTaank</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>BMG Interactive Entertainment</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>58156D69</id>
+    <checkSum>58156D69B0A3BF263754606FC70F0A41</checkSum>
+    <name>John Madden Football</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>EA Sports</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>587D1337</id>
+    <checkSum>587D1337568EF4DCFA13323F6D696C71</checkSum>
+    <name>Fatty Bear's Birthday Surprise</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Humongous Entertainment</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>588548E3</id>
+    <checkSum>588548E3BE79F9E8A59D6D053C78A4E5</checkSum>
+    <name>Psychic Detective (Disc 3 of 3)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>58FF39C2</id>
+    <checkSum>58FF39C2681E45AB924DB72E4636C9F7</checkSum>
+    <name>Panasonic REAL 3DO Interactive Multiplayer - Demonstration CD</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>590F8B64</id>
+    <checkSum>590F8B64B7B6740232D2E121DB842BD7</checkSum>
+    <name>D's Diner - The Director's Cut (Disc 1 of 3)</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Warp</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>59E949E5</id>
+    <checkSum>59E949E58355F8446B0B9D2AEAEBC607</checkSum>
+    <name>Woody Woodpecker and Friends - Volume Three</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>MCA Universal Home Video</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>5A129B01</id>
+    <checkSum>5A129B01B54EA2A320A2D6D83858A941</checkSum>
+    <name>Star Fighter</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>5A130276</id>
+    <checkSum>5A13027649A02B53CF4E1B424ECF9F78</checkSum>
+    <name>Panasonic REAL 3DO Interactive Multiplayer - Sampler CD</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>5ABD7EF0</id>
+    <checkSum>5ABD7EF062AF265C3C29669546F8CC22</checkSum>
+    <name>Reika - Virtual Puppet</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>H.A.N.D</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>5AF82A46</id>
+    <checkSum>5AF82A460688EE9E215A650280C5E2B6</checkSum>
+    <name>Star Wars - Rebel Assault v1.0J</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>5B49E606</id>
+    <checkSum>5B49E606319DF1E5E1E990B3447AABDE</checkSum>
+    <name>Lucienne's Quest</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>5BC20A0A</id>
+    <checkSum>5BC20A0AEDF1411585AF38416ECA7171</checkSum>
+    <name>Ida Jiyouji Nightmare Interactive - Moon Cradle - Igyou no Hanayome</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>5BE2D848</id>
+    <checkSum>5BE2D848F2C43C26ED08F746DB073CEC</checkSum>
+    <name>Night Trap (Disc 1 of 2)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Virgin Games</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>5C1DB21F</id>
+    <checkSum>5C1DB21F112C6DF69660F6C253C5BC19</checkSum>
+    <name>Pro Yakyuu Virtual Stadium - Professional Baseball (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>EA Sports</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>5C359F55</id>
+    <checkSum>5C359F556B63BD11DBBD5A75B58B62DD</checkSum>
+    <name>Waialae no Kiseki</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>5D2222B9</id>
+    <checkSum>5D2222B9C3FB89DD83E85317343F8C48</checkSum>
+    <name>V Goal Soccer '96</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Tecmo</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>5D3AAE03</id>
+    <checkSum>5D3AAE035BD2D0274FDF4F191156FD92</checkSum>
+    <name>3DO Magazine 06</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Paragon Publishing</publisher>
+    <regions>GB</regions>
+  </game>
+  <game>
+    <id>5DA4FF7F</id>
+    <checkSum>5DA4FF7FCB66DD02723DBBF2CAEAC935</checkSum>
+    <name>Wing Commander III - Heart of the Tiger (Disc 4 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Origin</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>5E52803E</id>
+    <checkSum>5E52803E1F9DBDE74FC70E4C8A6FBC82</checkSum>
+    <name>Virtual Vivid</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Vivid Interactive</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>5F3BE317</id>
+    <checkSum>5F3BE3177ABE0809CF60CA121298FD73</checkSum>
+    <name>Kyuusei Uranai Niyoru Heisei Kaiun Koyomi</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Ariadne</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>5F3BFA9E</id>
+    <checkSum>5F3BFA9E0202F487E805C31F4B4899F9</checkSum>
+    <name>F1GP</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Pony Canyon</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>5FACACC0</id>
+    <checkSum>5FACACC07714E0E6B3B84238C3147FA0</checkSum>
+    <name>Sampler III and 3DO Storage Manager</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>5FD91ED7</id>
+    <checkSum>5FD91ED76C50A34465E34B7832AD8DEF</checkSum>
+    <name>Interplay 3DO Buffet, The</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>6182871F</id>
+    <checkSum>6182871F3D7E2B272237ED14B74A4FAF</checkSum>
+    <name>OverDrivin' (demo)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>61BDA52F</id>
+    <checkSum>61BDA52FAF1007A7666BAC48E5854FAA</checkSum>
+    <name>Peter Frankl - Puzzle no Tou</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>TBS Multimedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>61FE8459</id>
+    <checkSum>61FE8459127548E45062AC5706BD56E7</checkSum>
+    <name>Way of the Warrior</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Universal Interactive Studios</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>62AB98AA</id>
+    <checkSum>62AB98AA07682FD9CA59B9D18341C231</checkSum>
+    <name>Myst</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>62B99B17</id>
+    <checkSum>62B99B17A91EE1FA207D242608626A8E</checkSum>
+    <name>Star Wars - Rebel Assault v1.0</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>634269C2</id>
+    <checkSum>634269C27AFEA0A2BAD6B17676E47400</checkSum>
+    <name>AutoBahn Tokio (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>63600619</id>
+    <checkSum>63600619CD496A64D37AC9FC3526B350</checkSum>
+    <name>Dragon's Lair</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>ReadySoft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>638812DE</id>
+    <checkSum>638812DEFA388D5253E879ABC7FC5C7F</checkSum>
+    <name>Blood Angels - Space Hulk</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>640563C2</id>
+    <checkSum>640563C2599A69093A19FE8F54B64A3C</checkSum>
+    <name>Tower, The</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>OPeNBooK</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>645923D2</id>
+    <checkSum>645923D2EAA6F7448D7196C51CBDA860</checkSum>
+    <name>Ultraman Powered</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Bandai</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>646467CE</id>
+    <checkSum>646467CE57DDC5F5B05418951989D68B</checkSum>
+    <name>Sewer Shark</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Digital Pictures</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>64885713</id>
+    <checkSum>6488571318E93C1BC0E92C68A46AE4BC</checkSum>
+    <name>Blonde Justice</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Vivid Interactive</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>64D8B51A</id>
+    <checkSum>64D8B51A2EA98764C1BB8A9289994F6B</checkSum>
+    <name>Jikki Pachi Slot Simulator Vol. 1</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>65503973</id>
+    <checkSum>65503973D9665D28FFD541249F989CE8</checkSum>
+    <name>Foes of Ali</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>EA Sports</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>65978993</id>
+    <checkSum>659789938106CB35B66724FFAC4ABD91</checkSum>
+    <name>Supreme Warrior - Ying Heung (Disc 2 of 2)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Digital Pictures</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>661DE894</id>
+    <checkSum>661DE8940A888BC6F94F4E590810E7D0</checkSum>
+    <name>Off-world Interceptor</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>6635D01C</id>
+    <checkSum>6635D01C96B0C4CF43F8040C8A769A9D</checkSum>
+    <name>Short Warp - Warp's Short Game Colection</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Warp</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>6672B981</id>
+    <checkSum>6672B9815FB119A183863273F5660D1D</checkSum>
+    <name>Dragon Lore - The Legend Begins (Disc 2 of 3)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Mindscape</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>66964470</id>
+    <checkSum>66964470230BEA6FD511B0D4AC4FD4F5</checkSum>
+    <name>Oceans Below</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Software Toolworks</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>67D9B7ED</id>
+    <checkSum>67D9B7ED4658113651358F4DD7332816</checkSum>
+    <name>Sesame Street - Numbers</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>EA Kids</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>67E88FE8</id>
+    <checkSum>67E88FE8CE649B5E620D30425F217230</checkSum>
+    <name>Real Pinball</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>68AC84F4</id>
+    <checkSum>68AC84F4435CFF74B1D93ADD14AF2759</checkSum>
+    <name>Masters Harukanaru Augusta 3 (demo)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>T&amp;E Soft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>693986F7</id>
+    <checkSum>693986F7031873BD10A05666FC60F4D8</checkSum>
+    <name>Battle Pinball</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>695D4BF4</id>
+    <checkSum>695D4BF4C676D34A89E468FEDE3B1983</checkSum>
+    <name>Twinkle Knights</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Intarus</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>69C2348F</id>
+    <checkSum>69C2348FCAF4957581E44ED0B18F46C1</checkSum>
+    <name>Hirata Shiyougo Interactive Ehon - Shirayukihime</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>ELCOM</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>6A3AE6B5</id>
+    <checkSum>6A3AE6B5EE55EBA8706DDBC23845E5AD</checkSum>
+    <name>Scramble Cobra</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>6A4523F3</id>
+    <checkSum>6A4523F345F6ADE82A0E534BF8D3654D</checkSum>
+    <name>Immercenary</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>6A4E0B3A</id>
+    <checkSum>6A4E0B3A01C5FB1B443AD40F948994D9</checkSum>
+    <name>Hirata Shiyougo Interactive Ehon - Sanbiki no Kobuta</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>ELCOM</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>6A70A098</id>
+    <checkSum>6A70A098AC044FF3B183C24C7D0B4663</checkSum>
+    <name>Perfect General, The</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Kirin Entertainment</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>6A7B3EAE</id>
+    <checkSum>6A7B3EAE0758F4CD5C6FA6BBE1B22B80</checkSum>
+    <name>Wing Commander III - Heart of the Tiger (Disc 1 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Origin</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>6AAC194C</id>
+    <checkSum>6AAC194C9E21DAD7115C75374BA08B97</checkSum>
+    <name>Live! 3DO Magazine CD-ROM #09</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Tokumashoten Intermedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>6B1A7FED</id>
+    <checkSum>6B1A7FEDC32A75E6C68A800ADBC9CAAB</checkSum>
+    <name>Slayer</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>SSi</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>6BB4AD78</id>
+    <checkSum>6BB4AD7886FDCFC054C86A1985CEC3B9</checkSum>
+    <name>3DO Magazine 13</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Paragon Publishing</publisher>
+    <regions>GB</regions>
+  </game>
+  <game>
+    <id>6CDC2543</id>
+    <checkSum>6CDC2543CB970305402F95F6D9540794</checkSum>
+    <name>Hirata Shiyougo Interactive Ehon - Cinderella</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>ELCOM</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>6CF870FC</id>
+    <checkSum>6CF870FCCFC85DC8E8A6173325BD0F43</checkSum>
+    <name>Robinson's Requiem</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>ReadySoft - Silmarils</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>6D1ECA0B</id>
+    <checkSum>6D1ECA0BE54218FAEC02AEFB46113830</checkSum>
+    <name>Lost Dungeon</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>T&amp;E Soft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>6E24867D</id>
+    <checkSum>6E24867DD5163B9C8EBBE4A9B23C3960</checkSum>
+    <name>ESPN Let's Play Beach Volleyball with Karch Kiraly &amp; Karolyn Kirby</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>IntelliPlay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>6EFA7F4E</id>
+    <checkSum>6EFA7F4EF5A987641E372CCA24330DB6</checkSum>
+    <name>Nontan to Issho - Hoshi no Okurimono</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>6F7FABD4</id>
+    <checkSum>6F7FABD43267A515FEA9586CE6153FE6</checkSum>
+    <name>Toki o Koeta Tegami - The letter that over came time</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>6FEFA094</id>
+    <checkSum>6FEFA094487E26275F57B3B9C129324E</checkSum>
+    <name>Sex</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Vivid Interactive</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>701EB31D</id>
+    <checkSum>701EB31DE9AEDE5D36E4B545674795A5</checkSum>
+    <name>Pebble Beach Golf Links</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>CA-US</regions>
+  </game>
+  <game>
+    <id>7340307E</id>
+    <checkSum>7340307E26DB0DF3A70EF627A9C45CC7</checkSum>
+    <name>Super Street Fighter II X - Grand Master Challenge</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Capcom</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>735662E9</id>
+    <checkSum>735662E9749F4956FFC8BF161E88959D</checkSum>
+    <name>Live! 3DO Magazine CD-ROM #07</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Tokumashoten Intermedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>73B19FCB</id>
+    <checkSum>73B19FCBCE6795F5EBD556A9385CC605</checkSum>
+    <name>Waialae Country Club</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>CA-US</regions>
+  </game>
+  <game>
+    <id>74334385</id>
+    <checkSum>7433438527108C3E7794B93639A31D4D</checkSum>
+    <name>Live! 3DO Magazine CD-ROM #05</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Tokumashoten Intermedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>747D4039</id>
+    <checkSum>747D40393F1AD39680BFCCDCF043FE28</checkSum>
+    <name>Lemmings</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>74F18858</id>
+    <checkSum>74F1885834052179DE14EFEE39103262</checkSum>
+    <name>NFL Madden Football</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>EA Sports</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>74F43FAD</id>
+    <checkSum>74F43FADE1E91F58BCA367259A4D4504</checkSum>
+    <name>Space Ace</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>ReadySoft</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>754D9779</id>
+    <checkSum>754D9779752ED90D7AA3F0BA70A0E423</checkSum>
+    <name>Putt-Putt to Parade ni Ikou!</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Media Vision</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>759BFE49</id>
+    <checkSum>759BFE4980922A980C7AAA7A1668B576</checkSum>
+    <name>BladeForce</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>76620940</id>
+    <checkSum>766209407ED29C501F4E938648F1A8B8</checkSum>
+    <name>Shock Wave - Operation JumpGate</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>76EBB938</id>
+    <checkSum>76EBB93846A66283B93C22FA0B171B99</checkSum>
+    <name>Gex</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>BMG Interactive Entertainment</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>775E8E0A</id>
+    <checkSum>775E8E0A78139A307FE220AB74AF2C06</checkSum>
+    <name>Immortal Desire</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Vivid Interactive</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>77A963A0</id>
+    <checkSum>77A963A0CB364155F73DBC9DAEC1F147</checkSum>
+    <name>Seimeihandan</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Ariadne</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>7812CA9E</id>
+    <checkSum>7812CA9EEE9B06F8A4E4BFF8FE0E20CF</checkSum>
+    <name>Alone in the Dark 2</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>7839FB44</id>
+    <checkSum>7839FB44605313150A5737A88B2631C2</checkSum>
+    <name>3DO Magazine 03 + 11</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Paragon Publishing</publisher>
+    <regions>GB</regions>
+  </game>
+  <game>
+    <id>78ADD289</id>
+    <checkSum>78ADD289458B064BDF0E018ADFF455A8</checkSum>
+    <name>Daedalus Encounter - Episode 1 - Nanpasen no Alien (Disc 2 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>HATNET</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>7A2F6059</id>
+    <checkSum>7A2F6059112708732A5D2D80F0D0FA9A</checkSum>
+    <name>Total Eclipse</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>7B5F394B</id>
+    <checkSum>7B5F394B32FABEB8655ABB485F974DA6</checkSum>
+    <name>Stellar 7 - Draxon no Gyakushuu</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Dynamix</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>7C135309</id>
+    <checkSum>7C1353092DBD024C7ECC050D6F57D571</checkSum>
+    <name>Panasonic REAL 3DO Interactive Multiplayer - Sampler CD For PAL system</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>7C290450</id>
+    <checkSum>7C290450ACB269FDD9135C3020F9AD9B</checkSum>
+    <name>Woody Woodpecker and Friends - Volume Two</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>MCA Universal Home Video</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>7C634556</id>
+    <checkSum>7C634556655A4CE62DC640193175D17B</checkSum>
+    <name>Night Trap (Disc 1 of 2)</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Digital Pictures</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>7CE16970</id>
+    <checkSum>7CE169702B5F999AEA572F0093089C3A</checkSum>
+    <name>Bodyconscious Digital Rave! Part 1 - Shinjuku &amp; Takasaki</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Transpegasus</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>7DA7B11D</id>
+    <checkSum>7DA7B11DB695DE3349509647BFD0F879</checkSum>
+    <name>Alone in the Dark 2</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Infogrames</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>7DC549C8</id>
+    <checkSum>7DC549C8F5A76F636562AA7EAC20092E</checkSum>
+    <name>3DO Game Guru</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>3DO Company</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>7DDF4025</id>
+    <checkSum>7DDF40254FB93F32AD7A5005AC802EBA</checkSum>
+    <name>Wing Commander III - Heart of the Tiger (Disc 3 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Origin</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>7DF1AD3E</id>
+    <checkSum>7DF1AD3E67C1A66C92899EF2D1DA3161</checkSum>
+    <name>AutoBahn Tokio</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>7E5FA377</id>
+    <checkSum>7E5FA377ADF49EA5EFCE444B49706024</checkSum>
+    <name>Dragon Lore - The Legend Begins (Disc 3 of 3)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Mindscape</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>7EC6DCEC</id>
+    <checkSum>7EC6DCECEB95AB947125CA160ACB8777</checkSum>
+    <name>Shadow - War of Succession</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Tribeca Digital Studios</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>8021D23F</id>
+    <checkSum>8021D23F9AB7B5FFEBC0F898355822A7</checkSum>
+    <name>3DO Magazine 05</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Paragon Publishing</publisher>
+    <regions>GB</regions>
+  </game>
+  <game>
+    <id>8057C4BE</id>
+    <checkSum>8057C4BECF1389EEC9DB913D023F4A89</checkSum>
+    <name>San Diego Zoo Presents...The Animals!, The</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Software Toolworks</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>808E705F</id>
+    <checkSum>808E705F74DBB17E502DF10758281FC3</checkSum>
+    <name>Digital Dreamware</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Virgin</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>8117C08C</id>
+    <checkSum>8117C08CA17F7B0E3A051F6E8ADB8C92</checkSum>
+    <name>Panasonic REAL 3DO Interactive Multiplayer - Sampler CD</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>813E41B1</id>
+    <checkSum>813E41B197D8879554F8EFFD3D2A7144</checkSum>
+    <name>Space Hulk - Vengeance of the Blood Angels</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>82127C92</id>
+    <checkSum>82127C92EBEAE1C3D1C7DF9C87F6FCFA</checkSum>
+    <name>Tanjou Debut - Pure</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Shar Rock</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>82BF2758</id>
+    <checkSum>82BF275840C64C716CDA4AE620E47B7B</checkSum>
+    <name>Super Model, The - Gail McKenna</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Transpegasus</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>8304078B</id>
+    <checkSum>8304078B4BA1E44EDA9404DFDEFA422F</checkSum>
+    <name>Sangokushi IV</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>KOEI</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>832B2BD5</id>
+    <checkSum>832B2BD52F89F0C1EE7048EBDA885808</checkSum>
+    <name>VR Stalker</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>83B9F861</id>
+    <checkSum>83B9F8610CE54B6F65B70C1452ED257E</checkSum>
+    <name>Pararancho - The Incredible Machine</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>T&amp;E Soft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>83D70D9C</id>
+    <checkSum>83D70D9C6A4A525A6774AE22DDB1FA23</checkSum>
+    <name>3D Atlas</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>84BB8A59</id>
+    <checkSum>84BB8A59775D767D8A24711977411546</checkSum>
+    <name>Burning Soldier</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>861BDC7D</id>
+    <checkSum>861BDC7DE021BC04D15561AD73BBECB7</checkSum>
+    <name>Creature Shock (Disc 1 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Virgin</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>86E4CA2F</id>
+    <checkSum>86E4CA2F0DD43821B71A373B78D87A54</checkSum>
+    <name>Grimm Meisaku Gekijou 1 - Bremen no Ongakutai</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IMA</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>870F95CD</id>
+    <checkSum>870F95CDB834579DD5B095104B8D3657</checkSum>
+    <name>Olympic Summer Games</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>87219F08</id>
+    <checkSum>87219F08CB3A86C286952CD434708A62</checkSum>
+    <name>Tetsujin - Iron Angel of The Apocalypse</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>8742A80C</id>
+    <checkSum>8742A80C4CDD15A1D8C14E6E3AEB2344</checkSum>
+    <name>Horde, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>891E6A48</id>
+    <checkSum>891E6A482D71BA49C2D3DA60A16397AA</checkSum>
+    <name>Mahjongkyou Jidai - Cogal Houkago Hen</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Micronet</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>8A243B82</id>
+    <checkSum>8A243B82D06386DC5FDF3225402401F7</checkSum>
+    <name>Burning Soldier</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>CA-US</regions>
+  </game>
+  <game>
+    <id>8BACB7FF</id>
+    <checkSum>8BACB7FF83B803AE623A0D3781CE161C</checkSum>
+    <name>Olympic Soccer</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>8CC37A23</id>
+    <checkSum>8CC37A2391C075FC27287D9F02ADE52B</checkSum>
+    <name>Battle Chess</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>8CD6761D</id>
+    <checkSum>8CD6761DE8113FD3C92EB8AB09118CFB</checkSum>
+    <name>Nobunaga no Yabou - Haouden</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>KOEI</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>8D1F59B6</id>
+    <checkSum>8D1F59B6702BFD7B201D88A040663071</checkSum>
+    <name>Devil's Course</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>8D202445</id>
+    <checkSum>8D202445C25CD670D78421B08C1429D7</checkSum>
+    <name>Snowjob (Disc 1 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>8D74E0E9</id>
+    <checkSum>8D74E0E9710EB47CEBE3BE8F387FBB1A</checkSum>
+    <name>Dennis Miller - That's News To Me</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Sanctuary Woods</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>8DAD7D7E</id>
+    <checkSum>8DAD7D7E8F77568B2E7BD428BB88E204</checkSum>
+    <name>Quarantine</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Gametek - Imagineer</publisher>
+    <regions>JP-US</regions>
+  </game>
+  <game>
+    <id>8E99ACD5</id>
+    <checkSum>8E99ACD511E3C8D7C7B9189F9AD1BDB3</checkSum>
+    <name>Love Bites</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Vivid Interactive</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>8F1BB94C</id>
+    <checkSum>8F1BB94CF06B498AE9592694B235DEA8</checkSum>
+    <name>Putt-Putt's Fun Pack</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Humongous Entertainment</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>8F293BEE</id>
+    <checkSum>8F293BEEABCC6F276AE44EC414792109</checkSum>
+    <name>Wolfenstein 3d</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>913EFFCE</id>
+    <checkSum>913EFFCE894DFCA2314B24715C1454E2</checkSum>
+    <name>Syndicate</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>9215EA1B</id>
+    <checkSum>9215EA1B6263F1C6C0EC6C135972333D</checkSum>
+    <name>Virtual Horror - Norowareta Tachi</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>92AADBB2</id>
+    <checkSum>92AADBB29B3FEDCE3B4CC4C567ACAC45</checkSum>
+    <name>Live! 3DO Magazine CD-ROM #10</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Tokumashoten Intermedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>92F20AF2</id>
+    <checkSum>92F20AF2CEC373FF130E889FC0457423</checkSum>
+    <name>3DO Interactive Sampler CD #2, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>3DO Company</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>932A49C6</id>
+    <checkSum>932A49C69553DC2A64BEFDB1DCB5E578</checkSum>
+    <name>Virtuoso</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Data East</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>935ADB1B</id>
+    <checkSum>935ADB1B3D4725B5C63EAF7E3DF0A3B1</checkSum>
+    <name>MegaRace</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Mindscape</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>944C26F2</id>
+    <checkSum>944C26F2A3AE5730C0A2C81DA42B07E9</checkSum>
+    <name>Penthouse Interactive - Virtual Photo Shoot Vol. 1</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>GAGA</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>94D171DB</id>
+    <checkSum>94D171DB1AC0511750C5A5010D13505E</checkSum>
+    <name>ESPN Step Aerobics</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IntelliPlay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>959C2AA3</id>
+    <checkSum>959C2AA378A34AAF120B0043B88A2714</checkSum>
+    <name>ESPN Let's Go Skiing with Picabo Street, A. J. Kitt &amp; Holly Flanders</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IntelliPlay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>95BE396F</id>
+    <checkSum>95BE396F4FF6B8EB7AB3723585EC9084</checkSum>
+    <name>Shock Wave - Operation JumpGate (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>95C91CF0</id>
+    <checkSum>95C91CF0C05E13F812C2DD0268659530</checkSum>
+    <name>ESPN Golf - Tom Kite no Kore ga Golf Da! (Disc 2 of 3)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>BYSE</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>96215E86</id>
+    <checkSum>96215E86DB134009A4D4675C8A8DBCD3</checkSum>
+    <name>Daedalus Encounter - Episode 1 - Nanpasen no Alien (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>HATNET</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>96BE37FF</id>
+    <checkSum>96BE37FF5CFE6EB13D3CFED876AD6A84</checkSum>
+    <name>Doom</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Art Data</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>96C3BBB4</id>
+    <checkSum>96C3BBB4E1F4B7A37CC15889C4F7BE86</checkSum>
+    <name>Total Eclipse</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>96C99D84</id>
+    <checkSum>96C99D845E4842FD322588DF8F53F457</checkSum>
+    <name>Pro Stadium</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Sanyo</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>971D5075</id>
+    <checkSum>971D507577CABCA2566396A539D80E16</checkSum>
+    <name>Sento Monogatari - Sono 1</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Ariadne</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>98440C80</id>
+    <checkSum>98440C807DB8CB45DB03970E0944BD8F</checkSum>
+    <name>Who Shot Johnny Rock</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>9897452B</id>
+    <checkSum>9897452B914535D9D59D29C6C9BA7EC8</checkSum>
+    <name>Quarterback Attack - The Professional Quarterback Simulator</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Digital Pictures</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>99577045</id>
+    <checkSum>995770452BDDB45E6E1B9650602F1699</checkSum>
+    <name>Oceans Below</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Multisoft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>99670115</id>
+    <checkSum>99670115018F8ADE3B50B29421B957CB</checkSum>
+    <name>Scramble Cobra</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>9A293B56</id>
+    <checkSum>9A293B56247906BD9687DB5410619570</checkSum>
+    <name>Policenauts (Disc 1 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Konami</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>9A8187D1</id>
+    <checkSum>9A8187D128743BAD453FAD2508068166</checkSum>
+    <name>Yuu Yuu Hakusho</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Tomy</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>9AED3B77</id>
+    <checkSum>9AED3B773251AE353A845571E652979F</checkSum>
+    <name>Star Control II</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>BMG Interactive Entertainment</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>9B55D282</id>
+    <checkSum>9B55D2822B3ADA88D5186967FC679336</checkSum>
+    <name>Mad Dog McCree</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>9B87E5D7</id>
+    <checkSum>9B87E5D747B51DEA2C91D572A42D4756</checkSum>
+    <name>Scramble Cobra</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>9BB853E8</id>
+    <checkSum>9BB853E8F611D60EFDCD17969DEC2730</checkSum>
+    <name>Battle Chess</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>9D03BE86</id>
+    <checkSum>9D03BE869AD6948A69BC1B49D1D087BE</checkSum>
+    <name>Flashback - The Quest for Identity</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>9D12E91C</id>
+    <checkSum>9D12E91C0827724E8C09F1B6E4FED274</checkSum>
+    <name>Crayon Shin-chan - Puzzle Daimaou no Nazo</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Bandai</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>9D963926</id>
+    <checkSum>9D963926B5FCBAE985CC7FA245086062</checkSum>
+    <name>Supreme Warrior - Ying Heung (Disc 1 of 2)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Digital Pictures</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>9E74FEB2</id>
+    <checkSum>9E74FEB22FCE6567A49F8CA1181ADEDB</checkSum>
+    <name>Shockwave 2 - Beyond the Gate (Disc 1 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>9E847D82</id>
+    <checkSum>9E847D82C79D49E8B493680D45A610EA</checkSum>
+    <name>Virtuoso</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Imagineer</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>9EC810C5</id>
+    <checkSum>9EC810C593E63B87B4319EB6F51BEF1F</checkSum>
+    <name>Need for Speed, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>9ECE34C3</id>
+    <checkSum>9ECE34C339EB5638D2AF412087D400AC</checkSum>
+    <name>Virtual Cameraman Part 2 - Natsumi Kawai &amp; Kimi Tachihara</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Transpegasus</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>9ED0657F</id>
+    <checkSum>9ED0657F7497B071B7F8776CBB9199C5</checkSum>
+    <name>Tetsujin</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>9F7D72BC</id>
+    <checkSum>9F7D72BCCAACFC84F230C8D1A7189329</checkSum>
+    <name>Alone in the Dark</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>A0BD791A</id>
+    <checkSum>A0BD791AD0D668DD161BE56F672E0EEF</checkSum>
+    <name>J. B. Harold - Blue Chicago Blues (Disc 1 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Riverhill Soft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>A1D9455A</id>
+    <checkSum>A1D9455A2870CF90B622944F9904A521</checkSum>
+    <name>Rise of the Robots</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Art Data</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>A23A837B</id>
+    <checkSum>A23A837B3DD7FA365A3280C362223FF1</checkSum>
+    <name>Macaroni Houren Shou Interactive</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Toshiba EMI</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>A3076373</id>
+    <checkSum>A3076373F12F72AC8E37EA00D43AF1B0</checkSum>
+    <name>Mind Teazzer</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Vivid Interactive</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>A3696CA2</id>
+    <checkSum>A3696CA24646342ECB89EB97AE371A51</checkSum>
+    <name>3DO Magazine 08</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Paragon Publishing</publisher>
+    <regions>GB</regions>
+  </game>
+  <game>
+    <id>A3704048</id>
+    <checkSum>A3704048F8FAEB676D4F4FB268200662</checkSum>
+    <name>Rise of the Robots</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Absolute</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>A3ECE7E9</id>
+    <checkSum>A3ECE7E9AB6640D5E68CB2BE169ADA1E</checkSum>
+    <name>Nemurenu Yoru no Chiisa Nao Hanashi</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Amuse</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>A407D519</id>
+    <checkSum>A407D519ACA4E1AB81633FF246EE3232</checkSum>
+    <name>Wing Commander III - Heart of the Tiger (Disc 1 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Origin</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>A454E7B6</id>
+    <checkSum>A454E7B6E1FDAA55D831CB9B28BDD69E</checkSum>
+    <name>Naoko to Hide Suekane - Sansuu no Tensai 1</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Gakuman</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>A48456F4</id>
+    <checkSum>A48456F4A1BDDE641631709320814227</checkSum>
+    <name>Striker - World Cup Special</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>A4B2B740</id>
+    <checkSum>A4B2B740DF6CDE84286E67AB10B74C3F</checkSum>
+    <name>Virtual Quest - Pharaoh no Fuuin</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>ASK KODANSHA</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>A52A01C7</id>
+    <checkSum>A52A01C7B6D2C8740651AC952B291C0A</checkSum>
+    <name>D (Disc 2 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>A5C810E1</id>
+    <checkSum>A5C810E12E3F9458FD1EE70ED89E3487</checkSum>
+    <name>Incredible Machine, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Dynamix</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>A5E3C8B5</id>
+    <checkSum>A5E3C8B519F8F6464EE4CD367319BEF4</checkSum>
+    <name>AI Shougi</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Taito</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>A7C4EE53</id>
+    <checkSum>A7C4EE5313354B2306950B04BB4CDD8C</checkSum>
+    <name>Twisted - The Game Show</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>A7F26D1F</id>
+    <checkSum>A7F26D1FFD41F89CF2E9615B712D5403</checkSum>
+    <name>StarBlade</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>CA-US</regions>
+  </game>
+  <game>
+    <id>A83BF8A3</id>
+    <checkSum>A83BF8A3748BCD881B91513E8BEC7006</checkSum>
+    <name>Keiba Saishou no Housoku</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Copya</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>A854D093</id>
+    <checkSum>A854D093A380E3BAFD40A78AF0E0AD62</checkSum>
+    <name>Nice Body - For Professional Use - Oar Star Suieitaikai Official CD-ROM</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Fuji Television</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>A8C7B8FF</id>
+    <checkSum>A8C7B8FFC2AF9F93ADC9A14DC73D6835</checkSum>
+    <name>Return Fire v1.0 F306.1.2</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Prolific - Silent Software</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>A9444052</id>
+    <checkSum>A94440520FBD823DA3C17647FA36EE03</checkSum>
+    <name>Mad Dog II - the Lost Gold</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>A9B777E0</id>
+    <checkSum>A9B777E022604CC9678E16329AAF7C50</checkSum>
+    <name>Daedalus Encounter, The (Disc 3 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>A9F189CA</id>
+    <checkSum>A9F189CA7EB3860C56BABA9AAF6A4EED</checkSum>
+    <name>D's Diner - The Director's Cut (Disc 3 of 3)</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Warp</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>ABCE4CF3</id>
+    <checkSum>ABCE4CF3F1CF5319BBA0341F6F2E796E</checkSum>
+    <name>Iron Angel of the Apocalypse - The Return</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Synergy</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>AC072C50</id>
+    <checkSum>AC072C5035D111738BC6209DB4605B31</checkSum>
+    <name>Brain Dead 13 Starring Fritz (Disc 1 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>ReadySoft</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>AC774F76</id>
+    <checkSum>AC774F767560507D214E2C947A716917</checkSum>
+    <name>Primal Rage v1.0</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>GoldStar</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>AE1C19B5</id>
+    <checkSum>AE1C19B5C9CEA96ADEFC644521791743</checkSum>
+    <name>Tozasareta Yakata</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>AE239B84</id>
+    <checkSum>AE239B84CFAD1C0EE803728ED88CD87A</checkSum>
+    <name>ESPN Golf - Lower Your Score With Tom Kite - Shot Making (Disc 1 of 3)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IntelliPlay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>AEB43DA6</id>
+    <checkSum>AEB43DA63D3E5230F0F90FD8CDC62F1D</checkSum>
+    <name>Masters Harukanaru Augusta 3</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>B019EC4D</id>
+    <checkSum>B019EC4DC6606F4F66D57CEB8C6050E2</checkSum>
+    <name>World Cup Special</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Coconuts Japan</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>B0DBCE2C</id>
+    <checkSum>B0DBCE2C12E229C59F54523EF6493623</checkSum>
+    <name>Creature Shock (Disc 2 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Virgin</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>B11853CA</id>
+    <checkSum>B11853CA63C27648CE5CAC489E7CE1F8</checkSum>
+    <name>OverDrivin'</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>B3152065</id>
+    <checkSum>B3152065C66F143280CA7590DBF44B8A</checkSum>
+    <name>Taiketsu! Rumii Zu</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Sanyo</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>B33ED739</id>
+    <checkSum>B33ED739719EEC332FB7B043A1FC3804</checkSum>
+    <name>Captain Quazar</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>B347EE6D</id>
+    <checkSum>B347EE6D22562CF73E2AA665B4F8D1ED</checkSum>
+    <name>Scramble Cobra (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>B35C911D</id>
+    <checkSum>B35C911D969FCEFB34CCCE662206F8B6</checkSum>
+    <name>Microcosm</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Psygnosis</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>B3B6D74D</id>
+    <checkSum>B3B6D74D3484BABD1F60411C2A55F370</checkSum>
+    <name>Fatty Bear's Funpack</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Humongous Entertainment</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>B41282F1</id>
+    <checkSum>B41282F1AFA0D81552F276849242304F</checkSum>
+    <name>D no Shokutaku (Disc 2 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>San-Ei Shobo Publishing</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>B4C72191</id>
+    <checkSum>B4C72191AF344BCE21372E750C077062</checkSum>
+    <name>Stellar 7 - Draxon's Revenge</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Dynamix</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>B57B117E</id>
+    <checkSum>B57B117EAAD5FA58FAD2E1715DCE199E</checkSum>
+    <name>Powers Kingdom</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>B5DD0C0D</id>
+    <checkSum>B5DD0C0D5F85E8FB509ABF75CA73292E</checkSum>
+    <name>3DO Magazine 07</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Paragon Publishing</publisher>
+    <regions>GB</regions>
+  </game>
+  <game>
+    <id>B748306E</id>
+    <checkSum>B748306E476F86E96F5235B0C9C420B3</checkSum>
+    <name>Dragon Tycoon Edge</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Sanyo</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>B78199C4</id>
+    <checkSum>B78199C41D858B6FBE5E4DBD50B72982</checkSum>
+    <name>Dragon's Lair</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>ReadySoft</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>B7CD8729</id>
+    <checkSum>B7CD8729F9E3F178E80A3280983A4CC1</checkSum>
+    <name>SuperModels Go Wild</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Vivid Interactive</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>B887F0BC</id>
+    <checkSum>B887F0BC61E06812D91FD66ABD408091</checkSum>
+    <name>Trip'd</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>B8F303F0</id>
+    <checkSum>B8F303F065CA131EF5F0976363AF03F3</checkSum>
+    <name>PGA Tour 96</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>EA Sports</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>B985CC21</id>
+    <checkSum>B985CC21CF9E6ABDCFF8417648FBCF16</checkSum>
+    <name>Waialae Country Club</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>B988259B</id>
+    <checkSum>B988259B615821D2FD2162C0C2A5D495</checkSum>
+    <name>Sekure Fuumin no Omocha Hako</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>GLAMS</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>B9C825D1</id>
+    <checkSum>B9C825D14A5FF5747D534BF8A190FEDB</checkSum>
+    <name>Super Wing Commander</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>BB4ABE7E</id>
+    <checkSum>BB4ABE7EBABBA678A1E7BE9EDBD1743C</checkSum>
+    <name>Incredible Machine, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Dynamix</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>BB76354A</id>
+    <checkSum>BB76354A08A059E5CA031A243EAD9775</checkSum>
+    <name>Virtual Cameraman Part 1 - Naomi Sawada &amp; Anna Juri</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Transpegasus</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>BD2BC660</id>
+    <checkSum>BD2BC66098580D74E18D4BFFE46B30AF</checkSum>
+    <name>Lost Eden</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Virgin</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>BDA06C58</id>
+    <checkSum>BDA06C5824884F279ACE4EE4D41D6046</checkSum>
+    <name>Another World</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>BDCDB5F3</id>
+    <checkSum>BDCDB5F3E998C43AC1ADE0479EE7E54C</checkSum>
+    <name>3DO Interactive Sampler CD 4, The</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>3DO Company</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>BE4E8CF7</id>
+    <checkSum>BE4E8CF7F341CADCD24754CD160B1F26</checkSum>
+    <name>Myst</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>BF61BB32</id>
+    <checkSum>BF61BB32DE48B500000F26FEC10AA258</checkSum>
+    <name>Samurai Shodown</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>BMG Interactive Entertainment</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C0D9B015</id>
+    <checkSum>C0D9B015C13591D1BC39787F12AB3D64</checkSum>
+    <name>Takeru</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C13032F1</id>
+    <checkSum>C13032F1766399EBE894B62AB18CE2B4</checkSum>
+    <name>Johnny Bazookatone</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>U.S. Gold</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>C17409B3</id>
+    <checkSum>C17409B3544768CE6BCAA77FE9A70928</checkSum>
+    <name>Defcon 5</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>GoldStar</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>C1A13CA8</id>
+    <checkSum>C1A13CA8E3F2B32D6A5908DF1EFB4980</checkSum>
+    <name>Shock Wave - Operation JumpGate</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>C1AE3C2E</id>
+    <checkSum>C1AE3C2EDBC18554AB0298F7D87C6627</checkSum>
+    <name>Supreme Warrior - Ying Heung (Disc 2 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Digital Pictures</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C1D0A6C0</id>
+    <checkSum>C1D0A6C0E9B34D2BDF8A9B7B84E997D8</checkSum>
+    <name>Road Rash</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>C258BC46</id>
+    <checkSum>C258BC462B42C6A65A02C99807DB4215</checkSum>
+    <name>Alone in the Dark 2</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Infogrames</publisher>
+    <regions>FR</regions>
+  </game>
+  <game>
+    <id>C305A4C5</id>
+    <checkSum>C305A4C5357F70CE9DE580C0091C5FA9</checkSum>
+    <name>Wicked 18</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>C3285976</id>
+    <checkSum>C3285976AFC8F285F6B2979C55A92437</checkSum>
+    <name>Super Wing Commander</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Origin</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>C39E4193</id>
+    <checkSum>C39E4193CDB09C59A2B343B3B536EFA5</checkSum>
+    <name>Phoenix 3</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>C3E4EF68</id>
+    <checkSum>C3E4EF6873A009254C8B47B878EE508C</checkSum>
+    <name>Bishoujo Senshi Sailor Moon S</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Bandai</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C43B1FE8</id>
+    <checkSum>C43B1FE8C7680EF91EB33F903027721D</checkSum>
+    <name>Aqua World - Umibi Monogatari</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Mizuki</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C50DEBA2</id>
+    <checkSum>C50DEBA2382A76F0ADD64EEFF5CBB383</checkSum>
+    <name>Demolition Man</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Virgin Games</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C530F2E8</id>
+    <checkSum>C530F2E8441AC12B6FAA11895A5F4285</checkSum>
+    <name>Defcon 5</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Multisoft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C56F2885</id>
+    <checkSum>C56F2885C1E3C1298949A7B7E1C31FCE</checkSum>
+    <name>ESPN Golf - Lower Your Score With Tom Kite - Shot Making - Mental Messages</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IntelliPlay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>C5C1D9AC</id>
+    <checkSum>C5C1D9AC35977B73B6EFE42D1B68A171</checkSum>
+    <name>Ide Yousuke Meijin no Shin Jissen Mahjong</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Capcom</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C5D29D39</id>
+    <checkSum>C5D29D397671268E608E81EF65E11517</checkSum>
+    <name>Carrier - Fortress at Sea</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>C780BC89</id>
+    <checkSum>C780BC890092BF7BD53716B32C1D8119</checkSum>
+    <name>Game no Tatsujin</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Sunsoft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C7BD023B</id>
+    <checkSum>C7BD023B869D56368A16E5EF622627CE</checkSum>
+    <name>Igo Time Trial Shikatsudai Hyakka</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Ematec</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C8198CDE</id>
+    <checkSum>C8198CDE66C1365A5DB6B10DAABF9CCA</checkSum>
+    <name>BC Racers</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>GoldStar</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>C881C8FB</id>
+    <checkSum>C881C8FBBA129F1810E23A467F3FAFBC</checkSum>
+    <name>Peperon Mura no Shiki</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Marubeni</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C8DD7A63</id>
+    <checkSum>C8DD7A63E4A4CF7C7FEABF8E9995804B</checkSum>
+    <name>Super Real Mahjong PIV + Aishou Shindan</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Seta</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C940B029</id>
+    <checkSum>C940B029F1D528A7AC35AEB415D9CAB9</checkSum>
+    <name>Live! 3DO Magazine CD-ROM #03</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Tokumashoten Intermedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>C9C39334</id>
+    <checkSum>C9C393349226934FF34BA609049E3395</checkSum>
+    <name>J. B. Harold - Blue Chicago Blues (Disc 2 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Riverhill Soft</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>CA135A34</id>
+    <checkSum>CA135A3493F6F9F6AFE59EF35EAC6CFF</checkSum>
+    <name>Strahl</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>CA4DC585</id>
+    <checkSum>CA4DC585ECA6DF9BF770E2C0B549D2CB</checkSum>
+    <name>Shock Wave</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>CAAAD4DD</id>
+    <checkSum>CAAAD4DD60DADC8D86DA3B17F20A8FB8</checkSum>
+    <name>Bust-A-Move</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Taito</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>CB3A3CEA</id>
+    <checkSum>CB3A3CEACC2561B87CEAA6376CB2E641</checkSum>
+    <name>Fun 'n Games</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>CB73A647</id>
+    <checkSum>CB73A647D49DA379F5D793EF1191611B</checkSum>
+    <name>Hirata Shiyougo Interactive Ehon - Ookami to Shichihiki no Ko Yagi</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>ELCOM</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>CB73DFBF</id>
+    <checkSum>CB73DFBF76C923496238F6859C430DAA</checkSum>
+    <name>Daedalus Encounter - Episode 1 - Nanpasen no Alien (Disc 1 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>HATNET</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>CB8EE795</id>
+    <checkSum>CB8EE795FDB223F6DE28A6B7B9FEB7F8</checkSum>
+    <name>DinoPark Tycoon</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>MECC</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>CBB92BA7</id>
+    <checkSum>CBB92BA7BAA84B9E7F12AD6A4F2F5475</checkSum>
+    <name>Daedalus Encounter - Episode 1 - Nanpasen no Alien (Disc 4 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>HATNET</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>CCA6A659</id>
+    <checkSum>CCA6A6594EEDA6C3B86C27916996EDDF</checkSum>
+    <name>Shanghai - Triple-Threat</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Activision</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>CCB55F24</id>
+    <checkSum>CCB55F249929DA62EAFAE9FA4978AFA7</checkSum>
+    <name>Daedalus Encounter, The (Disc 4 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>CCD49370</id>
+    <checkSum>CCD4937067622488ED9BD6FEBE36F0B8</checkSum>
+    <name>Sword &amp; Sorcery (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Micro Cabin</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>CE3EA37B</id>
+    <checkSum>CE3EA37BD40C08CDFF76AABFD3DC0120</checkSum>
+    <name>Dennou Hyouryuu - Multimedia Cruising</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Hamlet</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>CEE431E2</id>
+    <checkSum>CEE431E238B8548895379D53044F5A00</checkSum>
+    <name>Kingdom - The Far Reaches</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>CF43E695</id>
+    <checkSum>CF43E6953AC0F5012D8E674D5BACF15D</checkSum>
+    <name>Demolition Man</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Virgin</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>CF9A26E0</id>
+    <checkSum>CF9A26E0E12FAF4E292BDCC8CCA96AE4</checkSum>
+    <name>Sample This!</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>JP-US</regions>
+  </game>
+  <game>
+    <id>CFDAC579</id>
+    <checkSum>CFDAC579FD95CA8EA3AA38435A294DD5</checkSum>
+    <name>Gridders v1.1</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>D0E970B0</id>
+    <checkSum>D0E970B0ACE46EE117DA35CF9D30C362</checkSum>
+    <name>Sesame Street - Numbers</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>EA Kids</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>D1C4AB66</id>
+    <checkSum>D1C4AB66FD42DD5FA426F632B0DFBC3F</checkSum>
+    <name>Daedalus Encounter, The (Disc 1 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>D2E4F08F</id>
+    <checkSum>D2E4F08FB435B38CF6BF4AEFB923EA9D</checkSum>
+    <name>Oyaji Hunter Mahjong</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Warp</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>D3AB521E</id>
+    <checkSum>D3AB521E806DADAE169DA72C9DC71E26</checkSum>
+    <name>Jurassic Park Interactive</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>D452E2B3</id>
+    <checkSum>D452E2B3B2A233429BC04FF717828EF0</checkSum>
+    <name>Gakkou no Kowai Uwasa - Hanako-san ga Kita!!</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Amuse</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>D4620A93</id>
+    <checkSum>D4620A934C8F919106D940A0712DEF9E</checkSum>
+    <name>3DO REAL - Tokubetsu Puremiamu CD - Hatsubai 1 Shuuren</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>D4A74893</id>
+    <checkSum>D4A748938BB6E307CCF7A4F7BD460BE7</checkSum>
+    <name>Night Trap (Disc 2 of 2)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Virgin Games</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>D55A86F2</id>
+    <checkSum>D55A86F2485F672756D57644DF049358</checkSum>
+    <name>Royal Pro Wrestling - Jikkyou Live!!</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Natsume</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>D59D268D</id>
+    <checkSum>D59D268DEFD8FC950588A8CDD9081348</checkSum>
+    <name>3DO Magazine 04 + 12</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Paragon Publishing</publisher>
+    <regions>GB</regions>
+  </game>
+  <game>
+    <id>D6DFE5F7</id>
+    <checkSum>D6DFE5F72E8D537AA3C2FF52D9119F84</checkSum>
+    <name>Virtual Vivid</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Vivid Interactive</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>D6F4B4D1</id>
+    <checkSum>D6F4B4D1736914DD3C6DD5672BA10E3E</checkSum>
+    <name>D (Disc 1 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>D7672550</id>
+    <checkSum>D76725503D3AE78EDDFA76704EF69926</checkSum>
+    <name>Road Rash</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>D7801A0F</id>
+    <checkSum>D7801A0F20AC545249EFBECDE31B90CF</checkSum>
+    <name>Zhadnost - The Peoples Party</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>D8AC5B9A</id>
+    <checkSum>D8AC5B9AE27EAA0BBEF6C5137024D902</checkSum>
+    <name>Mirai Shounen Digital Library - Conan - The Boy in Future</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Emotional Digital Software</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>D9167CF7</id>
+    <checkSum>D9167CF7506BA71559A2937D3D114853</checkSum>
+    <name>N. O. B. - Neo Organic Bioform</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Sanyo</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>D9603EA8</id>
+    <checkSum>D9603EA8743EA92CDBBDE0967FC0AA7F</checkSum>
+    <name>Nishimura Keitarou Travel Mystery - Akugyaku no Kisetsu (Disc 2 of 2)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>D9A0C2C0</id>
+    <checkSum>D9A0C2C05DDC0518DF747077B7CAE975</checkSum>
+    <name>Off-world Interceptor</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>BMG Interactive Entertainment</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>D9C961A3</id>
+    <checkSum>D9C961A3986B1D5025CAB9FCFBAD21F1</checkSum>
+    <name>Puppet Tale</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>DAA16437</id>
+    <checkSum>DAA16437144F28DF46B3C2C60F31AF33</checkSum>
+    <name>Killing Time v3.10</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Studio 3DO</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>DAF9F54F</id>
+    <checkSum>DAF9F54FAAB8F9C3F62693AFDF76DCB4</checkSum>
+    <name>Mad Dog II - the Lost Gold</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>DB755CCA</id>
+    <checkSum>DB755CCACDD63AC31EAAD58AA316DAA8</checkSum>
+    <name>Night Trap (Disc 2 of 2)</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Digital Pictures</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>DBB419FA</id>
+    <checkSum>DBB419FA0F5935176A01E58C9FF498BA</checkSum>
+    <name>Super Street Fighter II Turbo</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>CA-US</regions>
+  </game>
+  <game>
+    <id>DC569F81</id>
+    <checkSum>DC569F81706CD91DF2B2BF53B49A9F98</checkSum>
+    <name>Nais How's 1 - Front How's '95-'96 v1.0 R2.0</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>National</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>DD2D1E51</id>
+    <checkSum>DD2D1E51D6736EB45A5AD2EB30B9CBDE</checkSum>
+    <name>Road Rash (demo)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>DD52517C</id>
+    <checkSum>DD52517CD470E5147D5239E43B427BB8</checkSum>
+    <name>Johnny Bazookatone</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>U.S. Gold</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>DD843BB6</id>
+    <checkSum>DD843BB6BE8C6FC1340E3A96F39C8FF8</checkSum>
+    <name>3DO Magazine 02 + 10</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Paragon Publishing</publisher>
+    <regions>GB</regions>
+  </game>
+  <game>
+    <id>DF04F6E7</id>
+    <checkSum>DF04F6E7037575D63D468EA37C34D87A</checkSum>
+    <name>Virtual Cameraman Part 5 - Yuri Andou</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Transpegasus</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>DFD1B0B6</id>
+    <checkSum>DFD1B0B66CF0E4F432B3D378C5DF0B7D</checkSum>
+    <name>Tetsujin Returns</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Synergy</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E08ADD77</id>
+    <checkSum>E08ADD77013E623463B06C298E95B4B8</checkSum>
+    <name>Gridders</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Tetragon</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>E0B32861</id>
+    <checkSum>E0B32861D8BDECD2CED63667AB692BE2</checkSum>
+    <name>MegaRace</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Mindscape</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>E20A6924</id>
+    <checkSum>E20A69245CAA87693F839A45862DEB75</checkSum>
+    <name>Strahl</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Media Entertainment</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E25C436F</id>
+    <checkSum>E25C436F190410D3387F695A4A499654</checkSum>
+    <name>Bonogurashi</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Amuse</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E2689C1F</id>
+    <checkSum>E2689C1F6184DED90C292ACA01DFBB01</checkSum>
+    <name>Shock Wave (demo)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E29C363C</id>
+    <checkSum>E29C363C6FDEB5C9C3C2513DE754A503</checkSum>
+    <name>Konpeki no Kantai</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Micro Cabin</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E2A1414A</id>
+    <checkSum>E2A1414A4226E469454EAF1BA50153B8</checkSum>
+    <name>V Goal Soccer '96 (demo)</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Tecmo</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E2E9845B</id>
+    <checkSum>E2E9845B54E4C675F10CE7B7E153CDBE</checkSum>
+    <name>Belzerion</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Human</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E39203AA</id>
+    <checkSum>E39203AA44E39C22091F99C7F0E273E4</checkSum>
+    <name>Daedalus Encounter, The (Disc 2 of 4)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>E42987E2</id>
+    <checkSum>E42987E2384842A17C34B416E1598A8B</checkSum>
+    <name>Onee-san to Isshoo! Kise Kae Paradise</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>BSS</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E4ABCDB1</id>
+    <checkSum>E4ABCDB15A4D47CBAD34EBF3480E42D8</checkSum>
+    <name>Escape from Monster Manor - A Terrifying Hunt for the Undead</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>E4FBB91E</id>
+    <checkSum>E4FBB91EC3414A78D278FB21D837EAD2</checkSum>
+    <name>Yakyuuken Special, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Societa Daikanyama</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E58CFAE3</id>
+    <checkSum>E58CFAE3DC5E158FDB0FC4DC22410F7E</checkSum>
+    <name>Live! 3DO Magazine CD-ROM #04</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Tokumashoten Intermedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E733D25C</id>
+    <checkSum>E733D25C037EC0C861842E5F8FB303DD</checkSum>
+    <name>ESPN Golf - Lower Your Score With Tom Kite - Shot Making (Disc 2 of 3)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IntelliPlay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>E843C635</id>
+    <checkSum>E843C635C143002F820E9ABA0FE8C6BE</checkSum>
+    <name>Alone in the Dark</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Infogrames</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>E8F5B4C3</id>
+    <checkSum>E8F5B4C35DF174F6AE2957FDCDE627B9</checkSum>
+    <name>Grimm Meisaku Gekijou 3 - Akazukin</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IMA</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E8FBE61C</id>
+    <checkSum>E8FBE61CA2232EC73B71D3524CE00567</checkSum>
+    <name>Crime Patrol</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>E907558E</id>
+    <checkSum>E907558E7D16778FEC42F371F3A04362</checkSum>
+    <name>Myst</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>E95B975D</id>
+    <checkSum>E95B975DFD8C31AFDAA5A6FEFE9844C6</checkSum>
+    <name>Live! 3DO Magazine CD-ROM #02</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Tokumashoten Intermedia</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>E9C1F7A3</id>
+    <checkSum>E9C1F7A3227121C3BFBD09F03052C567</checkSum>
+    <name>Virtual Cameraman Part 3 - Yumika Sugimoto</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Transpegasus</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>EA068273</id>
+    <checkSum>EA0682730FE2B5425A1DB250D2A56605</checkSum>
+    <name>Shootout at Old Tucson</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>EA393F41</id>
+    <checkSum>EA393F417B633E8961A99E7363A7A3F7</checkSum>
+    <name>Theme Park</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>EA92F478</id>
+    <checkSum>EA92F4786A5FB53D6DFA891475C10750</checkSum>
+    <name>Pebble Beach no Hatou</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>EB86BF87</id>
+    <checkSum>EB86BF87DDEE8FF94AC2AE2BA2DB2EFF</checkSum>
+    <name>J.League Virtual Stadium</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>EA Sports</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>EBE0915C</id>
+    <checkSum>EBE0915C10D5C7A6F8C43C06200B66B4</checkSum>
+    <name>Novastorm</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Psygnosis</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>ECA3DEB4</id>
+    <checkSum>ECA3DEB4383CF1461B8340E5E5FFAA10</checkSum>
+    <name>Jammit</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>GTE</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>ED705E42</id>
+    <checkSum>ED705E42540F91BF75198B92C394DDD5</checkSum>
+    <name>Horde, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>EE077FDD</id>
+    <checkSum>EE077FDD251E1DA4DB778F541F3F57DB</checkSum>
+    <name>Perfect World - Combat in a Digital World</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>EE898273</id>
+    <checkSum>EE8982739B9E4619037184EB65E5B8B6</checkSum>
+    <name>Theme Park (demo)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>EFB8854D</id>
+    <checkSum>EFB8854D5535EAA62AB7BC22F575220C</checkSum>
+    <name>Policenauts (Disc 2 of 2)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Konami</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F06976FF</id>
+    <checkSum>F06976FF1272BC12869A10345D77B1D8</checkSum>
+    <name>Lost Files of Sherlock Holmes, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Electronic Arts</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>F0ED0BE4</id>
+    <checkSum>F0ED0BE4FAC19C1363B74D210B46BCD7</checkSum>
+    <name>Princess Maker 2</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Micro Cabin</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F1D9293E</id>
+    <checkSum>F1D9293E72A93410D8B8CB54598D45D4</checkSum>
+    <name>Igo Time Trial Najigo I</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Ematec</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F2397262</id>
+    <checkSum>F2397262811D7C0859BB38CBAFFE02B1</checkSum>
+    <name>Totsugeki Kikan! Megadasu!!</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Warp</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F242913F</id>
+    <checkSum>F242913F20DCD472B353C93FE69DDEFA</checkSum>
+    <name>Mathemagics - An Interactive Learning Cube</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>L3</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>F29BC43C</id>
+    <checkSum>F29BC43C3C31451B6942099A777DDB8B</checkSum>
+    <name>Cyberdillo</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>F30726E9</id>
+    <checkSum>F30726E9ECF8BB6F13E9ECD340159ECA</checkSum>
+    <name>Grimm Meisaku Gekijou 2 - Hansel to Gretel</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IMA</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F3ADA8C1</id>
+    <checkSum>F3ADA8C1AD657C1A84D41DED04D2F053</checkSum>
+    <name>Toon Time...in the classroom</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>VideoactV</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>F3AF1B13</id>
+    <checkSum>F3AF1B13F411B31E5CCC97140EC62AC3</checkSum>
+    <name>Crash 'n Burn</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F3BB8F83</id>
+    <checkSum>F3BB8F835943BD9484CA2B86065C7C9E</checkSum>
+    <name>Drug Wars</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>F443F731</id>
+    <checkSum>F443F731BAA3DEAD4A024D0FE9740349</checkSum>
+    <name>Kakinoki Shogi</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F47EE24A</id>
+    <checkSum>F47EE24AF15A4434471F22DCB9BA79F7</checkSum>
+    <name>Corpse Killer</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Digital Pictures</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F4C6076E</id>
+    <checkSum>F4C6076E88842B1CFF045377250ADEB5</checkSum>
+    <name>Panasonic Special CD-ROM</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F59975A5</id>
+    <checkSum>F59975A5AF738000751BFA93C7A9D2B0</checkSum>
+    <name>Last Bounty Hunter, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>F60FFF30</id>
+    <checkSum>F60FFF308F82AC9D3EC1696B488FF4FA</checkSum>
+    <name>Casper</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Interplay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>F627955B</id>
+    <checkSum>F627955BDCBF8D6626F5035B423FF3EB</checkSum>
+    <name>Super Wing Commander</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Origin</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>F64CABEE</id>
+    <checkSum>F64CABEE5FC4D6CE278F44156CCF0F39</checkSum>
+    <name>Slam 'N Jam '95</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>BMG Interactive Entertainment</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F66738E9</id>
+    <checkSum>F66738E9ED5076D65369D4875F3189DA</checkSum>
+    <name>StarBlade (demo)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F73F7D08</id>
+    <checkSum>F73F7D08792C0CB1C6A55A0D53DAD5E6</checkSum>
+    <name>Gex</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Crystal Dynamics</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>F7765334</id>
+    <checkSum>F776533451076B2C7124BF181F42D425</checkSum>
+    <name>ESPN Baseball - Interactive Hitting</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>IntelliPlay</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>F7ABCEC1</id>
+    <checkSum>F7ABCEC1590D577471013CBC12A0977C</checkSum>
+    <name>endlessly</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Vivid Interactive</publisher>
+    <regions>EU-US</regions>
+  </game>
+  <game>
+    <id>F82D03A4</id>
+    <checkSum>F82D03A4804A63CD968E14274121490F</checkSum>
+    <name>Pebble Beach Golf Links</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>EU</regions>
+  </game>
+  <game>
+    <id>F895878B</id>
+    <checkSum>F895878BE254E5B11AB497A0FDD2C86A</checkSum>
+    <name>D's Diner - The Director's Cut (Disc 2 of 3)</name>
+    <releaseYear>1996</releaseYear>
+    <publisher>Warp</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F8DB741F</id>
+    <checkSum>F8DB741F714A8B808B5BC4439E6932ED</checkSum>
+    <name>Nishimura Keitarou Travel Mystery - Akugyaku no Kisetsu (Disc 1 of 2)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>F99996DE</id>
+    <checkSum>F99996DE245B15FDF2B28B80F8FE6DA7</checkSum>
+    <name>Doctor Hauzer</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Panasonic</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>FA9D8D5D</id>
+    <checkSum>FA9D8D5DB19606F62526B4C6965E8AC1</checkSum>
+    <name>ESPN Golf - Tom Kite no Kore ga Golf Da! (Disc 3 of 3)</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>BYSE</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>FC8547D2</id>
+    <checkSum>FC8547D2BA7AE3D4B5CB2AEC00625CA8</checkSum>
+    <name>DeathKeep</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>SSi</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>FC91499C</id>
+    <checkSum>FC91499C362CCCD6E33D2FD8790DDF70</checkSum>
+    <name>Sotsugyou Graduation Final</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Shar Rock</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>FCF16DC8</id>
+    <checkSum>FCF16DC8ABEE7B90B5FD862CDEEF1B23</checkSum>
+    <name>3DO Interactive Sampler CD, The</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>3DO Company</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>FD1DFDBE</id>
+    <checkSum>FD1DFDBEC9126AFACFC0F5B1139CEA0B</checkSum>
+    <name>Paddock Note '95</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Fuji Television</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>FDD9ADA0</id>
+    <checkSum>FDD9ADA0F08C99E1FA510616207903DE</checkSum>
+    <name>Space Shuttle</name>
+    <releaseYear>1993</releaseYear>
+    <publisher>Software Toolworks</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
+    <id>FEC76773</id>
+    <checkSum>FEC7677340499221362FDCB0687C6860</checkSum>
+    <name>Little House, The</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>MC International</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>FF2ECFC0</id>
+    <checkSum>FF2ECFC0AEEDCBD427F7413168ADC79E</checkSum>
+    <name>Virtual Cameraman Part 4 - Shiori Fujitani</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Transpegasus</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
+    <id>FFC95FB4</id>
+    <checkSum>FFC95FB4EE70218A126AD0A7E51644E6</checkSum>
+    <name>Onee-san to Isshoo! Shanken Paradise</name>
+    <releaseYear>1994</releaseYear>
+    <publisher>Intarus</publisher>
+    <regions>JP</regions>
+  </game>
+</database>

@@ -11,32 +11,70 @@ namespace FourDO.Emulation.GameSource
 	internal abstract class GameSourceBase : IGameSource
 	{
 		private int sectorCount = 0;
+		private string gameId = null;
+		private string gameName = null;
+
+		private bool isOpen = false;
 
 		protected virtual void OnOpen() { }
 
 		public virtual void Open()
 		{
-			this.OnOpen();
-			this.ReadSectorCount();
+			if (!this.isOpen)
+			{
+				this.isOpen = true;
+				
+				this.OnOpen();
+				
+				// Get some metadata
+				this.ReadSectorCount();
+				this.gameId = GameRegistrar.LookUpGameId(this);
+				this.gameName = GameRegistrar.GetGameNameById(this.gameId);
+			}
 		}
 
 		protected virtual void OnClose() { }
 
 		public virtual void Close()
 		{
-			this.OnClose();
+			if (this.isOpen)
+			{
+				this.isOpen = false;
+
+				this.OnClose();
+			}
 		}
 
 		protected virtual void OnReadSector(IntPtr destinationBuffer, int sectorNumber) {}
 
 		public virtual void ReadSector(IntPtr destinationBuffer, int sectorNumber)
 		{
-			this.OnReadSector(destinationBuffer, sectorNumber);
+			if (this.isOpen)
+				this.OnReadSector(destinationBuffer, sectorNumber);
 		}
 
 		public int GetSectorCount()
 		{
-			return this.sectorCount;
+			if (this.isOpen)
+				return this.sectorCount;
+			else
+				return 0;
+		}
+
+		public string GetGameId()
+		{
+			if (this.isOpen)
+				return this.gameId;
+			else
+				return null;
+		}
+
+		public string GetGameName()
+		{
+			if (this.isOpen)
+				return this.gameName;
+			else
+				return null;
 		}
 
 		private unsafe void ReadSectorCount()

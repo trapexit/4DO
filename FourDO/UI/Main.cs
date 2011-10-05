@@ -602,7 +602,7 @@ namespace FourDO.UI
 			////////////////////////
 			// File menu
 
-			this.closeGameMenuItem.Enabled = consoleActive && !(GameConsole.Instance.GameSource is EmptyGameSource);
+			this.closeGameMenuItem.Enabled = consoleActive && !(GameConsole.Instance.GameSource is BiosOnlyGameSource);
 			this.openCDImageMenuItem.Enabled = isValidBiosRomSelected;
 			this.loadLastGameMenuItem.Enabled = true;
 			this.chooseBiosRomMenuItem.Enabled = true;
@@ -763,10 +763,13 @@ namespace FourDO.UI
 
 			////////////////
 			// Ensure existence of an NVRAM file.
-			string nvramFile = System.IO.Path.Combine(new System.IO.FileInfo(Application.ExecutablePath).DirectoryName, "NVRAM_SaveData.ram");
+			string nvramFile = SaveHelper.GetNvramFilePath();
 			if (System.IO.File.Exists(nvramFile) == false)
 			{
 				// No NVRAM! Initialize one.
+				string directoryName = Path.GetDirectoryName(nvramFile);
+				if (!Directory.Exists(directoryName))
+					Directory.CreateDirectory(directoryName);
 				FileStream nvramStream = new FileStream(nvramFile, FileMode.CreateNew);
 				byte[] nvramBytes = new byte[GameConsole.Instance.NvramSize];
 				unsafe
@@ -841,7 +844,7 @@ namespace FourDO.UI
 			}
 			
 			if (sourceType == GameSourceType.None)
-				return new EmptyGameSource();
+				return new BiosOnlyGameSource();
 
 			if (sourceType == GameSourceType.File)
 				return new FileGameSource(Properties.Settings.Default.GameRomFile);
@@ -850,7 +853,7 @@ namespace FourDO.UI
 				return new DiscGameSource(Properties.Settings.Default.GameRomDrive);
 
 			// Must be a currently unsupported type.
-			return new EmptyGameSource();
+			return new BiosOnlyGameSource();
 		}
 
 		private void DoConsoleReset(bool alsoAllowLoadState)
@@ -920,8 +923,11 @@ namespace FourDO.UI
 					Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
 					Properties.Settings.Default.Save();
 
-					if (GameConsole.Instance.GameSource == null || GameConsole.Instance.GameSource is EmptyGameSource)
-						this.DoConsoleReset(true);
+					if (GameConsole.Instance.GameSource == null || GameConsole.Instance.GameSource is BiosOnlyGameSource)
+					{
+						bool allowReset = !(GameConsole.Instance.GameSource is BiosOnlyGameSource);
+						this.DoConsoleReset(allowReset);
+					}
 				}
 			}
 		}
@@ -983,7 +989,7 @@ namespace FourDO.UI
 		{
 			if (GameConsole.Instance.State != ConsoleState.Stopped)
 			{
-				string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
+				string saveStateFileName = SaveHelper.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
 				GameConsole.Instance.SaveState(saveStateFileName);
 			}
 		}
@@ -992,7 +998,7 @@ namespace FourDO.UI
 		{
 			if (GameConsole.Instance.State != ConsoleState.Stopped)
 			{
-				string saveStateFileName = this.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
+				string saveStateFileName = SaveHelper.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
 				if (System.IO.File.Exists(saveStateFileName))
 					GameConsole.Instance.LoadState(saveStateFileName);
 			}
@@ -1014,19 +1020,6 @@ namespace FourDO.UI
 
 			Properties.Settings.Default.SaveStateSlot = saveSlot;
 			Properties.Settings.Default.Save();
-		}
-
-		private string GetSaveStateFileName(IGameSource gameSource, int saveStateSlot)
-		{
-			const string SAVE_STATE_EXTENSION = ".4dosav";
-
-			string saveGameName = "unknown_source"; // Hopefully nobody causes this.
-			if (gameSource is FileGameSource)
-			{
-				saveGameName = ((FileGameSource)gameSource).GameFilePath;
-			}
-
-			return (saveGameName + "." + saveStateSlot.ToString() + SAVE_STATE_EXTENSION);
 		}
 
 		private void DoUpdateFPS()

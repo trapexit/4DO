@@ -11,6 +11,9 @@ namespace FourDO.Emulation.GameSource
 		void Close();
 
 		int GetSectorCount();
+		string GetGameId();
+		string GetGameName();
+
 		void ReadSector(IntPtr destinationBuffer, int sectorNumber);
 	}
 }
