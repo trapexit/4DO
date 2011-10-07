@@ -54,6 +54,11 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		public void SaveToFile(string fileName)
 		{
+			// Create the directory if necessary.
+			string directoryName = Path.GetDirectoryName(fileName);
+			if (!Directory.Exists(directoryName))
+				Directory.CreateDirectory(directoryName);
+			
 			CustomXmlSerializer serializer = new CustomXmlSerializer();
 			serializer.IncludeClassNameAttribute = true;
 			serializer.WriteFile(this, fileName, true);

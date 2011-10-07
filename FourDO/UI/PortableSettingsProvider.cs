@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Configuration;
 using System.Configuration.Provider;
@@ -66,6 +67,10 @@ namespace FourDO.UI
 
 			try
 			{
+				string directoryName = Path.GetDirectoryName(m_xmlFileName);
+				if (!Directory.Exists(directoryName))
+					Directory.CreateDirectory(directoryName);
+
 				SettingsXML.Save(m_xmlFileName);
 			}
 			catch
@@ -103,9 +108,7 @@ namespace FourDO.UI
 
 			////////////////
 			// Determine the settings file name.
-
-			System.IO.FileInfo fi = new System.IO.FileInfo(Application.ExecutablePath);
-			string directoryName = fi.DirectoryName;
+			string directoryName = FourDO.Globals.Constants.SettingsPath;
 
 			// We'll leave fourdo's main settings as FourDo.settings.
 			// Everything else will use the class name.
