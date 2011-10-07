@@ -60,6 +60,13 @@ namespace FourDO.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CD {
+            get {
+                object obj = ResourceManager.GetObject("CD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FourDO {
             get {
                 object obj = ResourceManager.GetObject("FourDO", resourceCulture);

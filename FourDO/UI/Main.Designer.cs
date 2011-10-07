@@ -78,12 +78,14 @@
 			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
 			this.configureInputMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.refreshFpsTimer = new System.Windows.Forms.Timer(this.components);
 			this.hideMenuTimer = new System.Windows.Forms.Timer(this.components);
 			this.sizeBox = new FourDO.UI.SizeBox();
 			this.RomNagBox = new FourDO.UI.NagBox();
 			this.gameCanvas = new FourDO.UI.GameCanvas();
+			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+			this.gameInfoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MainStatusStrip.SuspendLayout();
 			this.MainMenuBar.SuspendLayout();
 			this.SuspendLayout();
@@ -480,17 +482,19 @@
 			// helpToolStripMenuItem
 			// 
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
+            this.gameInfoMenuItem,
+            this.toolStripSeparator12,
+            this.aboutMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "&Help";
 			// 
-			// aboutToolStripMenuItem
+			// aboutMenuItem
 			// 
-			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-			this.aboutToolStripMenuItem.Text = "&About 4DO...";
-			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+			this.aboutMenuItem.Name = "aboutMenuItem";
+			this.aboutMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.aboutMenuItem.Text = "&About 4DO...";
+			this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
 			// 
 			// refreshFpsTimer
 			// 
@@ -536,12 +540,27 @@
 			this.gameCanvas.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameCanvas.BackgroundImage")));
 			this.gameCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gameCanvas.ImageSmoothing = true;
+			this.gameCanvas.IsConsoleStopped = true;
 			this.gameCanvas.IsInResizeMode = false;
 			this.gameCanvas.Location = new System.Drawing.Point(0, 24);
 			this.gameCanvas.Name = "gameCanvas";
 			this.gameCanvas.PreserveAspectRatio = true;
 			this.gameCanvas.Size = new System.Drawing.Size(744, 557);
 			this.gameCanvas.TabIndex = 3;
+			this.gameCanvas.VoidAreaBorder = false;
+			this.gameCanvas.VoidAreaPattern = FourDO.UI.VoidAreaPattern.None;
+			// 
+			// toolStripSeparator12
+			// 
+			this.toolStripSeparator12.Name = "toolStripSeparator12";
+			this.toolStripSeparator12.Size = new System.Drawing.Size(177, 6);
+			// 
+			// gameInfoMenuItem
+			// 
+			this.gameInfoMenuItem.Name = "gameInfoMenuItem";
+			this.gameInfoMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.gameInfoMenuItem.Text = "Game Information...";
+			this.gameInfoMenuItem.Click += new System.EventHandler(this.gameInfoMenuItem_Click);
 			// 
 			// Main
 			// 
@@ -604,7 +623,7 @@
         private System.Windows.Forms.ToolStripMenuItem resetMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pauseMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveStateMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadStateMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadLastSaveMenuItem;
@@ -628,6 +647,8 @@
 		private System.Windows.Forms.ToolStripMenuItem PatternMetalMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem PatternNoneMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+		private System.Windows.Forms.ToolStripMenuItem gameInfoMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
 
     }
 }

@@ -25,6 +25,8 @@ namespace FourDO.UI
 
 	public partial class Main : Form
 	{
+		private const string FOURDO_NAME = "4DO";
+
 		private const int BASE_WIDTH = 320;
 		private const int BASE_HEIGHT = 240;
 
@@ -68,7 +70,7 @@ namespace FourDO.UI
 
 			this.quickDisplayDropDownButton.DropDownDirection = ToolStripDropDownDirection.AboveLeft;
 			
-			this.VersionStripItem.Text = "4DO " + Application.ProductVersion;
+			this.VersionStripItem.Text = FOURDO_NAME + " " + Application.ProductVersion;
 
 			GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
 
@@ -529,7 +531,20 @@ namespace FourDO.UI
 			this.hideMenuTimer.Enabled = false;
 		}
 
-		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		private void gameInfoMenuItem_Click(object sender, EventArgs e)
+		{
+			IGameSource gameSource = GameConsole.Instance.GameSource;
+			if (gameSource == null || gameSource is BiosOnlyGameSource)
+				return;
+
+			using (var gameInformation = new GameInformation())
+			{
+				gameInformation.GameSource = gameSource;
+				gameInformation.ShowDialog(this);
+			}
+		}
+		
+		private void aboutMenuItem_Click(object sender, EventArgs e)
 		{
 			using (var aboutForm = new About())
 			{
@@ -598,11 +613,26 @@ namespace FourDO.UI
 		{
 			bool isValidBiosRomSelected = (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == false);
 			bool consoleActive = (GameConsole.Instance.State != ConsoleState.Stopped);
+			bool biosOnly = (GameConsole.Instance.GameSource is BiosOnlyGameSource);
 
+			// Title bar.
+			string windowTitle = null;
+			if (consoleActive && !biosOnly)
+			{
+				string gameName = GameConsole.Instance.GameSource.GetGameName();
+				if (gameName == null)
+					gameName = "Unknown game";
+
+				windowTitle += gameName + " - ";
+			}
+			windowTitle += FOURDO_NAME;
+
+			this.Text = windowTitle.ToString();
+			
 			////////////////////////
 			// File menu
 
-			this.closeGameMenuItem.Enabled = consoleActive && !(GameConsole.Instance.GameSource is BiosOnlyGameSource);
+			this.closeGameMenuItem.Enabled = consoleActive && !biosOnly;
 			this.openCDImageMenuItem.Enabled = isValidBiosRomSelected;
 			this.loadLastGameMenuItem.Enabled = true;
 			this.chooseBiosRomMenuItem.Enabled = true;
@@ -708,6 +738,11 @@ namespace FourDO.UI
 			this.settingsMenuItem.Enabled = true;
 			this.configureInputMenuItem.Enabled = (GameConsole.Instance.InputPlugin != null)
 					&& (GameConsole.Instance.InputPlugin.GetHasSettings());
+
+			////////////////////////
+			// Help menus.
+			this.gameInfoMenuItem.Enabled = consoleActive && (!biosOnly);
+			this.aboutMenuItem.Enabled = true;
 
 			////////////////////////
 			// Other non-menu stuff.

@@ -5,7 +5,8 @@
 //
 // I've used a libary from here to play the audio from a buffer
 // http://www.codeproject.com/KB/audio-video/cswavplay.aspx
-// (consent is pending, I've emailed the guy... maybe the email address is too old?)
+// 
+// Consent explicitly recieved on August 3rd via email (from Ianier to Johnny).
 //
 // Things to do:
 // * I just blindly selected BUFFER SIZES. This is pretty lazy of me. I believe it introduces audio lag too.

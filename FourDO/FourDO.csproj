@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="Emulation\GameSource\BiosOnlyGameSource.cs" />
     <Compile Include="Emulation\GameSource\FileGameSource.cs" />
+    <Compile Include="Emulation\GameSource\GameRecord.cs" />
     <Compile Include="Emulation\GameSource\GameRegistrar.cs" />
     <Compile Include="Emulation\GameSource\GameSourceBase.cs" />
     <Compile Include="Emulation\GameSource\IGameSource.cs" />
@@ -148,6 +149,12 @@
     </Compile>
     <Compile Include="UI\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\GameInformation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\GameInformation.Designer.cs">
+      <DependentUpon>GameInformation.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MouseHider.cs" />
     <Compile Include="UI\SaveHelper.cs" />
@@ -226,6 +233,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\GameCanvas.resx">
       <DependentUpon>GameCanvas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\GameInformation.resx">
+      <DependentUpon>GameInformation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

@@ -39,20 +39,20 @@ namespace FourDO.Emulation.GameSource
 			{
 				var gameNode = (XmlNode)node;
 
-				var gameRecord = new GameRecord();
-				gameRecord.Id = gameNode.SelectSingleNode("id").InnerText;
-				gameRecord.CheckSum = gameNode.SelectSingleNode("checkSum").InnerText;
-				gameRecord.Name = gameNode.SelectSingleNode("name").InnerText;
-				gameRecord.ReleaseYear = gameNode.SelectSingleNode("releaseYear").InnerText;
-				gameRecord.Publisher = gameNode.SelectSingleNode("publisher").InnerText;
-				gameRecord.Regions = gameNode.SelectSingleNode("regions").InnerText;
+				var gameRecord = new GameRecord(
+					gameNode.SelectSingleNode("id").InnerText,
+					gameNode.SelectSingleNode("checkSum").InnerText,
+					gameNode.SelectSingleNode("name").InnerText,
+					gameNode.SelectSingleNode("releaseYear").InnerText,
+					gameNode.SelectSingleNode("publisher").InnerText,
+					gameNode.SelectSingleNode("regions").InnerText);
 
 				GameRegistrar.gameDatabaseById.Add(gameRecord.Id, gameRecord);
 				GameRegistrar.gameDatabaseByCheckSum.Add(gameRecord.CheckSum, gameRecord);
 			}
 		}
 
-		public static string LookUpGameId(GameSourceBase gameSource)
+		public static string CalculateGameChecksum(GameSourceBase gameSource)
 		{
 			//////////////////////
 			// Come up with MD5 hash of the first block of CD data.
@@ -67,7 +67,12 @@ namespace FourDO.Emulation.GameSource
 					}
 				}
 			}
-			string hash = GetHash(checkSumSourceData);
+			return GetHash(checkSumSourceData);
+		}
+
+		public static string LookUpGameId(GameSourceBase gameSource)
+		{
+			string hash = CalculateGameChecksum(gameSource);
 
 			// Look it up!
 			GameRecord gameRecord;
@@ -119,14 +124,17 @@ namespace FourDO.Emulation.GameSource
 
 		public static string GetGameNameById(string gameId)
 		{
-			// Look it up!
-			GameRecord gameRecord;
-			GameRegistrar.gameDatabaseById.TryGetValue(gameId, out gameRecord);
-
+			GameRecord gameRecord = GameRegistrar.GetGameRecordById(gameId);
 			if (gameRecord == null)
 				return null;
-
 			return gameRecord.Name;
+		}
+
+		public static GameRecord GetGameRecordById(string gameId)
+		{
+			GameRecord gameRecord;
+			GameRegistrar.gameDatabaseById.TryGetValue(gameId, out gameRecord);
+			return gameRecord;
 		}
 
 		private static string GetHash(byte[] input)
@@ -151,19 +159,5 @@ namespace FourDO.Emulation.GameSource
 			else
 				return String.Format("{0:X8}", previousIdInt + 1);
 		}
-
-		#region GameRecord
-
-		private class GameRecord
-		{
-			public string Id { get; set; }
-			public string CheckSum { get; set; }
-			public string Name { get; set; }
-			public string ReleaseYear { get; set; }
-			public string Publisher { get; set; }
-			public string Regions { get; set; }
-		}
-
-		#endregion // GameRecord
 	}
 }
