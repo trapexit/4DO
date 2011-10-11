@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace FourDO.Utilities
 {
-    internal static class PerformanceCounter
+    public static class PerformanceCounter
     {
         [DllImport("Kernel32.dll")]
         private static extern bool QueryPerformanceCounter(out long lpPerformanceCount);

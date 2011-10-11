@@ -157,6 +157,7 @@ namespace FourDO.UI.DX
 		{
 			this.vertexBuffer.Dispose();
 			this.texture.Dispose();
+			this.vertexDeclaration.Dispose();
 			this.device.Dispose();
 			this.direct3D.Dispose();
 		}

@@ -829,7 +829,7 @@ namespace FourDO.UI
 			}
 			catch (GameConsole.BadBiosRomException)
 			{
-				Utilities.Error.ShowError(string.Format("The bios file ({0}) failed to load. Please choose another.", Properties.Settings.Default.BiosRomFile));
+				FourDO.UI.Error.ShowError(string.Format("The bios file ({0}) failed to load. Please choose another.", Properties.Settings.Default.BiosRomFile));
 				Properties.Settings.Default.BiosRomFile = "";
 				Properties.Settings.Default.Save();
 				this.DoShowRomNag();
@@ -841,7 +841,7 @@ namespace FourDO.UI
 					errorMessage = string.Format("The game file ({0}) failed to load. Please choose another.", ((FileGameSource)gameSource).GameFilePath);
 				else
 					errorMessage = "The game failed to load. Please choose another.";
-				Utilities.Error.ShowError(errorMessage);
+				FourDO.UI.Error.ShowError(errorMessage);
 
 				// Since it failed to load, we want to un-remember this as the last loaded game.
 				Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
@@ -849,7 +849,7 @@ namespace FourDO.UI
 			}
 			catch (GameConsole.BadNvramFileException)
 			{
-				Utilities.Error.ShowError(string.Format("The nvram file ({0}) could not be loaded. Emulation cannot start.", nvramFile));
+				FourDO.UI.Error.ShowError(string.Format("The nvram file ({0}) could not be loaded. Emulation cannot start.", nvramFile));
 			}
 
 			// Optionally load state.

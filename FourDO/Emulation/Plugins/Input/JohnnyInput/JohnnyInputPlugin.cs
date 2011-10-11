@@ -25,7 +25,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private JoyInputChecker joyChecker = new JoyInputChecker();
 		private InputBindingDevices devices;
-		private static string bindingsFilePath = Path.Combine(Globals.Constants.SettingsPath, BINDINGS_FILE_NAME);
+		private static string bindingsFilePath = Path.Combine(Utilities.Global.Constants.SettingsPath, BINDINGS_FILE_NAME);
 
 		public JohnnyInputPlugin()
 		{
@@ -115,8 +115,6 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void LoadKeys()
 		{
-			JohnnyInputPlugin.bindingsFilePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), BINDINGS_FILE_NAME);
-
 			InputBindingDevices newDevices = null;
 			try
 			{

@@ -301,7 +301,7 @@ namespace FourDO.Utilities.MouseHook
         #endregion
 
         #region Win32 Imports
-        public struct Win32
+        internal struct Win32
         {
             public struct MOUSEHOOKSTRUCT
             {

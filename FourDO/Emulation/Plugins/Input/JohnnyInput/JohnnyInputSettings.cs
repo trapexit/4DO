@@ -107,7 +107,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			}
 			catch (Exception ex)
 			{
-				Utilities.Error.ShowError("Unexpected error saving the bindings to file : " + this.BindingsFilePath + "\r\n\r\nDetails: " + ex.ToString());
+				FourDO.UI.Error.ShowError("Unexpected error saving the bindings to file : " + this.BindingsFilePath + "\r\n\r\nDetails: " + ex.ToString());
 			}
 
 			if (savedSuccessfully)

@@ -108,7 +108,7 @@ namespace FourDO.UI
 
 			////////////////
 			// Determine the settings file name.
-			string directoryName = FourDO.Globals.Constants.SettingsPath;
+			string directoryName = FourDO.Utilities.Global.Constants.SettingsPath;
 
 			// We'll leave fourdo's main settings as FourDo.settings.
 			// Everything else will use the class name.

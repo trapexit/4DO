@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace FourDO.Utilities
+namespace FourDO.UI
 {
     public static class Error
     {

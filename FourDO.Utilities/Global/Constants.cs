@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace FourDO.Globals
+namespace FourDO.Utilities.Global
 {
 	public class Constants
 	{

@@ -43,12 +43,12 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Multimedia
+namespace FourDO.Utilities
 {
     /// <summary>
     /// Defines constants for the multimedia Timer's event types.
     /// </summary>
-    public enum TimerMode
+    internal enum TimerMode
     {
         /// <summary>
         /// Timer event occurs once.
@@ -65,7 +65,7 @@ namespace Multimedia
     /// Represents information about the multimedia Timer's capabilities.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct TimerCaps
+	internal struct TimerCaps
     {
         /// <summary>
         /// Minimum supported period in milliseconds.
@@ -81,7 +81,7 @@ namespace Multimedia
     /// <summary>
     /// Represents the Windows multimedia timer.
     /// </summary>
-    public sealed class Timer : IComponent
+	internal sealed class Timer : IComponent
     {
         #region Timer Members
 
@@ -684,7 +684,7 @@ namespace Multimedia
     /// <summary>
     /// The exception that is thrown when a timer fails to start.
     /// </summary>
-    public class TimerStartException : ApplicationException
+	internal class TimerStartException : ApplicationException
     {
         /// <summary>
         /// Initializes a new instance of the TimerStartException class.

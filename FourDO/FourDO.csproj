@@ -138,7 +138,6 @@
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoystickTriggerType.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\KeyboardInputTrigger.cs" />
     <Compile Include="Emulation\Plugins\PluginLoader.cs" />
-    <Compile Include="Globals\Constants.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -178,18 +177,8 @@
       <DependentUpon>SlimDXCanvas.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\VoidAreaPattern.cs" />
-    <Compile Include="Utilities\CustomXmlSerializer.cs" />
-    <Compile Include="Utilities\DisplayHelper.cs" />
-    <Compile Include="Utilities\Error.cs" />
-    <Compile Include="Utilities\GlobalKeyboardHook.cs" />
-    <Compile Include="Utilities\Memory.cs" />
-    <Compile Include="Utilities\MouseHook\LocalWindowsHook.cs" />
-    <Compile Include="Utilities\MouseHook\MouseHook.cs" />
-    <Compile Include="Utilities\MouseHook\MouseHookEventArgs.cs" />
-    <Compile Include="Utilities\PerformanceCounter.cs" />
-    <Compile Include="Utilities\ReflectionUtility.cs" />
+    <Compile Include="UI\Error.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Utilities\Timer.cs" />
     <Compile Include="UI\GameCanvas.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -291,6 +280,11 @@
       <Project>{E3BD3EDE-B721-48A8-8EE1-1BA4FAFE5884}</Project>
       <Name>CDLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FourDO.Utilities\FourDO.Utilities.csproj">
+      <Project>{90F85307-1C30-4A5F-B434-FBE3958ED750}</Project>
+      <Name>FourDO.Utilities</Name>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\WaveLib\WaveLib.csproj">
       <Project>{D72CC69F-2065-4BA2-A499-ABF352C0733D}</Project>
       <Name>WaveLib</Name>
@@ -306,13 +300,19 @@
     <EmbeddedResource Include="Emulation\GameSource\GameDatabase.xml" />
     <Content Include="IconFourDO.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Globals\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy "$(SolutionDir)FreeDOCore\$(Configuration)\FreeDOCore.dll" "$(TargetDir)" /y</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>::Remove everything first
+"$(SolutionDir)tools\7z.exe" d -tzip -y "$(TargetDir)4DO_x.x.x.x_beta.zip" *
+
+::Add each file
+"$(SolutionDir)tools\7z.exe" a -tzip -y "$(TargetDir)4DO_x.x.x.x_beta.zip" "$(TargetPath)" "$(TargetDir)CDLib.dll" "$(TargetDir)FreeDOCore.dll" "$(TargetDir)WaveLib.dll" "$(TargetDir)FourDO.Utilities.dll"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

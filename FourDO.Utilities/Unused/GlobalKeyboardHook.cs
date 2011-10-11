@@ -19,7 +19,6 @@ namespace FourDO.Utilities
     using System.Collections.Generic;
     using System.Text;
     using System.Runtime.InteropServices;
-    using System.Windows.Forms;
 
     /// <summary>
     /// A class that manages a global low level keyboard hook
