@@ -317,6 +317,7 @@
 			this.Name = "JohnnyInputSettings";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Configure Input Settings";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.JohnnyInputSettings_FormClosed);
 			this.Load += new System.EventHandler(this.JohnnyInputSettings_Load);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.JohnnyInputSettings_KeyDown);
 			this.panel1.ResumeLayout(false);

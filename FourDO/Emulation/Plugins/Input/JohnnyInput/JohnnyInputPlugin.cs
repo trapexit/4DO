@@ -34,7 +34,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		#region IInputPlugin Implementation
 
-		public void Destroy() { }
+		public void Destroy() 
+		{
+			this.joyChecker.Dispose();
+		}
 
 		public bool GetHasSettings()
 		{

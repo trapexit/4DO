@@ -834,5 +834,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		}
 
 		#endregion // Private Functions
+
+		private void JohnnyInputSettings_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.watcher.Dispose();
+		}
 	}
 }

@@ -98,7 +98,6 @@
     </Compile>
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingDevice.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingDevices.cs" />
-    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyHelper.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyInput.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyInputChecker.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyInputWatcher.cs" />
@@ -155,7 +154,6 @@
     <Compile Include="UI\GameInformation.Designer.cs">
       <DependentUpon>GameInformation.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\MouseHider.cs" />
     <Compile Include="UI\SaveHelper.cs" />
     <Compile Include="UI\Settings.cs">
       <SubType>Form</SubType>
@@ -300,9 +298,7 @@
     <EmbeddedResource Include="Emulation\GameSource\GameDatabase.xml" />
     <Content Include="IconFourDO.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Globals\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy "$(SolutionDir)FreeDOCore\$(Configuration)\FreeDOCore.dll" "$(TargetDir)" /y</PreBuildEvent>

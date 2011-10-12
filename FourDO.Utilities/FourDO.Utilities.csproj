@@ -51,6 +51,7 @@
     <Compile Include="Logging\FileStreamWithBackup.cs" />
     <Compile Include="Logging\TextWriterTraceListenerWithTime.cs" />
     <Compile Include="Memory.cs" />
+    <Compile Include="MouseHider.cs" />
     <Compile Include="MouseHook\LocalWindowsHook.cs" />
     <Compile Include="MouseHook\MouseHook.cs" />
     <Compile Include="MouseHook\MouseHookEventArgs.cs" />

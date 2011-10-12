@@ -166,6 +166,9 @@ namespace FourDO.Emulation
 		{
 			if (audioPlugin != null)
 				audioPlugin.Destroy();
+
+			if (inputPlugin != null)
+				inputPlugin.Destroy();
 		}
 
 		private ConsoleState internalConsoleState;

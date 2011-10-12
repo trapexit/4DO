@@ -6,13 +6,24 @@ using SlimDX.DirectInput;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
-	abstract internal class JoyInput
+	abstract internal class JoyInput : IDisposable
 	{
 		protected class JoyCache
 		{
 			public Joystick JoyStick { get; set; }
 			public JoystickState LastState { get; set; }
 		}
+
+		public void Dispose()
+		{
+			DirectInput.Dispose();
+		}
+
+		private List<int> validJoystickDeviceTypes = new List<int>
+			{
+			(int)DeviceType.Joystick,
+			(int)DeviceType.Gamepad
+			};
 
 		protected List<JoyCache> Joysticks = new List<JoyCache>();
 		protected DirectInput DirectInput = new DirectInput();
@@ -50,7 +61,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		protected void UpdateJoystickList()
 		{
 			// Get all joysticks.
-			List<DeviceInstance> devices = JoyHelper.GetJoystickDevices();
+			List<DeviceInstance> devices = this.GetJoystickDevices();
 
 			foreach (var device in devices)
 			{
@@ -140,6 +151,16 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				return JoystickTriggerPovDirection.Left;
 
 			return 0; // er... yikes.
+		}
+
+		protected List<DeviceInstance> GetJoystickDevices()
+		{
+			List<DeviceInstance> joystickDevices = new List<DeviceInstance>();
+
+			var devices = this.DirectInput.GetDevices();
+
+			// The least significant byte of the device's "Type" identifies the DeviceType.
+			return devices.Where<DeviceInstance>(x => validJoystickDeviceTypes.Contains((int)x.Type & 0xFF)).ToList<DeviceInstance>();
 		}
 	}
 }

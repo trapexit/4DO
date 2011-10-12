@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace FourDO.UI
 {
-	internal static class MouseHider
+	public static class MouseHider
 	{
 		private static bool isMouseShown = true;
 		private static volatile object mouseShownLock = new object();
