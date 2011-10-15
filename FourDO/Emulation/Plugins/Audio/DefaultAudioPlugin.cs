@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -31,7 +32,15 @@ namespace FourDO.Emulation.Plugins.Audio
 		private bool audioEnabled;
 		private int bytesPerSample;
 
-		private const int BUFFER_SIZE = 4098;
+		private double volumeLinear = 1.0;
+		private double volumeLogarithmic = 1.0;
+
+		private bool stopped = true;
+		
+		private const int FORMAT_SAMPLES_PER_SECOND = 44100;
+		private const int FORMAT_CHANNELS = 2;
+
+		private const int BUFFER_SIZE = 4096;
 
 		private WaveOutPlayer player;
 		private WaveFormat format;
@@ -43,6 +52,9 @@ namespace FourDO.Emulation.Plugins.Audio
 		private GCHandle bufferHandle;
 		private volatile int bufferWritePosition;
 		private volatile Stream bufferReadStream;
+
+		byte[] copyBuffer = new byte[BUFFER_SIZE];
+		byte[] emptyBuffer = new byte[BUFFER_SIZE];
 
 		internal DefaultAudioPlugin()
 		{
@@ -62,9 +74,27 @@ namespace FourDO.Emulation.Plugins.Audio
 
 		#region IAudioPlugin Implementation
 
+		public double Volume 
+		{ 
+			get
+			{
+				return volumeLinear;
+			}
+			set 
+			{
+				volumeLinear = value;
+				this.volumeLogarithmic = volumeLinear * volumeLinear * volumeLinear;
+			}
+		}
+
 		public bool GetHasSettings()
 		{
 			return false;
+		}
+
+		public bool GetSupportsVolume()
+		{
+			return true;
 		}
 
 		public void ShowSettings(IWin32Window owner)
@@ -74,30 +104,32 @@ namespace FourDO.Emulation.Plugins.Audio
 
 		public void PushSample(uint dspSample)
 		{
+			uint rightSample = dspSample & 0xFFFF0000;
+			uint leftSample = dspSample & 0x0000FFFF;
+			if (volumeLogarithmic != 1)
+			{
+				rightSample = rightSample >> 16;
+				rightSample = (uint)((short)rightSample * volumeLogarithmic);
+				rightSample = rightSample << 16;
+				leftSample = (uint)((short)leftSample * volumeLogarithmic) & 0x0000FFFF;
+			}
+
 			unsafe
 			{
-				if (bytesPerSample == 4)
+				int bytesPerChannel = bytesPerSample / FORMAT_CHANNELS;
+				if (bytesPerChannel == 2)
 				{
 					UInt32* bufferSamplePointer = (UInt32*)this.bufferPtr.ToPointer();
-					bufferSamplePointer[this.bufferWritePosition++] = dspSample;
+					bufferSamplePointer[this.bufferWritePosition++] = leftSample | rightSample;
 				}
-				else if (bytesPerSample == 3)
-				{
-					byte* bufferSamplePointer = (byte*)this.bufferPtr.ToPointer();
-					bufferSamplePointer[3 * this.bufferWritePosition + 0] = (byte)(dspSample >> 24);
-					bufferSamplePointer[3 * this.bufferWritePosition + 1] = (byte)(dspSample >> 16);
-					bufferSamplePointer[3 * this.bufferWritePosition + 2] = (byte)(dspSample >> 8);
-					this.bufferWritePosition++;
-				}
-				else if (bytesPerSample == 2)
+				else if (bytesPerChannel == 1)
 				{
 					UInt16* bufferSamplePointer = (UInt16*)this.bufferPtr.ToPointer();
-					bufferSamplePointer[this.bufferWritePosition++] = (UInt16)(dspSample >> 16);
-				}
-				else if (bytesPerSample == 1)
-				{
-					byte* bufferSamplePointer = (byte*)this.bufferPtr.ToPointer();
-					bufferSamplePointer[this.bufferWritePosition++] = (byte)((dspSample >> 24) + 128);
+					bufferSamplePointer[this.bufferWritePosition++] = (UInt16)(
+							 (((rightSample & 0xFF000000) >> 16) + 0x8000)
+							 | (((leftSample >> 8) + 0x80) & 0xFF)
+							 );
+ 
 				}
 				if (this.bufferWritePosition == this.bufferLengthInSamples)
 					this.bufferWritePosition = 0;
@@ -124,13 +156,15 @@ namespace FourDO.Emulation.Plugins.Audio
 
 		private void InternalStart()
 		{
-			format = new WaveFormat(44100, 8 * bytesPerSample, 1);
+			format = new WaveFormat(FORMAT_SAMPLES_PER_SECOND, 8 * bytesPerSample / FORMAT_CHANNELS, FORMAT_CHANNELS);
 			if (this.audioEnabled == false)
 				return;
 
 			try
 			{
-				player = new WaveOutPlayer(-1, format, BUFFER_SIZE, 3, new WaveLib.BufferFillEventHandler(this.FillerCallback));
+				if (player == null)
+					player = new WaveOutPlayer(-1, format, BUFFER_SIZE, 3, new WaveLib.BufferFillEventHandler(this.FillerCallback));
+				stopped = false;
 			}
 			catch
 			{
@@ -140,12 +174,17 @@ namespace FourDO.Emulation.Plugins.Audio
 
 		private void InternalStop()
 		{
-			this.Destroy();
+			stopped = true; // We'll start sending blank buffers to the audio thread.
 		}
 
 		private void FillerCallback(IntPtr data, int size)
 		{
-			byte[] tempBuffer = new byte[size];
+			if (stopped)
+			{
+				Marshal.Copy(emptyBuffer, 0, data, size);
+				return;
+			}
+
 			const int WriteSampleWatchSize = 512; // Looks X number of samples ahead.
 
 			int currentWriteSample = this.bufferWritePosition; // get a COPY.
@@ -156,7 +195,6 @@ namespace FourDO.Emulation.Plugins.Audio
 			int finalReadSample = currentReadSample + (size / bytesPerSample);
 			int realFinalReadSample = this.GetRealBufferPosition(finalReadSample);
 
-
 			// If the read position is about to speed off ahead of 
 			// the write position, we want to back off the read position!
 			// (At the cost of a one-time audio echo/glitch).
@@ -164,15 +202,16 @@ namespace FourDO.Emulation.Plugins.Audio
 				|| (currentReadSample > currentWriteSample && finalReadSample != realFinalReadSample && realFinalReadSample > currentWriteSample))
 			{
 				// Kick it back to current write position + 50% of buffer.
+				Trace.WriteLine(string.Format("Had to kick back current read position. ReadSample:{0}   WriteSample:{1}", currentReadSample, currentWriteSample));
 				this.bufferReadStream.Position = this.GetRealBufferPosition(currentWriteSample + (this.bufferLengthInSamples / 2)) * bytesPerSample;
 			}
-
 			// Also, if the write position is about to write over the 
 			// read position, we want to move the read position ahead!
 			else if ((currentWriteSample < currentReadSample && finalWriteSample > currentReadSample)
 				|| (currentWriteSample > currentReadSample && finalWriteSample != realFinalWriteSample && realFinalWriteSample > currentReadSample))
 			{
 				// Move it up to current write position + 50% of buffer.
+				Trace.WriteLine(string.Format("Had to push ahead current read position. ReadSample:{0}   WriteSample:{1}", currentReadSample, currentWriteSample));
 				this.bufferReadStream.Position = this.GetRealBufferPosition(currentWriteSample + (this.bufferLengthInSamples / 2)) * bytesPerSample;
 			}
 
@@ -184,7 +223,7 @@ namespace FourDO.Emulation.Plugins.Audio
 				while (destIndex < size)
 				{
 					int bytesToGet = size - destIndex;
-					int got = this.bufferReadStream.Read(tempBuffer, destIndex, bytesToGet);
+					int got = this.bufferReadStream.Read(copyBuffer, destIndex, bytesToGet);
 					if (got < bytesToGet)
 						this.bufferReadStream.Position = 0; // loop if the buffer ends
 					destIndex += got;
@@ -192,10 +231,10 @@ namespace FourDO.Emulation.Plugins.Audio
 			}
 			else
 			{
-				for (int i = 0; i < tempBuffer.Length; i++)
-					tempBuffer[i] = 0;
+				for (int i = 0; i < copyBuffer.Length; i++)
+					copyBuffer[i] = 0;
 			}
-			Marshal.Copy(tempBuffer, 0, data, size);
+			Marshal.Copy(copyBuffer, 0, data, size);
 		}
 
 		/// <summary>
@@ -225,13 +264,13 @@ namespace FourDO.Emulation.Plugins.Audio
 		private void IdentifyBytesPerSample()
 		{
 			bool working = false;
-			bytesPerSample = 4;
+			int bytesPerChannel = 2;
 
 			do
 			{
 				try
 				{
-					format = new WaveFormat(44100, 8 * bytesPerSample, 1);
+					format = new WaveFormat(FORMAT_SAMPLES_PER_SECOND, 8 * bytesPerChannel, FORMAT_CHANNELS);
 					using (WaveOutPlayer newPlayer = new WaveOutPlayer(-1, format, BUFFER_SIZE, 3, new WaveLib.BufferFillEventHandler(this.TestFillerCallback)))
 					{
 						working = true;
@@ -239,17 +278,20 @@ namespace FourDO.Emulation.Plugins.Audio
 				}
 				catch
 				{
-					bytesPerSample--;
+					bytesPerChannel--;
 				}
-			} while (!working && bytesPerSample > 0);
+			} while (!working && bytesPerChannel > 0);
 
-			if (bytesPerSample == 0)
+			if (bytesPerChannel == 0)
 			{
 				this.audioEnabled = false;
-				this.bytesPerSample = 1;
+				this.bytesPerSample = 1 * FORMAT_CHANNELS;
 			}
 			else
+			{
 				this.audioEnabled = true;
+				this.bytesPerSample = bytesPerChannel * FORMAT_CHANNELS;
+			}
 		}
 
 		private void TestFillerCallback(IntPtr data, int size)

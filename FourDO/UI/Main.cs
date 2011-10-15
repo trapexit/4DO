@@ -39,6 +39,7 @@ namespace FourDO.UI
 		private MouseHook mouseHook = new MouseHook();
 
 		private List<ToolStripMenuItem> openGameMenuItems = new List<ToolStripMenuItem>();
+		private Controls.VolumeMenuItem volumeMenuItem;
 
 		#region Load/Close Form Events
 
@@ -205,11 +206,17 @@ namespace FourDO.UI
 			}
 
 			/////////////
+			// Add volume control menu item
+			this.volumeMenuItem = new UI.Controls.VolumeMenuItem();
+			this.volumeMenuItem.VolumeChanged += new EventHandler(volumeMenuItem_VolumeChanged);
+			this.audioMenuItem.DropDownItems.Add(this.volumeMenuItem);
+
+			/////////////
 			// Set tags for certain menu items.
-			Pattern4DOMenuItem.Tag = VoidAreaPattern.FourDO;
-			PatternBumpsMenuItem.Tag = VoidAreaPattern.Bumps;
-			PatternMetalMenuItem.Tag = VoidAreaPattern.Metal;
-			PatternNoneMenuItem.Tag = VoidAreaPattern.None;
+			this.Pattern4DOMenuItem.Tag = VoidAreaPattern.FourDO;
+			this.PatternBumpsMenuItem.Tag = VoidAreaPattern.Bumps;
+			this.PatternMetalMenuItem.Tag = VoidAreaPattern.Metal;
+			this.PatternNoneMenuItem.Tag = VoidAreaPattern.None;
 
 			/////////////
 			// Handle ROM file nag box
@@ -317,7 +324,8 @@ namespace FourDO.UI
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomFile)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomDrive)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.VoidAreaBorder)
-				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.VoidAreaPattern))
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.VoidAreaPattern)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AudioVolume))
 			{
 				this.UpdateUI();
 			}
@@ -423,6 +431,12 @@ namespace FourDO.UI
 		private void loadLastSaveMenuItem_Click(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.AutoLoadLastSave = !Properties.Settings.Default.AutoLoadLastSave;
+			Properties.Settings.Default.Save();
+		}
+
+		private void volumeMenuItem_VolumeChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.AudioVolume = volumeMenuItem.Volume;
 			Properties.Settings.Default.Save();
 		}
 
@@ -732,6 +746,16 @@ namespace FourDO.UI
 
 			// All "quick" display menu items will copy what we've done.
 			this.UpdateQuickMenuItems();
+
+			////////////////////////
+			// Audio menus. (almost always enabled)
+			IAudioPlugin audioPlugin = GameConsole.Instance.AudioPlugin;
+			this.audioMenuItem.Enabled = (audioPlugin != null) && (audioPlugin.GetSupportsVolume() == true);
+			if (audioPlugin.GetSupportsVolume())
+			{
+				this.volumeMenuItem.Volume = Properties.Settings.Default.AudioVolume;
+				audioPlugin.Volume = Properties.Settings.Default.AudioVolume;
+			}
 
 			////////////////////////
 			// Settings menus. (almost always enabled)

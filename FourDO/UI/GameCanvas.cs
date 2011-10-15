@@ -132,7 +132,6 @@ namespace FourDO.UI
 			InitializeComponent();
 
 			this.isConsoleStopped = true;
-			this.pnlBlack.Dock = DockStyle.Fill;
 
 			GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(GameConsole_ConsoleStateChange);
 		}
@@ -148,6 +147,7 @@ namespace FourDO.UI
 		private void GameCanvas_Resize(object sender, EventArgs e)
 		{
 			slimDXCanvas.Bounds = this.getCanvasRect();
+			pnlBlack.Bounds = slimDXCanvas.Bounds;
 		}
 
 		private void GameCanvas_Paint(object sender, PaintEventArgs e)

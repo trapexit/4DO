@@ -11,11 +11,15 @@ namespace FourDO.Emulation.Plugins
 		void Destroy();
 
 		bool GetHasSettings();
+		bool GetSupportsVolume();
+
 		void ShowSettings(IWin32Window owner);
 
 		void Start();
 		void Stop();
 
 		void PushSample(uint dspSample);
+
+		double Volume { get; set; }
 	}
 }

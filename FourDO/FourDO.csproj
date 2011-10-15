@@ -148,6 +148,15 @@
     <Compile Include="UI\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\VolumeMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\VolumeSlider.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\VolumeSlider.Designer.cs">
+      <DependentUpon>VolumeSlider.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\GameInformation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\VolumeSlider.resx">
+      <DependentUpon>VolumeSlider.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DX\SlimDXCanvas.resx">
       <DependentUpon>SlimDXCanvas.cs</DependentUpon>

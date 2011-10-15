@@ -78,14 +78,15 @@
 			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
 			this.configureInputMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.gameInfoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
 			this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.refreshFpsTimer = new System.Windows.Forms.Timer(this.components);
 			this.hideMenuTimer = new System.Windows.Forms.Timer(this.components);
 			this.sizeBox = new FourDO.UI.SizeBox();
 			this.RomNagBox = new FourDO.UI.NagBox();
 			this.gameCanvas = new FourDO.UI.GameCanvas();
-			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-			this.gameInfoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.audioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MainStatusStrip.SuspendLayout();
 			this.MainMenuBar.SuspendLayout();
 			this.SuspendLayout();
@@ -128,6 +129,7 @@
             this.fileMenuItem,
             this.consoleMenuItem,
             this.displayMenuItem,
+            this.audioMenuItem,
             this.optionsMenuItem,
             this.helpToolStripMenuItem});
 			this.MainMenuBar.Location = new System.Drawing.Point(0, 0);
@@ -489,6 +491,18 @@
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "&Help";
 			// 
+			// gameInfoMenuItem
+			// 
+			this.gameInfoMenuItem.Name = "gameInfoMenuItem";
+			this.gameInfoMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.gameInfoMenuItem.Text = "Game Information...";
+			this.gameInfoMenuItem.Click += new System.EventHandler(this.gameInfoMenuItem_Click);
+			// 
+			// toolStripSeparator12
+			// 
+			this.toolStripSeparator12.Name = "toolStripSeparator12";
+			this.toolStripSeparator12.Size = new System.Drawing.Size(177, 6);
+			// 
 			// aboutMenuItem
 			// 
 			this.aboutMenuItem.Name = "aboutMenuItem";
@@ -537,7 +551,6 @@
 			// gameCanvas
 			// 
 			this.gameCanvas.BackColor = System.Drawing.Color.Black;
-			this.gameCanvas.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameCanvas.BackgroundImage")));
 			this.gameCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gameCanvas.ImageSmoothing = true;
 			this.gameCanvas.IsConsoleStopped = true;
@@ -550,17 +563,11 @@
 			this.gameCanvas.VoidAreaBorder = false;
 			this.gameCanvas.VoidAreaPattern = FourDO.UI.VoidAreaPattern.None;
 			// 
-			// toolStripSeparator12
+			// audioMenuItem
 			// 
-			this.toolStripSeparator12.Name = "toolStripSeparator12";
-			this.toolStripSeparator12.Size = new System.Drawing.Size(177, 6);
-			// 
-			// gameInfoMenuItem
-			// 
-			this.gameInfoMenuItem.Name = "gameInfoMenuItem";
-			this.gameInfoMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.gameInfoMenuItem.Text = "Game Information...";
-			this.gameInfoMenuItem.Click += new System.EventHandler(this.gameInfoMenuItem_Click);
+			this.audioMenuItem.Name = "audioMenuItem";
+			this.audioMenuItem.Size = new System.Drawing.Size(51, 20);
+			this.audioMenuItem.Text = "Audio";
 			// 
 			// Main
 			// 
@@ -649,6 +656,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
 		private System.Windows.Forms.ToolStripMenuItem gameInfoMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+		private System.Windows.Forms.ToolStripMenuItem audioMenuItem;
 
     }
 }
