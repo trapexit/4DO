@@ -148,7 +148,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			else if (value == 27000)
 				return JoystickTriggerPovDirection.Left;
 			else if (value == 31500 && allowDiagonals)
-				return JoystickTriggerPovDirection.Left;
+				return JoystickTriggerPovDirection.Left | JoystickTriggerPovDirection.Up;
 
 			return 0; // er... yikes.
 		}

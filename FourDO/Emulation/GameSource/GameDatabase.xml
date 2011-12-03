@@ -2954,6 +2954,14 @@
     <regions>GB</regions>
   </game>
   <game>
+    <id>B6B3F5B2</id>
+    <checkSum>B6B3F5B2CA2BDC8FD032599FA4EF4337</checkSum>
+    <name>Orbatak (Arcade)</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>American Laser Games</publisher>
+    <regions>US</regions>
+  </game>
+  <game>
     <id>B748306E</id>
     <checkSum>B748306E476F86E96F5235B0C9C420B3</checkSum>
     <name>Dragon Tycoon Edge</name>
@@ -3548,7 +3556,7 @@
   <game>
     <id>DAF9F54F</id>
     <checkSum>DAF9F54FAAB8F9C3F62693AFDF76DCB4</checkSum>
-    <name>Mad Dog II - the Lost Gold</name>
+    <name>Mad Dog II - the Lost Gold (Arcade)</name>
     <releaseYear>1994</releaseYear>
     <publisher>American Laser Games</publisher>
     <regions>US</regions>
@@ -3780,7 +3788,7 @@
   <game>
     <id>EA068273</id>
     <checkSum>EA0682730FE2B5425A1DB250D2A56605</checkSum>
-    <name>Shootout at Old Tucson</name>
+    <name>Shootout at Old Tucson (Arcade)</name>
     <releaseYear>1994</releaseYear>
     <publisher>American Laser Games</publisher>
     <regions>US</regions>
