@@ -1,5 +1,5 @@
 ﻿using System;
-using FourDO.Emulation.Plugins.Audio;
+using FourDO.Emulation.Plugins.Audio.JohnnyAudio;
 using FourDO.Emulation.Plugins.Input.JohnnyInput;
 
 namespace FourDO.Emulation.Plugins
@@ -12,7 +12,7 @@ namespace FourDO.Emulation.Plugins
 		public static IAudioPlugin GetAudioPlugin()
 		{
 			if (currentAudioPlugin == null)
-				currentAudioPlugin = new DefaultAudioPlugin();
+				currentAudioPlugin = new JohnnyAudioPlugin();
 
 			return currentAudioPlugin;
 		}

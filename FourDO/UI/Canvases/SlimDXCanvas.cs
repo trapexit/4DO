@@ -19,9 +19,9 @@ using Device = SlimDX.Direct3D9.Device;
 using Resource = SlimDX.Direct3D9.Resource;
 using DXGI = SlimDX.DXGI;
 
-namespace FourDO.UI.DX
+namespace FourDO.UI.Canvases
 {
-	public partial class SlimDXCanvas : UserControl
+	public partial class SlimDXCanvas : UserControl , ICanvas
 	{
 		protected struct TexturedVertex
 		{
@@ -93,73 +93,80 @@ namespace FourDO.UI.DX
 		public SlimDXCanvas()
 		{
 			InitializeComponent();
+		}
 
-			// hook the application's idle event
-			Application.Idle += new EventHandler(OnApplicationIdle);
+        public void Initialize()
+        {
+            // hook the application's idle event
+            Application.Idle += new EventHandler(OnApplicationIdle);
 
-			GameConsole.Instance.FrameDone += new EventHandler(GameConsole_FrameDone);
+            // Get maximum screen size.
+            Size maxSize = new Size(bitmapWidth, bitmapHeight);
+            foreach (var screen in Screen.AllScreens)
+            {
+                maxSize.Width = Math.Max(maxSize.Width, screen.Bounds.Width);
+                maxSize.Height = Math.Max(maxSize.Height, screen.Bounds.Height);
+            }
 
-			// Get maximum screen size.
-			Size maxSize = new Size(bitmapWidth, bitmapHeight);
-			foreach (var screen in Screen.AllScreens)
-			{
-				maxSize.Width = Math.Max(maxSize.Width, screen.Bounds.Width);
-				maxSize.Height = Math.Max(maxSize.Height, screen.Bounds.Height);
-			}
+            /////////////////////////////////////////
+            // Initialize direct3d 9
 
-			/////////////////////////////////////////
-			// Initialize direct3d 9
+            this.direct3D = new Direct3D();
 
-			this.direct3D = new Direct3D();
+            var presentParams = new PresentParameters();
+            presentParams.Windowed = true;
+            presentParams.SwapEffect = SwapEffect.Discard;
+            presentParams.DeviceWindowHandle = this.Handle;
+            presentParams.BackBufferWidth = maxSize.Width;
+            presentParams.BackBufferHeight = maxSize.Height;
 
-			var presentParams = new PresentParameters();
-			presentParams.Windowed = true;
-			presentParams.SwapEffect = SwapEffect.Discard;
-			presentParams.DeviceWindowHandle = this.Handle;
-			presentParams.BackBufferWidth = maxSize.Width;
-			presentParams.BackBufferHeight = maxSize.Height;
+            this.device = new Device(this.direct3D, 0, DeviceType.Hardware, this.Handle, CreateFlags.HardwareVertexProcessing, presentParams);
 
-			this.device = new Device(this.direct3D, 0, DeviceType.Hardware, this.Handle, CreateFlags.HardwareVertexProcessing, presentParams);
+            this.device.SetRenderState(RenderState.Lighting, false);
 
-			this.device.SetRenderState(RenderState.Lighting, false);
+            /////////////////
+            // Set up texture.
+            //this.texture = Texture.FromFile(this.device, @"C:\jmk\screens\ihateit.bmp");
+            this.texture = new Texture(this.device, textureWidth, textureHeight, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
+            var desc = this.texture.GetLevelDescription(0);
 
-			/////////////////
-			// Set up texture.
-			//this.texture = Texture.FromFile(this.device, @"C:\jmk\screens\ihateit.bmp");
-			this.texture = new Texture(this.device, textureWidth, textureHeight, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
-			var desc = this.texture.GetLevelDescription(0);
-
-			/////////////////
-			// Set up vertex buffer
-			this.vertexBuffer = new VertexBuffer(this.device
-				, 4 * (Marshal.SizeOf(typeof(TexturedVertex)))
-				, Usage.WriteOnly, VertexFormat.None, Pool.Default);
-			DataStream vertexStream = this.vertexBuffer.Lock(0, 0, LockFlags.None);
-			float maximumX = bitmapWidth / (float)textureWidth;
-			float maximumY = bitmapHeight / (float)textureHeight;
-			vertexStream.WriteRange(new[]{
+            /////////////////
+            // Set up vertex buffer
+            this.vertexBuffer = new VertexBuffer(this.device
+                , 4 * (Marshal.SizeOf(typeof(TexturedVertex)))
+                , Usage.WriteOnly, VertexFormat.None, Pool.Default);
+            DataStream vertexStream = this.vertexBuffer.Lock(0, 0, LockFlags.None);
+            float maximumX = bitmapWidth / (float)textureWidth;
+            float maximumY = bitmapHeight / (float)textureHeight;
+            vertexStream.WriteRange(new[]{
 				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f,0.0f)),
 				new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(maximumX,0.0f)),
 				new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,maximumY)),
 				new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX,maximumY)) });
 
-			this.vertexBuffer.Unlock();
+            this.vertexBuffer.Unlock();
 
-			this.vertexDeclaration = new VertexDeclaration(this.device, new[] {
+            this.vertexDeclaration = new VertexDeclaration(this.device, new[] {
 				new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0), 
 				new VertexElement(0, 12, DeclarationType.Float2, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0), 
 				VertexElement.VertexDeclarationEnd});
 
-			initialized = true;
-		}
+            initialized = true;
+        }
 
 		public void Destroy()
-		{
-			this.vertexBuffer.Dispose();
-			this.texture.Dispose();
-			this.vertexDeclaration.Dispose();
-			this.device.Dispose();
-			this.direct3D.Dispose();
+        {
+            Application.Idle -= new EventHandler(OnApplicationIdle);
+
+            try
+            {
+                this.vertexBuffer.Dispose();
+                this.texture.Dispose();
+                this.vertexDeclaration.Dispose();
+                this.device.Dispose();
+                this.direct3D.Dispose();
+            }
+            catch { } // who cares.
 		}
 
 		protected void OnApplicationIdle(object sender, EventArgs e)
@@ -218,7 +225,7 @@ namespace FourDO.UI.DX
 			this.device.Present();
 		}
 
-		protected unsafe void GameConsole_FrameDone(object sender, EventArgs e)
+		public unsafe void PushFrame(IntPtr currentFrame)
 		{
 			/////////////// 
 			// Choose the best bitmap to do a background render to
@@ -241,7 +248,7 @@ namespace FourDO.UI.DX
 			int bitmapStride = bitmapData.Stride;
 
 			byte* destPtr = (byte*)bitmapData.Scan0.ToPointer();
-			VDLFrame* framePtr = (VDLFrame*)GameConsole.Instance.CurrentFrame.ToPointer();
+			VDLFrame* framePtr = (VDLFrame*)currentFrame.ToPointer();
 			for (int line = 0; line < bitmapHeight; line++)
 			{
 				VDLLine* linePtr = (VDLLine*)&(framePtr->lines[sizeof(VDLLine) * line]);

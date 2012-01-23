@@ -1,6 +1,4 @@
-﻿// TODO: Currently, the invalidate rect does the whole screen. It could technically do just the rectangle including the image to blit.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -14,6 +12,7 @@ using System.Windows.Forms;
 
 using FourDO.Emulation;
 using FourDO.Emulation.FreeDO;
+using FourDO.UI.Canvases;
 
 namespace FourDO.UI
 {
@@ -25,6 +24,8 @@ namespace FourDO.UI
 		private const int bitmapHeight = 240;
 
 		private Pen screenBorderPen = new Pen(Color.FromArgb(50, 50, 50));
+
+        private Control childCanvas;
 	
 		private bool preserveAspectRatio = true;
 
@@ -94,11 +95,11 @@ namespace FourDO.UI
 		{
 			get
 			{
-				return (this.slimDXCanvas.ImageSmoothing);
+				return ((ICanvas)this.childCanvas).ImageSmoothing;
 			}
 			set
 			{
-				this.slimDXCanvas.ImageSmoothing = value;
+                ((ICanvas)this.childCanvas).ImageSmoothing = value;
 			}
 		}
 
@@ -106,11 +107,11 @@ namespace FourDO.UI
 		{
 			get
 			{
-				return (this.slimDXCanvas.IsInResizeMode);
+                return ((ICanvas)this.childCanvas).IsInResizeMode;
 			}
 			set
 			{
-				this.slimDXCanvas.IsInResizeMode = value;
+                ((ICanvas)this.childCanvas).IsInResizeMode = value;
 			}
 		}
 
@@ -131,8 +132,18 @@ namespace FourDO.UI
 		{
 			InitializeComponent();
 
-			this.isConsoleStopped = true;
+            //////////////////////
+            // Create and hook up child canvas.
+            this.childCanvas = this.CreateChildCanvas();
+            this.Controls.Add(this.childCanvas);
+            this.childCanvas.MouseEnter += childCanvas_MouseEnter;
+            this.childCanvas.MouseLeave += childCanvas_MouseLeave;
+            this.childCanvas.MouseMove += childCanvas_MouseMove;
+            this.isConsoleStopped = true;
 
+			// Hook up to the console events.
+
+            GameConsole.Instance.FrameDone += new EventHandler(GameConsole_FrameDone);
 			GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(GameConsole_ConsoleStateChange);
 		}
 
@@ -141,13 +152,13 @@ namespace FourDO.UI
 		/// </summary>
 		public void Destroy()
 		{
-			this.slimDXCanvas.Destroy();
+            ((ICanvas)this.childCanvas).Destroy();
 		}
 
 		private void GameCanvas_Resize(object sender, EventArgs e)
 		{
-			slimDXCanvas.Bounds = this.getCanvasRect();
-			pnlBlack.Bounds = slimDXCanvas.Bounds;
+            this.childCanvas.Bounds = this.getCanvasRect();
+            pnlBlack.Bounds = this.childCanvas.Bounds;
 		}
 
 		private void GameCanvas_Paint(object sender, PaintEventArgs e)
@@ -155,7 +166,7 @@ namespace FourDO.UI
 			if (this.voidAreaBorder)
 			{
 				Graphics g = e.Graphics;
-				Rectangle gameRect = this.slimDXCanvas.Bounds;
+                Rectangle gameRect = this.childCanvas.Bounds;
 				g.DrawRectangle(this.screenBorderPen, gameRect.X - 1, gameRect.Y - 1, gameRect.Width + 1, gameRect.Height + 1);
 			}
 		}
@@ -164,6 +175,11 @@ namespace FourDO.UI
 		{
 			this.IsConsoleStopped = (e.NewState == ConsoleState.Stopped);
 		}
+
+        private void GameConsole_FrameDone(object sender, EventArgs e)
+        {
+            ((ICanvas)this.childCanvas).PushFrame(GameConsole.Instance.CurrentFrame);
+        }
 
 		private Rectangle getCanvasRect()
 		{
@@ -226,23 +242,54 @@ namespace FourDO.UI
 			MouseHider.Hide();
 		}
 
-		private void slimDXCanvas_MouseEnter(object sender, EventArgs e)
+		private void childCanvas_MouseEnter(object sender, EventArgs e)
 		{
 			HideMouseTimer.Enabled = false;
 			HideMouseTimer.Enabled = true;
 		}
 
-		private void slimDXCanvas_MouseLeave(object sender, EventArgs e)
+        private void childCanvas_MouseLeave(object sender, EventArgs e)
 		{
 			HideMouseTimer.Enabled = false;
 			MouseHider.Show();
 		}
 
-		private void slimDXCanvas_MouseMove(object sender, MouseEventArgs e)
+        private void childCanvas_MouseMove(object sender, MouseEventArgs e)
 		{
 			MouseHider.Show();
 			HideMouseTimer.Enabled = false;
 			HideMouseTimer.Enabled = true;
 		}
+
+        private Control CreateChildCanvas()
+        {
+            ICanvas createdControl = null;
+
+            //////////////////////
+            // Try creating a SlimDX canvas.
+            bool success = false;
+            try
+            {
+                createdControl = new SlimDXCanvas();
+                createdControl.Initialize();
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("Video Render - DirectX canvas initialization failed! Will attempt to fall back to windows(GDI) rendering. Error was: " + ex.ToString());
+            } // We don't care what went wrong.
+
+            /////////////////////
+            // If something went wrong, try a windows canvas.
+            if (!success)
+            {
+                if (createdControl != null)
+                    createdControl.Destroy();
+
+                createdControl = new GdiCanvas();
+            }
+            
+            return (Control)createdControl;
+        }
 	}
 }

@@ -83,8 +83,8 @@
     <Compile Include="Emulation\GameSource\GameRegistrar.cs" />
     <Compile Include="Emulation\GameSource\GameSourceBase.cs" />
     <Compile Include="Emulation\GameSource\IGameSource.cs" />
+    <Compile Include="Emulation\Plugins\Audio\JohnnyAudio\JohnnyAudioPlugin.cs" />
     <Compile Include="Emulation\Plugins\IAudioPlugin.cs" />
-    <Compile Include="Emulation\Plugins\Audio\DefaultAudioPlugin.cs" />
     <Compile Include="Emulation\FPSCalculator.cs" />
     <Compile Include="Emulation\GameConsole.cs" />
     <Compile Include="Emulation\FreeDO\FreeDOCore.cs" />
@@ -137,6 +137,12 @@
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoystickTriggerType.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\KeyboardInputTrigger.cs" />
     <Compile Include="Emulation\Plugins\PluginLoader.cs" />
+    <Compile Include="UI\Canvases\GdiCanvas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Canvases\GdiCanvas.Designer.cs">
+      <DependentUpon>GdiCanvas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -148,6 +154,7 @@
     <Compile Include="UI\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Canvases\ICanvas.cs" />
     <Compile Include="UI\Controls\VolumeMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -177,10 +184,10 @@
       <DependentUpon>SizeBox.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SizeGuard.cs" />
-    <Compile Include="UI\DX\SlimDXCanvas.cs">
+    <Compile Include="UI\Canvases\SlimDXCanvas.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DX\SlimDXCanvas.Designer.cs">
+    <Compile Include="UI\Canvases\SlimDXCanvas.Designer.cs">
       <DependentUpon>SlimDXCanvas.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\VoidAreaPattern.cs" />
@@ -227,7 +234,7 @@
     <EmbeddedResource Include="UI\Controls\VolumeSlider.resx">
       <DependentUpon>VolumeSlider.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DX\SlimDXCanvas.resx">
+    <EmbeddedResource Include="UI\Canvases\SlimDXCanvas.resx">
       <DependentUpon>SlimDXCanvas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\GameCanvas.resx">
@@ -307,7 +314,9 @@
     <None Include="UI\SizeVertical.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Emulation\GameSource\GameDatabase.xml" />
+    <EmbeddedResource Include="Emulation\GameSource\GameDatabase.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="IconFourDO.ico" />
   </ItemGroup>
   <ItemGroup />

@@ -1,4 +1,4 @@
-﻿namespace FourDO.UI.DX
+﻿namespace FourDO.UI.Canvases
 {
 	partial class SlimDXCanvas
 	{
