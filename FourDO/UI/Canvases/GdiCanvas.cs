@@ -1,6 +1,4 @@
-﻿// TODO: Currently, the invalidate rect does the whole screen. It could technically do just the rectangle including the image to blit.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -162,7 +160,7 @@ namespace FourDO.UI.Canvases
 
 			lastDrawnBackgroundBitmap = bitmapToCalc;
 
-			this.Invalidate(this.getBlitRect());
+			this.Invalidate();
 		}
 
 		private void GameCanvas_Paint(object sender, PaintEventArgs e)
@@ -172,7 +170,7 @@ namespace FourDO.UI.Canvases
             if (currentFrontendBitmap == null)
                 return;
 
-			Rectangle blitRect = this.getBlitRect();
+			Rectangle blitRect = this.Bounds;
 			Graphics g = e.Graphics;
 			g.InterpolationMode = this.scalingMode;
 
@@ -192,42 +190,6 @@ namespace FourDO.UI.Canvases
 				this.isGraphicsIntensive = false;
 				this.frameSkip = 0;
 			}
-		}
-
-		private Rectangle getBlitRect()
-		{
-			double imageAspect = bitmapWidth / (double)bitmapHeight;
-			double screenAspect = this.Width / (double)this.Height;
-
-			Rectangle blitRect = new Rectangle();
-
-			if (this.preserveAspectRatio == false)
-			{
-				blitRect.X = 0;
-				blitRect.Y = 0;
-				blitRect.Width = this.Width;
-				blitRect.Height = this.Height;
-			}
-			else
-			{
-				if (screenAspect > imageAspect)
-				{
-					// window is wider than it should be.
-					blitRect.Width = (int)(bitmapWidth * (this.Height / (double)bitmapHeight));
-					blitRect.Height = this.Height;
-					blitRect.X = (this.Width - blitRect.Width) / 2;
-					blitRect.Y = 0;
-				}
-				else
-				{
-					blitRect.Width = this.Width;
-					blitRect.Height = (int)(bitmapHeight * (this.Width / (double)bitmapWidth));
-					blitRect.X = 0;
-					blitRect.Y = (this.Height - blitRect.Height) / 2;
-				}
-			}
-
-			return blitRect;
 		}
 	}
 }
