@@ -54,7 +54,7 @@
 			// 
 			this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.CloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.CloseButton.Location = new System.Drawing.Point(414, 451);
+			this.CloseButton.Location = new System.Drawing.Point(414, 463);
 			this.CloseButton.Name = "CloseButton";
 			this.CloseButton.Size = new System.Drawing.Size(75, 23);
 			this.CloseButton.TabIndex = 0;
@@ -192,7 +192,7 @@
 			// 
 			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox3.Location = new System.Drawing.Point(20, 435);
+			this.groupBox3.Location = new System.Drawing.Point(20, 447);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(469, 10);
 			this.groupBox3.TabIndex = 8;
@@ -216,9 +216,9 @@
 			this.textBox3.Multiline = true;
 			this.textBox3.Name = "textBox3";
 			this.textBox3.ReadOnly = true;
-			this.textBox3.Size = new System.Drawing.Size(99, 50);
+			this.textBox3.Size = new System.Drawing.Size(338, 58);
 			this.textBox3.TabIndex = 17;
-			this.textBox3.Text = "hankystyles\r\nBlake\r\nmy wife\r\n\r\n";
+			this.textBox3.Text = resources.GetString("textBox3.Text");
 			// 
 			// label7
 			// 
@@ -237,7 +237,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.CancelButton = this.CloseButton;
-			this.ClientSize = new System.Drawing.Size(501, 486);
+			this.ClientSize = new System.Drawing.Size(501, 498);
 			this.ControlBox = false;
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.textBox3);

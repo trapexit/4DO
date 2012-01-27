@@ -121,7 +121,7 @@
   <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAN4AAACgCAIAAADsLUVRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAP+lSURBVHhe7L1lfFXX9vc7t3uy4+6eQEII7u7uTilQoDiU
+        YQUAAAAJcEhZcwAADsAAAA7AAWrWiQkAAP+lSURBVHhe7L1lfFXX9vc7t3uy4+6eQEII7u7uTilQoDiU
         lgIVaJEChQKFIgUKxb1YoVBcEggS3KpHetzP6Tl/ee79jjk3lPO/z31e3xd3NZ807OysvdaaYw79jd9Q
         /9f/f/z/T+D/k09AcVX/+Z//+Y9//ON//a//9R/6+Oc///m3v/3tL3/5y48//vjf//3fvM4b/vUf/+Lg
         t/z8X/r485///Jvf/uZv//jbf/7Xf/Ie3vkf//kf/MwXP/zpT3+qulX1ix9+8eM/f/yv//4v/pA//+e/
@@ -1321,6 +1321,13 @@
         nEvgoDt27GB/UtwIOgsbWeEMOToDS7nh3Hz25Ko5MSSJ6yJ2RnPxgDgrCFo5VfOkuCjWD2LHg+bMUW3c
         f24dUs5N4KB8kQZzTobJvNwi7hVPYfr06YgBv8YVISrswM3k6+a4CKEteYRc/s/2P3fg/7U7IL7m/2z/
         cwf+H7wD/wc2qjSF0/AK+wAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="textBox3.Text" xml:space="preserve">
+    <value>BryWI - for testing, feedback, and general help with 4DO
+hankystyles - for helping with original HLE attempt
+Blake - for also helping with HLE approach
+my wife - for allowing me to continue my hermit habits
 </value>
   </data>
 </root>
