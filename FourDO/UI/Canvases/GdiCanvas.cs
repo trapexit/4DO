@@ -170,7 +170,7 @@ namespace FourDO.UI.Canvases
             if (currentFrontendBitmap == null)
                 return;
 
-			Rectangle blitRect = this.Bounds;
+			Rectangle blitRect = new Rectangle(0, 0, this.Width, this.Height);
 			Graphics g = e.Graphics;
 			g.InterpolationMode = this.scalingMode;
 
