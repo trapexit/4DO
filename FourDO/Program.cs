@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
+using FourDO.Utilities;
 using FourDO.Utilities.Logging;
 
 namespace FourDO
@@ -28,11 +29,13 @@ namespace FourDO
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			Trace.WriteLine("4DO Starting up");
+			TimingHelper.MaximumResolutionPush();
 
 			var mainForm = new FourDO.UI.Main();
 			mainForm.StartForm = startForm;
 			Application.Run(mainForm);
 
+			TimingHelper.MaximumResolutionPop();
 			Trace.WriteLine("4DO Shutting down");
 		}
 
@@ -55,6 +58,7 @@ namespace FourDO
 			FileStreamWithBackup fs = new FileStreamWithBackup(logFileName, MAX_LOG_LENGTH_BYTES, MAX_BACKUP_FILES, FileMode.Append);
 			fs.CanSplitData = false;
 			TextWriterTraceListenerWithTime listener = new TextWriterTraceListenerWithTime(fs);
+
 			Trace.AutoFlush = true;
 			Trace.Listeners.Add(listener);
 		}
@@ -65,12 +69,12 @@ namespace FourDO
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 		}
 
-		static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			Trace.WriteLine("Unhandled exception: " + e.ExceptionObject.ToString());
 		}
 
-		static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+		private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
 		{
 			Trace.WriteLine("Thread exception: " + e.Exception.ToString());
 		}

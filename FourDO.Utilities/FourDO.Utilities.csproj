@@ -56,8 +56,10 @@
     <Compile Include="MouseHook\MouseHook.cs" />
     <Compile Include="MouseHook\MouseHookEventArgs.cs" />
     <Compile Include="PerformanceCounter.cs" />
+    <Compile Include="PerformanceStopWatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection.cs" />
+    <Compile Include="TimingHelper.cs" />
     <Compile Include="Unused\GlobalKeyboardHook.cs" />
     <Compile Include="Unused\Timer.cs" />
   </ItemGroup>
