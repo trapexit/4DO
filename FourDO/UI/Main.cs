@@ -59,7 +59,7 @@ namespace FourDO.UI
 			// Some basic form setup.
 			this.sizeBox.BaseWidth = BASE_WIDTH;
 			this.sizeBox.BaseHeight = BASE_HEIGHT;
-			
+
 			this.sizeGuard.BaseWidth = BASE_WIDTH;
 			this.sizeGuard.BaseHeight = BASE_HEIGHT;
 			this.sizeGuard.WindowExtraWidth = this.Width - this.ClientSize.Width;
@@ -70,7 +70,7 @@ namespace FourDO.UI
 			this.mouseHook.MouseDown += new MouseHookEventHandler(mouseHook_MouseDown);
 
 			this.quickDisplayDropDownButton.DropDownDirection = ToolStripDropDownDirection.AboveLeft;
-			
+
 			this.VersionStripItem.Text = FOURDO_NAME + " " + Application.ProductVersion;
 
 			GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
@@ -83,7 +83,7 @@ namespace FourDO.UI
 			int savedHeight = Properties.Settings.Default.WindowHeight;
 			this.Width = (savedWidth > 0) ? savedWidth : this.sizeGuard.BaseWidth * 2 + this.sizeGuard.WindowExtraWidth;
 			this.Height = (savedHeight > 0) ? savedHeight : this.sizeGuard.BaseHeight * 2 + this.sizeGuard.WindowExtraHeight;
-			
+
 			// Initial form position.
 			if (Properties.Settings.Default.WindowFullScreen)
 			{
@@ -106,7 +106,7 @@ namespace FourDO.UI
 				this.Left = screenToUse.WorkingArea.Left;
 				this.Top = screenToUse.WorkingArea.Top;
 			}
-			
+
 			// Let's ensure we don't go off the bounds of the screen.
 			Screen currentScreen = Utilities.DisplayHelper.GetCurrentScreen(this);
 			if (this.Bottom > currentScreen.WorkingArea.Bottom)
@@ -119,12 +119,12 @@ namespace FourDO.UI
 				this.Left -= (this.Right - currentScreen.WorkingArea.Right);
 				this.Left = Math.Max(this.Left, currentScreen.WorkingArea.Left);
 			}
-			
+
 			// If we updated the size ourselves (we had no valid default) save it now.
 			if (savedWidth <= 0 || savedHeight <= 0)
 				this.DoSaveWindowSize();
 			this.sizeBox.Visible = false; // and shut that damn thing up!
-			
+
 			////////////////
 			// Create "Open Disc" menu items for each CD Drive.
 			int menuInsertIndex = fileMenuItem.DropDownItems.IndexOf(openCDImageMenuItem) + 1;
@@ -138,7 +138,7 @@ namespace FourDO.UI
 				menuInsertIndex++;
 			}
 			openGameMenuItems.Add(openCDImageMenuItem);
-			
+
 			////////////////
 			// Copy some menu items to the quick display settings menu.
 			ToolStripMenuItem voidAreaMenuItem = null;
@@ -252,7 +252,7 @@ namespace FourDO.UI
 			}
 
 			// Clear pause status if we aren't remembering pause
-			if (Properties.Settings.Default.AutoRememberPause == false 
+			if (Properties.Settings.Default.AutoRememberPause == false
 				&& Properties.Settings.Default.LastPauseStatus == true)
 			{
 				Properties.Settings.Default.LastPauseStatus = false;
@@ -271,7 +271,7 @@ namespace FourDO.UI
 
 			if (Properties.Settings.Default.AutoRememberPause == true && lastPauseStatus == true)
 				this.DoConsoleTogglePause();
-				
+
 			this.UpdateUI();
 
 			// Oh, and start automatically launch a form if requested.
@@ -283,7 +283,7 @@ namespace FourDO.UI
 		{
 			// Ignore console state changes from now on. The console will be shutting itself down.
 			GameConsole.Instance.ConsoleStateChange -= new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
-			
+
 			this.mouseHook.Uninstall();
 
 			this.DoConsoleStop();
@@ -351,7 +351,7 @@ namespace FourDO.UI
 					this.sizeBox.PreferredSize.Height);
 			sizeBox.Visible = true;
 			this.ResumeLayout();
-			
+
 			this.DoSaveWindowSize();
 		}
 
@@ -539,8 +539,8 @@ namespace FourDO.UI
 		{
 			// Delay hiding the menu if the user is using the menus.
 			if (this.MainMenuBar.Focused || this.MainMenuBar.Capture || this.MainMenuBar.ContainsFocus)
-				return; 
-			
+				return;
+
 			this.MainMenuBar.Visible = (this.isWindowFullScreen == false);
 			this.hideMenuTimer.Enabled = false;
 		}
@@ -557,7 +557,7 @@ namespace FourDO.UI
 				gameInformation.ShowDialog(this);
 			}
 		}
-		
+
 		private void aboutMenuItem_Click(object sender, EventArgs e)
 		{
 			using (var aboutForm = new About())
@@ -642,7 +642,7 @@ namespace FourDO.UI
 			windowTitle += FOURDO_NAME;
 
 			this.Text = windowTitle.ToString();
-			
+
 			////////////////////////
 			// File menu
 
@@ -669,7 +669,7 @@ namespace FourDO.UI
 					}
 				}
 			}
-			
+
 			// Accentuate the menu item identifying the currently open item.
 			foreach (ToolStripMenuItem item in this.openGameMenuItems)
 			{
@@ -724,15 +724,15 @@ namespace FourDO.UI
 
 			// Individual void area patterns.
 			bool rightPattern;
-			
+
 			rightPattern = ((int)Properties.Settings.Default.VoidAreaPattern == (int)this.Pattern4DOMenuItem.Tag);
- 			this.Pattern4DOMenuItem.Checked = rightPattern;
+			this.Pattern4DOMenuItem.Checked = rightPattern;
 			this.Pattern4DOMenuItem.Font = new Font(this.Pattern4DOMenuItem.Font, rightPattern ? FontStyle.Italic : FontStyle.Regular);
-			
+
 			rightPattern = ((int)Properties.Settings.Default.VoidAreaPattern == (int)this.PatternBumpsMenuItem.Tag);
 			this.PatternBumpsMenuItem.Checked = rightPattern;
 			this.PatternBumpsMenuItem.Font = new Font(this.PatternBumpsMenuItem.Font, rightPattern ? FontStyle.Italic : FontStyle.Regular);
-			
+
 			rightPattern = ((int)Properties.Settings.Default.VoidAreaPattern == (int)this.PatternMetalMenuItem.Tag);
 			this.PatternMetalMenuItem.Checked = rightPattern;
 			this.PatternMetalMenuItem.Font = new Font(this.PatternMetalMenuItem.Font, rightPattern ? FontStyle.Italic : FontStyle.Regular);
@@ -777,7 +777,7 @@ namespace FourDO.UI
 
 			// Misc form stuff.
 			this.sizeGuard.Enabled = Properties.Settings.Default.WindowSnapSize;
-			
+
 			// Hide, but never show the rom nag box in this function. 
 			// The rom nag box only makes itself visible on when emulation fails to start due to an invalid bios.
 			if (isValidBiosRomSelected == true)
@@ -845,7 +845,7 @@ namespace FourDO.UI
 			////////////////
 			// Create an appropriate game source
 			IGameSource gameSource = this.CreateGameSource();
-			
+
 			////////////////
 			try
 			{
@@ -901,7 +901,7 @@ namespace FourDO.UI
 				Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
 				Properties.Settings.Default.Save();
 			}
-			
+
 			if (sourceType == GameSourceType.None)
 				return new BiosOnlyGameSource();
 
@@ -918,7 +918,7 @@ namespace FourDO.UI
 		private void DoConsoleReset(bool alsoAllowLoadState)
 		{
 			this.DoConsoleStop();
-			
+
 			// Restart, but don't allow it to load state.
 			this.DoConsoleStart(alsoAllowLoadState);
 		}
@@ -935,7 +935,7 @@ namespace FourDO.UI
 		{
 			if (GameConsole.Instance.State == ConsoleState.Stopped)
 				return;
-			
+
 			// Pause it if we need to.
 			if (GameConsole.Instance.State == ConsoleState.Running)
 				GameConsole.Instance.Pause();
@@ -957,7 +957,7 @@ namespace FourDO.UI
 			Properties.Settings.Default.Save();
 			this.DoConsoleReset(false); // go back to start of bios.
 		}
-		
+
 		private void DoShowRomNag()
 		{
 			RomNagBox.Visible = true;
@@ -973,7 +973,7 @@ namespace FourDO.UI
 			using (var openDialog = new OpenFileDialog())
 			{
 				openDialog.InitialDirectory = this.GetLastRomDirectory();
-				openDialog.Filter = "rom files (*.rom)|*.rom|All files (*.*)|*.*";
+				openDialog.Filter = "BIOS files (*.rom, *.bin)|*.rom;*.bin|All files (*.*)|*.*";
 				openDialog.RestoreDirectory = true;
 
 				if (openDialog.ShowDialog() == DialogResult.OK)
@@ -1208,7 +1208,7 @@ namespace FourDO.UI
 					this.MainMenuBar.Height);
 				this.MainMenuBar.BringToFront();
 			}
-			
+
 			//////////////////
 			// Otherwise, disable full screen.
 			else
