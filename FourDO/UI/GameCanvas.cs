@@ -130,19 +130,18 @@ namespace FourDO.UI
 
 		public GameCanvas()
 		{
+			// Create child canvas.
+			this.childCanvas = this.CreateChildCanvas();
+			this.Controls.Add(this.childCanvas);
+
 			InitializeComponent();
 
-            //////////////////////
-            // Create and hook up child canvas.
-            this.childCanvas = this.CreateChildCanvas();
-            this.Controls.Add(this.childCanvas);
-            this.childCanvas.MouseEnter += childCanvas_MouseEnter;
-            this.childCanvas.MouseLeave += childCanvas_MouseLeave;
-            this.childCanvas.MouseMove += childCanvas_MouseMove;
-            this.isConsoleStopped = true;
+			this.childCanvas.MouseEnter += childCanvas_MouseEnter;
+			this.childCanvas.MouseLeave += childCanvas_MouseLeave;
+			this.childCanvas.MouseMove += childCanvas_MouseMove;
+			this.isConsoleStopped = true;
 
 			// Hook up to the console events.
-
             GameConsole.Instance.FrameDone += new EventHandler(GameConsole_FrameDone);
 			GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(GameConsole_ConsoleStateChange);
 		}

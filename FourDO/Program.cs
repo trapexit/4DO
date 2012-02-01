@@ -12,6 +12,8 @@ namespace FourDO
 {
 	static class Program
 	{
+		private static FourDO.UI.Main mainForm;
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -31,7 +33,7 @@ namespace FourDO
 			Trace.WriteLine("4DO Starting up");
 			TimingHelper.MaximumResolutionPush();
 
-			var mainForm = new FourDO.UI.Main();
+			mainForm = new FourDO.UI.Main();
 			mainForm.StartForm = startForm;
 			Application.Run(mainForm);
 
@@ -59,7 +61,6 @@ namespace FourDO
 			fs.CanSplitData = false;
 			TextWriterTraceListenerWithTime listener = new TextWriterTraceListenerWithTime(fs);
 
-			Trace.AutoFlush = true;
 			Trace.Listeners.Add(listener);
 		}
 
@@ -72,11 +73,21 @@ namespace FourDO
 		private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			Trace.WriteLine("Unhandled exception: " + e.ExceptionObject.ToString());
+			Trace.Flush();
 		}
 
 		private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
 		{
 			Trace.WriteLine("Thread exception: " + e.Exception.ToString());
+			Trace.Flush();
+		}
+
+		internal static IntPtr GetMainWindowHwnd()
+		{
+			if (mainForm == null || !mainForm.IsHandleCreated)
+				return IntPtr.Zero;
+
+			return mainForm.Handle;
 		}
 	}
 }
