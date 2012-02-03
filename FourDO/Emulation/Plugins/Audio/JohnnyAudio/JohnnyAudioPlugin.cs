@@ -1,18 +1,26 @@
 ﻿//////////////////////////////////////////////////////////
 // JMK NOTES:
-// I only spent one night getting this hooked up. It was relatively easy to figure out the
-// right sample rate just by listening to the resulting audio.
+// The audio plugin has a large local buffer that soaks up any input
+// from the core emulation. This buffer is populated continuously, and
+// when the buffer is "exceeded", the write position is reset to the
+// start of the buffer.
+//
+// Meanwhile, audio processing continues in another thread, and asks
+// for data via a callback. This callback chooses the appropriate data
+// from the large local buffer. In most cases, it is best to choose 
+// the block of data immediately after the one previously selected.
+// Any other selections will be noticeable as an audio "glitch".
+//
+// Unfortunately, the emulation is not guaranteed to always be on
+// schedule. And so, the audio plugin "buffers" itself from the audio
+// data. There is a certain allowable buffer range that is monitored.
+// When the read position goes outside the buffer, it gets reset 
+// (which knowingly causes a glitch).
 //
 // I've used a libary from here to play the audio from a buffer
 // http://www.codeproject.com/KB/audio-video/cswavplay.aspx
-// 
 // Consent explicitly recieved on August 3rd via email (from Ianier to Johnny).
 //
-// Things to do:
-// * I just blindly selected BUFFER SIZES. This is pretty lazy of me. I believe it introduces audio lag too.
-// * If I understand things right, copying bytes around could be FASTER by using RtlMoveMemory from kernel32.
-// * Audio plugins will suffer if the system doesn't stay at 60fps internally. It's possible the audio plugins
-//   should be made aware of these situations so it can do something. Though I don't know what it could do.
 //////////////////////////////////////////////////////////
 
 using System;
@@ -24,65 +32,73 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using WaveLib;
+using PerformanceCounter = FourDO.Utilities.PerformanceCounter;
 
 namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 {
 	internal class JohnnyAudioPlugin : IAudioPlugin
 	{
-        private const string LOG_PREFIX = "JohnnyAudioPlugin - ";
+		private const string LOG_PREFIX = "JohnnyAudioPlugin - ";
 
-        private bool audioEnabled;
+		private bool audioEnabled;
 		private int bytesPerSample;
 
 		private double volumeLinear = 1.0;
 		private double volumeLogarithmic = 1.0;
 
 		private bool stopped = true;
-		
+
 		private const int FORMAT_SAMPLES_PER_SECOND = 44100;
 		private const int FORMAT_CHANNELS = 2;
 
-		private const int BUFFER_SIZE = 4096;
+		private const int LOCAL_BUFFER_SAMPLES = 4096 * 18;
+
+		private const int PLAY_BUFFER_SAMPLES = 1024;
+		private const int PLAY_BUFFER_COUNT = 3;
 
 		private WaveOutPlayer player;
 		private WaveFormat format;
 
-		private readonly int bufferLengthInSamples;
+		private readonly int localBufferLengthInSamples;
 
-		private byte[] buffer;
-		private IntPtr bufferPtr;
-		private GCHandle bufferHandle;
-		private volatile int bufferWritePosition;
-		private volatile Stream bufferReadStream;
+		private byte[] localBuffer;
+		private IntPtr localBufferPtr;
+		private GCHandle localBufferHandle;
+		private volatile int localBufferWritePosition;
+		private volatile Stream localBufferReadStream;
 
-		byte[] copyBuffer = new byte[BUFFER_SIZE];
-		byte[] emptyBuffer = new byte[BUFFER_SIZE];
+		byte[] copyBuffer;
+		byte[] emptyBuffer;
 
 		internal JohnnyAudioPlugin()
 		{
 			this.IdentifyBytesPerSample();
 
 			// Create a buffer on our side to write into.
-			this.buffer = new byte[BUFFER_SIZE * 3 * bytesPerSample];
-			this.bufferHandle = GCHandle.Alloc(this.buffer, GCHandleType.Pinned);
-			this.bufferPtr = this.bufferHandle.AddrOfPinnedObject();
-			this.bufferWritePosition = 0;
+			this.localBuffer = new byte[LOCAL_BUFFER_SAMPLES * this.bytesPerSample];
+			this.localBufferHandle = GCHandle.Alloc(this.localBuffer, GCHandleType.Pinned);
+			this.localBufferPtr = this.localBufferHandle.AddrOfPinnedObject();
+			this.localBufferWritePosition = 0;
 
-			this.bufferLengthInSamples = this.buffer.Length / bytesPerSample;
+			this.localBufferLengthInSamples = this.localBuffer.Length / bytesPerSample;
 
 			// Create a stream to our buffer that the audio player will be reading from.
-			this.bufferReadStream = new MemoryStream(this.buffer);
+			this.localBufferReadStream = new MemoryStream(this.localBuffer);
+
+			// Create buffers we'll be using to copy bytes to the player.
+			copyBuffer = new byte[PLAY_BUFFER_SAMPLES * this.bytesPerSample];
+			emptyBuffer = new byte[PLAY_BUFFER_SAMPLES * this.bytesPerSample];
 		}
 
 		#region IAudioPlugin Implementation
 
-		public double Volume 
-		{ 
+		public double Volume
+		{
 			get
 			{
 				return volumeLinear;
 			}
-			set 
+			set
 			{
 				volumeLinear = value;
 				this.volumeLogarithmic = volumeLinear * volumeLinear * volumeLinear;
@@ -121,20 +137,21 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 				int bytesPerChannel = bytesPerSample / FORMAT_CHANNELS;
 				if (bytesPerChannel == 2)
 				{
-					UInt32* bufferSamplePointer = (UInt32*)this.bufferPtr.ToPointer();
-					bufferSamplePointer[this.bufferWritePosition++] = leftSample | rightSample;
+					UInt32* localBufferSamplePointer = (UInt32*)this.localBufferPtr.ToPointer();
+					localBufferSamplePointer[this.localBufferWritePosition++] = leftSample | rightSample;
+					//Trace.WriteLine(@"secondaryBuffer.Write<uint>(new uint[] { " + (leftSample | rightSample).ToString() + " }, x, LockFlags.None);");
 				}
 				else if (bytesPerChannel == 1)
 				{
-					UInt16* bufferSamplePointer = (UInt16*)this.bufferPtr.ToPointer();
-					bufferSamplePointer[this.bufferWritePosition++] = (UInt16)(
+					UInt16* localBufferSamplePointer = (UInt16*)this.localBufferPtr.ToPointer();
+					localBufferSamplePointer[this.localBufferWritePosition++] = (UInt16)(
 							 (((rightSample & 0xFF000000) >> 16) + 0x8000)
 							 | (((leftSample >> 8) + 0x80) & 0xFF)
 							 );
- 
+
 				}
-				if (this.bufferWritePosition == this.bufferLengthInSamples)
-					this.bufferWritePosition = 0;
+				if (this.localBufferWritePosition == this.localBufferLengthInSamples)
+					this.localBufferWritePosition = 0;
 			}
 		}
 
@@ -154,6 +171,16 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			this.InternalStop();
 		}
 
+		/// <summary>
+		/// Notify frame completion
+		/// </summary>
+		/// <param name="currentOvershoot">The current deviation from "standard" schedule.</param>
+		/// <param name="adjustmentPosted">The schedule adjustment posted on this frame (if any).</param>
+		public void FrameDone(long currentOvershoot, long adjustmentPosted)
+		{
+			this.SetExpectedWritePosition(this.localBufferWritePosition, currentOvershoot);
+		}
+
 		#endregion // IAudioPlugin Implementation
 
 		private void InternalStart()
@@ -165,7 +192,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			try
 			{
 				if (player == null)
-					player = new WaveOutPlayer(-1, format, BUFFER_SIZE, 3, new WaveLib.BufferFillEventHandler(this.FillerCallback));
+					player = new WaveOutPlayer(-1, format, PLAY_BUFFER_SAMPLES * this.bytesPerSample, PLAY_BUFFER_COUNT, new WaveLib.BufferFillEventHandler(this.FillerCallback));
 				stopped = false;
 			}
 			catch
@@ -179,55 +206,100 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			stopped = true; // We'll start sending blank buffers to the audio thread.
 		}
 
-		private void FillerCallback(IntPtr data, int size)
+		private long? firstSample = null;
+		private void FillerCallback(IntPtr destinationBuffer, int copySize)
 		{
-			if (stopped)
+			if (firstSample.HasValue)
 			{
-				Marshal.Copy(emptyBuffer, 0, data, size);
+				//Trace.WriteLine(string.Format("AUDVER - \t{0}\tFreq:\t{1}", PerformanceCounter.Current - firstSample.Value, PerformanceCounter.Frequency));
+			}
+			else
+				firstSample = PerformanceCounter.Current;
+
+			int? expectedPosition = this.GetExpectedWritePosition();
+
+			// If we're stopped, just copy empty audio data.
+			if (stopped || !expectedPosition.HasValue)
+			{
+				Marshal.Copy(emptyBuffer, 0, destinationBuffer, copySize);
 				return;
 			}
 
-			const int WriteSampleWatchSize = 512; // Looks X number of samples ahead.
+			///////////////
+			// Determine the appropriate place to read.
+			const int BUFFER_MIN_MILLISECONDS = 75;
+			const int BUFFER_MAX_MILLISECONDS = 125;
 
-			int currentWriteSample = this.bufferWritePosition; // get a COPY.
-			int finalWriteSample = currentWriteSample + WriteSampleWatchSize;
-			int realFinalWriteSample = this.GetRealBufferPosition(finalWriteSample);
+			const int BUFFER_MIN_SAMPLES = FORMAT_SAMPLES_PER_SECOND * BUFFER_MIN_MILLISECONDS / 1000;
+			const int BUFFER_MAX_SAMPLES = FORMAT_SAMPLES_PER_SECOND * BUFFER_MAX_MILLISECONDS / 1000;
 
-			int currentReadSample = ((int)this.bufferReadStream.Position) / bytesPerSample;
-			int finalReadSample = currentReadSample + (size / bytesPerSample);
-			int realFinalReadSample = this.GetRealBufferPosition(finalReadSample);
+			const int BUFFER_MEDIAN_SAMPLES = (BUFFER_MIN_SAMPLES + BUFFER_MAX_SAMPLES) / 2;
 
-            // If the read position is about to speed off ahead of 
-            // the write position, we want to back off the read position!
-            // (At the cost of a one-time audio echo/glitch).
-            if ((currentReadSample < currentWriteSample && finalReadSample > currentWriteSample)
-                || (currentReadSample > currentWriteSample && finalReadSample != realFinalReadSample && realFinalReadSample > currentWriteSample))
-            {
-                // Kick it back to current write position + 50% of buffer.
-                Trace.WriteLine(string.Format(LOG_PREFIX + "Had to kick back current read position. ReadSample:{0}   WriteSample:{1}", currentReadSample, currentWriteSample));
-                this.bufferReadStream.Position = this.GetRealBufferPosition(currentWriteSample + (this.bufferLengthInSamples / 2)) * bytesPerSample;
-            }
-            // Also, if the write position is about to write over the 
-            // read position, we want to move the read position ahead!
-            else if ((currentWriteSample < currentReadSample && finalWriteSample > currentReadSample)
-                || (currentWriteSample > currentReadSample && finalWriteSample != realFinalWriteSample && realFinalWriteSample > currentReadSample))
-            {
-                // Move it up to current write position + 50% of buffer.
-                Trace.WriteLine(string.Format(LOG_PREFIX + "Had to push ahead current read position. ReadSample:{0}   WriteSample:{1}", currentReadSample, currentWriteSample));
-                this.bufferReadStream.Position = this.GetRealBufferPosition(currentWriteSample + (this.bufferLengthInSamples / 2)) * bytesPerSample;
-            }
+			int minAcceptableSample = this.GetRealBufferPosition(expectedPosition.Value - (BUFFER_MAX_SAMPLES));
+			int maxAcceptableSample = this.GetRealBufferPosition(expectedPosition.Value - (BUFFER_MIN_SAMPLES));
+
+			int theCurrentReadSample = ((int)this.localBufferReadStream.Position) / bytesPerSample;
+
+			bool readPositionAdjusted = false;
+			int newSample = 0;
+			if (!this.GetRealSampleInclusive(minAcceptableSample, maxAcceptableSample, theCurrentReadSample))
+			{
+				readPositionAdjusted = true;
+				newSample = this.GetRealBufferPosition(expectedPosition.Value - (BUFFER_MEDIAN_SAMPLES));
+				this.localBufferReadStream.Position = newSample * bytesPerSample;
+			}
+			
+			//////////////////////
+			// Debug!!!
+			int currentWriteSampleAlso = this.localBufferWritePosition;
+			int oldDiffWriteGuess = this.GetRealSampleDiff(expectedPosition.Value, theCurrentReadSample);
+			int newDiffWriteGuess = this.GetRealSampleDiff(expectedPosition.Value, newSample);
+			int oldDiffWriteActual = this.GetRealSampleDiff(currentWriteSampleAlso, theCurrentReadSample);
+			int newDiffWriteActual = this.GetRealSampleDiff(currentWriteSampleAlso, newSample);
+
+			/*
+			Trace.WriteLine(string.Format("AUDIO - \tAdjusted:\t{0}\tMinAccept:\t{1}\tMaxAccept:\t{2}\tOldSam:\t{3}\tNewSam:\t{4}\tOldDiffWriteGuess:\t{5}\tNewDiffWriteGuess:\t{6}\tOldDiffWriteAct:\t{7}\tNewDiffWriteAct:\t{8}"
+					, readPositionAdjusted
+					, minAcceptableSample
+					, maxAcceptableSample 
+					, theCurrentReadSample
+					, newSample
+					, oldDiffWriteGuess 
+					, (readPositionAdjusted ? newDiffWriteGuess.ToString() : "-")
+					, oldDiffWriteActual
+					, (readPositionAdjusted ? newDiffWriteActual.ToString() : "-")
+					));
+			*/
+			// Debug!!!
+			//////////////////////
+
+			///////////////
+			// Determine if we're about to read past what is available.
+			int copySamples = copySize / bytesPerSample;
+			int currentReadSample = ((int)this.localBufferReadStream.Position) / bytesPerSample;
+			int realFinalReadSample = this.GetRealBufferPosition(currentReadSample + copySamples);
+
+			// If we're reading past the final write sample, avoid it!
+			int currentWriteSample = this.localBufferWritePosition;
+			if (this.GetRealSampleInclusive(currentReadSample, realFinalReadSample, currentWriteSample))
+			{
+				// Uh oh. The system must be running slow.
+				//Trace.WriteLine("AUDIO - Awwww shit.");
+
+				// There are a few options with what to do here, but I've just opted for an "echo" in this situation.
+			}
 
 			///////////////
 			// Now read the audio data.
-			if (this.bufferReadStream != null)
+			if (this.localBufferReadStream != null)
 			{
 				int destIndex = 0;
-				while (destIndex < size)
+				while (destIndex < copySize)
 				{
-					int bytesToGet = size - destIndex;
-					int got = this.bufferReadStream.Read(copyBuffer, destIndex, bytesToGet);
+					int bytesToGet = copySize - destIndex;
+					int got = this.localBufferReadStream.Read(copyBuffer, destIndex, bytesToGet);
 					if (got < bytesToGet)
-						this.bufferReadStream.Position = 0; // loop if the buffer ends
+						this.localBufferReadStream.Position = 0; // loop if the buffer ends
 					destIndex += got;
 				}
 			}
@@ -236,8 +308,12 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 				for (int i = 0; i < copyBuffer.Length; i++)
 					copyBuffer[i] = 0;
 			}
-			Marshal.Copy(copyBuffer, 0, data, size);
+			Marshal.Copy(copyBuffer, 0, destinationBuffer, copySize);
 		}
+
+		#region Helper Functions
+
+		#region General Functions
 
 		/// <summary>
 		/// This will "clamp" a position to a real buffer position.
@@ -246,20 +322,37 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 		/// If it preceeds the beginning of the buffer, it'll be
 		/// placed at the end.
 		/// </summary>
-		private int GetRealBufferPosition(int possiblyOutOfBoundsPosition)
+		private int GetRealBufferPosition(long possiblyOutOfBoundsPosition)
 		{
 			if (possiblyOutOfBoundsPosition >= 0)
-				return possiblyOutOfBoundsPosition % this.bufferLengthInSamples;
+				return (int)(possiblyOutOfBoundsPosition % this.localBufferLengthInSamples);
 			else
 			{
-				int returnValue = this.bufferLengthInSamples - (-possiblyOutOfBoundsPosition % this.bufferLengthInSamples);
-				if (returnValue == this.bufferLengthInSamples)
+				int returnValue = (int)(this.localBufferLengthInSamples - (-possiblyOutOfBoundsPosition % this.localBufferLengthInSamples));
+				if (returnValue == this.localBufferLengthInSamples)
 					return 0;
 				else
 					return returnValue;
 			}
-
 		}
+
+		private int GetRealSampleDiff(int sampleNumHigher, int sampleNumLower)
+		{
+			if (sampleNumHigher > sampleNumLower)
+				return sampleNumHigher - sampleNumLower;
+			else
+				return sampleNumHigher + (this.localBufferLengthInSamples - sampleNumLower);
+		}
+
+		private bool GetRealSampleInclusive(int sampleBoundMin, int sampleBoundMax, int sampleTest)
+		{
+			if (sampleBoundMax > sampleBoundMin)
+				return (sampleTest > sampleBoundMin) && (sampleTest < sampleBoundMax);
+			else
+				return (sampleTest < sampleBoundMax) || (sampleTest > sampleBoundMin);
+		}
+
+		#endregion
 
 		#region Super fidelity identification hack!
 
@@ -273,7 +366,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 				try
 				{
 					format = new WaveFormat(FORMAT_SAMPLES_PER_SECOND, 8 * bytesPerChannel, FORMAT_CHANNELS);
-					using (WaveOutPlayer newPlayer = new WaveOutPlayer(-1, format, BUFFER_SIZE, 3, new WaveLib.BufferFillEventHandler(this.TestFillerCallback)))
+					using (WaveOutPlayer newPlayer = new WaveOutPlayer(-1, format, PLAY_BUFFER_SAMPLES * bytesPerChannel, PLAY_BUFFER_COUNT, new WaveLib.BufferFillEventHandler(this.TestFillerCallback)))
 					{
 						working = true;
 					}
@@ -294,12 +387,53 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 				this.audioEnabled = true;
 				this.bytesPerSample = bytesPerChannel * FORMAT_CHANNELS;
 			}
+			Trace.WriteLine("AUDIO - Bytes per sample will be: " + this.bytesPerSample.ToString());
 		}
 
 		private void TestFillerCallback(IntPtr data, int size)
 		{
 			// Black hole!
 		}
+
+		#endregion
+
+		#region Write position estimation / management
+
+		private int? expectedWritePositionSample;
+		private long expectedWritePositionTimeStamp;
+		private long expectedWritePositionOvershoot;
+		private object expectedWritePositionSemaphore = new object();
+
+		private void SetExpectedWritePosition(int newExpectedPosition, long currentOvershoot)
+		{
+			lock (expectedWritePositionSemaphore)
+			{
+				this.expectedWritePositionSample = newExpectedPosition;
+				this.expectedWritePositionOvershoot = currentOvershoot;
+				this.expectedWritePositionTimeStamp = PerformanceCounter.Current;
+			}
+		}
+
+		private int? GetExpectedWritePosition()
+		{
+			lock (expectedWritePositionSemaphore)
+			{
+				// If we've gotten no hint, we have no known position!
+				if (!this.expectedWritePositionSample.HasValue)
+					return null;
+
+				double hintDelaySeconds =
+					(PerformanceCounter.Current - expectedWritePositionTimeStamp - this.expectedWritePositionOvershoot)
+					/ (double)PerformanceCounter.Frequency;
+
+				int hintDelaySamples = (int)(hintDelaySeconds * FORMAT_SAMPLES_PER_SECOND);
+				int expectedWritePosition = this.GetRealBufferPosition(this.expectedWritePositionSample.Value + hintDelaySamples);
+
+				return expectedWritePosition;
+			}
+		}
+
+		#endregion
 
 		#endregion
 	}
