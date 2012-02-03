@@ -14,8 +14,15 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 {
 	internal class DirectSoundAudioPlugin : IAudioPlugin
 	{
-		private const int BUFFER_MIN_MILLISECONDS = 75;
-		private const int BUFFER_MAX_MILLISECONDS = 125;
+		// A guess as to how long it takes to copy to the play buffer.
+		private const int PLAY_COPY_GUESS_MILLISECONDS = 40;
+		private int play_copy_guess_offset;
+
+		private const int BUFFER_MIN_MILLISECONDS = PLAY_COPY_GUESS_MILLISECONDS;
+		private const int BUFFER_MAX_MILLISECONDS = 150;
+		private int buffer_min_offset;
+		private int buffer_max_offset;
+		private int buffer_median_offset;
 
 		private bool initialized = false;
 
@@ -27,9 +34,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 
 		private double volumeLinear = 1.0;
 
-		private int buffer_min_offset;
-		private int buffer_max_offset;
-		private int buffer_median_offset;
+
 
 		internal DirectSoundAudioPlugin()
 		{
@@ -81,7 +86,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 
 		private bool scheduleAccepted = false;
 
-		private const int TEMP_BUFFER_SIZE = 256;
+		private const int TEMP_BUFFER_SIZE = 512;
 		private int currentTempBufferPosition = 0;
 		private uint[] tempBuffer = new uint[TEMP_BUFFER_SIZE];
 
@@ -159,10 +164,13 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 
 			this.emptyBuffer = new uint[this.bufferDescription.SizeInBytes / sizeof(uint)];
 
+			this.play_copy_guess_offset = (int)(this.bufferFormat.SamplesPerSecond * (PLAY_COPY_GUESS_MILLISECONDS / (double)1000));
+			this.play_copy_guess_offset *= this.bufferFormat.BlockAlignment;
+
 			this.buffer_min_offset = (int)(this.bufferFormat.SamplesPerSecond * (BUFFER_MIN_MILLISECONDS / (double)1000));
 			this.buffer_max_offset = (int)(this.bufferFormat.SamplesPerSecond * (BUFFER_MAX_MILLISECONDS / (double)1000));
 			this.buffer_median_offset = (this.buffer_min_offset + this.buffer_max_offset) / 2;
-			
+
 			this.buffer_min_offset *= this.bufferFormat.BlockAlignment;
 			this.buffer_max_offset *= this.bufferFormat.BlockAlignment;
 			this.buffer_median_offset *= this.bufferFormat.BlockAlignment;
@@ -192,21 +200,35 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			if (!this.scheduleAccepted)
 				return;
 
+			const int TEMP_COPY_SIZE = TEMP_BUFFER_SIZE * sizeof(uint);
+
+			// Check to see if we're about to write over the play buffer (an unforgiveable offense!!)
+			int playPosition = this.playBuffer.CurrentPlayPosition;
+			int checkPositionMin = this.AddToPosition(this.currentWritePosition, -this.play_copy_guess_offset);
+			int checkPositionMax = this.AddToPosition(this.currentWritePosition, TEMP_COPY_SIZE);
+			bool aboutToWriteOverPlayPosition = this.GetRealPositionInclusive(checkPositionMin, checkPositionMax, playPosition);
+			if (aboutToWriteOverPlayPosition)
+			{
+				// WOAH! Don't write over the play buffer! That would suck! 
+				// The system must be running slowly. Send the write buffer way back behind the play buffer.
+				//Trace.WriteLine("DSOUNDRESET - Resetting:About to write over play buffer");
+				this.ResetWritePosition();
+			}
+			
 			//////////////////////
 			// Copy it wherever the current position is
-			const int TEMP_COPY_SIZE = TEMP_BUFFER_SIZE * sizeof(uint);
-			if (currentWritePosition + TEMP_COPY_SIZE > bufferDescription.SizeInBytes)
+			if (this.currentWritePosition + TEMP_COPY_SIZE > bufferDescription.SizeInBytes)
 			{
-				int firstWriteSize = (bufferDescription.SizeInBytes - currentWritePosition);
+				int firstWriteSize = (bufferDescription.SizeInBytes - this.currentWritePosition);
 				playBuffer.Write<uint>(tempBuffer, 0, firstWriteSize / sizeof(uint), bufferDescription.SizeInBytes - firstWriteSize, LockFlags.None);
 				playBuffer.Write<uint>(tempBuffer, firstWriteSize / sizeof(uint), (TEMP_COPY_SIZE - firstWriteSize) / sizeof(uint), 0, LockFlags.None);
 			}
 			else
 			{
-				playBuffer.Write<uint>(tempBuffer, currentWritePosition, LockFlags.None);
+				playBuffer.Write<uint>(this.tempBuffer, this.currentWritePosition, LockFlags.None);
 			}
-			currentWritePosition += TEMP_COPY_SIZE;
-			currentWritePosition = currentWritePosition % bufferDescription.SizeInBytes;
+			this.currentWritePosition += TEMP_COPY_SIZE;
+			this.currentWritePosition = this.currentWritePosition % bufferDescription.SizeInBytes;
 		}
 
 		const int TIME_OFF_DURATION_MILLISECONDS = 500;
@@ -236,6 +258,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			//   * OR there was an adjustment in the core emulation timing
 			if (!this.scheduleAccepted || adjustmentPosted != 0)
 			{
+				//Trace.WriteLine("DSOUNDRESET - Resetting:Init or CPU hint");
 				resetPosition = true;
 			}
 			else
@@ -264,6 +287,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 						// Check duration.
 						if ((PerformanceCounter.Current - this.offBufferTimeStamp) > this.offTimeTicksThreshhold)
 						{
+							//Trace.WriteLine("DSOUNDRESET - Resetting:Too long out of bounds");
 							resetPosition = true;
 							this.offBuffer = false;
 						}
@@ -274,8 +298,9 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			////////////////////
 			// Reset the write position if required.
 			if (resetPosition)
-				this.currentWritePosition = this.AddToPosition(this.playBuffer.CurrentPlayPosition, this.buffer_median_offset);
+				this.ResetWritePosition();
 
+			/*
 			Trace.WriteLine(string.Format("DSOUND - OldExp:\t{0}\tNewExp\t{1}\tAdjust\t{2}\tPlayPos\t{3}\tPlayDiff\t{4}\tReset?\t{5}\tOffBuf?\t{6}", 
 				expectedPosition.ToString(),
 				newPos.ToString(), 
@@ -285,12 +310,18 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 				resetPosition,
 				offBuffer
 				));
+			*/
 
 			// (Now we're married to a schedule)
 			this.scheduleAccepted = true;
 		}
 
 		#region General Functions
+
+		private void ResetWritePosition()
+		{
+			this.currentWritePosition = this.AddToPosition(this.playBuffer.CurrentPlayPosition, this.buffer_median_offset);
+		}
 
 		/// <summary>
 		/// This will "clamp" a position to a real buffer position.

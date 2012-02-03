@@ -3,10 +3,12 @@ using FourDO.Emulation.FreeDO;
 using FourDO.Emulation.Plugins;
 using FourDO.Utilities;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Timers;
 using System.Threading;
+using PerformanceCounter = FourDO.Utilities.PerformanceCounter;
 
 namespace FourDO.Emulation
 {
@@ -70,7 +72,7 @@ namespace FourDO.Emulation
 		private int currentSector = 0;
 		private bool isSwapFrameSignaled = false;
 
-		private volatile FrameSpeedCalculator speedCalculator = new FrameSpeedCalculator(4);
+		private volatile FrameSpeedCalculator speedCalculator = new FrameSpeedCalculator(10);
 
 		private IAudioPlugin audioPlugin = PluginLoader.GetAudioPlugin();
 		private IInputPlugin inputPlugin = PluginLoader.GetInputPlugin();
@@ -421,10 +423,14 @@ namespace FourDO.Emulation
 		private void InternalResume(bool singleFrame)
 		{
 			stopWorkerSignal = singleFrame;
+
+			// Start plugins
+			this.audioPlugin.Start();
+
+			// Start main emulation thread
 			this.workerThread = new Thread(new ThreadStart(this.WorkerThread));
 			this.workerThread.Priority = ThreadPriority.Highest;
 			this.workerThread.Start();
-			this.audioPlugin.Start();
 
 			if (singleFrame == false)
 				this.State = ConsoleState.Running;
@@ -436,6 +442,8 @@ namespace FourDO.Emulation
 			stopWorkerSignal = true;
 			this.workerThread.Join();
 			this.workerThread = null;
+			
+			// Stop plugins.
 			this.audioPlugin.Stop();
 
 			this.State = ConsoleState.Paused;
@@ -578,20 +586,86 @@ namespace FourDO.Emulation
 
 		#region Worker Thread
 
+		// If emulation gets too far behind, we will "give up" on the schedule, and
+		// reset our timings so that we accept a new schedule. This value determines
+		// how far behind we can get before we "give up".
+		private const int MIN_OVERSHOOT_MILLISECONDS = -100;
+		private readonly long MIN_OVERSHOOT_TICKS = MIN_OVERSHOOT_MILLISECONDS * PerformanceCounter.Frequency / 1000;
+
+		//////////////////////////////////////////////////////// (hack)
+		private long runCount = 0;
+		//////////////////////////////////////////////////////// (hack)
+
 		private void WorkerThread()
 		{
 			const int MAXIMUM_FRAME_COUNT = 100;
-			
+			const int TARGET_FRAMES_PER_SECOND = 60;
+
 			long lastSample = 0;
 			long lastTarget = 0;
-			long targetPeriod = PerformanceCounter.Frequency / 60;
+			long targetPeriod = PerformanceCounter.Frequency / TARGET_FRAMES_PER_SECOND;
 			int lastFrameCount = 0;
+
+			/////////////////////////////// (hack)
+			/*
+			//int armclock = 22500000;
+			int armclock = 12500000;
+			//int armclock = 12500000 * 2;
+			double off = 12500000 / (double)armclock;
+			targetPeriod = (long)(targetPeriod * off);
+			FreeDOCore.SetArmClock(armclock);
+			 */
+			/////////////////////////////// (hack)
+	
+			int overshootSleepThreshold = System.Math.Max(5, TimingHelper.GetResolution());
 
 			int sleepTime = 0;
 			do
 			{
+				//////////////////////////////////////////////////////// (hack)
+				runCount++;
+				if (runCount % 200 == 0)
+				{
+					bool y = false;
+					//for (int x = 100500000; x > 0; x--)
+					{
+						y = System.Windows.Forms.Application.AllowQuit;
+					}
+				}
+				//////////////////////////////////////////////////////// (hack)
+				
 				///////////
-				// Identify how long to sleep.
+				// We're awake! Wreak havoc!
+
+				// Execute a frame.
+				isSwapFrameSignaled = false;
+				lastFrameCount = 0;
+
+				var frameWatch = new PerformanceStopWatch();
+				frameWatch.Start();
+				do
+				{
+					if (this.doFreeDOMultitask)
+						FreeDOCore.DoExecuteFrameMultitask(this.framePtr);
+					else
+						FreeDOCore.DoExecuteFrame(this.framePtr);
+
+					lastFrameCount++;
+				} while (isSwapFrameSignaled == false && lastFrameCount < MAXIMUM_FRAME_COUNT);
+				frameWatch.Stop();
+
+				///////////
+				// Signal completion.
+				var doneWatch = new PerformanceStopWatch();
+				doneWatch.Start();
+				if (FrameDone != null)
+					FrameDone(this, new EventArgs());
+				doneWatch.Stop();
+
+				///////////
+				// Identify how long to sleep (if at all).
+				long currentOvershoot = 0;
+				long cheatAmount = 0;
 				if (lastSample == 0)
 				{
 					// This is the first sample; this one's a freebee.
@@ -605,32 +679,33 @@ namespace FourDO.Emulation
 					long currentDelta = currentSample - lastSample;
 
 					long currentTarget = lastTarget + targetPeriod * lastFrameCount;
-					long currentRemaining = currentTarget - currentSample;
+					currentOvershoot = currentTarget - currentSample;
 
 					speedCalculator.AddSample((currentDelta / (double)lastFrameCount) / (double)PerformanceCounter.Frequency);
 
-					// Are we behind schedule?
-					if (currentRemaining < 0)
+					// Are we ahead of schedule?
+					if (currentOvershoot > 0)
 					{
-						// We ARE behind schedule. Oh crap!
-						if (currentRemaining < -(targetPeriod * lastFrameCount) * 10)
-						{
-							// We're REALLY behind schedule. HOLY SHIT!
-							// There's no way we can catch up. Just give up and give a new target.
-							currentTarget = currentSample;
+						// We're AHEAD OF schedule.
+						// This is easy. We'll sleep if we're far enough ahead.
+						sleepTime = (int)(((currentOvershoot) / (double)PerformanceCounter.Frequency) * 1000);
+
+						// However, Our sleeps must always be at least the system's minimum sleep granularity.
+						if (sleepTime < overshootSleepThreshold)
 							sleepTime = 0;
-						}
-						else
-						{
-							// We're not that far behind schedule. Phew!
-							sleepTime = 0;
-						}
 					}
 					else
 					{
-						// Not behind schedule.
-						double wait = (currentRemaining) / (double)PerformanceCounter.Frequency;
-						sleepTime = (int)(wait * 1000);
+						// We're BEHIND schedule! No sleeping!
+						sleepTime = 0;
+
+						if (currentOvershoot < MIN_OVERSHOOT_TICKS)
+						{
+							// We're REALLY BEHIND schedule. HOLY SHIT!
+							// There's no way we can catch up. Just "give up" and accept a new target schedule.
+							cheatAmount = currentOvershoot;
+							currentTarget = currentSample;
+						}
 					}
 
 					// Save the values for next time.
@@ -638,32 +713,32 @@ namespace FourDO.Emulation
 					lastTarget = currentTarget;
 				}
 
-				// Sleep, but always use a value of at least 0.
-				// (We're a high priority thread, but we can't just choke everyone.)
-				if (sleepTime < 0)
-					sleepTime = 0;
-				Thread.Sleep(sleepTime);
+				// Let the audio plugin know the current "schedule".
+				this.audioPlugin.FrameDone(cheatAmount > 0 ? 0 : currentOvershoot, cheatAmount);
 
-				///////////
-				// We're awake! Wreak havoc!
-
-				// Execute a frame.
-				isSwapFrameSignaled = false;
-				lastFrameCount = 0;
-				do
-				{
-					if (this.doFreeDOMultitask)
-						FreeDOCore.DoExecuteFrameMultitask(this.framePtr);
-					else
-						FreeDOCore.DoExecuteFrame(this.framePtr);
-
-					lastFrameCount++;
-				} while (isSwapFrameSignaled == false && lastFrameCount < MAXIMUM_FRAME_COUNT);
+				/////////////
+				// Sleep if we've been instructed to.
+				var sleepWatch = new PerformanceStopWatch();
+				sleepWatch.Start();
+				if (sleepTime > 0 && !this.stopWorkerSignal)
+					Thread.Sleep(sleepTime);
+				sleepWatch.Stop();
 				
-				// Signal completion.
-				if (FrameDone != null)
-					FrameDone(this, new EventArgs());
-			} while (stopWorkerSignal == false);
+				// Some debug output.
+				/*
+				Trace.WriteLine(string.Format("TIMING - Frames:\t{0}\tSleepReq:\t{1:00.00}\tSlept:\t{2:00.00}\tSleepScrewup:\t{3:00.00}\tFrameTm:\t{4:00.00}\tDoneTm:\t{5:00.00}\tTargetOff:\t{6:00.00}\tCheatTm:\t{7:00.00}"
+					, lastFrameCount
+					, sleepTime
+					, sleepWatch.TotalMilliseconds
+					, sleepWatch.TotalMilliseconds - sleepTime
+					, frameWatch.TotalMilliseconds
+					, doneWatch.TotalMilliseconds
+					, ((currentOvershoot) / (double)PerformanceCounter.Frequency) * 1000
+					, ((cheatAmount) / (double)PerformanceCounter.Frequency) * 1000
+					));
+				*/
+
+			} while (this.stopWorkerSignal == false);
 		}
 
 		#endregion // Worker Thread
