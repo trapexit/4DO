@@ -39,6 +39,7 @@ namespace FourDO
 
 			TimingHelper.MaximumResolutionPop();
 			Trace.WriteLine("4DO Shutting down");
+			Trace.Flush();
 		}
 
 		private static void InitializeLogging()
