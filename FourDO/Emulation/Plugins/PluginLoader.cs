@@ -12,7 +12,7 @@ namespace FourDO.Emulation.Plugins
 		public static IAudioPlugin GetAudioPlugin()
 		{
 			if (currentAudioPlugin == null)
-				currentAudioPlugin = new DirectSoundAudioPlugin();
+				currentAudioPlugin = new JohnnyAudioPlugin();
 
 			return currentAudioPlugin;
 		}

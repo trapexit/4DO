@@ -1,28 +1,4 @@
-﻿//////////////////////////////////////////////////////////
-// JMK NOTES:
-// The audio plugin has a large local buffer that soaks up any input
-// from the core emulation. This buffer is populated continuously, and
-// when the buffer is "exceeded", the write position is reset to the
-// start of the buffer.
-//
-// Meanwhile, audio processing continues in another thread, and asks
-// for data via a callback. This callback chooses the appropriate data
-// from the large local buffer. In most cases, it is best to choose 
-// the block of data immediately after the one previously selected.
-// Any other selections will be noticeable as an audio "glitch".
-//
-// Unfortunately, the emulation is not guaranteed to always be on
-// schedule. And so, the audio plugin "buffers" itself from the audio
-// data. There is a certain allowable buffer range that is monitored.
-// When the read position goes outside the buffer, it gets reset 
-// (which knowingly causes a glitch).
-//
-// I've used a libary from here to play the audio from a buffer
-// http://www.codeproject.com/KB/audio-video/cswavplay.aspx
-// Consent explicitly recieved on August 3rd via email (from Ianier to Johnny).
-//
-//////////////////////////////////////////////////////////
-
+﻿using SlimDX.DirectSound;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,63 +7,36 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using WaveLib;
 using PerformanceCounter = FourDO.Utilities.PerformanceCounter;
 
 namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 {
 	internal class JohnnyAudioPlugin : IAudioPlugin
 	{
-		private const string LOG_PREFIX = "JohnnyAudioPlugin - ";
+		// A guess as to how long it takes to copy to the play buffer.
+		private const int PLAY_COPY_GUESS_MILLISECONDS = 40;
+		private int play_copy_guess_offset;
 
-		private bool audioEnabled;
-		private int bytesPerSample;
+		private const int BUFFER_MIN_MILLISECONDS = PLAY_COPY_GUESS_MILLISECONDS;
+		private const int BUFFER_MAX_MILLISECONDS = 150;
+		private int buffer_min_offset;
+		private int buffer_max_offset;
+		private int buffer_median_offset;
+
+		private bool initialized = false;
+
+		SlimDX.Multimedia.WaveFormat bufferFormat;
+		SoundBufferDescription bufferDescription;
+
+		DirectSound directSound;
+		SecondarySoundBuffer playBuffer;
 
 		private double volumeLinear = 1.0;
-		private double volumeLogarithmic = 1.0;
 
-		private bool stopped = true;
 
-		private const int FORMAT_SAMPLES_PER_SECOND = 44100;
-		private const int FORMAT_CHANNELS = 2;
-
-		private const int LOCAL_BUFFER_SAMPLES = 4096 * 18;
-
-		private const int PLAY_BUFFER_SAMPLES = 1024;
-		private const int PLAY_BUFFER_COUNT = 3;
-
-		private WaveOutPlayer player;
-		private WaveFormat format;
-
-		private readonly int localBufferLengthInSamples;
-
-		private byte[] localBuffer;
-		private IntPtr localBufferPtr;
-		private GCHandle localBufferHandle;
-		private volatile int localBufferWritePosition;
-		private volatile Stream localBufferReadStream;
-
-		byte[] copyBuffer;
-		byte[] emptyBuffer;
 
 		internal JohnnyAudioPlugin()
 		{
-			this.IdentifyBytesPerSample();
-
-			// Create a buffer on our side to write into.
-			this.localBuffer = new byte[LOCAL_BUFFER_SAMPLES * this.bytesPerSample];
-			this.localBufferHandle = GCHandle.Alloc(this.localBuffer, GCHandleType.Pinned);
-			this.localBufferPtr = this.localBufferHandle.AddrOfPinnedObject();
-			this.localBufferWritePosition = 0;
-
-			this.localBufferLengthInSamples = this.localBuffer.Length / bytesPerSample;
-
-			// Create a stream to our buffer that the audio player will be reading from.
-			this.localBufferReadStream = new MemoryStream(this.localBuffer);
-
-			// Create buffers we'll be using to copy bytes to the player.
-			copyBuffer = new byte[PLAY_BUFFER_SAMPLES * this.bytesPerSample];
-			emptyBuffer = new byte[PLAY_BUFFER_SAMPLES * this.bytesPerSample];
 		}
 
 		#region IAudioPlugin Implementation
@@ -96,12 +45,24 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 		{
 			get
 			{
-				return volumeLinear;
+				return this.volumeLinear;
 			}
 			set
 			{
-				volumeLinear = value;
-				this.volumeLogarithmic = volumeLinear * volumeLinear * volumeLinear;
+				// DirectSound documentation says that the minimum is -10000, but I can't hear anything past -7000
+				const int MIN_DIRECTSOUND_VOLUME = -7000;
+
+				this.volumeLinear = value;
+				if (this.playBuffer != null)
+				{
+					if (this.volumeLinear == 0)
+						this.playBuffer.Volume = -10000;
+					else
+					{
+						// I've also made the volume LESS logarithmic than DirectSound prefers to be.
+						this.playBuffer.Volume = (int)(MIN_DIRECTSOUND_VOLUME * (1 - Math.Pow(volumeLinear, .7)));
+					}
+				}
 			}
 		}
 
@@ -120,45 +81,25 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			return;
 		}
 
+		private int currentWritePosition;
+
+		private bool scheduleAccepted = false;
+
+		private const int TEMP_BUFFER_SIZE = 512;
+		private int currentTempBufferPosition = 0;
+		private uint[] tempBuffer = new uint[TEMP_BUFFER_SIZE];
+
+		private uint[] emptyBuffer;
+
 		public void PushSample(uint dspSample)
 		{
-			uint rightSample = dspSample & 0xFFFF0000;
-			uint leftSample = dspSample & 0x0000FFFF;
-			if (volumeLogarithmic != 1)
-			{
-				rightSample = rightSample >> 16;
-				rightSample = (uint)((short)rightSample * volumeLogarithmic);
-				rightSample = rightSample << 16;
-				leftSample = (uint)((short)leftSample * volumeLogarithmic) & 0x0000FFFF;
-			}
-
-			unsafe
-			{
-				int bytesPerChannel = bytesPerSample / FORMAT_CHANNELS;
-				if (bytesPerChannel == 2)
-				{
-					UInt32* localBufferSamplePointer = (UInt32*)this.localBufferPtr.ToPointer();
-					localBufferSamplePointer[this.localBufferWritePosition++] = leftSample | rightSample;
-					//Trace.WriteLine(@"secondaryBuffer.Write<uint>(new uint[] { " + (leftSample | rightSample).ToString() + " }, x, LockFlags.None);");
-				}
-				else if (bytesPerChannel == 1)
-				{
-					UInt16* localBufferSamplePointer = (UInt16*)this.localBufferPtr.ToPointer();
-					localBufferSamplePointer[this.localBufferWritePosition++] = (UInt16)(
-							 (((rightSample & 0xFF000000) >> 16) + 0x8000)
-							 | (((leftSample >> 8) + 0x80) & 0xFF)
-							 );
-
-				}
-				if (this.localBufferWritePosition == this.localBufferLengthInSamples)
-					this.localBufferWritePosition = 0;
-			}
+			this.InternalPushSample(dspSample);
 		}
 
 		public void Destroy()
 		{
-			if (player != null)
-				player.Dispose();
+			if (directSound != null)
+				directSound.Dispose();
 		}
 
 		public void Start()
@@ -171,149 +112,215 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			this.InternalStop();
 		}
 
-		/// <summary>
-		/// Notify frame completion
-		/// </summary>
-		/// <param name="currentOvershoot">The current deviation from "standard" schedule.</param>
-		/// <param name="adjustmentPosted">The schedule adjustment posted on this frame (if any).</param>
 		public void FrameDone(long currentOvershoot, long adjustmentPosted)
 		{
-			this.SetExpectedWritePosition(this.localBufferWritePosition, currentOvershoot);
+			this.InternalFrameDone(currentOvershoot, adjustmentPosted);
 		}
 
 		#endregion // IAudioPlugin Implementation
 
 		private void InternalStart()
 		{
-			format = new WaveFormat(FORMAT_SAMPLES_PER_SECOND, 8 * bytesPerSample / FORMAT_CHANNELS, FORMAT_CHANNELS);
-			if (this.audioEnabled == false)
-				return;
+			this.Initialize();
 
-			try
-			{
-				if (player == null)
-					player = new WaveOutPlayer(-1, format, PLAY_BUFFER_SAMPLES * this.bytesPerSample, PLAY_BUFFER_COUNT, new WaveLib.BufferFillEventHandler(this.FillerCallback));
-				stopped = false;
-			}
-			catch
-			{
-				// TODO: Shouldn't get this if initialization worked right.
-			}
+			this.scheduleAccepted = false;
+			this.playBuffer.Play(0, PlayFlags.Looping);
 		}
 
 		private void InternalStop()
 		{
-			stopped = true; // We'll start sending blank buffers to the audio thread.
+			this.playBuffer.Stop();
+			this.playBuffer.Write<uint>(this.emptyBuffer, 0, LockFlags.None);
 		}
 
-		private long? firstSample = null;
-		private void FillerCallback(IntPtr destinationBuffer, int copySize)
+		private void Initialize()
 		{
-			if (firstSample.HasValue)
-			{
-				//Trace.WriteLine(string.Format("AUDVER - \t{0}\tFreq:\t{1}", PerformanceCounter.Current - firstSample.Value, PerformanceCounter.Frequency));
-			}
-			else
-				firstSample = PerformanceCounter.Current;
-
-			int? expectedPosition = this.GetExpectedWritePosition();
-
-			// If we're stopped, just copy empty audio data.
-			if (stopped || !expectedPosition.HasValue)
-			{
-				Marshal.Copy(emptyBuffer, 0, destinationBuffer, copySize);
+			if (this.initialized)
 				return;
-			}
 
-			///////////////
-			// Determine the appropriate place to read.
-			const int BUFFER_MIN_MILLISECONDS = 75;
-			const int BUFFER_MAX_MILLISECONDS = 125;
+			this.initialized = true;
 
-			const int BUFFER_MIN_SAMPLES = FORMAT_SAMPLES_PER_SECOND * BUFFER_MIN_MILLISECONDS / 1000;
-			const int BUFFER_MAX_SAMPLES = FORMAT_SAMPLES_PER_SECOND * BUFFER_MAX_MILLISECONDS / 1000;
+			this.directSound = new DirectSound(DirectSoundGuid.DefaultPlaybackDevice);
+			this.directSound.SetCooperativeLevel(FourDO.Program.GetMainWindowHwnd(), CooperativeLevel.Normal);
 
-			const int BUFFER_MEDIAN_SAMPLES = (BUFFER_MIN_SAMPLES + BUFFER_MAX_SAMPLES) / 2;
+			this.bufferFormat = new SlimDX.Multimedia.WaveFormat();
+			this.bufferFormat.Channels = 2;
+			this.bufferFormat.BitsPerSample = 16;
+			this.bufferFormat.FormatTag = SlimDX.Multimedia.WaveFormatTag.Pcm;
+			this.bufferFormat.SamplesPerSecond = 44100;
+			this.bufferFormat.BlockAlignment = (short)(bufferFormat.Channels * (bufferFormat.BitsPerSample / 8));
+			this.bufferFormat.AverageBytesPerSecond = bufferFormat.SamplesPerSecond * bufferFormat.BlockAlignment;
 
-			int minAcceptableSample = this.GetRealBufferPosition(expectedPosition.Value - (BUFFER_MAX_SAMPLES));
-			int maxAcceptableSample = this.GetRealBufferPosition(expectedPosition.Value - (BUFFER_MIN_SAMPLES));
+			this.bufferDescription = new SoundBufferDescription();
+			this.bufferDescription.Flags = BufferFlags.ControlVolume | BufferFlags.GlobalFocus;
+			this.bufferDescription.Format = this.bufferFormat;
+			this.bufferDescription.SizeInBytes = 1024 * 64;
 
-			int theCurrentReadSample = ((int)this.localBufferReadStream.Position) / bytesPerSample;
+			if (bufferDescription.SizeInBytes % TEMP_BUFFER_SIZE != 0)
+				throw new Exception("Audio buffer size needs to be a multiple of the temporary buffer size");
 
-			bool readPositionAdjusted = false;
-			int newSample = 0;
-			if (!this.GetRealSampleInclusive(minAcceptableSample, maxAcceptableSample, theCurrentReadSample))
+			this.playBuffer = new SecondarySoundBuffer(directSound, this.bufferDescription);
+
+			this.emptyBuffer = new uint[this.bufferDescription.SizeInBytes / sizeof(uint)];
+
+			this.play_copy_guess_offset = (int)(this.bufferFormat.SamplesPerSecond * (PLAY_COPY_GUESS_MILLISECONDS / (double)1000));
+			this.play_copy_guess_offset *= this.bufferFormat.BlockAlignment;
+
+			this.buffer_min_offset = (int)(this.bufferFormat.SamplesPerSecond * (BUFFER_MIN_MILLISECONDS / (double)1000));
+			this.buffer_max_offset = (int)(this.bufferFormat.SamplesPerSecond * (BUFFER_MAX_MILLISECONDS / (double)1000));
+			this.buffer_median_offset = (this.buffer_min_offset + this.buffer_max_offset) / 2;
+
+			this.buffer_min_offset *= this.bufferFormat.BlockAlignment;
+			this.buffer_max_offset *= this.bufferFormat.BlockAlignment;
+			this.buffer_median_offset *= this.bufferFormat.BlockAlignment;
+
+			this.offTimeTicksThreshhold = (long)((TIME_OFF_DURATION_MILLISECONDS / ((double)1000) * PerformanceCounter.Frequency));
+		}
+
+		private void InternalPushSample(uint dspSample)
+		{
+			if (playBuffer == null)
+				return;
+
+			tempBuffer[currentTempBufferPosition] = dspSample;
+			currentTempBufferPosition++;
+			if (currentTempBufferPosition == TEMP_BUFFER_SIZE)
 			{
-				readPositionAdjusted = true;
-				newSample = this.GetRealBufferPosition(expectedPosition.Value - (BUFFER_MEDIAN_SAMPLES));
-				this.localBufferReadStream.Position = newSample * bytesPerSample;
+				currentTempBufferPosition = 0;
+
+				this.PushTempBlock();
+			}
+		}
+
+		private void PushTempBlock()
+		{
+			// If we haven't recieved a schedule, we don't know where to place this on the play buffer.
+			// Give up!
+			if (!this.scheduleAccepted)
+				return;
+
+			const int TEMP_COPY_SIZE = TEMP_BUFFER_SIZE * sizeof(uint);
+
+			// Check to see if we're about to write over the play buffer (an unforgiveable offense!!)
+			int playPosition = this.playBuffer.CurrentPlayPosition;
+			int checkPositionMin = this.AddToPosition(this.currentWritePosition, -this.play_copy_guess_offset);
+			int checkPositionMax = this.AddToPosition(this.currentWritePosition, TEMP_COPY_SIZE);
+			bool aboutToWriteOverPlayPosition = this.GetRealPositionInclusive(checkPositionMin, checkPositionMax, playPosition);
+			if (aboutToWriteOverPlayPosition)
+			{
+				// WOAH! Don't write over the play buffer! That would suck! 
+				// The system must be running slowly. Send the write buffer way back behind the play buffer.
+				//Trace.WriteLine("DSOUNDRESET - Resetting:About to write over play buffer");
+				this.ResetWritePosition();
 			}
 			
 			//////////////////////
-			// Debug!!!
-			int currentWriteSampleAlso = this.localBufferWritePosition;
-			int oldDiffWriteGuess = this.GetRealSampleDiff(expectedPosition.Value, theCurrentReadSample);
-			int newDiffWriteGuess = this.GetRealSampleDiff(expectedPosition.Value, newSample);
-			int oldDiffWriteActual = this.GetRealSampleDiff(currentWriteSampleAlso, theCurrentReadSample);
-			int newDiffWriteActual = this.GetRealSampleDiff(currentWriteSampleAlso, newSample);
-
-			/*
-			Trace.WriteLine(string.Format("AUDIO - \tAdjusted:\t{0}\tMinAccept:\t{1}\tMaxAccept:\t{2}\tOldSam:\t{3}\tNewSam:\t{4}\tOldDiffWriteGuess:\t{5}\tNewDiffWriteGuess:\t{6}\tOldDiffWriteAct:\t{7}\tNewDiffWriteAct:\t{8}"
-					, readPositionAdjusted
-					, minAcceptableSample
-					, maxAcceptableSample 
-					, theCurrentReadSample
-					, newSample
-					, oldDiffWriteGuess 
-					, (readPositionAdjusted ? newDiffWriteGuess.ToString() : "-")
-					, oldDiffWriteActual
-					, (readPositionAdjusted ? newDiffWriteActual.ToString() : "-")
-					));
-			*/
-			// Debug!!!
-			//////////////////////
-
-			///////////////
-			// Determine if we're about to read past what is available.
-			int copySamples = copySize / bytesPerSample;
-			int currentReadSample = ((int)this.localBufferReadStream.Position) / bytesPerSample;
-			int realFinalReadSample = this.GetRealBufferPosition(currentReadSample + copySamples);
-
-			// If we're reading past the final write sample, avoid it!
-			int currentWriteSample = this.localBufferWritePosition;
-			if (this.GetRealSampleInclusive(currentReadSample, realFinalReadSample, currentWriteSample))
+			// Copy it wherever the current position is
+			if (this.currentWritePosition + TEMP_COPY_SIZE > bufferDescription.SizeInBytes)
 			{
-				// Uh oh. The system must be running slow.
-				//Trace.WriteLine("AUDIO - Awwww shit.");
-
-				// There are a few options with what to do here, but I've just opted for an "echo" in this situation.
-			}
-
-			///////////////
-			// Now read the audio data.
-			if (this.localBufferReadStream != null)
-			{
-				int destIndex = 0;
-				while (destIndex < copySize)
-				{
-					int bytesToGet = copySize - destIndex;
-					int got = this.localBufferReadStream.Read(copyBuffer, destIndex, bytesToGet);
-					if (got < bytesToGet)
-						this.localBufferReadStream.Position = 0; // loop if the buffer ends
-					destIndex += got;
-				}
+				int firstWriteSize = (bufferDescription.SizeInBytes - this.currentWritePosition);
+				playBuffer.Write<uint>(tempBuffer, 0, firstWriteSize / sizeof(uint), bufferDescription.SizeInBytes - firstWriteSize, LockFlags.None);
+				playBuffer.Write<uint>(tempBuffer, firstWriteSize / sizeof(uint), (TEMP_COPY_SIZE - firstWriteSize) / sizeof(uint), 0, LockFlags.None);
 			}
 			else
 			{
-				for (int i = 0; i < copyBuffer.Length; i++)
-					copyBuffer[i] = 0;
+				playBuffer.Write<uint>(this.tempBuffer, this.currentWritePosition, LockFlags.None);
 			}
-			Marshal.Copy(copyBuffer, 0, destinationBuffer, copySize);
+			this.currentWritePosition += TEMP_COPY_SIZE;
+			this.currentWritePosition = this.currentWritePosition % bufferDescription.SizeInBytes;
 		}
 
-		#region Helper Functions
+		const int TIME_OFF_DURATION_MILLISECONDS = 500;
+		private long offTimeTicksThreshhold;
+		private bool offBuffer = false;
+		private long? offBufferTimeStamp = null;
+
+		public void InternalFrameDone(long currentOvershoot, long adjustmentPosted)
+		{
+			int? expectedPosition = this.GetExpectedWritePosition();
+			
+			this.SetExpectedWritePosition(this.currentWritePosition, currentOvershoot);
+
+			int? newPos = this.GetExpectedWritePosition();
+			if (!newPos.HasValue)
+				return; // Not expected!... but might happen with multithreading?
+
+			int playpos = this.playBuffer.CurrentPlayPosition;
+			int playdiff = this.GetRealPositionDiff(newPos ?? 0, playpos);
+
+			////////////////////
+			// Figure out if we should reset the write position.
+			bool resetPosition = false;
+
+			// Always reset if:
+			//   * we haven't already accepted a schedule
+			//   * OR there was an adjustment in the core emulation timing
+			if (!this.scheduleAccepted || adjustmentPosted != 0)
+			{
+				//Trace.WriteLine("DSOUNDRESET - Resetting:Init or CPU hint");
+				resetPosition = true;
+			}
+			else
+			{
+				// Check the position to ensure it's in "bounds".
+				int maxPosition = this.AddToPosition(newPos.Value, -this.buffer_min_offset);
+				int minPosition = this.AddToPosition(newPos.Value, -this.buffer_max_offset);
+				if (this.GetRealPositionInclusive(minPosition, maxPosition, playpos))
+				{
+					// You win this round, play position.
+					this.offBuffer = false;
+				}
+				else
+				{
+					// Well, it may be out of bounds, but we won't do anything about it until a certain time threshold hits.
+					if (!this.offBuffer)
+					{
+						// First offense. They get a pass.
+						this.offBufferTimeStamp = PerformanceCounter.Current;
+						this.offBuffer = true;
+					}
+					else
+					{
+						// It was off last time too!
+						
+						// Check duration.
+						if ((PerformanceCounter.Current - this.offBufferTimeStamp) > this.offTimeTicksThreshhold)
+						{
+							//Trace.WriteLine("DSOUNDRESET - Resetting:Too long out of bounds");
+							resetPosition = true;
+							this.offBuffer = false;
+						}
+					}
+				}
+			}
+
+			////////////////////
+			// Reset the write position if required.
+			if (resetPosition)
+				this.ResetWritePosition();
+
+			/*
+			Trace.WriteLine(string.Format("DSOUND - OldExp:\t{0}\tNewExp\t{1}\tAdjust\t{2}\tPlayPos\t{3}\tPlayDiff\t{4}\tReset?\t{5}\tOffBuf?\t{6}", 
+				expectedPosition.ToString(),
+				newPos.ToString(), 
+				(adjustmentPosted > 0).ToString(),
+				playpos,
+				playdiff,
+				resetPosition,
+				offBuffer
+				));
+			*/
+
+			// (Now we're married to a schedule)
+			this.scheduleAccepted = true;
+		}
 
 		#region General Functions
+
+		private void ResetWritePosition()
+		{
+			this.currentWritePosition = this.AddToPosition(this.playBuffer.CurrentPlayPosition, this.buffer_median_offset);
+		}
 
 		/// <summary>
 		/// This will "clamp" a position to a real buffer position.
@@ -325,90 +332,56 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 		private int GetRealBufferPosition(long possiblyOutOfBoundsPosition)
 		{
 			if (possiblyOutOfBoundsPosition >= 0)
-				return (int)(possiblyOutOfBoundsPosition % this.localBufferLengthInSamples);
+				return (int)(possiblyOutOfBoundsPosition % this.bufferDescription.SizeInBytes);
 			else
 			{
-				int returnValue = (int)(this.localBufferLengthInSamples - (-possiblyOutOfBoundsPosition % this.localBufferLengthInSamples));
-				if (returnValue == this.localBufferLengthInSamples)
+				int returnValue = (int)(this.bufferDescription.SizeInBytes - (-possiblyOutOfBoundsPosition % this.bufferDescription.SizeInBytes));
+				if (returnValue == this.bufferDescription.SizeInBytes)
 					return 0;
 				else
 					return returnValue;
 			}
 		}
 
-		private int GetRealSampleDiff(int sampleNumHigher, int sampleNumLower)
+		private int AddToPosition(int currentPosition, int positionToAdd)
 		{
-			if (sampleNumHigher > sampleNumLower)
-				return sampleNumHigher - sampleNumLower;
-			else
-				return sampleNumHigher + (this.localBufferLengthInSamples - sampleNumLower);
+			currentPosition = currentPosition + positionToAdd;
+			currentPosition = currentPosition % this.bufferDescription.SizeInBytes;
+			if (currentPosition >= 0)
+				return currentPosition;
+			return this.bufferDescription.SizeInBytes + currentPosition;
 		}
 
-		private bool GetRealSampleInclusive(int sampleBoundMin, int sampleBoundMax, int sampleTest)
+		private int GetRealPositionDiff(int positionNumHigher, int positionNumLower)
 		{
-			if (sampleBoundMax > sampleBoundMin)
-				return (sampleTest > sampleBoundMin) && (sampleTest < sampleBoundMax);
+			if (positionNumHigher > positionNumLower)
+				return positionNumHigher - positionNumLower;
 			else
-				return (sampleTest < sampleBoundMax) || (sampleTest > sampleBoundMin);
+				return positionNumHigher + (this.bufferDescription.SizeInBytes - positionNumLower);
 		}
 
-		#endregion
-
-		#region Super fidelity identification hack!
-
-		private void IdentifyBytesPerSample()
+		private bool GetRealPositionInclusive(int positionBoundMin, int positionBoundMax, int sampleTest)
 		{
-			bool working = false;
-			int bytesPerChannel = 2;
-
-			do
-			{
-				try
-				{
-					format = new WaveFormat(FORMAT_SAMPLES_PER_SECOND, 8 * bytesPerChannel, FORMAT_CHANNELS);
-					using (WaveOutPlayer newPlayer = new WaveOutPlayer(-1, format, PLAY_BUFFER_SAMPLES * bytesPerChannel, PLAY_BUFFER_COUNT, new WaveLib.BufferFillEventHandler(this.TestFillerCallback)))
-					{
-						working = true;
-					}
-				}
-				catch
-				{
-					bytesPerChannel--;
-				}
-			} while (!working && bytesPerChannel > 0);
-
-			if (bytesPerChannel == 0)
-			{
-				this.audioEnabled = false;
-				this.bytesPerSample = 1 * FORMAT_CHANNELS;
-			}
+			if (positionBoundMax > positionBoundMin)
+				return (sampleTest > positionBoundMin) && (sampleTest < positionBoundMax);
 			else
-			{
-				this.audioEnabled = true;
-				this.bytesPerSample = bytesPerChannel * FORMAT_CHANNELS;
-			}
-			Trace.WriteLine("AUDIO - Bytes per sample will be: " + this.bytesPerSample.ToString());
-		}
-
-		private void TestFillerCallback(IntPtr data, int size)
-		{
-			// Black hole!
+				return (sampleTest < positionBoundMax) || (sampleTest > positionBoundMin);
 		}
 
 		#endregion
 
 		#region Write position estimation / management
 
-		private int? expectedWritePositionSample;
+		private int? expectedWritePosition;
 		private long expectedWritePositionTimeStamp;
 		private long expectedWritePositionOvershoot;
 		private object expectedWritePositionSemaphore = new object();
 
-		private void SetExpectedWritePosition(int newExpectedPosition, long currentOvershoot)
+		private void SetExpectedWritePosition(int? newExpectedPosition, long currentOvershoot)
 		{
 			lock (expectedWritePositionSemaphore)
 			{
-				this.expectedWritePositionSample = newExpectedPosition;
+				this.expectedWritePosition = newExpectedPosition;
 				this.expectedWritePositionOvershoot = currentOvershoot;
 				this.expectedWritePositionTimeStamp = PerformanceCounter.Current;
 			}
@@ -419,21 +392,19 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			lock (expectedWritePositionSemaphore)
 			{
 				// If we've gotten no hint, we have no known position!
-				if (!this.expectedWritePositionSample.HasValue)
+				if (!this.expectedWritePosition.HasValue)
 					return null;
 
 				double hintDelaySeconds =
-					(PerformanceCounter.Current - expectedWritePositionTimeStamp - this.expectedWritePositionOvershoot)
+					(PerformanceCounter.Current - this.expectedWritePositionTimeStamp - this.expectedWritePositionOvershoot)
 					/ (double)PerformanceCounter.Frequency;
 
-				int hintDelaySamples = (int)(hintDelaySeconds * FORMAT_SAMPLES_PER_SECOND);
-				int expectedWritePosition = this.GetRealBufferPosition(this.expectedWritePositionSample.Value + hintDelaySamples);
+				int hintDelaySamples = (int)(hintDelaySeconds * this.bufferDescription.Format.SamplesPerSecond);
+				int expectedWritePosition = this.GetRealBufferPosition(this.expectedWritePosition.Value + hintDelaySamples * this.bufferDescription.Format.BlockAlignment);
 
 				return expectedWritePosition;
 			}
 		}
-
-		#endregion
 
 		#endregion
 	}

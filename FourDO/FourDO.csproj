@@ -83,10 +83,9 @@
     <Compile Include="Emulation\GameSource\GameRegistrar.cs" />
     <Compile Include="Emulation\GameSource\GameSourceBase.cs" />
     <Compile Include="Emulation\GameSource\IGameSource.cs" />
-    <Compile Include="Emulation\Plugins\Audio\JohnnyAudio\DirectSoundAudioPlugin.cs">
+    <Compile Include="Emulation\Plugins\Audio\JohnnyAudio\JohnnyAudioPlugin.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Emulation\Plugins\Audio\JohnnyAudio\JohnnyAudioPlugin.cs" />
     <Compile Include="Emulation\Plugins\IAudioPlugin.cs" />
     <Compile Include="Emulation\FPSCalculator.cs" />
     <Compile Include="Emulation\GameConsole.cs" />
@@ -305,10 +304,6 @@
       <Name>FourDO.Utilities</Name>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\WaveLib\WaveLib.csproj">
-      <Project>{D72CC69F-2065-4BA2-A499-ABF352C0733D}</Project>
-      <Name>WaveLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="UI\SizeHorizontal.ico" />
@@ -332,7 +327,7 @@
 "$(SolutionDir)tools\7z.exe" d -tzip -y "$(TargetDir)4DO_x.x.x.x_beta.zip" *
 
 ::Add each file
-"$(SolutionDir)tools\7z.exe" a -tzip -y "$(TargetDir)4DO_x.x.x.x_beta.zip" "$(TargetPath)" "$(TargetDir)CDLib.dll" "$(TargetDir)FreeDOCore.dll" "$(TargetDir)WaveLib.dll" "$(TargetDir)FourDO.Utilities.dll" "$(SolutionDir)tools\SlimDX.dll"</PostBuildEvent>
+"$(SolutionDir)tools\7z.exe" a -tzip -y "$(TargetDir)4DO_x.x.x.x_beta.zip" "$(TargetPath)" "$(TargetDir)CDLib.dll" "$(TargetDir)FreeDOCore.dll" "$(TargetDir)FourDO.Utilities.dll" "$(SolutionDir)tools\SlimDX.dll"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

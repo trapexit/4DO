@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <BootstrapperFile Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -65,24 +65,9 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\WaveLib\WaveLib.csproj">
-      <Name>WaveLib</Name>
-      <Project>{d72cc69f-2065-4ba2-a499-abf352c0733d}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <Target Name="AfterBuild">
-    <GenerateBootstrapper
-      ApplicationFile="4DOSetup.msi" 
-      ApplicationName="4DO" 
-      BootstrapperItems="@(BootstrapperFile)" 
-      ComponentsLocation="Relative" 
-      CopyComponents="True" 
-      OutputPath="$(SolutionDir)Setup\BootStrapped\$(PlatformName)" 
-      Path="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Bootstrapper\" />
+    <GenerateBootstrapper ApplicationFile="4DOSetup.msi" ApplicationName="4DO" BootstrapperItems="@(BootstrapperFile)" ComponentsLocation="Relative" CopyComponents="True" OutputPath="$(SolutionDir)Setup\BootStrapped\$(PlatformName)" Path="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Bootstrapper\" />
   </Target>
 </Project>
