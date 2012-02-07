@@ -996,7 +996,7 @@ namespace FourDO.UI
 			using (var openDialog = new OpenFileDialog())
 			{
 				openDialog.InitialDirectory = this.GetLastRomDirectory();
-				openDialog.Filter = "iso files (*.iso)|*.iso|All files (*.*)|*.*";
+				openDialog.Filter = "CD image files (*.iso, *.bin, *.cue)|*.iso;*.bin;*.cue|All files (*.*)|*.*";
 				openDialog.RestoreDirectory = true;
 
 				if (openDialog.ShowDialog() == DialogResult.OK)

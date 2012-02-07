@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CueSharp\CueSharp.cs" />
     <Compile Include="CustomXmlSerializer.cs" />
     <Compile Include="DisplayHelper.cs" />
     <Compile Include="Global\Constants.cs" />

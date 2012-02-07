@@ -73,6 +73,7 @@
 			this.preserveRatioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.snapWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.audioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.settingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
@@ -86,7 +87,6 @@
 			this.sizeBox = new FourDO.UI.SizeBox();
 			this.RomNagBox = new FourDO.UI.NagBox();
 			this.gameCanvas = new FourDO.UI.GameCanvas();
-			this.audioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MainStatusStrip.SuspendLayout();
 			this.MainMenuBar.SuspendLayout();
 			this.SuspendLayout();
@@ -105,13 +105,13 @@
 			// VersionStripItem
 			// 
 			this.VersionStripItem.Name = "VersionStripItem";
-			this.VersionStripItem.Size = new System.Drawing.Size(62, 17);
+			this.VersionStripItem.Size = new System.Drawing.Size(67, 17);
 			this.VersionStripItem.Text = "4DO x.x.x.x";
 			// 
 			// FPSStripItem
 			// 
 			this.FPSStripItem.Name = "FPSStripItem";
-			this.FPSStripItem.Size = new System.Drawing.Size(548, 17);
+			this.FPSStripItem.Size = new System.Drawing.Size(552, 17);
 			this.FPSStripItem.Spring = true;
 			// 
 			// quickDisplayDropDownButton
@@ -120,7 +120,7 @@
 			this.quickDisplayDropDownButton.Image = ((System.Drawing.Image)(resources.GetObject("quickDisplayDropDownButton.Image")));
 			this.quickDisplayDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.quickDisplayDropDownButton.Name = "quickDisplayDropDownButton";
-			this.quickDisplayDropDownButton.Size = new System.Drawing.Size(119, 20);
+			this.quickDisplayDropDownButton.Size = new System.Drawing.Size(110, 20);
 			this.quickDisplayDropDownButton.Text = "Display Options";
 			// 
 			// MainMenuBar
@@ -151,7 +151,7 @@
             this.toolStripSeparator2,
             this.exitMenuItem});
 			this.fileMenuItem.Name = "fileMenuItem";
-			this.fileMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.fileMenuItem.Size = new System.Drawing.Size(35, 20);
 			this.fileMenuItem.Text = "&File";
 			// 
 			// closeGameMenuItem
@@ -170,7 +170,7 @@
 			// 
 			this.openCDImageMenuItem.Name = "openCDImageMenuItem";
 			this.openCDImageMenuItem.Size = new System.Drawing.Size(227, 22);
-			this.openCDImageMenuItem.Text = "Open CD &Image File (*.iso)...";
+			this.openCDImageMenuItem.Text = "Open CD &Image File...";
 			this.openCDImageMenuItem.Click += new System.EventHandler(this.openCDImageMenuItem_Click);
 			// 
 			// loadLastGameMenuItem
@@ -222,7 +222,7 @@
             this.resetMenuItem,
             this.rememberPauseMenuItem});
 			this.consoleMenuItem.Name = "consoleMenuItem";
-			this.consoleMenuItem.Size = new System.Drawing.Size(62, 20);
+			this.consoleMenuItem.Size = new System.Drawing.Size(57, 20);
 			this.consoleMenuItem.Text = "&Console";
 			// 
 			// saveStateMenuItem
@@ -271,7 +271,7 @@
 			// 
 			this.previousSlotMenuItem.Name = "previousSlotMenuItem";
 			this.previousSlotMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-			this.previousSlotMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.previousSlotMenuItem.Size = new System.Drawing.Size(187, 22);
 			this.previousSlotMenuItem.Text = "Select &Previous Slot";
 			this.previousSlotMenuItem.Click += new System.EventHandler(this.previousSlotMenuItem_Click);
 			// 
@@ -279,14 +279,14 @@
 			// 
 			this.nextSlotMenuItem.Name = "nextSlotMenuItem";
 			this.nextSlotMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
-			this.nextSlotMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.nextSlotMenuItem.Size = new System.Drawing.Size(187, 22);
 			this.nextSlotMenuItem.Text = "Select &Next Slot";
 			this.nextSlotMenuItem.Click += new System.EventHandler(this.nextSlotMenuItem_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(192, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(184, 6);
 			// 
 			// toolStripSeparator3
 			// 
@@ -337,7 +337,7 @@
             this.toolStripSeparator6,
             this.snapWindowMenuItem});
 			this.displayMenuItem.Name = "displayMenuItem";
-			this.displayMenuItem.Size = new System.Drawing.Size(57, 20);
+			this.displayMenuItem.Size = new System.Drawing.Size(53, 20);
 			this.displayMenuItem.Text = "&Display";
 			// 
 			// fullScreenMenuItem
@@ -371,20 +371,20 @@
 			// 
 			this.DrawBorderMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
 			this.DrawBorderMenuItem.Name = "DrawBorderMenuItem";
-			this.DrawBorderMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.DrawBorderMenuItem.Size = new System.Drawing.Size(154, 22);
 			this.DrawBorderMenuItem.Text = "Draw Gray Border";
 			this.DrawBorderMenuItem.Click += new System.EventHandler(this.DrawBorderMenuItem_Click);
 			// 
 			// toolStripSeparator11
 			// 
 			this.toolStripSeparator11.Name = "toolStripSeparator11";
-			this.toolStripSeparator11.Size = new System.Drawing.Size(155, 6);
+			this.toolStripSeparator11.Size = new System.Drawing.Size(151, 6);
 			// 
 			// Pattern4DOMenuItem
 			// 
 			this.Pattern4DOMenuItem.Image = global::FourDO.Properties.Resources.VoidImage4DO;
 			this.Pattern4DOMenuItem.Name = "Pattern4DOMenuItem";
-			this.Pattern4DOMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.Pattern4DOMenuItem.Size = new System.Drawing.Size(154, 22);
 			this.Pattern4DOMenuItem.Text = "Pattern : 4DO";
 			this.Pattern4DOMenuItem.Click += new System.EventHandler(this.Pattern4DOMenuItem_Click);
 			// 
@@ -392,7 +392,7 @@
 			// 
 			this.PatternBumpsMenuItem.Image = global::FourDO.Properties.Resources.VoidImageBumps;
 			this.PatternBumpsMenuItem.Name = "PatternBumpsMenuItem";
-			this.PatternBumpsMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.PatternBumpsMenuItem.Size = new System.Drawing.Size(154, 22);
 			this.PatternBumpsMenuItem.Text = "Pattern : Bumps";
 			this.PatternBumpsMenuItem.Click += new System.EventHandler(this.PatternBumpsMenuItem_Click);
 			// 
@@ -400,7 +400,7 @@
 			// 
 			this.PatternMetalMenuItem.Image = global::FourDO.Properties.Resources.VoidImageMetal;
 			this.PatternMetalMenuItem.Name = "PatternMetalMenuItem";
-			this.PatternMetalMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.PatternMetalMenuItem.Size = new System.Drawing.Size(154, 22);
 			this.PatternMetalMenuItem.Text = "Pattern : Metal";
 			this.PatternMetalMenuItem.Click += new System.EventHandler(this.PatternMetalMenuItem_Click);
 			// 
@@ -408,7 +408,7 @@
 			// 
 			this.PatternNoneMenuItem.Image = global::FourDO.Properties.Resources.VoidImageNone;
 			this.PatternNoneMenuItem.Name = "PatternNoneMenuItem";
-			this.PatternNoneMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.PatternNoneMenuItem.Size = new System.Drawing.Size(154, 22);
 			this.PatternNoneMenuItem.Text = "No Pattern";
 			this.PatternNoneMenuItem.Click += new System.EventHandler(this.PatternNoneMenuItem_Click);
 			// 
@@ -452,6 +452,12 @@
 			this.snapWindowMenuItem.Text = "Snap &Window to Clean Increments";
 			this.snapWindowMenuItem.Click += new System.EventHandler(this.snapWindowMenuItem_Click);
 			// 
+			// audioMenuItem
+			// 
+			this.audioMenuItem.Name = "audioMenuItem";
+			this.audioMenuItem.Size = new System.Drawing.Size(46, 20);
+			this.audioMenuItem.Text = "Audio";
+			// 
 			// optionsMenuItem
 			// 
 			this.optionsMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -459,25 +465,25 @@
             this.toolStripSeparator9,
             this.configureInputMenuItem});
 			this.optionsMenuItem.Name = "optionsMenuItem";
-			this.optionsMenuItem.Size = new System.Drawing.Size(61, 20);
+			this.optionsMenuItem.Size = new System.Drawing.Size(56, 20);
 			this.optionsMenuItem.Text = "&Options";
 			// 
 			// settingsMenuItem
 			// 
 			this.settingsMenuItem.Name = "settingsMenuItem";
-			this.settingsMenuItem.Size = new System.Drawing.Size(204, 22);
+			this.settingsMenuItem.Size = new System.Drawing.Size(193, 22);
 			this.settingsMenuItem.Text = "&General Settings...";
 			this.settingsMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator9
 			// 
 			this.toolStripSeparator9.Name = "toolStripSeparator9";
-			this.toolStripSeparator9.Size = new System.Drawing.Size(201, 6);
+			this.toolStripSeparator9.Size = new System.Drawing.Size(190, 6);
 			// 
 			// configureInputMenuItem
 			// 
 			this.configureInputMenuItem.Name = "configureInputMenuItem";
-			this.configureInputMenuItem.Size = new System.Drawing.Size(204, 22);
+			this.configureInputMenuItem.Size = new System.Drawing.Size(193, 22);
 			this.configureInputMenuItem.Text = "Configure &Input Plugin...";
 			this.configureInputMenuItem.Click += new System.EventHandler(this.configureInputMenuItem_Click);
 			// 
@@ -488,25 +494,25 @@
             this.toolStripSeparator12,
             this.aboutMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
 			this.helpToolStripMenuItem.Text = "&Help";
 			// 
 			// gameInfoMenuItem
 			// 
 			this.gameInfoMenuItem.Name = "gameInfoMenuItem";
-			this.gameInfoMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.gameInfoMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.gameInfoMenuItem.Text = "Game Information...";
 			this.gameInfoMenuItem.Click += new System.EventHandler(this.gameInfoMenuItem_Click);
 			// 
 			// toolStripSeparator12
 			// 
 			this.toolStripSeparator12.Name = "toolStripSeparator12";
-			this.toolStripSeparator12.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator12.Size = new System.Drawing.Size(169, 6);
 			// 
 			// aboutMenuItem
 			// 
 			this.aboutMenuItem.Name = "aboutMenuItem";
-			this.aboutMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.aboutMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.aboutMenuItem.Text = "&About 4DO...";
 			this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
 			// 
@@ -562,12 +568,6 @@
 			this.gameCanvas.TabIndex = 3;
 			this.gameCanvas.VoidAreaBorder = false;
 			this.gameCanvas.VoidAreaPattern = FourDO.UI.VoidAreaPattern.None;
-			// 
-			// audioMenuItem
-			// 
-			this.audioMenuItem.Name = "audioMenuItem";
-			this.audioMenuItem.Size = new System.Drawing.Size(51, 20);
-			this.audioMenuItem.Text = "Audio";
 			// 
 			// Main
 			// 
