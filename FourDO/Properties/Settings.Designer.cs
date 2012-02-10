@@ -301,5 +301,33 @@ namespace FourDO.Properties {
                 this["AudioVolume"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public bool InactivePauseEmulation {
+            get {
+                return ((bool)(this["InactivePauseEmulation"]));
+            }
+            set {
+                this["InactivePauseEmulation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public bool InactiveIgnoreKeyboard {
+            get {
+                return ((bool)(this["InactiveIgnoreKeyboard"]));
+            }
+            set {
+                this["InactiveIgnoreKeyboard"] = value;
+            }
+        }
     }
 }

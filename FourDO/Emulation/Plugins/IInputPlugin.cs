@@ -13,6 +13,9 @@ namespace FourDO.Emulation.Plugins
 		bool GetHasSettings();
 		void ShowSettings(IWin32Window owner);
 
+		void DisableKeyboardInput();
+		void EnableKeyboardInput();
+
 		byte[] GetPbusData();
 	}
 }

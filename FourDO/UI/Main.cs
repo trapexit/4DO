@@ -36,6 +36,9 @@ namespace FourDO.UI
 		private bool maximizedBeforeFullScreen = false;
 		private bool isWindowFullScreen = false;
 
+		private bool isPausedBeforeInactive = false;
+		private bool isWindowActive = false;
+
 		private MouseHook mouseHook = new MouseHook();
 
 		private List<ToolStripMenuItem> openGameMenuItems = new List<ToolStripMenuItem>();
@@ -270,7 +273,12 @@ namespace FourDO.UI
 			this.DoConsoleStart(true);
 
 			if (Properties.Settings.Default.AutoRememberPause == true && lastPauseStatus == true)
+			{
 				this.DoConsoleTogglePause();
+
+				// The window's not yet active. When it's activated, we want to make sure it doesn't resume.
+				this.isPausedBeforeInactive = true; 
+			}
 
 			this.UpdateUI();
 
@@ -353,6 +361,42 @@ namespace FourDO.UI
 			this.ResumeLayout();
 
 			this.DoSaveWindowSize();
+		}
+
+		private void Main_Deactivate(object sender, EventArgs e)
+		{
+			this.isWindowActive = false;
+
+			// Remember console state paused vs. running, and pause the emulation if the user has specified this option.
+			this.isPausedBeforeInactive = (GameConsole.Instance.State == ConsoleState.Paused);
+			if (Properties.Settings.Default.InactivePauseEmulation && GameConsole.Instance.State == ConsoleState.Running)
+				this.DoConsoleTogglePause();
+
+			// Ignore keyboard input on inactive if the user has specified this option.
+			if (Properties.Settings.Default.InactiveIgnoreKeyboard)
+			{
+				IInputPlugin inputPlugin = GameConsole.Instance.InputPlugin;
+				inputPlugin.DisableKeyboardInput();
+			}
+		}
+
+		private void Main_Activated(object sender, EventArgs e)
+		{
+			this.isWindowActive = true;
+
+			///////////////////////
+			// Restore the state of some things when the window is active again.
+			//
+			// Note that we do these things if the options aren't selected. This is because the settings
+			// may have changed after we paused the console!
+
+			// Keyboard input is allowed again.
+			IInputPlugin inputPlugin = GameConsole.Instance.InputPlugin;
+			inputPlugin.EnableKeyboardInput();
+
+			// Resume emulation if we paused it for the user.
+			if (GameConsole.Instance.State == ConsoleState.Paused && !this.isPausedBeforeInactive)
+				this.DoConsoleTogglePause();
 		}
 
 		protected override void WndProc(ref Message m)
@@ -589,7 +633,8 @@ namespace FourDO.UI
 		private void Instance_ConsoleStateChange(ConsoleStateChangeEventArgs e)
 		{
 			// Should we remember the status?
-			if (Properties.Settings.Default.AutoRememberPause)
+			// If the window is inactive, this may be a "false" pause due to user options.
+			if (Properties.Settings.Default.AutoRememberPause && this.isWindowActive)
 			{
 				Properties.Settings.Default.LastPauseStatus = (e.NewState == ConsoleState.Paused);
 				Properties.Settings.Default.Save();

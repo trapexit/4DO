@@ -269,6 +269,12 @@ namespace FourDO.UI.Canvases
 				this.Render();
 		}
 
+		private void SlimDXCanvas_Paint(object sender, PaintEventArgs e)
+		{
+			if (!this.IsInResizeMode)
+				this.Render();
+		}
+
 		private static int RoundUpToNextPowerOfTwo(int x)
 		{
 			x--;

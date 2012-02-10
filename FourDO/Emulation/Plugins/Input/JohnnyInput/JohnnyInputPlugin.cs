@@ -27,6 +27,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private InputBindingDevices devices;
 		private static string bindingsFilePath = Path.Combine(Utilities.Global.Constants.SettingsPath, BINDINGS_FILE_NAME);
 
+		private bool keyboardInputEnabled = true;
+
 		public JohnnyInputPlugin()
 		{
 			this.LoadKeys();
@@ -42,6 +44,16 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		public bool GetHasSettings()
 		{
 			return true;
+		}
+
+		public void DisableKeyboardInput()
+		{
+			this.keyboardInputEnabled = false;
+		}
+
+		public void EnableKeyboardInput()
+		{
+			this.keyboardInputEnabled = true;
 		}
 
 		public void ShowSettings(IWin32Window owner)
@@ -151,6 +163,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			{
 				if (trigger is KeyboardInputTrigger)
 				{
+					if (!this.keyboardInputEnabled)
+						return false;
+
 					if ((GetKeyState((int)((KeyboardInputTrigger)trigger).Key) & KEY_PRESSED) > 0)
 						return true;
 				}

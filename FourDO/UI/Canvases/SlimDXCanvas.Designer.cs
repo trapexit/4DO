@@ -41,6 +41,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Name = "SlimDXCanvas";
+			this.Paint += new System.Windows.Forms.PaintEventHandler(this.SlimDXCanvas_Paint);
 			this.Resize += new System.EventHandler(this.SlimDXCanvas_Resize);
 			this.ResumeLayout(false);
 

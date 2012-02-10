@@ -471,20 +471,20 @@
 			// settingsMenuItem
 			// 
 			this.settingsMenuItem.Name = "settingsMenuItem";
-			this.settingsMenuItem.Size = new System.Drawing.Size(193, 22);
-			this.settingsMenuItem.Text = "&General Settings...";
+			this.settingsMenuItem.Size = new System.Drawing.Size(162, 22);
+			this.settingsMenuItem.Text = "4DO &Settings...";
 			this.settingsMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator9
 			// 
 			this.toolStripSeparator9.Name = "toolStripSeparator9";
-			this.toolStripSeparator9.Size = new System.Drawing.Size(190, 6);
+			this.toolStripSeparator9.Size = new System.Drawing.Size(159, 6);
 			// 
 			// configureInputMenuItem
 			// 
 			this.configureInputMenuItem.Name = "configureInputMenuItem";
-			this.configureInputMenuItem.Size = new System.Drawing.Size(193, 22);
-			this.configureInputMenuItem.Text = "Configure &Input Plugin...";
+			this.configureInputMenuItem.Size = new System.Drawing.Size(162, 22);
+			this.configureInputMenuItem.Text = "Configure &Input...";
 			this.configureInputMenuItem.Click += new System.EventHandler(this.configureInputMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
@@ -583,6 +583,8 @@
 			this.KeyPreview = true;
 			this.Name = "Main";
 			this.Text = "4DO";
+			this.Activated += new System.EventHandler(this.Main_Activated);
+			this.Deactivate += new System.EventHandler(this.Main_Deactivate);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
 			this.Load += new System.EventHandler(this.Main_Load);
 			this.ResizeBegin += new System.EventHandler(this.Main_ResizeBegin);
