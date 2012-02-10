@@ -60,7 +60,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 					else
 					{
 						// I've also made the volume LESS logarithmic than DirectSound prefers to be.
-						this.playBuffer.Volume = (int)(MIN_DIRECTSOUND_VOLUME * (1 - Math.Pow(volumeLinear, .7)));
+						this.playBuffer.Volume = (int)(MIN_DIRECTSOUND_VOLUME * (1 - Math.Pow(volumeLinear, .5)));
 					}
 				}
 			}
