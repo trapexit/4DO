@@ -5,6 +5,10 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
+// Silence the "Field XYZ is never assigned to, and will always have its default value ABC" warnings.
+// (There will be a lot due to structs used for pinvoke/interop).
+#pragma warning disable 0649
+
 //
 // LocalWindowsHook is from an MSDN magazine artcile by Dino Esposito
 // see comment in LocalWindowHook.cs

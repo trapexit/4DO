@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 
 using FourDO.Utilities;
+using FourDO.Utilities.Globals;
 using FourDO.Utilities.Logging;
 
 namespace FourDO
@@ -13,6 +14,13 @@ namespace FourDO
 	static class Program
 	{
 		private static FourDO.UI.Main mainForm;
+
+		private enum LoggingOption
+		{
+			AudioDebug,
+			AudioTiming,
+			CPUTiming
+		}
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -23,10 +31,10 @@ namespace FourDO
 			Program.InitializeLogging();
 			Program.InitializeExceptions();
 
-			string startForm = null;
-			if (args.Length >= 2 && args[0].ToLower() == "-debugstartform")
-				startForm = args[1];
-			
+			// Read command line arguments, and quit if necessary!
+			if (!ReadCommandLineArgs(args))
+				return;
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
@@ -34,12 +42,22 @@ namespace FourDO
 			TimingHelper.MaximumResolutionPush();
 
 			mainForm = new FourDO.UI.Main();
-			mainForm.StartForm = startForm;
 			Application.Run(mainForm);
 
 			TimingHelper.MaximumResolutionPop();
 			Trace.WriteLine("4DO Shutting down");
 			Trace.Flush();
+
+			PrintFakeDosPrompt();
+		}
+
+		// Application-wide helper to get the main window handle.
+		internal static IntPtr GetMainWindowHwnd()
+		{
+			if (mainForm == null || !mainForm.IsHandleCreated)
+				return IntPtr.Zero;
+
+			return mainForm.Handle;
 		}
 
 		private static void InitializeLogging()
@@ -83,12 +101,115 @@ namespace FourDO
 			Trace.Flush();
 		}
 
-		internal static IntPtr GetMainWindowHwnd()
+		private static bool ReadCommandLineArgs(string[] args)
 		{
-			if (mainForm == null || !mainForm.IsHandleCreated)
-				return IntPtr.Zero;
+			const string USAGE_ERROR = "*** ERROR: ";
+			bool errorOccurred = false;
 
-			return mainForm.Handle;
+			if (args.Length > 0)
+			{
+				AttachConsole(-1);
+				Console.WriteLine();
+			}
+
+			var arguments = new Arguments(args);
+
+			var startupFormString = arguments["DebugStartupForm"];
+			if (startupFormString != null)
+			{
+				RunOptions.StartupFormOption startupForm;
+				if (Enum.TryParse<RunOptions.StartupFormOption>(startupFormString, out startupForm))
+				{
+					RunOptions.StartupForm = startupForm;
+				}
+				else
+				{
+					Console.WriteLine(USAGE_ERROR + "The supplied startup form wasn't recognized: " + startupFormString);
+					errorOccurred = true;
+				}
+			}
+
+			var loggingOptionsString = arguments["DebugLogging"];
+			if (loggingOptionsString != null)
+			{
+				var logOptionsStrings = loggingOptionsString.Split('|');
+				foreach (var logOptionString in logOptionsStrings)
+				{
+					LoggingOption logOption;
+					if (Enum.TryParse<LoggingOption>(logOptionString, out logOption))
+					{
+						if (logOption == LoggingOption.AudioDebug)
+							RunOptions.LogAudioDebug = true;
+						if (logOption == LoggingOption.AudioTiming)
+							RunOptions.LogAudioTiming = true;
+						if (logOption == LoggingOption.CPUTiming)
+							RunOptions.LogCPUTiming = true;
+					}
+					else
+					{
+						Console.WriteLine(USAGE_ERROR + "The supplied logging option wasn't recognized: " + logOptionString);
+						errorOccurred = true;
+					}
+				}
+			}
+
+			var printKPrintString = arguments["printKPrint"];
+			if (printKPrintString != null)
+			{
+				RunOptions.PrintKPrint = true;
+			}
+
+			bool askedWithQuestionMark = args.Any(x => x == "-?" || x == "/?" || x == "--?");
+			if (errorOccurred || askedWithQuestionMark || arguments["help"] != null || arguments["h"] != null)
+			{
+				Console.WriteLine("======================================================================");
+				Console.WriteLine("= 4DO command line options Usage                                     =");
+				Console.WriteLine("=   Basic usage: 4DO.exe [-option value][/option \"value\"][--switch]  =");
+				Console.WriteLine("======================================================================");
+				Console.WriteLine("");
+				Console.WriteLine("  --PrintKPrint");
+				Console.WriteLine("         Enables printing of KPrint (3DO Debug output) to the console.");
+				Console.WriteLine("______________________________________________________________________");
+				Console.WriteLine("");
+				Console.WriteLine("  -DebugLogging [LoggingOption_1|LoggingOption_2]");
+				Console.WriteLine("         Enable extra logging to the log files Valid values are:");
+				foreach (string val in Enum.GetNames(typeof(LoggingOption)))
+					Console.WriteLine("               " + val);
+				Console.WriteLine("______________________________________________________________________");
+				Console.WriteLine("");
+				Console.WriteLine("  -DebugStartupForm [StartupForm]");
+				Console.WriteLine("         Starts an extra dialog at startup. Valid values are:");
+				foreach (string val in Enum.GetNames(typeof(RunOptions.StartupFormOption)))
+				Console.WriteLine("               " + val);
+				Console.WriteLine("______________________________________________________________________");
+				Console.WriteLine("");
+				Console.WriteLine("  -?   /?   --?   -h   /h   --h   -help   /help   --help");
+				Console.WriteLine("         Displays this help message.");
+				Console.WriteLine("");
+				Console.WriteLine("======================================================================");
+				Console.WriteLine("");
+
+				PrintFakeDosPrompt();
+
+				return false;
+			}
+
+			return true;
 		}
+
+		/// <summary>
+		/// Heh heh heh
+		/// </summary>
+		private static void PrintFakeDosPrompt()
+		{
+			// NOTE: I'm cheating and "redrawing" the command-line prompt.
+			Console.Write(System.IO.Directory.GetCurrentDirectory() + ">");
+		}
+
+		[System.Runtime.InteropServices.DllImport("kernel32.dll")]
+		private static extern bool AllocConsole();
+
+		[System.Runtime.InteropServices.DllImport("kernel32.dll")]
+		private static extern bool AttachConsole(int pid);
 	}
 }

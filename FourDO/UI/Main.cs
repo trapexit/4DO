@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using FourDO.Emulation;
 using FourDO.Utilities;
+using FourDO.Utilities.Globals;
 using FourDO.Utilities.MouseHook;
 using CDLib;
 using FourDO.Emulation.GameSource;
@@ -52,8 +53,6 @@ namespace FourDO.UI
 		{
 			InitializeComponent();
 		}
-
-		public string StartForm { get; set; }
 
 		#endregion // Public Members
 
@@ -283,8 +282,12 @@ namespace FourDO.UI
 			this.UpdateUI();
 
 			// Oh, and start automatically launch a form if requested.
-			if (this.StartForm != null && this.StartForm.ToLower() == "configureinput")
-				this.DoShowConfigureInput();
+			switch (RunOptions.StartupForm)
+			{
+				case RunOptions.StartupFormOption.ConfigureInput:
+					this.DoShowConfigureInput();
+					break;
+			}
 		}
 
 		private void Main_FormClosed(object sender, FormClosedEventArgs e)

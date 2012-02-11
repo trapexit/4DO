@@ -549,7 +549,8 @@ namespace FourDO.Emulation
 
 		private void ExternalInterface_KPrint(IntPtr value)
 		{
-			Console.Write((char)value);
+			if (FourDO.Utilities.Globals.RunOptions.PrintKPrint)
+				Console.Write((char)value);
 		}
 
 		private void ExternalInterface_DebugPrint(IntPtr value)
@@ -607,14 +608,12 @@ namespace FourDO.Emulation
 			int lastFrameCount = 0;
 
 			/////////////////////////////// (hack)
-			/*
 			//int armclock = 22500000;
 			int armclock = 12500000;
 			//int armclock = 12500000 * 2;
 			double off = 12500000 / (double)armclock;
 			targetPeriod = (long)(targetPeriod * off);
 			FreeDOCore.SetArmClock(armclock);
-			 */
 			/////////////////////////////// (hack)
 	
 			int overshootSleepThreshold = System.Math.Max(5, TimingHelper.GetResolution());
@@ -725,18 +724,17 @@ namespace FourDO.Emulation
 				sleepWatch.Stop();
 				
 				// Some debug output.
-				/*
-				Trace.WriteLine(string.Format("TIMING - Frames:\t{0}\tSleepReq:\t{1:00.00}\tSlept:\t{2:00.00}\tSleepScrewup:\t{3:00.00}\tFrameTm:\t{4:00.00}\tDoneTm:\t{5:00.00}\tTargetOff:\t{6:00.00}\tCheatTm:\t{7:00.00}"
-					, lastFrameCount
-					, sleepTime
-					, sleepWatch.TotalMilliseconds
-					, sleepWatch.TotalMilliseconds - sleepTime
-					, frameWatch.TotalMilliseconds
-					, doneWatch.TotalMilliseconds
-					, ((currentOvershoot) / (double)PerformanceCounter.Frequency) * 1000
-					, ((cheatAmount) / (double)PerformanceCounter.Frequency) * 1000
-					));
-				*/
+				if (FourDO.Utilities.Globals.RunOptions.LogCPUTiming)
+					Trace.WriteLine(string.Format("CpuTiming - Frames:\t{0}\tSleepReq:\t{1:00.00}\tSlept:\t{2:00.00}\tSleepScrewup:\t{3:00.00}\tFrameTm:\t{4:00.00}\tDoneTm:\t{5:00.00}\tTargetOff:\t{6:00.00}\tCheatTm:\t{7:00.00}"
+						, lastFrameCount
+						, sleepTime
+						, sleepWatch.TotalMilliseconds
+						, sleepWatch.TotalMilliseconds - sleepTime
+						, frameWatch.TotalMilliseconds
+						, doneWatch.TotalMilliseconds
+						, ((currentOvershoot) / (double)PerformanceCounter.Frequency) * 1000
+						, ((cheatAmount) / (double)PerformanceCounter.Frequency) * 1000
+						));
 
 			} while (this.stopWorkerSignal == false);
 		}

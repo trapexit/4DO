@@ -25,7 +25,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private JoyInputChecker joyChecker = new JoyInputChecker();
 		private InputBindingDevices devices;
-		private static string bindingsFilePath = Path.Combine(Utilities.Global.Constants.SettingsPath, BINDINGS_FILE_NAME);
+		private static string bindingsFilePath = Path.Combine(Utilities.Globals.Constants.SettingsPath, BINDINGS_FILE_NAME);
 
 		private bool keyboardInputEnabled = true;
 

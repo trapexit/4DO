@@ -45,10 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arguments.cs" />
     <Compile Include="CueSharp\CueSharp.cs" />
     <Compile Include="CustomXmlSerializer.cs" />
     <Compile Include="DisplayHelper.cs" />
-    <Compile Include="Global\Constants.cs" />
+    <Compile Include="Globals\Constants.cs" />
+    <Compile Include="Globals\RunOptions.cs" />
     <Compile Include="Logging\FileStreamWithBackup.cs" />
     <Compile Include="Logging\TextWriterTraceListenerWithTime.cs" />
     <Compile Include="Memory.cs" />

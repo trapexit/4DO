@@ -13,6 +13,8 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 {
 	internal class JohnnyAudioPlugin : IAudioPlugin
 	{
+		private const string LOG_PREFIX = "JohnnyAudio - ";
+
 		// A guess as to how long it takes to copy to the play buffer.
 		private const int PLAY_COPY_GUESS_MILLISECONDS = 40;
 		private int play_copy_guess_offset;
@@ -210,7 +212,8 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			{
 				// WOAH! Don't write over the play buffer! That would suck! 
 				// The system must be running slowly. Send the write buffer way back behind the play buffer.
-				//Trace.WriteLine("DSOUNDRESET - Resetting:About to write over play buffer");
+				if (FourDO.Utilities.Globals.RunOptions.LogAudioDebug)
+					Trace.WriteLine(LOG_PREFIX + "Resetting:About to write over play buffer");
 				this.ResetWritePosition();
 			}
 			
@@ -257,7 +260,8 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			//   * OR there was an adjustment in the core emulation timing
 			if (!this.scheduleAccepted || adjustmentPosted != 0)
 			{
-				//Trace.WriteLine("DSOUNDRESET - Resetting:Init or CPU hint");
+				if (FourDO.Utilities.Globals.RunOptions.LogAudioDebug)
+					Trace.WriteLine(LOG_PREFIX + "Resetting:Init or CPU hint");
 				resetPosition = true;
 			}
 			else
@@ -286,7 +290,8 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 						// Check duration.
 						if ((PerformanceCounter.Current - this.offBufferTimeStamp) > this.offTimeTicksThreshhold)
 						{
-							//Trace.WriteLine("DSOUNDRESET - Resetting:Too long out of bounds");
+							if (FourDO.Utilities.Globals.RunOptions.LogAudioDebug)
+								Trace.WriteLine(LOG_PREFIX + "Resetting:Too long out of bounds");
 							resetPosition = true;
 							this.offBuffer = false;
 						}
@@ -299,17 +304,16 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			if (resetPosition)
 				this.ResetWritePosition();
 
-			/*
-			Trace.WriteLine(string.Format("DSOUND - OldExp:\t{0}\tNewExp\t{1}\tAdjust\t{2}\tPlayPos\t{3}\tPlayDiff\t{4}\tReset?\t{5}\tOffBuf?\t{6}", 
-				expectedPosition.ToString(),
-				newPos.ToString(), 
-				(adjustmentPosted > 0).ToString(),
-				playpos,
-				playdiff,
-				resetPosition,
-				offBuffer
-				));
-			*/
+			if (FourDO.Utilities.Globals.RunOptions.LogAudioTiming)
+				Trace.WriteLine(string.Format(LOG_PREFIX + "OldExp:\t{0}\tNewExp\t{1}\tAdjust\t{2}\tPlayPos\t{3}\tPlayDiff\t{4}\tReset?\t{5}\tOffBuf?\t{6}", 
+					expectedPosition.ToString(),
+					newPos.ToString(), 
+					(adjustmentPosted > 0).ToString(),
+					playpos,
+					playdiff,
+					resetPosition,
+					offBuffer
+					));
 
 			// (Now we're married to a schedule)
 			this.scheduleAccepted = true;
