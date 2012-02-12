@@ -315,8 +315,7 @@ namespace FourDO.UI
 			// It would be a bad idea to add something like a prompt to restart here, since
 			// this setting could presumably be changed anywhere. We'll leave prompting the
 			// user to the event handlers.
-			string RomFileProperty = Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.BiosRomFile);
-			if (e.PropertyName == RomFileProperty)
+			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.BiosRomFile))
 			{
 				if (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == false)
 					this.DoHideRomNag();
@@ -339,6 +338,11 @@ namespace FourDO.UI
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AudioVolume))
 			{
 				this.UpdateUI();
+			}
+
+			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AudioBufferMilliseconds))
+			{
+				GameConsole.Instance.AudioBufferMilliseconds = Properties.Settings.Default.AudioBufferMilliseconds;
 			}
 		}
 
@@ -867,6 +871,10 @@ namespace FourDO.UI
 		{
 			if (string.IsNullOrEmpty(Properties.Settings.Default.BiosRomFile) == true)
 				return;
+
+			////////////////
+			// Set required settings.
+			GameConsole.Instance.AudioBufferMilliseconds = Properties.Settings.Default.AudioBufferMilliseconds;
 
 			////////////////
 			// Ensure existence of an NVRAM file.

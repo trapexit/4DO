@@ -15,15 +15,17 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 	{
 		private const string LOG_PREFIX = "JohnnyAudio - ";
 
+		private int bufferDelayMilliseconds;
+
 		// A guess as to how long it takes to copy to the play buffer.
-		private const int PLAY_COPY_GUESS_MILLISECONDS = 40;
+		private const int PLAY_COPY_GUESS_MILLISECONDS = 30;
 		private int play_copy_guess_offset;
 
 		private const int BUFFER_MIN_MILLISECONDS = PLAY_COPY_GUESS_MILLISECONDS;
-		private const int BUFFER_MAX_MILLISECONDS = 150;
+		private const int BUFFER_MAX_MILLISECONDS = 1000;
 		private int buffer_min_offset;
 		private int buffer_max_offset;
-		private int buffer_median_offset;
+		private int buffer_base_offset;
 
 		private bool initialized = false;
 
@@ -34,8 +36,6 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 		SecondarySoundBuffer playBuffer;
 
 		private double volumeLinear = 1.0;
-
-
 
 		internal JohnnyAudioPlugin()
 		{
@@ -65,6 +65,19 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 						this.playBuffer.Volume = (int)(MIN_DIRECTSOUND_VOLUME * (1 - Math.Pow(volumeLinear, .5)));
 					}
 				}
+			}
+		}
+
+		public int BufferMilliseconds
+		{
+			get
+			{
+				return bufferDelayMilliseconds;
+			}
+			set
+			{
+				bufferDelayMilliseconds = value;
+				this.RecalculateBufferOffsets(this.bufferDelayMilliseconds);
 			}
 		}
 
@@ -156,7 +169,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			this.bufferDescription = new SoundBufferDescription();
 			this.bufferDescription.Flags = BufferFlags.ControlVolume | BufferFlags.GlobalFocus;
 			this.bufferDescription.Format = this.bufferFormat;
-			this.bufferDescription.SizeInBytes = 1024 * 64;
+			this.bufferDescription.SizeInBytes = 1024 * 128;
 
 			if (bufferDescription.SizeInBytes % TEMP_BUFFER_SIZE != 0)
 				throw new Exception("Audio buffer size needs to be a multiple of the temporary buffer size");
@@ -168,15 +181,27 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			this.play_copy_guess_offset = (int)(this.bufferFormat.SamplesPerSecond * (PLAY_COPY_GUESS_MILLISECONDS / (double)1000));
 			this.play_copy_guess_offset *= this.bufferFormat.BlockAlignment;
 
+			this.RecalculateBufferOffsets(this.bufferDelayMilliseconds);
+
+			this.offTimeTicksThreshhold = (long)((TIME_OFF_DURATION_MILLISECONDS / ((double)1000) * PerformanceCounter.Frequency));
+		}
+
+		public void RecalculateBufferOffsets(int bufferMilliseconds)
+		{
+			if (!this.initialized)
+				return;
+
+			// We will accept only values within a range.
+			int utilizedDelay = Math.Max(bufferMilliseconds, BUFFER_MIN_MILLISECONDS);
+			utilizedDelay = Math.Min(bufferMilliseconds, BUFFER_MAX_MILLISECONDS);
+
 			this.buffer_min_offset = (int)(this.bufferFormat.SamplesPerSecond * (BUFFER_MIN_MILLISECONDS / (double)1000));
-			this.buffer_max_offset = (int)(this.bufferFormat.SamplesPerSecond * (BUFFER_MAX_MILLISECONDS / (double)1000));
-			this.buffer_median_offset = (this.buffer_min_offset + this.buffer_max_offset) / 2;
+			this.buffer_base_offset = (int)(this.bufferFormat.SamplesPerSecond * (utilizedDelay / (double)1000));
+			this.buffer_max_offset = (int)(this.bufferFormat.SamplesPerSecond * (utilizedDelay + 50 / (double)1000));
 
 			this.buffer_min_offset *= this.bufferFormat.BlockAlignment;
 			this.buffer_max_offset *= this.bufferFormat.BlockAlignment;
-			this.buffer_median_offset *= this.bufferFormat.BlockAlignment;
-
-			this.offTimeTicksThreshhold = (long)((TIME_OFF_DURATION_MILLISECONDS / ((double)1000) * PerformanceCounter.Frequency));
+			this.buffer_base_offset *= this.bufferFormat.BlockAlignment;
 		}
 
 		private void InternalPushSample(uint dspSample)
@@ -323,7 +348,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 
 		private void ResetWritePosition()
 		{
-			this.currentWritePosition = this.AddToPosition(this.playBuffer.CurrentPlayPosition, this.buffer_median_offset);
+			this.currentWritePosition = this.AddToPosition(this.playBuffer.CurrentPlayPosition, this.buffer_base_offset);
 		}
 
 		/// <summary>

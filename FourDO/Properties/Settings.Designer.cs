@@ -329,5 +329,33 @@ namespace FourDO.Properties {
                 this["InactiveIgnoreKeyboard"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public int SelectedOptionTab {
+            get {
+                return ((int)(this["SelectedOptionTab"]));
+            }
+            set {
+                this["SelectedOptionTab"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public int AudioBufferMilliseconds {
+            get {
+                return ((int)(this["AudioBufferMilliseconds"]));
+            }
+            set {
+                this["AudioBufferMilliseconds"] = value;
+            }
+        }
     }
 }

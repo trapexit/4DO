@@ -71,6 +71,20 @@
 			this.pictureBox5 = new System.Windows.Forms.PictureBox();
 			this.pictureBox6 = new System.Windows.Forms.PictureBox();
 			this.chkSmoothImageResize = new System.Windows.Forms.CheckBox();
+			this.AdvancedDisplayTab = new System.Windows.Forms.TabPage();
+			this.AudioBufferBar = new System.Windows.Forms.TrackBar();
+			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.groupBox8 = new System.Windows.Forms.GroupBox();
+			this.pictureBox10 = new System.Windows.Forms.PictureBox();
+			this.AudioBufferValueLabel = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.panel3 = new System.Windows.Forms.Panel();
+			this.label7 = new System.Windows.Forms.Label();
+			this.button1 = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -95,6 +109,11 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+			this.AdvancedDisplayTab.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.AudioBufferBar)).BeginInit();
+			this.groupBox8.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
+			this.panel3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panel1
@@ -150,7 +169,7 @@
 			this.panel2.Location = new System.Drawing.Point(0, 0);
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(476, 61);
-			this.panel2.TabIndex = 1;
+			this.panel2.TabIndex = 0;
 			// 
 			// pictureBox1
 			// 
@@ -178,11 +197,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.tabMain.Controls.Add(this.GeneralTabPage);
 			this.tabMain.Controls.Add(this.DisplayTabPage);
+			this.tabMain.Controls.Add(this.AdvancedDisplayTab);
 			this.tabMain.Location = new System.Drawing.Point(12, 72);
 			this.tabMain.Name = "tabMain";
 			this.tabMain.SelectedIndex = 0;
 			this.tabMain.Size = new System.Drawing.Size(452, 386);
-			this.tabMain.TabIndex = 2;
+			this.tabMain.TabIndex = 1;
 			// 
 			// GeneralTabPage
 			// 
@@ -567,6 +587,160 @@
 			this.chkSmoothImageResize.Text = "Perform smooth image resizing";
 			this.chkSmoothImageResize.UseVisualStyleBackColor = true;
 			// 
+			// AdvancedDisplayTab
+			// 
+			this.AdvancedDisplayTab.Controls.Add(this.panel3);
+			this.AdvancedDisplayTab.Controls.Add(this.groupBox8);
+			this.AdvancedDisplayTab.Controls.Add(this.groupBox7);
+			this.AdvancedDisplayTab.Location = new System.Drawing.Point(4, 22);
+			this.AdvancedDisplayTab.Name = "AdvancedDisplayTab";
+			this.AdvancedDisplayTab.Size = new System.Drawing.Size(444, 360);
+			this.AdvancedDisplayTab.TabIndex = 2;
+			this.AdvancedDisplayTab.Text = "Advanced";
+			this.AdvancedDisplayTab.UseVisualStyleBackColor = true;
+			// 
+			// AudioBufferBar
+			// 
+			this.AudioBufferBar.Location = new System.Drawing.Point(6, 74);
+			this.AudioBufferBar.Maximum = 500;
+			this.AudioBufferBar.Minimum = 50;
+			this.AudioBufferBar.Name = "AudioBufferBar";
+			this.AudioBufferBar.Size = new System.Drawing.Size(399, 42);
+			this.AudioBufferBar.SmallChange = 10;
+			this.AudioBufferBar.TabIndex = 1;
+			this.AudioBufferBar.TickFrequency = 50;
+			this.AudioBufferBar.TickStyle = System.Windows.Forms.TickStyle.Both;
+			this.AudioBufferBar.Value = 50;
+			this.AudioBufferBar.Scroll += new System.EventHandler(this.AudioBufferBar_Scroll);
+			this.AudioBufferBar.ValueChanged += new System.EventHandler(this.AudioBufferBar_ValueChanged);
+			// 
+			// groupBox7
+			// 
+			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox7.Location = new System.Drawing.Point(17, 53);
+			this.groupBox7.Name = "groupBox7";
+			this.groupBox7.Size = new System.Drawing.Size(411, 81);
+			this.groupBox7.TabIndex = 0;
+			this.groupBox7.TabStop = false;
+			this.groupBox7.Text = "Nothing";
+			// 
+			// groupBox8
+			// 
+			this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox8.Controls.Add(this.label2);
+			this.groupBox8.Controls.Add(this.label6);
+			this.groupBox8.Controls.Add(this.label5);
+			this.groupBox8.Controls.Add(this.label4);
+			this.groupBox8.Controls.Add(this.label3);
+			this.groupBox8.Controls.Add(this.AudioBufferValueLabel);
+			this.groupBox8.Controls.Add(this.pictureBox10);
+			this.groupBox8.Controls.Add(this.AudioBufferBar);
+			this.groupBox8.Location = new System.Drawing.Point(17, 140);
+			this.groupBox8.Name = "groupBox8";
+			this.groupBox8.Size = new System.Drawing.Size(411, 155);
+			this.groupBox8.TabIndex = 1;
+			this.groupBox8.TabStop = false;
+			this.groupBox8.Text = "Audio Buffer Size";
+			// 
+			// pictureBox10
+			// 
+			this.pictureBox10.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox10.Image")));
+			this.pictureBox10.Location = new System.Drawing.Point(6, 19);
+			this.pictureBox10.Name = "pictureBox10";
+			this.pictureBox10.Size = new System.Drawing.Size(47, 49);
+			this.pictureBox10.TabIndex = 5;
+			this.pictureBox10.TabStop = false;
+			// 
+			// AudioBufferValueLabel
+			// 
+			this.AudioBufferValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.AudioBufferValueLabel.Location = new System.Drawing.Point(157, 119);
+			this.AudioBufferValueLabel.Name = "AudioBufferValueLabel";
+			this.AudioBufferValueLabel.Size = new System.Drawing.Size(100, 23);
+			this.AudioBufferValueLabel.TabIndex = 4;
+			this.AudioBufferValueLabel.Text = "100ms";
+			this.AudioBufferValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(47, 119);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(80, 26);
+			this.label3.TabIndex = 3;
+			this.label3.Text = "Less Lag\r\nMORE Glitches";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(273, 119);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(77, 26);
+			this.label4.TabIndex = 5;
+			this.label4.Text = "MORE Lag\r\nFewer Glitches";
+			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(6, 119);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(32, 13);
+			this.label5.TabIndex = 2;
+			this.label5.Text = "50ms";
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(367, 119);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(38, 13);
+			this.label6.TabIndex = 6;
+			this.label6.Text = "500ms";
+			// 
+			// label2
+			// 
+			this.label2.Location = new System.Drawing.Point(59, 19);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(346, 49);
+			this.label2.TabIndex = 0;
+			this.label2.Text = "The audio buffer provides tolerance for unpredictable emulation speed at the cost" +
+				" of audio delay. However, whenever emulation is terminally behind schedule, audi" +
+				"o glitches will always occur.";
+			// 
+			// panel3
+			// 
+			this.panel3.BackColor = System.Drawing.SystemColors.Info;
+			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel3.Controls.Add(this.button1);
+			this.panel3.Controls.Add(this.label7);
+			this.panel3.Location = new System.Drawing.Point(17, 13);
+			this.panel3.Name = "panel3";
+			this.panel3.Size = new System.Drawing.Size(411, 34);
+			this.panel3.TabIndex = 2;
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(2, 9);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(273, 13);
+			this.label7.TabIndex = 3;
+			this.label7.Text = "Consider setting these to defaults if seeing odd behavior.";
+			// 
+			// button1
+			// 
+			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.button1.BackColor = System.Drawing.SystemColors.Control;
+			this.button1.Location = new System.Drawing.Point(288, 4);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(116, 23);
+			this.button1.TabIndex = 4;
+			this.button1.Text = "Reset to defaults";
+			this.button1.UseVisualStyleBackColor = false;
+			// 
 			// Settings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -610,6 +784,13 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+			this.AdvancedDisplayTab.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.AudioBufferBar)).EndInit();
+			this.groupBox8.ResumeLayout(false);
+			this.groupBox8.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+			this.panel3.ResumeLayout(false);
+			this.panel3.PerformLayout();
 			this.ResumeLayout(false);
 
         }
@@ -658,5 +839,19 @@
 		private System.Windows.Forms.PictureBox BackgroundMetalPicture;
 		private System.Windows.Forms.PictureBox BackgroundBumpsPicture;
 		private System.Windows.Forms.PictureBox Background4DOPicture;
+		private System.Windows.Forms.TabPage AdvancedDisplayTab;
+		private System.Windows.Forms.TrackBar AudioBufferBar;
+		private System.Windows.Forms.GroupBox groupBox7;
+		private System.Windows.Forms.GroupBox groupBox8;
+		private System.Windows.Forms.PictureBox pictureBox10;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label AudioBufferValueLabel;
+		private System.Windows.Forms.Panel panel3;
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Label label7;
     }
 }

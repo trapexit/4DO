@@ -28,5 +28,7 @@ namespace FourDO.Emulation.Plugins
 		void FrameDone(long currentOvershoot, long scheduleAdjustment);
 
 		double Volume { get; set; }
+
+		int BufferMilliseconds { get; set; }
 	}
 }

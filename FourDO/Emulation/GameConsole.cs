@@ -72,6 +72,9 @@ namespace FourDO.Emulation
 		private int currentSector = 0;
 		private bool isSwapFrameSignaled = false;
 
+		private int audioBufferMilliseconds = 100; // The real default should be set externally before startup. This is here just in case.
+		private long? maxLagTicks;
+
 		private volatile FrameSpeedCalculator speedCalculator = new FrameSpeedCalculator(10);
 
 		private IAudioPlugin audioPlugin = PluginLoader.GetAudioPlugin();
@@ -215,8 +218,35 @@ namespace FourDO.Emulation
 			}
 		}
 
+		public int AudioBufferMilliseconds
+		{
+			get
+			{
+				return audioBufferMilliseconds;
+			}
+			set
+			{
+				this.audioBufferMilliseconds = value;
+
+				this.audioPlugin.BufferMilliseconds = this.audioBufferMilliseconds;
+
+				// If emulation gets too far behind, we will "give up" on the schedule, and
+				// reset our timings so that we accept a new schedule. This value determines
+				// how far behind we can get before we "give up".
+
+				// NOTE: We use the audio buffer size to determine how far off schedule we can go.
+				//       Ultimately it's merely important to make sure we're at least as large
+				//       as the audio buffer.
+				int milliseconds = Math.Max(this.audioBufferMilliseconds * 2, 150);
+				this.maxLagTicks = milliseconds * PerformanceCounter.Frequency / 1000;
+			}
+		}
+
 		public void Start(string biosRomFileName, IGameSource gameSource, string nvramFileName)
 		{
+			if (!this.maxLagTicks.HasValue)
+				throw new InvalidOperationException("Audio buffer not set!");
+
 			// Are we already started?
 			if (this.workerThread != null)
 				return;
@@ -587,12 +617,6 @@ namespace FourDO.Emulation
 
 		#region Worker Thread
 
-		// If emulation gets too far behind, we will "give up" on the schedule, and
-		// reset our timings so that we accept a new schedule. This value determines
-		// how far behind we can get before we "give up".
-		private const int MIN_OVERSHOOT_MILLISECONDS = -100;
-		private readonly long MIN_OVERSHOOT_TICKS = MIN_OVERSHOOT_MILLISECONDS * PerformanceCounter.Frequency / 1000;
-
 		//////////////////////////////////////////////////////// (hack)
 		private long runCount = 0;
 		//////////////////////////////////////////////////////// (hack)
@@ -698,7 +722,7 @@ namespace FourDO.Emulation
 						// We're BEHIND schedule! No sleeping!
 						sleepTime = 0;
 
-						if (currentOvershoot < MIN_OVERSHOOT_TICKS)
+						if (currentOvershoot < -maxLagTicks)
 						{
 							// We're REALLY BEHIND schedule. HOLY SHIT!
 							// There's no way we can catch up. Just "give up" and accept a new target schedule.

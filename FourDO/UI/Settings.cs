@@ -40,6 +40,10 @@ namespace FourDO.UI
 			BackgroundMetalOption.Checked = (Properties.Settings.Default.VoidAreaPattern == (int)VoidAreaPattern.Metal);
 			BackgroundNoneOption.Checked = (Properties.Settings.Default.VoidAreaPattern == (int)VoidAreaPattern.None);
 
+			AudioBufferBar.Value = Properties.Settings.Default.AudioBufferMilliseconds;
+
+			tabMain.SelectedIndex = Properties.Settings.Default.SelectedOptionTab;
+
 			this.UpdateUI();
 		}
 
@@ -65,6 +69,10 @@ namespace FourDO.UI
 			if (this.BackgroundNoneOption.Checked)
 				Properties.Settings.Default.VoidAreaPattern = (int)VoidAreaPattern.None;
 
+			Properties.Settings.Default.SelectedOptionTab = tabMain.SelectedIndex;
+
+			Properties.Settings.Default.AudioBufferMilliseconds = AudioBufferBar.Value;
+
 			Properties.Settings.Default.Save();
 
 			this.Close();
@@ -72,6 +80,10 @@ namespace FourDO.UI
 
 		private void CancelButton_Click(object sender, EventArgs e)
 		{
+			// Always save the tab they were on.
+			Properties.Settings.Default.SelectedOptionTab = tabMain.SelectedIndex;
+			Properties.Settings.Default.Save();
+
 			this.Close();
 		}
 
@@ -100,6 +112,16 @@ namespace FourDO.UI
 			this.UpdateUI();
 		}
 
+		private void AudioBufferBar_Scroll(object sender, EventArgs e)
+		{
+			this.UpdateUI();
+		}
+
+		private void AudioBufferBar_ValueChanged(object sender, EventArgs e)
+		{
+			this.UpdateUI();
+		}
+
 		private void UpdateUI()
 		{
 			BorderPanel.BackColor = chkDrawGrayBorder.Checked ? Color.Gray : Color.Black;
@@ -111,8 +133,8 @@ namespace FourDO.UI
 				BackgroundPanel.BackgroundImage = BackgroundMetalPicture.BackgroundImage;
 			if (this.BackgroundNoneOption.Checked)
 				BackgroundPanel.BackgroundImage = BackgroundNonePicture.BackgroundImage;
+			AudioBufferValueLabel.Text = (AudioBufferBar.Value.ToString()) + " milliseconds";
 		}
-
 	}
 }
 
