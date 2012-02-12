@@ -139,6 +139,7 @@
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoystickTriggerType.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\KeyboardInputTrigger.cs" />
     <Compile Include="Emulation\Plugins\PluginLoader.cs" />
+    <Compile Include="UI\Canvases\BitmapBunch.cs" />
     <Compile Include="UI\Canvases\GdiCanvas.cs">
       <SubType>UserControl</SubType>
     </Compile>

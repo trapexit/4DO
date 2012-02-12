@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 using FourDO.Emulation;
 using FourDO.Emulation.FreeDO;
+using FourDO.Utilities.Globals;
 using FourDO.UI.Canvases;
 
 namespace FourDO.UI
@@ -19,13 +20,12 @@ namespace FourDO.UI
 	internal partial class GameCanvas : UserControl
 	{
 		private const InterpolationMode SMOOTH_SCALING_MODE = InterpolationMode.Low;
-		
-		private const int bitmapWidth = 320;
-		private const int bitmapHeight = 240;
+		private const int STANDARD_WIDTH = 320;
+		private const int STANDARD_HEIGHT = 240;
 
 		private Pen screenBorderPen = new Pen(Color.FromArgb(50, 50, 50));
 
-        private Control childCanvas;
+		private Control childCanvas;
 	
 		private bool preserveAspectRatio = true;
 
@@ -99,7 +99,7 @@ namespace FourDO.UI
 			}
 			set
 			{
-                ((ICanvas)this.childCanvas).ImageSmoothing = value;
+				((ICanvas)this.childCanvas).ImageSmoothing = value;
 			}
 		}
 
@@ -107,11 +107,11 @@ namespace FourDO.UI
 		{
 			get
 			{
-                return ((ICanvas)this.childCanvas).IsInResizeMode;
+				return ((ICanvas)this.childCanvas).IsInResizeMode;
 			}
 			set
 			{
-                ((ICanvas)this.childCanvas).IsInResizeMode = value;
+				((ICanvas)this.childCanvas).IsInResizeMode = value;
 			}
 		}
 
@@ -142,7 +142,7 @@ namespace FourDO.UI
 			this.isConsoleStopped = true;
 
 			// Hook up to the console events.
-            GameConsole.Instance.FrameDone += new EventHandler(GameConsole_FrameDone);
+			GameConsole.Instance.FrameDone += new EventHandler(GameConsole_FrameDone);
 			GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(GameConsole_ConsoleStateChange);
 		}
 
@@ -151,13 +151,13 @@ namespace FourDO.UI
 		/// </summary>
 		public void Destroy()
 		{
-            ((ICanvas)this.childCanvas).Destroy();
+			((ICanvas)this.childCanvas).Destroy();
 		}
 
 		private void GameCanvas_Resize(object sender, EventArgs e)
 		{
-            this.childCanvas.Bounds = this.getCanvasRect();
-            pnlBlack.Bounds = this.childCanvas.Bounds;
+			this.childCanvas.Bounds = this.getCanvasRect();
+			pnlBlack.Bounds = this.childCanvas.Bounds;
 		}
 
 		private void GameCanvas_Paint(object sender, PaintEventArgs e)
@@ -165,7 +165,7 @@ namespace FourDO.UI
 			if (this.voidAreaBorder)
 			{
 				Graphics g = e.Graphics;
-                Rectangle gameRect = this.childCanvas.Bounds;
+				Rectangle gameRect = this.childCanvas.Bounds;
 				g.DrawRectangle(this.screenBorderPen, gameRect.X - 1, gameRect.Y - 1, gameRect.Width + 1, gameRect.Height + 1);
 			}
 		}
@@ -175,14 +175,14 @@ namespace FourDO.UI
 			this.IsConsoleStopped = (e.NewState == ConsoleState.Stopped);
 		}
 
-        private void GameConsole_FrameDone(object sender, EventArgs e)
-        {
-            ((ICanvas)this.childCanvas).PushFrame(GameConsole.Instance.CurrentFrame);
-        }
+		private void GameConsole_FrameDone(object sender, EventArgs e)
+		{
+			((ICanvas)this.childCanvas).PushFrame(GameConsole.Instance.CurrentFrame);
+		}
 
 		private Rectangle getCanvasRect()
 		{
-			double imageAspect = bitmapWidth / (double)bitmapHeight;
+			double imageAspect = STANDARD_WIDTH / (double)STANDARD_HEIGHT;
 			double screenAspect = this.Width / (double)this.Height;
 
 			Rectangle blitRect = new Rectangle();
@@ -199,7 +199,7 @@ namespace FourDO.UI
 				if (screenAspect > imageAspect)
 				{
 					// window is wider than it should be.
-					blitRect.Width = (int)(bitmapWidth * (this.Height / (double)bitmapHeight));
+					blitRect.Width = (int)(STANDARD_WIDTH * (this.Height / (double)STANDARD_HEIGHT));
 					blitRect.Height = this.Height;
 					blitRect.X = (this.Width - blitRect.Width) / 2;
 					blitRect.Y = 0;
@@ -207,7 +207,7 @@ namespace FourDO.UI
 				else
 				{
 					blitRect.Width = this.Width;
-					blitRect.Height = (int)(bitmapHeight * (this.Width / (double)bitmapWidth));
+					blitRect.Height = (int)(STANDARD_HEIGHT * (this.Width / (double)STANDARD_WIDTH));
 					blitRect.X = 0;
 					blitRect.Y = (this.Height - blitRect.Height) / 2;
 				}
@@ -247,48 +247,55 @@ namespace FourDO.UI
 			HideMouseTimer.Enabled = true;
 		}
 
-        private void childCanvas_MouseLeave(object sender, EventArgs e)
+		private void childCanvas_MouseLeave(object sender, EventArgs e)
 		{
 			HideMouseTimer.Enabled = false;
 			MouseHider.Show();
 		}
 
-        private void childCanvas_MouseMove(object sender, MouseEventArgs e)
+		private void childCanvas_MouseMove(object sender, MouseEventArgs e)
 		{
 			MouseHider.Show();
 			HideMouseTimer.Enabled = false;
 			HideMouseTimer.Enabled = true;
 		}
 
-        private Control CreateChildCanvas()
-        {
-            ICanvas createdControl = null;
+		private Control CreateChildCanvas()
+		{
+			ICanvas createdControl = null;
 
-            //////////////////////
-            // Try creating a SlimDX canvas.
-            bool success = false;
-            try
-            {
-                createdControl = new SlimDXCanvas();
-                createdControl.Initialize();
-                success = true;
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("Video Render - DirectX canvas initialization failed! Will attempt to fall back to windows(GDI) rendering. Error was: " + ex.ToString());
-            } // We don't care what went wrong.
+			//////////////////////
+			// Try creating a SlimDX canvas.
+			bool success = false;
+			if (RunOptions.ForceGdiRendering)
+			{
+				Trace.WriteLine("Video Render - Forcing use of GDI rendering due to run option.");
+			}
+			else
+			{
+				try
+				{
+					createdControl = new SlimDXCanvas();
+					createdControl.Initialize();
+					success = true;
+				}
+				catch (Exception ex)
+				{
+					Trace.WriteLine("Video Render - DirectX canvas initialization failed! Will attempt to fall back to windows(GDI) rendering. Error was: " + ex.ToString());
+					if (createdControl != null)
+						createdControl.Destroy();
+				} // We don't care what went wrong.
+			}
 
-            /////////////////////
-            // If something went wrong, try a windows canvas.
-            if (!success)
-            {
-                if (createdControl != null)
-                    createdControl.Destroy();
-
-                createdControl = new GdiCanvas();
-            }
-            
-            return (Control)createdControl;
-        }
+			/////////////////////
+			// If necessary, try a GDI/windows-native canvas.
+			if (!success)
+			{
+				createdControl = new GdiCanvas();
+				createdControl.Initialize();
+			}
+			
+			return (Control)createdControl;
+		}
 	}
 }

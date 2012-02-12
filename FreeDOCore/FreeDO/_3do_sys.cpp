@@ -250,7 +250,6 @@ unsigned int _3do_DiscSize()
         return (unsigned int)io_interface(EXT_GET_DISC_SIZE,NULL);
 }
 
-extern int __tex__scaler;
 FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 {
 int line;

@@ -9,7 +9,7 @@
 using namespace std;
 
 // This is an extern FreeDO uses.
-int __tex__scaler = 1;
+int __tex__scaler = 0;
 
 /*
 JMK NOTE: I started adding "easier" exports... these can maybe be destroyed.

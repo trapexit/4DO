@@ -23,5 +23,7 @@ namespace FourDO.Utilities.Globals
 		public static bool LogCPUTiming { get; set; }
 
 		public static bool PrintKPrint { get; set; }
+
+		public static bool ForceGdiRendering { get; set; }
 	}
 }

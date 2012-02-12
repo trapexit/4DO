@@ -29,8 +29,9 @@ Felix Lazarev
 	#include <windows.h>
 
 	#define __temporalfixes 1
-	#define RESSCALE  0
-	#define DEBUG_CORE
+	#define RESSCALE  __tex__scaler
+
+	extern int __tex__scaler;
 
 #else
 	#include <stdlib.h>

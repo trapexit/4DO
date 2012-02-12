@@ -21,7 +21,7 @@ using DXGI = SlimDX.DXGI;
 
 namespace FourDO.UI.Canvases
 {
-	public partial class SlimDXCanvas : UserControl, ICanvas
+	internal partial class SlimDXCanvas : UserControl, ICanvas
 	{
 		protected struct TexturedVertex
 		{
@@ -55,14 +55,7 @@ namespace FourDO.UI.Canvases
 		protected readonly int textureWidth = RoundUpToNextPowerOfTwo(bitmapWidth);
 		protected readonly int textureHeight = RoundUpToNextPowerOfTwo(bitmapHeight);
 
-		protected Bitmap bitmapA = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format32bppRgb);
-		protected Bitmap bitmapB = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format32bppRgb);
-		protected Bitmap bitmapC = new Bitmap(bitmapWidth, bitmapHeight, PixelFormat.Format32bppRgb);
-
-		protected Bitmap currentFrontendBitmap;
-		protected Bitmap lastDrawnBackgroundBitmap;
-
-		protected object bitmapSemaphore = new object();
+		protected BitmapBunch bitmapBunch;
 
 		protected Color4 colorBlack = new Color4(0, 0, 0);
 
@@ -105,6 +98,8 @@ namespace FourDO.UI.Canvases
 				maxSize.Height = Math.Max(maxSize.Height, screen.Bounds.Height);
 			}
 
+			this.bitmapBunch = new BitmapBunch(bitmapWidth, bitmapHeight, PixelFormat.Format32bppRgb);
+
 			/////////////////////////////////////////
 			// Initialize direct3d 9
 
@@ -123,7 +118,6 @@ namespace FourDO.UI.Canvases
 
 			/////////////////
 			// Set up texture.
-			//this.texture = Texture.FromFile(this.device, @"C:\jmk\screens\ihateit.bmp");
 			this.texture = new Texture(this.device, textureWidth, textureHeight, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
 			var desc = this.texture.GetLevelDescription(0);
 
@@ -140,6 +134,11 @@ namespace FourDO.UI.Canvases
 				new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(maximumX,0.0f)),
 				new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,maximumY)),
 				new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX,maximumY)) });
+			/*vertexStream.WriteRange(new[]{
+				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f,       0.0f)),
+				new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(maximumX/2, 0.0f)),
+				new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,       maximumY/2)),
+				new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX/2, maximumY/2)) });*/
 
 			this.vertexBuffer.Unlock();
 
@@ -168,14 +167,13 @@ namespace FourDO.UI.Canvases
 		{
 			///////////////////////////
 			// Update texture.
-			this.currentFrontendBitmap = this.lastDrawnBackgroundBitmap; // This keeps the background from updating it too.
-			Bitmap bitmapToDraw = this.currentFrontendBitmap;
+			Bitmap bitmapToRender = this.bitmapBunch.GetNextRenderBitmap();
 
-			if (bitmapToDraw != null)
+			if (bitmapToRender != null)
 			{
 				Surface textureSurface = this.texture.GetSurfaceLevel(0);
 				DataRectangle dataRect = textureSurface.LockRectangle(LockFlags.None);
-				BitmapData bitmapData = bitmapToDraw.LockBits(new Rectangle(0, 0, bitmapToDraw.Width, bitmapToDraw.Height), ImageLockMode.ReadOnly, bitmapToDraw.PixelFormat);
+				BitmapData bitmapData = bitmapToRender.LockBits(new Rectangle(0, 0, bitmapToRender.Width, bitmapToRender.Height), ImageLockMode.ReadOnly, bitmapToRender.PixelFormat);
 				{
 					DataStream stream = dataRect.Data;
 					int stride = bitmapData.Stride;
@@ -188,7 +186,7 @@ namespace FourDO.UI.Canvases
 						sourcePtr += stride;
 					}
 				}
-				bitmapToDraw.UnlockBits(bitmapData);
+				bitmapToRender.UnlockBits(bitmapData);
 				textureSurface.UnlockRectangle();
 			}
 
@@ -216,22 +214,11 @@ namespace FourDO.UI.Canvases
 		{
 			/////////////// 
 			// Choose the best bitmap to do a background render to
-			Bitmap bitmapToCalc;
-			lock (bitmapSemaphore)
-			{
-				if ((bitmapA != currentFrontendBitmap) && (bitmapA != lastDrawnBackgroundBitmap))
-					bitmapToCalc = bitmapA;
-				else if ((bitmapB != currentFrontendBitmap) && (bitmapB != lastDrawnBackgroundBitmap))
-					bitmapToCalc = bitmapB;
-				else
-					bitmapToCalc = bitmapC;
-			}
+			Bitmap bitmapToPrepare = this.bitmapBunch.GetNextPrepareBitmap();
 
-			int frameNum = (bitmapToCalc == bitmapA) ? 1 : 2;
-
-			int bitmapHeight = bitmapToCalc.Height;
-			int bitmapWidth = bitmapToCalc.Width;
-			BitmapData bitmapData = bitmapToCalc.LockBits(new Rectangle(0, 0, bitmapToCalc.Width, bitmapToCalc.Height), ImageLockMode.WriteOnly, bitmapToCalc.PixelFormat);
+			int bitmapHeight = bitmapToPrepare.Height;
+			int bitmapWidth = bitmapToPrepare.Width;
+			BitmapData bitmapData = bitmapToPrepare.LockBits(new Rectangle(0, 0, bitmapToPrepare.Width, bitmapToPrepare.Height), ImageLockMode.WriteOnly, bitmapToPrepare.PixelFormat);
 			int bitmapStride = bitmapData.Stride;
 
 			byte* destPtr = (byte*)bitmapData.Scan0.ToPointer();
@@ -250,9 +237,9 @@ namespace FourDO.UI.Canvases
 				}
 			}
 
-			bitmapToCalc.UnlockBits(bitmapData);
+			bitmapToPrepare.UnlockBits(bitmapData);
 
-			lastDrawnBackgroundBitmap = bitmapToCalc;
+			this.bitmapBunch.SetLastPreparedBitmap(bitmapToPrepare);
 
 			this.TriggerRefresh();
 		}
