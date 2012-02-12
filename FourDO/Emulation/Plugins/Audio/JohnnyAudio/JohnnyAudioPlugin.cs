@@ -100,7 +100,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 
 		private bool scheduleAccepted = false;
 
-		private const int TEMP_BUFFER_SIZE = 512;
+		private const int TEMP_BUFFER_SIZE = 525; // Make sure this is a multiple of 44100!
 		private int currentTempBufferPosition = 0;
 		private uint[] tempBuffer = new uint[TEMP_BUFFER_SIZE];
 
@@ -169,9 +169,9 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			this.bufferDescription = new SoundBufferDescription();
 			this.bufferDescription.Flags = BufferFlags.ControlVolume | BufferFlags.GlobalFocus;
 			this.bufferDescription.Format = this.bufferFormat;
-			this.bufferDescription.SizeInBytes = 1024 * 128;
+			this.bufferDescription.SizeInBytes = this.bufferFormat.AverageBytesPerSecond * 2; // Two seconds of buffer
 
-			if (bufferDescription.SizeInBytes % TEMP_BUFFER_SIZE != 0)
+			if (bufferDescription.SizeInBytes % TEMP_BUFFER_SIZE != 0 || 44100 % TEMP_BUFFER_SIZE != 0)
 				throw new Exception("Audio buffer size needs to be a multiple of the temporary buffer size");
 
 			this.playBuffer = new SecondarySoundBuffer(directSound, this.bufferDescription);
@@ -269,15 +269,14 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			
 			this.SetExpectedWritePosition(this.currentWritePosition, currentOvershoot);
 
-			int maxPosition;
-			int minPosition;
+			int maxPosition = 0;
+			int minPosition = 0;
 
 			int? newPos = this.GetExpectedWritePosition();
 			if (!newPos.HasValue)
 				return; // Not expected!... but might happen with multithreading?
 
 			int playpos = this.playBuffer.CurrentPlayPosition;
-			int playdiff = this.GetRealPositionDiff(newPos ?? 0, playpos);
 
 			////////////////////
 			// Figure out if we should reset the write position.
@@ -333,15 +332,19 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 				this.ResetWritePosition();
 
 			if (FourDO.Utilities.Globals.RunOptions.LogAudioTiming)
-				Trace.WriteLine(string.Format(LOG_PREFIX + "OldExp:\t{0}\tNewExp\t{1}\tAdjust\t{2}\tPlayPos\t{3}\tPlayDiff\t{4}\tReset?\t{5}\tOffBuf?\t{6}", 
-					expectedPosition.ToString(),
-					newPos.ToString(), 
-					(adjustmentPosted > 0).ToString(),
-					playpos,
+			{
+				int playdiff = this.GetRealPositionDiff(newPos.Value, playpos);
+				Trace.WriteLine(string.Format(LOG_PREFIX + "Adjust\t{0}\tWritePosSched:\t{1}\tPlayDiff\t{2}\tPlayPos\t{3}\tMinPos:\t{4}\tMaxPos:\t{5}\tOffBuf?\t{6}\tReset?\t{7}",
+					(adjustmentPosted != 0).ToString(),
+					newPos,
 					playdiff,
+					playpos,
+					minPosition,
+					maxPosition,
 					resetPosition,
 					offBuffer
 					));
+			}
 
 			// (Now we're married to a schedule)
 			this.scheduleAccepted = true;
