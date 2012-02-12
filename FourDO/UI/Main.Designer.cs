@@ -111,7 +111,7 @@
 			// FPSStripItem
 			// 
 			this.FPSStripItem.Name = "FPSStripItem";
-			this.FPSStripItem.Size = new System.Drawing.Size(552, 17);
+			this.FPSStripItem.Size = new System.Drawing.Size(521, 17);
 			this.FPSStripItem.Spring = true;
 			// 
 			// quickDisplayDropDownButton

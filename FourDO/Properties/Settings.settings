@@ -74,5 +74,8 @@
     <Setting Name="AudioBufferMilliseconds" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
+    <Setting Name="CpuClockHertz" Provider="FourDO.UI.PortableSettingsProvider" Roaming="true" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">12500000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

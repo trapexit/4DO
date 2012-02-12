@@ -269,6 +269,9 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			
 			this.SetExpectedWritePosition(this.currentWritePosition, currentOvershoot);
 
+			int maxPosition;
+			int minPosition;
+
 			int? newPos = this.GetExpectedWritePosition();
 			if (!newPos.HasValue)
 				return; // Not expected!... but might happen with multithreading?
@@ -292,8 +295,8 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			else
 			{
 				// Check the position to ensure it's in "bounds".
-				int maxPosition = this.AddToPosition(newPos.Value, -this.buffer_min_offset);
-				int minPosition = this.AddToPosition(newPos.Value, -this.buffer_max_offset);
+				maxPosition = this.AddToPosition(newPos.Value, -this.buffer_min_offset);
+				minPosition = this.AddToPosition(newPos.Value, -this.buffer_max_offset);
 				if (this.GetRealPositionInclusive(minPosition, maxPosition, playpos))
 				{
 					// You win this round, play position.

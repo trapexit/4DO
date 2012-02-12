@@ -357,5 +357,19 @@ namespace FourDO.Properties {
                 this["AudioBufferMilliseconds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(FourDO.UI.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12500000")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public int CpuClockHertz {
+            get {
+                return ((int)(this["CpuClockHertz"]));
+            }
+            set {
+                this["CpuClockHertz"] = value;
+            }
+        }
     }
 }

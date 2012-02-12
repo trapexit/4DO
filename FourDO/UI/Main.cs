@@ -341,9 +341,10 @@ namespace FourDO.UI
 			}
 
 			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AudioBufferMilliseconds))
-			{
 				GameConsole.Instance.AudioBufferMilliseconds = Properties.Settings.Default.AudioBufferMilliseconds;
-			}
+
+			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.CpuClockHertz))
+				GameConsole.Instance.CpuClockHertz = Properties.Settings.Default.CpuClockHertz;
 		}
 
 		private void Main_Resize(object sender, EventArgs e)
@@ -875,6 +876,7 @@ namespace FourDO.UI
 			////////////////
 			// Set required settings.
 			GameConsole.Instance.AudioBufferMilliseconds = Properties.Settings.Default.AudioBufferMilliseconds;
+			GameConsole.Instance.CpuClockHertz = Properties.Settings.Default.CpuClockHertz;
 
 			////////////////
 			// Ensure existence of an NVRAM file.
@@ -1146,12 +1148,14 @@ namespace FourDO.UI
 				{
 					fps = 1 / (fps);
 				}
-				fps = Math.Min(fps, 99.99);
-				FPSStripItem.Text = string.Format("Core FPS: {0:00.00}", fps);
+				fps = Math.Min(fps, 999.99);
+				string fpsString = fps.ToString("00.00");
+				string extraPadding = new String(' ', 6 - fpsString.Length);
+				FPSStripItem.Text = "Core FPS: " + extraPadding + fpsString;
 			}
 			else
 			{
-				FPSStripItem.Text = "Core FPS: --.--";
+				FPSStripItem.Text = "Core FPS: ---.--";
 			}
 		}
 

@@ -72,19 +72,27 @@
 			this.pictureBox6 = new System.Windows.Forms.PictureBox();
 			this.chkSmoothImageResize = new System.Windows.Forms.CheckBox();
 			this.AdvancedDisplayTab = new System.Windows.Forms.TabPage();
+			this.panel3 = new System.Windows.Forms.Panel();
+			this.AdvancedResetButton = new System.Windows.Forms.Button();
+			this.label7 = new System.Windows.Forms.Label();
+			this.groupBox8 = new System.Windows.Forms.GroupBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.AudioBufferValueLabel = new System.Windows.Forms.Label();
+			this.pictureBox10 = new System.Windows.Forms.PictureBox();
 			this.AudioBufferBar = new System.Windows.Forms.TrackBar();
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
-			this.groupBox8 = new System.Windows.Forms.GroupBox();
-			this.pictureBox10 = new System.Windows.Forms.PictureBox();
-			this.AudioBufferValueLabel = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.panel3 = new System.Windows.Forms.Panel();
-			this.label7 = new System.Windows.Forms.Label();
-			this.button1 = new System.Windows.Forms.Button();
+			this.label8 = new System.Windows.Forms.Label();
+			this.label9 = new System.Windows.Forms.Label();
+			this.label10 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.label12 = new System.Windows.Forms.Label();
+			this.CpuClockValueLabel = new System.Windows.Forms.Label();
+			this.pictureBox8 = new System.Windows.Forms.PictureBox();
+			this.CpuClockBar = new System.Windows.Forms.TrackBar();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -110,10 +118,13 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
 			this.AdvancedDisplayTab.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.AudioBufferBar)).BeginInit();
+			this.panel3.SuspendLayout();
 			this.groupBox8.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
-			this.panel3.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.AudioBufferBar)).BeginInit();
+			this.groupBox7.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.CpuClockBar)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// panel1
@@ -599,31 +610,37 @@
 			this.AdvancedDisplayTab.Text = "Advanced";
 			this.AdvancedDisplayTab.UseVisualStyleBackColor = true;
 			// 
-			// AudioBufferBar
+			// panel3
 			// 
-			this.AudioBufferBar.Location = new System.Drawing.Point(6, 74);
-			this.AudioBufferBar.Maximum = 500;
-			this.AudioBufferBar.Minimum = 50;
-			this.AudioBufferBar.Name = "AudioBufferBar";
-			this.AudioBufferBar.Size = new System.Drawing.Size(399, 42);
-			this.AudioBufferBar.SmallChange = 10;
-			this.AudioBufferBar.TabIndex = 1;
-			this.AudioBufferBar.TickFrequency = 50;
-			this.AudioBufferBar.TickStyle = System.Windows.Forms.TickStyle.Both;
-			this.AudioBufferBar.Value = 50;
-			this.AudioBufferBar.Scroll += new System.EventHandler(this.AudioBufferBar_Scroll);
-			this.AudioBufferBar.ValueChanged += new System.EventHandler(this.AudioBufferBar_ValueChanged);
+			this.panel3.BackColor = System.Drawing.SystemColors.Info;
+			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel3.Controls.Add(this.AdvancedResetButton);
+			this.panel3.Controls.Add(this.label7);
+			this.panel3.Location = new System.Drawing.Point(17, 13);
+			this.panel3.Name = "panel3";
+			this.panel3.Size = new System.Drawing.Size(411, 34);
+			this.panel3.TabIndex = 0;
 			// 
-			// groupBox7
+			// AdvancedResetButton
 			// 
-			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox7.Location = new System.Drawing.Point(17, 53);
-			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(411, 81);
-			this.groupBox7.TabIndex = 0;
-			this.groupBox7.TabStop = false;
-			this.groupBox7.Text = "Nothing";
+			this.AdvancedResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.AdvancedResetButton.BackColor = System.Drawing.SystemColors.Control;
+			this.AdvancedResetButton.Location = new System.Drawing.Point(288, 4);
+			this.AdvancedResetButton.Name = "AdvancedResetButton";
+			this.AdvancedResetButton.Size = new System.Drawing.Size(116, 23);
+			this.AdvancedResetButton.TabIndex = 1;
+			this.AdvancedResetButton.Text = "Reset to defaults";
+			this.AdvancedResetButton.UseVisualStyleBackColor = false;
+			this.AdvancedResetButton.Click += new System.EventHandler(this.AdvancedResetButton_Click);
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(2, 9);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(273, 13);
+			this.label7.TabIndex = 0;
+			this.label7.Text = "Consider setting these to defaults if seeing odd behavior.";
 			// 
 			// groupBox8
 			// 
@@ -637,40 +654,38 @@
 			this.groupBox8.Controls.Add(this.AudioBufferValueLabel);
 			this.groupBox8.Controls.Add(this.pictureBox10);
 			this.groupBox8.Controls.Add(this.AudioBufferBar);
-			this.groupBox8.Location = new System.Drawing.Point(17, 140);
+			this.groupBox8.Location = new System.Drawing.Point(17, 202);
 			this.groupBox8.Name = "groupBox8";
 			this.groupBox8.Size = new System.Drawing.Size(411, 155);
-			this.groupBox8.TabIndex = 1;
+			this.groupBox8.TabIndex = 2;
 			this.groupBox8.TabStop = false;
 			this.groupBox8.Text = "Audio Buffer Size";
 			// 
-			// pictureBox10
+			// label2
 			// 
-			this.pictureBox10.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox10.Image")));
-			this.pictureBox10.Location = new System.Drawing.Point(6, 19);
-			this.pictureBox10.Name = "pictureBox10";
-			this.pictureBox10.Size = new System.Drawing.Size(47, 49);
-			this.pictureBox10.TabIndex = 5;
-			this.pictureBox10.TabStop = false;
+			this.label2.Location = new System.Drawing.Point(59, 19);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(346, 49);
+			this.label2.TabIndex = 0;
+			this.label2.Text = resources.GetString("label2.Text");
 			// 
-			// AudioBufferValueLabel
+			// label6
 			// 
-			this.AudioBufferValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.AudioBufferValueLabel.Location = new System.Drawing.Point(157, 119);
-			this.AudioBufferValueLabel.Name = "AudioBufferValueLabel";
-			this.AudioBufferValueLabel.Size = new System.Drawing.Size(100, 23);
-			this.AudioBufferValueLabel.TabIndex = 4;
-			this.AudioBufferValueLabel.Text = "100ms";
-			this.AudioBufferValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(367, 119);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(38, 13);
+			this.label6.TabIndex = 6;
+			this.label6.Text = "500ms";
 			// 
-			// label3
+			// label5
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(47, 119);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(80, 26);
-			this.label3.TabIndex = 3;
-			this.label3.Text = "Less Lag\r\nMORE Glitches";
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(6, 119);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(32, 13);
+			this.label5.TabIndex = 2;
+			this.label5.Text = "50ms";
 			// 
 			// label4
 			// 
@@ -682,64 +697,148 @@
 			this.label4.Text = "MORE Lag\r\nFewer Glitches";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
-			// label5
+			// label3
 			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(6, 119);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(32, 13);
-			this.label5.TabIndex = 2;
-			this.label5.Text = "50ms";
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(47, 119);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(80, 26);
+			this.label3.TabIndex = 3;
+			this.label3.Text = "Less Lag\r\nMORE Glitches";
 			// 
-			// label6
+			// AudioBufferValueLabel
 			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(367, 119);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(38, 13);
-			this.label6.TabIndex = 6;
-			this.label6.Text = "500ms";
+			this.AudioBufferValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.AudioBufferValueLabel.Location = new System.Drawing.Point(157, 119);
+			this.AudioBufferValueLabel.Name = "AudioBufferValueLabel";
+			this.AudioBufferValueLabel.Size = new System.Drawing.Size(100, 23);
+			this.AudioBufferValueLabel.TabIndex = 4;
+			this.AudioBufferValueLabel.Text = "100ms";
+			this.AudioBufferValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// label2
+			// pictureBox10
 			// 
-			this.label2.Location = new System.Drawing.Point(59, 19);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(346, 49);
-			this.label2.TabIndex = 0;
-			this.label2.Text = "The audio buffer provides tolerance for unpredictable emulation speed at the cost" +
-				" of audio delay. However, whenever emulation is terminally behind schedule, audi" +
-				"o glitches will always occur.";
+			this.pictureBox10.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox10.Image")));
+			this.pictureBox10.Location = new System.Drawing.Point(6, 19);
+			this.pictureBox10.Name = "pictureBox10";
+			this.pictureBox10.Size = new System.Drawing.Size(47, 49);
+			this.pictureBox10.TabIndex = 5;
+			this.pictureBox10.TabStop = false;
 			// 
-			// panel3
+			// AudioBufferBar
 			// 
-			this.panel3.BackColor = System.Drawing.SystemColors.Info;
-			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel3.Controls.Add(this.button1);
-			this.panel3.Controls.Add(this.label7);
-			this.panel3.Location = new System.Drawing.Point(17, 13);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(411, 34);
-			this.panel3.TabIndex = 2;
+			this.AudioBufferBar.Location = new System.Drawing.Point(6, 74);
+			this.AudioBufferBar.Maximum = 500;
+			this.AudioBufferBar.Minimum = 50;
+			this.AudioBufferBar.Name = "AudioBufferBar";
+			this.AudioBufferBar.Size = new System.Drawing.Size(399, 42);
+			this.AudioBufferBar.SmallChange = 10;
+			this.AudioBufferBar.TabIndex = 1;
+			this.AudioBufferBar.TickFrequency = 50;
+			this.AudioBufferBar.TickStyle = System.Windows.Forms.TickStyle.Both;
+			this.AudioBufferBar.Value = 100;
+			this.AudioBufferBar.Scroll += new System.EventHandler(this.AudioBufferBar_Scroll);
+			this.AudioBufferBar.ValueChanged += new System.EventHandler(this.AudioBufferBar_ValueChanged);
 			// 
-			// label7
+			// groupBox7
 			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(2, 9);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(273, 13);
-			this.label7.TabIndex = 3;
-			this.label7.Text = "Consider setting these to defaults if seeing odd behavior.";
+			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox7.Controls.Add(this.label8);
+			this.groupBox7.Controls.Add(this.label9);
+			this.groupBox7.Controls.Add(this.label10);
+			this.groupBox7.Controls.Add(this.label11);
+			this.groupBox7.Controls.Add(this.label12);
+			this.groupBox7.Controls.Add(this.CpuClockValueLabel);
+			this.groupBox7.Controls.Add(this.pictureBox8);
+			this.groupBox7.Controls.Add(this.CpuClockBar);
+			this.groupBox7.Location = new System.Drawing.Point(17, 53);
+			this.groupBox7.Name = "groupBox7";
+			this.groupBox7.Size = new System.Drawing.Size(411, 143);
+			this.groupBox7.TabIndex = 1;
+			this.groupBox7.TabStop = false;
+			this.groupBox7.Text = "CPU Clock Speed";
 			// 
-			// button1
+			// label8
 			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.BackColor = System.Drawing.SystemColors.Control;
-			this.button1.Location = new System.Drawing.Point(288, 4);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(116, 23);
-			this.button1.TabIndex = 4;
-			this.button1.Text = "Reset to defaults";
-			this.button1.UseVisualStyleBackColor = false;
+			this.label8.Location = new System.Drawing.Point(59, 19);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(346, 49);
+			this.label8.TabIndex = 0;
+			this.label8.Text = "By adjusting the CPU clock speed, you can potentially achieve higher FPS in games" +
+				". Not all games will handle this appropriately. Games dependent on precise timin" +
+				"g could even crash/freeze.";
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(355, 119);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(50, 13);
+			this.label9.TabIndex = 6;
+			this.label9.Text = "37.5MHz";
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(6, 119);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(50, 13);
+			this.label10.TabIndex = 2;
+			this.label10.Text = "6.25MHz";
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(273, 119);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(61, 13);
+			this.label11.TabIndex = 5;
+			this.label11.Text = "Higher FPS";
+			this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(72, 119);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(63, 13);
+			this.label12.TabIndex = 3;
+			this.label12.Text = "Normal FPS";
+			// 
+			// CpuClockValueLabel
+			// 
+			this.CpuClockValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.CpuClockValueLabel.Location = new System.Drawing.Point(137, 119);
+			this.CpuClockValueLabel.Name = "CpuClockValueLabel";
+			this.CpuClockValueLabel.Size = new System.Drawing.Size(139, 20);
+			this.CpuClockValueLabel.TabIndex = 4;
+			this.CpuClockValueLabel.Text = "12.5MHz (100%)";
+			this.CpuClockValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// pictureBox8
+			// 
+			this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
+			this.pictureBox8.Location = new System.Drawing.Point(6, 19);
+			this.pictureBox8.Name = "pictureBox8";
+			this.pictureBox8.Size = new System.Drawing.Size(47, 49);
+			this.pictureBox8.TabIndex = 12;
+			this.pictureBox8.TabStop = false;
+			// 
+			// CpuClockBar
+			// 
+			this.CpuClockBar.Location = new System.Drawing.Point(6, 74);
+			this.CpuClockBar.Maximum = 37500;
+			this.CpuClockBar.Minimum = 6250;
+			this.CpuClockBar.Name = "CpuClockBar";
+			this.CpuClockBar.Size = new System.Drawing.Size(399, 42);
+			this.CpuClockBar.SmallChange = 1250;
+			this.CpuClockBar.TabIndex = 1;
+			this.CpuClockBar.TickFrequency = 1250;
+			this.CpuClockBar.TickStyle = System.Windows.Forms.TickStyle.Both;
+			this.CpuClockBar.Value = 12500;
+			this.CpuClockBar.Scroll += new System.EventHandler(this.CpuClockBar_Scroll);
+			this.CpuClockBar.ValueChanged += new System.EventHandler(this.CpuClockBar_ValueChanged);
 			// 
 			// Settings
 			// 
@@ -785,12 +884,16 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
 			this.AdvancedDisplayTab.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.AudioBufferBar)).EndInit();
+			this.panel3.ResumeLayout(false);
+			this.panel3.PerformLayout();
 			this.groupBox8.ResumeLayout(false);
 			this.groupBox8.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
-			this.panel3.ResumeLayout(false);
-			this.panel3.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.AudioBufferBar)).EndInit();
+			this.groupBox7.ResumeLayout(false);
+			this.groupBox7.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.CpuClockBar)).EndInit();
 			this.ResumeLayout(false);
 
         }
@@ -851,7 +954,15 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label AudioBufferValueLabel;
 		private System.Windows.Forms.Panel panel3;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button AdvancedResetButton;
 		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Label label10;
+		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.Label CpuClockValueLabel;
+		private System.Windows.Forms.PictureBox pictureBox8;
+		private System.Windows.Forms.TrackBar CpuClockBar;
     }
 }

@@ -49,6 +49,8 @@ namespace FourDO.Emulation
 
 		private const int PBUS_DATA_MAX_SIZE = 16;
 
+		private const int TARGET_FRAMES_PER_SECOND = 60;
+
 		private byte[] biosRomCopy;
 
 		private byte[] frame;
@@ -74,6 +76,10 @@ namespace FourDO.Emulation
 
 		private int audioBufferMilliseconds = 100; // The real default should be set externally before startup. This is here just in case.
 		private long? maxLagTicks;
+
+		private object clockSpeedSemaphore = new object();
+		private int? cpuClockHertz;
+		private long? targetWorkerPeriod;
 
 		private volatile FrameSpeedCalculator speedCalculator = new FrameSpeedCalculator(10);
 
@@ -242,10 +248,46 @@ namespace FourDO.Emulation
 			}
 		}
 
+
+		public int CpuClockHertz
+		{
+			get
+			{
+				if (this.cpuClockHertz.HasValue)
+					return this.cpuClockHertz.Value;
+				else
+					return 0; // Meh... good enough. I'd rather do this than blow up or let them set us to null.
+			}
+			set
+			{
+				lock (this.clockSpeedSemaphore)
+				{
+					this.cpuClockHertz = Math.Max(Math.Min(value, 125000000), 1250000);
+
+					long normalPeriod = PerformanceCounter.Frequency / TARGET_FRAMES_PER_SECOND; ;
+					double periodDeviation = 12500000 / (double)this.cpuClockHertz;
+					long adjustedPeriod = (long)(normalPeriod * periodDeviation);
+
+					this.targetWorkerPeriod = adjustedPeriod;
+				}
+			}
+		}
+
+		
+
 		public void Start(string biosRomFileName, IGameSource gameSource, string nvramFileName)
 		{
+			///////////
+			// If they haven't initialized us properly, complain!
+
 			if (!this.maxLagTicks.HasValue)
 				throw new InvalidOperationException("Audio buffer not set!");
+
+			if (!this.cpuClockHertz.HasValue)
+				throw new InvalidOperationException("CPU Clock speed not set!");
+
+			if (!this.targetWorkerPeriod.HasValue)
+				throw new InvalidOperationException("CPU Clock speed not set!");
 
 			// Are we already started?
 			if (this.workerThread != null)
@@ -617,48 +659,32 @@ namespace FourDO.Emulation
 
 		#region Worker Thread
 
-		//////////////////////////////////////////////////////// (hack)
-		private long runCount = 0;
-		//////////////////////////////////////////////////////// (hack)
-
 		private void WorkerThread()
 		{
 			const int MAXIMUM_FRAME_COUNT = 100;
-			const int TARGET_FRAMES_PER_SECOND = 60;
 
 			long lastSample = 0;
 			long lastTarget = 0;
-			long targetPeriod = PerformanceCounter.Frequency / TARGET_FRAMES_PER_SECOND;
+			long targetPeriod = 0;
 			int lastFrameCount = 0;
-
-			/////////////////////////////// (hack)
-			//int armclock = 22500000;
-			int armclock = 12500000;
-			//int armclock = 12500000 * 2;
-			double off = 12500000 / (double)armclock;
-			targetPeriod = (long)(targetPeriod * off);
-			FreeDOCore.SetArmClock(armclock);
-			/////////////////////////////// (hack)
 	
 			int overshootSleepThreshold = System.Math.Max(5, TimingHelper.GetResolution());
 
 			int sleepTime = 0;
 			do
 			{
-				//////////////////////////////////////////////////////// (hack)
-				runCount++;
-				if (runCount % 200 == 0)
+				// We're awake! Wreak havoc!
+
+				/////////////////////
+				// If we need to, set the arm clock.
+				lock (this.clockSpeedSemaphore)
 				{
-					bool y = false;
-					//for (int x = 100500000; x > 0; x--)
+					if (targetPeriod != this.targetWorkerPeriod)
 					{
-						y = System.Windows.Forms.Application.AllowQuit;
+						targetPeriod = this.targetWorkerPeriod.Value;
+						FreeDOCore.SetArmClock(this.cpuClockHertz.Value);
 					}
 				}
-				//////////////////////////////////////////////////////// (hack)
-				
-				///////////
-				// We're awake! Wreak havoc!
 
 				// Execute a frame.
 				isSwapFrameSignaled = false;

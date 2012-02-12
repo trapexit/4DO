@@ -40,6 +40,7 @@ namespace FourDO.UI
 			BackgroundMetalOption.Checked = (Properties.Settings.Default.VoidAreaPattern == (int)VoidAreaPattern.Metal);
 			BackgroundNoneOption.Checked = (Properties.Settings.Default.VoidAreaPattern == (int)VoidAreaPattern.None);
 
+			CpuClockBar.Value = Properties.Settings.Default.CpuClockHertz / 1000;
 			AudioBufferBar.Value = Properties.Settings.Default.AudioBufferMilliseconds;
 
 			tabMain.SelectedIndex = Properties.Settings.Default.SelectedOptionTab;
@@ -69,9 +70,10 @@ namespace FourDO.UI
 			if (this.BackgroundNoneOption.Checked)
 				Properties.Settings.Default.VoidAreaPattern = (int)VoidAreaPattern.None;
 
-			Properties.Settings.Default.SelectedOptionTab = tabMain.SelectedIndex;
-
+			Properties.Settings.Default.CpuClockHertz = CpuClockBar.Value * 1000;
 			Properties.Settings.Default.AudioBufferMilliseconds = AudioBufferBar.Value;
+
+			Properties.Settings.Default.SelectedOptionTab = tabMain.SelectedIndex;
 
 			Properties.Settings.Default.Save();
 
@@ -121,6 +123,23 @@ namespace FourDO.UI
 		{
 			this.UpdateUI();
 		}
+		
+		private void CpuClockBar_Scroll(object sender, EventArgs e)
+		{
+			this.UpdateUI();
+		}
+
+		private void CpuClockBar_ValueChanged(object sender, EventArgs e)
+		{
+			this.UpdateUI();
+		}
+
+		private void AdvancedResetButton_Click(object sender, EventArgs e)
+		{
+			// TODO: I need to base this off the real defaults.
+			CpuClockBar.Value = 12500;
+			AudioBufferBar.Value = 100;
+		}
 
 		private void UpdateUI()
 		{
@@ -134,7 +153,12 @@ namespace FourDO.UI
 			if (this.BackgroundNoneOption.Checked)
 				BackgroundPanel.BackgroundImage = BackgroundNonePicture.BackgroundImage;
 			AudioBufferValueLabel.Text = (AudioBufferBar.Value.ToString()) + " milliseconds";
+
+			decimal clockMegahertz = CpuClockBar.Value / (decimal)10000;
+			int clockPercent = CpuClockBar.Value / 125;
+			CpuClockValueLabel.Text = string.Format("{0:0.000}Mhz ({1}%)", clockMegahertz, clockPercent);
 		}
+
 	}
 }
 
