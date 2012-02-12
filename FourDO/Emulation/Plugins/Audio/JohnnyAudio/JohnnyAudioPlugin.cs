@@ -197,7 +197,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 
 			this.buffer_min_offset = (int)(this.bufferFormat.SamplesPerSecond * (BUFFER_MIN_MILLISECONDS / (double)1000));
 			this.buffer_base_offset = (int)(this.bufferFormat.SamplesPerSecond * (utilizedDelay / (double)1000));
-			this.buffer_max_offset = (int)(this.bufferFormat.SamplesPerSecond * (utilizedDelay + 50 / (double)1000));
+			this.buffer_max_offset = (int)(this.bufferFormat.SamplesPerSecond * ((utilizedDelay + 50) / (double)1000));
 
 			this.buffer_min_offset *= this.bufferFormat.BlockAlignment;
 			this.buffer_max_offset *= this.bufferFormat.BlockAlignment;
@@ -334,15 +334,16 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 			if (FourDO.Utilities.Globals.RunOptions.LogAudioTiming)
 			{
 				int playdiff = this.GetRealPositionDiff(newPos.Value, playpos);
-				Trace.WriteLine(string.Format(LOG_PREFIX + "Adjust\t{0}\tWritePosSched:\t{1}\tPlayDiff\t{2}\tPlayPos\t{3}\tMinPos:\t{4}\tMaxPos:\t{5}\tOffBuf?\t{6}\tReset?\t{7}",
+				Trace.WriteLine(string.Format(LOG_PREFIX + "Adjust\t{0}\tWritePosSched:\t{1}\tWritePosReal:\t{2}\tPlayDiff\t{3}\tPlayPos\t{4}\tMinPos:\t{5}\tMaxPos:\t{6}\tOffBuf?\t{7}\tReset?\t{8}",
 					(adjustmentPosted != 0).ToString(),
 					newPos,
+					this.currentWritePosition,
 					playdiff,
 					playpos,
 					minPosition,
 					maxPosition,
-					resetPosition,
-					offBuffer
+					offBuffer,
+					resetPosition
 					));
 			}
 
