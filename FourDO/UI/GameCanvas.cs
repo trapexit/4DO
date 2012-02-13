@@ -128,6 +128,18 @@ namespace FourDO.UI
 			}
 		}
 
+		public bool RenderHighResolution
+		{
+			get
+			{
+				return ((ICanvas)this.childCanvas).RenderHighResolution;
+			}
+			set
+			{
+				((ICanvas)this.childCanvas).RenderHighResolution = value;
+			}
+		}
+
 		public GameCanvas()
 		{
 			// Create child canvas.

@@ -18,9 +18,12 @@ namespace FourDO.UI.Canvases
 	internal partial class GdiCanvas : UserControl, IDisposable, ICanvas
 	{
 		private const InterpolationMode SMOOTH_SCALING_MODE = InterpolationMode.Low;
-		
-		private const int bitmapWidth = 320;
-		private const int bitmapHeight = 240;
+
+		private const int HIGH_RES_WIDTH = 640;
+		private const int HIGH_RES_HEIGHT = 480;
+
+		private const int LOW_RES_WIDTH = HIGH_RES_WIDTH / 2;
+		private const int LOW_RES_HEIGHT = HIGH_RES_HEIGHT / 2;
 
 		private Pen thickBlackPen = new Pen(Color.FromArgb(0, 0, 0), 5);
 		private Pen screenBorderPen = new Pen(Color.FromArgb(50, 50, 50));
@@ -36,6 +39,7 @@ namespace FourDO.UI.Canvases
 
 		private bool preserveAspectRatio = true;
 		private InterpolationMode scalingMode = SMOOTH_SCALING_MODE;
+		private bool renderHighResolution = false;
 
 		private bool isGraphicsIntensive = false;
 
@@ -46,7 +50,7 @@ namespace FourDO.UI.Canvases
 
 		public void Initialize()
 		{
-			this.bitmapBunch = new BitmapBunch(bitmapWidth, bitmapHeight, PixelFormat.Format24bppRgb);
+			this.bitmapBunch = new BitmapBunch(HIGH_RES_WIDTH, HIGH_RES_HEIGHT, PixelFormat.Format24bppRgb);
 
 			double maxRefreshRate = (double)Utilities.DisplayHelper.GetMaximumRefreshRate();
 			this.scanDrawTime = (long)((1 / maxRefreshRate) * Utilities.PerformanceCounter.Frequency);
@@ -74,6 +78,20 @@ namespace FourDO.UI.Canvases
 			set
 			{
 				this.scalingMode = value ? SMOOTH_SCALING_MODE : InterpolationMode.NearestNeighbor;
+				this.Invalidate();
+			}
+		}
+
+		public bool RenderHighResolution 
+		{ 
+			get
+			{
+				return this.renderHighResolution;
+			}
+			set
+			{
+				this.renderHighResolution = value;
+				this.bitmapBunch.ClearImages();
 				this.Invalidate();
 			}
 		}
@@ -106,11 +124,17 @@ namespace FourDO.UI.Canvases
 			if (bitmapToRender == null)
 				bitmapToRender = this.bitmapBunch.GetBlackBitmap();
 
-			Rectangle blitRect = new Rectangle(0, 0, this.Width, this.Height);
+			Rectangle destRect = new Rectangle(0, 0, this.Width, this.Height);
 			Graphics g = e.Graphics;
 			g.InterpolationMode = this.scalingMode;
 
-			g.DrawImage(bitmapToRender, blitRect.X, blitRect.Y, blitRect.Width, blitRect.Height);
+			if (this.RenderHighResolution)
+				g.DrawImage(bitmapToRender, destRect);
+			else
+			{
+				Rectangle sourceRect = new Rectangle(0, 0, LOW_RES_WIDTH, LOW_RES_HEIGHT);
+				g.DrawImage(bitmapToRender, destRect, sourceRect, GraphicsUnit.Pixel);
+			}
 
 			// If we're taking longer than half of the scan time to draw, do a frame skip.
 			if ((Utilities.PerformanceCounter.Current - sampleBefore) * 2 > scanDrawTime)
@@ -139,34 +163,30 @@ namespace FourDO.UI.Canvases
 			/////////////// 
 			// Choose the best bitmap to do a background render to
 			Bitmap bitmapToPrepare = this.bitmapBunch.GetNextPrepareBitmap();
+			bool highResolution = this.RenderHighResolution;
 
-			int bitmapHeight = bitmapToPrepare.Height;
-			int bitmapWidth = bitmapToPrepare.Width;
-			BitmapData bitmapData = bitmapToPrepare.LockBits(new Rectangle(0, 0, bitmapToPrepare.Width, bitmapToPrepare.Height), ImageLockMode.WriteOnly, bitmapToPrepare.PixelFormat);
-			int bitmapStride = bitmapData.Stride;
+			// Determine how much of the image to copy.
+			int copyHeight = 0;
+			int copyWidth = 0;
 
-			unsafe
+			if (highResolution)
 			{
-				byte* destPtr = (byte*)bitmapData.Scan0.ToPointer();
-				VDLFrame* framePtr = (VDLFrame*)currentFrame.ToPointer();
-				for (int line = 0; line < bitmapHeight; line++)
-				{
-					VDLLine* linePtr = (VDLLine*)&(framePtr->lines[sizeof(VDLLine) * line]);
-					short* srcPtr = (short*)linePtr;
-					for (int pix = 0; pix < bitmapWidth; pix++)
-					{
-						*destPtr++ = (byte)(linePtr->xCLUTB[(*srcPtr) & 0x1F]);
-						*destPtr++ = linePtr->xCLUTG[((*srcPtr) >> 5) & 0x1F];
-						*destPtr++ = linePtr->xCLUTR[(*srcPtr) >> 10 & 0x1F];
-						srcPtr++;
-					}
-				}
+				copyHeight = HIGH_RES_HEIGHT;
+				copyWidth = HIGH_RES_WIDTH;
+			}
+			else
+			{
+				copyHeight = LOW_RES_HEIGHT;
+				copyWidth = LOW_RES_WIDTH;
 			}
 
-			bitmapToPrepare.UnlockBits(bitmapData);
+			// Copy!
+			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, false);
 
+			// And.... we're done.
 			this.bitmapBunch.SetLastPreparedBitmap(bitmapToPrepare);
 
+			// Refresh.
 			this.Invalidate();
 		}
 	}

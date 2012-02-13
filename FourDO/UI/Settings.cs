@@ -40,6 +40,7 @@ namespace FourDO.UI
 			BackgroundMetalOption.Checked = (Properties.Settings.Default.VoidAreaPattern == (int)VoidAreaPattern.Metal);
 			BackgroundNoneOption.Checked = (Properties.Settings.Default.VoidAreaPattern == (int)VoidAreaPattern.None);
 
+			chkRenderHighRes.Checked = Properties.Settings.Default.RenderHighResolution;
 			CpuClockBar.Value = Properties.Settings.Default.CpuClockHertz / 1000;
 			AudioBufferBar.Value = Properties.Settings.Default.AudioBufferMilliseconds;
 
@@ -70,6 +71,7 @@ namespace FourDO.UI
 			if (this.BackgroundNoneOption.Checked)
 				Properties.Settings.Default.VoidAreaPattern = (int)VoidAreaPattern.None;
 
+			Properties.Settings.Default.RenderHighResolution = chkRenderHighRes.Checked;
 			Properties.Settings.Default.CpuClockHertz = CpuClockBar.Value * 1000;
 			Properties.Settings.Default.AudioBufferMilliseconds = AudioBufferBar.Value;
 
@@ -137,6 +139,7 @@ namespace FourDO.UI
 		private void AdvancedResetButton_Click(object sender, EventArgs e)
 		{
 			// TODO: I need to base this off the real defaults.
+			chkRenderHighRes.Checked = false;
 			CpuClockBar.Value = 12500;
 			AudioBufferBar.Value = 100;
 		}

@@ -81,6 +81,8 @@ namespace FourDO.Emulation
 		private int? cpuClockHertz;
 		private long? targetWorkerPeriod;
 
+		private bool? renderHighResolution;
+
 		private volatile FrameSpeedCalculator speedCalculator = new FrameSpeedCalculator(10);
 
 		private IAudioPlugin audioPlugin = PluginLoader.GetAudioPlugin();
@@ -248,7 +250,6 @@ namespace FourDO.Emulation
 			}
 		}
 
-
 		public int CpuClockHertz
 		{
 			get
@@ -273,7 +274,17 @@ namespace FourDO.Emulation
 			}
 		}
 
-		
+		public bool RenderHighResolution
+		{
+			get
+			{
+				return this.renderHighResolution ?? false;
+			}
+			set
+			{
+				this.renderHighResolution = value;
+			}
+		}
 
 		public void Start(string biosRomFileName, IGameSource gameSource, string nvramFileName)
 		{
@@ -288,6 +299,9 @@ namespace FourDO.Emulation
 
 			if (!this.targetWorkerPeriod.HasValue)
 				throw new InvalidOperationException("CPU Clock speed not set!");
+
+			if (!this.renderHighResolution.HasValue)
+				throw new InvalidOperationException("High resolution setting not set!");
 
 			// Are we already started?
 			if (this.workerThread != null)
@@ -667,7 +681,9 @@ namespace FourDO.Emulation
 			long lastTarget = 0;
 			long targetPeriod = 0;
 			int lastFrameCount = 0;
-	
+
+			bool highResolution = false;
+
 			int overshootSleepThreshold = System.Math.Max(5, TimingHelper.GetResolution());
 
 			int sleepTime = 0;
@@ -676,14 +692,23 @@ namespace FourDO.Emulation
 				// We're awake! Wreak havoc!
 
 				/////////////////////
-				// If we need to, set the arm clock.
+				// If we need to, update some core values.
+
+				// Set the arm clock?
 				lock (this.clockSpeedSemaphore)
 				{
-					if (targetPeriod != this.targetWorkerPeriod)
+					if (targetPeriod != this.targetWorkerPeriod.Value)
 					{
 						targetPeriod = this.targetWorkerPeriod.Value;
 						FreeDOCore.SetArmClock(this.cpuClockHertz.Value);
 					}
+				}
+
+				// Set high resolution mode?
+				if (highResolution != this.renderHighResolution.Value)
+				{
+					highResolution = this.renderHighResolution.Value;
+					FreeDOCore.SetTextureQuality(highResolution ? 1 : 0);
 				}
 
 				// Execute a frame.

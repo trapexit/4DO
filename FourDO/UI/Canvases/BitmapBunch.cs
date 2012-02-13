@@ -82,6 +82,14 @@ namespace FourDO.UI.Canvases
 			}
 		}
 
+		public void ClearImages()
+		{
+			lock (bitmapSemaphore)
+			{
+				this.lastPreparedBitmap = null;
+			}
+		}
+
 		private object bitmapSemaphore = new object();
 
 		private List<Bitmap> bitmaps;

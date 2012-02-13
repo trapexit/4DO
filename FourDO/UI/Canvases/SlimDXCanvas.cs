@@ -37,6 +37,8 @@ namespace FourDO.UI.Canvases
 
 		public bool ImageSmoothing { get; set; }
 
+		public bool RenderHighResolution { get; set; }
+
 		public bool IsInResizeMode
 		{
 			get
@@ -49,18 +51,22 @@ namespace FourDO.UI.Canvases
 			}
 		}
 
-		protected const int bitmapWidth = 320;
-		protected const int bitmapHeight = 240;
-		protected readonly Size bitmapSize = new Size(bitmapWidth, bitmapHeight);
-		protected readonly int textureWidth = RoundUpToNextPowerOfTwo(bitmapWidth);
-		protected readonly int textureHeight = RoundUpToNextPowerOfTwo(bitmapHeight);
+		protected const int HIGH_RES_WIDTH = 640;
+		protected const int HIGH_RES_HEIGHT = 480;
+
+		private const int LOW_RES_WIDTH = HIGH_RES_WIDTH / 2;
+		private const int LOW_RES_HEIGHT = HIGH_RES_HEIGHT / 2;
+
+		protected readonly int textureWidth = RoundUpToNextPowerOfTwo(HIGH_RES_WIDTH);
+		protected readonly int textureHeight = RoundUpToNextPowerOfTwo(HIGH_RES_HEIGHT);
 
 		protected BitmapBunch bitmapBunch;
 
 		protected Color4 colorBlack = new Color4(0, 0, 0);
 
 		protected VertexDeclaration vertexDeclaration;
-		protected VertexBuffer vertexBuffer;
+		protected VertexBuffer vertexBufferHighRes;
+		protected VertexBuffer vertexBufferLowRes;
 		protected Texture texture;
 		protected Direct3D direct3D;
 		protected Device device;
@@ -91,14 +97,14 @@ namespace FourDO.UI.Canvases
 		public void Initialize()
 		{
 			// Get maximum screen size.
-			Size maxSize = new Size(bitmapWidth, bitmapHeight);
+			Size maxSize = new Size(HIGH_RES_WIDTH, HIGH_RES_HEIGHT);
 			foreach (var screen in Screen.AllScreens)
 			{
 				maxSize.Width = Math.Max(maxSize.Width, screen.Bounds.Width);
 				maxSize.Height = Math.Max(maxSize.Height, screen.Bounds.Height);
 			}
 
-			this.bitmapBunch = new BitmapBunch(bitmapWidth, bitmapHeight, PixelFormat.Format32bppRgb);
+			this.bitmapBunch = new BitmapBunch(HIGH_RES_WIDTH, HIGH_RES_HEIGHT, PixelFormat.Format32bppRgb);
 
 			/////////////////////////////////////////
 			// Initialize direct3d 9
@@ -122,25 +128,33 @@ namespace FourDO.UI.Canvases
 			var desc = this.texture.GetLevelDescription(0);
 
 			/////////////////
-			// Set up vertex buffer
-			this.vertexBuffer = new VertexBuffer(this.device
+			// Set up vertex buffers
+			DataStream vertexStream;
+			float maximumX = HIGH_RES_WIDTH / (float)textureWidth;
+			float maximumY = HIGH_RES_HEIGHT / (float)textureHeight;
+
+			this.vertexBufferHighRes = new VertexBuffer(this.device
 				, 4 * (Marshal.SizeOf(typeof(TexturedVertex)))
 				, Usage.WriteOnly, VertexFormat.None, Pool.Default);
-			DataStream vertexStream = this.vertexBuffer.Lock(0, 0, LockFlags.None);
-			float maximumX = bitmapWidth / (float)textureWidth;
-			float maximumY = bitmapHeight / (float)textureHeight;
+			this.vertexBufferLowRes = new VertexBuffer(this.device
+				, 4 * (Marshal.SizeOf(typeof(TexturedVertex)))
+				, Usage.WriteOnly, VertexFormat.None, Pool.Default);
+
+			vertexStream = this.vertexBufferHighRes.Lock(0, 0, LockFlags.None);
 			vertexStream.WriteRange(new[]{
-				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f,0.0f)),
+				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f,    0.0f)),
 				new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(maximumX,0.0f)),
-				new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,maximumY)),
+				new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,    maximumY)),
 				new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX,maximumY)) });
-			/*vertexStream.WriteRange(new[]{
+			this.vertexBufferHighRes.Unlock();
+
+			vertexStream = this.vertexBufferLowRes.Lock(0, 0, LockFlags.None);
+			vertexStream.WriteRange(new[]{
 				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f,       0.0f)),
 				new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(maximumX/2, 0.0f)),
 				new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,       maximumY/2)),
-				new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX/2, maximumY/2)) });*/
-
-			this.vertexBuffer.Unlock();
+				new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX/2, maximumY/2)) });
+			this.vertexBufferLowRes.Unlock();
 
 			this.vertexDeclaration = new VertexDeclaration(this.device, new[] {
 				new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0), 
@@ -154,7 +168,8 @@ namespace FourDO.UI.Canvases
 		{
 			try
 			{
-				this.vertexBuffer.Dispose();
+				this.vertexBufferHighRes.Dispose();
+				this.vertexBufferLowRes.Dispose();
 				this.texture.Dispose();
 				this.vertexDeclaration.Dispose();
 				this.device.Dispose();
@@ -182,7 +197,7 @@ namespace FourDO.UI.Canvases
 					for (int y = 0; y < bitmapData.Height; y++)
 					{
 						stream.WriteRange(sourcePtr, stride);
-						stream.Position += (textureWidth - bitmapWidth) * bitDepth;
+						stream.Position += (textureWidth - HIGH_RES_WIDTH) * bitDepth;
 						sourcePtr += stride;
 					}
 				}
@@ -196,13 +211,16 @@ namespace FourDO.UI.Canvases
 			this.device.SetSamplerState(0, SamplerState.MinFilter, filter);
 			this.device.SetSamplerState(0, SamplerState.MagFilter, filter);
 
+			// Choose vertex buffer according to high res mode.
+			VertexBuffer vertexBuffer = this.RenderHighResolution ? this.vertexBufferHighRes : this.vertexBufferLowRes;
+
 			//////////////////////
 			// Draw scene.
 			this.device.Clear(ClearFlags.Target, colorBlack, 1f, 0);
 			this.device.BeginScene();
 
 			this.device.SetTexture(0, this.texture);
-			this.device.SetStreamSource(0, this.vertexBuffer, 0, Marshal.SizeOf(typeof(TexturedVertex)));
+			this.device.SetStreamSource(0, vertexBuffer, 0, Marshal.SizeOf(typeof(TexturedVertex)));
 			this.device.VertexDeclaration = this.vertexDeclaration;
 			this.device.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
 
@@ -215,32 +233,30 @@ namespace FourDO.UI.Canvases
 			/////////////// 
 			// Choose the best bitmap to do a background render to
 			Bitmap bitmapToPrepare = this.bitmapBunch.GetNextPrepareBitmap();
+			bool highResolution = this.RenderHighResolution;
 
-			int bitmapHeight = bitmapToPrepare.Height;
-			int bitmapWidth = bitmapToPrepare.Width;
-			BitmapData bitmapData = bitmapToPrepare.LockBits(new Rectangle(0, 0, bitmapToPrepare.Width, bitmapToPrepare.Height), ImageLockMode.WriteOnly, bitmapToPrepare.PixelFormat);
-			int bitmapStride = bitmapData.Stride;
+			// Determine how much of the image to copy.
+			int copyHeight = 0;
+			int copyWidth = 0;
 
-			byte* destPtr = (byte*)bitmapData.Scan0.ToPointer();
-			VDLFrame* framePtr = (VDLFrame*)currentFrame.ToPointer();
-			for (int line = 0; line < bitmapHeight; line++)
+			if (highResolution)
 			{
-				VDLLine* linePtr = (VDLLine*)&(framePtr->lines[sizeof(VDLLine) * line]);
-				short* srcPtr = (short*)linePtr;
-				for (int pix = 0; pix < bitmapWidth; pix++)
-				{
-					*destPtr++ = (byte)(linePtr->xCLUTG[(*srcPtr) & 0x1F]);
-					*destPtr++ = linePtr->xCLUTG[((*srcPtr) >> 5) & 0x1F];
-					*destPtr++ = linePtr->xCLUTR[(*srcPtr) >> 10 & 0x1F];
-					destPtr++;
-					srcPtr++;
-				}
+				copyHeight = HIGH_RES_HEIGHT;
+				copyWidth = HIGH_RES_WIDTH;
+			}
+			else
+			{
+				copyHeight = LOW_RES_HEIGHT;
+				copyWidth = LOW_RES_WIDTH;
 			}
 
-			bitmapToPrepare.UnlockBits(bitmapData);
+			// Copy!
+			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, true);
 
+			// And.... we're done.
 			this.bitmapBunch.SetLastPreparedBitmap(bitmapToPrepare);
 
+			// Refresh.
 			this.TriggerRefresh();
 		}
 

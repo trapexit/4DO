@@ -9,6 +9,7 @@ namespace FourDO.UI.Canvases
     interface ICanvas : IDisposable
     {
         bool ImageSmoothing { get; set; }
+        bool RenderHighResolution { get; set; }
         bool IsInResizeMode { get; set; }
 
         void PushFrame(IntPtr currentFrame);

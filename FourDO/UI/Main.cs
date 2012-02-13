@@ -345,6 +345,12 @@ namespace FourDO.UI
 
 			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.CpuClockHertz))
 				GameConsole.Instance.CpuClockHertz = Properties.Settings.Default.CpuClockHertz;
+
+			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.RenderHighResolution))
+			{
+				GameConsole.Instance.RenderHighResolution = Properties.Settings.Default.RenderHighResolution;
+				gameCanvas.RenderHighResolution = Properties.Settings.Default.RenderHighResolution;
+			}
 		}
 
 		private void Main_Resize(object sender, EventArgs e)
@@ -877,6 +883,8 @@ namespace FourDO.UI
 			// Set required settings.
 			GameConsole.Instance.AudioBufferMilliseconds = Properties.Settings.Default.AudioBufferMilliseconds;
 			GameConsole.Instance.CpuClockHertz = Properties.Settings.Default.CpuClockHertz;
+			GameConsole.Instance.RenderHighResolution = Properties.Settings.Default.RenderHighResolution;
+			gameCanvas.RenderHighResolution = Properties.Settings.Default.RenderHighResolution;
 
 			////////////////
 			// Ensure existence of an NVRAM file.
