@@ -243,9 +243,8 @@ namespace FourDO.Emulation
 				// how far behind we can get before we "give up".
 
 				// NOTE: We use the audio buffer size to determine how far off schedule we can go.
-				//       Ultimately it's merely important to make sure we're at least as large
-				//       as the audio buffer.
-				int milliseconds = Math.Max(this.audioBufferMilliseconds * 2, 150);
+				//       If we're behind schedule more than a certain amount, we may as well give up!
+				int milliseconds = Math.Max(this.audioBufferMilliseconds - 30, 25);
 				this.maxLagTicks = milliseconds * PerformanceCounter.Frequency / 1000;
 			}
 		}

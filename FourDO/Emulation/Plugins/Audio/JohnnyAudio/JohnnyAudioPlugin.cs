@@ -18,7 +18,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 		private int bufferDelayMilliseconds;
 
 		// A guess as to how long it takes to copy to the play buffer.
-		private const int PLAY_COPY_GUESS_MILLISECONDS = 30;
+		private const int PLAY_COPY_GUESS_MILLISECONDS = 25;
 		private int play_copy_guess_offset;
 
 		private const int BUFFER_MIN_MILLISECONDS = PLAY_COPY_GUESS_MILLISECONDS;
