@@ -18,6 +18,6 @@
     <StartProgram>F:\trunk\FourDO\bin\Release\4DO.exe</StartProgram>
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
     <RemoteDebugMachine>terabob</RemoteDebugMachine>
-    <StartArguments>--printkprint -DebugLogging AudioDebug|AudioTiming|CPUTiming</StartArguments>
+    <StartArguments>--printkprint -DebugLogging AudioDebug</StartArguments>
   </PropertyGroup>
 </Project>

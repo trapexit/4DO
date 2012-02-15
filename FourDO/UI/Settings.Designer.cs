@@ -80,23 +80,23 @@
 			this.AdvancedResetButton = new System.Windows.Forms.Button();
 			this.label7 = new System.Windows.Forms.Label();
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
-			this.AudioBufferBar = new System.Windows.Forms.TrackBar();
-			this.label2 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.AudioBufferValueLabel = new System.Windows.Forms.Label();
+			this.AudioBufferBar = new System.Windows.Forms.TrackBar();
+			this.label2 = new System.Windows.Forms.Label();
 			this.pictureBox10 = new System.Windows.Forms.PictureBox();
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
-			this.CpuClockBar = new System.Windows.Forms.TrackBar();
-			this.label8 = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
 			this.label11 = new System.Windows.Forms.Label();
 			this.label12 = new System.Windows.Forms.Label();
-			this.pictureBox8 = new System.Windows.Forms.PictureBox();
 			this.CpuClockValueLabel = new System.Windows.Forms.Label();
+			this.CpuClockBar = new System.Windows.Forms.TrackBar();
+			this.label8 = new System.Windows.Forms.Label();
+			this.pictureBox8 = new System.Windows.Forms.PictureBox();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -230,7 +230,7 @@
 			this.GeneralTabPage.Location = new System.Drawing.Point(4, 22);
 			this.GeneralTabPage.Name = "GeneralTabPage";
 			this.GeneralTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.GeneralTabPage.Size = new System.Drawing.Size(444, 408);
+			this.GeneralTabPage.Size = new System.Drawing.Size(444, 420);
 			this.GeneralTabPage.TabIndex = 0;
 			this.GeneralTabPage.Text = "General";
 			// 
@@ -629,7 +629,7 @@
 			this.groupBox9.Size = new System.Drawing.Size(411, 88);
 			this.groupBox9.TabIndex = 1;
 			this.groupBox9.TabStop = false;
-			this.groupBox9.Text = "CPU Clock Speed";
+			this.groupBox9.Text = "High-Resolution Rendering";
 			// 
 			// chkRenderHighRes
 			// 
@@ -711,29 +711,6 @@
 			this.groupBox8.TabStop = false;
 			this.groupBox8.Text = "Audio Buffer Size";
 			// 
-			// AudioBufferBar
-			// 
-			this.AudioBufferBar.Location = new System.Drawing.Point(62, 59);
-			this.AudioBufferBar.Maximum = 500;
-			this.AudioBufferBar.Minimum = 50;
-			this.AudioBufferBar.Name = "AudioBufferBar";
-			this.AudioBufferBar.Size = new System.Drawing.Size(343, 45);
-			this.AudioBufferBar.SmallChange = 10;
-			this.AudioBufferBar.TabIndex = 1;
-			this.AudioBufferBar.TickFrequency = 50;
-			this.AudioBufferBar.TickStyle = System.Windows.Forms.TickStyle.Both;
-			this.AudioBufferBar.Value = 100;
-			this.AudioBufferBar.Scroll += new System.EventHandler(this.AudioBufferBar_Scroll);
-			this.AudioBufferBar.ValueChanged += new System.EventHandler(this.AudioBufferBar_ValueChanged);
-			// 
-			// label2
-			// 
-			this.label2.Location = new System.Drawing.Point(59, 19);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(346, 49);
-			this.label2.TabIndex = 0;
-			this.label2.Text = resources.GetString("label2.Text");
-			// 
 			// label6
 			// 
 			this.label6.AutoSize = true;
@@ -781,6 +758,29 @@
 			this.AudioBufferValueLabel.Text = "100ms";
 			this.AudioBufferValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
+			// AudioBufferBar
+			// 
+			this.AudioBufferBar.Location = new System.Drawing.Point(62, 59);
+			this.AudioBufferBar.Maximum = 500;
+			this.AudioBufferBar.Minimum = 50;
+			this.AudioBufferBar.Name = "AudioBufferBar";
+			this.AudioBufferBar.Size = new System.Drawing.Size(343, 42);
+			this.AudioBufferBar.SmallChange = 10;
+			this.AudioBufferBar.TabIndex = 1;
+			this.AudioBufferBar.TickFrequency = 50;
+			this.AudioBufferBar.TickStyle = System.Windows.Forms.TickStyle.Both;
+			this.AudioBufferBar.Value = 100;
+			this.AudioBufferBar.Scroll += new System.EventHandler(this.AudioBufferBar_Scroll);
+			this.AudioBufferBar.ValueChanged += new System.EventHandler(this.AudioBufferBar_ValueChanged);
+			// 
+			// label2
+			// 
+			this.label2.Location = new System.Drawing.Point(59, 19);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(346, 49);
+			this.label2.TabIndex = 0;
+			this.label2.Text = resources.GetString("label2.Text");
+			// 
 			// pictureBox10
 			// 
 			this.pictureBox10.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox10.Image")));
@@ -808,31 +808,6 @@
 			this.groupBox7.TabIndex = 2;
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "CPU Clock Speed";
-			// 
-			// CpuClockBar
-			// 
-			this.CpuClockBar.Location = new System.Drawing.Point(62, 61);
-			this.CpuClockBar.Maximum = 37500;
-			this.CpuClockBar.Minimum = 6250;
-			this.CpuClockBar.Name = "CpuClockBar";
-			this.CpuClockBar.Size = new System.Drawing.Size(343, 45);
-			this.CpuClockBar.SmallChange = 1250;
-			this.CpuClockBar.TabIndex = 1;
-			this.CpuClockBar.TickFrequency = 1250;
-			this.CpuClockBar.TickStyle = System.Windows.Forms.TickStyle.Both;
-			this.CpuClockBar.Value = 12500;
-			this.CpuClockBar.Scroll += new System.EventHandler(this.CpuClockBar_Scroll);
-			this.CpuClockBar.ValueChanged += new System.EventHandler(this.CpuClockBar_ValueChanged);
-			// 
-			// label8
-			// 
-			this.label8.Location = new System.Drawing.Point(59, 19);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(346, 49);
-			this.label8.TabIndex = 0;
-			this.label8.Text = "By adjusting the CPU clock speed, you can potentially achieve higher FPS in games" +
-				". Not all games will handle this appropriately. Games dependent on precise timin" +
-				"g could even crash/freeze.";
 			// 
 			// label9
 			// 
@@ -871,15 +846,6 @@
 			this.label12.TabIndex = 3;
 			this.label12.Text = "Normal FPS";
 			// 
-			// pictureBox8
-			// 
-			this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
-			this.pictureBox8.Location = new System.Drawing.Point(6, 19);
-			this.pictureBox8.Name = "pictureBox8";
-			this.pictureBox8.Size = new System.Drawing.Size(47, 49);
-			this.pictureBox8.TabIndex = 12;
-			this.pictureBox8.TabStop = false;
-			// 
 			// CpuClockValueLabel
 			// 
 			this.CpuClockValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -889,6 +855,40 @@
 			this.CpuClockValueLabel.TabIndex = 4;
 			this.CpuClockValueLabel.Text = "12.5MHz (100%)";
 			this.CpuClockValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// CpuClockBar
+			// 
+			this.CpuClockBar.Location = new System.Drawing.Point(62, 61);
+			this.CpuClockBar.Maximum = 37500;
+			this.CpuClockBar.Minimum = 6250;
+			this.CpuClockBar.Name = "CpuClockBar";
+			this.CpuClockBar.Size = new System.Drawing.Size(343, 42);
+			this.CpuClockBar.SmallChange = 1250;
+			this.CpuClockBar.TabIndex = 1;
+			this.CpuClockBar.TickFrequency = 1250;
+			this.CpuClockBar.TickStyle = System.Windows.Forms.TickStyle.Both;
+			this.CpuClockBar.Value = 12500;
+			this.CpuClockBar.Scroll += new System.EventHandler(this.CpuClockBar_Scroll);
+			this.CpuClockBar.ValueChanged += new System.EventHandler(this.CpuClockBar_ValueChanged);
+			// 
+			// label8
+			// 
+			this.label8.Location = new System.Drawing.Point(59, 19);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(346, 49);
+			this.label8.TabIndex = 0;
+			this.label8.Text = "By adjusting the CPU clock speed, you can potentially achieve higher FPS in games" +
+				". Not all games will handle this appropriately. Games dependent on precise timin" +
+				"g could even crash/freeze.";
+			// 
+			// pictureBox8
+			// 
+			this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
+			this.pictureBox8.Location = new System.Drawing.Point(6, 19);
+			this.pictureBox8.Name = "pictureBox8";
+			this.pictureBox8.Size = new System.Drawing.Size(47, 49);
+			this.pictureBox8.TabIndex = 12;
+			this.pictureBox8.TabStop = false;
 			// 
 			// Settings
 			// 
