@@ -62,8 +62,13 @@
       <AdditionalOptions>/NOENTRY %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>if not exist "$(SolutionDir)\FourDO\bin" mkdir "$(SolutionDir)\FourDO\bin"
+if not exist "$(SolutionDir)\FourDO\bin\$(ConfigurationName)" mkdir "$(SolutionDir)\FourDO\bin\$(ConfigurationName)"
+if not exist "$(SolutionDir)\FourDO\bin\$(ConfigurationName)\x86" mkdir "$(SolutionDir)\FourDO\bin\$(ConfigurationName)\x86"
+if not exist "$(SolutionDir)\FourDO\bin\$(ConfigurationName)\x64" mkdir "$(SolutionDir)\FourDO\bin\$(ConfigurationName)\x64"
+
+copy "$(TargetPath)" "$(SolutionDir)\FourDO\bin\x86\$(ConfigurationName)\$(TargetFileName)" /y
+copy "$(TargetPath)" "$(SolutionDir)\FourDO\bin\x64\$(ConfigurationName)\$(TargetFileName)" /y</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>
@@ -91,8 +96,14 @@
       <ForceSymbolReferences>__DllMainCRTStartup@12</ForceSymbolReferences>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>if not exist "$(SolutionDir)FourDO\bin" mkdir "$(SolutionDir)\FourDO\bin"
+if not exist "$(SolutionDir)FourDO\bin\x86" mkdir "$(SolutionDir)FourDO\bin\x86"
+if not exist "$(SolutionDir)FourDO\bin\x86\$(ConfigurationName)" mkdir "$(SolutionDir)FourDO\bin\x86\$(ConfigurationName)"
+if not exist "$(SolutionDir)FourDO\bin\x64" mkdir "$(SolutionDir)FourDO\bin\x64"
+if not exist "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)" mkdir "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)"
+
+copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x86\$(ConfigurationName)\$(TargetFileName)" /y
+copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(TargetFileName)" /y</Command>
       <Message>
       </Message>
     </PostBuildEvent>

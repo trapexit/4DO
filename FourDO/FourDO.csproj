@@ -322,7 +322,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy "$(SolutionDir)FreeDOCore\$(Configuration)\FreeDOCore.dll" "$(TargetDir)" /y</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>::Remove everything first
