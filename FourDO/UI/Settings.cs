@@ -157,7 +157,7 @@ namespace FourDO.UI
 				BackgroundPanel.BackgroundImage = BackgroundNonePicture.BackgroundImage;
 			AudioBufferValueLabel.Text = (AudioBufferBar.Value.ToString()) + " milliseconds";
 
-			decimal clockMegahertz = CpuClockBar.Value / (decimal)10000;
+			decimal clockMegahertz = CpuClockBar.Value / (decimal)1000;
 			int clockPercent = CpuClockBar.Value / 125;
 			CpuClockValueLabel.Text = string.Format("{0:0.000}Mhz ({1}%)", clockMegahertz, clockPercent);
 		}
