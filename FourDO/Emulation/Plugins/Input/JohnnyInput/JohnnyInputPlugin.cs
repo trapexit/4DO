@@ -167,7 +167,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			{
 				if (trigger is KeyboardInputTrigger)
 				{
-					if (!this.keyboardInputEnabled)
+					if (this.keyboardInputEnabled)
 					{
 						if (JohnnyInputPlugin.IsKeyboardButtonDown(((KeyboardInputTrigger)trigger).Key))
 							return true;
