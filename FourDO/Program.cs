@@ -65,7 +65,7 @@ namespace FourDO
 			const string TEMPORARY_DIRECTORY_NAME = "Temp";
 			const string DEBUG_LOG_NAME = "DebugLog.txt";
 
-			const int MAX_LOG_LENGTH_BYTES = 100 * 1024;
+			const int MAX_LOG_LENGTH_BYTES = 1 * 1024 * 1024;
 			const int MAX_BACKUP_FILES = 10;
 
 			string temporaryDir = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), TEMPORARY_DIRECTORY_NAME);

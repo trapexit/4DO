@@ -42,7 +42,7 @@
 			this.Player4Tab = new System.Windows.Forms.TabPage();
 			this.Player5Tab = new System.Windows.Forms.TabPage();
 			this.Player6Tab = new System.Windows.Forms.TabPage();
-			this.JoystickTimer = new System.Windows.Forms.Timer(this.components);
+			this.JoystickWatchTimer = new System.Windows.Forms.Timer(this.components);
 			this.RefreshJoystickListTimer = new System.Windows.Forms.Timer(this.components);
 			this.ControllerPanel = new System.Windows.Forms.Panel();
 			this.ControlsGridView = new System.Windows.Forms.DataGridView();
@@ -190,11 +190,11 @@
 			this.Player6Tab.Text = "Player 6";
 			this.Player6Tab.UseVisualStyleBackColor = true;
 			// 
-			// JoystickTimer
+			// JoystickWatchTimer
 			// 
-			this.JoystickTimer.Enabled = true;
-			this.JoystickTimer.Interval = 50;
-			this.JoystickTimer.Tick += new System.EventHandler(this.JoystickTimer_Tick);
+			this.JoystickWatchTimer.Enabled = true;
+			this.JoystickWatchTimer.Interval = 50;
+			this.JoystickWatchTimer.Tick += new System.EventHandler(this.JoystickWatchTimer_Tick);
 			// 
 			// RefreshJoystickListTimer
 			// 
@@ -339,7 +339,7 @@
 		private System.Windows.Forms.TabControl MainTabControl;
 		private System.Windows.Forms.TabPage Player1Tab;
 		private System.Windows.Forms.Panel panel5;
-		private System.Windows.Forms.Timer JoystickTimer;
+		private System.Windows.Forms.Timer JoystickWatchTimer;
 		private System.Windows.Forms.Timer RefreshJoystickListTimer;
 		private System.Windows.Forms.TabPage Player2Tab;
 		private System.Windows.Forms.TabPage Player3Tab;

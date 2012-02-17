@@ -31,7 +31,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private int deviceNumber = 0; // always 0 for now.
 
-		private JoyInputWatcher watcher = new JoyInputWatcher();
+		private JoyInputWatcher joyWatcher = new JoyInputWatcher();
+		private JoyInputChecker joyChecker = new JoyInputChecker();
 
 		InputBindingDevices devices;
 
@@ -120,7 +121,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void controllerInfo_LinkMouseEnter(object sender, EventArgs e)
 		{
-			this.CurrentDevicesLabel.Text = this.watcher.GetCurrentJoystickList();
+			this.CurrentDevicesLabel.Text = this.joyWatcher.GetCurrentJoystickList();
 			this.CurrentDevicesLabel.Visible = true;
 		}
 
@@ -130,24 +131,66 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		}
 
 		private JoystickTrigger lastResult = null;
-		private void JoystickTimer_Tick(object sender, EventArgs e)
+		private void JoystickWatchTimer_Tick(object sender, EventArgs e)
 		{
-			JoystickTrigger newTrigger = this.watcher.WatchForTrigger();
-			if (newTrigger != null && !newTrigger.Equals(lastResult))
+			JoystickTrigger newTrigger = this.joyWatcher.WatchForTrigger();
+			bool newTriggerFound = (newTrigger != null && !newTrigger.Equals(lastResult));
+			lastResult = newTrigger;
+
+			List<InputButton> glowButtons = null;
+			if (this.isEditingButton)
 			{
-				if (this.isEditingButton)
+				if (newTriggerFound)
 				{
 					this.DoStopEditButton(newTrigger);
 				}
 			}
+			else
+			{
+				// If we're not editing, we can show fun glowy effects!
+				this.joyChecker.UpdateValueCache();
+				glowButtons = new List<InputButton>();
 
-			lastResult = newTrigger;
+				InputBindingDevice currentDevice = null;
+				if (this.deviceNumber >= 0 && this.devices.Count > this.deviceNumber)
+					currentDevice = this.devices[this.deviceNumber];
+
+				if (currentDevice != null)
+				{
+					var buttons = Enum.GetValues(typeof(InputButton));
+					foreach (var buttonEnum in buttons)
+					{
+						InputButton button = (InputButton)buttonEnum;
+						List<InputTrigger> triggers = this.devices.GetTriggers(deviceNumber, button);
+						foreach (var trigger in triggers)
+						{
+							bool triggerHit = false;
+
+							if (trigger is KeyboardInputTrigger)
+								triggerHit = JohnnyInputPlugin.IsKeyboardButtonDown(((KeyboardInputTrigger)trigger).Key);
+							else if (trigger is JoystickTrigger)
+								triggerHit = this.joyChecker.CheckTrigger((JoystickTrigger)trigger);
+
+							if (triggerHit)
+							{
+								glowButtons.Add(button);
+								break;
+							}
+						}
+					}
+				}
+
+				if (glowButtons.Count == 0)
+					glowButtons = null;
+			}
+			this.controllerPreview.SetGlowingButtons(glowButtons);
 		}
 
 		private void RefreshJoystickListTimer_Tick(object sender, EventArgs e)
 		{
-			this.watcher.UpdateJoystickListCache();
-			this.controllerInfo.DeviceCount = this.watcher.GetCurrentJoystickCount() + 1;
+			this.joyWatcher.UpdateJoystickListCache();
+			this.controllerInfo.DeviceCount = this.joyWatcher.GetCurrentJoystickCount() + 1;
+			this.joyChecker.UpdateDeviceCache();
 		}
 
 		private void JohnnyInputSettings_KeyDown(object sender, KeyEventArgs e)
@@ -837,7 +880,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void JohnnyInputSettings_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			this.watcher.Dispose();
+			this.joyWatcher.Dispose();
+			this.joyChecker.Dispose();
 		}
 	}
 }

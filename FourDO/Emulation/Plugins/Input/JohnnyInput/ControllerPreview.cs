@@ -16,13 +16,20 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private const int PULSATE_ALPHA_MAX = 130;
 		private const int PULSATE_ALPHA_STEP = 20;
 
+		private const int HIGHLIGHT_R = 255;
+		private const int HIGHLIGHT_G = 0;
+		private const int HIGHLIGHT_B = 0;
+
 		private const int GLOW_R = 255;
-		private const int GLOW_G = 0;
+		private const int GLOW_G = 255;
 		private const int GLOW_B = 0;
 
 		private InputButton? lastHoverButton = null;
 
 		private InputButton? highlightedButton;
+
+		private IEnumerable<InputButton> glowingButtons;
+
 		private int currentAlpha = PULSATE_ALPHA_MIN;
 		private bool increaseAlpha = true;
 
@@ -38,6 +45,23 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			set
 			{
 				this.highlightedButton = value;
+				this.UpdateUI();
+				this.Invalidate();
+			}
+		}
+
+		public IEnumerable<InputButton> GlowingButtons
+		{
+			get
+			{
+				return glowingButtons;
+			}
+		}
+		public void SetGlowingButtons(IEnumerable<InputButton> buttons)
+		{
+			if (buttons != this.glowingButtons)
+			{
+				this.glowingButtons = buttons;
 				this.UpdateUI();
 				this.Invalidate();
 			}
@@ -64,7 +88,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.BackgroundImageLayout = ImageLayout.Center;
 			this.RepositionPositionTable();
 
-			this.ButtonLabel.ForeColor = Color.FromArgb(GLOW_R, GLOW_G, GLOW_B);
+			this.ButtonLabel.ForeColor = Color.FromArgb(HIGHLIGHT_R, HIGHLIGHT_G, HIGHLIGHT_B);
 		}
 		
 		protected void OnMouseHoverButton(InputButton? button)
@@ -101,28 +125,44 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			base.OnPaint(e);
 
-			if (!this.HighlightedButton.HasValue)
+			if (!this.HighlightedButton.HasValue && this.glowingButtons == null)
 				return;
 
-			Control control = this.GetHighlightedControl();
-			this.DrawGlow(control, e);
+			if (this.HighlightedButton != null)
+			{
+				Control highlightControl = this.GetHighlightedControl();
+				this.DrawPulsate(highlightControl, e, true);
+			}
+
+			if (glowingButtons != null)
+			{
+				foreach (var button in glowingButtons)
+				{
+					Control glowControl = this.GetPanelForButton(button);
+					this.DrawPulsate(glowControl, e, false);
+				}
+			}
 		}
 
-		private void DrawGlow(Control control, PaintEventArgs e)
+		private void DrawPulsate(Control control, PaintEventArgs e, bool highlightColor)
 		{
 			Rectangle bounds = this.GetDescendantBounds(control);
 
-			this.DrawGlyph(control, e, new SolidBrush(Color.FromArgb(this.currentAlpha, GLOW_R, GLOW_G, GLOW_B)), bounds);
+			int colorR = highlightColor ? HIGHLIGHT_R : GLOW_R;
+			int colorG = highlightColor ? HIGHLIGHT_G : GLOW_G;
+			int colorB = highlightColor ? HIGHLIGHT_B : GLOW_B;
+
+			this.DrawGlyph(control, e, new SolidBrush(Color.FromArgb(this.currentAlpha, colorR, colorG, colorB)), bounds);
 			bounds.X--;
 			bounds.Y--;
 			bounds.Width += 1;
 			bounds.Height += 1;
-			this.DrawGlyph(control, e, new SolidBrush(Color.FromArgb(Math.Max(this.currentAlpha - 50, 0), GLOW_R, GLOW_G, GLOW_B)), bounds);
+			this.DrawGlyph(control, e, new SolidBrush(Color.FromArgb(Math.Max(this.currentAlpha - 50, 0), colorR, colorG, colorB)), bounds);
 			bounds.X--;
 			bounds.Y--;
 			bounds.Width += 2;
 			bounds.Height += 2;
-			this.DrawGlyph(control, e, new SolidBrush(Color.FromArgb(Math.Max(this.currentAlpha - 100, 0), GLOW_R, GLOW_G, GLOW_B)), bounds);
+			this.DrawGlyph(control, e, new SolidBrush(Color.FromArgb(Math.Max(this.currentAlpha - 100, 0), colorR, colorG, colorB)), bounds);
 		}
 
 		private void DrawGlyph(Control control, PaintEventArgs e, SolidBrush brush, Rectangle bounds)
@@ -207,7 +247,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				this.increaseAlpha = !this.increaseAlpha;
 
 			// Only invalidate if we're highlighting something.
-			if (this.HighlightedButton.HasValue)
+			if (this.HighlightedButton.HasValue || (this.glowingButtons != null))
 				this.Invalidate();
 		}
 

@@ -27,6 +27,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private InputBindingDevices devices;
 		private static string bindingsFilePath = Path.Combine(Utilities.Globals.Constants.SettingsPath, BINDINGS_FILE_NAME);
 
+		private bool settingsShown = false;
+
 		private bool keyboardInputEnabled = true;
 
 		public JohnnyInputPlugin()
@@ -58,6 +60,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		public void ShowSettings(IWin32Window owner)
 		{
+			settingsShown = true;
 			using (var settingsForm = new JohnnyInputSettings(this.devices, JohnnyInputPlugin.bindingsFilePath))
 			{
 				if (settingsForm.ShowDialog(owner) != DialogResult.Cancel)
@@ -65,6 +68,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 					this.LoadKeys();
 				}
 			}
+			settingsShown = false;
 		}
 
 		static int frameNumber = 0;
@@ -156,7 +160,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				return false;
 
 			List<InputTrigger> triggers = this.devices.GetTriggers(deviceNumber, button);
-			if (triggers == null)
+			if (triggers == null || this.settingsShown)
 				return false;
 
 			foreach (InputTrigger trigger in triggers)
@@ -164,10 +168,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				if (trigger is KeyboardInputTrigger)
 				{
 					if (!this.keyboardInputEnabled)
-						return false;
-
-					if ((GetKeyState((int)((KeyboardInputTrigger)trigger).Key) & KEY_PRESSED) > 0)
-						return true;
+					{
+						if (JohnnyInputPlugin.IsKeyboardButtonDown(((KeyboardInputTrigger)trigger).Key))
+							return true;
+					}
 				}
 				else if (trigger is JoystickTrigger)
 				{
@@ -178,6 +182,11 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			}
   
 			return false;
+		}
+
+		public static bool IsKeyboardButtonDown(Keys key)
+		{
+			return (GetKeyState((int)key) & KEY_PRESSED) > 0;
 		}
 	}
 }
