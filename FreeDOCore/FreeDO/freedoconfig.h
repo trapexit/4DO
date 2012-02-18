@@ -28,7 +28,7 @@ Felix Lazarev
 	//#include <stdafx.h>
 	#include <windows.h>
 
-	#define __temporalfixes 1
+	#define __temporalfixes 0
 	#define RESSCALE  __tex__scaler
 
 	extern int __tex__scaler;
