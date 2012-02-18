@@ -25,7 +25,6 @@ namespace FourDO.UI
 			BackgroundNoneOption.Tag = VoidAreaPattern.None;
 
 			chkLoadLastGame.Checked = Properties.Settings.Default.AutoOpenGameFile;
-			chkPauseRecall.Checked = Properties.Settings.Default.AutoRememberPause;
 			chkLoadLastSave.Checked = Properties.Settings.Default.AutoLoadLastSave;
 			chkInactivePauseEmulation.Checked = Properties.Settings.Default.InactivePauseEmulation;
 			chkInactiveIgnoreInput.Checked = Properties.Settings.Default.InactiveIgnoreKeyboard;
@@ -52,7 +51,6 @@ namespace FourDO.UI
 		private void OKButton_Click(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.AutoOpenGameFile = chkLoadLastGame.Checked;
-			Properties.Settings.Default.AutoRememberPause = chkPauseRecall.Checked;
 			Properties.Settings.Default.AutoLoadLastSave = chkLoadLastSave.Checked;
 			Properties.Settings.Default.InactivePauseEmulation = chkInactivePauseEmulation.Checked;
 			Properties.Settings.Default.InactiveIgnoreKeyboard = chkInactiveIgnoreInput.Checked;

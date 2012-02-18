@@ -46,7 +46,6 @@
 			this.chkLoadLastSave = new System.Windows.Forms.CheckBox();
 			this.pictureBox3 = new System.Windows.Forms.PictureBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.chkPauseRecall = new System.Windows.Forms.CheckBox();
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.chkLoadLastGame = new System.Windows.Forms.CheckBox();
 			this.DisplayTabPage = new System.Windows.Forms.TabPage();
@@ -317,7 +316,6 @@
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox2.Controls.Add(this.chkPauseRecall);
 			this.groupBox2.Controls.Add(this.pictureBox2);
 			this.groupBox2.Controls.Add(this.chkLoadLastGame);
 			this.groupBox2.Location = new System.Drawing.Point(17, 15);
@@ -326,17 +324,6 @@
 			this.groupBox2.TabIndex = 0;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "&Startup Options";
-			// 
-			// chkPauseRecall
-			// 
-			this.chkPauseRecall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.chkPauseRecall.Location = new System.Drawing.Point(65, 46);
-			this.chkPauseRecall.Name = "chkPauseRecall";
-			this.chkPauseRecall.Size = new System.Drawing.Size(340, 17);
-			this.chkPauseRecall.TabIndex = 1;
-			this.chkPauseRecall.Text = "When 4DO starts, pause the system if it was paused last time";
-			this.chkPauseRecall.UseVisualStyleBackColor = true;
 			// 
 			// pictureBox2
 			// 
@@ -351,7 +338,7 @@
 			// 
 			this.chkLoadLastGame.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.chkLoadLastGame.Location = new System.Drawing.Point(65, 23);
+			this.chkLoadLastGame.Location = new System.Drawing.Point(67, 35);
 			this.chkLoadLastGame.Name = "chkLoadLastGame";
 			this.chkLoadLastGame.Size = new System.Drawing.Size(340, 17);
 			this.chkLoadLastGame.TabIndex = 0;
@@ -970,7 +957,6 @@
 		private System.Windows.Forms.CheckBox chkLoadLastSave;
 		private System.Windows.Forms.PictureBox pictureBox3;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.CheckBox chkPauseRecall;
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.CheckBox chkLoadLastGame;
 		private System.Windows.Forms.CheckBox chkSmoothImageResize;

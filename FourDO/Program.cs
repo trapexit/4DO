@@ -114,6 +114,12 @@ namespace FourDO
 
 			var arguments = new Arguments(args);
 
+			var debugStartupPausedString = arguments["DebugStartupPaused"];
+			if (debugStartupPausedString != null)
+			{
+				RunOptions.StartupPaused = true;
+			}
+
 			var startupFormString = arguments["DebugStartupForm"];
 			if (startupFormString != null)
 			{
@@ -158,7 +164,6 @@ namespace FourDO
 			{
 				RunOptions.ForceGdiRendering = true;
 			}
-			
 
 			var printKPrintString = arguments["printKPrint"];
 			if (printKPrintString != null)
@@ -170,12 +175,13 @@ namespace FourDO
 			if (errorOccurred || askedWithQuestionMark || arguments["help"] != null || arguments["h"] != null)
 			{
 				Console.WriteLine("======================================================================");
-				Console.WriteLine("= 4DO command line options Usage                                     =");
+				Console.WriteLine("= 4DO (" + Application.ProductVersion + ") command line options usage                           =");
 				Console.WriteLine("=   Basic usage: 4DO.exe [-option value][/option \"value\"][--switch]  =");
 				Console.WriteLine("======================================================================");
 				Console.WriteLine("");
-				Console.WriteLine("  --PrintKPrint       : Prints KPRINT (3DO debug) output to console.");
-				Console.WriteLine("  --ForceGDIRendering : Forces GDI Rendering rather than DirectX.");
+				Console.WriteLine("  --PrintKPrint        : Prints KPRINT (3DO debug) output to console.");
+				Console.WriteLine("  --ForceGDIRendering  : Forces GDI Rendering rather than DirectX.");
+				Console.WriteLine("  --DebugStartupPaused : Start 4do in a paused state.");
 				Console.WriteLine("______________________________________________________________________");
 				Console.WriteLine("");
 				Console.WriteLine("  -DebugLogging [LoggingOption_1|LoggingOption_2]");

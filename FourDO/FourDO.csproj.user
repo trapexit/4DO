@@ -13,11 +13,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+    <StartArguments>--printkprint -DebugLogging AudioDebug</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <StartProgram>F:\trunk\FourDO\bin\Release\4DO.exe</StartProgram>
+    <StartProgram>
+    </StartProgram>
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
-    <RemoteDebugMachine>terabob</RemoteDebugMachine>
+    <RemoteDebugMachine>
+    </RemoteDebugMachine>
     <StartArguments>--printkprint -DebugLogging AudioDebug</StartArguments>
+    <StartAction>Project</StartAction>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
 </Project>

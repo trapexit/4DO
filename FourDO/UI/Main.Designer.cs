@@ -57,7 +57,6 @@
 			this.pauseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.advanceFrameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.rememberPauseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.displayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.fullScreenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -111,7 +110,7 @@
 			// FPSStripItem
 			// 
 			this.FPSStripItem.Name = "FPSStripItem";
-			this.FPSStripItem.Size = new System.Drawing.Size(521, 17);
+			this.FPSStripItem.Size = new System.Drawing.Size(552, 17);
 			this.FPSStripItem.Spring = true;
 			// 
 			// quickDisplayDropDownButton
@@ -219,8 +218,7 @@
             this.toolStripSeparator3,
             this.pauseMenuItem,
             this.advanceFrameMenuItem,
-            this.resetMenuItem,
-            this.rememberPauseMenuItem});
+            this.resetMenuItem});
 			this.consoleMenuItem.Name = "consoleMenuItem";
 			this.consoleMenuItem.Size = new System.Drawing.Size(57, 20);
 			this.consoleMenuItem.Text = "&Console";
@@ -316,14 +314,6 @@
 			this.resetMenuItem.Size = new System.Drawing.Size(302, 22);
 			this.resetMenuItem.Text = "&Reset";
 			this.resetMenuItem.Click += new System.EventHandler(this.resetMenuItem_Click);
-			// 
-			// rememberPauseMenuItem
-			// 
-			this.rememberPauseMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
-			this.rememberPauseMenuItem.Name = "rememberPauseMenuItem";
-			this.rememberPauseMenuItem.Size = new System.Drawing.Size(302, 22);
-			this.rememberPauseMenuItem.Text = "    After Startup, Re&call On/Off Paused Status";
-			this.rememberPauseMenuItem.Click += new System.EventHandler(this.rememberPauseMenuItem_Click);
 			// 
 			// displayMenuItem
 			// 
@@ -564,6 +554,7 @@
 			this.gameCanvas.Location = new System.Drawing.Point(0, 24);
 			this.gameCanvas.Name = "gameCanvas";
 			this.gameCanvas.PreserveAspectRatio = true;
+			this.gameCanvas.RenderHighResolution = false;
 			this.gameCanvas.Size = new System.Drawing.Size(744, 557);
 			this.gameCanvas.TabIndex = 3;
 			this.gameCanvas.VoidAreaBorder = false;
@@ -641,8 +632,7 @@
         private System.Windows.Forms.ToolStripMenuItem previousSlotMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nextSlotMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem rememberPauseMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem advanceFrameMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeGameMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;

@@ -253,16 +253,6 @@ namespace FourDO.UI
 				Properties.Settings.Default.Save();
 			}
 
-			// Clear pause status if we aren't remembering pause
-			if (Properties.Settings.Default.AutoRememberPause == false
-				&& Properties.Settings.Default.LastPauseStatus == true)
-			{
-				Properties.Settings.Default.LastPauseStatus = false;
-				Properties.Settings.Default.Save();
-			}
-			// Remember this now, because we can't count it after the console's been started.
-			bool lastPauseStatus = Properties.Settings.Default.LastPauseStatus;
-
 			///////////
 			// Now that settings have been mucked with, subscribe to their change event.
 			Properties.Settings.Default.PropertyChanged += new PropertyChangedEventHandler(Settings_PropertyChanged);
@@ -271,12 +261,11 @@ namespace FourDO.UI
 			// Fire her up!
 			this.DoConsoleStart(true);
 
-			if (Properties.Settings.Default.AutoRememberPause == true && lastPauseStatus == true)
+			if (RunOptions.StartupPaused)
 			{
-				this.DoConsoleTogglePause();
-
 				// The window's not yet active. When it's activated, we want to make sure it doesn't resume.
-				this.isPausedBeforeInactive = true; 
+				this.isPausedBeforeInactive = true;
+				this.DoConsoleTogglePause();
 			}
 
 			this.UpdateUI();
@@ -323,7 +312,6 @@ namespace FourDO.UI
 
 			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoOpenGameFile)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoLoadLastSave)
-				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AutoRememberPause)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.SaveStateSlot)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowFullScreen)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowPreseveRatio)
@@ -639,21 +627,8 @@ namespace FourDO.UI
 			this.DoConsoleAdvanceFrame();
 		}
 
-		private void rememberPauseMenuItem_Click(object sender, EventArgs e)
-		{
-			this.DoToggleRememberPause();
-		}
-
 		private void Instance_ConsoleStateChange(ConsoleStateChangeEventArgs e)
 		{
-			// Should we remember the status?
-			// If the window is inactive, this may be a "false" pause due to user options.
-			if (Properties.Settings.Default.AutoRememberPause && this.isWindowActive)
-			{
-				Properties.Settings.Default.LastPauseStatus = (e.NewState == ConsoleState.Paused);
-				Properties.Settings.Default.Save();
-			}
-
 			// Some menu items depend on console status.
 			this.UpdateUI();
 		}
@@ -752,7 +727,6 @@ namespace FourDO.UI
 			this.resetMenuItem.Enabled = consoleActive;
 
 			this.pauseMenuItem.Checked = (GameConsole.Instance.State == ConsoleState.Paused);
-			this.rememberPauseMenuItem.Checked = Properties.Settings.Default.AutoRememberPause;
 			this.loadLastSaveMenuItem.Checked = Properties.Settings.Default.AutoLoadLastSave;
 
 			// Save slot
@@ -1203,12 +1177,6 @@ namespace FourDO.UI
 		private void DoToggleImageSmoothing()
 		{
 			Properties.Settings.Default.WindowImageSmoothing = !Properties.Settings.Default.WindowImageSmoothing;
-			Properties.Settings.Default.Save();
-		}
-
-		private void DoToggleRememberPause()
-		{
-			Properties.Settings.Default.AutoRememberPause = !Properties.Settings.Default.AutoRememberPause;
 			Properties.Settings.Default.Save();
 		}
 
