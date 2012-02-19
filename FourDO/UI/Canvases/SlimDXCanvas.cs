@@ -134,26 +134,34 @@ namespace FourDO.UI.Canvases
 			float maximumY = HIGH_RES_HEIGHT / (float)textureHeight;
 
 			this.vertexBufferHighRes = new VertexBuffer(this.device
-				, 4 * (Marshal.SizeOf(typeof(TexturedVertex)))
+				, 6 * (Marshal.SizeOf(typeof(TexturedVertex)))
 				, Usage.WriteOnly, VertexFormat.None, Pool.Default);
 			this.vertexBufferLowRes = new VertexBuffer(this.device
-				, 4 * (Marshal.SizeOf(typeof(TexturedVertex)))
+				, 6 * (Marshal.SizeOf(typeof(TexturedVertex)))
 				, Usage.WriteOnly, VertexFormat.None, Pool.Default);
 
 			vertexStream = this.vertexBufferHighRes.Lock(0, 0, LockFlags.None);
 			vertexStream.WriteRange(new[]{
-				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f,    0.0f)),
-				new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(maximumX,0.0f)),
-				new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,    maximumY)),
-				new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX,maximumY)) });
+				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f,      0.0f))
+				,new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX, maximumY))
+				,new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,     maximumY))
+
+				,new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX - .0001f, maximumY + .0001f))
+				,new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f     - .0001f, 0        + .0001f))
+				,new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(maximumX - .0001f, 0        + .0001f))
+				});
 			this.vertexBufferHighRes.Unlock();
 
 			vertexStream = this.vertexBufferLowRes.Lock(0, 0, LockFlags.None);
 			vertexStream.WriteRange(new[]{
-				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f,       0.0f)),
-				new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(maximumX/2, 0.0f)),
-				new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,       maximumY/2)),
-				new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX/2, maximumY/2)) });
+				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f,       0.0f))
+				,new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX/2, maximumY/2))
+				,new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(0.0f,       maximumY/2))
+
+				,new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(maximumX/2 - .0001f, maximumY/2 + .0001f))
+				,new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(0.0f       - .0001f, 0          + .0001f))
+				,new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(maximumX/2 - .0001f, 0          + .0001f))
+				});
 			this.vertexBufferLowRes.Unlock();
 
 			this.vertexDeclaration = new VertexDeclaration(this.device, new[] {
@@ -222,7 +230,7 @@ namespace FourDO.UI.Canvases
 			this.device.SetTexture(0, this.texture);
 			this.device.SetStreamSource(0, vertexBuffer, 0, Marshal.SizeOf(typeof(TexturedVertex)));
 			this.device.VertexDeclaration = this.vertexDeclaration;
-			this.device.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+			this.device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
 
 			this.device.EndScene();
 			this.device.Present();
