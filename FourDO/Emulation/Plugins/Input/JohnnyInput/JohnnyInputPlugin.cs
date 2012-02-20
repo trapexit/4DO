@@ -79,32 +79,44 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				this.joyChecker.UpdateDeviceCache(); // NOTE: This is once every 60 frames... we could do it less often?
 			this.joyChecker.UpdateValueCache();
 
+			// Find out how many devices are connected.
+			int deviceCount;
+			for (deviceCount = this.devices.Count; deviceCount >= 1; deviceCount--)
+			{
+				if (this.devices[deviceCount - 1].BindingSets.GetTriggerCount() > 0)
+					break;
+			}
+
 			////////////////////////////
 			// Set up raw data to return.
 			byte[] data = new byte[16];
 			data[0x0] = 0x00;
 			data[0x1] = 0x48;
-			data[0x2] = this.CalculateDeviceLowByte(0);
-			data[0x3] = this.CalculateDeviceHighByte(0);
-			data[0x4] = this.CalculateDeviceLowByte(2);
-			data[0x5] = this.CalculateDeviceHighByte(2);
-			data[0x6] = this.CalculateDeviceLowByte(1);
-			data[0x7] = this.CalculateDeviceHighByte(1);
-			data[0x8] = this.CalculateDeviceLowByte(4);
-			data[0x9] = this.CalculateDeviceHighByte(4);
-			data[0xA] = this.CalculateDeviceLowByte(3);
-			data[0xB] = this.CalculateDeviceHighByte(3);
+			data[0x2] = this.CalculateDeviceLowByte(0, deviceCount);
+			data[0x3] = this.CalculateDeviceHighByte(0, deviceCount);
+			data[0x4] = this.CalculateDeviceLowByte(2, deviceCount);
+			data[0x5] = this.CalculateDeviceHighByte(2, deviceCount);
+			data[0x6] = this.CalculateDeviceLowByte(1, deviceCount);
+			data[0x7] = this.CalculateDeviceHighByte(1, deviceCount);
+			data[0x8] = this.CalculateDeviceLowByte(4, deviceCount);
+			data[0x9] = this.CalculateDeviceHighByte(4, deviceCount);
+			data[0xA] = this.CalculateDeviceLowByte(3, deviceCount);
+			data[0xB] = this.CalculateDeviceHighByte(3, deviceCount);
 			data[0xC] = 0x00;
 			data[0xD] = 0x80;
-			data[0xE] = this.CalculateDeviceLowByte(5);
-			data[0xF] = this.CalculateDeviceHighByte(5);
+			data[0xE] = this.CalculateDeviceLowByte(5, deviceCount);
+			data[0xF] = this.CalculateDeviceHighByte(5, deviceCount);
 
 			return data;
 		}
 
-		private byte CalculateDeviceLowByte(int deviceNumber)
+		private byte CalculateDeviceLowByte(int deviceNumber, int deviceCount)
 		{
 			byte returnValue = 0;
+
+			if (deviceNumber >= deviceCount)
+				return returnValue;
+
 			returnValue |= 0x01 & 0; // unknown
 			returnValue |= 0x02 & 0; // unknown
 			returnValue |= this.CheckDownButton(deviceNumber, InputButton.L) ? (byte)0x04 : (byte)0;
@@ -116,9 +128,13 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			return returnValue;
 		}
 
-		private byte CalculateDeviceHighByte(int deviceNumber)
+		private byte CalculateDeviceHighByte(int deviceNumber, int deviceCount)
 		{
 			byte returnValue = 0;
+
+			if (deviceNumber >= deviceCount)
+				return returnValue;
+
 			returnValue |= this.CheckDownButton(deviceNumber, InputButton.A)     ? (byte)0x01 : (byte)0;
 			returnValue |= this.CheckDownButton(deviceNumber, InputButton.Left)  ? (byte)0x02 : (byte)0;
 			returnValue |= this.CheckDownButton(deviceNumber, InputButton.Right) ? (byte)0x04 : (byte)0;

@@ -26,6 +26,14 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				return null;
 		}
 
+		public int Count
+		{
+			get
+			{
+				return this.bindings.Count;
+			}
+		}
+
 		public void Clear()
 		{
 			this.bindings.Clear();

@@ -52,6 +52,14 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			return returnValue;
 		}
 
+		public int GetTriggerCount()
+		{
+			int returnValue = 0;
+			foreach (InputBindingSet set in this.sets)
+				returnValue += set.Count;
+			return returnValue;
+		}
+
 		public InputBindingSet AddSet()
 		{
 			var newSet = new InputBindingSet();
