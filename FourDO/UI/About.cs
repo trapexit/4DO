@@ -20,5 +20,6 @@ namespace FourDO.UI
 		{
 			VersionTextBox.Text = Application.ProductVersion;
 		}
+
 	}
 }
