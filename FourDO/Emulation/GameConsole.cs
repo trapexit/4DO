@@ -79,7 +79,6 @@ namespace FourDO.Emulation
 
 		private object clockSpeedSemaphore = new object();
 		private int? cpuClockHertz;
-		private long? targetWorkerPeriod;
 
 		private bool? renderHighResolution;
 
@@ -123,6 +122,7 @@ namespace FourDO.Emulation
 			FreeDOCore.Read2048Event = new FreeDOCore.Read2048Delegate(ExternalInterface_Read2048);
 			FreeDOCore.GetDiscSizeEvent = new FreeDOCore.GetDiscSizeDelegate(ExternalInterface_GetDiscSize);
 			FreeDOCore.OnSectorEvent = new FreeDOCore.OnSectorDelegate(ExternalInterface_OnSector);
+			FreeDOCore.ArmSync = new FreeDOCore.ArmSyncDelegate(ExternalInterface_ArmSync);
 
 			// Set up NVRAM save timer.
 			this.nvramTimer.Elapsed += new ElapsedEventHandler(nvramTimer_Elapsed);
@@ -263,12 +263,6 @@ namespace FourDO.Emulation
 				lock (this.clockSpeedSemaphore)
 				{
 					this.cpuClockHertz = Math.Max(Math.Min(value, 125000000), 1250000);
-
-					long normalPeriod = PerformanceCounter.Frequency / TARGET_FRAMES_PER_SECOND; ;
-					double periodDeviation = 12500000 / (double)this.cpuClockHertz;
-					long adjustedPeriod = (long)(normalPeriod * periodDeviation);
-
-					this.targetWorkerPeriod = adjustedPeriod;
 				}
 			}
 		}
@@ -294,9 +288,6 @@ namespace FourDO.Emulation
 				throw new InvalidOperationException("Audio buffer not set!");
 
 			if (!this.cpuClockHertz.HasValue)
-				throw new InvalidOperationException("CPU Clock speed not set!");
-
-			if (!this.targetWorkerPeriod.HasValue)
 				throw new InvalidOperationException("CPU Clock speed not set!");
 
 			if (!this.renderHighResolution.HasValue)
@@ -668,6 +659,15 @@ namespace FourDO.Emulation
 			currentSector = sectorNumber;
 		}
 
+		private int? newTargetPeriod = null;
+		private void ExternalInterface_ArmSync(int armSyncValue)
+		{
+			long normalPeriod = PerformanceCounter.Frequency / TARGET_FRAMES_PER_SECOND; ;
+			double periodDeviation = 12500000 / (double)armSyncValue;
+			long adjustedPeriod = (long)(normalPeriod * periodDeviation);
+			this.newTargetPeriod = (int)adjustedPeriod;
+		}
+
 		#endregion // FreeDO External Interface
 
 		#region Worker Thread
@@ -680,6 +680,7 @@ namespace FourDO.Emulation
 			long lastTarget = 0;
 			long targetPeriod = 0;
 			int lastFrameCount = 0;
+			int currentHertz = 12500000;
 
 			bool highResolution = false;
 
@@ -693,13 +694,13 @@ namespace FourDO.Emulation
 				/////////////////////
 				// If we need to, update some core values.
 
-				// Set the arm clock?
+				// Set arm clock?
 				lock (this.clockSpeedSemaphore)
 				{
-					if (targetPeriod != this.targetWorkerPeriod.Value)
+					if (this.cpuClockHertz.HasValue && currentHertz != this.cpuClockHertz.Value)
 					{
-						targetPeriod = this.targetWorkerPeriod.Value;
-						FreeDOCore.SetArmClock(this.cpuClockHertz.Value);
+						currentHertz = this.cpuClockHertz.Value;
+						FreeDOCore.SetArmClock(currentHertz);
 					}
 				}
 
@@ -734,6 +735,13 @@ namespace FourDO.Emulation
 				if (FrameDone != null)
 					FrameDone(this, new EventArgs());
 				doneWatch.Stop();
+
+				///////////
+				// Set new period?
+				if (this.newTargetPeriod.HasValue && targetPeriod != this.newTargetPeriod)
+				{
+					targetPeriod = this.newTargetPeriod.Value;
+				}
 
 				///////////
 				// Identify how long to sleep (if at all).

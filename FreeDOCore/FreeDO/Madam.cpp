@@ -21,10 +21,8 @@ John Sammons
 Felix Lazarev
 */
 
-// Madam.cpp: implementation of the CMadam class.
-//
-//////////////////////////////////////////////////////////////////////
 
+#include "stdafx.h"
 #include "freedoconfig.h"
 #include "Madam.h"
 #include "Clio.h"
@@ -431,7 +429,7 @@ unsigned int MAPPING;
 
  int currentrow;
  unsigned int bpp;
- unsigned int pixcount;
+ int pixcount;
  unsigned int type;
  unsigned int offsetl;
  unsigned int offset;
@@ -486,11 +484,6 @@ bool Transparent;
 #define	ENGBFETCH	mregs[0x5b8]
 #define ENGBLEN		mregs[0x5bc]
 #define PAL_EXP		(&mregs[0x5d0])
-
-#ifdef CHAR_BIT
-#undef CHAR_BIT
-#endif
-
 #define CHAR_BIT  (8)
 
 
@@ -589,7 +582,7 @@ void __fastcall _madam_Poke(unsigned int addr, unsigned int val)
 		return;
 
 	case 0x0:
-		io_interface(EXT_KPRINT,(void*)val);
+	//	io_interface(EXT_KPRINT,(void*)val);
 		return;
 	case SPRSTRT:
 		if(_madam_FSM==FSM_IDLE)
@@ -647,9 +640,9 @@ void __fastcall _madam_Poke(unsigned int addr, unsigned int val)
 
     case 0x7fc:
 
-                mregs[0x7fc]=0; // Our matrix engine always ready
+		mregs[0x7fc]=0; // Ours matrix engine already ready
 
-		static int Rez0T,Rez1T,Rez2T,Rez3T;
+		static double Rez0T,Rez1T,Rez2T,Rez3T;
                // io_interface(EXT_DEBUG_PRINT,(void*)str.print("MADAM Write madam[0x%X] = 0x%8.8X\n",addr,val).CStr());
 
 		switch(val) // Cmd
@@ -704,17 +697,16 @@ void __fastcall _madam_Poke(unsigned int addr, unsigned int val)
 						M=Nfrac16/(double)Rez2T;          // n/z
 					else
 						{
-							// JMK NOTE: I explicitly cast here to silence a loss of data warning.
-							M=(double)Nfrac16;
-							io_interface(EXT_DEBUG_PRINT,(void*)"!!!Division by zero!!!\n");
+							M=Nfrac16;
+						//	io_interface(EXT_DEBUG_PRINT,(void*)"!!!Division by zero!!!\n");
 						}
 
 					Rez0T=(signed int)((M00*V0+M01*V1+M02*V2)/65536.0);
 					Rez1T=(signed int)((M10*V0+M11*V1+M12*V2)/65536.0);
 
 
-					Rez0T=(int)((Rez0T*M)/65536.0/65536.0); // x * n/z
-					Rez1T=(int)((Rez1T*M)/65536.0/65536.0); // y * n/z
+					Rez0T=(double)((Rez0T*M)/65536.0/65536.0); // x * n/z
+					Rez1T=(double)((Rez1T*M)/65536.0/65536.0); // y * n/z
 
 				}
 				return;
@@ -1176,7 +1168,7 @@ unsigned int __fastcall PDEC(unsigned int pixel, unsigned short * amv)
 {
 
 
-        pdeco	pix1;
+	pdeco	pix1,pix2;
 	unsigned short resamv,pres;
 
 
@@ -1437,16 +1429,16 @@ unsigned int * _madam_GetRegs()
 
 
 void __fastcall DrawPackedCel_New()
-{
-
+{     
+     sf=100000;
 	unsigned int start;
 	unsigned short CURPIX,LAMV;
-        //int i,j;
+	int i,j;
 	// RMOD=RMODULO[REGCTL0];
 	// WMOD=WMODULO[REGCTL0];
-        unsigned int lastaddr;
+	int lastaddr;
 	int xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy, scipw, wcnt;
-        //int accx, accy, scipstr;
+	int accx, accy, scipstr;
 
         //double dxcur,dycur,dxvert,dyvert,dxdown,dydown,dhdx,dhdy;
 
@@ -1502,7 +1494,7 @@ if(TEXEL_FUN_NUMBER==0)
 		{
 
 			type=bitoper.Read(2);//bitoper.Read(2);
-                        if( (unsigned int)(bitoper.GetBytePose()+start) >= (lastaddr))type=0;
+                        if( (int)(bitoper.GetBytePose()+start) >= (lastaddr))type=0;
 
 			//pixcount=bitoper.Read(6)+1;
 			pixcount=bitoper.Read(6)+1;
@@ -1545,7 +1537,6 @@ if(TEXEL_FUN_NUMBER==0)
 					{
 						//CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
 						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-
 						if(!Transparent)
 						{
 
@@ -1560,18 +1551,16 @@ if(TEXEL_FUN_NUMBER==0)
 
 					break;
 				case 2: //PACK_TRANSPARENT
-
 					//	calcx+=(pixcount+1);
-
 					if(HDX1616)xcur+=HDX1616*(pixcount);
 					if(HDY1616)ycur+=HDY1616*(pixcount);
 
 					break;
 				case 3: //PACK_REPEAT
-
-					//CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
 					CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-
+         if(CURPIX>32300&&CURPIX<33500&&(CURPIX>32760||CURPIX<32750)){
+          if(speedfixes>=0&&sdf==0&&speedfixes<=200001&&unknownflag11==0)speedfixes=200000;}
+          if(unknownflag11>0&&sdf==0&&CURPIX<30000&&CURPIX>29000) speedfixes=-200000;
 					if(!Transparent)
 					{
 
@@ -1591,8 +1580,8 @@ if(TEXEL_FUN_NUMBER==0)
 	}
 }
 else if(TEXEL_FUN_NUMBER==1)
-{
-
+{ 
+     unknownflag11=100000;
 	for(currentrow=0;currentrow<SPRHI;currentrow++)
 	{
 
@@ -1622,7 +1611,6 @@ else if(TEXEL_FUN_NUMBER==1)
 					eor=1;
 					break;
 				case 1: //PACK_LITERAL
-
 					while(__pix)
 					{
                                                 __pix--;
@@ -1641,7 +1629,6 @@ else if(TEXEL_FUN_NUMBER==1)
 
 					break;
 				case 2: //PACK_TRANSPARENT
-
 					//	calcx+=(pixcount+1);
 					xcur+=HDX1616*(__pix);
 					ycur+=HDY1616*(__pix);
@@ -1672,8 +1659,8 @@ else if(TEXEL_FUN_NUMBER==1)
 
 }
 else
-{
-
+{    
+  if(speedfixes>=0&&speedfixes<=100001) speedfixes=100000;
         for(currentrow=0;currentrow<SPRHI;currentrow++)
 	{
 
@@ -1718,6 +1705,7 @@ else
 					{
 						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
                                                 __pix--;
+                 //   if(speedfixes>=0&&speedfixes<=100001) speedfixes=300000;
 						if(!Transparent)
 						{
 
@@ -1732,7 +1720,7 @@ else
                                         //pixcount=0;
 					break;
 				case 2: //PACK_TRANSPARENT
-
+                    if(speedfixes>=0&&sdf>0/*&&speedfixes<=100001*/)    speedfixes=300000;
 					//	calcx+=(pixcount+1);
 					xcur+=hdx*(__pix);
 					ycur+=hdy*(__pix);
@@ -1743,6 +1731,7 @@ else
 					break;
 				case 3: //PACK_REPEAT
 					CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+					if(speedfixes>=0&&speedfixes<200001&&((CURPIX>10000&&CURPIX<11000)&&sdf==0/*||(CURPIX>10500&&CURPIX<10650)*/))speedfixes=200000;//(CURPIX>10450&&CURPIX<10470)
 					if(!Transparent)
 					{
 							while(__pix)
@@ -1782,9 +1771,10 @@ else
 
 void __fastcall DrawLiteralCel_New()
 {
-        int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy;
+     sf=100000;
+	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy,pix_repit,scipstr;
  	unsigned short CURPIX,LAMV;
-//	int get1,get2;
+	int get1,get2;
 	// RMOD=RMODULO[REGCTL0];
 	// WMOD=WMODULO[REGCTL0];
 
@@ -1807,6 +1797,8 @@ void __fastcall DrawLiteralCel_New()
 
 if(TEXEL_FUN_NUMBER==0)
 {
+                  //  if(speedfixes>=0&&speedfixes<=100001)   speedfixes=300000;
+                  sdf=100000;
         //רנטפעû NFS
         SPRWI-=((PRE0>>24)&0xf);
 	xvert+=TEXTURE_HI_START*VDX1616;
@@ -1871,8 +1863,9 @@ else if(TEXEL_FUN_NUMBER==1)
 
 			if(!Transparent)
 			{
-
-					if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+VDY1616)>>16))break;
+int sss=VDX1616;
+if(unknownflag11==0&&speedfixes>=100000&&speedfixes<=200000&&(CURPIX<31000||CURPIX>32000)&&(CURPIX<15000||CURPIX>24000)&&(CURPIX<25000||CURPIX>28000)&&((CURPIX>38000&&CURPIX<70000)||(CURPIX>15000&&CURPIX<37000)))sss-=1;//w18
+                	if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+sss)>>16, (ycur+HDY1616+VDY1616)>>16))break;
 
 			}
 			xcur+=HDX1616;
@@ -1885,7 +1878,6 @@ else if(TEXEL_FUN_NUMBER==1)
 }
 else
 {
-
 
         SPRWI-=((PRE0>>24)&0xf);
 	for(i=0;i<SPRHI;i++)
@@ -1914,11 +1906,12 @@ else
 
                         CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
 
-
 			if(!Transparent)
 			{
 					if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
-
+if(speedfixes<1||(speedfixes>=0&&speedfixes<200001)){
+if (CURPIX>30000&&CURPIX<40000)speedfixes=0;
+else speedfixes=-100000;}
 			}
 			xcur+=hdx;
 			ycur+=hdy;
@@ -1938,6 +1931,7 @@ else
 
 void __fastcall DrawLRCel_New()
 {
+     sf=100000;     
 	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy;
  	unsigned short CURPIX,LAMV;
 
@@ -1949,7 +1943,7 @@ void __fastcall DrawLRCel_New()
 	offset+=2;
 
 	SPRWI=1+(PRE1&PRE1_TLHPCNT_MASK);
-	SPRHI=(((PRE0&PRE0_VCNT_MASK)>>PRE0_VCNT_SHIFT)<<1)+1;
+	SPRHI=(((PRE0&PRE0_VCNT_MASK)>>PRE0_VCNT_SHIFT)<<1)+2;   //doom fix
 
 	if(TestInitVisual(0))return;
 	xvert=XPOS1616;
@@ -2388,7 +2382,7 @@ void Init_Arbitrary_Map()
 
 int __fastcall TexelDraw_Line(unsigned short CURPIX, unsigned short LAMV, int xcur, int ycur, int cnt)
 {
-        int i=0;
+	int i=0,j,incx,incy;
 	unsigned int pixel;
 	unsigned int curr=0xffffffff, next;
 
@@ -2428,7 +2422,7 @@ int __fastcall TexelDraw_Scale(unsigned short CURPIX, unsigned short LAMV, int x
 {
 	int i,j;
 	unsigned int pixel;
-//	unsigned int curr=-1, next;
+	unsigned int curr=-1, next;
 
 						if((HDX1616<0) && (deltax)<0 && xcur<0)
 						{
@@ -2473,7 +2467,7 @@ __inline int TexelCCWTestSmp(int hdx, int hdy, int vdx, int vdy)
 
 int __fastcall TexelDraw_Arbitrary(unsigned short CURPIX, unsigned short LAMV, int xA, int yA, int xB, int yB, int xC, int yC, int xD, int yD)
 {
-        int miny, maxy, i, xpoints[4], j, maxyt, maxxt, maxx;
+	int miny, maxy, i, itmp, xpoints[4], j, maxyt, maxxt, maxx, minx;
 	int updowns[4],cnt_cross, jtmp;
 	unsigned int pixel;
 	unsigned int curr=-1, next;
@@ -2515,11 +2509,10 @@ int __fastcall TexelDraw_Arbitrary(unsigned short CURPIX, unsigned short LAMV, i
 
 					 {
 
-						miny=yA;
+						miny=maxy=yA;
 						if(miny>yB)miny=yB;
 						if(miny>yC)miny=yC;
 						if(miny>yD)miny=yD;
-						maxy=yA;
 						if(maxy<yB)maxy=yB;
 						if(maxy<yC)maxy=yC;
 						if(maxy<yD)maxy=yD;
@@ -2595,8 +2588,19 @@ int __fastcall TexelDraw_Arbitrary(unsigned short CURPIX, unsigned short LAMV, i
 								}
 								if(cnt_cross>2)
 								{
-
-									if(xpoints[1]>xpoints[2])
+			/*			for(int i=0; i<2; i++)
+           {         
+           if(xpoints[i]>xpoints[i+1])  
+           {
+           xpoints[i+1]+=xpoints[i];
+		   xpoints[i]=xpoints[i+1]-xpoints[i];
+		   xpoints[i+1]=xpoints[i+1]-xpoints[i];
+           jtmp=updowns[i];
+		   updowns[i]=updowns[i+1];
+           updowns[i+1]=jtmp;
+           }    
+           }*/
+						/*			if(xpoints[1]>xpoints[2])
 									{
 
 										xpoints[1]+=xpoints[2];
@@ -2647,7 +2651,7 @@ int __fastcall TexelDraw_Arbitrary(unsigned short CURPIX, unsigned short LAMV, i
 												updowns[1]=jtmp;
 											}
 										}
-									}
+									}*/
 
 									if( ((CCBFLAGS&CCB_ACW)&&updowns[2]==0) ||
 										((CCBFLAGS&CCB_ACCW)&&updowns[2]==1))
@@ -2696,4 +2700,5 @@ int __fastcall TexelDraw_Arbitrary(unsigned short CURPIX, unsigned short LAMV, i
 					 }
 					 return 0;
 }
+
 

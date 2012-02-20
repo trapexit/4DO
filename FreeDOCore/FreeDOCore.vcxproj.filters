@@ -94,5 +94,6 @@
     <ClInclude Include="FreeDO\freedocore.h">
       <Filter>FreeDO\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FreeDO\stdafx.h" />
   </ItemGroup>
 </Project>

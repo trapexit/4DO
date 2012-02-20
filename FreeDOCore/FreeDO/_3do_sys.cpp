@@ -43,6 +43,8 @@ _ext_Interface  io_interface;
 extern void* Getp_NVRAM();
 extern void* Getp_ROMS();
 extern void* Getp_RAMS();
+extern int ARM_CLOCK;
+extern int THE_ARM_CLOCK;
 
 __inline uint32 _bswap(uint32 x)
 {
@@ -111,6 +113,7 @@ VDLFrame *curr_frame;
 bool scipframe;
 void _3do_InternalFrame(int cicles)
 {
+	//cicles=21;?
  int line;
                 _qrz_PushARMCycles(cicles);
                 if(_qrz_QueueDSP())
@@ -233,7 +236,6 @@ bool _3do_Load(void *buff)
 
 //------------------------------------------------------------------------------
 extern uint32 *profiling;
-extern int ARM_CLOCK;
 
 void _3do_OnSector(unsigned int sector)
 {
@@ -250,12 +252,19 @@ unsigned int _3do_DiscSize()
         return (unsigned int)io_interface(EXT_GET_DISC_SIZE,NULL);
 }
 
+int HightResMode=0;
+//bool __temporalfixes=false;
+int speedfixes=0;
+int sf=0;
+int sdf=0, unknownflag11=0;
+int jw=0;
 FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 {
 int line;
         switch(procedure)
         {
          case FDP_INIT:
+			    sf=5000000;
                 io_interface=(_ext_Interface)datum;
                 return (void*)_3do_Init();
          case FDP_DESTROY:
@@ -289,6 +298,7 @@ int line;
          case FDP_FREEDOCORE_VERSION:
                 return (void*)0x20008;
          case FDP_SET_ARMCLOCK:
+			    THE_ARM_CLOCK=0;
                 ARM_CLOCK=(int)datum;
                 break;
          case FDP_SET_TEXQUALITY:

@@ -21,17 +21,21 @@ John Sammons
 Felix Lazarev
 */
 
-#include "freedoconfig.h"
+
 #include "quarz.h"
 #include "types.h"
-#include "Clio.h"
-#include "Madam.h"
-
+#include "clio.h"
+#include "vdlp.h"
+#include "XBUS.h"
+#include "madam.h"
+#include "stdafx.h"
 
 int ARM_CLOCK=12500000;
+int THE_ARM_CLOCK=0;
+extern _ext_Interface  io_interface;
 #define SND_CLOCK       44100
-//#define NTSC_CLOCK      12270000        //818*500(lines)  //15 KHz
-//#define PAL_CLOCK       14750000        //944*625(lines)  //15625 Hz
+//#define NTSC_CLOCK      12270000        //818*500(строк)  //15  √ц
+//#define PAL_CLOCK       14750000        //944*625(строк)  //15625 √ц
 
 
 #pragma pack(push,1)
@@ -85,7 +89,7 @@ void __fastcall _qrz_Init()
 
 int __fastcall _qrz_VDCurrLine()
 {
-        return qrz_vdlline%(VDL_HS);
+        return qrz_vdlline%(VDL_HS+(VDL_HS/2));
 }
 int __fastcall _qrz_VDHalfFrame()
 {
@@ -112,7 +116,9 @@ bool __fastcall _qrz_QueueDSP()
 {
         if(qrz_AccDSP>>24)
         {
-                qrz_AccDSP-=0x1000000;
+     //if(HightResMode!=0) qrz_AccDSP-=0x1000000/1.3;
+     //else
+			qrz_AccDSP-=0x1000000;
                 return true;
         }
         return false;
@@ -131,8 +137,26 @@ bool __fastcall _qrz_QueueTimer()
 
 void __fastcall _qrz_PushARMCycles(unsigned int clks)
 {
- uint32 arm;
-        arm=(clks<<24)/ARM_CLOCK;
+ uint32 arm,cnt;
+ int sp=0;
+if(sdf>0) sdf--;
+if(sf>0) sf--;
+if(unknownflag11>0)unknownflag11--;
+if(ARM_CLOCK<0x5F5E10)ARM_CLOCK=0x5F5E10;
+if(ARM_CLOCK>0x23C3460)ARM_CLOCK=0x23C3460;
+ if(speedfixes>0&&speedfixes<0x186A1) {sp=0x2DC6C0; speedfixes--;}
+ else if(speedfixes>0x186A1&&speedfixes<0x30D41) {if(sdf==0)sp=0x4C4B40; speedfixes--;}
+ else if(speedfixes<0) {sp=0x3D0900; speedfixes++;}
+ else if(speedfixes>0x30D41) {sp=0x249F00; speedfixes--;}///sp=0x30D400;
+ else if(speedfixes==0x30D41||speedfixes==0x186A1) speedfixes=0;
+ if(_clio_GetTimerDelay()==0x150&&sf==0) sp=-(0x1C9C380-ARM_CLOCK); //phoenix3 microcosm and novastorm loading screens fix
+ if(sf>0x186A0)sp=-(12500000-ARM_CLOCK);
+ if((ARM_CLOCK-sp)<0x2DC6C0)sp=-(0x2DC6C0-ARM_CLOCK);
+ if((ARM_CLOCK-sp)!=THE_ARM_CLOCK)
+	 {   THE_ARM_CLOCK=(ARM_CLOCK-sp);
+		 io_interface(EXT_ARM_SYNC,(void*)THE_ARM_CLOCK); //fix for working with 4do
+     }
+        arm=(clks<<24)/(ARM_CLOCK-sp);
         qrz_AccARM+=arm*ARM_CLOCK;
         if( (qrz_AccARM>>24) != clks )
         {
@@ -144,5 +168,5 @@ void __fastcall _qrz_PushARMCycles(unsigned int clks)
         qrz_AccVDL+=arm*(VDL_CLOCK);
 
         //if(Get_madam_FSM()!=FSM_INPROCESS)
-        if(_clio_GetTimerDelay())qrz_TCount+=arm*((__temporalfixes?12500000:25000000)/(_clio_GetTimerDelay()));//clks<<1;
+        if(_clio_GetTimerDelay())qrz_TCount+=arm*((0?12500000:21000000)/(_clio_GetTimerDelay()));//clks<<1;
 }

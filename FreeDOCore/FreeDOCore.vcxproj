@@ -137,6 +137,7 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
     <ClInclude Include="FreeDO\Madam.h" />
     <ClInclude Include="FreeDO\quarz.h" />
     <ClInclude Include="FreeDO\SPORT.h" />
+    <ClInclude Include="FreeDO\stdafx.h" />
     <ClInclude Include="FreeDO\types.h" />
     <ClInclude Include="FreeDO\vdlp.h" />
     <ClInclude Include="FreeDO\XBUS.h" />

@@ -49,6 +49,9 @@ namespace FourDO.Emulation.FreeDO
 		public delegate void OnSectorDelegate(int sectorNumber);
 		public static OnSectorDelegate OnSectorEvent { get; set; }
 
+		public delegate void ArmSyncDelegate(int armSyncValue);
+		public static ArmSyncDelegate ArmSync { get; set; }
+
 		#endregion // Public Types
 
 		#region Private Types
@@ -68,6 +71,7 @@ namespace FourDO.Emulation.FreeDO
 			EXT_READ2048 = 14, //for XBUS Plugin
 			EXT_GET_DISC_SIZE = 15,
 			EXT_ON_SECTOR = 16,
+			EXT_ARM_SYNC = 17,
 		}
 
 		private enum InterfaceFunction
@@ -246,6 +250,11 @@ namespace FourDO.Emulation.FreeDO
 				case (int)ExternalFunction.EXT_ON_SECTOR:
 					if (OnSectorEvent != null)
 						OnSectorEvent((int)Data);
+					break;
+
+				case (int)ExternalFunction.EXT_ARM_SYNC:
+					if (ArmSync != null)
+						ArmSync((int)Data);
 					break;
 
 				default:

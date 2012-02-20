@@ -59,6 +59,7 @@ struct VDLFrame
 #define EXT_READ2048            14      //for XBUS Plugin
 #define EXT_GET_DISC_SIZE       15
 #define EXT_ON_SECTOR           16
+#define EXT_ARM_SYNC            17
 typedef void* (__stdcall *_ext_Interface)(int, void*);
 
 #define FDP_FREEDOCORE_VERSION  0

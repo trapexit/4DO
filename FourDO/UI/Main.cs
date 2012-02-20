@@ -1129,6 +1129,8 @@ namespace FourDO.UI
 				if (fps != 0)
 				{
 					fps = 1 / (fps);
+					if (fps > 100.00) fps = 60.00 + (fps / 100); //fix fps because it be owerflow
+					else if (fps > 65.00) fps = 60.00 + (fps / 10);
 				}
 				fps = Math.Min(fps, 999.99);
 				string fpsString = fps.ToString("00.00");
