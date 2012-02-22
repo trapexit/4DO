@@ -15,7 +15,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		public int GetCurrentJoystickCount()
 		{
-			return this.Joysticks.Count;
+			return this.joysticks.Count;
 		}
 
 		public string GetCurrentJoystickList()
@@ -30,7 +30,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			text.AppendLine();
 
 			int devNumber = 2;
-			foreach (var joyCache in this.Joysticks)
+			foreach (var joyCache in this.joysticks)
 			{
 				text.Append("#");
 				text.Append(devNumber);
@@ -59,7 +59,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			// For each cached device, watch for actions.
 			List<JoyCache> deadJoysticks = new List<JoyCache>();
-			foreach (var joyCache in this.Joysticks)
+			foreach (var joyCache in this.joysticks)
 			{
 				// Get the state.
 				JoystickState currentState = this.GetCurrentState(joyCache.JoyStick);
@@ -89,7 +89,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			}
 
 			// Kill any joysticks that have passed away.
-			deadJoysticks.ForEach(x => this.Joysticks.Remove(x));
+			deadJoysticks.ForEach(x => this.joysticks.Remove(x));
 
 			// Return what we found. If we found nothing, it'll be null.
 			return newTrigger;

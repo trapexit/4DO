@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SlimDX.DirectInput;
+using System.Threading;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
@@ -14,19 +15,20 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			public JoystickState LastState { get; set; }
 		}
 
-		public void Dispose()
+		public JoyInput()
 		{
-			DirectInput.Dispose();
+			this.deviceSearchThread.Start();
 		}
 
-		private List<int> validJoystickDeviceTypes = new List<int>
-			{
-			(int)DeviceType.Joystick,
-			(int)DeviceType.Gamepad
-			};
+		public void Dispose()
+		{
+			this.deviceSearchThread.Stop();
+			this.directInput.Dispose();
+		}
 
-		protected List<JoyCache> Joysticks = new List<JoyCache>();
-		protected DirectInput DirectInput = new DirectInput();
+		protected List<JoyCache> joysticks = new List<JoyCache>();
+		protected DirectInput directInput = new DirectInput();
+		private DeviceSearchThread deviceSearchThread = new DeviceSearchThread();
 
 		protected JoystickState GetCurrentState(Joystick joyStick)
 		{
@@ -61,18 +63,18 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		protected void UpdateJoystickList()
 		{
 			// Get all joysticks.
-			List<DeviceInstance> devices = this.GetJoystickDevices();
+			List<DeviceInstance> devices = this.deviceSearchThread.GetDevices();
 
 			foreach (var device in devices)
 			{
 				//////////////////////
 				// Add caches for anything we don't have.
-				if (this.Joysticks.Any<JoyCache>(x => x.JoyStick.Information.InstanceGuid == device.InstanceGuid) == false)
+				if (this.joysticks.Any<JoyCache>(x => x.JoyStick.Information.InstanceGuid == device.InstanceGuid) == false)
 				{
-					var joystick = new Joystick(this.DirectInput, device.InstanceGuid);
+					var joystick = new Joystick(this.directInput, device.InstanceGuid);
 					if (joystick.Acquire().IsSuccess)
 					{
-						this.Joysticks.Add(new JoyCache { JoyStick = joystick });
+						this.joysticks.Add(new JoyCache { JoyStick = joystick });
 					}
 				}
 			}
@@ -82,7 +84,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			// Identify removed items.
 			var removedCaches = new List<JoyCache>();
-			foreach (var joystick in this.Joysticks)
+			foreach (var joystick in this.joysticks)
 			{
 				if (devices.Any<DeviceInstance>(x => x.InstanceGuid == joystick.JoyStick.Information.InstanceGuid) == false)
 					removedCaches.Add(joystick);
@@ -92,7 +94,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			foreach (var removedCache in removedCaches)
 			{
 				removedCache.JoyStick.Unacquire();
-				this.Joysticks.Remove(removedCache);
+				this.joysticks.Remove(removedCache);
 			}
 		}
 
@@ -151,16 +153,6 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				return JoystickTriggerPovDirection.Left | JoystickTriggerPovDirection.Up;
 
 			return 0; // er... yikes.
-		}
-
-		protected List<DeviceInstance> GetJoystickDevices()
-		{
-			List<DeviceInstance> joystickDevices = new List<DeviceInstance>();
-
-			var devices = this.DirectInput.GetDevices();
-
-			// The least significant byte of the device's "Type" identifies the DeviceType.
-			return devices.Where<DeviceInstance>(x => validJoystickDeviceTypes.Contains((int)x.Type & 0xFF)).ToList<DeviceInstance>();
 		}
 	}
 }

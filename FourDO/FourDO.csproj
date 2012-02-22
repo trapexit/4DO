@@ -98,6 +98,7 @@
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\ControllerInfo.Designer.cs">
       <DependentUpon>ControllerInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\DeviceSearchThread.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingDevice.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingDevices.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyInput.cs" />

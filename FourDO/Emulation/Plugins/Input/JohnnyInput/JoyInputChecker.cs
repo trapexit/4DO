@@ -17,7 +17,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			// For each cached device, update the cached values.
 			List<JoyCache> deadJoysticks = new List<JoyCache>();
-			foreach (var joyCache in this.Joysticks)
+			foreach (var joyCache in this.joysticks)
 			{
 				// Get the state.
 				JoystickState currentState = this.GetCurrentState(joyCache.JoyStick);
@@ -34,14 +34,14 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			}
 
 			// Kill any joysticks that have passed away.
-			deadJoysticks.ForEach(x => this.Joysticks.Remove(x));
+			deadJoysticks.ForEach(x => this.joysticks.Remove(x));
 		}
 
 		public bool CheckTrigger(JoystickTrigger trigger)
 		{
 			Guid deviceGuid = trigger.GetDeviceInstanceAsGuid();
 			
-			var cache = this.Joysticks.FirstOrDefault<JoyCache>(x => x.JoyStick.Information.InstanceGuid == deviceGuid);
+			var cache = this.joysticks.FirstOrDefault<JoyCache>(x => x.JoyStick.Information.InstanceGuid == deviceGuid);
 			if (cache == null)
 				return false;
 
