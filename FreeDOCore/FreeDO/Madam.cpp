@@ -1430,7 +1430,7 @@ unsigned int * _madam_GetRegs()
 
 void __fastcall DrawPackedCel_New()
 {     
-     sf=100000;
+     sf=30000;
 	unsigned int start;
 	unsigned short CURPIX,LAMV;
 	int i,j;
