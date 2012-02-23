@@ -1490,6 +1490,14 @@
     <regions>JP</regions>
   </game>
   <game>
+    <id>5C0F50FE</id>
+    <checkSum>5C0F50FED45D21D6C1F1A25E6D75E94D</checkSum>
+    <name>Alfred Hitchcock Presents</name>
+    <releaseYear>1995</releaseYear>
+    <publisher>Toyota</publisher>
+    <regions>JP</regions>
+  </game>
+  <game>
     <id>5C1DB21F</id>
     <checkSum>5C1DB21F112C6DF69660F6C253C5BC19</checkSum>
     <name>Pro Yakyuu Virtual Stadium - Professional Baseball (demo)</name>

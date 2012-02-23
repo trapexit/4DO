@@ -83,6 +83,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				{
 					this.deviceCheckerResults = joystickDevices;
 				}
+
+				Thread.Sleep(1000);
 			} while (this.stopSignal == false);
 		}
 	}
