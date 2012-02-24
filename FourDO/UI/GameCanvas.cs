@@ -51,11 +51,11 @@ namespace FourDO.UI
 				Bitmap newBackground = null;
 
 				if (this.voidAreaPattern == VoidAreaPattern.FourDO)
-					newBackground = Properties.Resources.VoidImage4DO;
+					newBackground = Properties.Images.VoidImage4DO;
 				else if (this.voidAreaPattern == VoidAreaPattern.Bumps)
-					newBackground = Properties.Resources.VoidImageBumps;
+					newBackground = Properties.Images.VoidImageBumps;
 				else if (this.voidAreaPattern == VoidAreaPattern.Metal)
-					newBackground = Properties.Resources.VoidImageMetal;
+					newBackground = Properties.Images.VoidImageMetal;
 
 				this.BackgroundImage = newBackground;
 				this.patternSetOnce = true;

@@ -51,7 +51,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.BackgroundImage = global::FourDO.Properties.Resources.VoidImageBumps;
+            this.BackgroundImage = global::FourDO.Properties.Images.VoidImageBumps;
             this.Controls.Add(this.pnlBlack);
             this.DoubleBuffered = true;
             this.Name = "GameCanvas";

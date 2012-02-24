@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SlimDX.DirectInput;
+using FourDO.Resources;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
@@ -22,11 +23,11 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			var text = new StringBuilder();
 
-			text.AppendLine("Current Devices:");
+			text.AppendLine(JohnnyInputStrings.CurrentDevices);
 			text.AppendLine();
 
 			// Lie and say a keyboard is always detected. We're suckering them bad!.
-			text.AppendLine("#1. Keyboard");
+			text.AppendLine("#1. " + JohnnyInputStrings.Keyboard);
 			text.AppendLine();
 
 			int devNumber = 2;
@@ -34,7 +35,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			{
 				text.Append("#");
 				text.Append(devNumber);
-				text.Append(". Joystick");
+				text.Append(". " + JohnnyInputStrings.Joystick);
 				text.AppendLine();
 
 				text.AppendLine(joyCache.JoyStick.Information.InstanceGuid.ToString().ToUpper());

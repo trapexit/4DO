@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using FourDO.Resources;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
@@ -17,13 +18,6 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			ButtonName 
 			// The rest are dynamic.
 		}
-
-		private const string LISTENING_TEXT = "(listening...)";
-
-		private const string DELETE_SET_TEXT = "Delete Set";
-		private const string ADD_SET_TEXT = "Add Set";
-		private const string SET_ALL_TEXT = "Set All";
-		private const string CLEAR_ALL_TEXT = "Clear All";
 
 		private bool isEditingButton = false;
 		private DataGridViewCell editedCell = null;
@@ -285,13 +279,13 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			{
 				int setNumber = this.FindSetIndexForColumn(cell.ColumnIndex);
 
-				if ((string)cell.Value == DELETE_SET_TEXT)
+				if ((string)cell.Value == JohnnyInputStrings.DeleteSet)
 					this.DoDeleteBinding(setNumber);
-				else if ((string)cell.Value == ADD_SET_TEXT)
+				else if ((string)cell.Value == JohnnyInputStrings.AddSet)
 					this.DoAddBinding(setNumber);
-				else if ((string)cell.Value == SET_ALL_TEXT)
+				else if ((string)cell.Value == JohnnyInputStrings.SetAll)
 					this.DoSetAll(setNumber);
-				else if ((string)cell.Value == CLEAR_ALL_TEXT)
+				else if ((string)cell.Value == JohnnyInputStrings.ClearAll)
 					this.DoClearAll(setNumber);
 			}
 
@@ -415,7 +409,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.ControlsGridView.Columns[(int)GridColumn.InputButton].Visible = false;
 
 			column = this.ControlsGridView.Columns[(int)GridColumn.ButtonName];
-			column.HeaderText = "Control";
+			column.HeaderText = JohnnyInputStrings.Control;
 			column.SortMode = DataGridViewColumnSortMode.Programmatic;
 			column.DefaultCellStyle = this.tintedStyle.Clone();
 			column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -427,7 +421,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				InputBindingSet set = this.devices[this.deviceNumber].BindingSets[setNumber];
 
 				column = this.ControlsGridView.Columns[columnIndex];
-				column.HeaderText = "Binding Set #" + (setNumber+1).ToString();
+				column.HeaderText = JohnnyInputStrings.BindingSet + " #" + (setNumber+1).ToString();
 				column.SortMode = DataGridViewColumnSortMode.Programmatic;
 				column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 				column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -457,13 +451,13 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			{
 				cell = this.ControlsGridView[columnIndex, rowIndex];
 				cell.Style = this.linkStyleBold;
-				cell.Value = DELETE_SET_TEXT;
+				cell.Value = JohnnyInputStrings.DeleteSet;
 				columnIndex++;
 			}
 
 			cell = this.ControlsGridView[this.ControlsGridView.ColumnCount - 1, rowIndex];
 			cell.Style = this.linkStyleBoldWithGrayBack;
-			cell.Value = ADD_SET_TEXT;
+			cell.Value = JohnnyInputStrings.AddSet;
 
 			// empty row.
 			rowIndex = this.ControlsGridView.Rows.Add();
@@ -478,7 +472,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			{
 				cell = this.ControlsGridView[columnIndex, rowIndex];
 				cell.Style = this.linkStyleNormal;
-				cell.Value = SET_ALL_TEXT;
+				cell.Value = JohnnyInputStrings.SetAll;
 				columnIndex++;
 			}
 
@@ -491,23 +485,23 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			{
 				cell = this.ControlsGridView[columnIndex, rowIndex];
 				cell.Style = this.linkStyleNormal;
-				cell.Value = CLEAR_ALL_TEXT;
+				cell.Value = JohnnyInputStrings.ClearAll;
 				columnIndex++;
 			}
 
 			//////////////////
 			// Add bindings
-			this.AddGridItem(InputButton.Up, "Up");
-			this.AddGridItem(InputButton.Down, "Down");
-			this.AddGridItem(InputButton.Left, "Left");
-			this.AddGridItem(InputButton.Right, "Right");
-			this.AddGridItem(InputButton.A, "A");
-			this.AddGridItem(InputButton.B, "B");
-			this.AddGridItem(InputButton.C, "C");
-			this.AddGridItem(InputButton.X, "X (\"Stop\")");
-			this.AddGridItem(InputButton.P, "P (\"Play/Pause\")");
-			this.AddGridItem(InputButton.L, "L (Left Shoulder)");
-			this.AddGridItem(InputButton.R, "R (Right Shoulder)");
+			this.AddGridItem(InputButton.Up, JohnnyInputStrings.ButtonUp);
+			this.AddGridItem(InputButton.Down, JohnnyInputStrings.ButtonDown);
+			this.AddGridItem(InputButton.Left, JohnnyInputStrings.ButtonLeft);
+			this.AddGridItem(InputButton.Right, JohnnyInputStrings.ButtonRight);
+			this.AddGridItem(InputButton.A, JohnnyInputStrings.ButtonA);
+			this.AddGridItem(InputButton.B, JohnnyInputStrings.ButtonB);
+			this.AddGridItem(InputButton.C, JohnnyInputStrings.ButtonC);
+			this.AddGridItem(InputButton.X, JohnnyInputStrings.ButtonX);
+			this.AddGridItem(InputButton.P, JohnnyInputStrings.ButtonP);
+			this.AddGridItem(InputButton.L, JohnnyInputStrings.ButtonL);
+			this.AddGridItem(InputButton.R, JohnnyInputStrings.ButtonR);
 
 			////////////////////////////////
 			// (Done with grid population)
@@ -661,7 +655,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.isEditingButton = true;
 			this.editedCell = cell;
 			this.editedCell.Style = editingStyle;
-			this.editedCell.Value = LISTENING_TEXT;
+			this.editedCell.Value = JohnnyInputStrings.Listening;
 			this.ControlsGridView.ClearSelection();
 		}
 

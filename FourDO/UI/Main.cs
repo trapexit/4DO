@@ -13,6 +13,7 @@ using FourDO.Utilities.MouseHook;
 using CDLib;
 using FourDO.Emulation.GameSource;
 using FourDO.Emulation.Plugins;
+using FourDO.Resources;
 
 namespace FourDO.UI
 {
@@ -38,7 +39,6 @@ namespace FourDO.UI
 		private bool isWindowFullScreen = false;
 
 		private bool isPausedBeforeInactive = false;
-		private bool isWindowActive = false;
 
 		private MouseHook mouseHook = new MouseHook();
 
@@ -257,6 +257,8 @@ namespace FourDO.UI
 			// Now that settings have been mucked with, subscribe to their change event.
 			Properties.Settings.Default.PropertyChanged += new PropertyChangedEventHandler(Settings_PropertyChanged);
 
+			this.Localize();
+
 			///////////////////////////
 			// Fire her up!
 			this.DoConsoleStart(true);
@@ -367,8 +369,6 @@ namespace FourDO.UI
 
 		private void Main_Deactivate(object sender, EventArgs e)
 		{
-			this.isWindowActive = false;
-
 			// Remember console state paused vs. running, and pause the emulation if the user has specified this option.
 			this.isPausedBeforeInactive = (GameConsole.Instance.State == ConsoleState.Paused);
 			if (Properties.Settings.Default.InactivePauseEmulation && GameConsole.Instance.State == ConsoleState.Running)
@@ -384,8 +384,6 @@ namespace FourDO.UI
 
 		private void Main_Activated(object sender, EventArgs e)
 		{
-			this.isWindowActive = true;
-
 			///////////////////////
 			// Restore the state of some things when the window is active again.
 			//
@@ -669,7 +667,7 @@ namespace FourDO.UI
 			{
 				string gameName = GameConsole.Instance.GameSource.GetGameName();
 				if (gameName == null)
-					gameName = "Unknown game";
+					gameName = Strings.MainMessageUnknownGame;
 
 				windowTitle += gameName + " - ";
 			}
@@ -893,7 +891,7 @@ namespace FourDO.UI
 			}
 			catch (GameConsole.BadBiosRomException)
 			{
-				FourDO.UI.Error.ShowError(string.Format("The bios file ({0}) failed to load. Please choose another.", Properties.Settings.Default.BiosRomFile));
+				FourDO.UI.Error.ShowError(string.Format(Strings.MainErrorLoadBiosFile, Properties.Settings.Default.BiosRomFile));
 				Properties.Settings.Default.BiosRomFile = "";
 				Properties.Settings.Default.Save();
 				this.DoShowRomNag();
@@ -902,9 +900,9 @@ namespace FourDO.UI
 			{
 				string errorMessage = null;
 				if (gameSource is FileGameSource)
-					errorMessage = string.Format("The game file ({0}) failed to load. Please choose another.", ((FileGameSource)gameSource).GameFilePath);
+					errorMessage = string.Format(Strings.MainErrorLoadGameFile, ((FileGameSource)gameSource).GameFilePath);
 				else
-					errorMessage = "The game failed to load. Please choose another.";
+					errorMessage = Strings.MainErrorLoadGame;
 				FourDO.UI.Error.ShowError(errorMessage);
 
 				// Since it failed to load, we want to un-remember this as the last loaded game.
@@ -913,7 +911,7 @@ namespace FourDO.UI
 			}
 			catch (GameConsole.BadNvramFileException)
 			{
-				FourDO.UI.Error.ShowError(string.Format("The nvram file ({0}) could not be loaded. Emulation cannot start.", nvramFile));
+				FourDO.UI.Error.ShowError(string.Format(Strings.MainErrorLoadNvramFile, nvramFile));
 			}
 
 			// Optionally load state.
@@ -1013,7 +1011,9 @@ namespace FourDO.UI
 			using (var openDialog = new OpenFileDialog())
 			{
 				openDialog.InitialDirectory = this.GetLastRomDirectory();
-				openDialog.Filter = "BIOS files (*.rom, *.bin)|*.rom;*.bin|All files (*.*)|*.*";
+				openDialog.Filter = 
+					Strings.MainMessageBiosFiles + " (*.rom, *.bin)|*.rom;*.bin|" +
+					Strings.MainMessageAllFiles + " (*.*)|*.*";
 				openDialog.RestoreDirectory = true;
 
 				if (openDialog.ShowDialog() == DialogResult.OK)
@@ -1036,7 +1036,9 @@ namespace FourDO.UI
 			using (var openDialog = new OpenFileDialog())
 			{
 				openDialog.InitialDirectory = this.GetLastRomDirectory();
-				openDialog.Filter = "CD image files (*.iso, *.bin, *.cue)|*.iso;*.bin;*.cue|All files (*.*)|*.*";
+				openDialog.Filter = 
+					Strings.MainMessageCDImageFiles + " (*.iso, *.bin, *.cue)|*.iso;*.bin;*.cue|" +
+					Strings.MainMessageAllFiles + " (*.*)|*.*";
 				openDialog.RestoreDirectory = true;
 
 				if (openDialog.ShowDialog() == DialogResult.OK)
@@ -1135,11 +1137,11 @@ namespace FourDO.UI
 				fps = Math.Min(fps, 999.99);
 				string fpsString = fps.ToString("00.00");
 				string extraPadding = new String(' ', 6 - fpsString.Length);
-				FPSStripItem.Text = "Core FPS: " + extraPadding + fpsString;
+				FPSStripItem.Text = Strings.MainMessageCoreFPS + ": " + extraPadding + fpsString;
 			}
 			else
 			{
-				FPSStripItem.Text = "Core FPS: ---.--";
+				FPSStripItem.Text = Strings.MainMessageCoreFPS + ": ---.--";
 			}
 		}
 

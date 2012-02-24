@@ -22,6 +22,8 @@ namespace FourDO.UI
 
 		private void GameInformation_Load(object sender, EventArgs e)
 		{
+			this.Localize();
+
 			GameRecord record = GameRegistrar.GetGameRecordById(this.GameSource.GetGameId());
 
 			this.GameNameTextBox.Text = record == null ? " - " : record.Name;

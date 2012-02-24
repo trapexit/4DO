@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FourDO.Resources;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
@@ -28,11 +29,11 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				if (this.deviceCount != value)
 				{
 					if (value <= 0)
-						this.DevicesLabel.Text = "no devices";
+						this.DevicesLabel.Text = JohnnyInputStrings.InfoNoDevices;
 					else if (value == 1)
-						this.DevicesLabel.Text = "1 device";
+						this.DevicesLabel.Text = "1 " + JohnnyInputStrings.InfoDevice;
 					else
-						this.DevicesLabel.Text = value.ToString() + " devices";
+						this.DevicesLabel.Text = value.ToString() + " " + JohnnyInputStrings.InfoDevices;
 				}
 
 				this.deviceCount = value;

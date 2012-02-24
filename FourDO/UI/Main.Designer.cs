@@ -372,7 +372,7 @@
 			// 
 			// Pattern4DOMenuItem
 			// 
-			this.Pattern4DOMenuItem.Image = global::FourDO.Properties.Resources.VoidImage4DO;
+			this.Pattern4DOMenuItem.Image = global::FourDO.Properties.Images.VoidImage4DO;
 			this.Pattern4DOMenuItem.Name = "Pattern4DOMenuItem";
 			this.Pattern4DOMenuItem.Size = new System.Drawing.Size(154, 22);
 			this.Pattern4DOMenuItem.Text = "Pattern : 4DO";
@@ -380,7 +380,7 @@
 			// 
 			// PatternBumpsMenuItem
 			// 
-			this.PatternBumpsMenuItem.Image = global::FourDO.Properties.Resources.VoidImageBumps;
+			this.PatternBumpsMenuItem.Image = global::FourDO.Properties.Images.VoidImageBumps;
 			this.PatternBumpsMenuItem.Name = "PatternBumpsMenuItem";
 			this.PatternBumpsMenuItem.Size = new System.Drawing.Size(154, 22);
 			this.PatternBumpsMenuItem.Text = "Pattern : Bumps";
@@ -388,7 +388,7 @@
 			// 
 			// PatternMetalMenuItem
 			// 
-			this.PatternMetalMenuItem.Image = global::FourDO.Properties.Resources.VoidImageMetal;
+			this.PatternMetalMenuItem.Image = global::FourDO.Properties.Images.VoidImageMetal;
 			this.PatternMetalMenuItem.Name = "PatternMetalMenuItem";
 			this.PatternMetalMenuItem.Size = new System.Drawing.Size(154, 22);
 			this.PatternMetalMenuItem.Text = "Pattern : Metal";
@@ -396,7 +396,7 @@
 			// 
 			// PatternNoneMenuItem
 			// 
-			this.PatternNoneMenuItem.Image = global::FourDO.Properties.Resources.VoidImageNone;
+			this.PatternNoneMenuItem.Image = global::FourDO.Properties.Images.VoidImageNone;
 			this.PatternNoneMenuItem.Name = "PatternNoneMenuItem";
 			this.PatternNoneMenuItem.Size = new System.Drawing.Size(154, 22);
 			this.PatternNoneMenuItem.Text = "No Pattern";
@@ -446,7 +446,7 @@
 			// 
 			this.audioMenuItem.Name = "audioMenuItem";
 			this.audioMenuItem.Size = new System.Drawing.Size(46, 20);
-			this.audioMenuItem.Text = "Audio";
+			this.audioMenuItem.Text = "&Audio";
 			// 
 			// optionsMenuItem
 			// 
@@ -491,7 +491,7 @@
 			// 
 			this.gameInfoMenuItem.Name = "gameInfoMenuItem";
 			this.gameInfoMenuItem.Size = new System.Drawing.Size(172, 22);
-			this.gameInfoMenuItem.Text = "Game Information...";
+			this.gameInfoMenuItem.Text = "Game &Information...";
 			this.gameInfoMenuItem.Click += new System.EventHandler(this.gameInfoMenuItem_Click);
 			// 
 			// toolStripSeparator12

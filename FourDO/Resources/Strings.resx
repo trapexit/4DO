@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="HelpAbout3DOPlayAuthors" xml:space="preserve">
+    <value>3DOPlay Authors:</value>
+  </data>
+  <data name="HelpAbout3DOPlayMessage" xml:space="preserve">
+    <value>In February of 2012, the core emulation from 3DOPlay was merged into 4DO's copy of the FreeDO core by Viktor, providing the benefit of two separate 3DO emulation projects!</value>
+  </data>
+  <data name="HelpAbout4DOAuthors" xml:space="preserve">
+    <value>4DO Authors:</value>
+  </data>
+  <data name="HelpAbout4DOMessage" xml:space="preserve">
+    <value>4DO (FourDO) is an open-source, low-level emulator of the 3DO Iteractive Multiplayer system.</value>
+  </data>
+  <data name="HelpAbout4DOVersion" xml:space="preserve">
+    <value>4DO Version:</value>
+  </data>
+  <data name="HelpAboutClose" xml:space="preserve">
+    <value>&amp;Close</value>
+  </data>
+  <data name="HelpAboutFreeDOAuthors" xml:space="preserve">
+    <value>FreeDO Authors:</value>
+  </data>
+  <data name="HelpAboutFreeDOMessage" xml:space="preserve">
+    <value>4DO's (and 3DOPlay's) system emulation is based on the code released from the FreeDO project that went open source on Nov 10, 2010.  Many thanks to the developers for deciding to release their code!</value>
+  </data>
+  <data name="HelpAboutJohnnyThank" xml:space="preserve">
+    <value>Additional thanks to:</value>
+  </data>
+  <data name="HelpAboutJohnnyThankMessage" xml:space="preserve">
+    <value>Johnny would like to thank other folks, some of whom helped with the original, high-level approach.</value>
+  </data>
+  <data name="HelpInfoChecksum" xml:space="preserve">
+    <value>Sector 0+1 Checksum:</value>
+  </data>
+  <data name="HelpInfoGameId" xml:space="preserve">
+    <value>Game Id:</value>
+  </data>
+  <data name="HelpInfoGameName" xml:space="preserve">
+    <value>Game Name:</value>
+  </data>
+  <data name="HelpInfoOK" xml:space="preserve">
+    <value>&amp;OK</value>
+  </data>
+  <data name="HelpInfoPublisher" xml:space="preserve">
+    <value>Publisher:</value>
+  </data>
+  <data name="HelpInfoRegion" xml:space="preserve">
+    <value>Region(s):</value>
+  </data>
+  <data name="HelpInfoReleaseYear" xml:space="preserve">
+    <value>Release Year:</value>
+  </data>
+  <data name="HelpInfoWindowTitle" xml:space="preserve">
+    <value>Game Information</value>
+  </data>
+  <data name="MainErrorLoadBiosFile" xml:space="preserve">
+    <value>The bios file ({0}) failed to load. Please choose another.</value>
+  </data>
+  <data name="MainErrorLoadGame" xml:space="preserve">
+    <value>The game failed to load. Please choose another.</value>
+  </data>
+  <data name="MainErrorLoadGameFile" xml:space="preserve">
+    <value>The game file ({0}) failed to load. Please choose another.</value>
+  </data>
+  <data name="MainErrorLoadNvramFile" xml:space="preserve">
+    <value>"The nvram file ({0}) could not be loaded. Emulation cannot start."</value>
+  </data>
+  <data name="MainMenuAudio" xml:space="preserve">
+    <value>&amp;Audio</value>
+  </data>
+  <data name="MainMenuConsole" xml:space="preserve">
+    <value>&amp;Console</value>
+  </data>
+  <data name="MainMenuConsoleAdvanceFrame" xml:space="preserve">
+    <value>&amp;Advance by a Single Frame</value>
+  </data>
+  <data name="MainMenuConsoleAutoLoadLastSave" xml:space="preserve">
+    <value>After Game is Opened, L&amp;oad Last Save (of Slot)</value>
+  </data>
+  <data name="MainMenuConsoleLoadState" xml:space="preserve">
+    <value>&amp;Load State</value>
+  </data>
+  <data name="MainMenuConsolePause" xml:space="preserve">
+    <value>&amp;Pause</value>
+  </data>
+  <data name="MainMenuConsoleReset" xml:space="preserve">
+    <value>&amp;Reset</value>
+  </data>
+  <data name="MainMenuConsoleSaveState" xml:space="preserve">
+    <value>&amp;Save State</value>
+  </data>
+  <data name="MainMenuConsoleSaveStateSlot" xml:space="preserve">
+    <value>Save State Slo&amp;t</value>
+  </data>
+  <data name="MainMenuConsoleSaveStateSlotNext" xml:space="preserve">
+    <value>Select &amp;Next Slot</value>
+  </data>
+  <data name="MainMenuConsoleSaveStateSlotPrevious" xml:space="preserve">
+    <value>Select &amp;Previous Slot</value>
+  </data>
+  <data name="MainMenuDisplay" xml:space="preserve">
+    <value>&amp;Display</value>
+  </data>
+  <data name="MainMenuDisplayFullscreen" xml:space="preserve">
+    <value>&amp;Full Screen</value>
+  </data>
+  <data name="MainMenuDisplayPreserveRatio" xml:space="preserve">
+    <value>Preserve Aspect &amp;Ratio</value>
+  </data>
+  <data name="MainMenuDisplayResizeSnap" xml:space="preserve">
+    <value>Snap &amp;Window to Clean Increments</value>
+  </data>
+  <data name="MainMenuDisplaySmoothResizing" xml:space="preserve">
+    <value>&amp;Smooth Image Resizing</value>
+  </data>
+  <data name="MainMenuDisplayVoidArea" xml:space="preserve">
+    <value>Blank (Void) Area</value>
+  </data>
+  <data name="MainMenuDisplayVoidAreaDrawBorder" xml:space="preserve">
+    <value>Draw Gray Border</value>
+  </data>
+  <data name="MainMenuDisplayVoidAreaPattern4DO" xml:space="preserve">
+    <value>Pattern : 4DO</value>
+  </data>
+  <data name="MainMenuDisplayVoidAreaPatternBumps" xml:space="preserve">
+    <value>Pattern : Bumps</value>
+  </data>
+  <data name="MainMenuDisplayVoidAreaPatternMetal" xml:space="preserve">
+    <value>Pattern : Metal</value>
+  </data>
+  <data name="MainMenuDisplayVoidAreaPatternNone" xml:space="preserve">
+    <value>No Pattern</value>
+  </data>
+  <data name="MainMenuFile" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="MainMenuFileAutoLoadLastGame" xml:space="preserve">
+    <value>After Startup, Open Last Game</value>
+  </data>
+  <data name="MainMenuFileChooseBiosRom" xml:space="preserve">
+    <value>Choose &amp;BIOS Rom File...</value>
+  </data>
+  <data name="MainMenuFileCloseRom" xml:space="preserve">
+    <value>&amp;Close Game</value>
+  </data>
+  <data name="MainMenuFileExit" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="MainMenuFileOpenCDDrive" xml:space="preserve">
+    <value>Open Disc Drive</value>
+  </data>
+  <data name="MainMenuFileOpenCDImage" xml:space="preserve">
+    <value>Open CD &amp;Image File...</value>
+  </data>
+  <data name="MainMenuHelp" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="MainMenuHelpAbout" xml:space="preserve">
+    <value>&amp;About 4DO...</value>
+  </data>
+  <data name="MainMenuHelpGameInfo" xml:space="preserve">
+    <value>Game &amp;Information...</value>
+  </data>
+  <data name="MainMenuOptions" xml:space="preserve">
+    <value>&amp;Options</value>
+  </data>
+  <data name="MainMenuOptionsConfigureInput" xml:space="preserve">
+    <value>Configure &amp;Input...</value>
+  </data>
+  <data name="MainMenuOptionsSettings" xml:space="preserve">
+    <value>4DO &amp;Settings...</value>
+  </data>
+  <data name="MainMessageAllFiles" xml:space="preserve">
+    <value>All files</value>
+  </data>
+  <data name="MainMessageBiosFiles" xml:space="preserve">
+    <value>BIOS files</value>
+  </data>
+  <data name="MainMessageCDImageFiles" xml:space="preserve">
+    <value>CD image files</value>
+  </data>
+  <data name="MainMessageChooseBiosRom" xml:space="preserve">
+    <value>Choose BIOS Rom</value>
+  </data>
+  <data name="MainMessageCoreFPS" xml:space="preserve">
+    <value>Core FPS</value>
+  </data>
+  <data name="MainMessageDisplayOptions" xml:space="preserve">
+    <value>Display Options</value>
+  </data>
+  <data name="MainMessageNoBiosSelected" xml:space="preserve">
+    <value>No BIOS rom selected.</value>
+  </data>
+  <data name="MainMessageUnknownGame" xml:space="preserve">
+    <value>Unknown game</value>
+  </data>
+  <data name="SettingsCancel" xml:space="preserve">
+    <value>&amp;Cancel</value>
+  </data>
+  <data name="SettingsOK" xml:space="preserve">
+    <value>&amp;OK</value>
+  </data>
+  <data name="SettingsTabAdvanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="SettingsTabAdvancedAudioBufferFewerGlitches" xml:space="preserve">
+    <value>Fewer Glitches</value>
+  </data>
+  <data name="SettingsTabAdvancedAudioBufferFrame" xml:space="preserve">
+    <value>Audio Buffer Size</value>
+  </data>
+  <data name="SettingsTabAdvancedAudioBufferLessLag" xml:space="preserve">
+    <value>Less Lag</value>
+  </data>
+  <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
+    <value>The audio buffer provides tolerance for unpredictable emulation speed at the cost of audio delay. However, whenever emulation is terminally behind schedule, audio glitches will occur (even with large buffers).</value>
+  </data>
+  <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
+    <value>MORE Glitches</value>
+  </data>
+  <data name="SettingsTabAdvancedAudioBufferMoreLag" xml:space="preserve">
+    <value>MORE Lag</value>
+  </data>
+  <data name="SettingsTabAdvancedClockFrame" xml:space="preserve">
+    <value>CPU Clock Speed</value>
+  </data>
+  <data name="SettingsTabAdvancedClockHigherFPS" xml:space="preserve">
+    <value>Higher FPS</value>
+  </data>
+  <data name="SettingsTabAdvancedClockMessage" xml:space="preserve">
+    <value>By adjusting the CPU clock speed, you can potentially achieve higher FPS in games. Not all games will handle this appropriately. Games dependent on precise timing could even crash/freeze.</value>
+  </data>
+  <data name="SettingsTabAdvancedClockNormalFPS" xml:space="preserve">
+    <value>Normal FPS</value>
+  </data>
+  <data name="SettingsTabAdvancedDefaultsMessage" xml:space="preserve">
+    <value>Consider setting these to defaults if seeing odd behavior.</value>
+  </data>
+  <data name="SettingsTabAdvancedHighResFrame" xml:space="preserve">
+    <value>High-Resolution Rendering</value>
+  </data>
+  <data name="SettingsTabAdvancedHighResMessage" xml:space="preserve">
+    <value>Via software rendering, the screen images can be rendered to 640 x 480. This is very CPU intensive, and only of value to 3D games! If using this option, consider increasing audio buffer size as well.</value>
+  </data>
+  <data name="SettingsTabAdvancedHighResSetting" xml:space="preserve">
+    <value>Enable high-resolution video rendering</value>
+  </data>
+  <data name="SettingsTabAdvancedResetDefaults" xml:space="preserve">
+    <value>Reset to defaults</value>
+  </data>
+  <data name="SettingsTabDisplay" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="SettingsTabDisplayDrawBorder" xml:space="preserve">
+    <value>Draw gray border around viewing area</value>
+  </data>
+  <data name="SettingsTabDisplayGeneralOptions" xml:space="preserve">
+    <value>&amp;General Display Settings</value>
+  </data>
+  <data name="SettingsTabDisplayPreserveAspectRatio" xml:space="preserve">
+    <value>Preserve aspect ratio</value>
+  </data>
+  <data name="SettingsTabDisplaySmoothResizing" xml:space="preserve">
+    <value>Perform smooth image resizing</value>
+  </data>
+  <data name="SettingsTabDisplaySnapResizing" xml:space="preserve">
+    <value>When resizing the window, snap to clean increments</value>
+  </data>
+  <data name="SettingsTabDisplayVoidOptions" xml:space="preserve">
+    <value>Blank (&amp;Void) Area Effects</value>
+  </data>
+  <data name="SettingsTabDisplayVoidPattern" xml:space="preserve">
+    <value>Background pattern:</value>
+  </data>
+  <data name="SettingsTabDisplayVoidPattern4DO" xml:space="preserve">
+    <value>4DO</value>
+  </data>
+  <data name="SettingsTabDisplayVoidPatternBumps" xml:space="preserve">
+    <value>Bumps</value>
+  </data>
+  <data name="SettingsTabDisplayVoidPatternMetal" xml:space="preserve">
+    <value>Metal</value>
+  </data>
+  <data name="SettingsTabDisplayVoidPatternNone" xml:space="preserve">
+    <value>No pattern</value>
+  </data>
+  <data name="SettingsTabGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingsTabGeneralAutoLoadLastGame" xml:space="preserve">
+    <value>When 4DO starts, open whatever game was running last time</value>
+  </data>
+  <data name="SettingsTabGeneralAutoLoadLastSave" xml:space="preserve">
+    <value>When a game is opened, re-load the last save state of the current save state slot</value>
+  </data>
+  <data name="SettingsTabGeneralBehaviorOptions" xml:space="preserve">
+    <value>Various &amp;Behaviorial Options</value>
+  </data>
+  <data name="SettingsTabGeneralInactiveIgnoreKeyboard" xml:space="preserve">
+    <value>When the main window loses focus, ignore keyboard input</value>
+  </data>
+  <data name="SettingsTabGeneralInactiveOptions" xml:space="preserve">
+    <value>&amp;Inactive Window Options</value>
+  </data>
+  <data name="SettingsTabGeneralInactivePauseEmulation" xml:space="preserve">
+    <value>When the main window loses focus, pause emulation</value>
+  </data>
+  <data name="SettingsTabGeneralStartupOptions" xml:space="preserve">
+    <value>&amp;Startup Options</value>
+  </data>
+  <data name="SettingsWindowInstructions" xml:space="preserve">
+    <value>Configure various 4DO settings</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+</root>

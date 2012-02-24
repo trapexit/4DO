@@ -98,9 +98,23 @@
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\ControllerInfo.Designer.cs">
       <DependentUpon>ControllerInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\ControllerInfo.Local.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\ControllerPreview.Local.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\DeviceSearchThread.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingDevice.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\InputBindingDevices.cs" />
+    <Compile Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputSettings.Local.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Resources\JohnnyInputStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JohnnyInputStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyInput.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyInputChecker.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoyInputWatcher.cs" />
@@ -140,6 +154,14 @@
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\JoystickTriggerType.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\KeyboardInputTrigger.cs" />
     <Compile Include="Emulation\Plugins\PluginLoader.cs" />
+    <Compile Include="Resources\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\About.Local.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\Canvases\BitmapBunch.cs" />
     <Compile Include="UI\Canvases\CanvasHelper.cs" />
     <Compile Include="UI\Canvases\GdiCanvas.cs">
@@ -148,10 +170,10 @@
     <Compile Include="UI\Canvases\GdiCanvas.Designer.cs">
       <DependentUpon>GdiCanvas.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\Images.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>Images.resx</DependentUpon>
     </Compile>
     <Compile Include="UI\About.cs">
       <SubType>Form</SubType>
@@ -175,12 +197,21 @@
     <Compile Include="UI\GameInformation.Designer.cs">
       <DependentUpon>GameInformation.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\GameInformation.Local.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Main.Local.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\SaveHelper.cs" />
     <Compile Include="UI\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Settings.Local.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\SizeBox.cs">
       <SubType>UserControl</SubType>
@@ -228,11 +259,21 @@
     <EmbeddedResource Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputSettings.resx">
       <DependentUpon>JohnnyInputSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Resources\JohnnyInputStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>JohnnyInputStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\JohnnyInputStrings.ru.resx" />
+    <EmbeddedResource Include="Properties\Images.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings.ru.resx" />
     <EmbeddedResource Include="UI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>

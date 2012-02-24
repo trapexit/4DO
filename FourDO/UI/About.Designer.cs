@@ -31,26 +31,26 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
 			this.CloseButton = new System.Windows.Forms.Button();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
+			this.FourDOVersionLabel = new System.Windows.Forms.Label();
+			this.FourDOAuthorsLabel = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
-			this.label4 = new System.Windows.Forms.Label();
+			this.FreeDOMessageLabel = new System.Windows.Forms.Label();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.VersionTextBox = new System.Windows.Forms.TextBox();
 			this.textBox2 = new System.Windows.Forms.TextBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
+			this.FreeDOAuthorsLabel = new System.Windows.Forms.Label();
+			this.JohnnyThanksMessage = new System.Windows.Forms.Label();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.label6 = new System.Windows.Forms.Label();
+			this.JohnnyThanksLabel = new System.Windows.Forms.Label();
 			this.textBox3 = new System.Windows.Forms.TextBox();
-			this.label7 = new System.Windows.Forms.Label();
+			this.FourDOMessageLabel = new System.Windows.Forms.Label();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.label8 = new System.Windows.Forms.Label();
+			this.ThreeDOPlayAuthorsMessage = new System.Windows.Forms.Label();
 			this.pictureBox3 = new System.Windows.Forms.PictureBox();
 			this.textBox4 = new System.Windows.Forms.TextBox();
-			this.label9 = new System.Windows.Forms.Label();
+			this.ThreeDOPlayAuthorsLabel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -69,30 +69,30 @@
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.Image = global::FourDO.Properties.Resources.FourDO_Large;
+			this.pictureBox1.Image = global::FourDO.Properties.Images.FourDO_Large;
 			this.pictureBox1.Location = new System.Drawing.Point(58, 12);
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.Size = new System.Drawing.Size(125, 126);
 			this.pictureBox1.TabIndex = 1;
 			this.pictureBox1.TabStop = false;
 			// 
-			// label1
+			// FourDOVersionLabel
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(229, 72);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(69, 13);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "4DO version:";
+			this.FourDOVersionLabel.AutoSize = true;
+			this.FourDOVersionLabel.Location = new System.Drawing.Point(229, 72);
+			this.FourDOVersionLabel.Name = "FourDOVersionLabel";
+			this.FourDOVersionLabel.Size = new System.Drawing.Size(70, 13);
+			this.FourDOVersionLabel.TabIndex = 2;
+			this.FourDOVersionLabel.Text = "4DO Version:";
 			// 
-			// label2
+			// FourDOAuthorsLabel
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(229, 96);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(71, 13);
-			this.label2.TabIndex = 4;
-			this.label2.Text = "4DO Authors:";
+			this.FourDOAuthorsLabel.AutoSize = true;
+			this.FourDOAuthorsLabel.Location = new System.Drawing.Point(229, 96);
+			this.FourDOAuthorsLabel.Name = "FourDOAuthorsLabel";
+			this.FourDOAuthorsLabel.Size = new System.Drawing.Size(71, 13);
+			this.FourDOAuthorsLabel.TabIndex = 4;
+			this.FourDOAuthorsLabel.Text = "4DO Authors:";
 			// 
 			// groupBox1
 			// 
@@ -117,7 +117,7 @@
 			// pictureBox2
 			// 
 			this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox2.BackgroundImage = global::FourDO.Properties.Resources.FreeDO;
+			this.pictureBox2.BackgroundImage = global::FourDO.Properties.Images.FreeDO;
 			this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.pictureBox2.Location = new System.Drawing.Point(301, 273);
 			this.pictureBox2.Name = "pictureBox2";
@@ -125,18 +125,18 @@
 			this.pictureBox2.TabIndex = 8;
 			this.pictureBox2.TabStop = false;
 			// 
-			// label4
+			// FreeDOMessageLabel
 			// 
-			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.FreeDOMessageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.Location = new System.Drawing.Point(10, 273);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(285, 58);
-			this.label4.TabIndex = 9;
-			this.label4.Text = "4DO\'s (and 3DOPlay\'s) system emulation is based on the code released from the Fre" +
+			this.FreeDOMessageLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.FreeDOMessageLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.FreeDOMessageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.FreeDOMessageLabel.Location = new System.Drawing.Point(10, 273);
+			this.FreeDOMessageLabel.Name = "FreeDOMessageLabel";
+			this.FreeDOMessageLabel.Size = new System.Drawing.Size(285, 58);
+			this.FreeDOMessageLabel.TabIndex = 9;
+			this.FreeDOMessageLabel.Text = "4DO\'s (and 3DOPlay\'s) system emulation is based on the code released from the Fre" +
 				"eDO project that went open source on Nov 10, 2010.  Many thanks to the developer" +
 				"s for deciding to release their code!";
 			// 
@@ -178,22 +178,22 @@
 			this.textBox2.TabIndex = 13;
 			this.textBox2.Text = "JohnnyDude (founder of 4DO)\r\nViktor (founder of 3DOPlay)";
 			// 
-			// label3
+			// FreeDOAuthorsLabel
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(31, 341);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(86, 13);
-			this.label3.TabIndex = 14;
-			this.label3.Text = "FreeDO Authors:";
+			this.FreeDOAuthorsLabel.AutoSize = true;
+			this.FreeDOAuthorsLabel.Location = new System.Drawing.Point(31, 341);
+			this.FreeDOAuthorsLabel.Name = "FreeDOAuthorsLabel";
+			this.FreeDOAuthorsLabel.Size = new System.Drawing.Size(86, 13);
+			this.FreeDOAuthorsLabel.TabIndex = 14;
+			this.FreeDOAuthorsLabel.Text = "FreeDO Authors:";
 			// 
-			// label5
+			// JohnnyThanksMessage
 			// 
-			this.label5.Location = new System.Drawing.Point(20, 431);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(477, 19);
-			this.label5.TabIndex = 15;
-			this.label5.Text = "Johnny would like to thank other folks, some of whom helped with the original, hi" +
+			this.JohnnyThanksMessage.Location = new System.Drawing.Point(20, 431);
+			this.JohnnyThanksMessage.Name = "JohnnyThanksMessage";
+			this.JohnnyThanksMessage.Size = new System.Drawing.Size(477, 19);
+			this.JohnnyThanksMessage.TabIndex = 15;
+			this.JohnnyThanksMessage.Text = "Johnny would like to thank other folks, some of whom helped with the original, hi" +
 				"gh-level approach.";
 			// 
 			// groupBox3
@@ -206,14 +206,14 @@
 			this.groupBox3.TabIndex = 8;
 			this.groupBox3.TabStop = false;
 			// 
-			// label6
+			// JohnnyThanksLabel
 			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(20, 453);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(103, 13);
-			this.label6.TabIndex = 16;
-			this.label6.Text = "Additional thanks to:";
+			this.JohnnyThanksLabel.AutoSize = true;
+			this.JohnnyThanksLabel.Location = new System.Drawing.Point(20, 453);
+			this.JohnnyThanksLabel.Name = "JohnnyThanksLabel";
+			this.JohnnyThanksLabel.Size = new System.Drawing.Size(103, 13);
+			this.JohnnyThanksLabel.TabIndex = 16;
+			this.JohnnyThanksLabel.Text = "Additional thanks to:";
 			// 
 			// textBox3
 			// 
@@ -228,14 +228,14 @@
 			this.textBox3.TabIndex = 17;
 			this.textBox3.Text = resources.GetString("textBox3.Text");
 			// 
-			// label7
+			// FourDOMessageLabel
 			// 
-			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label7.Location = new System.Drawing.Point(214, 28);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(275, 38);
-			this.label7.TabIndex = 18;
-			this.label7.Text = "4DO (FourDO) is an open-source, low-level emulator of the 3DO Iteractive Multipla" +
+			this.FourDOMessageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.FourDOMessageLabel.Location = new System.Drawing.Point(214, 28);
+			this.FourDOMessageLabel.Name = "FourDOMessageLabel";
+			this.FourDOMessageLabel.Size = new System.Drawing.Size(275, 38);
+			this.FourDOMessageLabel.TabIndex = 18;
+			this.FourDOMessageLabel.Text = "4DO (FourDO) is an open-source, low-level emulator of the 3DO Iteractive Multipla" +
 				"yer system.";
 			// 
 			// groupBox4
@@ -248,25 +248,25 @@
 			this.groupBox4.TabIndex = 7;
 			this.groupBox4.TabStop = false;
 			// 
-			// label8
+			// ThreeDOPlayAuthorsMessage
 			// 
-			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.ThreeDOPlayAuthorsMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.label8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label8.Location = new System.Drawing.Point(12, 162);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(357, 45);
-			this.label8.TabIndex = 19;
-			this.label8.Text = "In February of 2012, the core emulation from 3DOPlay was merged into 4DO\'s copy o" +
+			this.ThreeDOPlayAuthorsMessage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.ThreeDOPlayAuthorsMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.ThreeDOPlayAuthorsMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ThreeDOPlayAuthorsMessage.Location = new System.Drawing.Point(12, 162);
+			this.ThreeDOPlayAuthorsMessage.Name = "ThreeDOPlayAuthorsMessage";
+			this.ThreeDOPlayAuthorsMessage.Size = new System.Drawing.Size(357, 45);
+			this.ThreeDOPlayAuthorsMessage.TabIndex = 19;
+			this.ThreeDOPlayAuthorsMessage.Text = "In February of 2012, the core emulation from 3DOPlay was merged into 4DO\'s copy o" +
 				"f the FreeDO core by Viktor, providing the benefit of two separate 3DO emulation" +
 				" projects!";
 			// 
 			// pictureBox3
 			// 
 			this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox3.BackgroundImage = global::FourDO.Properties.Resources._3DOPlay_cropped;
+			this.pictureBox3.BackgroundImage = global::FourDO.Properties.Images._3DOPlay_cropped;
 			this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.pictureBox3.Location = new System.Drawing.Point(375, 162);
 			this.pictureBox3.Name = "pictureBox3";
@@ -287,14 +287,14 @@
 			this.textBox4.TabIndex = 22;
 			this.textBox4.Text = "Viktor";
 			// 
-			// label9
+			// ThreeDOPlayAuthorsLabel
 			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(32, 220);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(91, 13);
-			this.label9.TabIndex = 21;
-			this.label9.Text = "3DOPlay Authors:";
+			this.ThreeDOPlayAuthorsLabel.AutoSize = true;
+			this.ThreeDOPlayAuthorsLabel.Location = new System.Drawing.Point(32, 220);
+			this.ThreeDOPlayAuthorsLabel.Name = "ThreeDOPlayAuthorsLabel";
+			this.ThreeDOPlayAuthorsLabel.Size = new System.Drawing.Size(91, 13);
+			this.ThreeDOPlayAuthorsLabel.TabIndex = 21;
+			this.ThreeDOPlayAuthorsLabel.Text = "3DOPlay Authors:";
 			// 
 			// About
 			// 
@@ -306,25 +306,25 @@
 			this.ClientSize = new System.Drawing.Size(513, 560);
 			this.ControlBox = false;
 			this.Controls.Add(this.textBox4);
-			this.Controls.Add(this.label9);
+			this.Controls.Add(this.ThreeDOPlayAuthorsLabel);
 			this.Controls.Add(this.pictureBox3);
-			this.Controls.Add(this.label8);
+			this.Controls.Add(this.ThreeDOPlayAuthorsMessage);
 			this.Controls.Add(this.groupBox4);
-			this.Controls.Add(this.label7);
+			this.Controls.Add(this.FourDOMessageLabel);
 			this.Controls.Add(this.textBox3);
-			this.Controls.Add(this.label6);
+			this.Controls.Add(this.JohnnyThanksLabel);
 			this.Controls.Add(this.groupBox3);
-			this.Controls.Add(this.label5);
-			this.Controls.Add(this.label3);
+			this.Controls.Add(this.JohnnyThanksMessage);
+			this.Controls.Add(this.FreeDOAuthorsLabel);
 			this.Controls.Add(this.textBox2);
 			this.Controls.Add(this.VersionTextBox);
 			this.Controls.Add(this.textBox1);
-			this.Controls.Add(this.label4);
+			this.Controls.Add(this.FreeDOMessageLabel);
 			this.Controls.Add(this.pictureBox2);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.label1);
+			this.Controls.Add(this.FourDOAuthorsLabel);
+			this.Controls.Add(this.FourDOVersionLabel);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.CloseButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -345,25 +345,25 @@
 
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label FourDOVersionLabel;
+        private System.Windows.Forms.Label FourDOAuthorsLabel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label FreeDOMessageLabel;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox VersionTextBox;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label FreeDOAuthorsLabel;
+        private System.Windows.Forms.Label JohnnyThanksMessage;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label JohnnyThanksLabel;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label FourDOMessageLabel;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label ThreeDOPlayAuthorsMessage;
 		private System.Windows.Forms.PictureBox pictureBox3;
 		private System.Windows.Forms.TextBox textBox4;
-		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Label ThreeDOPlayAuthorsLabel;
     }
 }

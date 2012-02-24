@@ -18,6 +18,7 @@ namespace FourDO.UI
 
 		private void About_Load(object sender, EventArgs e)
 		{
+			this.Localize();
 			VersionTextBox.Text = Application.ProductVersion;
 		}
 

@@ -35,21 +35,21 @@
 			this.OKButton = new System.Windows.Forms.Button();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.TitleLabel = new System.Windows.Forms.Label();
+			this.InstructionsLabel = new System.Windows.Forms.Label();
 			this.tabMain = new System.Windows.Forms.TabControl();
 			this.GeneralTabPage = new System.Windows.Forms.TabPage();
-			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.InactiveGroupBox = new System.Windows.Forms.GroupBox();
 			this.chkInactiveIgnoreInput = new System.Windows.Forms.CheckBox();
 			this.chkInactivePauseEmulation = new System.Windows.Forms.CheckBox();
 			this.pictureBox4 = new System.Windows.Forms.PictureBox();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.BehaviorGroupBox = new System.Windows.Forms.GroupBox();
 			this.chkLoadLastSave = new System.Windows.Forms.CheckBox();
 			this.pictureBox3 = new System.Windows.Forms.PictureBox();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.StartupGroupBox = new System.Windows.Forms.GroupBox();
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.chkLoadLastGame = new System.Windows.Forms.CheckBox();
 			this.DisplayTabPage = new System.Windows.Forms.TabPage();
-			this.groupBox6 = new System.Windows.Forms.GroupBox();
+			this.DisplayVoidGroupBox = new System.Windows.Forms.GroupBox();
 			this.BackgroundNonePicture = new System.Windows.Forms.PictureBox();
 			this.BackgroundMetalPicture = new System.Windows.Forms.PictureBox();
 			this.BackgroundBumpsPicture = new System.Windows.Forms.PictureBox();
@@ -63,7 +63,7 @@
 			this.BackgroundPanel = new System.Windows.Forms.Panel();
 			this.BorderPanel = new System.Windows.Forms.Panel();
 			this.pictureBox9 = new System.Windows.Forms.PictureBox();
-			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.DisplayGeneralGroupBox = new System.Windows.Forms.GroupBox();
 			this.chkSnapWindowIncrements = new System.Windows.Forms.CheckBox();
 			this.pictureBox7 = new System.Windows.Forms.PictureBox();
 			this.chkPreserveAspectRatio = new System.Windows.Forms.CheckBox();
@@ -71,44 +71,44 @@
 			this.pictureBox6 = new System.Windows.Forms.PictureBox();
 			this.chkSmoothImageResize = new System.Windows.Forms.CheckBox();
 			this.AdvancedDisplayTab = new System.Windows.Forms.TabPage();
-			this.groupBox9 = new System.Windows.Forms.GroupBox();
+			this.HighResGroupBox = new System.Windows.Forms.GroupBox();
 			this.chkRenderHighRes = new System.Windows.Forms.CheckBox();
-			this.label13 = new System.Windows.Forms.Label();
+			this.HighResolutionLabel = new System.Windows.Forms.Label();
 			this.pictureBox11 = new System.Windows.Forms.PictureBox();
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.AdvancedResetButton = new System.Windows.Forms.Button();
-			this.label7 = new System.Windows.Forms.Label();
-			this.groupBox8 = new System.Windows.Forms.GroupBox();
+			this.ResetDefaultsLabel = new System.Windows.Forms.Label();
+			this.AudioBufferGroupBox = new System.Windows.Forms.GroupBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
+			this.AudioMoreLagLabel = new System.Windows.Forms.Label();
+			this.AudioLessLagLabel = new System.Windows.Forms.Label();
 			this.AudioBufferValueLabel = new System.Windows.Forms.Label();
 			this.AudioBufferBar = new System.Windows.Forms.TrackBar();
 			this.label2 = new System.Windows.Forms.Label();
 			this.pictureBox10 = new System.Windows.Forms.PictureBox();
-			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.CpuClockGroupBox = new System.Windows.Forms.GroupBox();
 			this.label9 = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
-			this.label11 = new System.Windows.Forms.Label();
-			this.label12 = new System.Windows.Forms.Label();
+			this.ClockHigherFpsLabel = new System.Windows.Forms.Label();
+			this.ClockNormalFpsLabel = new System.Windows.Forms.Label();
 			this.CpuClockValueLabel = new System.Windows.Forms.Label();
 			this.CpuClockBar = new System.Windows.Forms.TrackBar();
-			this.label8 = new System.Windows.Forms.Label();
+			this.ClockMessageLabel = new System.Windows.Forms.Label();
 			this.pictureBox8 = new System.Windows.Forms.PictureBox();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.tabMain.SuspendLayout();
 			this.GeneralTabPage.SuspendLayout();
-			this.groupBox4.SuspendLayout();
+			this.InactiveGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-			this.groupBox3.SuspendLayout();
+			this.BehaviorGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-			this.groupBox2.SuspendLayout();
+			this.StartupGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
 			this.DisplayTabPage.SuspendLayout();
-			this.groupBox6.SuspendLayout();
+			this.DisplayVoidGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BackgroundNonePicture)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.BackgroundMetalPicture)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.BackgroundBumpsPicture)).BeginInit();
@@ -116,18 +116,18 @@
 			this.BackgroundPanel.SuspendLayout();
 			this.BorderPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
-			this.groupBox5.SuspendLayout();
+			this.DisplayGeneralGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
 			this.AdvancedDisplayTab.SuspendLayout();
-			this.groupBox9.SuspendLayout();
+			this.HighResGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
 			this.panel3.SuspendLayout();
-			this.groupBox8.SuspendLayout();
+			this.AudioBufferGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.AudioBufferBar)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
-			this.groupBox7.SuspendLayout();
+			this.CpuClockGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.CpuClockBar)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
 			this.SuspendLayout();
@@ -180,7 +180,7 @@
 			this.panel2.BackColor = System.Drawing.SystemColors.Window;
 			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel2.Controls.Add(this.pictureBox1);
-			this.panel2.Controls.Add(this.TitleLabel);
+			this.panel2.Controls.Add(this.InstructionsLabel);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel2.Location = new System.Drawing.Point(0, 0);
 			this.panel2.Name = "panel2";
@@ -196,15 +196,15 @@
 			this.pictureBox1.TabIndex = 1;
 			this.pictureBox1.TabStop = false;
 			// 
-			// TitleLabel
+			// InstructionsLabel
 			// 
-			this.TitleLabel.AutoSize = true;
-			this.TitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.TitleLabel.Location = new System.Drawing.Point(64, 23);
-			this.TitleLabel.Name = "TitleLabel";
-			this.TitleLabel.Size = new System.Drawing.Size(183, 13);
-			this.TitleLabel.TabIndex = 0;
-			this.TitleLabel.Text = "Configure various 4DO settings";
+			this.InstructionsLabel.AutoSize = true;
+			this.InstructionsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.InstructionsLabel.Location = new System.Drawing.Point(64, 23);
+			this.InstructionsLabel.Name = "InstructionsLabel";
+			this.InstructionsLabel.Size = new System.Drawing.Size(183, 13);
+			this.InstructionsLabel.TabIndex = 0;
+			this.InstructionsLabel.Text = "Configure various 4DO settings";
 			// 
 			// tabMain
 			// 
@@ -223,9 +223,9 @@
 			// GeneralTabPage
 			// 
 			this.GeneralTabPage.BackColor = System.Drawing.SystemColors.Control;
-			this.GeneralTabPage.Controls.Add(this.groupBox4);
-			this.GeneralTabPage.Controls.Add(this.groupBox3);
-			this.GeneralTabPage.Controls.Add(this.groupBox2);
+			this.GeneralTabPage.Controls.Add(this.InactiveGroupBox);
+			this.GeneralTabPage.Controls.Add(this.BehaviorGroupBox);
+			this.GeneralTabPage.Controls.Add(this.StartupGroupBox);
 			this.GeneralTabPage.Location = new System.Drawing.Point(4, 22);
 			this.GeneralTabPage.Name = "GeneralTabPage";
 			this.GeneralTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -233,19 +233,19 @@
 			this.GeneralTabPage.TabIndex = 0;
 			this.GeneralTabPage.Text = "General";
 			// 
-			// groupBox4
+			// InactiveGroupBox
 			// 
-			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.InactiveGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox4.Controls.Add(this.chkInactiveIgnoreInput);
-			this.groupBox4.Controls.Add(this.chkInactivePauseEmulation);
-			this.groupBox4.Controls.Add(this.pictureBox4);
-			this.groupBox4.Location = new System.Drawing.Point(17, 189);
-			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(411, 81);
-			this.groupBox4.TabIndex = 2;
-			this.groupBox4.TabStop = false;
-			this.groupBox4.Text = "&Inactive Window Options";
+			this.InactiveGroupBox.Controls.Add(this.chkInactiveIgnoreInput);
+			this.InactiveGroupBox.Controls.Add(this.chkInactivePauseEmulation);
+			this.InactiveGroupBox.Controls.Add(this.pictureBox4);
+			this.InactiveGroupBox.Location = new System.Drawing.Point(17, 189);
+			this.InactiveGroupBox.Name = "InactiveGroupBox";
+			this.InactiveGroupBox.Size = new System.Drawing.Size(411, 81);
+			this.InactiveGroupBox.TabIndex = 2;
+			this.InactiveGroupBox.TabStop = false;
+			this.InactiveGroupBox.Text = "&Inactive Window Options";
 			// 
 			// chkInactiveIgnoreInput
 			// 
@@ -278,18 +278,18 @@
 			this.pictureBox4.TabIndex = 5;
 			this.pictureBox4.TabStop = false;
 			// 
-			// groupBox3
+			// BehaviorGroupBox
 			// 
-			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.BehaviorGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox3.Controls.Add(this.chkLoadLastSave);
-			this.groupBox3.Controls.Add(this.pictureBox3);
-			this.groupBox3.Location = new System.Drawing.Point(17, 102);
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(411, 81);
-			this.groupBox3.TabIndex = 1;
-			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = "Various &Behaviorial Options";
+			this.BehaviorGroupBox.Controls.Add(this.chkLoadLastSave);
+			this.BehaviorGroupBox.Controls.Add(this.pictureBox3);
+			this.BehaviorGroupBox.Location = new System.Drawing.Point(17, 102);
+			this.BehaviorGroupBox.Name = "BehaviorGroupBox";
+			this.BehaviorGroupBox.Size = new System.Drawing.Size(411, 81);
+			this.BehaviorGroupBox.TabIndex = 1;
+			this.BehaviorGroupBox.TabStop = false;
+			this.BehaviorGroupBox.Text = "Various &Behaviorial Options";
 			// 
 			// chkLoadLastSave
 			// 
@@ -312,18 +312,18 @@
 			this.pictureBox3.TabIndex = 5;
 			this.pictureBox3.TabStop = false;
 			// 
-			// groupBox2
+			// StartupGroupBox
 			// 
-			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.StartupGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox2.Controls.Add(this.pictureBox2);
-			this.groupBox2.Controls.Add(this.chkLoadLastGame);
-			this.groupBox2.Location = new System.Drawing.Point(17, 15);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(411, 81);
-			this.groupBox2.TabIndex = 0;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "&Startup Options";
+			this.StartupGroupBox.Controls.Add(this.pictureBox2);
+			this.StartupGroupBox.Controls.Add(this.chkLoadLastGame);
+			this.StartupGroupBox.Location = new System.Drawing.Point(17, 15);
+			this.StartupGroupBox.Name = "StartupGroupBox";
+			this.StartupGroupBox.Size = new System.Drawing.Size(411, 81);
+			this.StartupGroupBox.TabIndex = 0;
+			this.StartupGroupBox.TabStop = false;
+			this.StartupGroupBox.Text = "&Startup Options";
 			// 
 			// pictureBox2
 			// 
@@ -348,33 +348,33 @@
 			// DisplayTabPage
 			// 
 			this.DisplayTabPage.BackColor = System.Drawing.SystemColors.Control;
-			this.DisplayTabPage.Controls.Add(this.groupBox6);
-			this.DisplayTabPage.Controls.Add(this.groupBox5);
+			this.DisplayTabPage.Controls.Add(this.DisplayVoidGroupBox);
+			this.DisplayTabPage.Controls.Add(this.DisplayGeneralGroupBox);
 			this.DisplayTabPage.Location = new System.Drawing.Point(4, 22);
 			this.DisplayTabPage.Name = "DisplayTabPage";
 			this.DisplayTabPage.Size = new System.Drawing.Size(444, 420);
 			this.DisplayTabPage.TabIndex = 1;
 			this.DisplayTabPage.Text = "Display";
 			// 
-			// groupBox6
+			// DisplayVoidGroupBox
 			// 
-			this.groupBox6.Controls.Add(this.BackgroundNonePicture);
-			this.groupBox6.Controls.Add(this.BackgroundMetalPicture);
-			this.groupBox6.Controls.Add(this.BackgroundBumpsPicture);
-			this.groupBox6.Controls.Add(this.Background4DOPicture);
-			this.groupBox6.Controls.Add(this.Background4DOOption);
-			this.groupBox6.Controls.Add(this.BackgroundBumpsOption);
-			this.groupBox6.Controls.Add(this.BackgroundMetalOption);
-			this.groupBox6.Controls.Add(this.BackgroundNoneOption);
-			this.groupBox6.Controls.Add(this.label1);
-			this.groupBox6.Controls.Add(this.chkDrawGrayBorder);
-			this.groupBox6.Controls.Add(this.BackgroundPanel);
-			this.groupBox6.Location = new System.Drawing.Point(17, 206);
-			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(411, 142);
-			this.groupBox6.TabIndex = 1;
-			this.groupBox6.TabStop = false;
-			this.groupBox6.Text = "Blank (Void) Area Effects";
+			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundNonePicture);
+			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundMetalPicture);
+			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundBumpsPicture);
+			this.DisplayVoidGroupBox.Controls.Add(this.Background4DOPicture);
+			this.DisplayVoidGroupBox.Controls.Add(this.Background4DOOption);
+			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundBumpsOption);
+			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundMetalOption);
+			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundNoneOption);
+			this.DisplayVoidGroupBox.Controls.Add(this.label1);
+			this.DisplayVoidGroupBox.Controls.Add(this.chkDrawGrayBorder);
+			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundPanel);
+			this.DisplayVoidGroupBox.Location = new System.Drawing.Point(17, 206);
+			this.DisplayVoidGroupBox.Name = "DisplayVoidGroupBox";
+			this.DisplayVoidGroupBox.Size = new System.Drawing.Size(411, 142);
+			this.DisplayVoidGroupBox.TabIndex = 1;
+			this.DisplayVoidGroupBox.TabStop = false;
+			this.DisplayVoidGroupBox.Text = "Blank (Void) Area Effects";
 			// 
 			// BackgroundNonePicture
 			// 
@@ -388,7 +388,7 @@
 			// 
 			// BackgroundMetalPicture
 			// 
-			this.BackgroundMetalPicture.BackgroundImage = global::FourDO.Properties.Resources.VoidImageMetal;
+			this.BackgroundMetalPicture.BackgroundImage = global::FourDO.Properties.Images.VoidImageMetal;
 			this.BackgroundMetalPicture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.BackgroundMetalPicture.Location = new System.Drawing.Point(294, 90);
 			this.BackgroundMetalPicture.Name = "BackgroundMetalPicture";
@@ -398,7 +398,7 @@
 			// 
 			// BackgroundBumpsPicture
 			// 
-			this.BackgroundBumpsPicture.BackgroundImage = global::FourDO.Properties.Resources.VoidImageBumps;
+			this.BackgroundBumpsPicture.BackgroundImage = global::FourDO.Properties.Images.VoidImageBumps;
 			this.BackgroundBumpsPicture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.BackgroundBumpsPicture.Location = new System.Drawing.Point(294, 66);
 			this.BackgroundBumpsPicture.Name = "BackgroundBumpsPicture";
@@ -408,7 +408,7 @@
 			// 
 			// Background4DOPicture
 			// 
-			this.Background4DOPicture.BackgroundImage = global::FourDO.Properties.Resources.VoidImage4DO;
+			this.Background4DOPicture.BackgroundImage = global::FourDO.Properties.Images.VoidImage4DO;
 			this.Background4DOPicture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.Background4DOPicture.Location = new System.Drawing.Point(294, 43);
 			this.Background4DOPicture.Name = "Background4DOPicture";
@@ -517,22 +517,22 @@
 			this.pictureBox9.TabIndex = 3;
 			this.pictureBox9.TabStop = false;
 			// 
-			// groupBox5
+			// DisplayGeneralGroupBox
 			// 
-			this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.DisplayGeneralGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox5.Controls.Add(this.chkSnapWindowIncrements);
-			this.groupBox5.Controls.Add(this.pictureBox7);
-			this.groupBox5.Controls.Add(this.chkPreserveAspectRatio);
-			this.groupBox5.Controls.Add(this.pictureBox5);
-			this.groupBox5.Controls.Add(this.pictureBox6);
-			this.groupBox5.Controls.Add(this.chkSmoothImageResize);
-			this.groupBox5.Location = new System.Drawing.Point(17, 15);
-			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(411, 185);
-			this.groupBox5.TabIndex = 0;
-			this.groupBox5.TabStop = false;
-			this.groupBox5.Text = "&General Display Settings";
+			this.DisplayGeneralGroupBox.Controls.Add(this.chkSnapWindowIncrements);
+			this.DisplayGeneralGroupBox.Controls.Add(this.pictureBox7);
+			this.DisplayGeneralGroupBox.Controls.Add(this.chkPreserveAspectRatio);
+			this.DisplayGeneralGroupBox.Controls.Add(this.pictureBox5);
+			this.DisplayGeneralGroupBox.Controls.Add(this.pictureBox6);
+			this.DisplayGeneralGroupBox.Controls.Add(this.chkSmoothImageResize);
+			this.DisplayGeneralGroupBox.Location = new System.Drawing.Point(17, 15);
+			this.DisplayGeneralGroupBox.Name = "DisplayGeneralGroupBox";
+			this.DisplayGeneralGroupBox.Size = new System.Drawing.Size(411, 185);
+			this.DisplayGeneralGroupBox.TabIndex = 0;
+			this.DisplayGeneralGroupBox.TabStop = false;
+			this.DisplayGeneralGroupBox.Text = "&General Display Settings";
 			// 
 			// chkSnapWindowIncrements
 			// 
@@ -594,29 +594,29 @@
 			// AdvancedDisplayTab
 			// 
 			this.AdvancedDisplayTab.BackColor = System.Drawing.SystemColors.Control;
-			this.AdvancedDisplayTab.Controls.Add(this.groupBox9);
+			this.AdvancedDisplayTab.Controls.Add(this.HighResGroupBox);
 			this.AdvancedDisplayTab.Controls.Add(this.panel3);
-			this.AdvancedDisplayTab.Controls.Add(this.groupBox8);
-			this.AdvancedDisplayTab.Controls.Add(this.groupBox7);
+			this.AdvancedDisplayTab.Controls.Add(this.AudioBufferGroupBox);
+			this.AdvancedDisplayTab.Controls.Add(this.CpuClockGroupBox);
 			this.AdvancedDisplayTab.Location = new System.Drawing.Point(4, 22);
 			this.AdvancedDisplayTab.Name = "AdvancedDisplayTab";
 			this.AdvancedDisplayTab.Size = new System.Drawing.Size(444, 420);
 			this.AdvancedDisplayTab.TabIndex = 2;
 			this.AdvancedDisplayTab.Text = "Advanced";
 			// 
-			// groupBox9
+			// HighResGroupBox
 			// 
-			this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.HighResGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox9.Controls.Add(this.chkRenderHighRes);
-			this.groupBox9.Controls.Add(this.label13);
-			this.groupBox9.Controls.Add(this.pictureBox11);
-			this.groupBox9.Location = new System.Drawing.Point(17, 53);
-			this.groupBox9.Name = "groupBox9";
-			this.groupBox9.Size = new System.Drawing.Size(411, 88);
-			this.groupBox9.TabIndex = 1;
-			this.groupBox9.TabStop = false;
-			this.groupBox9.Text = "High-Resolution Rendering";
+			this.HighResGroupBox.Controls.Add(this.chkRenderHighRes);
+			this.HighResGroupBox.Controls.Add(this.HighResolutionLabel);
+			this.HighResGroupBox.Controls.Add(this.pictureBox11);
+			this.HighResGroupBox.Location = new System.Drawing.Point(17, 53);
+			this.HighResGroupBox.Name = "HighResGroupBox";
+			this.HighResGroupBox.Size = new System.Drawing.Size(411, 88);
+			this.HighResGroupBox.TabIndex = 1;
+			this.HighResGroupBox.TabStop = false;
+			this.HighResGroupBox.Text = "High-Resolution Rendering";
 			// 
 			// chkRenderHighRes
 			// 
@@ -628,13 +628,13 @@
 			this.chkRenderHighRes.Text = "Enable high-resolution video rendering";
 			this.chkRenderHighRes.UseVisualStyleBackColor = true;
 			// 
-			// label13
+			// HighResolutionLabel
 			// 
-			this.label13.Location = new System.Drawing.Point(59, 19);
-			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(346, 48);
-			this.label13.TabIndex = 0;
-			this.label13.Text = "Via software rendering, the screen images can be rendered to 640 x 480. This is v" +
+			this.HighResolutionLabel.Location = new System.Drawing.Point(59, 19);
+			this.HighResolutionLabel.Name = "HighResolutionLabel";
+			this.HighResolutionLabel.Size = new System.Drawing.Size(346, 48);
+			this.HighResolutionLabel.TabIndex = 0;
+			this.HighResolutionLabel.Text = "Via software rendering, the screen images can be rendered to 640 x 480. This is v" +
 				"ery CPU intensive, and only of value to 3D games! If using this option, consider" +
 				" increasing audio buffer size as well.";
 			// 
@@ -652,7 +652,7 @@
 			this.panel3.BackColor = System.Drawing.SystemColors.Info;
 			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel3.Controls.Add(this.AdvancedResetButton);
-			this.panel3.Controls.Add(this.label7);
+			this.panel3.Controls.Add(this.ResetDefaultsLabel);
 			this.panel3.Location = new System.Drawing.Point(17, 13);
 			this.panel3.Name = "panel3";
 			this.panel3.Size = new System.Drawing.Size(411, 34);
@@ -670,33 +670,33 @@
 			this.AdvancedResetButton.UseVisualStyleBackColor = false;
 			this.AdvancedResetButton.Click += new System.EventHandler(this.AdvancedResetButton_Click);
 			// 
-			// label7
+			// ResetDefaultsLabel
 			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(2, 9);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(273, 13);
-			this.label7.TabIndex = 0;
-			this.label7.Text = "Consider setting these to defaults if seeing odd behavior.";
+			this.ResetDefaultsLabel.AutoSize = true;
+			this.ResetDefaultsLabel.Location = new System.Drawing.Point(2, 9);
+			this.ResetDefaultsLabel.Name = "ResetDefaultsLabel";
+			this.ResetDefaultsLabel.Size = new System.Drawing.Size(273, 13);
+			this.ResetDefaultsLabel.TabIndex = 0;
+			this.ResetDefaultsLabel.Text = "Consider setting these to defaults if seeing odd behavior.";
 			// 
-			// groupBox8
+			// AudioBufferGroupBox
 			// 
-			this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.AudioBufferGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox8.Controls.Add(this.label6);
-			this.groupBox8.Controls.Add(this.label5);
-			this.groupBox8.Controls.Add(this.label4);
-			this.groupBox8.Controls.Add(this.label3);
-			this.groupBox8.Controls.Add(this.AudioBufferValueLabel);
-			this.groupBox8.Controls.Add(this.AudioBufferBar);
-			this.groupBox8.Controls.Add(this.label2);
-			this.groupBox8.Controls.Add(this.pictureBox10);
-			this.groupBox8.Location = new System.Drawing.Point(17, 280);
-			this.groupBox8.Name = "groupBox8";
-			this.groupBox8.Size = new System.Drawing.Size(411, 132);
-			this.groupBox8.TabIndex = 0;
-			this.groupBox8.TabStop = false;
-			this.groupBox8.Text = "Audio Buffer Size";
+			this.AudioBufferGroupBox.Controls.Add(this.label6);
+			this.AudioBufferGroupBox.Controls.Add(this.label5);
+			this.AudioBufferGroupBox.Controls.Add(this.AudioMoreLagLabel);
+			this.AudioBufferGroupBox.Controls.Add(this.AudioLessLagLabel);
+			this.AudioBufferGroupBox.Controls.Add(this.AudioBufferValueLabel);
+			this.AudioBufferGroupBox.Controls.Add(this.AudioBufferBar);
+			this.AudioBufferGroupBox.Controls.Add(this.label2);
+			this.AudioBufferGroupBox.Controls.Add(this.pictureBox10);
+			this.AudioBufferGroupBox.Location = new System.Drawing.Point(17, 280);
+			this.AudioBufferGroupBox.Name = "AudioBufferGroupBox";
+			this.AudioBufferGroupBox.Size = new System.Drawing.Size(411, 132);
+			this.AudioBufferGroupBox.TabIndex = 0;
+			this.AudioBufferGroupBox.TabStop = false;
+			this.AudioBufferGroupBox.Text = "Audio Buffer Size";
 			// 
 			// label6
 			// 
@@ -716,24 +716,24 @@
 			this.label5.TabIndex = 2;
 			this.label5.Text = "50ms";
 			// 
-			// label4
+			// AudioMoreLagLabel
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(284, 100);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(77, 26);
-			this.label4.TabIndex = 5;
-			this.label4.Text = "MORE Lag\r\nFewer Glitches";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.AudioMoreLagLabel.AutoSize = true;
+			this.AudioMoreLagLabel.Location = new System.Drawing.Point(284, 100);
+			this.AudioMoreLagLabel.Name = "AudioMoreLagLabel";
+			this.AudioMoreLagLabel.Size = new System.Drawing.Size(77, 26);
+			this.AudioMoreLagLabel.TabIndex = 5;
+			this.AudioMoreLagLabel.Text = "MORE Lag\r\nFewer Glitches";
+			this.AudioMoreLagLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
-			// label3
+			// AudioLessLagLabel
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(105, 100);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(80, 26);
-			this.label3.TabIndex = 3;
-			this.label3.Text = "Less Lag\r\nMORE Glitches";
+			this.AudioLessLagLabel.AutoSize = true;
+			this.AudioLessLagLabel.Location = new System.Drawing.Point(105, 100);
+			this.AudioLessLagLabel.Name = "AudioLessLagLabel";
+			this.AudioLessLagLabel.Size = new System.Drawing.Size(80, 26);
+			this.AudioLessLagLabel.TabIndex = 3;
+			this.AudioLessLagLabel.Text = "Less Lag\r\nMORE Glitches";
 			// 
 			// AudioBufferValueLabel
 			// 
@@ -777,24 +777,24 @@
 			this.pictureBox10.TabIndex = 5;
 			this.pictureBox10.TabStop = false;
 			// 
-			// groupBox7
+			// CpuClockGroupBox
 			// 
-			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.CpuClockGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox7.Controls.Add(this.label9);
-			this.groupBox7.Controls.Add(this.label10);
-			this.groupBox7.Controls.Add(this.label11);
-			this.groupBox7.Controls.Add(this.label12);
-			this.groupBox7.Controls.Add(this.CpuClockValueLabel);
-			this.groupBox7.Controls.Add(this.CpuClockBar);
-			this.groupBox7.Controls.Add(this.label8);
-			this.groupBox7.Controls.Add(this.pictureBox8);
-			this.groupBox7.Location = new System.Drawing.Point(17, 147);
-			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(411, 127);
-			this.groupBox7.TabIndex = 2;
-			this.groupBox7.TabStop = false;
-			this.groupBox7.Text = "CPU Clock Speed";
+			this.CpuClockGroupBox.Controls.Add(this.label9);
+			this.CpuClockGroupBox.Controls.Add(this.label10);
+			this.CpuClockGroupBox.Controls.Add(this.ClockHigherFpsLabel);
+			this.CpuClockGroupBox.Controls.Add(this.ClockNormalFpsLabel);
+			this.CpuClockGroupBox.Controls.Add(this.CpuClockValueLabel);
+			this.CpuClockGroupBox.Controls.Add(this.CpuClockBar);
+			this.CpuClockGroupBox.Controls.Add(this.ClockMessageLabel);
+			this.CpuClockGroupBox.Controls.Add(this.pictureBox8);
+			this.CpuClockGroupBox.Location = new System.Drawing.Point(17, 147);
+			this.CpuClockGroupBox.Name = "CpuClockGroupBox";
+			this.CpuClockGroupBox.Size = new System.Drawing.Size(411, 127);
+			this.CpuClockGroupBox.TabIndex = 2;
+			this.CpuClockGroupBox.TabStop = false;
+			this.CpuClockGroupBox.Text = "CPU Clock Speed";
 			// 
 			// label9
 			// 
@@ -814,24 +814,24 @@
 			this.label10.TabIndex = 2;
 			this.label10.Text = "6.25MHz";
 			// 
-			// label11
+			// ClockHigherFpsLabel
 			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(289, 102);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(61, 13);
-			this.label11.TabIndex = 5;
-			this.label11.Text = "Higher FPS";
-			this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.ClockHigherFpsLabel.AutoSize = true;
+			this.ClockHigherFpsLabel.Location = new System.Drawing.Point(289, 102);
+			this.ClockHigherFpsLabel.Name = "ClockHigherFpsLabel";
+			this.ClockHigherFpsLabel.Size = new System.Drawing.Size(61, 13);
+			this.ClockHigherFpsLabel.TabIndex = 5;
+			this.ClockHigherFpsLabel.Text = "Higher FPS";
+			this.ClockHigherFpsLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
-			// label12
+			// ClockNormalFpsLabel
 			// 
-			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(115, 102);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(63, 13);
-			this.label12.TabIndex = 3;
-			this.label12.Text = "Normal FPS";
+			this.ClockNormalFpsLabel.AutoSize = true;
+			this.ClockNormalFpsLabel.Location = new System.Drawing.Point(115, 102);
+			this.ClockNormalFpsLabel.Name = "ClockNormalFpsLabel";
+			this.ClockNormalFpsLabel.Size = new System.Drawing.Size(63, 13);
+			this.ClockNormalFpsLabel.TabIndex = 3;
+			this.ClockNormalFpsLabel.Text = "Normal FPS";
 			// 
 			// CpuClockValueLabel
 			// 
@@ -858,13 +858,13 @@
 			this.CpuClockBar.Scroll += new System.EventHandler(this.CpuClockBar_Scroll);
 			this.CpuClockBar.ValueChanged += new System.EventHandler(this.CpuClockBar_ValueChanged);
 			// 
-			// label8
+			// ClockMessageLabel
 			// 
-			this.label8.Location = new System.Drawing.Point(59, 19);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(346, 49);
-			this.label8.TabIndex = 0;
-			this.label8.Text = "By adjusting the CPU clock speed, you can potentially achieve higher FPS in games" +
+			this.ClockMessageLabel.Location = new System.Drawing.Point(59, 19);
+			this.ClockMessageLabel.Name = "ClockMessageLabel";
+			this.ClockMessageLabel.Size = new System.Drawing.Size(346, 49);
+			this.ClockMessageLabel.TabIndex = 0;
+			this.ClockMessageLabel.Text = "By adjusting the CPU clock speed, you can potentially achieve higher FPS in games" +
 				". Not all games will handle this appropriately. Games dependent on precise timin" +
 				"g could even crash/freeze.";
 			// 
@@ -899,15 +899,15 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.tabMain.ResumeLayout(false);
 			this.GeneralTabPage.ResumeLayout(false);
-			this.groupBox4.ResumeLayout(false);
+			this.InactiveGroupBox.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-			this.groupBox3.ResumeLayout(false);
+			this.BehaviorGroupBox.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-			this.groupBox2.ResumeLayout(false);
+			this.StartupGroupBox.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
 			this.DisplayTabPage.ResumeLayout(false);
-			this.groupBox6.ResumeLayout(false);
-			this.groupBox6.PerformLayout();
+			this.DisplayVoidGroupBox.ResumeLayout(false);
+			this.DisplayVoidGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.BackgroundNonePicture)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.BackgroundMetalPicture)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.BackgroundBumpsPicture)).EndInit();
@@ -915,23 +915,23 @@
 			this.BackgroundPanel.ResumeLayout(false);
 			this.BorderPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
-			this.groupBox5.ResumeLayout(false);
-			this.groupBox5.PerformLayout();
+			this.DisplayGeneralGroupBox.ResumeLayout(false);
+			this.DisplayGeneralGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
 			this.AdvancedDisplayTab.ResumeLayout(false);
-			this.groupBox9.ResumeLayout(false);
-			this.groupBox9.PerformLayout();
+			this.HighResGroupBox.ResumeLayout(false);
+			this.HighResGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
 			this.panel3.ResumeLayout(false);
 			this.panel3.PerformLayout();
-			this.groupBox8.ResumeLayout(false);
-			this.groupBox8.PerformLayout();
+			this.AudioBufferGroupBox.ResumeLayout(false);
+			this.AudioBufferGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.AudioBufferBar)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
-			this.groupBox7.ResumeLayout(false);
-			this.groupBox7.PerformLayout();
+			this.CpuClockGroupBox.ResumeLayout(false);
+			this.CpuClockGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.CpuClockBar)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
 			this.ResumeLayout(false);
@@ -946,26 +946,26 @@
         private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox1;
-		private System.Windows.Forms.Label TitleLabel;
+		private System.Windows.Forms.Label InstructionsLabel;
 		private System.Windows.Forms.TabControl tabMain;
 		private System.Windows.Forms.TabPage GeneralTabPage;
-		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.GroupBox InactiveGroupBox;
 		private System.Windows.Forms.CheckBox chkInactiveIgnoreInput;
 		private System.Windows.Forms.CheckBox chkInactivePauseEmulation;
 		private System.Windows.Forms.PictureBox pictureBox4;
-		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.GroupBox BehaviorGroupBox;
 		private System.Windows.Forms.CheckBox chkLoadLastSave;
 		private System.Windows.Forms.PictureBox pictureBox3;
-		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.GroupBox StartupGroupBox;
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.CheckBox chkLoadLastGame;
 		private System.Windows.Forms.CheckBox chkSmoothImageResize;
 		private System.Windows.Forms.TabPage DisplayTabPage;
-		private System.Windows.Forms.GroupBox groupBox6;
+		private System.Windows.Forms.GroupBox DisplayVoidGroupBox;
 		private System.Windows.Forms.Panel BackgroundPanel;
 		private System.Windows.Forms.Panel BorderPanel;
 		private System.Windows.Forms.PictureBox pictureBox9;
-		private System.Windows.Forms.GroupBox groupBox5;
+		private System.Windows.Forms.GroupBox DisplayGeneralGroupBox;
 		private System.Windows.Forms.CheckBox chkSnapWindowIncrements;
 		private System.Windows.Forms.PictureBox pictureBox7;
 		private System.Windows.Forms.CheckBox chkPreserveAspectRatio;
@@ -983,29 +983,29 @@
 		private System.Windows.Forms.PictureBox Background4DOPicture;
 		private System.Windows.Forms.TabPage AdvancedDisplayTab;
 		private System.Windows.Forms.TrackBar AudioBufferBar;
-		private System.Windows.Forms.GroupBox groupBox7;
-		private System.Windows.Forms.GroupBox groupBox8;
+		private System.Windows.Forms.GroupBox CpuClockGroupBox;
+		private System.Windows.Forms.GroupBox AudioBufferGroupBox;
 		private System.Windows.Forms.PictureBox pictureBox10;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label AudioMoreLagLabel;
+		private System.Windows.Forms.Label AudioLessLagLabel;
 		private System.Windows.Forms.Label AudioBufferValueLabel;
 		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.Button AdvancedResetButton;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Label ResetDefaultsLabel;
+		private System.Windows.Forms.Label ClockMessageLabel;
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.Label ClockHigherFpsLabel;
+		private System.Windows.Forms.Label ClockNormalFpsLabel;
 		private System.Windows.Forms.Label CpuClockValueLabel;
 		private System.Windows.Forms.PictureBox pictureBox8;
 		private System.Windows.Forms.TrackBar CpuClockBar;
-		private System.Windows.Forms.GroupBox groupBox9;
+		private System.Windows.Forms.GroupBox HighResGroupBox;
 		private System.Windows.Forms.CheckBox chkRenderHighRes;
-		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.Label HighResolutionLabel;
 		private System.Windows.Forms.PictureBox pictureBox11;
     }
 }

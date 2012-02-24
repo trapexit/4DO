@@ -29,15 +29,15 @@
 		private void InitializeComponent()
 		{
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
+			this.With1Label = new System.Windows.Forms.Label();
+			this.SetABindingLabel = new System.Windows.Forms.Label();
+			this.SetButtonsLabel = new System.Windows.Forms.Label();
+			this.ClearABindingLabel = new System.Windows.Forms.Label();
+			this.With2Label = new System.Windows.Forms.Label();
+			this.ClearButtonsLabel = new System.Windows.Forms.Label();
+			this.EscapeLabel = new System.Windows.Forms.Label();
 			this.MouseViewLabel = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
+			this.DetectedDevicesLabel = new System.Windows.Forms.Label();
 			this.DevicesLabel = new System.Windows.Forms.Label();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
@@ -50,12 +50,12 @@
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
-			this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.label3, 2, 0);
-			this.tableLayoutPanel1.Controls.Add(this.label5, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.label6, 1, 1);
-			this.tableLayoutPanel1.Controls.Add(this.label7, 2, 1);
+			this.tableLayoutPanel1.Controls.Add(this.With1Label, 1, 0);
+			this.tableLayoutPanel1.Controls.Add(this.SetABindingLabel, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.SetButtonsLabel, 2, 0);
+			this.tableLayoutPanel1.Controls.Add(this.ClearABindingLabel, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this.With2Label, 1, 1);
+			this.tableLayoutPanel1.Controls.Add(this.ClearButtonsLabel, 2, 1);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 0);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -66,84 +66,84 @@
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(259, 29);
 			this.tableLayoutPanel1.TabIndex = 1;
 			// 
-			// label2
+			// With1Label
 			// 
-			this.label2.AutoSize = true;
-			this.label2.ForeColor = System.Drawing.Color.Black;
-			this.label2.Location = new System.Drawing.Point(82, 0);
-			this.label2.Margin = new System.Windows.Forms.Padding(0);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(26, 13);
-			this.label2.TabIndex = 4;
-			this.label2.Text = "with";
+			this.With1Label.AutoSize = true;
+			this.With1Label.ForeColor = System.Drawing.Color.Black;
+			this.With1Label.Location = new System.Drawing.Point(82, 0);
+			this.With1Label.Margin = new System.Windows.Forms.Padding(0);
+			this.With1Label.Name = "With1Label";
+			this.With1Label.Size = new System.Drawing.Size(26, 13);
+			this.With1Label.TabIndex = 4;
+			this.With1Label.Text = "with";
 			// 
-			// label1
+			// SetABindingLabel
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.ForeColor = System.Drawing.Color.Red;
-			this.label1.Location = new System.Drawing.Point(0, 0);
-			this.label1.Margin = new System.Windows.Forms.Padding(0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(82, 13);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Set a binding";
+			this.SetABindingLabel.AutoSize = true;
+			this.SetABindingLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.SetABindingLabel.ForeColor = System.Drawing.Color.Red;
+			this.SetABindingLabel.Location = new System.Drawing.Point(0, 0);
+			this.SetABindingLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.SetABindingLabel.Name = "SetABindingLabel";
+			this.SetABindingLabel.Size = new System.Drawing.Size(82, 13);
+			this.SetABindingLabel.TabIndex = 2;
+			this.SetABindingLabel.Text = "Set a binding";
 			// 
-			// label3
+			// SetButtonsLabel
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label3.ForeColor = System.Drawing.Color.Black;
-			this.label3.Location = new System.Drawing.Point(108, 0);
-			this.label3.Margin = new System.Windows.Forms.Padding(0);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(143, 13);
-			this.label3.TabIndex = 5;
-			this.label3.Text = "Left Click, Space, Enter";
+			this.SetButtonsLabel.AutoSize = true;
+			this.SetButtonsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.SetButtonsLabel.ForeColor = System.Drawing.Color.Black;
+			this.SetButtonsLabel.Location = new System.Drawing.Point(108, 0);
+			this.SetButtonsLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.SetButtonsLabel.Name = "SetButtonsLabel";
+			this.SetButtonsLabel.Size = new System.Drawing.Size(143, 13);
+			this.SetButtonsLabel.TabIndex = 5;
+			this.SetButtonsLabel.Text = "Left Click, Space, Enter";
 			// 
-			// label5
+			// ClearABindingLabel
 			// 
-			this.label5.AutoSize = true;
-			this.label5.ForeColor = System.Drawing.Color.DimGray;
-			this.label5.Location = new System.Drawing.Point(0, 14);
-			this.label5.Margin = new System.Windows.Forms.Padding(0);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(77, 13);
-			this.label5.TabIndex = 13;
-			this.label5.Text = "Clear a binding";
+			this.ClearABindingLabel.AutoSize = true;
+			this.ClearABindingLabel.ForeColor = System.Drawing.Color.DimGray;
+			this.ClearABindingLabel.Location = new System.Drawing.Point(0, 14);
+			this.ClearABindingLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.ClearABindingLabel.Name = "ClearABindingLabel";
+			this.ClearABindingLabel.Size = new System.Drawing.Size(77, 13);
+			this.ClearABindingLabel.TabIndex = 13;
+			this.ClearABindingLabel.Text = "Clear a binding";
 			// 
-			// label6
+			// With2Label
 			// 
-			this.label6.AutoSize = true;
-			this.label6.ForeColor = System.Drawing.Color.Black;
-			this.label6.Location = new System.Drawing.Point(82, 14);
-			this.label6.Margin = new System.Windows.Forms.Padding(0);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(26, 13);
-			this.label6.TabIndex = 14;
-			this.label6.Text = "with";
+			this.With2Label.AutoSize = true;
+			this.With2Label.ForeColor = System.Drawing.Color.Black;
+			this.With2Label.Location = new System.Drawing.Point(82, 14);
+			this.With2Label.Margin = new System.Windows.Forms.Padding(0);
+			this.With2Label.Name = "With2Label";
+			this.With2Label.Size = new System.Drawing.Size(26, 13);
+			this.With2Label.TabIndex = 14;
+			this.With2Label.Text = "with";
 			// 
-			// label7
+			// ClearButtonsLabel
 			// 
-			this.label7.AutoSize = true;
-			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label7.ForeColor = System.Drawing.Color.Black;
-			this.label7.Location = new System.Drawing.Point(108, 14);
-			this.label7.Margin = new System.Windows.Forms.Padding(0);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(115, 13);
-			this.label7.TabIndex = 15;
-			this.label7.Text = "Delete, Backspace";
+			this.ClearButtonsLabel.AutoSize = true;
+			this.ClearButtonsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.ClearButtonsLabel.ForeColor = System.Drawing.Color.Black;
+			this.ClearButtonsLabel.Location = new System.Drawing.Point(108, 14);
+			this.ClearButtonsLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.ClearButtonsLabel.Name = "ClearButtonsLabel";
+			this.ClearButtonsLabel.Size = new System.Drawing.Size(115, 13);
+			this.ClearButtonsLabel.TabIndex = 15;
+			this.ClearButtonsLabel.Text = "Delete, Backspace";
 			// 
-			// label4
+			// EscapeLabel
 			// 
-			this.label4.AutoSize = true;
-			this.label4.ForeColor = System.Drawing.Color.Black;
-			this.label4.Location = new System.Drawing.Point(15, 29);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(221, 13);
-			this.label4.TabIndex = 7;
-			this.label4.Text = "(Also, use escape to cancel setting a binding)";
+			this.EscapeLabel.AutoSize = true;
+			this.EscapeLabel.ForeColor = System.Drawing.Color.Black;
+			this.EscapeLabel.Location = new System.Drawing.Point(15, 29);
+			this.EscapeLabel.Name = "EscapeLabel";
+			this.EscapeLabel.Size = new System.Drawing.Size(221, 13);
+			this.EscapeLabel.TabIndex = 7;
+			this.EscapeLabel.Text = "(Also, use escape to cancel setting a binding)";
 			// 
 			// MouseViewLabel
 			// 
@@ -158,15 +158,15 @@
 			this.MouseViewLabel.MouseEnter += new System.EventHandler(this.MouseViewLabel_MouseEnter);
 			this.MouseViewLabel.MouseLeave += new System.EventHandler(this.MouseViewLabel_MouseLeave);
 			// 
-			// label8
+			// DetectedDevicesLabel
 			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(56, 56);
-			this.label8.Margin = new System.Windows.Forms.Padding(0);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(94, 13);
-			this.label8.TabIndex = 12;
-			this.label8.Text = "Detected devices:";
+			this.DetectedDevicesLabel.AutoSize = true;
+			this.DetectedDevicesLabel.Location = new System.Drawing.Point(56, 56);
+			this.DetectedDevicesLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.DetectedDevicesLabel.Name = "DetectedDevicesLabel";
+			this.DetectedDevicesLabel.Size = new System.Drawing.Size(94, 13);
+			this.DetectedDevicesLabel.TabIndex = 12;
+			this.DetectedDevicesLabel.Text = "Detected devices:";
 			// 
 			// DevicesLabel
 			// 
@@ -185,10 +185,10 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.Controls.Add(this.label8);
+			this.Controls.Add(this.DetectedDevicesLabel);
 			this.Controls.Add(this.DevicesLabel);
 			this.Controls.Add(this.MouseViewLabel);
-			this.Controls.Add(this.label4);
+			this.Controls.Add(this.EscapeLabel);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "ControllerInfo";
 			this.Size = new System.Drawing.Size(262, 83);
@@ -202,15 +202,15 @@
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Label With1Label;
+		private System.Windows.Forms.Label SetABindingLabel;
+		private System.Windows.Forms.Label SetButtonsLabel;
+		private System.Windows.Forms.Label EscapeLabel;
+		private System.Windows.Forms.Label ClearABindingLabel;
+		private System.Windows.Forms.Label With2Label;
+		private System.Windows.Forms.Label ClearButtonsLabel;
 		private System.Windows.Forms.Label MouseViewLabel;
-		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Label DetectedDevicesLabel;
 		private System.Windows.Forms.Label DevicesLabel;
 	}
 }

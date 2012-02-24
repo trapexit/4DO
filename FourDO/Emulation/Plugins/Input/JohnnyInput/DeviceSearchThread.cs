@@ -57,6 +57,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				if (this.deviceCheckerThread != null)
 				{
 					this.stopSignal = true;
+					this.deviceCheckerThread.Abort();
 					this.deviceCheckerThread.Join();
 
 					this.directInput.Dispose();

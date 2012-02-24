@@ -30,24 +30,24 @@
 		{
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.OKButton = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
+			this.GameNameLabel = new System.Windows.Forms.Label();
 			this.GameNameTextBox = new System.Windows.Forms.TextBox();
 			this.GameIdTextBox = new System.Windows.Forms.TextBox();
-			this.label2 = new System.Windows.Forms.Label();
+			this.GameIdLabel = new System.Windows.Forms.Label();
 			this.ChecksumTextBox = new System.Windows.Forms.TextBox();
-			this.label3 = new System.Windows.Forms.Label();
+			this.ChecksumLabel = new System.Windows.Forms.Label();
 			this.ReleaseYearTextBox = new System.Windows.Forms.TextBox();
-			this.label4 = new System.Windows.Forms.Label();
+			this.ReleaseYearLabel = new System.Windows.Forms.Label();
 			this.PublisherTextBox = new System.Windows.Forms.TextBox();
-			this.label5 = new System.Windows.Forms.Label();
+			this.PublisherLabel = new System.Windows.Forms.Label();
 			this.RegionsTextBox = new System.Windows.Forms.TextBox();
-			this.label6 = new System.Windows.Forms.Label();
+			this.RegionLabel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.Image = global::FourDO.Properties.Resources.CD;
+			this.pictureBox1.Image = global::FourDO.Properties.Images.CD;
 			this.pictureBox1.Location = new System.Drawing.Point(30, 32);
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.Size = new System.Drawing.Size(176, 156);
@@ -66,14 +66,14 @@
 			this.OKButton.UseVisualStyleBackColor = true;
 			this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
 			// 
-			// label1
+			// GameNameLabel
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(230, 63);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(69, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Game Name:";
+			this.GameNameLabel.AutoSize = true;
+			this.GameNameLabel.Location = new System.Drawing.Point(230, 63);
+			this.GameNameLabel.Name = "GameNameLabel";
+			this.GameNameLabel.Size = new System.Drawing.Size(69, 13);
+			this.GameNameLabel.TabIndex = 0;
+			this.GameNameLabel.Text = "Game Name:";
 			// 
 			// GameNameTextBox
 			// 
@@ -99,14 +99,14 @@
 			this.GameIdTextBox.TabIndex = 3;
 			this.GameIdTextBox.Text = "Game Id";
 			// 
-			// label2
+			// GameIdLabel
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(230, 82);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(50, 13);
-			this.label2.TabIndex = 2;
-			this.label2.Text = "Game Id:";
+			this.GameIdLabel.AutoSize = true;
+			this.GameIdLabel.Location = new System.Drawing.Point(230, 82);
+			this.GameIdLabel.Name = "GameIdLabel";
+			this.GameIdLabel.Size = new System.Drawing.Size(50, 13);
+			this.GameIdLabel.TabIndex = 2;
+			this.GameIdLabel.Text = "Game Id:";
 			// 
 			// ChecksumTextBox
 			// 
@@ -120,14 +120,14 @@
 			this.ChecksumTextBox.TabIndex = 11;
 			this.ChecksumTextBox.Text = "Checksum";
 			// 
-			// label3
+			// ChecksumLabel
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(230, 181);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(115, 13);
-			this.label3.TabIndex = 10;
-			this.label3.Text = "Sector 0+1 Checksum:";
+			this.ChecksumLabel.AutoSize = true;
+			this.ChecksumLabel.Location = new System.Drawing.Point(230, 181);
+			this.ChecksumLabel.Name = "ChecksumLabel";
+			this.ChecksumLabel.Size = new System.Drawing.Size(115, 13);
+			this.ChecksumLabel.TabIndex = 10;
+			this.ChecksumLabel.Text = "Sector 0+1 Checksum:";
 			// 
 			// ReleaseYearTextBox
 			// 
@@ -141,14 +141,14 @@
 			this.ReleaseYearTextBox.TabIndex = 5;
 			this.ReleaseYearTextBox.Text = "Release Year";
 			// 
-			// label4
+			// ReleaseYearLabel
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(230, 101);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(74, 13);
-			this.label4.TabIndex = 4;
-			this.label4.Text = "Release Year:";
+			this.ReleaseYearLabel.AutoSize = true;
+			this.ReleaseYearLabel.Location = new System.Drawing.Point(230, 101);
+			this.ReleaseYearLabel.Name = "ReleaseYearLabel";
+			this.ReleaseYearLabel.Size = new System.Drawing.Size(74, 13);
+			this.ReleaseYearLabel.TabIndex = 4;
+			this.ReleaseYearLabel.Text = "Release Year:";
 			// 
 			// PublisherTextBox
 			// 
@@ -162,14 +162,14 @@
 			this.PublisherTextBox.TabIndex = 7;
 			this.PublisherTextBox.Text = "Publisher";
 			// 
-			// label5
+			// PublisherLabel
 			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(230, 120);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(53, 13);
-			this.label5.TabIndex = 6;
-			this.label5.Text = "Publisher:";
+			this.PublisherLabel.AutoSize = true;
+			this.PublisherLabel.Location = new System.Drawing.Point(230, 120);
+			this.PublisherLabel.Name = "PublisherLabel";
+			this.PublisherLabel.Size = new System.Drawing.Size(53, 13);
+			this.PublisherLabel.TabIndex = 6;
+			this.PublisherLabel.Text = "Publisher:";
 			// 
 			// RegionsTextBox
 			// 
@@ -183,14 +183,14 @@
 			this.RegionsTextBox.TabIndex = 9;
 			this.RegionsTextBox.Text = "Regions";
 			// 
-			// label6
+			// RegionLabel
 			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(230, 139);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(55, 13);
-			this.label6.TabIndex = 8;
-			this.label6.Text = "Region(s):";
+			this.RegionLabel.AutoSize = true;
+			this.RegionLabel.Location = new System.Drawing.Point(230, 139);
+			this.RegionLabel.Name = "RegionLabel";
+			this.RegionLabel.Size = new System.Drawing.Size(55, 13);
+			this.RegionLabel.TabIndex = 8;
+			this.RegionLabel.Text = "Region(s):";
 			// 
 			// GameInformation
 			// 
@@ -200,17 +200,17 @@
 			this.CancelButton = this.OKButton;
 			this.ClientSize = new System.Drawing.Size(613, 255);
 			this.Controls.Add(this.RegionsTextBox);
-			this.Controls.Add(this.label6);
+			this.Controls.Add(this.RegionLabel);
 			this.Controls.Add(this.PublisherTextBox);
-			this.Controls.Add(this.label5);
+			this.Controls.Add(this.PublisherLabel);
 			this.Controls.Add(this.ReleaseYearTextBox);
-			this.Controls.Add(this.label4);
+			this.Controls.Add(this.ReleaseYearLabel);
 			this.Controls.Add(this.ChecksumTextBox);
-			this.Controls.Add(this.label3);
+			this.Controls.Add(this.ChecksumLabel);
 			this.Controls.Add(this.GameIdTextBox);
-			this.Controls.Add(this.label2);
+			this.Controls.Add(this.GameIdLabel);
 			this.Controls.Add(this.GameNameTextBox);
-			this.Controls.Add(this.label1);
+			this.Controls.Add(this.GameNameLabel);
 			this.Controls.Add(this.OKButton);
 			this.Controls.Add(this.pictureBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -231,17 +231,17 @@
 
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Button OKButton;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label GameNameLabel;
 		private System.Windows.Forms.TextBox GameNameTextBox;
 		private System.Windows.Forms.TextBox GameIdTextBox;
-		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label GameIdLabel;
 		private System.Windows.Forms.TextBox ChecksumTextBox;
-		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label ChecksumLabel;
 		private System.Windows.Forms.TextBox ReleaseYearTextBox;
-		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label ReleaseYearLabel;
 		private System.Windows.Forms.TextBox PublisherTextBox;
-		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label PublisherLabel;
 		private System.Windows.Forms.TextBox RegionsTextBox;
-		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Label RegionLabel;
 	}
 }
