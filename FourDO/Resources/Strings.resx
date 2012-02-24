@@ -309,8 +309,14 @@
   <data name="MainMessageNoBiosSelected" xml:space="preserve">
     <value>No BIOS rom selected.</value>
   </data>
+  <data name="MainMessageSlot" xml:space="preserve">
+    <value>Slot</value>
+  </data>
   <data name="MainMessageUnknownGame" xml:space="preserve">
     <value>Unknown game</value>
+  </data>
+  <data name="MainMessageVolume" xml:space="preserve">
+    <value>Volume</value>
   </data>
   <data name="SettingsCancel" xml:space="preserve">
     <value>&amp;Cancel</value>

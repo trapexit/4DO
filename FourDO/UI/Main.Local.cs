@@ -48,6 +48,8 @@ namespace FourDO.UI
 			this.helpToolStripMenuItem.Text = Strings.MainMenuHelp;
 			this.gameInfoMenuItem.Text = Strings.MainMenuHelpGameInfo;
 			this.aboutMenuItem.Text = Strings.MainMenuHelpAbout;
+
+			this.quickDisplayDropDownButton.Text = Strings.MainMessageDisplayOptions;
 		}
 	}
 }

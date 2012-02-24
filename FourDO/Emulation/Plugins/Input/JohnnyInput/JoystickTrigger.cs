@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FourDO.Resources;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
@@ -52,7 +53,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			{
 				StringBuilder friendlyName = new StringBuilder();
 
-				friendlyName.Append("joy");
+				friendlyName.Append(JohnnyInputStrings.JoyAbbreviated);
 				if (this.DeviceInstance != null)
 					friendlyName.Append(this.DeviceInstance.Substring(0,4).ToUpper());
 				friendlyName.Append(" : ");
@@ -60,18 +61,18 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				switch (this.Type)
 				{
 					case JoystickTriggerType.Button:
-						friendlyName.Append("Button ");
+						friendlyName.Append(JohnnyInputStrings.Button + " ");
 						friendlyName.Append(this.ButtonNumber.ToString());
 						break;
 
 					case JoystickTriggerType.Axis:
 						friendlyName.Append(this.AxisPositive ? "+" : "-");
 						friendlyName.Append(this.Axis.ToString());
-						friendlyName.Append(" Axis");
+						friendlyName.Append(" " + JohnnyInputStrings.Axis);
 						break;
 
 					case JoystickTriggerType.Pov:
-						friendlyName.Append("PoV ");
+						friendlyName.Append(JohnnyInputStrings.PointOfViewAbbreviated + " ");
 						friendlyName.Append(this.PovNumber.ToString());
 						friendlyName.Append(" ");
 						friendlyName.Append(

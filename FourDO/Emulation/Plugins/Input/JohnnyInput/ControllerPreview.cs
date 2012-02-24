@@ -82,6 +82,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void ControllerPreview_Load(object sender, EventArgs e)
 		{
+			this.Localize();
+
 			this.tmrPulsate.Interval = PULSALE_FRAME_PERIOD;
 			this.tmrPulsate.Enabled = true;
 

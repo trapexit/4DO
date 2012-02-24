@@ -120,8 +120,14 @@
   <data name="AddSet" xml:space="preserve">
     <value>Add Set</value>
   </data>
+  <data name="Axis" xml:space="preserve">
+    <value>Axis</value>
+  </data>
   <data name="BindingSet" xml:space="preserve">
     <value>Binding Set</value>
+  </data>
+  <data name="Button" xml:space="preserve">
+    <value>Button</value>
   </data>
   <data name="ButtonA" xml:space="preserve">
     <value>A</value>
@@ -204,6 +210,9 @@
   <data name="InfoWith" xml:space="preserve">
     <value>with</value>
   </data>
+  <data name="JoyAbbreviated" xml:space="preserve">
+    <value>joy</value>
+  </data>
   <data name="Joystick" xml:space="preserve">
     <value>Joystick</value>
   </data>
@@ -218,6 +227,9 @@
   </data>
   <data name="Player" xml:space="preserve">
     <value>Player</value>
+  </data>
+  <data name="PointOfViewAbbreviated" xml:space="preserve">
+    <value>PoV</value>
   </data>
   <data name="PreviewAButton" xml:space="preserve">
     <value>A Button</value>

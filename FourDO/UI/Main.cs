@@ -58,6 +58,8 @@ namespace FourDO.UI
 
 		private void Main_Load(object sender, EventArgs e)
 		{
+			this.Localize();
+
 			// Some basic form setup.
 			this.sizeBox.BaseWidth = BASE_WIDTH;
 			this.sizeBox.BaseHeight = BASE_HEIGHT;
@@ -132,7 +134,7 @@ namespace FourDO.UI
 			int menuInsertIndex = fileMenuItem.DropDownItems.IndexOf(openCDImageMenuItem) + 1;
 			foreach (char drive in CDDrive.GetCDDriveLetters())
 			{
-				ToolStripMenuItem newItem = new ToolStripMenuItem("Open Disc Drive - " + drive + ":");
+				ToolStripMenuItem newItem = new ToolStripMenuItem(Strings.MainMenuFileOpenCDDrive + " - " + drive + ":");
 				newItem.Tag = drive;
 				newItem.Click += new EventHandler(openFromDriveMenuItem_Click);
 				fileMenuItem.DropDownItems.Insert(menuInsertIndex, newItem);
@@ -239,7 +241,7 @@ namespace FourDO.UI
 
 			for (int x = 0; x < 10; x++)
 			{
-				ToolStripMenuItem newItem = new ToolStripMenuItem("Slot " + x.ToString());
+				ToolStripMenuItem newItem = new ToolStripMenuItem(Strings.MainMessageSlot + " " + x.ToString());
 				newItem.Name = "saveSlotMenuItem" + x.ToString();
 				newItem.Tag = x;
 				newItem.Click += new EventHandler(saveSlotMenuItem_Click);
@@ -256,8 +258,6 @@ namespace FourDO.UI
 			///////////
 			// Now that settings have been mucked with, subscribe to their change event.
 			Properties.Settings.Default.PropertyChanged += new PropertyChangedEventHandler(Settings_PropertyChanged);
-
-			this.Localize();
 
 			///////////////////////////
 			// Fire her up!

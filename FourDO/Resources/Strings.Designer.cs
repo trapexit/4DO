@@ -637,11 +637,29 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Slot.
+        /// </summary>
+        internal static string MainMessageSlot {
+            get {
+                return ResourceManager.GetString("MainMessageSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown game.
         /// </summary>
         internal static string MainMessageUnknownGame {
             get {
                 return ResourceManager.GetString("MainMessageUnknownGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume.
+        /// </summary>
+        internal static string MainMessageVolume {
+            get {
+                return ResourceManager.GetString("MainMessageVolume", resourceCulture);
             }
         }
         

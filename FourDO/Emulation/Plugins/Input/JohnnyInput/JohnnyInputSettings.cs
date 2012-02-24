@@ -66,6 +66,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void JohnnyInputSettings_Load(object sender, EventArgs e)
 		{
+			this.Localize();
+
 			this.InitializeGrid();
 
 			// Position controller panel over the tab control.

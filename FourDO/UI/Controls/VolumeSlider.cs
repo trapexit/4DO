@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FourDO.Resources;
 
 namespace FourDO.UI.Controls
 {
@@ -46,6 +47,11 @@ namespace FourDO.UI.Controls
 		private void volumeTrackBar_ValueChanged(object sender, EventArgs e)
 		{
 			this.volumeLabel.Text = string.Format("{0}%", volumeTrackBar.Value);
+		}
+
+		private void VolumeSlider_Load(object sender, EventArgs e)
+		{
+			this.VolumeMessageLabel.Text = Strings.MainMessageVolume + ":";
 		}
 	}
 }

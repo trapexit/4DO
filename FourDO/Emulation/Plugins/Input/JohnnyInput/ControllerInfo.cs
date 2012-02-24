@@ -58,5 +58,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			if (this.LinkMouseLeave != null)
 				this.LinkMouseLeave(this, new EventArgs());
 		}
+
+		private void ControllerInfo_Load(object sender, EventArgs e)
+		{
+			this.Localize();
+		}
 	}
 }

@@ -117,7 +117,157 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TestName" xml:space="preserve">
-    <value>a</value>
+  <data name="AddSet" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Axis" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BindingSet" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Button" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonA" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonB" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonC" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonDown" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonL" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonLeft" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonP" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonR" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonRight" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonUp" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonX" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Control" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CurrentDevices" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DeleteSet" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InfoClearABinding" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InfoClearKeys" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InfoDetectedDevices" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InfoDevice" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InfoDevices" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InfoEscapeToCancel" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InfoMoveMouse" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InfoNoDevices" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InfoSetABinding" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InfoSetKeys" xml:space="preserve">
+    <value />
+  </data>
+  <data name="InfoWith" xml:space="preserve">
+    <value />
+  </data>
+  <data name="JoyAbbreviated" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Joystick" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Keyboard" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Listening" xml:space="preserve">
+    <value />
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Player" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PointOfViewAbbreviated" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewAButton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewBButton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewCButton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewDownButton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewLButton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewLeftButton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewPButton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewRButton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewRightButton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewUpButton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewXButton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SetAll" xml:space="preserve">
+    <value />
+  </data>
+  <data name="WindowTitle" xml:space="preserve">
+    <value />
   </data>
 </root>

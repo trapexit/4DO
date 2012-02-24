@@ -58,7 +58,7 @@
 			this.BackgroundBumpsOption = new System.Windows.Forms.RadioButton();
 			this.BackgroundMetalOption = new System.Windows.Forms.RadioButton();
 			this.BackgroundNoneOption = new System.Windows.Forms.RadioButton();
-			this.label1 = new System.Windows.Forms.Label();
+			this.VoidPatternLabel = new System.Windows.Forms.Label();
 			this.chkDrawGrayBorder = new System.Windows.Forms.CheckBox();
 			this.BackgroundPanel = new System.Windows.Forms.Panel();
 			this.BorderPanel = new System.Windows.Forms.Panel();
@@ -366,7 +366,7 @@
 			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundBumpsOption);
 			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundMetalOption);
 			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundNoneOption);
-			this.DisplayVoidGroupBox.Controls.Add(this.label1);
+			this.DisplayVoidGroupBox.Controls.Add(this.VoidPatternLabel);
 			this.DisplayVoidGroupBox.Controls.Add(this.chkDrawGrayBorder);
 			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundPanel);
 			this.DisplayVoidGroupBox.Location = new System.Drawing.Point(17, 206);
@@ -464,14 +464,14 @@
 			this.BackgroundNoneOption.UseVisualStyleBackColor = true;
 			this.BackgroundNoneOption.CheckedChanged += new System.EventHandler(this.BackgroundNoneOption_CheckedChanged);
 			// 
-			// label1
+			// VoidPatternLabel
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(188, 45);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 13);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Background pattern:";
+			this.VoidPatternLabel.AutoSize = true;
+			this.VoidPatternLabel.Location = new System.Drawing.Point(188, 45);
+			this.VoidPatternLabel.Name = "VoidPatternLabel";
+			this.VoidPatternLabel.Size = new System.Drawing.Size(104, 13);
+			this.VoidPatternLabel.TabIndex = 2;
+			this.VoidPatternLabel.Text = "Background pattern:";
 			// 
 			// chkDrawGrayBorder
 			// 
@@ -975,7 +975,7 @@
 		private System.Windows.Forms.RadioButton BackgroundBumpsOption;
 		private System.Windows.Forms.RadioButton BackgroundMetalOption;
 		private System.Windows.Forms.RadioButton BackgroundNoneOption;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label VoidPatternLabel;
 		private System.Windows.Forms.CheckBox chkDrawGrayBorder;
 		private System.Windows.Forms.PictureBox BackgroundNonePicture;
 		private System.Windows.Forms.PictureBox BackgroundMetalPicture;

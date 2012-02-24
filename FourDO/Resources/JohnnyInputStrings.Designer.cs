@@ -70,11 +70,29 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Axis.
+        /// </summary>
+        internal static string Axis {
+            get {
+                return ResourceManager.GetString("Axis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Binding Set.
         /// </summary>
         internal static string BindingSet {
             get {
                 return ResourceManager.GetString("BindingSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Button.
+        /// </summary>
+        internal static string Button {
+            get {
+                return ResourceManager.GetString("Button", resourceCulture);
             }
         }
         
@@ -322,6 +340,15 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to joy.
+        /// </summary>
+        internal static string JoyAbbreviated {
+            get {
+                return ResourceManager.GetString("JoyAbbreviated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Joystick.
         /// </summary>
         internal static string Joystick {
@@ -363,6 +390,15 @@ namespace FourDO.Resources {
         internal static string Player {
             get {
                 return ResourceManager.GetString("Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PoV.
+        /// </summary>
+        internal static string PointOfViewAbbreviated {
+            get {
+                return ResourceManager.GetString("PointOfViewAbbreviated", resourceCulture);
             }
         }
         

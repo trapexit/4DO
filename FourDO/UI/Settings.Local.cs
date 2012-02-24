@@ -32,6 +32,7 @@ namespace FourDO.UI
 			this.chkSnapWindowIncrements.Text = Strings.SettingsTabDisplaySnapResizing;
 			this.DisplayVoidGroupBox.Text = Strings.SettingsTabDisplayVoidOptions;
 			this.chkDrawGrayBorder.Text = Strings.SettingsTabDisplayDrawBorder;
+			this.VoidPatternLabel.Text = Strings.SettingsTabDisplayVoidPattern;
 			this.Background4DOOption.Text = Strings.SettingsTabDisplayVoidPattern4DO;
 			this.BackgroundBumpsOption.Text = Strings.SettingsTabDisplayVoidPatternBumps;
 			this.BackgroundMetalOption.Text = Strings.SettingsTabDisplayVoidPatternMetal;

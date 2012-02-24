@@ -30,7 +30,7 @@
 		{
 			this.volumeTrackBar = new System.Windows.Forms.TrackBar();
 			this.volumeLabel = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
+			this.VolumeMessageLabel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.volumeTrackBar)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -41,7 +41,7 @@
 			this.volumeTrackBar.Location = new System.Drawing.Point(87, 3);
 			this.volumeTrackBar.Maximum = 100;
 			this.volumeTrackBar.Name = "volumeTrackBar";
-			this.volumeTrackBar.Size = new System.Drawing.Size(100, 45);
+			this.volumeTrackBar.Size = new System.Drawing.Size(100, 42);
 			this.volumeTrackBar.TabIndex = 0;
 			this.volumeTrackBar.TickFrequency = 25;
 			this.volumeTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -59,14 +59,14 @@
 			this.volumeLabel.TabIndex = 5;
 			this.volumeLabel.Text = "100%";
 			// 
-			// label1
+			// VolumeMessageLabel
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(3, 6);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(45, 13);
-			this.label1.TabIndex = 4;
-			this.label1.Text = "Volume:";
+			this.VolumeMessageLabel.AutoSize = true;
+			this.VolumeMessageLabel.Location = new System.Drawing.Point(3, 6);
+			this.VolumeMessageLabel.Name = "VolumeMessageLabel";
+			this.VolumeMessageLabel.Size = new System.Drawing.Size(45, 13);
+			this.VolumeMessageLabel.TabIndex = 4;
+			this.VolumeMessageLabel.Text = "Volume:";
 			// 
 			// VolumeSlider
 			// 
@@ -74,10 +74,11 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.volumeLabel);
-			this.Controls.Add(this.label1);
+			this.Controls.Add(this.VolumeMessageLabel);
 			this.Controls.Add(this.volumeTrackBar);
 			this.Name = "VolumeSlider";
 			this.Size = new System.Drawing.Size(189, 29);
+			this.Load += new System.EventHandler(this.VolumeSlider_Load);
 			((System.ComponentModel.ISupportInitialize)(this.volumeTrackBar)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -88,6 +89,6 @@
 
 		private System.Windows.Forms.TrackBar volumeTrackBar;
 		private System.Windows.Forms.Label volumeLabel;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label VolumeMessageLabel;
 	}
 }

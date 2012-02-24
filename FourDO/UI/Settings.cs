@@ -19,6 +19,8 @@ namespace FourDO.UI
 
 		private void Settings_Load(object sender, EventArgs e)
 		{
+			this.Localize();
+
 			Background4DOOption.Tag = VoidAreaPattern.FourDO;
 			BackgroundBumpsOption.Tag = VoidAreaPattern.Bumps;
 			BackgroundMetalOption.Tag = VoidAreaPattern.Metal;

@@ -11,7 +11,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 	{
 		private void Localize()
 		{
-			this.Text = Strings.SettingsWindowTitle;
+			this.Text = JohnnyInputStrings.WindowTitle;
 
 			this.MainTabControl.TabPages[0].Text = JohnnyInputStrings.Player + " 1";
 			this.MainTabControl.TabPages[1].Text = JohnnyInputStrings.Player + " 2";
