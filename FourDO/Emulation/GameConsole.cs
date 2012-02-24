@@ -33,6 +33,15 @@ namespace FourDO.Emulation
 
 	internal class GameConsole
 	{
+		//////////////////// hack ////////////////////////
+		// Hey Viktor!
+		//
+		// This flag syncs the CPU with the speed of audio data.
+		//
+		// Set this flag to false to disable my fix.
+		private const bool AUDIO_TIMING_HACK_ENABLED = true;
+		//////////////////// hack ////////////////////////
+
 		public event EventHandler FrameDone;
 		public event ConsoleStateChangeHandler ConsoleStateChange;
 
@@ -587,8 +596,10 @@ namespace FourDO.Emulation
 			return currentFrame;
 		}
 
+		private int lastSampleCount = 0;
 		private void ExternalInterface_PushSample(uint dspSample)
 		{
+			lastSampleCount++;
 			if (this.audioPlugin != null)
 				this.audioPlugin.PushSample(dspSample);
 		}
@@ -742,6 +753,23 @@ namespace FourDO.Emulation
 				{
 					targetPeriod = this.newTargetPeriod.Value;
 				}
+
+				//////////////////// hack ////////////////////////
+				if (lastSampleCount > 0 && AUDIO_TIMING_HACK_ENABLED)
+				{
+					// Figure out how much time was emulated.
+					double lastFrameSeconds = lastSampleCount / (double)44100;
+					double normalFrameSeconds = 1 / (double)TARGET_FRAMES_PER_SECOND;
+
+					// If there were multiple frames, account for this.
+					if (lastFrameCount > 0)
+						lastFrameSeconds = lastFrameSeconds / lastFrameCount;
+
+					targetPeriod = (long)(PerformanceCounter.Frequency * lastFrameSeconds);
+
+					lastSampleCount = 0;
+				}
+				//////////////////// hack ////////////////////////
 
 				///////////
 				// Identify how long to sleep (if at all).
