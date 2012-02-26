@@ -262,6 +262,7 @@
     <EmbeddedResource Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputSettings.resx">
       <DependentUpon>JohnnyInputSettings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\JohnnyInputStrings.fr.resx" />
     <EmbeddedResource Include="Resources\JohnnyInputStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>JohnnyInputStrings.Designer.cs</LastGenOutput>
@@ -272,6 +273,7 @@
       <LastGenOutput>Images.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings.fr.resx" />
     <EmbeddedResource Include="Resources\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
