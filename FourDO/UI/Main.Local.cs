@@ -59,6 +59,9 @@ namespace FourDO.UI
 
 			this.quickDisplayDropDownButton.Text = Strings.MainMessageDisplayOptions;
 
+			this.RomNagBox.LinkText = Strings.MainMessageNoBiosSelected;
+			this.RomNagBox.MessageText = Strings.MainMessageChooseBiosRom;
+
 			if (this.volumeMenuItem != null)
 				this.volumeMenuItem.Localize();
 

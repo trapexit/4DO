@@ -263,6 +263,7 @@
       <DependentUpon>JohnnyInputSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\JohnnyInputStrings.fr.resx" />
+    <EmbeddedResource Include="Resources\JohnnyInputStrings.pt.resx" />
     <EmbeddedResource Include="Resources\JohnnyInputStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>JohnnyInputStrings.Designer.cs</LastGenOutput>
@@ -274,6 +275,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Strings.fr.resx" />
+    <EmbeddedResource Include="Resources\Strings.pt.resx" />
     <EmbeddedResource Include="Resources\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
@@ -377,7 +379,7 @@
 "$(SolutionDir)tools\7z.exe" d -tzip -y "$(TargetDir)4DO_x.x.x.x_beta.zip" *
 
 ::Add each file
-"$(SolutionDir)tools\7z.exe" a -tzip -y "$(TargetDir)4DO_x.x.x.x_beta.zip" "$(TargetPath)" "$(TargetDir)CDLib.dll" "$(TargetDir)FreeDOCore.dll" "$(TargetDir)FourDO.Utilities.dll" "$(SolutionDir)tools\SlimDX.dll"</PostBuildEvent>
+"$(SolutionDir)tools\7z.exe" a -tzip -y "$(TargetDir)4DO_x.x.x.x_beta.zip" "$(TargetPath)" "$(TargetDir)CDLib.dll" "$(TargetDir)FreeDOCore.dll" "$(TargetDir)FourDO.Utilities.dll" "$(SolutionDir)tools\SlimDX.dll" "$(TargetDir)ru"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
