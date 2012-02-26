@@ -283,6 +283,11 @@ namespace FourDO.UI
 			{
 				Trace.WriteLine("Video Render - Forcing use of GDI rendering due to run option.");
 			}
+			else if (DesignerHelper.IsInDesignMode())
+			{
+				// NOTE: (jmk) probably shouldn't happen at runtime, but I have it in here just in case something goes berserk.
+				Trace.WriteLine("Video Render - Forcing use of GDI rendering due to being in design mode.");
+			}
 			else
 			{
 				try

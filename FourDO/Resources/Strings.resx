@@ -285,6 +285,18 @@
   <data name="MainMenuOptionsConfigureInput" xml:space="preserve">
     <value>Configure &amp;Input...</value>
   </data>
+  <data name="MainMenuOptionsLanguage" xml:space="preserve">
+    <value>&amp;Language</value>
+  </data>
+  <data name="MainMenuOptionsLanguageDefault" xml:space="preserve">
+    <value>System &amp;Default</value>
+  </data>
+  <data name="MainMenuOptionsLanguageEnglish" xml:space="preserve">
+    <value>&amp;English</value>
+  </data>
+  <data name="MainMenuOptionsLanguageRussian" xml:space="preserve">
+    <value>&amp;Russian</value>
+  </data>
   <data name="MainMenuOptionsSettings" xml:space="preserve">
     <value>4DO &amp;Settings...</value>
   </data>

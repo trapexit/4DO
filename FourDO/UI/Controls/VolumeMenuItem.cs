@@ -15,6 +15,11 @@ namespace FourDO.UI.Controls
 
 		private VolumeSlider trackBar;
 
+		public void Localize()
+		{
+			this.trackBar.Localize();
+		}
+
 		public double Volume
 		{
 			get

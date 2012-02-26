@@ -151,7 +151,7 @@
 			this.textBox1.ReadOnly = true;
 			this.textBox1.Size = new System.Drawing.Size(99, 67);
 			this.textBox1.TabIndex = 11;
-			this.textBox1.Text = "Felix Lazarev\r\nAlexander Troosh\r\nMaxim Grishin\r\nAllen Wright\r\nJohn Sammons\r\n";
+			this.textBox1.Text = "Felix Lazarev\r\nAlexander Troosh\r\nMaxim Grishin\r\nAllen Wright\r\nJohn Sammons";
 			// 
 			// VersionTextBox
 			// 

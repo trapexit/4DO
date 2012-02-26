@@ -134,7 +134,7 @@ namespace FourDO.UI
 			int menuInsertIndex = fileMenuItem.DropDownItems.IndexOf(openCDImageMenuItem) + 1;
 			foreach (char drive in CDDrive.GetCDDriveLetters())
 			{
-				ToolStripMenuItem newItem = new ToolStripMenuItem(Strings.MainMenuFileOpenCDDrive + " - " + drive + ":");
+				ToolStripMenuItem newItem = new ToolStripMenuItem("");
 				newItem.Tag = drive;
 				newItem.Click += new EventHandler(openFromDriveMenuItem_Click);
 				fileMenuItem.DropDownItems.Insert(menuInsertIndex, newItem);
@@ -519,6 +519,21 @@ namespace FourDO.UI
 			this.DoToggleVoidAreaBorder();
 		}
 
+		private void languageDefaultMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoSetLanguage(null);
+		}
+
+		private void languageEnglishMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoSetLanguage((string)languageEnglishMenuItem.Tag);
+		}
+
+		private void languageRussianMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoSetLanguage((string)languageRussianMenuItem.Tag);
+		}
+
 		private void Pattern4DOMenuItem_Click(object sender, EventArgs e)
 		{
 			if (sender is ToolStripDropDownItem && ((ToolStripDropDownItem)sender).Tag is ToolStripDropDownItem)
@@ -702,6 +717,13 @@ namespace FourDO.UI
 				}
 			}
 
+			// Update the disc menu items (for localization purposes)
+			foreach (ToolStripMenuItem item in this.openGameMenuItems)
+			{
+				if (item.Tag != null && (item.Tag.GetType() == typeof(char)))
+					item.Text = Strings.MainMenuFileOpenCDDrive + " - " + item.Tag + ":";
+			}
+
 			// Accentuate the menu item identifying the currently open item.
 			foreach (ToolStripMenuItem item in this.openGameMenuItems)
 			{
@@ -793,6 +815,11 @@ namespace FourDO.UI
 			this.settingsMenuItem.Enabled = true;
 			this.configureInputMenuItem.Enabled = (GameConsole.Instance.InputPlugin != null)
 					&& (GameConsole.Instance.InputPlugin.GetHasSettings());
+
+			string language = Properties.Settings.Default.Language;
+			this.languageDefaultMenuItem.Checked = string.IsNullOrWhiteSpace(language);
+			this.languageEnglishMenuItem.Checked = (language == (string)this.languageEnglishMenuItem.Tag);
+			this.languageRussianMenuItem.Checked = (language == (string)this.languageRussianMenuItem.Tag);
 
 			////////////////////////
 			// Help menus.
@@ -1284,6 +1311,25 @@ namespace FourDO.UI
 
 			this.Refresh();
 			this.ResumeLayout();
+		}
+
+		private void DoSetLanguage(string language)
+		{
+			// Set current culture to the selection.
+			System.Globalization.CultureInfo cultureToUse = null;
+			if (string.IsNullOrWhiteSpace(language))
+				cultureToUse = FourDO.Utilities.Globals.Constants.SystemDefaultCulture;
+			else
+				cultureToUse = System.Globalization.CultureInfo.GetCultureInfo(language);
+			System.Threading.Thread.CurrentThread.CurrentUICulture = cultureToUse;
+
+			// Save it.
+			Properties.Settings.Default.Language = language;
+			Properties.Settings.Default.Save();
+
+			// Update interface.
+			this.Localize();
+			this.UpdateUI();
 		}
 
 		#endregion // Private Methods

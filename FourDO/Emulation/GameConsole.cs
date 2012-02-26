@@ -759,7 +759,6 @@ namespace FourDO.Emulation
 				{
 					// Figure out how much time was emulated.
 					double lastFrameSeconds = lastSampleCount / (double)44100;
-					double normalFrameSeconds = 1 / (double)TARGET_FRAMES_PER_SECOND;
 
 					// If there were multiple frames, account for this.
 					if (lastFrameCount > 0)

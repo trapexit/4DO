@@ -16,6 +16,11 @@ namespace FourDO.UI.Controls
 
 		private double volume;
 
+		public void Localize()
+		{
+			this.VolumeMessageLabel.Text = Strings.MainMessageVolume + ":";
+		}
+
 		public double Volume
 		{
 			get
@@ -51,7 +56,7 @@ namespace FourDO.UI.Controls
 
 		private void VolumeSlider_Load(object sender, EventArgs e)
 		{
-			this.VolumeMessageLabel.Text = Strings.MainMessageVolume + ":";
+			this.Localize();
 		}
 	}
 }

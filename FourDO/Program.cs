@@ -35,6 +35,8 @@ namespace FourDO
 			if (!ReadCommandLineArgs(args))
 				return;
 
+			Program.SetLanguage();
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
@@ -83,6 +85,8 @@ namespace FourDO
 			Trace.Listeners.Add(listener);
 		}
 
+		#region Exception Handling
+
 		private static void InitializeExceptions()
 		{
 			Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
@@ -99,6 +103,33 @@ namespace FourDO
 		{
 			Trace.WriteLine("Thread exception: " + e.Exception.ToString());
 			Trace.Flush();
+		}
+
+		#endregion
+
+		private static void SetLanguage()
+		{
+			Constants.SetSystemDefaultCulture(System.Threading.Thread.CurrentThread.CurrentUICulture);
+			string language = Properties.Settings.Default.Language;
+			if (string.IsNullOrWhiteSpace(language))
+			{
+				// Don't set the language. Use the system default.
+			}
+			else
+			{
+				// We will always set the program's culture to whatever is specified.
+				// I figured I would do this in case someone added support for their
+				// language and selected it in the settings file themselves.
+				System.Globalization.CultureInfo cultureInfo = null;
+				try
+				{
+					cultureInfo = System.Globalization.CultureInfo.GetCultureInfo(language);
+				}
+				catch {}
+				
+				if (cultureInfo != null)
+					System.Threading.Thread.CurrentThread.CurrentUICulture = cultureInfo;
+			}
 		}
 
 		private static bool ReadCommandLineArgs(string[] args)

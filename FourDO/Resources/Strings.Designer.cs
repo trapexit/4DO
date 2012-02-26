@@ -565,6 +565,42 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Language.
+        /// </summary>
+        internal static string MainMenuOptionsLanguage {
+            get {
+                return ResourceManager.GetString("MainMenuOptionsLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System &amp;Default.
+        /// </summary>
+        internal static string MainMenuOptionsLanguageDefault {
+            get {
+                return ResourceManager.GetString("MainMenuOptionsLanguageDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;English.
+        /// </summary>
+        internal static string MainMenuOptionsLanguageEnglish {
+            get {
+                return ResourceManager.GetString("MainMenuOptionsLanguageEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Russian.
+        /// </summary>
+        internal static string MainMenuOptionsLanguageRussian {
+            get {
+                return ResourceManager.GetString("MainMenuOptionsLanguageRussian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 4DO &amp;Settings....
         /// </summary>
         internal static string MainMenuOptionsSettings {
