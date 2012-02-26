@@ -642,6 +642,11 @@ namespace FourDO.UI
 
 		private void Instance_ConsoleStateChange(ConsoleStateChangeEventArgs e)
 		{
+			if (e.NewState == ConsoleState.Running)
+				Utilities.DisplayHelper.DisableScreenSaver();
+			else
+				Utilities.DisplayHelper.EnableScreenSaver();
+
 			// Some menu items depend on console status.
 			this.UpdateUI();
 		}
