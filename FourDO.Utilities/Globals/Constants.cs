@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,20 @@ namespace FourDO.Utilities.Globals
 			{
 				return Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), SETTINGS_SUBFOLDER_NAME);
 			}
+		}
+
+		private static CultureInfo systemDefaultCulture = null;
+		public static CultureInfo SystemDefaultCulture
+		{
+			get
+			{
+				return systemDefaultCulture;
+			}
+		}
+		
+		public static void SetSystemDefaultCulture(CultureInfo info)
+		{
+			systemDefaultCulture = info;
 		}
 	}
 }
