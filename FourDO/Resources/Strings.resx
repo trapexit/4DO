@@ -288,6 +288,9 @@
   <data name="MainMenuOptionsLanguage" xml:space="preserve">
     <value>&amp;Language</value>
   </data>
+  <data name="MainMenuOptionsLanguageChinese" xml:space="preserve">
+    <value>&amp;Chinese - Simplified</value>
+  </data>
   <data name="MainMenuOptionsLanguageDefault" xml:space="preserve">
     <value>System &amp;Default</value>
   </data>
@@ -296,6 +299,9 @@
   </data>
   <data name="MainMenuOptionsLanguageFrench" xml:space="preserve">
     <value>&amp;French</value>
+  </data>
+  <data name="MainMenuOptionsLanguagePortuguese" xml:space="preserve">
+    <value>&amp;Portuguese</value>
   </data>
   <data name="MainMenuOptionsLanguageRussian" xml:space="preserve">
     <value>&amp;Russian</value>

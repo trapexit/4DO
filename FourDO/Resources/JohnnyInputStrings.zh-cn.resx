@@ -112,22 +112,22 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddSet" xml:space="preserve">
-    <value>Adicionar Ajuste</value>
+    <value>添加设置</value>
   </data>
   <data name="Axis" xml:space="preserve">
-    <value>Eixo</value>
+    <value>Axis</value>
   </data>
   <data name="BindingSet" xml:space="preserve">
-    <value>Ajuste</value>
+    <value>按键设置</value>
   </data>
   <data name="Button" xml:space="preserve">
-    <value>Botão</value>
+    <value>Button</value>
   </data>
   <data name="ButtonA" xml:space="preserve">
     <value>A</value>
@@ -139,135 +139,135 @@
     <value>C</value>
   </data>
   <data name="ButtonDown" xml:space="preserve">
-    <value>Baixo</value>
+    <value>下</value>
   </data>
   <data name="ButtonL" xml:space="preserve">
-    <value>L (ombro esquerdo)</value>
+    <value>L (L键)</value>
   </data>
   <data name="ButtonLeft" xml:space="preserve">
-    <value>Esquerda</value>
+    <value>左</value>
   </data>
   <data name="ButtonP" xml:space="preserve">
-    <value>P ("Play/Pause")</value>
+    <value>P ("开始/暂停")</value>
   </data>
   <data name="ButtonR" xml:space="preserve">
-    <value>R (ombro direito)</value>
+    <value>R (R键)</value>
   </data>
   <data name="ButtonRight" xml:space="preserve">
-    <value>Direita</value>
+    <value>右</value>
   </data>
   <data name="ButtonUp" xml:space="preserve">
-    <value>Cima</value>
+    <value>上</value>
   </data>
   <data name="ButtonX" xml:space="preserve">
-    <value>X ("Stop")</value>
+    <value>X ("停止")</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>&amp;Cancelar</value>
+    <value>取消(&amp;C)</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
-    <value>Limpar tudo</value>
+    <value>清除所有</value>
   </data>
   <data name="Control" xml:space="preserve">
-    <value>Controle</value>
+    <value>控制器</value>
   </data>
   <data name="CurrentDevices" xml:space="preserve">
-    <value>Dispositivos Atuais:</value>
+    <value>当前设备:</value>
   </data>
   <data name="DeleteSet" xml:space="preserve">
-    <value>Deletar Controle</value>
+    <value>删除设置</value>
   </data>
   <data name="InfoClearABinding" xml:space="preserve">
-    <value>Limpar</value>
+    <value>清除按键</value>
   </data>
   <data name="InfoClearKeys" xml:space="preserve">
-    <value>Delete, Backspace</value>
+    <value>Delete键, Backspace键</value>
   </data>
   <data name="InfoDetectedDevices" xml:space="preserve">
-    <value>Dispositivos Detectados devices:</value>
+    <value>检查设备:</value>
   </data>
   <data name="InfoDevice" xml:space="preserve">
-    <value>dispositivo</value>
+    <value>设备</value>
   </data>
   <data name="InfoDevices" xml:space="preserve">
-    <value>dispositivos</value>
+    <value>设备</value>
   </data>
   <data name="InfoEscapeToCancel" xml:space="preserve">
-    <value>(Além, use Esc para cancelar um ajuste de associação)</value>
+    <value>(此外, 可按Ees键来取消设置)</value>
   </data>
   <data name="InfoMoveMouse" xml:space="preserve">
-    <value>Mova o mouse aqui para ver os dispositivos</value>
+    <value>鼠标移动至此查看设备</value>
   </data>
   <data name="InfoNoDevices" xml:space="preserve">
-    <value>sem dispositivos</value>
+    <value>没有设备</value>
   </data>
   <data name="InfoSetABinding" xml:space="preserve">
-    <value>Definir</value>
+    <value>设置按键</value>
   </data>
   <data name="InfoSetKeys" xml:space="preserve">
-    <value>Clique esquerdo, Espaço, Enter</value>
+    <value>鼠标左键, 空格键, Enter键</value>
   </data>
   <data name="InfoWith" xml:space="preserve">
-    <value>com</value>
+    <value>:</value>
   </data>
   <data name="JoyAbbreviated" xml:space="preserve">
     <value>joy</value>
   </data>
   <data name="Joystick" xml:space="preserve">
-    <value>Joystick</value>
+    <value>手柄</value>
   </data>
   <data name="Keyboard" xml:space="preserve">
-    <value>Teclado</value>
+    <value>键盘</value>
   </data>
   <data name="Listening" xml:space="preserve">
-    <value>(escutando...)</value>
+    <value>(输入...)</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>&amp;OK</value>
+    <value>确定(&amp;O)</value>
   </data>
   <data name="Player" xml:space="preserve">
-    <value>Jogador</value>
+    <value>玩家</value>
   </data>
   <data name="PointOfViewAbbreviated" xml:space="preserve">
-    <value>PdV</value>
+    <value>PoV</value>
   </data>
   <data name="PreviewAButton" xml:space="preserve">
-    <value>Botão A</value>
+    <value>A键</value>
   </data>
   <data name="PreviewBButton" xml:space="preserve">
-    <value>Botão B</value>
+    <value>B键</value>
   </data>
   <data name="PreviewCButton" xml:space="preserve">
-    <value>Botão C</value>
+    <value>C键</value>
   </data>
   <data name="PreviewDownButton" xml:space="preserve">
-    <value>Baixo ("Busca para trás")</value>
+    <value>下 ("向后寻道")</value>
   </data>
   <data name="PreviewLButton" xml:space="preserve">
-    <value>L (ombro esquerdo)</value>
+    <value>L (L键)</value>
   </data>
   <data name="PreviewLeftButton" xml:space="preserve">
-    <value>Esquerda ("Trilha Anterior")</value>
+    <value>左 ("上一曲目)</value>
   </data>
   <data name="PreviewPButton" xml:space="preserve">
-    <value>Botão P ("Play/Pause")</value>
+    <value>P键 ("开始/暂停")</value>
   </data>
   <data name="PreviewRButton" xml:space="preserve">
-    <value>R (ombro direito)</value>
+    <value>R (R键)</value>
   </data>
   <data name="PreviewRightButton" xml:space="preserve">
-    <value>Direita ("Próxima Trilha")</value>
+    <value>右 ("下一曲目")</value>
   </data>
   <data name="PreviewUpButton" xml:space="preserve">
-    <value>Cima ("Busca para frente")</value>
+    <value>上 ("向前寻道")</value>
   </data>
   <data name="PreviewXButton" xml:space="preserve">
-    <value>Botão X ("Stop")</value>
+    <value>X键 ("停止")</value>
   </data>
   <data name="SetAll" xml:space="preserve">
-    <value>Definir todos</value>
+    <value>设置所有</value>
   </data>
   <data name="WindowTitle" xml:space="preserve">
-    <value>Configurar Ajustes de Entrada</value>
+    <value>配置输入设置</value>
   </data>
 </root>

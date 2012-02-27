@@ -10,6 +10,32 @@ namespace FourDO.UI
 {
 	public partial class Main
 	{
+		private List<string> supportedLanguageCodes = new List<string>{
+				"en",
+				"ru",
+				"fr",
+				"pt",
+				"zh-cn"
+			};
+
+		private string GetLocalizedLanguageName(string supportedLanguageCode)
+		{
+			switch (supportedLanguageCode)
+			{
+				case "en":
+					return Strings.MainMenuOptionsLanguageEnglish;
+				case "ru":
+					return Strings.MainMenuOptionsLanguageRussian;
+				case "fr":
+					return Strings.MainMenuOptionsLanguageFrench;
+				case "pt":
+					return Strings.MainMenuOptionsLanguagePortuguese;
+				case "zh-cn":
+					return Strings.MainMenuOptionsLanguageChinese;
+			}
+			return null;
+		}
+
 		private void Localize()
 		{
 			this.fileMenuItem.Text = Strings.MainMenuFile;
@@ -50,9 +76,6 @@ namespace FourDO.UI
 
 			this.languageMenuItem.Text = Strings.MainMenuOptionsLanguage;
 			this.languageDefaultMenuItem.Text = Strings.MainMenuOptionsLanguageDefault;
-			this.languageEnglishMenuItem.Text = Strings.MainMenuOptionsLanguageEnglish;
-			this.languageRussianMenuItem.Text = Strings.MainMenuOptionsLanguageRussian;
-			this.languageFrenchMenuItem.Text = Strings.MainMenuOptionsLanguageFrench;
 
 			this.helpToolStripMenuItem.Text = Strings.MainMenuHelp;
 			this.gameInfoMenuItem.Text = Strings.MainMenuHelpGameInfo;
@@ -65,6 +88,50 @@ namespace FourDO.UI
 
 			if (this.volumeMenuItem != null)
 				this.volumeMenuItem.Localize();
+
+			// Update save state slot menu items.
+			foreach (var item in saveStateSlotMenuItem.DropDownItems)
+			{
+				if (item is ToolStripMenuItem)
+				{
+					var menuItem = item as ToolStripMenuItem;
+					if (menuItem.Tag != null && menuItem.Tag.GetType() == typeof(int))
+						menuItem.Text = Strings.MainMessageSlot + " " + ((int)menuItem.Tag).ToString();
+				}
+			}
+
+			// Update the disc menu items
+			foreach (ToolStripMenuItem item in this.openGameMenuItems)
+			{
+				if (item.Tag != null && (item.Tag.GetType() == typeof(char)))
+					item.Text = Strings.MainMenuFileOpenCDDrive + " - " + item.Tag + ":";
+			}
+
+			////////////////
+			// Update language menu items.
+			foreach (var item in this.languageMenuItems)
+			{
+				item.Text = this.GetLocalizedLanguageName((string)item.Tag);
+			}
+			
+			// Append default culture translations to language menu items.
+			// I do this in case someone picks a language they don't know and need to set it back.
+			var currentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+			System.Threading.Thread.CurrentThread.CurrentUICulture = Constants.SystemDefaultCulture;
+			foreach (var item in this.languageMenuItems)
+			{
+				var defaultCultureName = this.GetLocalizedLanguageName((string)item.Tag);
+				if (defaultCultureName != item.Text)
+					item.Text += " (" + defaultCultureName + ")";
+			}
+
+			if (this.languageDefaultMenuItem.Text != Strings.MainMenuOptionsLanguageDefault)
+				this.languageDefaultMenuItem.Text += " (" + Strings.MainMenuOptionsLanguageDefault + ")";
+			if (this.languageMenuItem.Text != Strings.MainMenuOptionsLanguage)
+				this.languageMenuItem.Text += " (" + Strings.MainMenuOptionsLanguage + ")";
+
+			// Set culture back to normal.
+			System.Threading.Thread.CurrentThread.CurrentUICulture = currentCulture;
 
 			////////////////
 			// Copy to quick display settings menu.
@@ -91,30 +158,6 @@ namespace FourDO.UI
 					}
 				}
 			}
-
-			/////////////////
-			// Append default culture translations to language menu items.
-			// I do this in case someone picks a language they don't know and need to set it back.
-			var currentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
-			System.Threading.Thread.CurrentThread.CurrentUICulture = Constants.SystemDefaultCulture;
-
-			if (Strings.MainMenuOptionsLanguage != this.languageMenuItem.Text)
-				this.languageMenuItem.Text += " (" + Strings.MainMenuOptionsLanguage + ")";
-
-			if (Strings.MainMenuOptionsLanguageDefault != this.languageDefaultMenuItem.Text)
-				this.languageDefaultMenuItem.Text += " (" + Strings.MainMenuOptionsLanguageDefault + ")";
-
-			if (Strings.MainMenuOptionsLanguageEnglish != this.languageEnglishMenuItem.Text)
-				this.languageEnglishMenuItem.Text += " (" + Strings.MainMenuOptionsLanguageEnglish + ")";
-
-			if (Strings.MainMenuOptionsLanguageRussian != this.languageRussianMenuItem.Text)
-				this.languageRussianMenuItem.Text += " (" + Strings.MainMenuOptionsLanguageRussian + ")";
-
-			if (Strings.MainMenuOptionsLanguageFrench != this.languageFrenchMenuItem.Text)
-				this.languageFrenchMenuItem.Text += " (" + Strings.MainMenuOptionsLanguageFrench + ")";
-
-			// Set culture back to normal.
-			System.Threading.Thread.CurrentThread.CurrentUICulture = currentCulture;
 		}
 	}
 }

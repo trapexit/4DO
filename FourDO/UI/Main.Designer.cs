@@ -81,9 +81,6 @@
 			this.languageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.languageDefaultMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-			this.languageEnglishMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.languageRussianMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.languageFrenchMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.gameInfoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -495,10 +492,7 @@
 			// 
 			this.languageMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.languageDefaultMenuItem,
-            this.toolStripSeparator14,
-            this.languageEnglishMenuItem,
-            this.languageRussianMenuItem,
-            this.languageFrenchMenuItem});
+            this.toolStripSeparator14});
 			this.languageMenuItem.Name = "languageMenuItem";
 			this.languageMenuItem.Size = new System.Drawing.Size(162, 22);
 			this.languageMenuItem.Text = "&Language";
@@ -514,30 +508,6 @@
 			// 
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
 			this.toolStripSeparator14.Size = new System.Drawing.Size(149, 6);
-			// 
-			// languageEnglishMenuItem
-			// 
-			this.languageEnglishMenuItem.Name = "languageEnglishMenuItem";
-			this.languageEnglishMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.languageEnglishMenuItem.Tag = "en";
-			this.languageEnglishMenuItem.Text = "English";
-			this.languageEnglishMenuItem.Click += new System.EventHandler(this.languageEnglishMenuItem_Click);
-			// 
-			// languageRussianMenuItem
-			// 
-			this.languageRussianMenuItem.Name = "languageRussianMenuItem";
-			this.languageRussianMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.languageRussianMenuItem.Tag = "ru";
-			this.languageRussianMenuItem.Text = "Russian";
-			this.languageRussianMenuItem.Click += new System.EventHandler(this.languageRussianMenuItem_Click);
-			// 
-			// languageFrenchMenuItem
-			// 
-			this.languageFrenchMenuItem.Name = "languageFrenchMenuItem";
-			this.languageFrenchMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.languageFrenchMenuItem.Tag = "fr";
-			this.languageFrenchMenuItem.Text = "French";
-			this.languageFrenchMenuItem.Click += new System.EventHandler(this.languageFrenchMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -715,9 +685,6 @@
 		private System.Windows.Forms.ToolStripMenuItem languageMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem languageDefaultMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
-		private System.Windows.Forms.ToolStripMenuItem languageEnglishMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem languageRussianMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem languageFrenchMenuItem;
 
     }
 }

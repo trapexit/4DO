@@ -44,6 +44,7 @@ namespace FourDO.UI
 
 		private List<ToolStripMenuItem> openGameMenuItems = new List<ToolStripMenuItem>();
 		private Controls.VolumeMenuItem volumeMenuItem;
+		private List<ToolStripMenuItem> languageMenuItems = new List<ToolStripMenuItem>();
 
 		#region Load/Close Form Events
 
@@ -129,7 +130,9 @@ namespace FourDO.UI
 				this.DoSaveWindowSize();
 			this.sizeBox.Visible = false; // and shut that damn thing up!
 
-			////////////////
+			///////////////////////////
+			// Create dynamic form elements
+
 			// Create "Open Disc" menu items for each CD Drive.
 			int menuInsertIndex = fileMenuItem.DropDownItems.IndexOf(openCDImageMenuItem) + 1;
 			foreach (char drive in CDDrive.GetCDDriveLetters())
@@ -143,7 +146,6 @@ namespace FourDO.UI
 			}
 			openGameMenuItems.Add(openCDImageMenuItem);
 
-			////////////////
 			// Copy some menu items to the quick display settings menu.
 			ToolStripMenuItem voidAreaMenuItem = null;
 			foreach (ToolStripItem item in this.displayMenuItem.DropDownItems)
@@ -209,29 +211,17 @@ namespace FourDO.UI
 				voidAreaMenuItem.DropDownItems.Add(newItem);
 			}
 
-			/////////////
 			// Add volume control menu item
 			this.volumeMenuItem = new UI.Controls.VolumeMenuItem();
 			this.volumeMenuItem.VolumeChanged += new EventHandler(volumeMenuItem_VolumeChanged);
 			this.audioMenuItem.DropDownItems.Add(this.volumeMenuItem);
 
-			/////////////
 			// Set tags for certain menu items.
 			this.Pattern4DOMenuItem.Tag = VoidAreaPattern.FourDO;
 			this.PatternBumpsMenuItem.Tag = VoidAreaPattern.Bumps;
 			this.PatternMetalMenuItem.Tag = VoidAreaPattern.Metal;
 			this.PatternNoneMenuItem.Tag = VoidAreaPattern.None;
 
-			/////////////
-			// Handle ROM file nag box
-			if (!File.Exists(Properties.Settings.Default.BiosRomFile))
-			{
-				Properties.Settings.Default.BiosRomFile = "";
-				Properties.Settings.Default.Save();
-				this.DoShowRomNag();
-			}
-
-			//////////////
 			// Add save slot menu items.
 			if (Properties.Settings.Default.SaveStateSlot < 0 || Properties.Settings.Default.SaveStateSlot > 9)
 			{
@@ -248,6 +238,31 @@ namespace FourDO.UI
 				saveStateSlotMenuItem.DropDownItems.Add(newItem);
 			}
 
+			// Add language menu items.
+			foreach (string languageCode in this.supportedLanguageCodes)
+			{
+				ToolStripMenuItem newItem = new ToolStripMenuItem("");
+				newItem.Tag = languageCode;
+				newItem.Click += new EventHandler(languageSelectionMenuItem_Click);
+				languageMenuItem.DropDownItems.Add(newItem);
+				this.languageMenuItems.Add(newItem);
+			}
+
+			//////////////
+			// Localize
+			this.Localize();
+
+			///////////////////////////////////////////////////////////////////////////
+
+			/////////////
+			// Handle ROM file nag box
+			if (!File.Exists(Properties.Settings.Default.BiosRomFile))
+			{
+				Properties.Settings.Default.BiosRomFile = "";
+				Properties.Settings.Default.Save();
+				this.DoShowRomNag();
+			}
+			///////////
 			// Clear the last loaded game if they don't want us to automatically loading games.
 			if (Properties.Settings.Default.AutoOpenGameFile == false)
 			{
@@ -524,19 +539,10 @@ namespace FourDO.UI
 			this.DoSetLanguage(null);
 		}
 
-		private void languageEnglishMenuItem_Click(object sender, EventArgs e)
+		private void languageSelectionMenuItem_Click(object sender, EventArgs e)
 		{
-			this.DoSetLanguage((string)languageEnglishMenuItem.Tag);
-		}
-
-		private void languageRussianMenuItem_Click(object sender, EventArgs e)
-		{
-			this.DoSetLanguage((string)languageRussianMenuItem.Tag);
-		}
-
-		private void languageFrenchMenuItem_Click(object sender, EventArgs e)
-		{
-			this.DoSetLanguage((string)languageFrenchMenuItem.Tag);
+			ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
+			this.DoSetLanguage((string)menuItem.Tag);
 		}
 
 		private void Pattern4DOMenuItem_Click(object sender, EventArgs e)
@@ -727,13 +733,6 @@ namespace FourDO.UI
 				}
 			}
 
-			// Update the disc menu items (for localization purposes)
-			foreach (ToolStripMenuItem item in this.openGameMenuItems)
-			{
-				if (item.Tag != null && (item.Tag.GetType() == typeof(char)))
-					item.Text = Strings.MainMenuFileOpenCDDrive + " - " + item.Tag + ":";
-			}
-
 			// Accentuate the menu item identifying the currently open item.
 			foreach (ToolStripMenuItem item in this.openGameMenuItems)
 			{
@@ -828,8 +827,8 @@ namespace FourDO.UI
 
 			string language = Properties.Settings.Default.Language;
 			this.languageDefaultMenuItem.Checked = string.IsNullOrWhiteSpace(language);
-			this.languageEnglishMenuItem.Checked = (language == (string)this.languageEnglishMenuItem.Tag);
-			this.languageRussianMenuItem.Checked = (language == (string)this.languageRussianMenuItem.Tag);
+			foreach (var menuItem in this.languageMenuItems)
+				menuItem.Checked = (language == (string)menuItem.Tag);
 
 			////////////////////////
 			// Help menus.
@@ -1343,5 +1342,6 @@ namespace FourDO.UI
 		}
 
 		#endregion // Private Methods
+
 	}
 }

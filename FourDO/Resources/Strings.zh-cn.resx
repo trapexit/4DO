@@ -118,345 +118,345 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HelpAbout3DOPlayAuthors" xml:space="preserve">
-    <value>3DOPlay Авторы:</value>
+    <value>3DOPlay 作者:</value>
   </data>
   <data name="HelpAbout3DOPlayMessage" xml:space="preserve">
-    <value>В феврале 2012, произошло объединение проектов 3DOplay и 4DO, с новым FreeDOCore от Viktor'а, чтобы обеспечить выгоду из 2 проектов 3DO эмуляции!</value>
+    <value>2012年2月, Viktor将3DOPlay的代码合并进了根据FreeDO代码写的4DO模拟器中, 集合了两个独立的3DO模拟器项目的优点!</value>
   </data>
   <data name="HelpAbout4DOAuthors" xml:space="preserve">
-    <value>4DO Авторы:</value>
+    <value>4DO 作者:</value>
   </data>
   <data name="HelpAbout4DOMessage" xml:space="preserve">
-    <value>4DO (FourDO) - эмулятор системы 3DO Iteractive Multiplayer с открытым исходным кодом.</value>
+    <value>4DO (FourDO) 是一个开源的, 3DO多人系统底层模拟器.</value>
   </data>
   <data name="HelpAbout4DOVersion" xml:space="preserve">
-    <value>4DO Версия:</value>
+    <value>4DO 版本:</value>
   </data>
   <data name="HelpAboutClose" xml:space="preserve">
-    <value>&amp;Закрыть</value>
+    <value>关闭(&amp;C)</value>
   </data>
   <data name="HelpAboutFreeDOAuthors" xml:space="preserve">
-    <value>FreeDO Авторы:</value>
+    <value>FreeDO 作者:</value>
   </data>
   <data name="HelpAboutFreeDOMessage" xml:space="preserve">
-    <value>4DO (и 3DOPlay) система эмуляции основана на коде из проекта FreeDO, которые сделали исходный код открытым 10 ноября 2010. Огромное спасибо разработчикам за решение выпустить свой код!</value>
+    <value>4DO和3DOPlay模拟器都是基于2010年11月10日发布的FreeDO代码.  非常感谢FreeDO开发者的决定!</value>
   </data>
   <data name="HelpAboutJohnnyThank" xml:space="preserve">
-    <value>Отдельное спасибо:</value>
+    <value>额外感谢:</value>
   </data>
   <data name="HelpAboutJohnnyThankMessage" xml:space="preserve">
-    <value>Johnny так же хотел бы поблагодарить других людей, которые помогали с оригиналом.</value>
+    <value>Johnny 感谢其他那些原来帮助过高层模拟的人.</value>
   </data>
   <data name="HelpInfoChecksum" xml:space="preserve">
-    <value>Сектор 0+1 Checksum:</value>
+    <value>扇面 0+1 校验:</value>
   </data>
   <data name="HelpInfoGameId" xml:space="preserve">
-    <value>ID:</value>
+    <value>游戏编号:</value>
   </data>
   <data name="HelpInfoGameName" xml:space="preserve">
-    <value>Название:</value>
+    <value>游戏名称:</value>
   </data>
   <data name="HelpInfoOK" xml:space="preserve">
-    <value>&amp;OK</value>
+    <value>确定(&amp;O)</value>
   </data>
   <data name="HelpInfoPublisher" xml:space="preserve">
-    <value>Издатель:</value>
+    <value>发行厂商:</value>
   </data>
   <data name="HelpInfoRegion" xml:space="preserve">
-    <value>Регион:</value>
+    <value>区域:</value>
   </data>
   <data name="HelpInfoReleaseYear" xml:space="preserve">
-    <value>Год выпуска:</value>
+    <value>发行年份:</value>
   </data>
   <data name="HelpInfoWindowTitle" xml:space="preserve">
-    <value>Информация об игре</value>
+    <value>游戏信息</value>
   </data>
   <data name="MainErrorLoadBiosFile" xml:space="preserve">
-    <value>Файл биоса ({0}) не удалось загрузить. Выберите другой.</value>
+    <value>无法读取 bios 文件 ({0}) . 请选择另一个.</value>
   </data>
   <data name="MainErrorLoadGame" xml:space="preserve">
-    <value>Игру не удалось загрузить. Выберите другую.</value>
+    <value>无法读取游戏. 请选择另一个.</value>
   </data>
   <data name="MainErrorLoadGameFile" xml:space="preserve">
-    <value>Файл игры ({0}) не удалось загрузить. Выберите другой.</value>
+    <value>无法读取游戏文件 ({0}) . 请选择另一个.</value>
   </data>
   <data name="MainErrorLoadNvramFile" xml:space="preserve">
-    <value>"Файл nvram ({0}) не удалось загрузить. Эмуляция прекращена."</value>
+    <value>"无法读取 nvram 文件 ({0}) . 模拟器无法开始."</value>
   </data>
   <data name="MainMenuAudio" xml:space="preserve">
-    <value>&amp;Звук</value>
+    <value>音频(&amp;A)</value>
   </data>
   <data name="MainMenuConsole" xml:space="preserve">
-    <value>&amp;Консоль</value>
+    <value>控制台(&amp;C)</value>
   </data>
   <data name="MainMenuConsoleAdvanceFrame" xml:space="preserve">
-    <value>&amp;Покадровый ввод</value>
+    <value>帧进(&amp;A)</value>
   </data>
   <data name="MainMenuConsoleAutoLoadLastSave" xml:space="preserve">
-    <value>Поле запуска игры, автоматически загружать последнее сохранение (из слота)</value>
+    <value>打开游戏后, 读取上次的即时存档</value>
   </data>
   <data name="MainMenuConsoleLoadState" xml:space="preserve">
-    <value>&amp;Загрузить</value>
+    <value>即时读档(&amp;L)</value>
   </data>
   <data name="MainMenuConsolePause" xml:space="preserve">
-    <value>&amp;Пауза</value>
+    <value>暂停(&amp;P)</value>
   </data>
   <data name="MainMenuConsoleReset" xml:space="preserve">
-    <value>&amp;Сброс</value>
+    <value>重置(&amp;R)</value>
   </data>
   <data name="MainMenuConsoleSaveState" xml:space="preserve">
-    <value>&amp;Сохранить</value>
+    <value>即时存档(&amp;S)</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlot" xml:space="preserve">
-    <value>Сохранять в сло&amp;т</value>
+    <value>即时存档插槽(&amp;T)</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlotNext" xml:space="preserve">
-    <value>Установить &amp;следующий слот</value>
+    <value>选择下一个插槽(&amp;N)</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlotPrevious" xml:space="preserve">
-    <value>Установить &amp;предыдущий слот</value>
+    <value>选择上一个插槽(&amp;P)</value>
   </data>
   <data name="MainMenuDisplay" xml:space="preserve">
-    <value>&amp;Экран</value>
+    <value>显示(&amp;D)</value>
   </data>
   <data name="MainMenuDisplayFullscreen" xml:space="preserve">
-    <value>&amp;Во весь экран</value>
+    <value>全屏(&amp;F)</value>
   </data>
   <data name="MainMenuDisplayPreserveRatio" xml:space="preserve">
-    <value>Сохранять пропорций</value>
+    <value>保持长宽比(&amp;R)</value>
   </data>
   <data name="MainMenuDisplayResizeSnap" xml:space="preserve">
-    <value>Очищать приращения окна</value>
+    <value>调整窗口清除增量(&amp;W)</value>
   </data>
   <data name="MainMenuDisplaySmoothResizing" xml:space="preserve">
-    <value>&amp;Интерполяция</value>
+    <value>画面平滑(&amp;S)</value>
   </data>
   <data name="MainMenuDisplayVoidArea" xml:space="preserve">
-    <value>Задний фон</value>
+    <value>空白(无效)区域</value>
   </data>
   <data name="MainMenuDisplayVoidAreaDrawBorder" xml:space="preserve">
-    <value>Серая рамка</value>
+    <value>绘制灰色边框</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPattern4DO" xml:space="preserve">
-    <value>Фон : 4DO</value>
+    <value>图案 : 4DO</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternBumps" xml:space="preserve">
-    <value>Фон : Удары</value>
+    <value>图案 : 颠簸</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternMetal" xml:space="preserve">
-    <value>Фон : Металл</value>
+    <value>图案 : 金属</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternNone" xml:space="preserve">
-    <value>Нет</value>
+    <value>无图案</value>
   </data>
   <data name="MainMenuFile" xml:space="preserve">
-    <value>&amp;Файл</value>
+    <value>文件(&amp;F)</value>
   </data>
   <data name="MainMenuFileAutoLoadLastGame" xml:space="preserve">
-    <value>После запуска, открывать последнюю игру</value>
+    <value>启动后, 运行上次的游戏</value>
   </data>
   <data name="MainMenuFileChooseBiosRom" xml:space="preserve">
-    <value>Выбрать &amp;BIOS ...</value>
+    <value>选择 BIOS 文件...( &amp;B)</value>
   </data>
   <data name="MainMenuFileCloseRom" xml:space="preserve">
-    <value>&amp;Закрыть игру</value>
+    <value>关闭游戏(&amp;C)</value>
   </data>
   <data name="MainMenuFileExit" xml:space="preserve">
-    <value>В&amp;ыход</value>
+    <value>退出(&amp;X)</value>
   </data>
   <data name="MainMenuFileOpenCDDrive" xml:space="preserve">
-    <value>Открыть диск</value>
+    <value>打开光驱</value>
   </data>
   <data name="MainMenuFileOpenCDImage" xml:space="preserve">
-    <value>Открыть образ</value>
+    <value>打开 CD 镜像...(&amp;I)</value>
   </data>
   <data name="MainMenuHelp" xml:space="preserve">
-    <value>&amp;Помощь</value>
+    <value>帮助(&amp;H)</value>
   </data>
   <data name="MainMenuHelpAbout" xml:space="preserve">
-    <value>&amp;О программе</value>
+    <value>关于 4DO...(&amp;A)</value>
   </data>
   <data name="MainMenuHelpGameInfo" xml:space="preserve">
-    <value>Информация об игре</value>
+    <value>游戏信息...(&amp;I)</value>
   </data>
   <data name="MainMenuOptions" xml:space="preserve">
-    <value>&amp;Опции</value>
+    <value>选项(&amp;O)</value>
   </data>
   <data name="MainMenuOptionsConfigureInput" xml:space="preserve">
-    <value>Управление</value>
+    <value>配置输入...(&amp;I)</value>
   </data>
   <data name="MainMenuOptionsLanguage" xml:space="preserve">
-    <value>Язык</value>
+    <value>语言(&amp;L)</value>
   </data>
   <data name="MainMenuOptionsLanguageChinese" xml:space="preserve">
-    <value>Китайский</value>
+    <value>中国的</value>
   </data>
   <data name="MainMenuOptionsLanguageDefault" xml:space="preserve">
-    <value>Умолчание</value>
+    <value>系统默认(&amp;D)</value>
   </data>
   <data name="MainMenuOptionsLanguageEnglish" xml:space="preserve">
-    <value>Английский</value>
+    <value>英语(&amp;E)</value>
   </data>
   <data name="MainMenuOptionsLanguageFrench" xml:space="preserve">
-    <value>французский</value>
+    <value>法语(&amp;F)</value>
   </data>
   <data name="MainMenuOptionsLanguagePortuguese" xml:space="preserve">
-    <value>Португальский</value>
+    <value>葡萄牙语 (&amp;P)</value>
   </data>
   <data name="MainMenuOptionsLanguageRussian" xml:space="preserve">
-    <value>Русский</value>
+    <value>俄语(&amp;R)</value>
   </data>
   <data name="MainMenuOptionsSettings" xml:space="preserve">
-    <value>4DO &amp;Настройки...</value>
+    <value>4DO 设置...(&amp;S)</value>
   </data>
   <data name="MainMessageAllFiles" xml:space="preserve">
-    <value>Все файлы</value>
+    <value>所有文件</value>
   </data>
   <data name="MainMessageBiosFiles" xml:space="preserve">
-    <value>BIOS файлы</value>
+    <value>BIOS 文件</value>
   </data>
   <data name="MainMessageCDImageFiles" xml:space="preserve">
-    <value>Файлы CD образа</value>
+    <value>CD 镜像</value>
   </data>
   <data name="MainMessageChooseBiosRom" xml:space="preserve">
-    <value>Выбрать BIOS</value>
+    <value>选择 BIOS 文件</value>
   </data>
   <data name="MainMessageCoreFPS" xml:space="preserve">
-    <value>FPS</value>
+    <value>核心 FPS</value>
   </data>
   <data name="MainMessageDisplayOptions" xml:space="preserve">
-    <value>Настройки экрана</value>
+    <value>显示选项</value>
   </data>
   <data name="MainMessageNoBiosSelected" xml:space="preserve">
-    <value>Не установлен BIOS.</value>
+    <value>没有选择 BIOS.</value>
   </data>
   <data name="MainMessageSlot" xml:space="preserve">
-    <value>Слот</value>
+    <value>插槽</value>
   </data>
   <data name="MainMessageUnknownGame" xml:space="preserve">
-    <value>Неизвестная игра</value>
+    <value>未知游戏</value>
   </data>
   <data name="MainMessageVolume" xml:space="preserve">
-    <value>Звук</value>
+    <value>音量</value>
   </data>
   <data name="SettingsCancel" xml:space="preserve">
-    <value>&amp;Отмена</value>
+    <value>取消(&amp;C)</value>
   </data>
   <data name="SettingsOK" xml:space="preserve">
-    <value>&amp;OK</value>
+    <value>确定(&amp;O)</value>
   </data>
   <data name="SettingsTabAdvanced" xml:space="preserve">
-    <value>Производительность</value>
+    <value>高级</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferFewerGlitches" xml:space="preserve">
-    <value>Fewer Glitches</value>
+    <value>较少杂音</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferFrame" xml:space="preserve">
-    <value>Размер аудио буфера</value>
+    <value>音频缓冲大小</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferLessLag" xml:space="preserve">
-    <value>Less Lag</value>
+    <value>较快</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
-    <value>Аудио буфер обеспечивает терпимость к непредсказуемым изменениям скорости эмуляции за счет задержки аудио. Тем не менее, всякий раз, когда эмуляция смертельно отстает от графика, аудио сбои будут происходить (даже с большими буферами).</value>
+    <value>音频缓存是以牺牲模拟器速度为代价提供音频延迟容量. 然而, 只要模拟器在运行, 音频杂音不可避免 (即使是大缓存).</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
-    <value>MORE Glitches</value>
+    <value>较多杂音</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreLag" xml:space="preserve">
-    <value>MORE Lag</value>
+    <value>较慢</value>
   </data>
   <data name="SettingsTabAdvancedClockFrame" xml:space="preserve">
-    <value>Частота процессора</value>
+    <value>CPU 时钟速度</value>
   </data>
   <data name="SettingsTabAdvancedClockHigherFPS" xml:space="preserve">
-    <value>Higher FPS</value>
+    <value>较高 FPS</value>
   </data>
   <data name="SettingsTabAdvancedClockMessage" xml:space="preserve">
-    <value>Изменяя частоту процессора, можно достичь более высоких FPS в играх. Но не все игры работают при этом правильно. Данная функция может привести к зависанию.</value>
+    <value>通过调整 CPU 时钟速度, 你可以在游戏中实现较高的 FPS. 但并不是所有游戏都能这样处理. 依赖于精确计时的游戏有可能崩溃或冻结.</value>
   </data>
   <data name="SettingsTabAdvancedClockNormalFPS" xml:space="preserve">
-    <value>Normal FPS</value>
+    <value>普通 FPS</value>
   </data>
   <data name="SettingsTabAdvancedDefaultsMessage" xml:space="preserve">
-    <value>Установите значения по умолчанию при неполадках.</value>
+    <value>如果发现奇怪的现象可以考虑恢复默认值.</value>
   </data>
   <data name="SettingsTabAdvancedHighResFrame" xml:space="preserve">
-    <value>Высокое-разрешение рендеринг</value>
+    <value>高清视频渲染</value>
   </data>
   <data name="SettingsTabAdvancedHighResMessage" xml:space="preserve">
-    <value>Программный рендеринг, в режиме 640 х 480. Это требовательный режим, и имеет ценность только для 3D-игр! При использовании этой опции, возможно прийдется увеличить аудио буфер.</value>
+    <value>通过软件渲染, 屏幕图像可以显示为 640 x 480. 这是非常耗 CPU 的, 这个设置只对 3D 游戏有价值, 最好考虑增加音频缓冲.</value>
   </data>
   <data name="SettingsTabAdvancedHighResSetting" xml:space="preserve">
-    <value>Включить рендеринг режим</value>
+    <value>开启高清视频渲染</value>
   </data>
   <data name="SettingsTabAdvancedResetDefaults" xml:space="preserve">
-    <value>По умолчанию</value>
+    <value>重置为默认值</value>
   </data>
   <data name="SettingsTabDisplay" xml:space="preserve">
-    <value>Экран</value>
+    <value>显示</value>
   </data>
   <data name="SettingsTabDisplayDrawBorder" xml:space="preserve">
-    <value>Серая рамка вокруг области экрана</value>
+    <value>在可视区域周围绘制灰色边框</value>
   </data>
   <data name="SettingsTabDisplayGeneralOptions" xml:space="preserve">
-    <value>&amp;Общие параметры экрана</value>
+    <value>普通显示设置(&amp;G)</value>
   </data>
   <data name="SettingsTabDisplayPreserveAspectRatio" xml:space="preserve">
-    <value>Сохранять пропорции</value>
+    <value>保持长宽比</value>
   </data>
   <data name="SettingsTabDisplaySmoothResizing" xml:space="preserve">
-    <value>Включить интерполяцию</value>
+    <value>执行画面平滑</value>
   </data>
   <data name="SettingsTabDisplaySnapResizing" xml:space="preserve">
-    <value>При изменении размеров окна, очистить приращения</value>
+    <value>当调整窗口时, 清除增量</value>
   </data>
   <data name="SettingsTabDisplayVoidOptions" xml:space="preserve">
-    <value>Дополнительные эффекты</value>
+    <value>空白(无效)区域影响(&amp;V)</value>
   </data>
   <data name="SettingsTabDisplayVoidPattern" xml:space="preserve">
-    <value>Задний фон:</value>
+    <value>背景图案:</value>
   </data>
   <data name="SettingsTabDisplayVoidPattern4DO" xml:space="preserve">
     <value>4DO</value>
   </data>
   <data name="SettingsTabDisplayVoidPatternBumps" xml:space="preserve">
-    <value>Удары</value>
+    <value>颠簸</value>
   </data>
   <data name="SettingsTabDisplayVoidPatternMetal" xml:space="preserve">
-    <value>Металл</value>
+    <value>金属</value>
   </data>
   <data name="SettingsTabDisplayVoidPatternNone" xml:space="preserve">
-    <value>Нет</value>
+    <value>无图案</value>
   </data>
   <data name="SettingsTabGeneral" xml:space="preserve">
-    <value>Общие</value>
+    <value>普通</value>
   </data>
   <data name="SettingsTabGeneralAutoLoadLastGame" xml:space="preserve">
-    <value>После запуска 4DO, открывать последнюю игру</value>
+    <value>当 4DO 开始时, 打开上次运行的游戏</value>
   </data>
   <data name="SettingsTabGeneralAutoLoadLastSave" xml:space="preserve">
-    <value>После запуска игры, автоматически загружать последнее сохранение из текущего слота</value>
+    <value>当打开游戏后, 重新读取当前即时存档插槽中的存档</value>
   </data>
   <data name="SettingsTabGeneralBehaviorOptions" xml:space="preserve">
-    <value>Различные параметры</value>
+    <value>杂项(&amp;B)</value>
   </data>
   <data name="SettingsTabGeneralInactiveIgnoreKeyboard" xml:space="preserve">
-    <value>Когда главное окно неактивно, отключить управление</value>
+    <value>非活动窗口时, 忽略键盘输入</value>
   </data>
   <data name="SettingsTabGeneralInactiveOptions" xml:space="preserve">
-    <value>&amp;Настройки неактивного окна</value>
+    <value>非活动窗口选项(&amp;I)</value>
   </data>
   <data name="SettingsTabGeneralInactivePauseEmulation" xml:space="preserve">
-    <value>Когда главное окно неактивно, останавливать эмуляцию</value>
+    <value>非活动窗口时, 暂停模拟器</value>
   </data>
   <data name="SettingsTabGeneralStartupOptions" xml:space="preserve">
-    <value>&amp;Настройки запуска</value>
+    <value>启动项(&amp;S)</value>
   </data>
   <data name="SettingsWindowInstructions" xml:space="preserve">
-    <value>Настройка различных параметров 4DO</value>
+    <value>配置各种 4DO 设置</value>
   </data>
   <data name="SettingsWindowTitle" xml:space="preserve">
-    <value>Настройки</value>
+    <value>设置</value>
   </data>
 </root>

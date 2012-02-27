@@ -142,10 +142,10 @@
     <value>L'émulation du système 4DO (et 3DOPlay) est basé sur le code libéré depuis le projet FreeDO qui est passé en open source le 10 Novembre 2010.  Remerciements aux développeurs pour avoir décider de libérer leurs codes !</value>
   </data>
   <data name="HelpAboutJohnnyThank" xml:space="preserve">
-    <value>Remerciements tout particulier à :</value>
+    <value>Remerciements :</value>
   </data>
   <data name="HelpAboutJohnnyThankMessage" xml:space="preserve">
-    <value>Johnny aimerait remercier les autres gars, dont certains ont aidés avec l'original approche de haut niveau.</value>
+    <value>Johnny aimerait remercier les autres gars.</value>
   </data>
   <data name="HelpInfoChecksum" xml:space="preserve">
     <value>Secteur 0+1 Checksum:</value>
@@ -163,10 +163,10 @@
     <value>Développeur :</value>
   </data>
   <data name="HelpInfoRegion" xml:space="preserve">
-    <value>Région(s):</value>
+    <value>Région(s) :</value>
   </data>
   <data name="HelpInfoReleaseYear" xml:space="preserve">
-    <value>Année de Sortie :</value>
+    <value>Année :</value>
   </data>
   <data name="HelpInfoWindowTitle" xml:space="preserve">
     <value>Information sur le Jeu</value>
@@ -288,6 +288,9 @@
   <data name="MainMenuOptionsLanguage" xml:space="preserve">
     <value>&amp;Langage</value>
   </data>
+  <data name="MainMenuOptionsLanguageChinese" xml:space="preserve">
+    <value>&amp;Chinois</value>
+  </data>
   <data name="MainMenuOptionsLanguageDefault" xml:space="preserve">
     <value>Système Par &amp;Défaut</value>
   </data>
@@ -296,6 +299,9 @@
   </data>
   <data name="MainMenuOptionsLanguageFrench" xml:space="preserve">
     <value>&amp;Français</value>
+  </data>
+  <data name="MainMenuOptionsLanguagePortuguese" xml:space="preserve">
+    <value>&amp;Portugais</value>
   </data>
   <data name="MainMenuOptionsLanguageRussian" xml:space="preserve">
     <value>&amp;Russe</value>
@@ -343,28 +349,28 @@
     <value>Avancée</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferFewerGlitches" xml:space="preserve">
-    <value>Moins de Scintillements</value>
+    <value>Plus de Ralentissement</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferFrame" xml:space="preserve">
     <value>Taille du Tampon Audio</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferLessLag" xml:space="preserve">
-    <value>Moins de Ralentissement</value>
+    <value />
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
-    <value>Le tampon audio fournie une certaine tolérance pour une vitesse d'émulation non prédisible au prix d'un retard de l'audio. Cependant, quand l'émulation se termine, des problèmes audio peuvent se produire (même avec des tampons plus grand).</value>
+    <value>Le tampon audio fournie une certaine tolérance pour une vitesse d'émulation non prédisible au prix d'un retard de l'audio. Quand l'émulation se termine, des problèmes audio peuvent se produire.</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
-    <value>PLUS de Scintillements</value>
+    <value>Moins de Ralentissement</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreLag" xml:space="preserve">
-    <value>PLUS de Ralentissement</value>
+    <value />
   </data>
   <data name="SettingsTabAdvancedClockFrame" xml:space="preserve">
     <value>Vitesse d'Horloge du CPU</value>
   </data>
   <data name="SettingsTabAdvancedClockHigherFPS" xml:space="preserve">
-    <value>FPS Plus Haut</value>
+    <value>FPS Plus</value>
   </data>
   <data name="SettingsTabAdvancedClockMessage" xml:space="preserve">
     <value>En ajustant la vitesse d'horloge du CPU, vous pouvez potentiellement avoir plus de FPS dans les jeux. Tous les jeux ne pourront pas en profiter. Les jeux dépendent d'un timing précis et pourraient plantés.</value>
@@ -442,7 +448,7 @@
     <value>Options de la Fenêtre &amp;Inactive</value>
   </data>
   <data name="SettingsTabGeneralInactivePauseEmulation" xml:space="preserve">
-    <value>uand la fenêtre principale perds le focus, l'émulation est en pause</value>
+    <value>Quand la fenêtre principale perds le focus, l'émulation est en pause</value>
   </data>
   <data name="SettingsTabGeneralStartupOptions" xml:space="preserve">
     <value>Options au &amp;Démarrage</value>

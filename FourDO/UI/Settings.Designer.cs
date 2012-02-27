@@ -39,8 +39,8 @@
 			this.tabMain = new System.Windows.Forms.TabControl();
 			this.GeneralTabPage = new System.Windows.Forms.TabPage();
 			this.InactiveGroupBox = new System.Windows.Forms.GroupBox();
-			this.chkInactiveIgnoreInput = new System.Windows.Forms.CheckBox();
 			this.chkInactivePauseEmulation = new System.Windows.Forms.CheckBox();
+			this.chkInactiveIgnoreInput = new System.Windows.Forms.CheckBox();
 			this.pictureBox4 = new System.Windows.Forms.PictureBox();
 			this.BehaviorGroupBox = new System.Windows.Forms.GroupBox();
 			this.chkLoadLastSave = new System.Windows.Forms.CheckBox();
@@ -237,8 +237,8 @@
 			// 
 			this.InactiveGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.InactiveGroupBox.Controls.Add(this.chkInactiveIgnoreInput);
 			this.InactiveGroupBox.Controls.Add(this.chkInactivePauseEmulation);
+			this.InactiveGroupBox.Controls.Add(this.chkInactiveIgnoreInput);
 			this.InactiveGroupBox.Controls.Add(this.pictureBox4);
 			this.InactiveGroupBox.Location = new System.Drawing.Point(17, 189);
 			this.InactiveGroupBox.Name = "InactiveGroupBox";
@@ -246,6 +246,17 @@
 			this.InactiveGroupBox.TabIndex = 2;
 			this.InactiveGroupBox.TabStop = false;
 			this.InactiveGroupBox.Text = "&Inactive Window Options";
+			// 
+			// chkInactivePauseEmulation
+			// 
+			this.chkInactivePauseEmulation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.chkInactivePauseEmulation.Location = new System.Drawing.Point(67, 16);
+			this.chkInactivePauseEmulation.Name = "chkInactivePauseEmulation";
+			this.chkInactivePauseEmulation.Size = new System.Drawing.Size(338, 32);
+			this.chkInactivePauseEmulation.TabIndex = 0;
+			this.chkInactivePauseEmulation.Text = "When the main window loses focus, pause emulation";
+			this.chkInactivePauseEmulation.UseVisualStyleBackColor = true;
 			// 
 			// chkInactiveIgnoreInput
 			// 
@@ -257,17 +268,6 @@
 			this.chkInactiveIgnoreInput.TabIndex = 1;
 			this.chkInactiveIgnoreInput.Text = "When the main window loses focus, ignore keyboard input";
 			this.chkInactiveIgnoreInput.UseVisualStyleBackColor = true;
-			// 
-			// chkInactivePauseEmulation
-			// 
-			this.chkInactivePauseEmulation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.chkInactivePauseEmulation.Location = new System.Drawing.Point(67, 19);
-			this.chkInactivePauseEmulation.Name = "chkInactivePauseEmulation";
-			this.chkInactivePauseEmulation.Size = new System.Drawing.Size(338, 30);
-			this.chkInactivePauseEmulation.TabIndex = 0;
-			this.chkInactivePauseEmulation.Text = "When the main window loses focus, pause emulation";
-			this.chkInactivePauseEmulation.UseVisualStyleBackColor = true;
 			// 
 			// pictureBox4
 			// 
@@ -728,9 +728,10 @@
 			// 
 			// AudioLessLagLabel
 			// 
+			this.AudioLessLagLabel.AutoSize = true;
 			this.AudioLessLagLabel.Location = new System.Drawing.Point(105, 100);
 			this.AudioLessLagLabel.Name = "AudioLessLagLabel";
-			this.AudioLessLagLabel.Size = new System.Drawing.Size(124, 26);
+			this.AudioLessLagLabel.Size = new System.Drawing.Size(80, 26);
 			this.AudioLessLagLabel.TabIndex = 3;
 			this.AudioLessLagLabel.Text = "Less Lag\r\nMORE Glitches";
 			// 

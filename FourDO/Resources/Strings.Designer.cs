@@ -574,6 +574,15 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Chinese - Simplified.
+        /// </summary>
+        internal static string MainMenuOptionsLanguageChinese {
+            get {
+                return ResourceManager.GetString("MainMenuOptionsLanguageChinese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to System &amp;Default.
         /// </summary>
         internal static string MainMenuOptionsLanguageDefault {
@@ -597,6 +606,15 @@ namespace FourDO.Resources {
         internal static string MainMenuOptionsLanguageFrench {
             get {
                 return ResourceManager.GetString("MainMenuOptionsLanguageFrench", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Portuguese.
+        /// </summary>
+        internal static string MainMenuOptionsLanguagePortuguese {
+            get {
+                return ResourceManager.GetString("MainMenuOptionsLanguagePortuguese", resourceCulture);
             }
         }
         
