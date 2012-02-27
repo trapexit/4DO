@@ -48,6 +48,7 @@ namespace FourDO.UI
 			this.ClockNormalFpsLabel.Text = Strings.SettingsTabAdvancedClockNormalFPS;
 			this.ClockHigherFpsLabel.Text = Strings.SettingsTabAdvancedClockHigherFPS;
 			this.AudioBufferGroupBox.Text = Strings.SettingsTabAdvancedAudioBufferFrame;
+			this.AudioBufferMessageLabel.Text = Strings.SettingsTabAdvancedAudioBufferMessage;
 			this.AudioLessLagLabel.Text = 
 					Strings.SettingsTabAdvancedAudioBufferLessLag 
 					+ Environment.NewLine

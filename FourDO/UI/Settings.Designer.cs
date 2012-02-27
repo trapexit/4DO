@@ -79,23 +79,23 @@
 			this.AdvancedResetButton = new System.Windows.Forms.Button();
 			this.ResetDefaultsLabel = new System.Windows.Forms.Label();
 			this.AudioBufferGroupBox = new System.Windows.Forms.GroupBox();
+			this.AudioBufferValueLabel = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.AudioMoreLagLabel = new System.Windows.Forms.Label();
 			this.AudioLessLagLabel = new System.Windows.Forms.Label();
-			this.AudioBufferValueLabel = new System.Windows.Forms.Label();
 			this.AudioBufferBar = new System.Windows.Forms.TrackBar();
-			this.label2 = new System.Windows.Forms.Label();
+			this.AudioBufferMessageLabel = new System.Windows.Forms.Label();
 			this.pictureBox10 = new System.Windows.Forms.PictureBox();
 			this.CpuClockGroupBox = new System.Windows.Forms.GroupBox();
 			this.label9 = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
 			this.ClockHigherFpsLabel = new System.Windows.Forms.Label();
 			this.ClockNormalFpsLabel = new System.Windows.Forms.Label();
-			this.CpuClockValueLabel = new System.Windows.Forms.Label();
 			this.CpuClockBar = new System.Windows.Forms.TrackBar();
 			this.ClockMessageLabel = new System.Windows.Forms.Label();
 			this.pictureBox8 = new System.Windows.Forms.PictureBox();
+			this.CpuClockValueLabel = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -663,12 +663,12 @@
 			// 
 			// ResetDefaultsLabel
 			// 
-			this.ResetDefaultsLabel.AutoSize = true;
-			this.ResetDefaultsLabel.Location = new System.Drawing.Point(2, 9);
+			this.ResetDefaultsLabel.Location = new System.Drawing.Point(2, 1);
 			this.ResetDefaultsLabel.Name = "ResetDefaultsLabel";
-			this.ResetDefaultsLabel.Size = new System.Drawing.Size(273, 13);
+			this.ResetDefaultsLabel.Size = new System.Drawing.Size(280, 28);
 			this.ResetDefaultsLabel.TabIndex = 0;
 			this.ResetDefaultsLabel.Text = "Consider setting these to defaults if seeing odd behavior.";
+			this.ResetDefaultsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// AudioBufferGroupBox
 			// 
@@ -680,7 +680,7 @@
 			this.AudioBufferGroupBox.Controls.Add(this.AudioMoreLagLabel);
 			this.AudioBufferGroupBox.Controls.Add(this.AudioLessLagLabel);
 			this.AudioBufferGroupBox.Controls.Add(this.AudioBufferBar);
-			this.AudioBufferGroupBox.Controls.Add(this.label2);
+			this.AudioBufferGroupBox.Controls.Add(this.AudioBufferMessageLabel);
 			this.AudioBufferGroupBox.Controls.Add(this.pictureBox10);
 			this.AudioBufferGroupBox.Location = new System.Drawing.Point(17, 280);
 			this.AudioBufferGroupBox.Name = "AudioBufferGroupBox";
@@ -688,6 +688,16 @@
 			this.AudioBufferGroupBox.TabIndex = 0;
 			this.AudioBufferGroupBox.TabStop = false;
 			this.AudioBufferGroupBox.Text = "Audio Buffer Size";
+			// 
+			// AudioBufferValueLabel
+			// 
+			this.AudioBufferValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.AudioBufferValueLabel.Location = new System.Drawing.Point(205, 100);
+			this.AudioBufferValueLabel.Name = "AudioBufferValueLabel";
+			this.AudioBufferValueLabel.Size = new System.Drawing.Size(56, 13);
+			this.AudioBufferValueLabel.TabIndex = 4;
+			this.AudioBufferValueLabel.Text = "100ms";
+			this.AudioBufferValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// label6
 			// 
@@ -724,16 +734,6 @@
 			this.AudioLessLagLabel.TabIndex = 3;
 			this.AudioLessLagLabel.Text = "Less Lag\r\nMORE Glitches";
 			// 
-			// AudioBufferValueLabel
-			// 
-			this.AudioBufferValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.AudioBufferValueLabel.Location = new System.Drawing.Point(205, 100);
-			this.AudioBufferValueLabel.Name = "AudioBufferValueLabel";
-			this.AudioBufferValueLabel.Size = new System.Drawing.Size(56, 13);
-			this.AudioBufferValueLabel.TabIndex = 4;
-			this.AudioBufferValueLabel.Text = "100ms";
-			this.AudioBufferValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			// 
 			// AudioBufferBar
 			// 
 			this.AudioBufferBar.Location = new System.Drawing.Point(62, 59);
@@ -749,13 +749,13 @@
 			this.AudioBufferBar.Scroll += new System.EventHandler(this.AudioBufferBar_Scroll);
 			this.AudioBufferBar.ValueChanged += new System.EventHandler(this.AudioBufferBar_ValueChanged);
 			// 
-			// label2
+			// AudioBufferMessageLabel
 			// 
-			this.label2.Location = new System.Drawing.Point(59, 19);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(346, 49);
-			this.label2.TabIndex = 0;
-			this.label2.Text = resources.GetString("label2.Text");
+			this.AudioBufferMessageLabel.Location = new System.Drawing.Point(59, 19);
+			this.AudioBufferMessageLabel.Name = "AudioBufferMessageLabel";
+			this.AudioBufferMessageLabel.Size = new System.Drawing.Size(346, 49);
+			this.AudioBufferMessageLabel.TabIndex = 0;
+			this.AudioBufferMessageLabel.Text = resources.GetString("AudioBufferMessageLabel.Text");
 			// 
 			// pictureBox10
 			// 
@@ -822,16 +822,6 @@
 			this.ClockNormalFpsLabel.TabIndex = 3;
 			this.ClockNormalFpsLabel.Text = "Normal FPS";
 			// 
-			// CpuClockValueLabel
-			// 
-			this.CpuClockValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.CpuClockValueLabel.Location = new System.Drawing.Point(184, 102);
-			this.CpuClockValueLabel.Name = "CpuClockValueLabel";
-			this.CpuClockValueLabel.Size = new System.Drawing.Size(109, 20);
-			this.CpuClockValueLabel.TabIndex = 4;
-			this.CpuClockValueLabel.Text = "12.5MHz (100%)";
-			this.CpuClockValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			// 
 			// CpuClockBar
 			// 
 			this.CpuClockBar.Location = new System.Drawing.Point(62, 61);
@@ -865,6 +855,16 @@
 			this.pictureBox8.Size = new System.Drawing.Size(47, 49);
 			this.pictureBox8.TabIndex = 12;
 			this.pictureBox8.TabStop = false;
+			// 
+			// CpuClockValueLabel
+			// 
+			this.CpuClockValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.CpuClockValueLabel.Location = new System.Drawing.Point(184, 102);
+			this.CpuClockValueLabel.Name = "CpuClockValueLabel";
+			this.CpuClockValueLabel.Size = new System.Drawing.Size(109, 20);
+			this.CpuClockValueLabel.TabIndex = 4;
+			this.CpuClockValueLabel.Text = "12.5MHz (100%)";
+			this.CpuClockValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// Settings
 			// 
@@ -912,7 +912,6 @@
 			this.HighResGroupBox.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
 			this.panel3.ResumeLayout(false);
-			this.panel3.PerformLayout();
 			this.AudioBufferGroupBox.ResumeLayout(false);
 			this.AudioBufferGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.AudioBufferBar)).EndInit();
@@ -973,7 +972,7 @@
 		private System.Windows.Forms.GroupBox CpuClockGroupBox;
 		private System.Windows.Forms.GroupBox AudioBufferGroupBox;
 		private System.Windows.Forms.PictureBox pictureBox10;
-		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label AudioBufferMessageLabel;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label AudioMoreLagLabel;
