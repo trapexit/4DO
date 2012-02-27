@@ -127,7 +127,7 @@
     <value>4DO Authors:</value>
   </data>
   <data name="HelpAbout4DOMessage" xml:space="preserve">
-    <value>4DO (FourDO) is an open-source, low-level emulator of the 3DO Iteractive Multiplayer system.</value>
+    <value>4DO (FourDO) is an open-source, low-level emulator of the 3DO Interactive Multiplayer system.</value>
   </data>
   <data name="HelpAbout4DOVersion" xml:space="preserve">
     <value>4DO Version:</value>
@@ -293,6 +293,9 @@
   </data>
   <data name="MainMenuOptionsLanguageEnglish" xml:space="preserve">
     <value>&amp;English</value>
+  </data>
+  <data name="MainMenuOptionsLanguageFrench" xml:space="preserve">
+    <value>&amp;French</value>
   </data>
   <data name="MainMenuOptionsLanguageRussian" xml:space="preserve">
     <value>&amp;Russian</value>

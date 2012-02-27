@@ -88,7 +88,7 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 4DO (FourDO) is an open-source, low-level emulator of the 3DO Iteractive Multiplayer system..
+        ///   Looks up a localized string similar to 4DO (FourDO) is an open-source, low-level emulator of the 3DO Interactive Multiplayer system..
         /// </summary>
         internal static string HelpAbout4DOMessage {
             get {
@@ -588,6 +588,15 @@ namespace FourDO.Resources {
         internal static string MainMenuOptionsLanguageEnglish {
             get {
                 return ResourceManager.GetString("MainMenuOptionsLanguageEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;French.
+        /// </summary>
+        internal static string MainMenuOptionsLanguageFrench {
+            get {
+                return ResourceManager.GetString("MainMenuOptionsLanguageFrench", resourceCulture);
             }
         }
         

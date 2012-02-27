@@ -251,9 +251,9 @@
 			// 
 			this.chkInactiveIgnoreInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.chkInactiveIgnoreInput.Location = new System.Drawing.Point(67, 47);
+			this.chkInactiveIgnoreInput.Location = new System.Drawing.Point(67, 43);
 			this.chkInactiveIgnoreInput.Name = "chkInactiveIgnoreInput";
-			this.chkInactiveIgnoreInput.Size = new System.Drawing.Size(338, 17);
+			this.chkInactiveIgnoreInput.Size = new System.Drawing.Size(338, 32);
 			this.chkInactiveIgnoreInput.TabIndex = 1;
 			this.chkInactiveIgnoreInput.Text = "When the main window loses focus, ignore keyboard input";
 			this.chkInactiveIgnoreInput.UseVisualStyleBackColor = true;
@@ -262,9 +262,9 @@
 			// 
 			this.chkInactivePauseEmulation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.chkInactivePauseEmulation.Location = new System.Drawing.Point(67, 24);
+			this.chkInactivePauseEmulation.Location = new System.Drawing.Point(67, 19);
 			this.chkInactivePauseEmulation.Name = "chkInactivePauseEmulation";
-			this.chkInactivePauseEmulation.Size = new System.Drawing.Size(338, 17);
+			this.chkInactivePauseEmulation.Size = new System.Drawing.Size(338, 30);
 			this.chkInactivePauseEmulation.TabIndex = 0;
 			this.chkInactivePauseEmulation.Text = "When the main window loses focus, pause emulation";
 			this.chkInactivePauseEmulation.UseVisualStyleBackColor = true;
@@ -295,9 +295,9 @@
 			// 
 			this.chkLoadLastSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.chkLoadLastSave.Location = new System.Drawing.Point(67, 22);
+			this.chkLoadLastSave.Location = new System.Drawing.Point(67, 19);
 			this.chkLoadLastSave.Name = "chkLoadLastSave";
-			this.chkLoadLastSave.Size = new System.Drawing.Size(338, 42);
+			this.chkLoadLastSave.Size = new System.Drawing.Size(338, 49);
 			this.chkLoadLastSave.TabIndex = 0;
 			this.chkLoadLastSave.Text = "When a game is opened, re-load the last save state of the current save state slot" +
 				"";
@@ -338,9 +338,9 @@
 			// 
 			this.chkLoadLastGame.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.chkLoadLastGame.Location = new System.Drawing.Point(67, 35);
+			this.chkLoadLastGame.Location = new System.Drawing.Point(67, 19);
 			this.chkLoadLastGame.Name = "chkLoadLastGame";
-			this.chkLoadLastGame.Size = new System.Drawing.Size(340, 17);
+			this.chkLoadLastGame.Size = new System.Drawing.Size(340, 49);
 			this.chkLoadLastGame.TabIndex = 0;
 			this.chkLoadLastGame.Text = "When 4DO starts, open whatever game was running last time";
 			this.chkLoadLastGame.UseVisualStyleBackColor = true;
@@ -418,10 +418,9 @@
 			// 
 			// Background4DOOption
 			// 
-			this.Background4DOOption.AutoSize = true;
 			this.Background4DOOption.Location = new System.Drawing.Point(328, 43);
 			this.Background4DOOption.Name = "Background4DOOption";
-			this.Background4DOOption.Size = new System.Drawing.Size(47, 17);
+			this.Background4DOOption.Size = new System.Drawing.Size(75, 17);
 			this.Background4DOOption.TabIndex = 3;
 			this.Background4DOOption.TabStop = true;
 			this.Background4DOOption.Text = "4DO";
@@ -430,22 +429,20 @@
 			// 
 			// BackgroundBumpsOption
 			// 
-			this.BackgroundBumpsOption.AutoSize = true;
 			this.BackgroundBumpsOption.Location = new System.Drawing.Point(328, 66);
 			this.BackgroundBumpsOption.Name = "BackgroundBumpsOption";
-			this.BackgroundBumpsOption.Size = new System.Drawing.Size(57, 17);
+			this.BackgroundBumpsOption.Size = new System.Drawing.Size(75, 17);
 			this.BackgroundBumpsOption.TabIndex = 4;
 			this.BackgroundBumpsOption.TabStop = true;
 			this.BackgroundBumpsOption.Text = "Bumps";
-			this.BackgroundBumpsOption.UseVisualStyleBackColor = true;
+			this.BackgroundBumpsOption.UseVisualStyleBackColor = false;
 			this.BackgroundBumpsOption.CheckedChanged += new System.EventHandler(this.BackgroundBumpsOption_CheckedChanged);
 			// 
 			// BackgroundMetalOption
 			// 
-			this.BackgroundMetalOption.AutoSize = true;
-			this.BackgroundMetalOption.Location = new System.Drawing.Point(328, 89);
+			this.BackgroundMetalOption.Location = new System.Drawing.Point(328, 90);
 			this.BackgroundMetalOption.Name = "BackgroundMetalOption";
-			this.BackgroundMetalOption.Size = new System.Drawing.Size(51, 17);
+			this.BackgroundMetalOption.Size = new System.Drawing.Size(75, 17);
 			this.BackgroundMetalOption.TabIndex = 5;
 			this.BackgroundMetalOption.TabStop = true;
 			this.BackgroundMetalOption.Text = "Metal";
@@ -454,10 +451,9 @@
 			// 
 			// BackgroundNoneOption
 			// 
-			this.BackgroundNoneOption.AutoSize = true;
-			this.BackgroundNoneOption.Location = new System.Drawing.Point(328, 112);
+			this.BackgroundNoneOption.Location = new System.Drawing.Point(328, 106);
 			this.BackgroundNoneOption.Name = "BackgroundNoneOption";
-			this.BackgroundNoneOption.Size = new System.Drawing.Size(75, 17);
+			this.BackgroundNoneOption.Size = new System.Drawing.Size(75, 30);
 			this.BackgroundNoneOption.TabIndex = 6;
 			this.BackgroundNoneOption.TabStop = true;
 			this.BackgroundNoneOption.Text = "No pattern";
@@ -475,10 +471,9 @@
 			// 
 			// chkDrawGrayBorder
 			// 
-			this.chkDrawGrayBorder.AutoSize = true;
-			this.chkDrawGrayBorder.Location = new System.Drawing.Point(190, 19);
+			this.chkDrawGrayBorder.Location = new System.Drawing.Point(190, 14);
 			this.chkDrawGrayBorder.Name = "chkDrawGrayBorder";
-			this.chkDrawGrayBorder.Size = new System.Drawing.Size(206, 17);
+			this.chkDrawGrayBorder.Size = new System.Drawing.Size(206, 28);
 			this.chkDrawGrayBorder.TabIndex = 1;
 			this.chkDrawGrayBorder.Text = "Draw gray border around viewing area";
 			this.chkDrawGrayBorder.UseVisualStyleBackColor = true;
@@ -536,10 +531,9 @@
 			// 
 			// chkSnapWindowIncrements
 			// 
-			this.chkSnapWindowIncrements.AutoSize = true;
-			this.chkSnapWindowIncrements.Location = new System.Drawing.Point(69, 144);
+			this.chkSnapWindowIncrements.Location = new System.Drawing.Point(69, 129);
 			this.chkSnapWindowIncrements.Name = "chkSnapWindowIncrements";
-			this.chkSnapWindowIncrements.Size = new System.Drawing.Size(274, 17);
+			this.chkSnapWindowIncrements.Size = new System.Drawing.Size(334, 49);
 			this.chkSnapWindowIncrements.TabIndex = 2;
 			this.chkSnapWindowIncrements.Text = "When resizing the window, snap to clean increments";
 			this.chkSnapWindowIncrements.UseVisualStyleBackColor = true;
@@ -555,10 +549,9 @@
 			// 
 			// chkPreserveAspectRatio
 			// 
-			this.chkPreserveAspectRatio.AutoSize = true;
-			this.chkPreserveAspectRatio.Location = new System.Drawing.Point(69, 89);
+			this.chkPreserveAspectRatio.Location = new System.Drawing.Point(69, 74);
 			this.chkPreserveAspectRatio.Name = "chkPreserveAspectRatio";
-			this.chkPreserveAspectRatio.Size = new System.Drawing.Size(126, 17);
+			this.chkPreserveAspectRatio.Size = new System.Drawing.Size(334, 49);
 			this.chkPreserveAspectRatio.TabIndex = 1;
 			this.chkPreserveAspectRatio.Text = "Preserve aspect ratio";
 			this.chkPreserveAspectRatio.UseVisualStyleBackColor = true;
@@ -583,10 +576,9 @@
 			// 
 			// chkSmoothImageResize
 			// 
-			this.chkSmoothImageResize.AutoSize = true;
-			this.chkSmoothImageResize.Location = new System.Drawing.Point(69, 34);
+			this.chkSmoothImageResize.Location = new System.Drawing.Point(69, 19);
 			this.chkSmoothImageResize.Name = "chkSmoothImageResize";
-			this.chkSmoothImageResize.Size = new System.Drawing.Size(168, 17);
+			this.chkSmoothImageResize.Size = new System.Drawing.Size(334, 49);
 			this.chkSmoothImageResize.TabIndex = 0;
 			this.chkSmoothImageResize.Text = "Perform smooth image resizing";
 			this.chkSmoothImageResize.UseVisualStyleBackColor = true;
@@ -620,10 +612,9 @@
 			// 
 			// chkRenderHighRes
 			// 
-			this.chkRenderHighRes.AutoSize = true;
 			this.chkRenderHighRes.Location = new System.Drawing.Point(77, 64);
 			this.chkRenderHighRes.Name = "chkRenderHighRes";
-			this.chkRenderHighRes.Size = new System.Drawing.Size(206, 17);
+			this.chkRenderHighRes.Size = new System.Drawing.Size(328, 17);
 			this.chkRenderHighRes.TabIndex = 1;
 			this.chkRenderHighRes.Text = "Enable high-resolution video rendering";
 			this.chkRenderHighRes.UseVisualStyleBackColor = true;
@@ -683,11 +674,11 @@
 			// 
 			this.AudioBufferGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.AudioBufferGroupBox.Controls.Add(this.AudioBufferValueLabel);
 			this.AudioBufferGroupBox.Controls.Add(this.label6);
 			this.AudioBufferGroupBox.Controls.Add(this.label5);
 			this.AudioBufferGroupBox.Controls.Add(this.AudioMoreLagLabel);
 			this.AudioBufferGroupBox.Controls.Add(this.AudioLessLagLabel);
-			this.AudioBufferGroupBox.Controls.Add(this.AudioBufferValueLabel);
 			this.AudioBufferGroupBox.Controls.Add(this.AudioBufferBar);
 			this.AudioBufferGroupBox.Controls.Add(this.label2);
 			this.AudioBufferGroupBox.Controls.Add(this.pictureBox10);
@@ -718,29 +709,27 @@
 			// 
 			// AudioMoreLagLabel
 			// 
-			this.AudioMoreLagLabel.AutoSize = true;
-			this.AudioMoreLagLabel.Location = new System.Drawing.Point(284, 100);
+			this.AudioMoreLagLabel.Location = new System.Drawing.Point(235, 100);
 			this.AudioMoreLagLabel.Name = "AudioMoreLagLabel";
-			this.AudioMoreLagLabel.Size = new System.Drawing.Size(77, 26);
+			this.AudioMoreLagLabel.Size = new System.Drawing.Size(126, 26);
 			this.AudioMoreLagLabel.TabIndex = 5;
 			this.AudioMoreLagLabel.Text = "MORE Lag\r\nFewer Glitches";
 			this.AudioMoreLagLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// AudioLessLagLabel
 			// 
-			this.AudioLessLagLabel.AutoSize = true;
 			this.AudioLessLagLabel.Location = new System.Drawing.Point(105, 100);
 			this.AudioLessLagLabel.Name = "AudioLessLagLabel";
-			this.AudioLessLagLabel.Size = new System.Drawing.Size(80, 26);
+			this.AudioLessLagLabel.Size = new System.Drawing.Size(124, 26);
 			this.AudioLessLagLabel.TabIndex = 3;
 			this.AudioLessLagLabel.Text = "Less Lag\r\nMORE Glitches";
 			// 
 			// AudioBufferValueLabel
 			// 
 			this.AudioBufferValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.AudioBufferValueLabel.Location = new System.Drawing.Point(183, 100);
+			this.AudioBufferValueLabel.Location = new System.Drawing.Point(205, 100);
 			this.AudioBufferValueLabel.Name = "AudioBufferValueLabel";
-			this.AudioBufferValueLabel.Size = new System.Drawing.Size(100, 23);
+			this.AudioBufferValueLabel.Size = new System.Drawing.Size(56, 13);
 			this.AudioBufferValueLabel.TabIndex = 4;
 			this.AudioBufferValueLabel.Text = "100ms";
 			this.AudioBufferValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -785,10 +774,10 @@
 			this.CpuClockGroupBox.Controls.Add(this.label10);
 			this.CpuClockGroupBox.Controls.Add(this.ClockHigherFpsLabel);
 			this.CpuClockGroupBox.Controls.Add(this.ClockNormalFpsLabel);
-			this.CpuClockGroupBox.Controls.Add(this.CpuClockValueLabel);
 			this.CpuClockGroupBox.Controls.Add(this.CpuClockBar);
 			this.CpuClockGroupBox.Controls.Add(this.ClockMessageLabel);
 			this.CpuClockGroupBox.Controls.Add(this.pictureBox8);
+			this.CpuClockGroupBox.Controls.Add(this.CpuClockValueLabel);
 			this.CpuClockGroupBox.Location = new System.Drawing.Point(17, 147);
 			this.CpuClockGroupBox.Name = "CpuClockGroupBox";
 			this.CpuClockGroupBox.Size = new System.Drawing.Size(411, 127);
@@ -836,9 +825,9 @@
 			// CpuClockValueLabel
 			// 
 			this.CpuClockValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.CpuClockValueLabel.Location = new System.Drawing.Point(167, 102);
+			this.CpuClockValueLabel.Location = new System.Drawing.Point(184, 102);
 			this.CpuClockValueLabel.Name = "CpuClockValueLabel";
-			this.CpuClockValueLabel.Size = new System.Drawing.Size(139, 20);
+			this.CpuClockValueLabel.Size = new System.Drawing.Size(109, 20);
 			this.CpuClockValueLabel.TabIndex = 4;
 			this.CpuClockValueLabel.Text = "12.5MHz (100%)";
 			this.CpuClockValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -916,13 +905,11 @@
 			this.BorderPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
 			this.DisplayGeneralGroupBox.ResumeLayout(false);
-			this.DisplayGeneralGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
 			this.AdvancedDisplayTab.ResumeLayout(false);
 			this.HighResGroupBox.ResumeLayout(false);
-			this.HighResGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
 			this.panel3.ResumeLayout(false);
 			this.panel3.PerformLayout();

@@ -118,156 +118,156 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddSet" xml:space="preserve">
-    <value />
+    <value>Choix de l'Ajout</value>
   </data>
   <data name="Axis" xml:space="preserve">
-    <value />
+    <value>Axes</value>
   </data>
   <data name="BindingSet" xml:space="preserve">
-    <value />
+    <value>Liaison</value>
   </data>
   <data name="Button" xml:space="preserve">
-    <value />
+    <value>Bouton</value>
   </data>
   <data name="ButtonA" xml:space="preserve">
-    <value />
+    <value>A</value>
   </data>
   <data name="ButtonB" xml:space="preserve">
-    <value />
+    <value>B</value>
   </data>
   <data name="ButtonC" xml:space="preserve">
-    <value />
+    <value>C</value>
   </data>
   <data name="ButtonDown" xml:space="preserve">
-    <value />
+    <value>Bas</value>
   </data>
   <data name="ButtonL" xml:space="preserve">
-    <value />
+    <value>L (Gâchette Gauche)</value>
   </data>
   <data name="ButtonLeft" xml:space="preserve">
-    <value />
+    <value>Gauche</value>
   </data>
   <data name="ButtonP" xml:space="preserve">
-    <value />
+    <value>P ("Jouer/Pause")</value>
   </data>
   <data name="ButtonR" xml:space="preserve">
-    <value />
+    <value>R (Gâchette Droite)</value>
   </data>
   <data name="ButtonRight" xml:space="preserve">
-    <value />
+    <value>Droite</value>
   </data>
   <data name="ButtonUp" xml:space="preserve">
-    <value />
+    <value>Haut</value>
   </data>
   <data name="ButtonX" xml:space="preserve">
-    <value />
+    <value>X ("Arrêter")</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value />
+    <value>&amp;Annuler</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
-    <value />
+    <value>Tout Vider</value>
   </data>
   <data name="Control" xml:space="preserve">
-    <value />
+    <value>Contrôle</value>
   </data>
   <data name="CurrentDevices" xml:space="preserve">
-    <value />
+    <value>Périphérique en Cours :</value>
   </data>
   <data name="DeleteSet" xml:space="preserve">
-    <value />
+    <value>Choix Effacement</value>
   </data>
   <data name="InfoClearABinding" xml:space="preserve">
-    <value />
+    <value>Vider</value>
   </data>
   <data name="InfoClearKeys" xml:space="preserve">
-    <value />
+    <value>Effacer, Retour en Arrière</value>
   </data>
   <data name="InfoDetectedDevices" xml:space="preserve">
-    <value />
+    <value>Périphériques Déctectés :</value>
   </data>
   <data name="InfoDevice" xml:space="preserve">
-    <value />
+    <value>Périphérique</value>
   </data>
   <data name="InfoDevices" xml:space="preserve">
-    <value />
+    <value>Périphériques</value>
   </data>
   <data name="InfoEscapeToCancel" xml:space="preserve">
-    <value />
+    <value>(Aussi, utilisez Echap pour annuler le paramètrage d'une liaison)</value>
   </data>
   <data name="InfoMoveMouse" xml:space="preserve">
-    <value />
+    <value>Bouger la souris ici pour voir les périphériques</value>
   </data>
   <data name="InfoNoDevices" xml:space="preserve">
-    <value />
+    <value>aucun périphérique</value>
   </data>
   <data name="InfoSetABinding" xml:space="preserve">
-    <value />
+    <value>Configurer</value>
   </data>
   <data name="InfoSetKeys" xml:space="preserve">
-    <value />
+    <value>Clic Gauche, Espace, Entrée</value>
   </data>
   <data name="InfoWith" xml:space="preserve">
-    <value />
+    <value>avec</value>
   </data>
   <data name="JoyAbbreviated" xml:space="preserve">
-    <value />
+    <value>joy</value>
   </data>
   <data name="Joystick" xml:space="preserve">
-    <value />
+    <value>Joystick</value>
   </data>
   <data name="Keyboard" xml:space="preserve">
-    <value />
+    <value>Clavier</value>
   </data>
   <data name="Listening" xml:space="preserve">
-    <value />
+    <value>(en écoute...)</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value />
+    <value>&amp;OK</value>
   </data>
   <data name="Player" xml:space="preserve">
-    <value />
+    <value>Joueur</value>
   </data>
   <data name="PointOfViewAbbreviated" xml:space="preserve">
-    <value />
+    <value>PoV</value>
   </data>
   <data name="PreviewAButton" xml:space="preserve">
-    <value />
+    <value>Bouton A</value>
   </data>
   <data name="PreviewBButton" xml:space="preserve">
-    <value />
+    <value>Bouton B</value>
   </data>
   <data name="PreviewCButton" xml:space="preserve">
-    <value />
+    <value>Bouton C</value>
   </data>
   <data name="PreviewDownButton" xml:space="preserve">
-    <value />
+    <value>Bas ("Revenir en Arrière")</value>
   </data>
   <data name="PreviewLButton" xml:space="preserve">
-    <value />
+    <value>L (Gâchette Gauche)</value>
   </data>
   <data name="PreviewLeftButton" xml:space="preserve">
-    <value />
+    <value>Gauche ("Piste Précédente")</value>
   </data>
   <data name="PreviewPButton" xml:space="preserve">
-    <value />
+    <value>Bouton P ("Jouer/Pause")</value>
   </data>
   <data name="PreviewRButton" xml:space="preserve">
-    <value />
+    <value>R (Gâchette Droite)</value>
   </data>
   <data name="PreviewRightButton" xml:space="preserve">
-    <value />
+    <value>Droite ("Piste Suivante")</value>
   </data>
   <data name="PreviewUpButton" xml:space="preserve">
-    <value />
+    <value>Up ("Fouiller en Avant")</value>
   </data>
   <data name="PreviewXButton" xml:space="preserve">
-    <value />
+    <value>Bouton X ("Arrêter")</value>
   </data>
   <data name="SetAll" xml:space="preserve">
-    <value />
+    <value>Tout Choisir</value>
   </data>
   <data name="WindowTitle" xml:space="preserve">
-    <value />
+    <value>Configurer les paramètres Contrôleurs</value>
   </data>
 </root>

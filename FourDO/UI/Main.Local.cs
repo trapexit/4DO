@@ -52,6 +52,7 @@ namespace FourDO.UI
 			this.languageDefaultMenuItem.Text = Strings.MainMenuOptionsLanguageDefault;
 			this.languageEnglishMenuItem.Text = Strings.MainMenuOptionsLanguageEnglish;
 			this.languageRussianMenuItem.Text = Strings.MainMenuOptionsLanguageRussian;
+			this.languageFrenchMenuItem.Text = Strings.MainMenuOptionsLanguageFrench;
 
 			this.helpToolStripMenuItem.Text = Strings.MainMenuHelp;
 			this.gameInfoMenuItem.Text = Strings.MainMenuHelpGameInfo;
@@ -108,6 +109,9 @@ namespace FourDO.UI
 
 			if (Strings.MainMenuOptionsLanguageRussian != this.languageRussianMenuItem.Text)
 				this.languageRussianMenuItem.Text += " (" + Strings.MainMenuOptionsLanguageRussian + ")";
+
+			if (Strings.MainMenuOptionsLanguageFrench != this.languageFrenchMenuItem.Text)
+				this.languageFrenchMenuItem.Text += " (" + Strings.MainMenuOptionsLanguageFrench + ")";
 
 			// Set culture back to normal.
 			System.Threading.Thread.CurrentThread.CurrentUICulture = currentCulture;

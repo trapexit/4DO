@@ -294,6 +294,9 @@
   <data name="MainMenuOptionsLanguageEnglish" xml:space="preserve">
     <value>Английский</value>
   </data>
+  <data name="MainMenuOptionsLanguageFrench" xml:space="preserve">
+    <value>французский</value>
+  </data>
   <data name="MainMenuOptionsLanguageRussian" xml:space="preserve">
     <value>Русский</value>
   </data>

@@ -534,6 +534,11 @@ namespace FourDO.UI
 			this.DoSetLanguage((string)languageRussianMenuItem.Tag);
 		}
 
+		private void languageFrenchMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoSetLanguage((string)languageFrenchMenuItem.Tag);
+		}
+
 		private void Pattern4DOMenuItem_Click(object sender, EventArgs e)
 		{
 			if (sender is ToolStripDropDownItem && ((ToolStripDropDownItem)sender).Tag is ToolStripDropDownItem)

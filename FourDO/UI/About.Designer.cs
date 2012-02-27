@@ -331,6 +331,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "About";
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Load += new System.EventHandler(this.About_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

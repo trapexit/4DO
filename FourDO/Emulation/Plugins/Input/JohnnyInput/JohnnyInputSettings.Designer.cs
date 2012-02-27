@@ -225,7 +225,7 @@
 			this.ControlsGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.ControlsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.ControlsGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ControlsGridView.Location = new System.Drawing.Point(270, 0);
+			this.ControlsGridView.Location = new System.Drawing.Point(287, 0);
 			this.ControlsGridView.MultiSelect = false;
 			this.ControlsGridView.Name = "ControlsGridView";
 			this.ControlsGridView.ReadOnly = true;
@@ -233,7 +233,7 @@
 			this.ControlsGridView.RowTemplate.Height = 18;
 			this.ControlsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
 			this.ControlsGridView.ShowCellToolTips = false;
-			this.ControlsGridView.Size = new System.Drawing.Size(306, 268);
+			this.ControlsGridView.Size = new System.Drawing.Size(289, 268);
 			this.ControlsGridView.StandardTab = true;
 			this.ControlsGridView.TabIndex = 0;
 			this.ControlsGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlsGridView_CellClick);
@@ -253,7 +253,7 @@
 			this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
 			this.panel4.Location = new System.Drawing.Point(0, 0);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(270, 268);
+			this.panel4.Size = new System.Drawing.Size(287, 268);
 			this.panel4.TabIndex = 19;
 			// 
 			// CurrentDevicesLabel
@@ -265,7 +265,7 @@
 			this.CurrentDevicesLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.CurrentDevicesLabel.Location = new System.Drawing.Point(0, 0);
 			this.CurrentDevicesLabel.Name = "CurrentDevicesLabel";
-			this.CurrentDevicesLabel.Size = new System.Drawing.Size(153, 18);
+			this.CurrentDevicesLabel.Size = new System.Drawing.Size(170, 18);
 			this.CurrentDevicesLabel.TabIndex = 21;
 			this.CurrentDevicesLabel.Text = "Current Devices:";
 			this.CurrentDevicesLabel.Visible = false;
@@ -279,7 +279,7 @@
 			this.controllerInfo.DeviceCount = 1;
 			this.controllerInfo.Location = new System.Drawing.Point(0, 179);
 			this.controllerInfo.Name = "controllerInfo";
-			this.controllerInfo.Size = new System.Drawing.Size(264, 89);
+			this.controllerInfo.Size = new System.Drawing.Size(281, 89);
 			this.controllerInfo.TabIndex = 1;
 			this.controllerInfo.LinkMouseEnter += new System.EventHandler(this.controllerInfo_LinkMouseEnter);
 			this.controllerInfo.LinkMouseLeave += new System.EventHandler(this.controllerInfo_LinkMouseLeave);
@@ -296,7 +296,7 @@
 			this.controllerPreview.HighlightedButton = null;
 			this.controllerPreview.Location = new System.Drawing.Point(0, 0);
 			this.controllerPreview.Name = "controllerPreview";
-			this.controllerPreview.Size = new System.Drawing.Size(264, 173);
+			this.controllerPreview.Size = new System.Drawing.Size(281, 173);
 			this.controllerPreview.TabIndex = 0;
 			this.controllerPreview.MouseHoverButton += new FourDO.Emulation.Plugins.Input.JohnnyInput.ControllerPreview.MouseHoverButtonHandler(this.controllerPreview_MouseHoverButton);
 			this.controllerPreview.MouseClick += new System.Windows.Forms.MouseEventHandler(this.controllerPreview_MouseClick);

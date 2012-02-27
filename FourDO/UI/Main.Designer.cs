@@ -83,6 +83,7 @@
 			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
 			this.languageEnglishMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.languageRussianMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.languageFrenchMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.gameInfoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -496,7 +497,8 @@
             this.languageDefaultMenuItem,
             this.toolStripSeparator14,
             this.languageEnglishMenuItem,
-            this.languageRussianMenuItem});
+            this.languageRussianMenuItem,
+            this.languageFrenchMenuItem});
 			this.languageMenuItem.Name = "languageMenuItem";
 			this.languageMenuItem.Size = new System.Drawing.Size(162, 22);
 			this.languageMenuItem.Text = "&Language";
@@ -528,6 +530,14 @@
 			this.languageRussianMenuItem.Tag = "ru";
 			this.languageRussianMenuItem.Text = "Russian";
 			this.languageRussianMenuItem.Click += new System.EventHandler(this.languageRussianMenuItem_Click);
+			// 
+			// languageFrenchMenuItem
+			// 
+			this.languageFrenchMenuItem.Name = "languageFrenchMenuItem";
+			this.languageFrenchMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.languageFrenchMenuItem.Tag = "fr";
+			this.languageFrenchMenuItem.Text = "French";
+			this.languageFrenchMenuItem.Click += new System.EventHandler(this.languageFrenchMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -707,6 +717,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
 		private System.Windows.Forms.ToolStripMenuItem languageEnglishMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem languageRussianMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem languageFrenchMenuItem;
 
     }
 }
