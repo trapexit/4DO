@@ -358,7 +358,7 @@
     <value>Less Lag</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
-    <value>Аудио буфер обеспечивает терпимость к непредсказуемым изменениям скорости эмуляции за счет задержки аудио. Тем не менее, всякий раз, когда эмуляция смертельно отстает от графика, аудио сбои будут происходить (даже с большими буферами).</value>
+    <value>Аудио буфер обеспечивает терпимость к непредсказуемым изменениям скорости эмуляции за счет задержки аудио.</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
     <value>MORE Glitches</value>
