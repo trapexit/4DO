@@ -121,13 +121,13 @@
     <value>添加设置</value>
   </data>
   <data name="Axis" xml:space="preserve">
-    <value>Axis</value>
+    <value>轴</value>
   </data>
   <data name="BindingSet" xml:space="preserve">
     <value>按键设置</value>
   </data>
   <data name="Button" xml:space="preserve">
-    <value>Button</value>
+    <value>按键</value>
   </data>
   <data name="ButtonA" xml:space="preserve">
     <value>A</value>
@@ -211,7 +211,7 @@
     <value>:</value>
   </data>
   <data name="JoyAbbreviated" xml:space="preserve">
-    <value>joy</value>
+    <value>手柄</value>
   </data>
   <data name="Joystick" xml:space="preserve">
     <value>手柄</value>
@@ -229,7 +229,7 @@
     <value>玩家</value>
   </data>
   <data name="PointOfViewAbbreviated" xml:space="preserve">
-    <value>PoV</value>
+    <value>视角</value>
   </data>
   <data name="PreviewAButton" xml:space="preserve">
     <value>A键</value>

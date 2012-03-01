@@ -208,7 +208,7 @@
     <value>&amp;Sauvegarder un Etat</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlot" xml:space="preserve">
-    <value>EmplacemenS&amp;t de la Sauvegarde d'Etat</value>
+    <value>Emplacemen&amp;t de la Sauvegarde d'Etat</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlotNext" xml:space="preserve">
     <value>Sélectionner l'Emplacement &amp;Suivant</value>
@@ -229,7 +229,7 @@
     <value>Copie de la &amp;Fenêtre pour Vider l'Incrément</value>
   </data>
   <data name="MainMenuDisplaySmoothResizing" xml:space="preserve">
-    <value>Redimensionner l'Image &amp;Lissé</value>
+    <value>Redimensionner l'Image &amp;Lissée</value>
   </data>
   <data name="MainMenuDisplayVoidArea" xml:space="preserve">
     <value>Zone (Void) Vierge</value>
@@ -253,7 +253,7 @@
     <value>&amp;Fichier</value>
   </data>
   <data name="MainMenuFileAutoLoadLastGame" xml:space="preserve">
-    <value>Arpès le Démarrage, Ouvrir le Dernier Jeu</value>
+    <value>Après le Démarrage, Ouvrir le Dernier Jeu</value>
   </data>
   <data name="MainMenuFileChooseBiosRom" xml:space="preserve">
     <value>Choisir un Fichier Rom &amp;BIOS...</value>
@@ -262,7 +262,7 @@
     <value>&amp;Fermer le Jeu</value>
   </data>
   <data name="MainMenuFileExit" xml:space="preserve">
-    <value>&amp;Quittert</value>
+    <value>&amp;Quitter</value>
   </data>
   <data name="MainMenuFileOpenCDDrive" xml:space="preserve">
     <value>Ouvrir le Lecteur</value>
@@ -328,7 +328,7 @@
     <value>Options d'Affichage</value>
   </data>
   <data name="MainMessageNoBiosSelected" xml:space="preserve">
-    <value>Aucune Rom BIOS n'a été sélectionné.</value>
+    <value>Aucune Rom BIOS n'a été sélectionnée.</value>
   </data>
   <data name="MainMessageSlot" xml:space="preserve">
     <value>Emplacement</value>

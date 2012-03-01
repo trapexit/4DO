@@ -121,7 +121,7 @@
     <value>3DOPlay 作者:</value>
   </data>
   <data name="HelpAbout3DOPlayMessage" xml:space="preserve">
-    <value>2012年2月, Viktor将3DOPlay的代码合并进了根据FreeDO代码写的4DO模拟器中, 集合了两个独立的3DO模拟器项目的优点!</value>
+    <value>2012年2月, Viktor将3DOPlay的代码合并进了基于FreeDO代码写的4DO模拟器中, 集合了两个独立的3DO模拟器项目的优点!</value>
   </data>
   <data name="HelpAbout4DOAuthors" xml:space="preserve">
     <value>4DO 作者:</value>
@@ -142,10 +142,10 @@
     <value>4DO和3DOPlay模拟器都是基于2010年11月10日发布的FreeDO代码.  非常感谢FreeDO开发者的决定!</value>
   </data>
   <data name="HelpAboutJohnnyThank" xml:space="preserve">
-    <value>额外感谢:</value>
+    <value>特别感谢:</value>
   </data>
   <data name="HelpAboutJohnnyThankMessage" xml:space="preserve">
-    <value>Johnny 感谢其他那些原来帮助过高层模拟的人.</value>
+    <value>Johnny 感谢其他那些帮助过原始模拟和高层模拟的人.</value>
   </data>
   <data name="HelpInfoChecksum" xml:space="preserve">
     <value>扇面 0+1 校验:</value>
@@ -289,7 +289,7 @@
     <value>语言(&amp;L)</value>
   </data>
   <data name="MainMenuOptionsLanguageChinese" xml:space="preserve">
-    <value>中国的</value>
+    <value>中文（简体）(&amp;C)</value>
   </data>
   <data name="MainMenuOptionsLanguageDefault" xml:space="preserve">
     <value>系统默认(&amp;D)</value>
@@ -301,7 +301,7 @@
     <value>法语(&amp;F)</value>
   </data>
   <data name="MainMenuOptionsLanguagePortuguese" xml:space="preserve">
-    <value>葡萄牙语 (&amp;P)</value>
+    <value>葡萄牙语(&amp;P)</value>
   </data>
   <data name="MainMenuOptionsLanguageRussian" xml:space="preserve">
     <value>俄语(&amp;R)</value>
@@ -358,7 +358,7 @@
     <value>较快</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
-    <value>音频缓存是以牺牲模拟器速度为代价提供音频延迟容量. 然而, 只要模拟器在运行, 音频杂音不可避免 (即使是大缓存).</value>
+    <value>音频缓存是以牺牲模拟器速度为代价提供音频延迟容量的. 然而, 只要模拟器在运行, 音频杂音不可避免 (即使是大缓存).</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
     <value>较多杂音</value>
@@ -373,13 +373,13 @@
     <value>较高 FPS</value>
   </data>
   <data name="SettingsTabAdvancedClockMessage" xml:space="preserve">
-    <value>通过调整 CPU 时钟速度, 你可以在游戏中实现较高的 FPS. 但并不是所有游戏都能这样处理. 依赖于精确计时的游戏有可能崩溃或冻结.</value>
+    <value>通过调整 CPU 时钟速度, 你可以在游戏中实现较高的 FPS. 但并不是所有游戏都能这样处理. 依赖于精确计时的游戏有可能崩溃或死机.</value>
   </data>
   <data name="SettingsTabAdvancedClockNormalFPS" xml:space="preserve">
     <value>普通 FPS</value>
   </data>
   <data name="SettingsTabAdvancedDefaultsMessage" xml:space="preserve">
-    <value>如果发现奇怪的现象可以考虑恢复默认值.</value>
+    <value>如果发现有奇怪的现象可以考虑恢复默认值.</value>
   </data>
   <data name="SettingsTabAdvancedHighResFrame" xml:space="preserve">
     <value>高清视频渲染</value>
@@ -433,7 +433,7 @@
     <value>普通</value>
   </data>
   <data name="SettingsTabGeneralAutoLoadLastGame" xml:space="preserve">
-    <value>当 4DO 开始时, 打开上次运行的游戏</value>
+    <value>当 4DO 启动时, 打开上次运行的游戏</value>
   </data>
   <data name="SettingsTabGeneralAutoLoadLastSave" xml:space="preserve">
     <value>当打开游戏后, 重新读取当前即时存档插槽中的存档</value>
@@ -454,7 +454,7 @@
     <value>启动项(&amp;S)</value>
   </data>
   <data name="SettingsWindowInstructions" xml:space="preserve">
-    <value>配置各种 4DO 设置</value>
+    <value>4DO 配置界面</value>
   </data>
   <data name="SettingsWindowTitle" xml:space="preserve">
     <value>设置</value>
