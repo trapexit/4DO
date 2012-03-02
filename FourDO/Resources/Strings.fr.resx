@@ -142,7 +142,7 @@
     <value>L'émulation du système 4DO (et 3DOPlay) est basé sur le code libéré depuis le projet FreeDO qui est passé en open source le 10 Novembre 2010.  Remerciements aux développeurs pour avoir décider de libérer leurs codes !</value>
   </data>
   <data name="HelpAboutJohnnyThank" xml:space="preserve">
-    <value>Remerciements :</value>
+    <value>Remerciements à :</value>
   </data>
   <data name="HelpAboutJohnnyThankMessage" xml:space="preserve">
     <value>Johnny aimerait remercier les autres gars.</value>
@@ -370,7 +370,7 @@
     <value>Vitesse d'Horloge du CPU</value>
   </data>
   <data name="SettingsTabAdvancedClockHigherFPS" xml:space="preserve">
-    <value>FPS Plus</value>
+    <value>FPS + Haut</value>
   </data>
   <data name="SettingsTabAdvancedClockMessage" xml:space="preserve">
     <value>En ajustant la vitesse d'horloge du CPU, vous pouvez potentiellement avoir plus de FPS dans les jeux. Tous les jeux ne pourront pas en profiter. Les jeux dépendent d'un timing précis et pourraient plantés.</value>
