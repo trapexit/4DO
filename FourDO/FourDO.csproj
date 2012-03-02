@@ -262,6 +262,7 @@
     <EmbeddedResource Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputSettings.resx">
       <DependentUpon>JohnnyInputSettings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\JohnnyInputStrings.es.resx" />
     <EmbeddedResource Include="Resources\JohnnyInputStrings.fr.resx" />
     <EmbeddedResource Include="Resources\JohnnyInputStrings.pt.resx" />
     <EmbeddedResource Include="Resources\JohnnyInputStrings.resx">
@@ -275,6 +276,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\JohnnyInputStrings.zh-cn.resx" />
+    <EmbeddedResource Include="Resources\Strings.es.resx" />
     <EmbeddedResource Include="Resources\Strings.fr.resx" />
     <EmbeddedResource Include="Resources\Strings.pt.resx">
       <SubType>Designer</SubType>

@@ -145,11 +145,29 @@ namespace FourDO
 
 			var arguments = new Arguments(args);
 
-			var debugStartupPausedString = arguments["DebugStartupPaused"];
-			if (debugStartupPausedString != null)
+			var startLoadFile = arguments["StartLoadFile"];
+			if (startLoadFile != null)
+				RunOptions.StartLoadFile = startLoadFile;
+
+			var startLoadDrive = arguments["StartLoadDrive"];
+			if (startLoadDrive != null)
 			{
-				RunOptions.StartupPaused = true;
+				if (startLoadDrive.Trim().Length == 1)
+				{
+					RunOptions.StartLoadDrive = (char)startLoadDrive.Trim().ToCharArray()[0];
+				}
+				else
+				{
+					Console.WriteLine(USAGE_ERROR + "The drive letter must be a single character: " + startLoadDrive);
+					errorOccurred = true;
+				}
 			}
+
+			if (arguments["StartFullScreen"] != null)
+				RunOptions.StartFullScreen = true;
+
+			if (arguments["DebugStartupPaused"] != null)
+				RunOptions.StartupPaused = true;
 
 			var startupFormString = arguments["DebugStartupForm"];
 			if (startupFormString != null)
@@ -190,17 +208,11 @@ namespace FourDO
 				}
 			}
 
-			var forceGDIRenderingString = arguments["ForceGDIRendering"];
-			if (forceGDIRenderingString != null)
-			{
+			if (arguments["ForceGDIRendering"] != null)
 				RunOptions.ForceGdiRendering = true;
-			}
 
-			var printKPrintString = arguments["printKPrint"];
-			if (printKPrintString != null)
-			{
+			if (arguments["printKPrint"] != null)
 				RunOptions.PrintKPrint = true;
-			}
 
 			bool askedWithQuestionMark = args.Any(x => x == "-?" || x == "/?" || x == "--?");
 			if (errorOccurred || askedWithQuestionMark || arguments["help"] != null || arguments["h"] != null)
@@ -209,6 +221,10 @@ namespace FourDO
 				Console.WriteLine("= 4DO (" + Application.ProductVersion + ") command line options usage                           =");
 				Console.WriteLine("=   Basic usage: 4DO.exe [-option value][/option \"value\"][--switch]  =");
 				Console.WriteLine("======================================================================");
+				Console.WriteLine("");
+				Console.WriteLine("  -StartLoadFile [filename] : Loads a game from file.");
+				Console.WriteLine("  -StartLoadDrive [letter]  : Loads from CD of the drive letter.");
+				Console.WriteLine("  --StartFullScreen         : Start Full Screen.");
 				Console.WriteLine("");
 				Console.WriteLine("  --PrintKPrint        : Prints KPRINT (3DO debug) output to console.");
 				Console.WriteLine("  --ForceGDIRendering  : Forces GDI Rendering rather than DirectX.");

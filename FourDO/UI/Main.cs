@@ -90,6 +90,12 @@ namespace FourDO.UI
 			this.Height = (savedHeight > 0) ? savedHeight : this.sizeGuard.BaseHeight * 2 + this.sizeGuard.WindowExtraHeight;
 
 			// Initial form position.
+			if (RunOptions.StartFullScreen)
+			{
+				Properties.Settings.Default.WindowFullScreen = true;
+				Properties.Settings.Default.Save();
+			}
+
 			if (Properties.Settings.Default.WindowFullScreen)
 			{
 				// If they were in full screen when they exited, set ourselves at the top+left in the correct screen.
@@ -262,12 +268,27 @@ namespace FourDO.UI
 				Properties.Settings.Default.Save();
 				this.DoShowRomNag();
 			}
+			
 			///////////
 			// Clear the last loaded game if they don't want us to automatically loading games.
 			if (Properties.Settings.Default.AutoOpenGameFile == false)
 			{
 				Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
 				Properties.Settings.Default.Save();
+			}
+
+			///////////
+			// If we have startup options that specify what game to load, honor their preference now.
+			if (RunOptions.StartLoadDrive != null)
+			{
+				Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.Disc;
+				Properties.Settings.Default.GameRomDrive = RunOptions.StartLoadDrive.Value;
+			}
+
+			if (!string.IsNullOrWhiteSpace(RunOptions.StartLoadFile))
+			{
+				Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.File;
+				Properties.Settings.Default.GameRomFile = RunOptions.StartLoadFile;
 			}
 
 			///////////
