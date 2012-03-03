@@ -628,6 +628,15 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Spanish.
+        /// </summary>
+        internal static string MainMenuOptionsLanguageSpanish {
+            get {
+                return ResourceManager.GetString("MainMenuOptionsLanguageSpanish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 4DO &amp;Settings....
         /// </summary>
         internal static string MainMenuOptionsSettings {

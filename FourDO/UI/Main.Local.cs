@@ -14,6 +14,7 @@ namespace FourDO.UI
 				"en",
 				"ru",
 				"fr",
+				"es",
 				"pt",
 				"zh-cn"
 			};
@@ -28,6 +29,8 @@ namespace FourDO.UI
 					return Strings.MainMenuOptionsLanguageRussian;
 				case "fr":
 					return Strings.MainMenuOptionsLanguageFrench;
+				case "es":
+					return Strings.MainMenuOptionsLanguageSpanish;
 				case "pt":
 					return Strings.MainMenuOptionsLanguagePortuguese;
 				case "zh-cn":

@@ -306,6 +306,9 @@
   <data name="MainMenuOptionsLanguageRussian" xml:space="preserve">
     <value>Russo</value>
   </data>
+  <data name="MainMenuOptionsLanguageSpanish" xml:space="preserve">
+    <value>Espanhol</value>
+  </data>
   <data name="MainMenuOptionsSettings" xml:space="preserve">
     <value>Aj&amp;ustes do 4DO...</value>
   </data>

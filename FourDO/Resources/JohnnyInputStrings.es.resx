@@ -118,156 +118,156 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddSet" xml:space="preserve">
-    <value />
+    <value>Agregar configuración</value>
   </data>
   <data name="Axis" xml:space="preserve">
-    <value />
+    <value>Ejes</value>
   </data>
   <data name="BindingSet" xml:space="preserve">
-    <value />
+    <value>Botones</value>
   </data>
   <data name="Button" xml:space="preserve">
-    <value />
+    <value>Botón</value>
   </data>
   <data name="ButtonA" xml:space="preserve">
-    <value />
+    <value>A</value>
   </data>
   <data name="ButtonB" xml:space="preserve">
-    <value />
+    <value>B</value>
   </data>
   <data name="ButtonC" xml:space="preserve">
-    <value />
+    <value>C</value>
   </data>
   <data name="ButtonDown" xml:space="preserve">
-    <value />
+    <value>Abajo</value>
   </data>
   <data name="ButtonL" xml:space="preserve">
-    <value />
+    <value>L</value>
   </data>
   <data name="ButtonLeft" xml:space="preserve">
-    <value />
+    <value>Izquierda</value>
   </data>
   <data name="ButtonP" xml:space="preserve">
-    <value />
+    <value>P ("Ejecutar/Pausar")</value>
   </data>
   <data name="ButtonR" xml:space="preserve">
-    <value />
+    <value>R</value>
   </data>
   <data name="ButtonRight" xml:space="preserve">
-    <value />
+    <value>Derecha</value>
   </data>
   <data name="ButtonUp" xml:space="preserve">
-    <value />
+    <value>Arriba</value>
   </data>
   <data name="ButtonX" xml:space="preserve">
-    <value />
+    <value>X ("Detener")</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value />
+    <value>&amp;Cancelar</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
-    <value />
+    <value>Eliminar todos</value>
   </data>
   <data name="Control" xml:space="preserve">
-    <value />
+    <value>Control</value>
   </data>
   <data name="CurrentDevices" xml:space="preserve">
-    <value />
+    <value>Dispositivos actuales:</value>
   </data>
   <data name="DeleteSet" xml:space="preserve">
-    <value />
+    <value>Eliminar configuración</value>
   </data>
   <data name="InfoClearABinding" xml:space="preserve">
-    <value />
+    <value>Eliminar</value>
   </data>
   <data name="InfoClearKeys" xml:space="preserve">
-    <value />
+    <value>Suprimir, retroceso</value>
   </data>
   <data name="InfoDetectedDevices" xml:space="preserve">
-    <value />
+    <value>Dispositivos detectados:</value>
   </data>
   <data name="InfoDevice" xml:space="preserve">
-    <value />
+    <value>dispositivo</value>
   </data>
   <data name="InfoDevices" xml:space="preserve">
-    <value />
+    <value>dispositivos</value>
   </data>
   <data name="InfoEscapeToCancel" xml:space="preserve">
-    <value />
+    <value>(Usa "Escape" para cancelar al establecer un botón)</value>
   </data>
   <data name="InfoMoveMouse" xml:space="preserve">
-    <value />
+    <value>Mueve el mouse aquí para ver los dispositivos</value>
   </data>
   <data name="InfoNoDevices" xml:space="preserve">
-    <value />
+    <value>no hay dispositivos</value>
   </data>
   <data name="InfoSetABinding" xml:space="preserve">
-    <value />
+    <value>Establecer</value>
   </data>
   <data name="InfoSetKeys" xml:space="preserve">
-    <value />
+    <value>Click izquierdo, espacio, entrar</value>
   </data>
   <data name="InfoWith" xml:space="preserve">
-    <value />
+    <value>con</value>
   </data>
   <data name="JoyAbbreviated" xml:space="preserve">
-    <value />
+    <value>joy</value>
   </data>
   <data name="Joystick" xml:space="preserve">
-    <value />
+    <value>Joystick</value>
   </data>
   <data name="Keyboard" xml:space="preserve">
-    <value />
+    <value>Teclado</value>
   </data>
   <data name="Listening" xml:space="preserve">
-    <value />
+    <value>(esperando...)</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value />
+    <value>&amp;Aceptar</value>
   </data>
   <data name="Player" xml:space="preserve">
-    <value />
+    <value>Jugador</value>
   </data>
   <data name="PointOfViewAbbreviated" xml:space="preserve">
-    <value />
+    <value>PoV</value>
   </data>
   <data name="PreviewAButton" xml:space="preserve">
-    <value />
+    <value>Botón A</value>
   </data>
   <data name="PreviewBButton" xml:space="preserve">
-    <value />
+    <value>Botón B</value>
   </data>
   <data name="PreviewCButton" xml:space="preserve">
-    <value />
+    <value>Botón C</value>
   </data>
   <data name="PreviewDownButton" xml:space="preserve">
-    <value />
+    <value>Abajo ("Buscar hacia atrás")</value>
   </data>
   <data name="PreviewLButton" xml:space="preserve">
-    <value />
+    <value>Botón L</value>
   </data>
   <data name="PreviewLeftButton" xml:space="preserve">
-    <value />
+    <value>Izquierda ("Pista anterior")</value>
   </data>
   <data name="PreviewPButton" xml:space="preserve">
-    <value />
+    <value>Botón P ("Ejecutar/Pausar")</value>
   </data>
   <data name="PreviewRButton" xml:space="preserve">
-    <value />
+    <value>Botón R</value>
   </data>
   <data name="PreviewRightButton" xml:space="preserve">
-    <value />
+    <value>Derecha ("Pista siguiente")</value>
   </data>
   <data name="PreviewUpButton" xml:space="preserve">
-    <value />
+    <value>Arriba ("Buscar hacia adelante")</value>
   </data>
   <data name="PreviewXButton" xml:space="preserve">
-    <value />
+    <value>Botón X ("Detener")</value>
   </data>
   <data name="SetAll" xml:space="preserve">
-    <value />
+    <value>Establecer todos</value>
   </data>
   <data name="WindowTitle" xml:space="preserve">
-    <value />
+    <value>Ajustar parámetros de control</value>
   </data>
 </root>
