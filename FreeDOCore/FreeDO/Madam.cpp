@@ -1356,11 +1356,25 @@ unsigned int __fastcall PPROC(unsigned int pixel, unsigned int fpix, unsigned in
 		color1.B=PSCALAR[pix1.r16b.b>>2][pix1.r16b.b&3][input1.r16b.b];
 		break;
 	case 3:
-		color1.R=PSCALAR[0][pixc.meaning.dv1][input1.r16b.r];
-		color1.G=PSCALAR[0][pixc.meaning.dv1][input1.r16b.g];
-		color1.B=PSCALAR[0][pixc.meaning.dv1][input1.r16b.b];
+		color1.R=PSCALAR[4][pixc.meaning.dv1][input1.r16b.r];
+		color1.G=PSCALAR[4][pixc.meaning.dv1][input1.r16b.g];
+		color1.B=PSCALAR[4][pixc.meaning.dv1][input1.r16b.b];
 		break;
 	}
+	
+	/*
+	// Use this to render magenta for testing.
+	if (false)
+	{
+		pdeco fakeColor;
+		fakeColor.r16b.r = 0x1b;
+		fakeColor.r16b.g = 0x00;
+		fakeColor.r16b.b = 0x1b;
+		fakeColor.r16b.p = 1;
+		
+		return fakeColor.raw;
+	}
+	*/
 
 	//ok -- we got the sources -- now RGB processing
 	//AOP/BOP calculation
