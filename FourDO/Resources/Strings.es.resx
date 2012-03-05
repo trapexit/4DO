@@ -300,6 +300,9 @@
   <data name="MainMenuOptionsLanguageFrench" xml:space="preserve">
     <value>&amp;Francés</value>
   </data>
+  <data name="MainMenuOptionsLanguagePolish" xml:space="preserve">
+    <value>Polaco</value>
+  </data>
   <data name="MainMenuOptionsLanguagePortuguese" xml:space="preserve">
     <value>&amp;Portugués</value>
   </data>
