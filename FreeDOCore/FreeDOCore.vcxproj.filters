@@ -12,7 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FreeDOFuncs.cpp" />
     <ClCompile Include="FreeDO\_3do_sys.cpp">
       <Filter>FreeDO\Source Files</Filter>
     </ClCompile>
@@ -51,7 +50,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FreeDOFuncs.h" />
     <ClInclude Include="FreeDO\quarz.h">
       <Filter>FreeDO\Header Files</Filter>
     </ClInclude>

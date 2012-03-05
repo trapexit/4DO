@@ -110,7 +110,6 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FreeDOFuncs.cpp" />
     <ClCompile Include="FreeDO\arm.cpp" />
     <ClCompile Include="FreeDO\bitop.cpp" />
     <ClCompile Include="FreeDO\Clio.cpp" />
@@ -125,7 +124,6 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
     <ClCompile Include="FreeDO\_3do_sys.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FreeDOFuncs.h" />
     <ClInclude Include="FreeDO\arm.h" />
     <ClInclude Include="FreeDO\bitop.h" />
     <ClInclude Include="FreeDO\Clio.h" />

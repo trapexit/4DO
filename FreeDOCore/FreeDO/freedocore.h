@@ -79,6 +79,10 @@ typedef void* (__stdcall *_ext_Interface)(int, void*);
 #define FDP_SET_ARMCLOCK        14
 #define FDP_SET_TEXQUALITY      15
 #define FDP_GETP_WRCOUNT        16
+#define FDP_SET_FIX_MODE        17
+
+#define FIX_BIT_TIMING_1        (0x0001)
+#define FIX_BIT_TIMING_2        (0x0002)
 
 #ifdef __MSVC__
 

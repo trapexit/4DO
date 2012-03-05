@@ -6,6 +6,12 @@ using System.Text;
 
 namespace FourDO.Emulation.FreeDO
 {
+	public enum FixMode
+	{
+		FIX_BIT_TIMING_1 = 0x0001,
+		FIX_BIT_TIMING_2 = 0x0002,
+	}
+
 	internal static class FreeDOCore
 	{
 		#region Public Delegates
@@ -93,6 +99,7 @@ namespace FourDO.Emulation.FreeDO
 			FDP_SET_ARMCLOCK = 14,
 			FDP_SET_TEXQUALITY = 15,
 			FDP_GETP_WRCOUNT = 16, // JMK NOTE: Unused?
+			FDP_SET_FIX_MODE = 17,
 		}
 
 		#endregion // Private Types
@@ -172,6 +179,11 @@ namespace FourDO.Emulation.FreeDO
 		{
 			// TODO: Untested!
 			return FreeDoInterface((int)InterfaceFunction.FDP_SET_ARMCLOCK, new IntPtr(clock));
+		}
+
+		public static IntPtr SetFixMode(int fixMode)
+		{
+			return FreeDoInterface((int)InterfaceFunction.FDP_SET_FIX_MODE, new IntPtr(fixMode));
 		}
 
 		public static IntPtr SetTextureQuality(int textureScalar)

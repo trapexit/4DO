@@ -31,6 +31,7 @@ Felix Lazarev
 #include "XBUS.h"
 #include "arm.h"
 #include "DSP.h"
+#include "stdafx.h"
 
 #define DECREMENT	0x1
 #define RELOAD		0x2
@@ -431,8 +432,12 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
                 cregs[addr]=val&0xffff;
 		return 0;
         }
+		//		 char jj[90];
+   //             sprintf(jj, "addr=%X, val=0x%8.8X", addr, val,);
+//if(jw==0&&addr==0x128){io_interface(EXT_DEBUG_PRINT,(void*)jj); jw=100000;} 
+if(addr==0x128&&val==0x0)jw=5000000;//val=1;
 
-	cregs[addr]=val;
+cregs[addr]=val;
 	return 0;
 }
 

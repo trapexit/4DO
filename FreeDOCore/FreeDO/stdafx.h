@@ -11,10 +11,11 @@
 //#include "astring.h"
 #include "types.h"
 
-extern bool __temporalfixes;
+extern int fixmode;
 extern int speedfixes;
 extern int sf;
-extern int sdf, unknownflag11;
+extern int sdf;
+extern int unknownflag11;
 extern int HightResMode;
 extern int jw;
 

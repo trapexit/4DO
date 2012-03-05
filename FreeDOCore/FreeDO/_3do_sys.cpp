@@ -252,11 +252,13 @@ unsigned int _3do_DiscSize()
         return (unsigned int)io_interface(EXT_GET_DISC_SIZE,NULL);
 }
 
+int __tex__scaler = 0;
 int HightResMode=0;
-//bool __temporalfixes=false;
+int fixmode=0;
 int speedfixes=0;
 int sf=0;
-int sdf=0, unknownflag11=0;
+int sdf=0;
+int unknownflag11=0;
 int jw=0;
 FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 {
@@ -286,6 +288,7 @@ int line;
                 _3do_Save(datum);
                 break;
          case FDP_DO_LOAD:
+			 sf=0;
                 return (void*)_3do_Load(datum);
          case FDP_GETP_NVRAM:
                 return Getp_NVRAM();
@@ -304,6 +307,9 @@ int line;
          case FDP_SET_TEXQUALITY:
                 __tex__scaler=(int)datum;
                 break; 
+		 case FDP_SET_FIX_MODE:
+			 fixmode=(int)datum;
+			 break;
         };
 
  return NULL;

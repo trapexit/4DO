@@ -138,7 +138,9 @@ bool __fastcall _qrz_QueueTimer()
 void __fastcall _qrz_PushARMCycles(unsigned int clks)
 {
  uint32 arm,cnt;
+  int timers=21000000; //default
  int sp=0;
+ if(jw>0&&(fixmode&FIX_BIT_TIMING_1)&&sf<=1000000){jw--;timers=1100000;}
 if(sdf>0) sdf--;
 if(sf>0) sf--;
 if(unknownflag11>0)unknownflag11--;
@@ -149,7 +151,7 @@ if(ARM_CLOCK>0x23C3460)ARM_CLOCK=0x23C3460;
  else if(speedfixes<0) {sp=0x3D0900; speedfixes++;}
  else if(speedfixes>0x30D41) {sp=0x249F00; speedfixes--;}///sp=0x30D400;
  else if(speedfixes==0x30D41||speedfixes==0x186A1) speedfixes=0;
- if(_clio_GetTimerDelay()==0x150&&sf==0) sp=-(0x1C9C380-ARM_CLOCK); //phoenix3 microcosm and novastorm loading screens fix
+ if((fixmode&FIX_BIT_TIMING_2)&&_clio_GetTimerDelay()==0x150&&sf==0) sp=-(0x1C9C380-ARM_CLOCK); //microcosm and novastorm loading screens fix
  if(sf>0x186A0)sp=-(12500000-ARM_CLOCK);
  if((ARM_CLOCK-sp)<0x2DC6C0)sp=-(0x2DC6C0-ARM_CLOCK);
  if((ARM_CLOCK-sp)!=THE_ARM_CLOCK)
@@ -157,7 +159,7 @@ if(ARM_CLOCK>0x23C3460)ARM_CLOCK=0x23C3460;
 		 io_interface(EXT_ARM_SYNC,(void*)THE_ARM_CLOCK); //fix for working with 4do
      }
         arm=(clks<<24)/(ARM_CLOCK-sp);
-        qrz_AccARM+=arm*ARM_CLOCK;
+        qrz_AccARM+=arm*(ARM_CLOCK-sp);
         if( (qrz_AccARM>>24) != clks )
         {
                 arm++;
@@ -168,5 +170,5 @@ if(ARM_CLOCK>0x23C3460)ARM_CLOCK=0x23C3460;
         qrz_AccVDL+=arm*(VDL_CLOCK);
 
         //if(Get_madam_FSM()!=FSM_INPROCESS)
-        if(_clio_GetTimerDelay())qrz_TCount+=arm*((0?12500000:21000000)/(_clio_GetTimerDelay()));//clks<<1;
+        if(_clio_GetTimerDelay())qrz_TCount+=arm*(timers/(_clio_GetTimerDelay()));//clks<<1;
 }

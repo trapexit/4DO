@@ -33,15 +33,6 @@ namespace FourDO.Emulation
 
 	internal class GameConsole
 	{
-		//////////////////// hack ////////////////////////
-		// Hey Viktor!
-		//
-		// This flag syncs the CPU with the speed of audio data.
-		//
-		// Set this flag to false to disable my fix.
-		private const bool AUDIO_TIMING_HACK_ENABLED = true;
-		//////////////////// hack ////////////////////////
-
 		public event EventHandler FrameDone;
 		public event ConsoleStateChangeHandler ConsoleStateChange;
 
@@ -131,7 +122,6 @@ namespace FourDO.Emulation
 			FreeDOCore.Read2048Event = new FreeDOCore.Read2048Delegate(ExternalInterface_Read2048);
 			FreeDOCore.GetDiscSizeEvent = new FreeDOCore.GetDiscSizeDelegate(ExternalInterface_GetDiscSize);
 			FreeDOCore.OnSectorEvent = new FreeDOCore.OnSectorDelegate(ExternalInterface_OnSector);
-			FreeDOCore.ArmSync = new FreeDOCore.ArmSyncDelegate(ExternalInterface_ArmSync);
 
 			// Set up NVRAM save timer.
 			this.nvramTimer.Elapsed += new ElapsedEventHandler(nvramTimer_Elapsed);
@@ -368,8 +358,45 @@ namespace FourDO.Emulation
 			}
 
 			/////////////////
-			// Start the core.
+			// Initialize the core
 			FreeDOCore.Initialize();
+
+			////////////////
+			// Set fix mode
+			int fixMode = 0;
+			GameRecord record = GameRegistrar.GetGameRecordById(this.GameSource.GetGameId());
+
+			if (	   record.Id == "C39E4193" // Phoenix 3
+					|| record.Id == "127BF39C" // Tsuukai Gameshow - Twisted (JP)
+					|| record.Id == "260DC12D" // Twisted - The Game Show (EU)
+					|| record.Id == "A7C4EE53" // Twisted - The Game Show (US)
+
+					|| record.Id == "813E41B1" // Space Hulk - Vengeance of the Blood Angels (EU-US)
+					|| record.Id == "638812DE" // Blood Angels - Space Hulk (JP)
+
+					|| record.Id == "B347EE6D" // Scramble Cobra (demo) (JP)
+					|| record.Id == "6A3AE6B5" // Scramble Cobra (EU)
+					|| record.Id == "99670115" // Scramble Cobra (JP)
+					|| record.Id == "9B87E5D7" // Scramble Cobra (US)
+
+					|| record.Id == "F3AF1B13" // Crash 'n Burn (JP)
+					|| record.Id == "217344B0" // Crash 'n Burn (US)
+
+					|| (record.Publisher == "American Laser Games"))
+				fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_1;
+
+			if (	   record.Id == "BD2BC660" // Lost Eden (US)
+					|| record.Id == "EBE0915C" // Novastorm (US)
+					|| record.Id == "1F059B8F" // Nova-Storm (JP)
+					|| record.Id == "1A370EBA" // Microcosm (JP)
+					|| record.Id == "B35C911D" // Microcosm (US)
+					)
+				fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_2;
+
+			FreeDOCore.SetFixMode(fixMode);
+
+			/////////////////
+			// Start the core thread
 			this.InternalResume(false);
 		}
 
@@ -596,10 +623,10 @@ namespace FourDO.Emulation
 			return currentFrame;
 		}
 
-		private int lastSampleCount = 0;
+		private int lastAudioSampleCount = 0;
 		private void ExternalInterface_PushSample(uint dspSample)
 		{
-			lastSampleCount++;
+			lastAudioSampleCount++;
 			if (this.audioPlugin != null)
 				this.audioPlugin.PushSample(dspSample);
 		}
@@ -670,15 +697,6 @@ namespace FourDO.Emulation
 			currentSector = sectorNumber;
 		}
 
-		private int? newTargetPeriod = null;
-		private void ExternalInterface_ArmSync(int armSyncValue)
-		{
-			long normalPeriod = PerformanceCounter.Frequency / TARGET_FRAMES_PER_SECOND; ;
-			double periodDeviation = 12500000 / (double)armSyncValue;
-			long adjustedPeriod = (long)(normalPeriod * periodDeviation);
-			this.newTargetPeriod = (int)adjustedPeriod;
-		}
-
 		#endregion // FreeDO External Interface
 
 		#region Worker Thread
@@ -696,6 +714,10 @@ namespace FourDO.Emulation
 			bool highResolution = false;
 
 			int overshootSleepThreshold = System.Math.Max(5, TimingHelper.GetResolution());
+
+			// Calculate a default target period in case there are no
+			// audio samples for the upcoming frame (which is pretty unlikely).
+			targetPeriod = (long)(PerformanceCounter.Frequency / 60.0);
 
 			int sleepTime = 0;
 			do
@@ -748,17 +770,11 @@ namespace FourDO.Emulation
 				doneWatch.Stop();
 
 				///////////
-				// Set new period?
-				if (this.newTargetPeriod.HasValue && targetPeriod != this.newTargetPeriod)
-				{
-					targetPeriod = this.newTargetPeriod.Value;
-				}
-
-				//////////////////// hack ////////////////////////
-				if (lastSampleCount > 0 && AUDIO_TIMING_HACK_ENABLED)
+				// Set new target period depending on how many audio samples were pushed.
+				if (lastAudioSampleCount > 0)
 				{
 					// Figure out how much time was emulated.
-					double lastFrameSeconds = lastSampleCount / (double)44100;
+					double lastFrameSeconds = lastAudioSampleCount / (double)44100;
 
 					// If there were multiple frames, account for this.
 					if (lastFrameCount > 0)
@@ -766,9 +782,8 @@ namespace FourDO.Emulation
 
 					targetPeriod = (long)(PerformanceCounter.Frequency * lastFrameSeconds);
 
-					lastSampleCount = 0;
+					lastAudioSampleCount = 0;
 				}
-				//////////////////// hack ////////////////////////
 
 				///////////
 				// Identify how long to sleep (if at all).
