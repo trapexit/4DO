@@ -132,6 +132,9 @@ namespace FourDO.Emulation.GameSource
 
 		public static GameRecord GetGameRecordById(string gameId)
 		{
+			if (gameId == null)
+				return null;
+
 			GameRecord gameRecord;
 			GameRegistrar.gameDatabaseById.TryGetValue(gameId, out gameRecord);
 			return gameRecord;

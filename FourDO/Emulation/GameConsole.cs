@@ -365,34 +365,35 @@ namespace FourDO.Emulation
 			// Set fix mode
 			int fixMode = 0;
 			GameRecord record = GameRegistrar.GetGameRecordById(this.GameSource.GetGameId());
+			if (record != null)
+			{
+				if (       record.Id == "C39E4193" // Phoenix 3
+						|| record.Id == "127BF39C" // Tsuukai Gameshow - Twisted (JP)
+						|| record.Id == "260DC12D" // Twisted - The Game Show (EU)
+						|| record.Id == "A7C4EE53" // Twisted - The Game Show (US)
 
-			if (	   record.Id == "C39E4193" // Phoenix 3
-					|| record.Id == "127BF39C" // Tsuukai Gameshow - Twisted (JP)
-					|| record.Id == "260DC12D" // Twisted - The Game Show (EU)
-					|| record.Id == "A7C4EE53" // Twisted - The Game Show (US)
+						|| record.Id == "813E41B1" // Space Hulk - Vengeance of the Blood Angels (EU-US)
+						|| record.Id == "638812DE" // Blood Angels - Space Hulk (JP)
 
-					|| record.Id == "813E41B1" // Space Hulk - Vengeance of the Blood Angels (EU-US)
-					|| record.Id == "638812DE" // Blood Angels - Space Hulk (JP)
+						|| record.Id == "B347EE6D" // Scramble Cobra (demo) (JP)
+						|| record.Id == "6A3AE6B5" // Scramble Cobra (EU)
+						|| record.Id == "99670115" // Scramble Cobra (JP)
+						|| record.Id == "9B87E5D7" // Scramble Cobra (US)
 
-					|| record.Id == "B347EE6D" // Scramble Cobra (demo) (JP)
-					|| record.Id == "6A3AE6B5" // Scramble Cobra (EU)
-					|| record.Id == "99670115" // Scramble Cobra (JP)
-					|| record.Id == "9B87E5D7" // Scramble Cobra (US)
+						|| record.Id == "F3AF1B13" // Crash 'n Burn (JP)
+						|| record.Id == "217344B0" // Crash 'n Burn (US)
 
-					|| record.Id == "F3AF1B13" // Crash 'n Burn (JP)
-					|| record.Id == "217344B0" // Crash 'n Burn (US)
+						|| (record.Publisher == "American Laser Games"))
+					fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_1;
 
-					|| (record.Publisher == "American Laser Games"))
-				fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_1;
-
-			if (	   record.Id == "BD2BC660" // Lost Eden (US)
-					|| record.Id == "EBE0915C" // Novastorm (US)
-					|| record.Id == "1F059B8F" // Nova-Storm (JP)
-					|| record.Id == "1A370EBA" // Microcosm (JP)
-					|| record.Id == "B35C911D" // Microcosm (US)
-					)
-				fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_2;
-
+				if (       record.Id == "BD2BC660" // Lost Eden (US)
+						|| record.Id == "EBE0915C" // Novastorm (US)
+						|| record.Id == "1F059B8F" // Nova-Storm (JP)
+						|| record.Id == "1A370EBA" // Microcosm (JP)
+						|| record.Id == "B35C911D" // Microcosm (US)
+						)
+					fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_2;
+			}
 			FreeDOCore.SetFixMode(fixMode);
 
 			/////////////////
