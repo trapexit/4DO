@@ -184,7 +184,7 @@
     <value>Effacer, Retour en Arrière</value>
   </data>
   <data name="InfoDetectedDevices" xml:space="preserve">
-    <value>Périphériques Déctectés :</value>
+    <value>Périphériques Détectés :</value>
   </data>
   <data name="InfoDevice" xml:space="preserve">
     <value>Périphérique</value>

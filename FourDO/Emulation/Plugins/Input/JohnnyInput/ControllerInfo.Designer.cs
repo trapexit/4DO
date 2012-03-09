@@ -145,10 +145,10 @@
 			this.EscapeLabel.ForeColor = System.Drawing.Color.Black;
 			this.EscapeLabel.Location = new System.Drawing.Point(3, 29);
 			this.EscapeLabel.Name = "EscapeLabel";
-			this.EscapeLabel.Size = new System.Drawing.Size(280, 13);
+			this.EscapeLabel.Size = new System.Drawing.Size(280, 26);
 			this.EscapeLabel.TabIndex = 7;
 			this.EscapeLabel.Text = "(Also, use escape to cancel setting a binding)";
-			this.EscapeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.EscapeLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// MouseViewLabel
 			// 

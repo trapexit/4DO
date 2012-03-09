@@ -330,6 +330,9 @@
   <data name="MainMessageDisplayOptions" xml:space="preserve">
     <value>Display Options</value>
   </data>
+  <data name="MainMessageHide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
   <data name="MainMessageNoBiosSelected" xml:space="preserve">
     <value>No BIOS rom selected.</value>
   </data>

@@ -88,6 +88,7 @@ namespace FourDO.UI
 
 			this.RomNagBox.LinkText = Strings.MainMessageNoBiosSelected;
 			this.RomNagBox.MessageText = Strings.MainMessageChooseBiosRom;
+			this.RomNagBox.HideText = Strings.MainMessageHide;
 
 			if (this.volumeMenuItem != null)
 				this.volumeMenuItem.Localize();

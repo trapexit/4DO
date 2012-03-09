@@ -159,7 +159,7 @@ namespace FourDO.UI
 
 			decimal clockMegahertz = CpuClockBar.Value / (decimal)1000;
 			int clockPercent = CpuClockBar.Value / 125;
-			CpuClockValueLabel.Text = string.Format("{0:0.000}Mhz ({1}%)", clockMegahertz, clockPercent);
+			CpuClockValueLabel.Text = string.Format("{0:0.0}Mhz ({1}%)", clockMegahertz, clockPercent);
 		}
 
 	}

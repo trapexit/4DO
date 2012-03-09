@@ -242,7 +242,7 @@
 			this.InactiveGroupBox.Controls.Add(this.pictureBox4);
 			this.InactiveGroupBox.Location = new System.Drawing.Point(17, 189);
 			this.InactiveGroupBox.Name = "InactiveGroupBox";
-			this.InactiveGroupBox.Size = new System.Drawing.Size(411, 81);
+			this.InactiveGroupBox.Size = new System.Drawing.Size(411, 100);
 			this.InactiveGroupBox.TabIndex = 2;
 			this.InactiveGroupBox.TabStop = false;
 			this.InactiveGroupBox.Text = "&Inactive Window Options";
@@ -251,7 +251,7 @@
 			// 
 			this.chkInactivePauseEmulation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.chkInactivePauseEmulation.Location = new System.Drawing.Point(67, 16);
+			this.chkInactivePauseEmulation.Location = new System.Drawing.Point(67, 19);
 			this.chkInactivePauseEmulation.Name = "chkInactivePauseEmulation";
 			this.chkInactivePauseEmulation.Size = new System.Drawing.Size(338, 32);
 			this.chkInactivePauseEmulation.TabIndex = 0;
@@ -262,7 +262,7 @@
 			// 
 			this.chkInactiveIgnoreInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.chkInactiveIgnoreInput.Location = new System.Drawing.Point(67, 43);
+			this.chkInactiveIgnoreInput.Location = new System.Drawing.Point(67, 57);
 			this.chkInactiveIgnoreInput.Name = "chkInactiveIgnoreInput";
 			this.chkInactiveIgnoreInput.Size = new System.Drawing.Size(338, 32);
 			this.chkInactiveIgnoreInput.TabIndex = 1;
@@ -771,6 +771,7 @@
 			// 
 			this.CpuClockGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.CpuClockGroupBox.Controls.Add(this.CpuClockValueLabel);
 			this.CpuClockGroupBox.Controls.Add(this.label9);
 			this.CpuClockGroupBox.Controls.Add(this.label10);
 			this.CpuClockGroupBox.Controls.Add(this.ClockHigherFpsLabel);
@@ -778,7 +779,6 @@
 			this.CpuClockGroupBox.Controls.Add(this.CpuClockBar);
 			this.CpuClockGroupBox.Controls.Add(this.ClockMessageLabel);
 			this.CpuClockGroupBox.Controls.Add(this.pictureBox8);
-			this.CpuClockGroupBox.Controls.Add(this.CpuClockValueLabel);
 			this.CpuClockGroupBox.Location = new System.Drawing.Point(17, 147);
 			this.CpuClockGroupBox.Name = "CpuClockGroupBox";
 			this.CpuClockGroupBox.Size = new System.Drawing.Size(411, 127);

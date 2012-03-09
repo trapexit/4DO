@@ -333,6 +333,9 @@
   <data name="MainMessageDisplayOptions" xml:space="preserve">
     <value>显示选项</value>
   </data>
+  <data name="MainMessageHide" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
   <data name="MainMessageNoBiosSelected" xml:space="preserve">
     <value>没有选择 BIOS.</value>
   </data>

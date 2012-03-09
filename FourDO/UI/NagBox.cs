@@ -38,6 +38,18 @@ namespace FourDO.UI
 			}
 		}
 
+		public string HideText
+		{
+			get
+			{
+				return HideLinkLabel.Text;
+			}
+			set
+			{
+				HideLinkLabel.Text = value;
+			}
+		}
+
 		public NagBox()
 		{
 			InitializeComponent();

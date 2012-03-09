@@ -700,6 +700,15 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide.
+        /// </summary>
+        internal static string MainMessageHide {
+            get {
+                return ResourceManager.GetString("MainMessageHide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No BIOS rom selected..
         /// </summary>
         internal static string MainMessageNoBiosSelected {
