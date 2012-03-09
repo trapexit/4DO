@@ -435,7 +435,7 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
 		//		 char jj[90];
    //             sprintf(jj, "addr=%X, val=0x%8.8X", addr, val,);
 //if(jw==0&&addr==0x128){io_interface(EXT_DEBUG_PRINT,(void*)jj); jw=100000;} 
-if(addr==0x128&&val==0x0)jw=5000000;//val=1;
+if(addr==0x128&&val==0x0)jw=15000000;//val=1;
 
 cregs[addr]=val;
 	return 0;

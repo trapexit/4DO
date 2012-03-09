@@ -83,6 +83,9 @@ typedef void* (__stdcall *_ext_Interface)(int, void*);
 
 #define FIX_BIT_TIMING_1        (0x0001)
 #define FIX_BIT_TIMING_2        (0x0002)
+#define FIX_BIT_TIMING_3        (0x0004)
+#define FIX_BIT_TIMING_4        (0x0008)
+#define FIX_BIT_TIMING_5        (0x0009)
 
 #ifdef __MSVC__
 
