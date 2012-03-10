@@ -10,6 +10,20 @@ namespace FourDO.UI.Canvases
 {
 	internal static class CanvasHelper
 	{
+		static readonly byte[] FIXED_CLUTR = new byte[32];
+		static readonly byte[] FIXED_CLUTG = new byte[32];
+		static readonly byte[] FIXED_CLUTB = new byte[32];
+
+		static CanvasHelper()
+		{
+			for(int j = 0; j < 32; j++)
+			{
+				FIXED_CLUTR[j] = (byte)(((j & 0x1f) << 3) | ((j >> 2) & 7));
+				FIXED_CLUTG[j] = FIXED_CLUTR[j];
+				FIXED_CLUTB[j] = FIXED_CLUTR[j];
+			}
+		}
+
 		public unsafe static void CopyBitmap(IntPtr currentFrame, Bitmap bitmapToPrepare, int copyWidth, int copyHeight, bool addBlackBorder, bool copyPointlessAlphaByte)
 		{
 			BitmapData bitmapData = bitmapToPrepare.LockBits(new Rectangle(0, 0, bitmapToPrepare.Width, bitmapToPrepare.Height), ImageLockMode.WriteOnly, bitmapToPrepare.PixelFormat);
@@ -24,11 +38,27 @@ namespace FourDO.UI.Canvases
 				{
 					VDLLine* linePtr = (VDLLine*)&(framePtr->lines[sizeof(VDLLine) * line]);
 					short* srcPtr = (short*)linePtr;
+					bool allowFixedClut = (linePtr->xOUTCONTROLL & 0x2000000) > 0;
 					for (int pix = 0; pix < copyWidth; pix++)
 					{
-						*destPtr++ = (byte)(linePtr->xCLUTB[(*srcPtr) & 0x1F]);
-						*destPtr++ = linePtr->xCLUTG[((*srcPtr) >> 5) & 0x1F];
-						*destPtr++ = linePtr->xCLUTR[(*srcPtr) >> 10 & 0x1F];
+						if (*srcPtr == 0)
+						{
+							*destPtr++ = 0;
+							*destPtr++ = 0;
+							*destPtr++ = 0;
+						}
+						else if (allowFixedClut && (*srcPtr & 0x8000) > 0)
+						{
+							*destPtr++ = FIXED_CLUTB[(*srcPtr) & 0x1F];
+							*destPtr++ = FIXED_CLUTG[((*srcPtr) >> 5) & 0x1F];
+							*destPtr++ = FIXED_CLUTR[(*srcPtr) >> 10 & 0x1F];
+						}
+						else
+						{
+							*destPtr++ = (byte)(linePtr->xCLUTB[(*srcPtr) & 0x1F]);
+							*destPtr++ = linePtr->xCLUTG[((*srcPtr) >> 5) & 0x1F];
+							*destPtr++ = linePtr->xCLUTR[(*srcPtr) >> 10 & 0x1F];
+						}
 						destPtr += pointlessAlphaByte;
 						srcPtr++;
 					}
