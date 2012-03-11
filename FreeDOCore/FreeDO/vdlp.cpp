@@ -183,7 +183,7 @@ __inline void VDLExec()
 				int cmd=vmreadw(CURRENTVDL);
 				CURRENTVDL+=4;
 
-				        if(!(cmd&0x80000000))
+				        if(!(cmd&VDL_CONTROL))
 					{	//color value
 
 						unsigned int coloridx=(cmd&VDL_PEN_MASK)>>VDL_PEN_SHIFT;
@@ -228,7 +228,7 @@ __inline void VDLExec()
 							CLUTB[j]=CLUTG[j]=CLUTR[j]=((j&0x1f)<<3)|((j>>2)&7);
 						}
 					}
-					else if((cmd&0xff000000)!=0xE1000000 && (cmd&0xC0000000)!=0x80000000)
+					else if((cmd&0xff000000)!=0xE1000000 && (cmd&0xC0000000)!=VDL_CONTROL)
 					{
                                              //   io_interface(EXT_DEBUG_PRINT,(void*)str.print("::::VDLP:::: Unknown opcode... Comm=0x%8.8X",cmd).CStr());
 					}

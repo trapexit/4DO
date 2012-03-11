@@ -1188,6 +1188,7 @@ unsigned int calcbits(unsigned int num)
 
  if(num>>8){num>>=8;retval+=8;}
  if(num>>4){num>>=4;retval+=4;}
+ //if(num>>6){num>>=6;retval+=6;} //JMK NOTE: I saw this in 3DOplay... why was it here? It was not in the FreeDO core I got.
  if(num>>2){num>>=2;retval+=2;}
  if(num>>1){num>>=1;retval+=2;}
  else if(num)retval++;

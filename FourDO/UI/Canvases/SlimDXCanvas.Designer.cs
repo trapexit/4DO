@@ -42,6 +42,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Name = "SlimDXCanvas";
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.SlimDXCanvas_Paint);
+			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SlimDXCanvas_MouseDown);
 			this.Resize += new System.EventHandler(this.SlimDXCanvas_Resize);
 			this.ResumeLayout(false);
 

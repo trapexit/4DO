@@ -312,5 +312,16 @@ namespace FourDO.UI.Canvases
 
 			this.previousRefreshResult = this.BeginInvoke(new Action(this.Render));
 		}
+
+		private void SlimDXCanvas_MouseDown(object sender, MouseEventArgs e)
+		{
+			double heightScale = this.ClientSize.Height / 240.0;
+			double widthScale = this.ClientSize.Width / 320.0;
+
+			int newX = (int)(e.X / heightScale);
+			int newY = (int)(e.Y / heightScale);
+
+			//System.Diagnostics.Trace.WriteLine(String.Format("Clicked in\tx:\t{0}\ty:\t{1}", newX, newY));
+		}
 	}
 }

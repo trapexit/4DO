@@ -77,6 +77,46 @@ extern _ext_Interface  io_interface;
 #define PMODE_ZERO  ((0x00000002)<<CCB_POVER_SHIFT)
 #define PMODE_ONE   ((0x00000003)<<CCB_POVER_SHIFT)
 
+//  === CCBCTL0 flags ===   
+#define B15POS_MASK       0xC0000000
+#define B0POS_MASK    0x30000000
+#define SWAPHV        0x08000000
+#define ASCALL        0x04000000
+#define _CCBCTL0_u25  0x02000000
+#define CFBDSUB       0x01000000
+#define CFBDLSB_MASK  0x00C00000
+#define PDCLSB_MASK   0x00300000
+
+#define B15POS_SHIFT  30
+#define B0POS_SHIFT   28
+#define CFBD_SHIFT    22
+#define PDCLSB_SHIFT  20
+
+//  B15POS_MASK definitions   
+#define B15POS_0    0x00000000
+#define B15POS_1    0x40000000
+#define B15POS_PDC  0xC0000000
+
+//  B0POS_MASK definitions   
+#define B0POS_0     0x00000000
+#define B0POS_1     0x10000000
+#define B0POS_PPMP  0x20000000
+#define B0POS_PDC   0x30000000
+
+/*
+//  CFBDLSB_MASK definitions   
+#define CFBDLSB_0      0x00000000
+#define CFBDLSB_CFBD0  0x00400000
+#define CFBDLSB_CFBD4  0x00800000
+#define CFBDLSB_CFBD5  0x00C00000
+
+//  PDCLSB_MASK definitions   
+#define PDCLSB_0     0x00000000
+#define PDCLSB_PDC0  0x00100000
+#define PDCLSB_PDC4  0x00200000
+#define PDCLSB_PDC5  0x00300000
+*/
+
 /* === Cel first preamble word flags === */
 #define PRE0_LITERAL    0x80000000
 #define PRE0_BGND       0x40000000
@@ -385,15 +425,20 @@ unsigned int MAPPING;
 
 
 
- static struct
- {
-//	int mode;
+static struct
+{
 	unsigned int plutaCCBbits;
 	unsigned int pixelBitsMask;
+	bool tmask;
+} pdec;
+
+static struct
+{
+	unsigned int pmode;
 	unsigned int pmodeORmask;
 	unsigned int pmodeANDmask;
-	bool tmask;
- } pdec;
+	bool Transparent;
+} pproj;
 
  unsigned int pbus=0;
  unsigned char * Mem;
@@ -445,8 +490,6 @@ unsigned int MAPPING;
  unsigned int OFF;
 
  unsigned int pSource;
-
-bool Transparent;
 
 //AString str;
 
@@ -938,9 +981,10 @@ int _madam_HandleCEL()
 							break;
 				}
 				pdec.tmask=!(CCBFLAGS&CCB_BGND);
-				pdec.pmodeORmask= ((CCBFLAGS&CCB_POVER_MASK)==PMODE_ONE )? 0x8000:0x0000;
-				pdec.pmodeANDmask=((CCBFLAGS&CCB_POVER_MASK)!=PMODE_ZERO)? 0xFFFF:0x7FFF;
-
+				
+				pproj.pmode = (CCBFLAGS&CCB_POVER_MASK);
+				pproj.pmodeORmask= (pproj.pmode==PMODE_ONE )? 0x8000:0x0000;
+				pproj.pmodeANDmask=(pproj.pmode!=PMODE_ZERO)? 0xFFFF:0x7FFF;
 			}
 
 			if((CCBFLAGS&CCB_LDPLUT) && !PLUTF) //load PLUT
@@ -1166,15 +1210,12 @@ unsigned int __fastcall readPLUTDATA(unsigned int offset)
 
 unsigned int __fastcall PDEC(unsigned int pixel, unsigned short * amv)
 {
-
-
 	pdeco	pix1,pix2;
 	unsigned short resamv,pres;
 
-
 	pix1.raw=pixel;
 
-	switch(PRE0&PRE0_BPP_MASK/*pdec.mode*/)
+	switch(PRE0&PRE0_BPP_MASK)
 	{
 		default:
 		//case 1: // 1 bit
@@ -1183,7 +1224,6 @@ unsigned int __fastcall PDEC(unsigned int pixel, unsigned short * amv)
 
 
 			pres=PLUT[(pdec.plutaCCBbits+((pix1.raw&pdec.pixelBitsMask)*2))>>1];
-			//felix disable
 
 			resamv=0x49;
 			break;
@@ -1200,12 +1240,16 @@ unsigned int __fastcall PDEC(unsigned int pixel, unsigned short * amv)
 
 			if(PRE0&PRE0_LINEAR)
 			{
+				// (Uncoded 8 bit CEL)
+
 				pres=MAPu8b[pix1.raw&0xFF];
 
 				resamv=0x49;
 			}
 			else
 			{
+				// (Coded 8 bit CEL)
+
 				pres=PLUT[pix1.c8b.c];
 
 				resamv=MAPc8bAMV[pix1.raw&0xFF];
@@ -1216,9 +1260,10 @@ unsigned int __fastcall PDEC(unsigned int pixel, unsigned short * amv)
 		case 7:
 			//*amv=0;
 			//pres=0;
-		    //Transparent=0;
+			//Transparent=0;
 			if((PRE0&PRE0_LINEAR))
 			{
+				// (Uncoded 16 bit CEL)
 
 				pres=pix1.raw;
 				//pres&=0x7ffe;
@@ -1230,6 +1275,8 @@ unsigned int __fastcall PDEC(unsigned int pixel, unsigned short * amv)
 			}
 			else
 			{
+				// (Uncoded 16 bit CEL)
+
 				pres=PLUT[pix1.c16b.c];
 				pres=(pres&0x7fff)|(pixel&0x8000);
 				resamv=MAPc16bAMV[(pix1.raw>>5)&0x1FF];
@@ -1241,22 +1288,65 @@ unsigned int __fastcall PDEC(unsigned int pixel, unsigned short * amv)
 
 	*amv=resamv;
 
+	// (Conceptual end of DECODER)
+
+	//////////////////////
+	// TODO: Do PROJECTOR functions now?
+	// They'll be done before using the PROCESSOR.
+
+
+
 	//if(!(PRE1&PRE1_NOSWAP) && (CCBCTL0&(1<<27)))
 	//			pres=(pres&0x7ffe)|((pres&0x8000)>>15)|((pres&1)<<15);
 
 	//if(!(CCBCTL0&0x80000000))pres=(pres&0x7fff)|((CCBCTL0>>15)&0x8000);
 
-	pres=(pres|pdec.pmodeORmask)&pdec.pmodeANDmask;
+	//pres=(pres|pdec.pmodeORmask)&pdec.pmodeANDmask;
 
 
-	Transparent=( ((pres&0x7fff)==0x0) & pdec.tmask );
-
+	pproj.Transparent=( ((pres&0x7fff)==0x0) & pdec.tmask );
 
 	return pres;
 }
 
+unsigned int __fastcall PPROJ_OUTPUT(unsigned int pdec_output, unsigned int pproc_output)
+{
+	unsigned int output = pproc_output;
+	
+	int b15mode = (CCBCTL0 & B15POS_MASK);
+	if (b15mode == B15POS_PDC)
+	{
+		output = (output & ~0x8000) | (pdec_output & 0x8000);
+	}
+	else if (b15mode == B15POS_0)
+	{
+		output = (output & ~0x8000);
+	}
+	else if (b15mode == B15POS_1)
+	{
+		output |= 0x8000;
+	}
 
+	int b0mode = (CCBCTL0 & B0POS_MASK);
+	if (b0mode == B0POS_PDC)
+	{
+		output = (output & ~0x1) | (pdec_output & 0x1);
+	}
+	else if (b0mode == B0POS_PPMP)
+	{
+		output = (output & ~0x1) | (pproc_output & 0x1);
+	}
+	else if (b0mode == B0POS_0)
+	{
+		output = (output & ~0x1);
+	}
+	else if (b0mode == B0POS_1)
+	{
+		output |= 0x01;
+	}
 
+	return output;
+}
 
 unsigned int __fastcall PPROC(unsigned int pixel, unsigned int fpix, unsigned int amv)
 {
@@ -1265,8 +1355,10 @@ unsigned int __fastcall PPROC(unsigned int pixel, unsigned int fpix, unsigned in
 
 	pdeco	input1,out,pix1;
 
-	//return pixel;
-
+	// Set PMODE according to the values set up in the CCBFLAGS word.
+	// (This merely uses masks here because it's faster).
+	// This is a duty of the PROJECTOR, but we'll do it here because its easier.
+	pixel = (pixel|pproj.pmodeORmask)&pproj.pmodeANDmask;
 
 	pixc.raw=PIXC&0xffff;
 	if((pixel&0x8000))
@@ -1405,14 +1497,14 @@ unsigned int __fastcall PPROC(unsigned int pixel, unsigned int fpix, unsigned in
 
 	if(!AV.avsignal.nCLIP)
 	{
-			if(color2.R<0)  color2.R=0;
-			else if(color2.R>31) color2.R=31;
+		if(color2.R<0)  color2.R=0;
+		else if(color2.R>31) color2.R=31;
 
-			if(color2.G<0)  color2.G=0;
-			else if(color2.G>31) color2.G=31;
+		if(color2.G<0)  color2.G=0;
+		else if(color2.G>31) color2.G=31;
 
-			if(color2.B<0)  color2.B=0;
-			else if(color2.B>31) color2.B=31;
+		if(color2.B<0)  color2.B=0;
+		else if(color2.B>31) color2.B=31;
 
 	}
 
@@ -1423,10 +1515,11 @@ unsigned int __fastcall PPROC(unsigned int pixel, unsigned int fpix, unsigned in
 	out.r16b.g=color2.G;
 	out.r16b.b=color2.B;
 
+	// TODO: Is this something the PROJECTOR should do?
 	if(!(CCBFLAGS&CCB_NOBLK) && out.raw==0) out.raw=1<<10;
 
 	//if(!(PRE1&PRE1_NOSWAP) && (CCBCTL0&(1<<27)))
-	//			out.raw=(out.raw&0x7ffe)|((out.raw&0x8000)>>15)|((out.raw&1)<<15);
+				//out.raw=(out.raw&0x7ffe)|((out.raw&0x8000)>>15)|((out.raw&1)<<15);
 
 	//if(!(CCBCTL0&0x80000000))out.raw=(out.raw&0x7fff)|((CCBCTL0>>15)&0x8000);
 
@@ -1443,18 +1536,16 @@ unsigned int * _madam_GetRegs()
 
 
 void __fastcall DrawPackedCel_New()
-{     
-     sf=30000;
+{
+	sf=30000;
+	unsigned int pixel;
 	unsigned int start;
 	unsigned short CURPIX,LAMV;
 	int i,j;
-	// RMOD=RMODULO[REGCTL0];
-	// WMOD=WMODULO[REGCTL0];
+
 	int lastaddr;
 	int xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy, scipw, wcnt;
 	int accx, accy, scipstr;
-
-        //double dxcur,dycur,dxvert,dyvert,dxdown,dydown,dhdx,dhdy;
 
 	start = PDATA;
 
@@ -1465,17 +1556,14 @@ void __fastcall DrawPackedCel_New()
 
 	pixcount=0;
 
-
 	compsize=30;
 
 	SPRHI=nrows+1;
 	calcx=0;
 
-	//SPRWI=0;
 	if(TestInitVisual(1))return;
 	xvert=XPOS1616;
 	yvert=YPOS1616;
-	//return;
 
 if(TEXEL_FUN_NUMBER==0)
 {
@@ -1549,13 +1637,14 @@ if(TEXEL_FUN_NUMBER==0)
 				case 1: //PACK_LITERAL
 					for(pix=0;pix<pixcount;pix++)
 					{
-						//CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
 						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-						if(!Transparent)
+						if(!pproj.Transparent)
 						{
 
 								//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
-								mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV));
+								pixel = PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV);
+								pixel = PPROJ_OUTPUT(CURPIX, pixel);
+								mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
 
 						}
 						xcur+=HDX1616;
@@ -1572,10 +1661,10 @@ if(TEXEL_FUN_NUMBER==0)
 					break;
 				case 3: //PACK_REPEAT
 					CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-         if(CURPIX>32300&&CURPIX<33500&&(CURPIX>32760||CURPIX<32750)){
-          if(speedfixes>=0&&sdf==0&&speedfixes<=200001&&unknownflag11==0)speedfixes=200000;}
-          if(unknownflag11>0&&sdf==0&&CURPIX<30000&&CURPIX>29000) speedfixes=-200000;
-					if(!Transparent)
+					if(CURPIX>32300&&CURPIX<33500&&(CURPIX>32760||CURPIX<32750)){
+					if(speedfixes>=0&&sdf==0&&speedfixes<=200001&&unknownflag11==0)speedfixes=200000;}
+					if(unknownflag11>0&&sdf==0&&CURPIX<30000&&CURPIX>29000) speedfixes=-200000;
+					if(!pproj.Transparent)
 					{
 
 							TexelDraw_Line(CURPIX, LAMV, xcur, ycur, (pixcount));
@@ -1627,10 +1716,10 @@ else if(TEXEL_FUN_NUMBER==1)
 				case 1: //PACK_LITERAL
 					while(__pix)
 					{
-                                                __pix--;
+						__pix--;
 						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
 
-						if(!Transparent)
+						if(!pproj.Transparent)
 						{
 
 								if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+(HDX1616+VDX1616))>>16, (ycur+(HDY1616+VDY1616))>>16))break;
@@ -1651,7 +1740,7 @@ else if(TEXEL_FUN_NUMBER==1)
 					break;
 				case 3: //PACK_REPEAT
 					CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-					if(!Transparent)
+					if(!pproj.Transparent)
 					{
 
 							if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+(HDX1616*(__pix))+VDX1616)>>16, (ycur+(HDY1616*(__pix))+VDY1616)>>16))break;
@@ -1718,9 +1807,9 @@ else
 					while(__pix)
 					{
 						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-                                                __pix--;
-                 //   if(speedfixes>=0&&speedfixes<=100001) speedfixes=300000;
-						if(!Transparent)
+						__pix--;
+						//   if(speedfixes>=0&&speedfixes<=100001) speedfixes=300000;
+						if(!pproj.Transparent)
 						{
 
 								if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
@@ -1746,27 +1835,27 @@ else
 				case 3: //PACK_REPEAT
 					CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
 					if(speedfixes>=0&&speedfixes<200001&&((CURPIX>10000&&CURPIX<11000)&&sdf==0/*||(CURPIX>10500&&CURPIX<10650)*/))speedfixes=200000;//(CURPIX>10450&&CURPIX<10470)
-					if(!Transparent)
+					if(!pproj.Transparent)
 					{
 							while(__pix)
-                                                        {
-                                                                __pix--;
-                                                                if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
-                                                                xcur+=hdx;
-					                        ycur+=hdy;
-					                        xdown+=HDX1616;
-					                        ydown+=HDY1616;
-                                                        }
+							{
+								__pix--;
+								if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
+								xcur+=hdx;
+								ycur+=hdy;
+								xdown+=HDX1616;
+								ydown+=HDY1616;
+							}
 					}
-                                        else
-                                        {
-                                                xcur+=hdx*__pix;
-                                                ycur+=hdy*__pix;
-                                                xdown+=HDX1616*__pix;
-                                                ydown+=HDY1616*__pix;
-                                                __pix=0;
-                                        }
-                                        //pixcount=0;
+					else
+					{
+							xcur+=hdx*__pix;
+							ycur+=hdy*__pix;
+							xdown+=HDX1616*__pix;
+							ydown+=HDY1616*__pix;
+							__pix=0;
+					}
+					//pixcount=0;
 
 				break;
 			};//type
@@ -1785,7 +1874,8 @@ else
 
 void __fastcall DrawLiteralCel_New()
 {
-     sf=100000;
+	sf=100000;
+	unsigned int pixel;
 	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy,pix_repit,scipstr;
  	unsigned short CURPIX,LAMV;
 	int get1,get2;
@@ -1811,10 +1901,10 @@ void __fastcall DrawLiteralCel_New()
 
 if(TEXEL_FUN_NUMBER==0)
 {
-                  //  if(speedfixes>=0&&speedfixes<=100001)   speedfixes=300000;
-                  sdf=100000;
-        //רנטפעû NFS
-        SPRWI-=((PRE0>>24)&0xf);
+	//  if(speedfixes>=0&&speedfixes<=100001)   speedfixes=300000;
+	sdf=100000;
+	//רנטפעû NFS
+	SPRWI-=((PRE0>>24)&0xf);
 	xvert+=TEXTURE_HI_START*VDX1616;
 	yvert+=TEXTURE_HI_START*VDY1616;
 	PDATA+=((offset+2)<<2)*TEXTURE_HI_START;
@@ -1837,11 +1927,13 @@ if(TEXEL_FUN_NUMBER==0)
 		{
 			CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
 
-			if(!Transparent)
+			if(!pproj.Transparent)
 			{
 
 					//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
-					mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV));
+				pixel = PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV);
+				pixel = PPROJ_OUTPUT(CURPIX, pixel);
+				mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
 
 			}
 			xcur+=HDX1616;
@@ -1875,7 +1967,7 @@ else if(TEXEL_FUN_NUMBER==1)
 			CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
 
 
-			if(!Transparent)
+			if(!pproj.Transparent)
 			{
 int sss=VDX1616;
 if(unknownflag11==0&&speedfixes>=100000&&speedfixes<=200000&&(CURPIX<31000||CURPIX>32000)&&(CURPIX<15000||CURPIX>24000)&&(CURPIX<25000||CURPIX>28000)&&((CURPIX>38000&&CURPIX<70000)||(CURPIX>15000&&CURPIX<37000)))sss-=1;//w18
@@ -1918,9 +2010,9 @@ else
 		for(j=0;j<SPRWI;j++)
 		{
 
-                        CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+			CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
 
-			if(!Transparent)
+			if(!pproj.Transparent)
 			{
 					if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
 if(speedfixes<1||(speedfixes>=0&&speedfixes<200001)){
@@ -1938,16 +2030,17 @@ else speedfixes=-100000;}
 	}
 }
 
-        XPOS1616=xcur;
-        XPOS=XPOS1616/65536.0;
-        //YPOS1616=ycur;
+	XPOS1616=xcur;
+	XPOS=XPOS1616/65536.0;
+	//YPOS1616=ycur;
 }
 
 void __fastcall DrawLRCel_New()
 {
-     sf=100000;     
+	sf=100000;
+	unsigned int pixel;
 	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy;
- 	unsigned short CURPIX,LAMV;
+	unsigned short CURPIX,LAMV;
 
 
 	bpp=BPP[PRE0&PRE0_BPP_MASK];
@@ -1981,10 +2074,12 @@ if(TEXEL_FUN_NUMBER==0)
 		{
 			CURPIX=PDEC(mreadh((PDATA+XY2OFF(j<<2,i,offset<<2))),&LAMV);
 
-			if(!Transparent)
+			if(!pproj.Transparent)
 			{
 					//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
-					mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV));
+				pixel = PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV);
+				pixel = PPROJ_OUTPUT(CURPIX, pixel);
+				mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
 			}
 
 			xcur+=HDX1616;
@@ -2012,7 +2107,7 @@ else if(TEXEL_FUN_NUMBER==1)
 
 			CURPIX=PDEC(mreadh((PDATA+XY2OFF(j<<2,i,offset<<2))),&LAMV);
 
-			if(!Transparent)
+			if(!pproj.Transparent)
 			{
 
 					if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+VDY1616)>>16))break;
@@ -2048,9 +2143,9 @@ else
 
 		for(j=0;j<SPRWI;j++)
 		{
-                        CURPIX=PDEC(mreadh((PDATA+XY2OFF(j<<2,i,offset<<2))),&LAMV);
+			CURPIX=PDEC(mreadh((PDATA+XY2OFF(j<<2,i,offset<<2))),&LAMV);
 
-			if(!Transparent)
+			if(!pproj.Transparent)
 			{
 
 					if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
@@ -2069,9 +2164,9 @@ else
 	}
 }
 
-        XPOS1616=xcur;
-        XPOS=XPOS1616/65536.0;
-        //YPOS1616=ycur;
+	XPOS1616=xcur;
+	XPOS=XPOS1616/65536.0;
+	//YPOS1616=ycur;
 
 }
 
@@ -2107,21 +2202,21 @@ void _madam_SetMapping(unsigned int flag)
 
 unsigned int TexelCCWTest(double hdx, double hdy, double vdx, double vdy)
 {
-        if(((hdx+vdx)*(hdy-vdy)+vdx*vdy-hdx*hdy)<0.0)return CCB_ACCW;
-        return CCB_ACW;
+	if(((hdx+vdx)*(hdy-vdy)+vdx*vdy-hdx*hdy)<0.0)return CCB_ACCW;
+	return CCB_ACW;
 }
 bool QuardCCWTest(int wdt)
 {
- unsigned int tmp;
-        if(((CCBFLAGS&CCB_ACCW)) && ((CCBFLAGS&CCB_ACW)))return false;
+	unsigned int tmp;
+	if(((CCBFLAGS&CCB_ACCW)) && ((CCBFLAGS&CCB_ACW)))return false;
 
-        tmp=TexelCCWTest(HDX,HDY,VDX,VDY);
-        if(tmp!=TexelCCWTest(HDX,HDY,VDX+(HDDX)*(float)wdt,VDY+(HDDY)*(float)wdt))return false;
-        if(tmp!=TexelCCWTest(HDX+(HDDX)*SPRHI,HDY+(HDDY)*SPRHI,VDX,VDY))return false;
-        if(tmp!=TexelCCWTest(HDX+(HDDX)*SPRHI,HDY+(HDDY)*SPRHI,VDX+(HDDX)*(float)SPRHI*(float)wdt,VDY+(HDDY)*(float)SPRHI*(float)wdt))return false;
-        if(tmp==(CCBFLAGS&(CCB_ACCW|CCB_ACW)))
-                return true;
-        return false;
+	tmp=TexelCCWTest(HDX,HDY,VDX,VDY);
+	if(tmp!=TexelCCWTest(HDX,HDY,VDX+(HDDX)*(float)wdt,VDY+(HDDY)*(float)wdt))return false;
+	if(tmp!=TexelCCWTest(HDX+(HDDX)*SPRHI,HDY+(HDDY)*SPRHI,VDX,VDY))return false;
+	if(tmp!=TexelCCWTest(HDX+(HDDX)*SPRHI,HDY+(HDDY)*SPRHI,VDX+(HDDX)*(float)SPRHI*(float)wdt,VDY+(HDDY)*(float)SPRHI*(float)wdt))return false;
+	if(tmp==(CCBFLAGS&(CCB_ACCW|CCB_ACW)))
+		return true;
+	return false;
 }
 
 __inline int __abs(int val)
@@ -2137,7 +2232,7 @@ int TestInitVisual(int packed)
 
 
 	if(!packed)
-        {
+	{
 		xpoints[0]=XPOS1616>>16;
 		xpoints[1]=(XPOS1616+HDX1616*SPRWI)>>16;
 		xpoints[2]=(XPOS1616+VDX1616*SPRHI)>>16;
@@ -2155,103 +2250,103 @@ int TestInitVisual(int packed)
 		if(ypoints[0]<0 && ypoints[1]<0 && ypoints[2]<0 && ypoints[3]<0) return -1;
 		if(ypoints[0]>CLIPYVAL && ypoints[1]>CLIPYVAL && ypoints[2]>CLIPYVAL && ypoints[3]>CLIPYVAL) return -1;
 	}
-        else
-        {
-                xpoints[0]=XPOS1616>>16;
+	else
+	{
+		xpoints[0]=XPOS1616>>16;
 		xpoints[1]=(XPOS1616+VDX1616*SPRHI)>>16;
-                if( xpoints[0]<0 && xpoints[1]<0 && HDX1616<=0 && HDDX1616<=0 ) return -1;
-                if(xpoints[0]>CLIPXVAL && xpoints[1]>CLIPXVAL && HDX1616>=0 && HDDX1616>=0 ) return -1;
+		if( xpoints[0]<0 && xpoints[1]<0 && HDX1616<=0 && HDDX1616<=0 ) return -1;
+		if(xpoints[0]>CLIPXVAL && xpoints[1]>CLIPXVAL && HDX1616>=0 && HDDX1616>=0 ) return -1;
 
-                ypoints[0]=YPOS1616>>16;
+		ypoints[0]=YPOS1616>>16;
 		ypoints[1]=(YPOS1616+VDY1616*SPRHI)>>16;
-                if(ypoints[0]<0 && ypoints[1]<0 && HDY1616<=0 && HDDY1616<=0 ) return -1;
-                if(ypoints[0]>CLIPYVAL && ypoints[1]>CLIPYVAL && HDY1616>=0 && HDDY1616>=0 ) return -1;
-        }
+		if(ypoints[0]<0 && ypoints[1]<0 && HDY1616<=0 && HDDY1616<=0 ) return -1;
+		if(ypoints[0]>CLIPYVAL && ypoints[1]>CLIPYVAL && HDY1616>=0 && HDDY1616>=0 ) return -1;
+	}
 
 	//*
 	if(HDDX1616==0 && HDDY1616==0)
 	{
 		if(HDX1616==0 && VDY1616==0)
 		{
-					if((HDY1616<0 && VDX1616>0)||(HDY1616>0 && VDX1616<0))
+			if((HDY1616<0 && VDX1616>0)||(HDY1616>0 && VDX1616<0))
+			{
+				if((CCBFLAGS&CCB_ACW))
+				{
+					if(__abs(HDY1616)==0x10000 && __abs(VDX1616)==0x10000 && !((YPOS1616|XPOS1616)&0xffff))
 					{
-						if((CCBFLAGS&CCB_ACW))
-						{
-							if(__abs(HDY1616)==0x10000 && __abs(VDX1616)==0x10000 && !((YPOS1616|XPOS1616)&0xffff))
-							{
-								return Init_Line_Map();
-								//return 0;
-							}
-							else
-							{
-								Init_Scale_Map();
-								return 0;
-							}
-						}
+						return Init_Line_Map();
+						//return 0;
 					}
 					else
 					{
-						if((CCBFLAGS&CCB_ACCW))
-						{
-							if(__abs(HDY1616)==0x10000 && __abs(VDX1616)==0x10000 && !((YPOS1616|XPOS1616)&0xffff))
-							{
-								return Init_Line_Map();
-								//return 0;
-							}
-							else
-							{
-								Init_Scale_Map();
-								return 0;
-							}
-						}
-
+						Init_Scale_Map();
+						return 0;
 					}
-					return -1;
+				}
+			}
+			else
+			{
+				if((CCBFLAGS&CCB_ACCW))
+				{
+					if(__abs(HDY1616)==0x10000 && __abs(VDX1616)==0x10000 && !((YPOS1616|XPOS1616)&0xffff))
+					{
+						return Init_Line_Map();
+						//return 0;
+					}
+					else
+					{
+						Init_Scale_Map();
+						return 0;
+					}
+				}
+
+			}
+			return -1;
 
 
 		}
 		else if(HDY1616==0 && VDX1616==0)
 		{
 
-					if((HDX1616<0 && VDY1616>0)||(HDX1616>0 && VDY1616<0))
+			if((HDX1616<0 && VDY1616>0)||(HDX1616>0 && VDY1616<0))
+			{
+				if((CCBFLAGS&CCB_ACCW))
+				{
+					if(__abs(HDX1616)==0x10000 &&	__abs(VDY1616)==0x10000 && !((YPOS1616|XPOS1616)&0xffff))
 					{
-						if((CCBFLAGS&CCB_ACCW))
-						{
-							if(__abs(HDX1616)==0x10000 &&	__abs(VDY1616)==0x10000 && !((YPOS1616|XPOS1616)&0xffff))
-							{
-								return Init_Line_Map();
-								//return 0;
-							}
-							else
-							{
-								Init_Scale_Map();
-								return 0;
-							}
-						}
+						return Init_Line_Map();
+						//return 0;
 					}
 					else
 					{
-						if((CCBFLAGS&CCB_ACW))
-						{
-							if(__abs(HDX1616)==0x10000 &&	__abs(VDY1616)==0x10000 && !((YPOS1616|XPOS1616)&0xffff))
-							{
-								return Init_Line_Map();
-								//return 0;
-							}
-							else
-							{
-								Init_Scale_Map();
-								return 0;
-							}
-						}
+						Init_Scale_Map();
+						return 0;
 					}
-					return -1;
+				}
+			}
+			else
+			{
+				if((CCBFLAGS&CCB_ACW))
+				{
+					if(__abs(HDX1616)==0x10000 &&	__abs(VDY1616)==0x10000 && !((YPOS1616|XPOS1616)&0xffff))
+					{
+						return Init_Line_Map();
+						//return 0;
+					}
+					else
+					{
+						Init_Scale_Map();
+						return 0;
+					}
+				}
+			}
+			return -1;
 
 
 		}
 	} //*/
 
-        if(QuardCCWTest((!packed)?SPRWI:2048))return -1;
+	if(QuardCCWTest((!packed)?SPRWI:2048))return -1;
 	Init_Arbitrary_Map();
 
 
@@ -2350,8 +2445,8 @@ int Init_Line_Map()
 		else if(VDY1616<0)
 			TEXTURE_HI_START=(YPOS1616>>16)-CLIPYVAL;
 	}
-        //if(TEXTURE_WI_START<((PRE0>>24)&0xf))
-        //        TEXTURE_WI_START=((PRE0>>24)&0xf);
+	//if(TEXTURE_WI_START<((PRE0>>24)&0xf))
+	//        TEXTURE_WI_START=((PRE0>>24)&0xf);
 	//TEXTURE_WI_START+=(PRE0>>24)&0xf;
 	//if(TEXTURE_WI_START<0)TEXTURE_WI_START=0;
 	//if(TEXTURE_HI_START<0)TEXTURE_HI_START=0;
@@ -2400,15 +2495,20 @@ int __fastcall TexelDraw_Line(unsigned short CURPIX, unsigned short LAMV, int xc
 	unsigned int pixel;
 	unsigned int curr=0xffffffff, next;
 
-        xcur>>=16;
-        ycur>>=16;
+	xcur>>=16;
+	ycur>>=16;
 
 	for(i=0;i<cnt;i++,xcur+=(HDX1616>>16),ycur+=(HDY1616>>16))
 	{
-                next=mreadh((PIXSOURCE+XY2OFF((xcur)<<2,ycur,RMOD)));
-                if(next!=curr){curr=next;pixel=PPROC(CURPIX,next,LAMV);}
-                //pixel=PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV);
-                mwriteh((FBTARGET+XY2OFF((xcur)<<2,ycur,WMOD)),pixel);
+		next=mreadh((PIXSOURCE+XY2OFF((xcur)<<2,ycur,RMOD)));
+		if(next!=curr)
+		{
+			curr=next;
+			pixel=PPROC(CURPIX,next,LAMV);
+		}
+		//pixel=PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV);
+		pixel = PPROJ_OUTPUT(CURPIX, pixel);
+		mwriteh((FBTARGET+XY2OFF((xcur)<<2,ycur,WMOD)),pixel);
 	}
  return 0;
 }
@@ -2416,19 +2516,19 @@ int __fastcall TexelDraw_Line(unsigned short CURPIX, unsigned short LAMV, int xc
 
 __inline uint16 readPIX(uint32 src, int i, int j)
 {
-        src+=XY2OFF((((j)>>(RESSCALE))<<2),(i>>RESSCALE),WMOD);
-        if(RESSCALE)
-          return *((uint16*)&Mem[(src^2)+(((i&1)<<1)+((j)&1))*1024*1024]);
-        return *((uint16*)&Mem[src^2]);
+	src+=XY2OFF((((j)>>(RESSCALE))<<2),(i>>RESSCALE),WMOD);
+	if(RESSCALE)
+		return *((uint16*)&Mem[(src^2)+(((i&1)<<1)+((j)&1))*1024*1024]);
+	return *((uint16*)&Mem[src^2]);
 }
 
 __inline void writePIX(uint32 src, int i, int j, uint16 pix)
 {
-        src+=XY2OFF((((j)>>(RESSCALE))<<2),(i>>RESSCALE),WMOD);
-        if(RESSCALE)
-                *((uint16*)&Mem[(src^2)+(((i&1)<<1)+((j)&1))*1024*1024])=pix;
-        else
-                *((uint16*)&Mem[src^2])=pix;
+	src+=XY2OFF((((j)>>(RESSCALE))<<2),(i>>RESSCALE),WMOD);
+	if(RESSCALE)
+		*((uint16*)&Mem[(src^2)+(((i&1)<<1)+((j)&1))*1024*1024])=pix;
+	else
+		*((uint16*)&Mem[src^2])=pix;
 }
 
 
@@ -2438,45 +2538,46 @@ int __fastcall TexelDraw_Scale(unsigned short CURPIX, unsigned short LAMV, int x
 	unsigned int pixel;
 	unsigned int curr=-1, next;
 
-						if((HDX1616<0) && (deltax)<0 && xcur<0)
-						{
-							return -1;
-						}
-						else if((HDY1616<0) && (deltay)<0 && ycur<0 )
-						{
-							return -1;
-						}
-						else if((HDX1616>0) && (deltax)>(CLIPXVAL) && (xcur)>(CLIPXVAL))
-						{
-							return -1;
-						}
-						else if((HDY1616>0) && ((deltay))>(CLIPYVAL) && (ycur)>(CLIPYVAL))
-						{
-							return -1;
-						}
-						else
-						{
-							if((((int)xcur))==(((int)deltax)))return 0;
+	if((HDX1616<0) && (deltax)<0 && xcur<0)
+	{
+		return -1;
+	}
+	else if((HDY1616<0) && (deltay)<0 && ycur<0 )
+	{
+		return -1;
+	}
+	else if((HDX1616>0) && (deltax)>(CLIPXVAL) && (xcur)>(CLIPXVAL))
+	{
+		return -1;
+	}
+	else if((HDY1616>0) && ((deltay))>(CLIPYVAL) && (ycur)>(CLIPYVAL))
+	{
+		return -1;
+	}
+	else
+	{
+		if((((int)xcur))==(((int)deltax)))return 0;
 
-							for(i=((int)ycur);i!=(((int)deltay));i+=TEXEL_INCY)
-								for(j=(((int)xcur))<<2;j!=((((int)deltax))<<2);j+=TEXEL_INCX)
-									if((TESTCLIP((j<<14),(i<<16))))
-									{
-										pixel=PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF(j,i,RMOD))),LAMV);
-										//next=mreadh((PIXSOURCE+XY2OFF(j,i,RMOD)));
-										//if(next!=curr){curr=next;pixel=PPROC(CURPIX,next,LAMV);}
-										mwriteh((FBTARGET+XY2OFF(j,i,WMOD)),pixel);
+		for(i=((int)ycur);i!=(((int)deltay));i+=TEXEL_INCY)
+			for(j=(((int)xcur))<<2;j!=((((int)deltax))<<2);j+=TEXEL_INCX)
+				if((TESTCLIP((j<<14),(i<<16))))
+				{
+					pixel=PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF(j,i,RMOD))),LAMV);
+					pixel=PPROJ_OUTPUT(CURPIX, pixel);
+					//next=mreadh((PIXSOURCE+XY2OFF(j,i,RMOD)));
+					//if(next!=curr){curr=next;pixel=PPROC(CURPIX,next,LAMV);}
+					mwriteh((FBTARGET+XY2OFF(j,i,WMOD)),pixel);
 
-									}
-						}
-						return 0;
+				}
+	}
+	return 0;
 }
 
 
 __inline int TexelCCWTestSmp(int hdx, int hdy, int vdx, int vdy)
 {
-        if(((hdx+vdx)*(hdy-vdy)+vdx*vdy-hdx*hdy)<0)return CCB_ACCW;
-        return CCB_ACW;
+	if(((hdx+vdx)*(hdy-vdy)+vdx*vdy-hdx*hdy)<0)return CCB_ACCW;
+	return CCB_ACW;
 }
 
 int __fastcall TexelDraw_Arbitrary(unsigned short CURPIX, unsigned short LAMV, int xA, int yA, int xB, int yB, int xC, int yC, int xD, int yD)
@@ -2486,233 +2587,231 @@ int __fastcall TexelDraw_Arbitrary(unsigned short CURPIX, unsigned short LAMV, i
 	unsigned int pixel;
 	unsigned int curr=-1, next;
 
-                                         xA>>=(16-RESSCALE);
-                                         xB>>=(16-RESSCALE);
-                                         xC>>=(16-RESSCALE);
-                                         xD>>=(16-RESSCALE);
-                                         yA>>=(16-RESSCALE);
-                                         yB>>=(16-RESSCALE);
-                                         yC>>=(16-RESSCALE);
-                                         yD>>=(16-RESSCALE);
+	xA>>=(16-RESSCALE);
+	xB>>=(16-RESSCALE);
+	xC>>=(16-RESSCALE);
+	xD>>=(16-RESSCALE);
+	yA>>=(16-RESSCALE);
+	yB>>=(16-RESSCALE);
+	yC>>=(16-RESSCALE);
+	yD>>=(16-RESSCALE);
 
-                                         if((xA)==(xB) && (xB)==(xC) && (xC)==(xD)) return 0;
+	if((xA)==(xB) && (xB)==(xC) && (xC)==(xD)) return 0;
 
-                                         maxxt=((CLIPXVAL+1)<<RESSCALE);
-                                         maxyt=((CLIPYVAL+1)<<RESSCALE);
+	maxxt=((CLIPXVAL+1)<<RESSCALE);
+	maxyt=((CLIPYVAL+1)<<RESSCALE);
 
-                                         if(HDX1616<0 && HDDX1616<0)
-                                         {
-	                                        if((xA<0) && (xB<0) && (xC<0) && (xD<0))
-					                return -1;
-					 }
-                                         if(HDX1616>0 && HDDX1616>0)
-                                         {
-					        if(((xA)>=maxxt) && ((xB)>=maxxt) && ((xC)>=maxxt) && ((xD)>=maxxt))
-                                                        return -1;
-                                         }
-                                         if(HDY1616<0 && HDDY1616<0)
-                                         {
-					        if((yA<0) && (yB<0) && (yC<0) && (yD<0))
-                                                        return -1;
-					 }
-                                         if(HDY1616>0 && HDDY1616>0)
-                                         {
-					        if(((yA)>=maxyt) && ((yB)>=maxyt) && ((yC)>=maxyt) && ((yD)>=maxyt))
-					 	        return -1;
-                                         }
+	if(HDX1616<0 && HDDX1616<0)
+	{
+		if((xA<0) && (xB<0) && (xC<0) && (xD<0))
+			return -1;
+	}
+	if(HDX1616>0 && HDDX1616>0)
+	{
+		if(((xA)>=maxxt) && ((xB)>=maxxt) && ((xC)>=maxxt) && ((xD)>=maxxt))
+			return -1;
+	}
+	if(HDY1616<0 && HDDY1616<0)
+	{
+		if((yA<0) && (yB<0) && (yC<0) && (yD<0))
+			return -1;
+	}
+	if(HDY1616>0 && HDDY1616>0)
+	{
+		if(((yA)>=maxyt) && ((yB)>=maxyt) && ((yC)>=maxyt) && ((yD)>=maxyt))
+			return -1;
+	}
+	
+	miny=maxy=yA;
+	if(miny>yB)miny=yB;
+	if(miny>yC)miny=yC;
+	if(miny>yD)miny=yD;
+	if(maxy<yB)maxy=yB;
+	if(maxy<yC)maxy=yC;
+	if(maxy<yD)maxy=yD;
 
-					 {
-
-						miny=maxy=yA;
-						if(miny>yB)miny=yB;
-						if(miny>yC)miny=yC;
-						if(miny>yD)miny=yD;
-						if(maxy<yB)maxy=yB;
-						if(maxy<yC)maxy=yC;
-						if(maxy<yD)maxy=yD;
-
-						i=(miny);
-						if(i<0)i=0;
-                                                if(maxy<maxyt)maxyt=maxy;
+	i=(miny);
+	if(i<0)i=0;
+	if(maxy<maxyt)maxyt=maxy;
 
 
-						for(;i<maxyt;i++)
+	for(;i<maxyt;i++)
+	{
+
+		cnt_cross=0;
+		if(i<(yB) && i>=(yA))
+		{
+				xpoints[cnt_cross]=(int)((((xB-xA)*(i-yA))/(yB-yA)+xA));
+				updowns[cnt_cross++]=1;
+		}
+		else if(i>=(yB) && i<(yA))
+		{
+				xpoints[cnt_cross]=(int)((((xA-xB)*(i-yB))/(yA-yB)+xB));
+				updowns[cnt_cross++]=0;
+		}
+
+		if(i<(yC) && i>=(yB))
+		{
+				xpoints[cnt_cross]=(int)((((xC-xB)*(i-yB))/(yC-yB)+xB));
+				updowns[cnt_cross++]=1;
+		}
+		else if(i>=(yC) && i<(yB))
+		{
+				xpoints[cnt_cross]=(int)((((xB-xC)*(i-yC))/(yB-yC)+xC));
+				updowns[cnt_cross++]=0;
+		}
+
+		if(i<(yD) && i>=(yC))
+		{
+				xpoints[cnt_cross]=(int)((((xD-xC)*(i-yC))/(yD-yC)+xC));
+				updowns[cnt_cross++]=1;
+		}
+		else if(i>=(yD) && i<(yC))
+		{
+				xpoints[cnt_cross]=(int)((((xC-xD)*(i-yD))/(yC-yD)+xD));
+				updowns[cnt_cross++]=0;
+		}
+
+		if(cnt_cross&1)
+		{
+			if(i<(yA) && i>=(yD))
+			{
+					xpoints[cnt_cross]=(int)((((xA-xD)*(i-yD))/(yA-yD)+xD));
+					updowns[cnt_cross]=1;
+			}
+			else if(i>=(yA) && i<(yD))
+			{
+					xpoints[cnt_cross]=(int)((((xD-xA)*(i-yA))/(yD-yA)+xA));
+					updowns[cnt_cross]=0;
+			}
+		}
+
+		if(cnt_cross!=0)
+		{
+
+			if(xpoints[0]>xpoints[1])
+			{
+				xpoints[1]+=xpoints[0];
+				xpoints[0]=xpoints[1]-xpoints[0];
+				xpoints[1]=xpoints[1]-xpoints[0];
+
+				jtmp=updowns[0];
+				updowns[0]=updowns[1];
+				updowns[1]=jtmp;
+			}
+			if(cnt_cross>2)
+			{
+/*			for(int i=0; i<2; i++)
+{         
+if(xpoints[i]>xpoints[i+1])  
+{
+xpoints[i+1]+=xpoints[i];
+xpoints[i]=xpoints[i+1]-xpoints[i];
+xpoints[i+1]=xpoints[i+1]-xpoints[i];
+jtmp=updowns[i];
+updowns[i]=updowns[i+1];
+updowns[i+1]=jtmp;
+}    
+}*/
+	/*			if(xpoints[1]>xpoints[2])
+				{
+
+					xpoints[1]+=xpoints[2];
+					xpoints[2]=xpoints[1]-xpoints[2];
+					xpoints[1]=xpoints[1]-xpoints[2];
+
+					jtmp=updowns[1];
+					updowns[1]=updowns[2];
+					updowns[2]=jtmp;
+
+					if(xpoints[0]>xpoints[1])
+					{
+						xpoints[1]+=xpoints[0];
+						xpoints[0]=xpoints[1]-xpoints[0];
+						xpoints[1]=xpoints[1]-xpoints[0];
+
+						jtmp=updowns[0];
+						updowns[0]=updowns[1];
+						updowns[1]=jtmp;
+					}
+				}
+				if(xpoints[2]>xpoints[3])
+				{
+					xpoints[3]+=xpoints[2];
+					xpoints[2]=xpoints[3]-xpoints[2];
+					xpoints[3]=xpoints[3]-xpoints[2];
+
+					jtmp=updowns[2];
+					updowns[2]=updowns[3];
+					updowns[3]=jtmp;
+					if(xpoints[1]>xpoints[2])
+					{
+						xpoints[1]+=xpoints[2];
+						xpoints[2]=xpoints[1]-xpoints[2];
+						xpoints[1]=xpoints[1]-xpoints[2];
+
+						jtmp=updowns[1];
+						updowns[1]=updowns[2];
+						updowns[2]=jtmp;
+						if(xpoints[0]>xpoints[1])
 						{
+							xpoints[1]+=xpoints[0];
+							xpoints[0]=xpoints[1]-xpoints[0];
+							xpoints[1]=xpoints[1]-xpoints[0];
 
-							cnt_cross=0;
-							if(i<(yB) && i>=(yA))
-							{
-									xpoints[cnt_cross]=(int)((((xB-xA)*(i-yA))/(yB-yA)+xA));
-									updowns[cnt_cross++]=1;
-							}
-							else if(i>=(yB) && i<(yA))
-							{
-									xpoints[cnt_cross]=(int)((((xA-xB)*(i-yB))/(yA-yB)+xB));
-									updowns[cnt_cross++]=0;
-							}
-
-							if(i<(yC) && i>=(yB))
-							{
-									xpoints[cnt_cross]=(int)((((xC-xB)*(i-yB))/(yC-yB)+xB));
-									updowns[cnt_cross++]=1;
-							}
-							else if(i>=(yC) && i<(yB))
-							{
-									xpoints[cnt_cross]=(int)((((xB-xC)*(i-yC))/(yB-yC)+xC));
-									updowns[cnt_cross++]=0;
-							}
-
-							if(i<(yD) && i>=(yC))
-							{
-									xpoints[cnt_cross]=(int)((((xD-xC)*(i-yC))/(yD-yC)+xC));
-									updowns[cnt_cross++]=1;
-							}
-							else if(i>=(yD) && i<(yC))
-							{
-									xpoints[cnt_cross]=(int)((((xC-xD)*(i-yD))/(yC-yD)+xD));
-									updowns[cnt_cross++]=0;
-							}
-
-							if(cnt_cross&1)
-							{
-								if(i<(yA) && i>=(yD))
-								{
-										xpoints[cnt_cross]=(int)((((xA-xD)*(i-yD))/(yA-yD)+xD));
-										updowns[cnt_cross]=1;
-								}
-								else if(i>=(yA) && i<(yD))
-								{
-										xpoints[cnt_cross]=(int)((((xD-xA)*(i-yA))/(yD-yA)+xA));
-										updowns[cnt_cross]=0;
-								}
-							}
-
-							if(cnt_cross!=0)
-							{
-
-								if(xpoints[0]>xpoints[1])
-								{
-									xpoints[1]+=xpoints[0];
-									xpoints[0]=xpoints[1]-xpoints[0];
-									xpoints[1]=xpoints[1]-xpoints[0];
-
-									jtmp=updowns[0];
-									updowns[0]=updowns[1];
-									updowns[1]=jtmp;
-								}
-								if(cnt_cross>2)
-								{
-			/*			for(int i=0; i<2; i++)
-           {         
-           if(xpoints[i]>xpoints[i+1])  
-           {
-           xpoints[i+1]+=xpoints[i];
-		   xpoints[i]=xpoints[i+1]-xpoints[i];
-		   xpoints[i+1]=xpoints[i+1]-xpoints[i];
-           jtmp=updowns[i];
-		   updowns[i]=updowns[i+1];
-           updowns[i+1]=jtmp;
-           }    
-           }*/
-						/*			if(xpoints[1]>xpoints[2])
-									{
-
-										xpoints[1]+=xpoints[2];
-										xpoints[2]=xpoints[1]-xpoints[2];
-										xpoints[1]=xpoints[1]-xpoints[2];
-
-										jtmp=updowns[1];
-										updowns[1]=updowns[2];
-										updowns[2]=jtmp;
-
-										if(xpoints[0]>xpoints[1])
-										{
-											xpoints[1]+=xpoints[0];
-											xpoints[0]=xpoints[1]-xpoints[0];
-											xpoints[1]=xpoints[1]-xpoints[0];
-
-											jtmp=updowns[0];
-											updowns[0]=updowns[1];
-											updowns[1]=jtmp;
-										}
-									}
-									if(xpoints[2]>xpoints[3])
-									{
-										xpoints[3]+=xpoints[2];
-										xpoints[2]=xpoints[3]-xpoints[2];
-										xpoints[3]=xpoints[3]-xpoints[2];
-
-										jtmp=updowns[2];
-										updowns[2]=updowns[3];
-										updowns[3]=jtmp;
-										if(xpoints[1]>xpoints[2])
-										{
-											xpoints[1]+=xpoints[2];
-											xpoints[2]=xpoints[1]-xpoints[2];
-											xpoints[1]=xpoints[1]-xpoints[2];
-
-											jtmp=updowns[1];
-											updowns[1]=updowns[2];
-											updowns[2]=jtmp;
-											if(xpoints[0]>xpoints[1])
-											{
-												xpoints[1]+=xpoints[0];
-												xpoints[0]=xpoints[1]-xpoints[0];
-												xpoints[1]=xpoints[1]-xpoints[0];
-
-												jtmp=updowns[0];
-												updowns[0]=updowns[1];
-												updowns[1]=jtmp;
-											}
-										}
-									}*/
-
-									if( ((CCBFLAGS&CCB_ACW)&&updowns[2]==0) ||
-										((CCBFLAGS&CCB_ACCW)&&updowns[2]==1))
-									{
-										j=xpoints[2];
-										if(j<0)j=0;
-										maxx=xpoints[3];
-										if(maxx>maxxt)maxx=maxxt;
-                                                                                for(;j<maxx;j++)
-									        {
-                                                                                        next=readPIX(PIXSOURCE, i, j);
-									                if(next!=curr){curr=next;
-                                                                                                pixel=PPROC(CURPIX,next,LAMV);
-                                                                                                }
-                                                                                        writePIX(FBTARGET, i, j, pixel);
-									        }
-									}
-
-								}
-
-								if( ((CCBFLAGS&CCB_ACW)&&updowns[0]==0) ||
-										((CCBFLAGS&CCB_ACCW)&&updowns[0]==1))
-								{
-									j=xpoints[0];
-									if(j<0)j=0;
-									maxx=xpoints[1];
-									if(maxx>maxxt)maxx=maxxt;
-
-                                                                        for(;j<maxx;j++)
-									{
-                                                                                next=readPIX(PIXSOURCE, i, j);
-									        if(next!=curr){curr=next;
-                                                                                        pixel=PPROC(CURPIX,next,LAMV);
-                                                                                        }
-                                                                                writePIX(FBTARGET, i, j, pixel);
-									}
-
-
-								}
-
-							}
-
+							jtmp=updowns[0];
+							updowns[0]=updowns[1];
+							updowns[1]=jtmp;
 						}
+					}
+				}*/
+
+				if( ((CCBFLAGS&CCB_ACW)&&updowns[2]==0) ||
+					((CCBFLAGS&CCB_ACCW)&&updowns[2]==1))
+				{
+					j=xpoints[2];
+					if(j<0)j=0;
+					maxx=xpoints[3];
+					if(maxx>maxxt)maxx=maxxt;
+					for(;j<maxx;j++)
+					{
+						next=readPIX(PIXSOURCE, i, j);
+						if(next!=curr){curr=next;
+							pixel=PPROC(CURPIX,next,LAMV);
+							pixel = PPROJ_OUTPUT(CURPIX, pixel);
+						}
+					writePIX(FBTARGET, i, j, pixel);
+					}
+				}
+	
+			}
+
+			if( ((CCBFLAGS&CCB_ACW)&&updowns[0]==0) ||
+					((CCBFLAGS&CCB_ACCW)&&updowns[0]==1))
+			{
+				j=xpoints[0];
+				if(j<0)j=0;
+				maxx=xpoints[1];
+				if(maxx>maxxt)maxx=maxxt;
+
+				for(;j<maxx;j++)
+				{
+					next=readPIX(PIXSOURCE, i, j);
+					if(next!=curr){curr=next;
+						pixel=PPROC(CURPIX,next,LAMV);
+						pixel=PPROJ_OUTPUT(CURPIX, pixel);
+						}
+					writePIX(FBTARGET, i, j, pixel);
+				}
 
 
-					 }
-					 return 0;
+			}
+
+		}
+
+	}
+
+	return 0;
 }
 
 
