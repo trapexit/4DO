@@ -380,7 +380,20 @@ namespace FourDO.Emulation
 					fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_1;
                 if (record.Id == "260DC12D" /* Twisted - The Game Show (EU)*/) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_4;
                 if (record.Id == "C39E4193" /* Phoenix 3*/
-                      || record.Id == "6A4523F3") fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_5;
+                      || record.Id == "6A4523F3" // Immercenary
+                      || record.Id == "6A7B3EAE" // Wing Commander 3 disc 1
+                      || record.Id == "A407D519" // Wing Commander 3 disc 1
+                      || record.Id == "074BDE30" // Wing Commander 3 disc 2
+                    || record.Id == "3EA4804D" // Wing Commander 3 disc 2
+                    || record.Id == "7DDF4025" // Wing Commander 3 disc 3
+                    || record.Id == "1A35B4B3" // Wing Commander 3 disc 3
+                    || record.Id == "1E8D4F45" // Wing Commander 3 disc 4
+                    || record.Id == "5DA4FF7F" // Wing Commander 3 disc 4
+                    || record.Id == "DBB419FA" // Street Fighter 2
+                    || record.Id == "7340307E" // Street Fighter 2
+                    || record.Id == "5282889F" // Street Fighter 2
+                    || record.Id == "07C32F10" // Street Fighter 2
+                    ) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_5;
                 if(
                     	   record.Id == "B347EE6D" // Scramble Cobra (demo) (JP)
 						|| record.Id == "6A3AE6B5" // Scramble Cobra (EU)

@@ -153,8 +153,9 @@ if(ARM_CLOCK>0x23C3460)ARM_CLOCK=0x23C3460;
       if((fixmode&FIX_BIT_TIMING_2)&&_clio_GetTimerDelay()==0x150&&sf==0) sp=-(0x1C9C380-ARM_CLOCK);
       if((fixmode==FIX_BIT_TIMING_1)&&jw>0&&sf<=1500000){jw--;timers=1000000;sp=-3000000;}
 	  if((fixmode==FIX_BIT_TIMING_4)&&jw>0){jw--;timers=1000000;sp=-3000000;}
-	  if((fixmode==FIX_BIT_TIMING_3)&&(sf>0&&sf<=100000)&&jw>0){jw--;timers=900000;sp=-2000000;}
+	  if((fixmode==FIX_BIT_TIMING_3)&&(sf>0&&sf<=100000)/*&&jw>0*/){/*jw--;*/timers=900000;sp=-2000000;}
 	  if((fixmode==FIX_BIT_TIMING_5)&&sf==0&&jw>0&&(_clio_GetTimerDelay()==0x150)){jw--;timers=1000000;sp=-3000000;}
+	  else if((fixmode==FIX_BIT_TIMING_5)&&sf!=0)sp=0;
 	 if(sf>0x186A0)sp=-(12500000-ARM_CLOCK);
   if((ARM_CLOCK-sp)<0x2DC6C0)sp=-(0x2DC6C0-ARM_CLOCK);
  if((ARM_CLOCK-sp)!=THE_ARM_CLOCK)
