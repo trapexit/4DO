@@ -1537,7 +1537,7 @@ unsigned int * _madam_GetRegs()
 
 void __fastcall DrawPackedCel_New()
 {
-	sf=30000;
+	sf=10000;
 	unsigned int pixel;
 	unsigned int start;
 	unsigned short CURPIX,LAMV;
@@ -1874,7 +1874,7 @@ else
 
 void __fastcall DrawLiteralCel_New()
 {
-	sf=100000;
+	sf=10000;
 	unsigned int pixel;
 	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy,pix_repit,scipstr;
  	unsigned short CURPIX,LAMV;
@@ -1969,9 +1969,7 @@ else if(TEXEL_FUN_NUMBER==1)
 
 			if(!pproj.Transparent)
 			{
-int sss=VDX1616;
-if(unknownflag11==0&&speedfixes>=100000&&speedfixes<=200000&&(CURPIX<31000||CURPIX>32000)&&(CURPIX<15000||CURPIX>24000)&&(CURPIX<25000||CURPIX>28000)&&((CURPIX>38000&&CURPIX<70000)||(CURPIX>15000&&CURPIX<37000)))sss-=1;//w18
-                	if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+sss)>>16, (ycur+HDY1616+VDY1616)>>16))break;
+                	if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+VDY1616)>>16))break;
 
 			}
 			xcur+=HDX1616;
@@ -2037,7 +2035,7 @@ else speedfixes=-100000;}
 
 void __fastcall DrawLRCel_New()
 {
-	sf=100000;
+	sf=10000;
 	unsigned int pixel;
 	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy;
 	unsigned short CURPIX,LAMV;
