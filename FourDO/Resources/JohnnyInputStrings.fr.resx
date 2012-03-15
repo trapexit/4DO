@@ -259,7 +259,7 @@
     <value>Droite ("Piste Suivante")</value>
   </data>
   <data name="PreviewUpButton" xml:space="preserve">
-    <value>Up ("Fouiller en Avant")</value>
+    <value>Up ("Aller en Avant")</value>
   </data>
   <data name="PreviewXButton" xml:space="preserve">
     <value>Bouton X ("Arrêter")</value>

@@ -223,7 +223,7 @@
     <value>&amp;Plein Ecran</value>
   </data>
   <data name="MainMenuDisplayPreserveRatio" xml:space="preserve">
-    <value>Conserver les &amp;Propotions</value>
+    <value>Conserver les &amp;Proportions</value>
   </data>
   <data name="MainMenuDisplayResizeSnap" xml:space="preserve">
     <value>Copie de la &amp;Fenêtre pour Vider l'Incrément</value>
@@ -238,16 +238,16 @@
     <value>Bordure Grise</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPattern4DO" xml:space="preserve">
-    <value>Modéle : 4DO</value>
+    <value>Modèle : 4DO</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternBumps" xml:space="preserve">
-    <value>Modéle : Bumps</value>
+    <value>Modèle : Bumps</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternMetal" xml:space="preserve">
-    <value>Modéle : Métal</value>
+    <value>Modèle : Métal</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternNone" xml:space="preserve">
-    <value>Aucun Modéle</value>
+    <value>Aucun Modèle</value>
   </data>
   <data name="MainMenuFile" xml:space="preserve">
     <value>&amp;Fichier</value>
@@ -313,7 +313,7 @@
     <value>&amp;Espagnol</value>
   </data>
   <data name="MainMenuOptionsSettings" xml:space="preserve">
-    <value>&amp;Paramètrages de 4DO...</value>
+    <value>&amp;Paramétrages de 4DO...</value>
   </data>
   <data name="MainMessageAllFiles" xml:space="preserve">
     <value>Tous Les Fichiers</value>
@@ -367,7 +367,7 @@
     <value />
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
-    <value>Le tampon audio fournie une certaine tolérance pour une vitesse d'émulation non prédisible au prix d'un retard de l'audio. Quand l'émulation se termine, des problèmes audio peuvent se produire.</value>
+    <value>Le tampon audio fournie une certaine tolérance pour une vitesse d'émulation non prédictible au prix d'un retard de l'audio. Quand l'émulation se termine, des problèmes audio peuvent se produire.</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
     <value>Moins de Ralentissement</value>
@@ -394,7 +394,7 @@
     <value>Rendu en Haute Résolution</value>
   </data>
   <data name="SettingsTabAdvancedHighResMessage" xml:space="preserve">
-    <value>Via le rendu Software, les images à l'écran peut être affiché en 640 x 480. Le CPU est grandement sollicité, surtout pour les jeux 3D ! En activant cette option, pensez à augmenter la taille du tampon audio.</value>
+    <value>Via le rendu Software, les images à l'écran peuvent être affichées en 640 x 480. Le CPU est grandement sollicité, surtout pour les jeux 3D ! En activant cette option, penser à augmenter la taille du tampon audio.</value>
   </data>
   <data name="SettingsTabAdvancedHighResSetting" xml:space="preserve">
     <value>Activer le Rendu Vidéo en Haute Résolution</value>
@@ -415,7 +415,7 @@
     <value>Conserver les Proportions</value>
   </data>
   <data name="SettingsTabDisplaySmoothResizing" xml:space="preserve">
-    <value>Permettre de Redimensionner une image lissé</value>
+    <value>Permettre de Redimensionner une image lissée.</value>
   </data>
   <data name="SettingsTabDisplaySnapResizing" xml:space="preserve">
     <value>Lors du redimensionnement de la fenêtre, copier pour vider l'incrément.</value>
@@ -424,7 +424,7 @@
     <value>Effets de Zone (&amp;Void) Vierge</value>
   </data>
   <data name="SettingsTabDisplayVoidPattern" xml:space="preserve">
-    <value>Modéle d'Arrière Plan :</value>
+    <value>Modèle d'Arrière Plan :</value>
   </data>
   <data name="SettingsTabDisplayVoidPattern4DO" xml:space="preserve">
     <value>4DO</value>
@@ -436,13 +436,13 @@
     <value>Métal</value>
   </data>
   <data name="SettingsTabDisplayVoidPatternNone" xml:space="preserve">
-    <value>Aucun Modéle</value>
+    <value>Aucun Modèle</value>
   </data>
   <data name="SettingsTabGeneral" xml:space="preserve">
     <value>Général</value>
   </data>
   <data name="SettingsTabGeneralAutoLoadLastGame" xml:space="preserve">
-    <value>Quand 4DO démarres, ouvrir n'importe quel jeu qui a été lancé avant</value>
+    <value>Quand 4DO démarre, ouvrir n'importe quel jeu qui a été lancé avant</value>
   </data>
   <data name="SettingsTabGeneralAutoLoadLastSave" xml:space="preserve">
     <value>Quand un jeu est ouvert, recharger la dernière sauvegarde d'état depuis l'emplacement de la sauvegarde d'état en cours</value>
@@ -451,13 +451,13 @@
     <value>Options Diverses du &amp;Comportement</value>
   </data>
   <data name="SettingsTabGeneralInactiveIgnoreKeyboard" xml:space="preserve">
-    <value>Quand la fenêtre principale perds le focus, ignore les entrées du clavier</value>
+    <value>Quand la fenêtre principale perd le focus, ignore les entrées du clavier</value>
   </data>
   <data name="SettingsTabGeneralInactiveOptions" xml:space="preserve">
     <value>Options de la Fenêtre &amp;Inactive</value>
   </data>
   <data name="SettingsTabGeneralInactivePauseEmulation" xml:space="preserve">
-    <value>Quand la fenêtre principale perds le focus, l'émulation est en pause</value>
+    <value>Quand la fenêtre principale perd le focus, l'émulation est en pause</value>
   </data>
   <data name="SettingsTabGeneralStartupOptions" xml:space="preserve">
     <value>Options au &amp;Démarrage</value>
