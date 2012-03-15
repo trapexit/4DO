@@ -596,6 +596,12 @@ namespace FourDO.UI
 
 		private void Main_KeyDown(object sender, KeyEventArgs e)
 		{
+			if (e.KeyCode == Keys.Enter && e.Modifiers == Keys.Alt)
+			{
+				gameCanvas.Focus(); // Helps when spamming alt+enter, but doesn't completely fix the damn menu getting keyboard focus.
+				this.DoToggleFullScreen();
+			}
+
 			if (e.KeyCode == Keys.Escape && this.isWindowFullScreen)
 			{
 				this.DoToggleFullScreen();

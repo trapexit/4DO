@@ -500,14 +500,14 @@
 			// languageDefaultMenuItem
 			// 
 			this.languageDefaultMenuItem.Name = "languageDefaultMenuItem";
-			this.languageDefaultMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.languageDefaultMenuItem.Size = new System.Drawing.Size(109, 22);
 			this.languageDefaultMenuItem.Text = "Default";
 			this.languageDefaultMenuItem.Click += new System.EventHandler(this.languageDefaultMenuItem_Click);
 			// 
 			// toolStripSeparator14
 			// 
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
-			this.toolStripSeparator14.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator14.Size = new System.Drawing.Size(106, 6);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -566,6 +566,7 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.RomNagBox.BackColor = System.Drawing.SystemColors.Info;
 			this.RomNagBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.RomNagBox.HideText = "(Hide)";
 			this.RomNagBox.LinkText = "Choose BIOS Rom";
 			this.RomNagBox.Location = new System.Drawing.Point(8, 545);
 			this.RomNagBox.MessageText = "No BIOS rom selected.";
