@@ -88,6 +88,7 @@
 			this.AudioBufferMessageLabel = new System.Windows.Forms.Label();
 			this.pictureBox10 = new System.Windows.Forms.PictureBox();
 			this.CpuClockGroupBox = new System.Windows.Forms.GroupBox();
+			this.CpuClockValueLabel = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
 			this.ClockHigherFpsLabel = new System.Windows.Forms.Label();
@@ -95,7 +96,6 @@
 			this.CpuClockBar = new System.Windows.Forms.TrackBar();
 			this.ClockMessageLabel = new System.Windows.Forms.Label();
 			this.pictureBox8 = new System.Windows.Forms.PictureBox();
-			this.CpuClockValueLabel = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -138,7 +138,7 @@
 			this.panel1.Controls.Add(this.groupBox1);
 			this.panel1.Controls.Add(this.OKButton);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 534);
+			this.panel1.Location = new System.Drawing.Point(0, 546);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(476, 50);
 			this.panel1.TabIndex = 0;
@@ -217,7 +217,7 @@
 			this.tabMain.Location = new System.Drawing.Point(12, 72);
 			this.tabMain.Name = "tabMain";
 			this.tabMain.SelectedIndex = 0;
-			this.tabMain.Size = new System.Drawing.Size(452, 446);
+			this.tabMain.Size = new System.Drawing.Size(452, 458);
 			this.tabMain.TabIndex = 2;
 			// 
 			// GeneralTabPage
@@ -352,7 +352,7 @@
 			this.DisplayTabPage.Controls.Add(this.DisplayGeneralGroupBox);
 			this.DisplayTabPage.Location = new System.Drawing.Point(4, 22);
 			this.DisplayTabPage.Name = "DisplayTabPage";
-			this.DisplayTabPage.Size = new System.Drawing.Size(444, 420);
+			this.DisplayTabPage.Size = new System.Drawing.Size(444, 432);
 			this.DisplayTabPage.TabIndex = 1;
 			this.DisplayTabPage.Text = "Display";
 			// 
@@ -371,7 +371,7 @@
 			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundPanel);
 			this.DisplayVoidGroupBox.Location = new System.Drawing.Point(17, 206);
 			this.DisplayVoidGroupBox.Name = "DisplayVoidGroupBox";
-			this.DisplayVoidGroupBox.Size = new System.Drawing.Size(411, 142);
+			this.DisplayVoidGroupBox.Size = new System.Drawing.Size(411, 164);
 			this.DisplayVoidGroupBox.TabIndex = 1;
 			this.DisplayVoidGroupBox.TabStop = false;
 			this.DisplayVoidGroupBox.Text = "Blank (Void) Area Effects";
@@ -380,7 +380,7 @@
 			// 
 			this.BackgroundNonePicture.BackColor = System.Drawing.Color.Black;
 			this.BackgroundNonePicture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.BackgroundNonePicture.Location = new System.Drawing.Point(294, 113);
+			this.BackgroundNonePicture.Location = new System.Drawing.Point(294, 131);
 			this.BackgroundNonePicture.Name = "BackgroundNonePicture";
 			this.BackgroundNonePicture.Size = new System.Drawing.Size(30, 17);
 			this.BackgroundNonePicture.TabIndex = 14;
@@ -390,7 +390,7 @@
 			// 
 			this.BackgroundMetalPicture.BackgroundImage = global::FourDO.Properties.Images.VoidImageMetal;
 			this.BackgroundMetalPicture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.BackgroundMetalPicture.Location = new System.Drawing.Point(294, 90);
+			this.BackgroundMetalPicture.Location = new System.Drawing.Point(294, 108);
 			this.BackgroundMetalPicture.Name = "BackgroundMetalPicture";
 			this.BackgroundMetalPicture.Size = new System.Drawing.Size(30, 17);
 			this.BackgroundMetalPicture.TabIndex = 13;
@@ -400,7 +400,7 @@
 			// 
 			this.BackgroundBumpsPicture.BackgroundImage = global::FourDO.Properties.Images.VoidImageBumps;
 			this.BackgroundBumpsPicture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.BackgroundBumpsPicture.Location = new System.Drawing.Point(294, 66);
+			this.BackgroundBumpsPicture.Location = new System.Drawing.Point(294, 84);
 			this.BackgroundBumpsPicture.Name = "BackgroundBumpsPicture";
 			this.BackgroundBumpsPicture.Size = new System.Drawing.Size(30, 17);
 			this.BackgroundBumpsPicture.TabIndex = 12;
@@ -410,7 +410,7 @@
 			// 
 			this.Background4DOPicture.BackgroundImage = global::FourDO.Properties.Images.VoidImage4DO;
 			this.Background4DOPicture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.Background4DOPicture.Location = new System.Drawing.Point(294, 43);
+			this.Background4DOPicture.Location = new System.Drawing.Point(294, 61);
 			this.Background4DOPicture.Name = "Background4DOPicture";
 			this.Background4DOPicture.Size = new System.Drawing.Size(30, 17);
 			this.Background4DOPicture.TabIndex = 11;
@@ -418,7 +418,7 @@
 			// 
 			// Background4DOOption
 			// 
-			this.Background4DOOption.Location = new System.Drawing.Point(328, 43);
+			this.Background4DOOption.Location = new System.Drawing.Point(328, 61);
 			this.Background4DOOption.Name = "Background4DOOption";
 			this.Background4DOOption.Size = new System.Drawing.Size(75, 17);
 			this.Background4DOOption.TabIndex = 3;
@@ -429,7 +429,7 @@
 			// 
 			// BackgroundBumpsOption
 			// 
-			this.BackgroundBumpsOption.Location = new System.Drawing.Point(328, 66);
+			this.BackgroundBumpsOption.Location = new System.Drawing.Point(328, 84);
 			this.BackgroundBumpsOption.Name = "BackgroundBumpsOption";
 			this.BackgroundBumpsOption.Size = new System.Drawing.Size(75, 17);
 			this.BackgroundBumpsOption.TabIndex = 4;
@@ -440,7 +440,7 @@
 			// 
 			// BackgroundMetalOption
 			// 
-			this.BackgroundMetalOption.Location = new System.Drawing.Point(328, 90);
+			this.BackgroundMetalOption.Location = new System.Drawing.Point(328, 108);
 			this.BackgroundMetalOption.Name = "BackgroundMetalOption";
 			this.BackgroundMetalOption.Size = new System.Drawing.Size(75, 17);
 			this.BackgroundMetalOption.TabIndex = 5;
@@ -451,7 +451,7 @@
 			// 
 			// BackgroundNoneOption
 			// 
-			this.BackgroundNoneOption.Location = new System.Drawing.Point(328, 106);
+			this.BackgroundNoneOption.Location = new System.Drawing.Point(328, 124);
 			this.BackgroundNoneOption.Name = "BackgroundNoneOption";
 			this.BackgroundNoneOption.Size = new System.Drawing.Size(75, 30);
 			this.BackgroundNoneOption.TabIndex = 6;
@@ -463,7 +463,7 @@
 			// VoidPatternLabel
 			// 
 			this.VoidPatternLabel.AutoSize = true;
-			this.VoidPatternLabel.Location = new System.Drawing.Point(188, 45);
+			this.VoidPatternLabel.Location = new System.Drawing.Point(188, 63);
 			this.VoidPatternLabel.Name = "VoidPatternLabel";
 			this.VoidPatternLabel.Size = new System.Drawing.Size(104, 13);
 			this.VoidPatternLabel.TabIndex = 2;
@@ -473,7 +473,7 @@
 			// 
 			this.chkDrawGrayBorder.Location = new System.Drawing.Point(190, 14);
 			this.chkDrawGrayBorder.Name = "chkDrawGrayBorder";
-			this.chkDrawGrayBorder.Size = new System.Drawing.Size(206, 28);
+			this.chkDrawGrayBorder.Size = new System.Drawing.Size(206, 39);
 			this.chkDrawGrayBorder.TabIndex = 1;
 			this.chkDrawGrayBorder.Text = "Draw gray border around viewing area";
 			this.chkDrawGrayBorder.UseVisualStyleBackColor = true;
@@ -484,7 +484,7 @@
 			this.BackgroundPanel.BackColor = System.Drawing.Color.Black;
 			this.BackgroundPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.BackgroundPanel.Controls.Add(this.BorderPanel);
-			this.BackgroundPanel.Location = new System.Drawing.Point(6, 19);
+			this.BackgroundPanel.Location = new System.Drawing.Point(6, 16);
 			this.BackgroundPanel.Name = "BackgroundPanel";
 			this.BackgroundPanel.Size = new System.Drawing.Size(172, 117);
 			this.BackgroundPanel.TabIndex = 0;
@@ -592,7 +592,7 @@
 			this.AdvancedDisplayTab.Controls.Add(this.CpuClockGroupBox);
 			this.AdvancedDisplayTab.Location = new System.Drawing.Point(4, 22);
 			this.AdvancedDisplayTab.Name = "AdvancedDisplayTab";
-			this.AdvancedDisplayTab.Size = new System.Drawing.Size(444, 420);
+			this.AdvancedDisplayTab.Size = new System.Drawing.Size(444, 432);
 			this.AdvancedDisplayTab.TabIndex = 2;
 			this.AdvancedDisplayTab.Text = "Advanced";
 			// 
@@ -603,7 +603,7 @@
 			this.HighResGroupBox.Controls.Add(this.chkRenderHighRes);
 			this.HighResGroupBox.Controls.Add(this.HighResolutionLabel);
 			this.HighResGroupBox.Controls.Add(this.pictureBox11);
-			this.HighResGroupBox.Location = new System.Drawing.Point(17, 53);
+			this.HighResGroupBox.Location = new System.Drawing.Point(17, 63);
 			this.HighResGroupBox.Name = "HighResGroupBox";
 			this.HighResGroupBox.Size = new System.Drawing.Size(411, 88);
 			this.HighResGroupBox.TabIndex = 1;
@@ -646,16 +646,17 @@
 			this.panel3.Controls.Add(this.ResetDefaultsLabel);
 			this.panel3.Location = new System.Drawing.Point(17, 13);
 			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(411, 34);
+			this.panel3.Size = new System.Drawing.Size(411, 44);
 			this.panel3.TabIndex = 0;
 			// 
 			// AdvancedResetButton
 			// 
-			this.AdvancedResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.AdvancedResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.AdvancedResetButton.BackColor = System.Drawing.SystemColors.Control;
-			this.AdvancedResetButton.Location = new System.Drawing.Point(288, 4);
+			this.AdvancedResetButton.Location = new System.Drawing.Point(302, 3);
 			this.AdvancedResetButton.Name = "AdvancedResetButton";
-			this.AdvancedResetButton.Size = new System.Drawing.Size(116, 23);
+			this.AdvancedResetButton.Size = new System.Drawing.Size(104, 36);
 			this.AdvancedResetButton.TabIndex = 1;
 			this.AdvancedResetButton.Text = "Reset to defaults";
 			this.AdvancedResetButton.UseVisualStyleBackColor = false;
@@ -663,9 +664,12 @@
 			// 
 			// ResetDefaultsLabel
 			// 
+			this.ResetDefaultsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.ResetDefaultsLabel.Location = new System.Drawing.Point(2, 1);
 			this.ResetDefaultsLabel.Name = "ResetDefaultsLabel";
-			this.ResetDefaultsLabel.Size = new System.Drawing.Size(280, 28);
+			this.ResetDefaultsLabel.Size = new System.Drawing.Size(294, 38);
 			this.ResetDefaultsLabel.TabIndex = 0;
 			this.ResetDefaultsLabel.Text = "Consider setting these to defaults if seeing odd behavior.";
 			this.ResetDefaultsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -682,7 +686,7 @@
 			this.AudioBufferGroupBox.Controls.Add(this.AudioBufferBar);
 			this.AudioBufferGroupBox.Controls.Add(this.AudioBufferMessageLabel);
 			this.AudioBufferGroupBox.Controls.Add(this.pictureBox10);
-			this.AudioBufferGroupBox.Location = new System.Drawing.Point(17, 280);
+			this.AudioBufferGroupBox.Location = new System.Drawing.Point(17, 290);
 			this.AudioBufferGroupBox.Name = "AudioBufferGroupBox";
 			this.AudioBufferGroupBox.Size = new System.Drawing.Size(411, 132);
 			this.AudioBufferGroupBox.TabIndex = 0;
@@ -779,12 +783,22 @@
 			this.CpuClockGroupBox.Controls.Add(this.CpuClockBar);
 			this.CpuClockGroupBox.Controls.Add(this.ClockMessageLabel);
 			this.CpuClockGroupBox.Controls.Add(this.pictureBox8);
-			this.CpuClockGroupBox.Location = new System.Drawing.Point(17, 147);
+			this.CpuClockGroupBox.Location = new System.Drawing.Point(17, 157);
 			this.CpuClockGroupBox.Name = "CpuClockGroupBox";
 			this.CpuClockGroupBox.Size = new System.Drawing.Size(411, 127);
 			this.CpuClockGroupBox.TabIndex = 2;
 			this.CpuClockGroupBox.TabStop = false;
 			this.CpuClockGroupBox.Text = "CPU Clock Speed";
+			// 
+			// CpuClockValueLabel
+			// 
+			this.CpuClockValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.CpuClockValueLabel.Location = new System.Drawing.Point(184, 102);
+			this.CpuClockValueLabel.Name = "CpuClockValueLabel";
+			this.CpuClockValueLabel.Size = new System.Drawing.Size(109, 20);
+			this.CpuClockValueLabel.TabIndex = 4;
+			this.CpuClockValueLabel.Text = "12.5MHz (100%)";
+			this.CpuClockValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// label9
 			// 
@@ -857,22 +871,12 @@
 			this.pictureBox8.TabIndex = 12;
 			this.pictureBox8.TabStop = false;
 			// 
-			// CpuClockValueLabel
-			// 
-			this.CpuClockValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.CpuClockValueLabel.Location = new System.Drawing.Point(184, 102);
-			this.CpuClockValueLabel.Name = "CpuClockValueLabel";
-			this.CpuClockValueLabel.Size = new System.Drawing.Size(109, 20);
-			this.CpuClockValueLabel.TabIndex = 4;
-			this.CpuClockValueLabel.Text = "12.5MHz (100%)";
-			this.CpuClockValueLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			// 
 			// Settings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.CloseButton;
-			this.ClientSize = new System.Drawing.Size(476, 584);
+			this.ClientSize = new System.Drawing.Size(476, 596);
 			this.Controls.Add(this.tabMain);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.panel1);
