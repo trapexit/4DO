@@ -43,9 +43,9 @@ namespace FourDO.UI.Canvases
 					{
 						if (*srcPtr == 0)
 						{
-							*destPtr++ = 0;
-							*destPtr++ = 0;
-							*destPtr++ = 0;
+							*destPtr++ = (byte)(linePtr->xBACKGROUND & 0x1F);
+							*destPtr++ = (byte)((linePtr->xBACKGROUND >> 5) & 0x1F);
+							*destPtr++ = (byte)((linePtr->xBACKGROUND >> 10) & 0x1F);
 						}
 						else if (allowFixedClut && (*srcPtr & 0x8000) > 0)
 						{
