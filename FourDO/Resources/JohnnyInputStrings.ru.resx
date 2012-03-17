@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddSet" xml:space="preserve">
-    <value>Установить</value>
+    <value>Добавить</value>
   </data>
   <data name="Axis" xml:space="preserve">
     <value>Axis</value>
   </data>
   <data name="BindingSet" xml:space="preserve">
-    <value>Настроить</value>
+    <value>Настройка</value>
   </data>
   <data name="Button" xml:space="preserve">
     <value>Кнопка</value>
@@ -142,7 +142,7 @@
     <value>Вниз</value>
   </data>
   <data name="ButtonL" xml:space="preserve">
-    <value>L (Левая верхняя)</value>
+    <value>L (Левый шифт)</value>
   </data>
   <data name="ButtonLeft" xml:space="preserve">
     <value>Влево</value>
@@ -151,7 +151,7 @@
     <value>P ("Игра/Пауза")</value>
   </data>
   <data name="ButtonR" xml:space="preserve">
-    <value>R (Правая верхняя)</value>
+    <value>R (Правый шифт)</value>
   </data>
   <data name="ButtonRight" xml:space="preserve">
     <value>Вправо</value>
@@ -169,7 +169,7 @@
     <value>Очистить всё</value>
   </data>
   <data name="Control" xml:space="preserve">
-    <value>Контроль</value>
+    <value>Управление</value>
   </data>
   <data name="CurrentDevices" xml:space="preserve">
     <value>Текущие устройства:</value>
@@ -178,7 +178,7 @@
     <value>Удалить</value>
   </data>
   <data name="InfoClearABinding" xml:space="preserve">
-    <value>Отвязать</value>
+    <value>Очистить</value>
   </data>
   <data name="InfoClearKeys" xml:space="preserve">
     <value>Delete, Backspace</value>
@@ -193,16 +193,16 @@
     <value>устройства</value>
   </data>
   <data name="InfoEscapeToCancel" xml:space="preserve">
-    <value>(Also, use escape to cancel setting a binding)</value>
+    <value>(Используйте "escape" для отмены назначения)</value>
   </data>
   <data name="InfoMoveMouse" xml:space="preserve">
-    <value>Move mouse here to view devices</value>
+    <value>Передвиньте мышь сюда для просмотра устройств</value>
   </data>
   <data name="InfoNoDevices" xml:space="preserve">
     <value>нет устройств</value>
   </data>
   <data name="InfoSetABinding" xml:space="preserve">
-    <value>Привязать</value>
+    <value>Назначить</value>
   </data>
   <data name="InfoSetKeys" xml:space="preserve">
     <value>Left Click, Space, Enter</value>
@@ -265,7 +265,7 @@
     <value>X Кнопка ("Стоп")</value>
   </data>
   <data name="SetAll" xml:space="preserve">
-    <value>Установить всё</value>
+    <value>Настроить все</value>
   </data>
   <data name="WindowTitle" xml:space="preserve">
     <value>Настроить управление</value>

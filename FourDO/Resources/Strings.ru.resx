@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HelpAbout3DOPlayAuthors" xml:space="preserve">
-    <value>3DOPlay Авторы:</value>
+    <value>3DOPlay Автор:</value>
   </data>
   <data name="HelpAbout3DOPlayMessage" xml:space="preserve">
-    <value>В феврале 2012, произошло объединение проектов 3DOplay и 4DO, с новым FreeDOCore от Viktor'а, чтобы обеспечить выгоду из 2 проектов 3DO эмуляции!</value>
+    <value>В феврале 2012, произошло объединение проектов 3DOplay и 4DO, с измененным FreeDOCore от Viktor'а, чтобы обеспечить выгоду из 2 проектов 3DO эмуляции!</value>
   </data>
   <data name="HelpAbout4DOAuthors" xml:space="preserve">
     <value>4DO Авторы:</value>
@@ -172,16 +172,16 @@
     <value>Информация об игре</value>
   </data>
   <data name="MainErrorLoadBiosFile" xml:space="preserve">
-    <value>Файл биоса ({0}) не удалось загрузить. Выберите другой.</value>
+    <value>Не удалось загрузить файл биоса ({0}). Выберите другой.</value>
   </data>
   <data name="MainErrorLoadGame" xml:space="preserve">
-    <value>Игру не удалось загрузить. Выберите другую.</value>
+    <value>Не удалось загрузить игру. Выберите другую.</value>
   </data>
   <data name="MainErrorLoadGameFile" xml:space="preserve">
-    <value>Файл игры ({0}) не удалось загрузить. Выберите другой.</value>
+    <value>не удалось загрузить файл игры ({0}). Выберите другой.</value>
   </data>
   <data name="MainErrorLoadNvramFile" xml:space="preserve">
-    <value>"Файл nvram ({0}) не удалось загрузить. Эмуляция прекращена."</value>
+    <value>"не удалось загрузить файл nvram ({0}). Эмуляция прекращена."</value>
   </data>
   <data name="MainMenuAudio" xml:space="preserve">
     <value>&amp;Звук</value>
@@ -190,7 +190,7 @@
     <value>&amp;Консоль</value>
   </data>
   <data name="MainMenuConsoleAdvanceFrame" xml:space="preserve">
-    <value>&amp;Покадровый ввод</value>
+    <value>&amp;Покадровый вывод</value>
   </data>
   <data name="MainMenuConsoleAutoLoadLastSave" xml:space="preserve">
     <value>Поле запуска игры, автоматически загружать последнее сохранение (из слота)</value>
@@ -208,7 +208,7 @@
     <value>&amp;Сохранить</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlot" xml:space="preserve">
-    <value>Сохранять в сло&amp;т</value>
+    <value>Сохранить в сло&amp;т</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlotNext" xml:space="preserve">
     <value>Установить &amp;следующий слот</value>
@@ -223,16 +223,16 @@
     <value>&amp;Во весь экран</value>
   </data>
   <data name="MainMenuDisplayPreserveRatio" xml:space="preserve">
-    <value>Сохранять пропорций</value>
+    <value>Сохранять пропорции</value>
   </data>
   <data name="MainMenuDisplayResizeSnap" xml:space="preserve">
-    <value>Очищать приращения окна</value>
+    <value>Пошаговое растягивание окна</value>
   </data>
   <data name="MainMenuDisplaySmoothResizing" xml:space="preserve">
     <value>&amp;Интерполяция</value>
   </data>
   <data name="MainMenuDisplayVoidArea" xml:space="preserve">
-    <value>Задний фон</value>
+    <value>Боковой фон</value>
   </data>
   <data name="MainMenuDisplayVoidAreaDrawBorder" xml:space="preserve">
     <value>Серая рамка</value>
@@ -241,13 +241,13 @@
     <value>Фон : 4DO</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternBumps" xml:space="preserve">
-    <value>Фон : Удары</value>
+    <value>Фон : Шишки</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternMetal" xml:space="preserve">
     <value>Фон : Металл</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternNone" xml:space="preserve">
-    <value>Нет</value>
+    <value>Пустой фон</value>
   </data>
   <data name="MainMenuFile" xml:space="preserve">
     <value>&amp;Файл</value>
@@ -292,7 +292,7 @@
     <value>Китайский</value>
   </data>
   <data name="MainMenuOptionsLanguageDefault" xml:space="preserve">
-    <value>Умолчание</value>
+    <value>Системный</value>
   </data>
   <data name="MainMenuOptionsLanguageEnglish" xml:space="preserve">
     <value>Английский</value>
@@ -358,22 +358,22 @@
     <value>Производительность</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferFewerGlitches" xml:space="preserve">
-    <value>Fewer Glitches</value>
+    <value>Меньше глюков</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferFrame" xml:space="preserve">
     <value>Размер аудио буфера</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferLessLag" xml:space="preserve">
-    <value>Less Lag</value>
+    <value>Меньше</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
-    <value>Аудио буфер обеспечивает терпимость к непредсказуемым изменениям скорости эмуляции за счет задержки аудио.</value>
+    <value>Аудио буфер обеспечивает допустимое отклонение звука к непредсказуемым изменениям скорости эмуляции за счет задержки аудио.</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
-    <value>MORE Glitches</value>
+    <value>Больше глюков</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreLag" xml:space="preserve">
-    <value>MORE Lag</value>
+    <value>Больше</value>
   </data>
   <data name="SettingsTabAdvancedClockFrame" xml:space="preserve">
     <value>Частота процессора</value>
@@ -391,13 +391,13 @@
     <value>Установите значения по умолчанию при неполадках.</value>
   </data>
   <data name="SettingsTabAdvancedHighResFrame" xml:space="preserve">
-    <value>Высокое-разрешение рендеринг</value>
+    <value>Визуализация с высоким разрешением</value>
   </data>
   <data name="SettingsTabAdvancedHighResMessage" xml:space="preserve">
-    <value>Программный рендеринг, в режиме 640 х 480. Это требовательный режим, и имеет ценность только для 3D-игр! При использовании этой опции, возможно прийдется увеличить аудио буфер.</value>
+    <value>Программный рендеринг, в режиме 640 х 480. Это имеет ценность только для 3D-игр! При использовании этой опции, возможно прийдется увеличить аудио буфер.</value>
   </data>
   <data name="SettingsTabAdvancedHighResSetting" xml:space="preserve">
-    <value>Включить рендеринг режим</value>
+    <value>Включить высокое разрешение</value>
   </data>
   <data name="SettingsTabAdvancedResetDefaults" xml:space="preserve">
     <value>По умолчанию</value>
@@ -418,19 +418,19 @@
     <value>Включить интерполяцию</value>
   </data>
   <data name="SettingsTabDisplaySnapResizing" xml:space="preserve">
-    <value>При изменении размеров окна, очистить приращения</value>
+    <value>При изменении размеров окна, растягивать пошагово</value>
   </data>
   <data name="SettingsTabDisplayVoidOptions" xml:space="preserve">
     <value>Дополнительные эффекты</value>
   </data>
   <data name="SettingsTabDisplayVoidPattern" xml:space="preserve">
-    <value>Задний фон:</value>
+    <value>Боковой фон:</value>
   </data>
   <data name="SettingsTabDisplayVoidPattern4DO" xml:space="preserve">
     <value>4DO</value>
   </data>
   <data name="SettingsTabDisplayVoidPatternBumps" xml:space="preserve">
-    <value>Удары</value>
+    <value>Шишки</value>
   </data>
   <data name="SettingsTabDisplayVoidPatternMetal" xml:space="preserve">
     <value>Металл</value>

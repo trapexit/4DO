@@ -13,6 +13,7 @@ namespace FourDO.Emulation.FreeDO
         FIX_BIT_TIMING_3 = 0x0004,
         FIX_BIT_TIMING_4 = 0x0008,
         FIX_BIT_TIMING_5 = 0x0009,
+        FIX_BIT_TIMING_6 = 0x0006,
 	}
 
 	internal static class FreeDOCore

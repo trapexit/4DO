@@ -423,7 +423,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				InputBindingSet set = this.devices[this.deviceNumber].BindingSets[setNumber];
 
 				column = this.ControlsGridView.Columns[columnIndex];
-				column.HeaderText = JohnnyInputStrings.BindingSet + " #" + (setNumber+1).ToString();
+				column.HeaderText = JohnnyInputStrings.BindingSet.Replace(" ", "_") + "_#" + (setNumber+1).ToString();
 				column.SortMode = DataGridViewColumnSortMode.Programmatic;
 				column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 				column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
