@@ -78,7 +78,7 @@ extern _ext_Interface  io_interface;
 #define PMODE_ONE   ((0x00000003)<<CCB_POVER_SHIFT)
 
 //  === CCBCTL0 flags ===   
-#define B15POS_MASK       0xC0000000
+#define B15POS_MASK   0xC0000000
 #define B0POS_MASK    0x30000000
 #define SWAPHV        0x08000000
 #define ASCALL        0x04000000
@@ -778,6 +778,7 @@ unsigned int Flag;
 double HDDX,HDDY,HDX,HDY,VDX,VDY,XPOS,YPOS,HDX_2,HDY_2;
 
 int HDDX1616,HDDY1616,HDX1616,HDY1616,VDX1616,VDY1616,XPOS1616,YPOS1616,HDX1616_2,HDY1616_2;
+unsigned int CEL_ORIGIN_VH_VALUE;
 char	TEXEL_FUN_NUMBER;
 int TEXTURE_WI_START,TEXTURE_HI_START,TEXEL_INCX,TEXEL_INCY;
 int TEXTURE_WI_LIM, TEXTURE_HI_LIM;
@@ -903,6 +904,11 @@ int _madam_HandleCEL()
 		}
 		else
 			CURRENTCCB+=8;
+
+		// Get the VH value for this cel. This is done in case the
+		// cel later decides to use the position as the source of
+		// its VH values in the projector.
+		CEL_ORIGIN_VH_VALUE = (XPOS1616 & 0x1) | ((YPOS1616 & 0x1) << 15);
 
 		//if((CCBFLAGS&CCB_SKIP)&& debug)
 		//	printf("###Cel skipped!!! PDATF=%d PLUTF=%d NCCBF=%d\n",PDATF,PLUTF,NCCBF);
@@ -1309,43 +1315,89 @@ unsigned int __fastcall PDEC(unsigned int pixel, unsigned short * amv)
 	return pres;
 }
 
-unsigned int __fastcall PPROJ_OUTPUT(unsigned int pdec_output, unsigned int pproc_output)
+unsigned int __fastcall PPROJ_OUTPUT(unsigned int pdec_output, unsigned int pproc_output, unsigned int pframe_input)
 {
-	unsigned int output = pproc_output;
+	unsigned int VHOutput;
 	
+	///////////////////////////
+	// CCB_PLUTPOS flag
+	// Determine projector's originating source of VH values.
+	if (CCBFLAGS & CCB_PLUTPOS)
+	{
+		// Use pixel decoder output.
+		VHOutput = (pdec_output & 0x8001);
+	}
+	else
+	{
+		// Use VH values determined from the CEL's origin.
+		VHOutput = CEL_ORIGIN_VH_VALUE;
+	}
+
+	//////////////////////////
+	// SWAPHV flag
+	// Swap the H and V values now if requested.
+	if (CCBCTL0 & SWAPHV)
+	{
+		// TODO: I have read that PRE1 is only set for unpacked CELs.
+		//       So... should this be ignored if using packed CELs? I don't know.
+		if (!(PRE1&PRE1_NOSWAP))
+		{
+			VHOutput=(VHOutput>>15)|((VHOutput&1)<<15);
+		}
+	}
+
+	//////////////////////////
+	// CFBDSUB flag
+	// Substitute the VH values from the frame buffer if requested.
+	if (CCBCTL0 & CFBDSUB)
+	{
+		// TODO: This should be re-enabled sometime. However, it currently 
+		//       causes the wing commander 3 movies to screw up again! There
+		//       must be some missing mbehavior elsewhere.
+		//VHOutput = (pframe_input & 0x8001);
+	}
+
+
+	//////////////////////////
+	// B15POS_MASK settings
+	// Substitute the V value explicitly if requested.
 	int b15mode = (CCBCTL0 & B15POS_MASK);
 	if (b15mode == B15POS_PDC)
 	{
-		output = (output & ~0x8000) | (pdec_output & 0x8000);
+		// Don't touch it.
 	}
 	else if (b15mode == B15POS_0)
 	{
-		output = (output & ~0x8000);
+		VHOutput = (VHOutput & ~0x8000);
 	}
 	else if (b15mode == B15POS_1)
 	{
-		output |= 0x8000;
+		VHOutput |= 0x8000;
 	}
 
+	//////////////////////////
+	// B15POS_MASK settings
+	// Substitute the H value explicitly if requested.
 	int b0mode = (CCBCTL0 & B0POS_MASK);
 	if (b0mode == B0POS_PDC)
 	{
-		output = (output & ~0x1) | (pdec_output & 0x1);
+		// Don't touch it.
 	}
 	else if (b0mode == B0POS_PPMP)
 	{
-		output = (output & ~0x1) | (pproc_output & 0x1);
+		// Use LSB from pixel processor output.
+		VHOutput = (VHOutput & ~0x1) | (pproc_output & 0x1);
 	}
 	else if (b0mode == B0POS_0)
 	{
-		output = (output & ~0x1);
+		VHOutput = (VHOutput & ~0x1);
 	}
 	else if (b0mode == B0POS_1)
 	{
-		output |= 0x01;
+		VHOutput |= 0x01;
 	}
 
-	return output;
+	return (pproc_output & 0x7FFE) | VHOutput;
 }
 
 unsigned int __fastcall PPROC(unsigned int pixel, unsigned int fpix, unsigned int amv)
@@ -1539,6 +1591,7 @@ void __fastcall DrawPackedCel_New()
 {
 	sf=10000;
 	unsigned int pixel;
+	unsigned int framePixel;
 	unsigned int start;
 	unsigned short CURPIX,LAMV;
 	int i,j;
@@ -1640,10 +1693,10 @@ if(TEXEL_FUN_NUMBER==0)
 						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
 						if(!pproj.Transparent)
 						{
-
 								//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
-								pixel = PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV);
-								pixel = PPROJ_OUTPUT(CURPIX, pixel);
+								framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD)));
+								pixel = PPROC(CURPIX,framePixel,LAMV);
+								pixel = PPROJ_OUTPUT(CURPIX, pixel, framePixel);
 								mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
 
 						}
@@ -1876,6 +1929,7 @@ void __fastcall DrawLiteralCel_New()
 {
 	sf=10000;
 	unsigned int pixel;
+	unsigned int framePixel;
 	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy,pix_repit,scipstr;
  	unsigned short CURPIX,LAMV;
 	int get1,get2;
@@ -1929,10 +1983,10 @@ if(TEXEL_FUN_NUMBER==0)
 
 			if(!pproj.Transparent)
 			{
-
-					//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
-				pixel = PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV);
-				pixel = PPROJ_OUTPUT(CURPIX, pixel);
+				//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
+				framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD)));
+				pixel = PPROC(CURPIX,framePixel,LAMV);
+				pixel = PPROJ_OUTPUT(CURPIX, pixel, framePixel);
 				mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
 
 			}
@@ -2037,6 +2091,7 @@ void __fastcall DrawLRCel_New()
 {
 	sf=10000;
 	unsigned int pixel;
+	unsigned int framePixel;
 	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy;
 	unsigned short CURPIX,LAMV;
 
@@ -2074,9 +2129,10 @@ if(TEXEL_FUN_NUMBER==0)
 
 			if(!pproj.Transparent)
 			{
-					//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
-				pixel = PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV);
-				pixel = PPROJ_OUTPUT(CURPIX, pixel);
+				//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
+				framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD)));
+				pixel = PPROC(CURPIX,framePixel,LAMV);
+				pixel = PPROJ_OUTPUT(CURPIX, pixel, framePixel);
 				mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
 			}
 
@@ -2505,7 +2561,7 @@ int __fastcall TexelDraw_Line(unsigned short CURPIX, unsigned short LAMV, int xc
 			pixel=PPROC(CURPIX,next,LAMV);
 		}
 		//pixel=PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD))),LAMV);
-		pixel = PPROJ_OUTPUT(CURPIX, pixel);
+		pixel = PPROJ_OUTPUT(CURPIX, pixel, next);
 		mwriteh((FBTARGET+XY2OFF((xcur)<<2,ycur,WMOD)),pixel);
 	}
  return 0;
@@ -2534,6 +2590,7 @@ int __fastcall TexelDraw_Scale(unsigned short CURPIX, unsigned short LAMV, int x
 {
 	int i,j;
 	unsigned int pixel;
+	unsigned int framePixel;
 	unsigned int curr=-1, next;
 
 	if((HDX1616<0) && (deltax)<0 && xcur<0)
@@ -2560,8 +2617,9 @@ int __fastcall TexelDraw_Scale(unsigned short CURPIX, unsigned short LAMV, int x
 			for(j=(((int)xcur))<<2;j!=((((int)deltax))<<2);j+=TEXEL_INCX)
 				if((TESTCLIP((j<<14),(i<<16))))
 				{
-					pixel=PPROC(CURPIX,mreadh((PIXSOURCE+XY2OFF(j,i,RMOD))),LAMV);
-					pixel=PPROJ_OUTPUT(CURPIX, pixel);
+					framePixel = mreadh((PIXSOURCE+XY2OFF(j,i,RMOD)));
+					pixel=PPROC(CURPIX,framePixel,LAMV);
+					pixel=PPROJ_OUTPUT(CURPIX, pixel, framePixel);
 					//next=mreadh((PIXSOURCE+XY2OFF(j,i,RMOD)));
 					//if(next!=curr){curr=next;pixel=PPROC(CURPIX,next,LAMV);}
 					mwriteh((FBTARGET+XY2OFF(j,i,WMOD)),pixel);
@@ -2776,7 +2834,7 @@ updowns[i+1]=jtmp;
 						next=readPIX(PIXSOURCE, i, j);
 						if(next!=curr){curr=next;
 							pixel=PPROC(CURPIX,next,LAMV);
-							pixel = PPROJ_OUTPUT(CURPIX, pixel);
+							pixel = PPROJ_OUTPUT(CURPIX, pixel, next);
 						}
 					writePIX(FBTARGET, i, j, pixel);
 					}
@@ -2797,7 +2855,7 @@ updowns[i+1]=jtmp;
 					next=readPIX(PIXSOURCE, i, j);
 					if(next!=curr){curr=next;
 						pixel=PPROC(CURPIX,next,LAMV);
-						pixel=PPROJ_OUTPUT(CURPIX, pixel);
+						pixel=PPROJ_OUTPUT(CURPIX, pixel, next);
 						}
 					writePIX(FBTARGET, i, j, pixel);
 				}
