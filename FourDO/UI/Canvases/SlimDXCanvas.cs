@@ -321,7 +321,7 @@ namespace FourDO.UI.Canvases
 			int newX = (int)(e.X / heightScale);
 			int newY = (int)(e.Y / heightScale);
 
-			System.Diagnostics.Trace.WriteLine(String.Format("Clicked in\tx:\t{0}\ty:\t{1}", newX, newY));
+			//System.Diagnostics.Trace.WriteLine(String.Format("Clicked in\tx:\t{0}\ty:\t{1}", newX, newY));
 		}
 	}
 }
