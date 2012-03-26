@@ -2,13 +2,14 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "4DO"
-#define MyAppVersion "1.1.6.5"
+#define MyAppVersion GetFileVersion("4DO.exe")
 #define MyAppPublisher "4DO"
 #define MyAppURL "http://www.fourdo.com"
 #define MyAppExeName "4DO.exe"
 
-#define MySourceAppDir "C:\fourdo\trunk\FourDO\bin\x86\Release"
-#define MySourceDepedencyDir "C:\fourdo\trunk\Installer\Bootstrap"
+#define MySourceAppDir GetEnv("FourDOSourceAppDir")
+#define MySourceDepedencyDir GetEnv("FourDOSourceDepedencyDir")
+
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.

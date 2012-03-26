@@ -386,11 +386,8 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>::Remove everything first
-"$(SolutionDir)tools\7z.exe" d -tzip -y "$(TargetDir)4DO_x.x.x.x_beta.zip" *
-
-::Add each file
-"$(SolutionDir)tools\7z.exe" a -tzip -y "$(TargetDir)4DO_x.x.x.x_beta.zip" "$(TargetPath)" "$(TargetDir)CDLib.dll" "$(TargetDir)FreeDOCore.dll" "$(TargetDir)FourDO.Utilities.dll" "$(SolutionDir)tools\SlimDX.dll" "$(TargetDir)ru" "$(TargetDir)fr" "$(TargetDir)zh-cn" "$(TargetDir)pt" "$(TargetDir)es"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
