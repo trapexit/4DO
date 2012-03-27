@@ -47,11 +47,11 @@ Source: "{#MySourceAppDir}\CDLib.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MySourceAppDir}\FourDO.Utilities.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MySourceAppDir}\FreeDOCore.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MySourceAppDir}\SlimDX.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MySourceAppDir}\es\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#MySourceAppDir}\fr\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#MySourceAppDir}\pt\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#MySourceAppDir}\ru\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#MySourceAppDir}\zh-cn\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MySourceAppDir}\es\*"; DestDir: "{app}\es"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MySourceAppDir}\fr\*"; DestDir: "{app}\fr"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MySourceAppDir}\pt\*"; DestDir: "{app}\pt"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MySourceAppDir}\ru\*"; DestDir: "{app}\ru"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MySourceAppDir}\zh-cn\*"; DestDir: "{app}\zh-cn"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 Source: "{#MySourceDepedencyDir}\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "{#MySourceDepedencyDir}\dxwebsetup.exe"; DestDir: "{tmp}"; Flags: ignoreversion
@@ -60,6 +60,7 @@ Source: "{#MySourceDepedencyDir}\dotNetFx40_Client_setup.exe"; DestDir: "{tmp}";
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\Debug Log"; Filename: "{app}\Temp\DebugLog.txt"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
