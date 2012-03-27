@@ -60,7 +60,17 @@ ECHO FILE IS %ZIP_FILE_NAME%
 "Tools\7z.exe" d -tzip -y "Output\%ZIP_FILE_NAME%" *
 
 ::Add each file
-"Tools\7z.exe" a -tzip -y "Output\%ZIP_FILE_NAME%" "%FourDOSourceAppDir%\4DO.exe" "%FourDOSourceAppDir%\CDLib.dll" "%FourDOSourceAppDir%\FreeDOCore.dll" "%FourDOSourceAppDir%\FourDO.Utilities.dll" "Tools\SlimDX.dll" "%FourDOSourceAppDir%\ru" "%FourDOSourceAppDir%\fr" "%FourDOSourceAppDir%\zh-cn" "%FourDOSourceAppDir%\pt" "%FourDOSourceAppDir%\es"
+SET ADDCMD="Tools\7z.exe" a -tzip -y "Output\%ZIP_FILE_NAME%"
+%ADDCMD% "%FourDOSourceAppDir%\4DO.exe"
+%ADDCMD% "%FourDOSourceAppDir%\CDLib.dll"
+%ADDCMD% "%FourDOSourceAppDir%\FreeDOCore.dll"
+%ADDCMD% "%FourDOSourceAppDir%\FourDO.Utilities.dll"
+%ADDCMD% "%CD%\Tools\SlimDX.dll"
+%ADDCMD% "%FourDOSourceAppDir%\ru"
+%ADDCMD% "%FourDOSourceAppDir%\fr"
+%ADDCMD% "%FourDOSourceAppDir%\zh-cn"
+%ADDCMD% "%FourDOSourceAppDir%\pt"
+%ADDCMD% "%FourDOSourceAppDir%\es"
 
 ECHO ===================================================
 ECHO            Release Creation Successful!
