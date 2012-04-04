@@ -118,25 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HelpAbout3DOPlayAuthors" xml:space="preserve">
-    <value>3DOPlay Автор:</value>
+    <value>Автор 3DOPlay:</value>
   </data>
   <data name="HelpAbout3DOPlayMessage" xml:space="preserve">
     <value>В феврале 2012, произошло объединение проектов 3DOplay и 4DO, с измененным FreeDOCore от Viktor'а, чтобы обеспечить выгоду из 2 проектов 3DO эмуляции!</value>
   </data>
   <data name="HelpAbout4DOAuthors" xml:space="preserve">
-    <value>4DO Авторы:</value>
+    <value>Авторы 4DO :</value>
   </data>
   <data name="HelpAbout4DOMessage" xml:space="preserve">
     <value>4DO (FourDO) - эмулятор системы 3DO Iteractive Multiplayer с открытым исходным кодом.</value>
   </data>
   <data name="HelpAbout4DOVersion" xml:space="preserve">
-    <value>4DO Версия:</value>
+    <value>Версия 4DO:</value>
   </data>
   <data name="HelpAboutClose" xml:space="preserve">
     <value>&amp;Закрыть</value>
   </data>
   <data name="HelpAboutFreeDOAuthors" xml:space="preserve">
-    <value>FreeDO Авторы:</value>
+    <value>Авторы FreeDO:</value>
   </data>
   <data name="HelpAboutFreeDOMessage" xml:space="preserve">
     <value>4DO (и 3DOPlay) система эмуляции основана на коде из проекта FreeDO, которые сделали исходный код открытым 10 ноября 2010. Огромное спасибо разработчикам за решение выпустить свой код!</value>
@@ -313,7 +313,7 @@
     <value>Испанский</value>
   </data>
   <data name="MainMenuOptionsSettings" xml:space="preserve">
-    <value>4DO &amp;Настройки...</value>
+    <value>&amp;Настройки...</value>
   </data>
   <data name="MainMessageAllFiles" xml:space="preserve">
     <value>Все файлы</value>
@@ -367,7 +367,7 @@
     <value>Меньше</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
-    <value>Аудио буфер обеспечивает допустимое отклонение звука к непредсказуемым изменениям скорости эмуляции за счет задержки аудио.</value>
+    <value>Аудио буфер обеспечивает допустимое отклонение звука к непредсказуемым изменениям скорости эмуляции за счет задержки аудио. </value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
     <value>Больше глюков</value>

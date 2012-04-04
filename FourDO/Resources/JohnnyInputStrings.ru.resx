@@ -244,7 +244,7 @@
     <value>Вниз ("Перемотка назад")</value>
   </data>
   <data name="PreviewLButton" xml:space="preserve">
-    <value>L (Левая верхняя)</value>
+    <value>L (Левый шифт)</value>
   </data>
   <data name="PreviewLeftButton" xml:space="preserve">
     <value>Влево ("Предыдущий трек")</value>
@@ -253,7 +253,7 @@
     <value>P Кнопка ("Игра/Пауза")</value>
   </data>
   <data name="PreviewRButton" xml:space="preserve">
-    <value>R (Правая верхняя)</value>
+    <value>R (Правый шифт)</value>
   </data>
   <data name="PreviewRightButton" xml:space="preserve">
     <value>Вправо ("Следующий трек")</value>
