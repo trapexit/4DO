@@ -452,7 +452,10 @@ namespace FourDO.Emulation
 						|| record.Id == "8742A80C" // The Horde (JP)
 						|| record.Id == "3D1B793D" // The Horde (EU-US)
 						|| record.Id == "0703F255" // Soccer Kid (US)
-						|| record.Id == "15BAD6E9") // Soccer Kid (JP)
+						|| record.Id == "15BAD6E9" // Soccer Kid (JP)
+						|| record.Id == "F82D03A4"  // Pebble Beach Golf Links
+						|| record.Id == "EA92F478"  // Pebble Beach Golf Links
+						|| record.Id == "701EB31D") // Pebble Beach Golf Links
 					fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_7;
 			}
 			FreeDOCore.SetFixMode(fixMode);
