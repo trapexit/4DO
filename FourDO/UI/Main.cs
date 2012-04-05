@@ -268,7 +268,7 @@ namespace FourDO.UI
 				Properties.Settings.Default.Save();
 				this.DoShowRomNag();
 			}
-			
+
 			///////////
 			// Clear the last loaded game if they don't want us to automatically loading games.
 			if (Properties.Settings.Default.AutoOpenGameFile == false)
@@ -453,12 +453,17 @@ namespace FourDO.UI
 
 		private void RomNagBox_LinkClicked(object sender, EventArgs e)
 		{
-			this.DoChooseBiosRom();
+			this.DoChooseBiosRom1();
 		}
 
-		private void chooseBiosRomMenuItem_Click(object sender, EventArgs e)
+		private void chooseBiosRom1MenuItem_Click(object sender, EventArgs e)
 		{
-			this.DoChooseBiosRom();
+			this.DoChooseBiosRom1();
+		}
+
+		private void chooseBiosRom2MenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoChooseBiosRom2();
 		}
 
 		private void openCDImageMenuItem_Click(object sender, EventArgs e)
@@ -739,8 +744,20 @@ namespace FourDO.UI
 			this.closeGameMenuItem.Enabled = consoleActive && !biosOnly;
 			this.openCDImageMenuItem.Enabled = isValidBiosRomSelected;
 			this.loadLastGameMenuItem.Enabled = true;
-			this.chooseBiosRomMenuItem.Enabled = true;
+			this.chooseBiosRom1MenuItem.Enabled = true;
+			this.chooseBiosRom2MenuItem.Enabled = true;
 			this.exitMenuItem.Enabled = true;
+
+			string biosRom1Name = Properties.Settings.Default.BiosRomFile;
+			if (!string.IsNullOrWhiteSpace(biosRom1Name))
+				biosRom1Name = Path.GetFileName(biosRom1Name);
+
+			string biosRom2Name = Properties.Settings.Default.BiosRom2File;
+			if (!string.IsNullOrWhiteSpace(biosRom2Name))
+				biosRom2Name = Path.GetFileName(biosRom2Name);
+
+			this.chooseBiosRom1MenuItem.Text = string.Format(Strings.MainMenuFileChooseBiosRom1, biosRom1Name);
+			this.chooseBiosRom2MenuItem.Text = string.Format(Strings.MainMenuFileChooseBiosRom2, biosRom2Name);
 
 			this.loadLastGameMenuItem.Checked = Properties.Settings.Default.AutoOpenGameFile;
 
@@ -950,14 +967,20 @@ namespace FourDO.UI
 			////////////////
 			try
 			{
-				GameConsole.Instance.Start(Properties.Settings.Default.BiosRomFile, gameSource, nvramFile);
+				GameConsole.Instance.Start(Properties.Settings.Default.BiosRomFile, Properties.Settings.Default.BiosRom2File, gameSource, nvramFile);
 			}
-			catch (GameConsole.BadBiosRomException)
+			catch (GameConsole.BadBiosRom1Exception)
 			{
 				FourDO.UI.Error.ShowError(string.Format(Strings.MainErrorLoadBiosFile, Properties.Settings.Default.BiosRomFile));
 				Properties.Settings.Default.BiosRomFile = "";
 				Properties.Settings.Default.Save();
 				this.DoShowRomNag();
+			}
+			catch (GameConsole.BadBiosRom2Exception)
+			{
+				FourDO.UI.Error.ShowError(string.Format(Strings.MainErrorLoadBiosFile, Properties.Settings.Default.BiosRom2File));
+				Properties.Settings.Default.BiosRom2File = "";
+				Properties.Settings.Default.Save();
 			}
 			catch (GameConsole.BadGameRomException)
 			{
@@ -1069,12 +1092,32 @@ namespace FourDO.UI
 			RomNagBox.Visible = false;
 		}
 
-		private void DoChooseBiosRom()
+		private void DoChooseBiosRom2()
 		{
 			using (var openDialog = new OpenFileDialog())
 			{
 				openDialog.InitialDirectory = this.GetLastRomDirectory();
-				openDialog.Filter = 
+				openDialog.Filter =
+					Strings.MainMessageBiosFiles + " (*.rom, *.font)|*.rom;*.font|" +
+					Strings.MainMessageAllFiles + " (*.*)|*.*";
+				openDialog.RestoreDirectory = true;
+
+				if (openDialog.ShowDialog() == DialogResult.OK)
+				{
+					Properties.Settings.Default.BiosRom2File = openDialog.FileName;
+					Properties.Settings.Default.GameRomLastDirectory = System.IO.Path.GetDirectoryName(openDialog.FileName);
+					Properties.Settings.Default.Save();
+
+				}
+			}
+		}
+
+		private void DoChooseBiosRom1()
+		{
+			using (var openDialog = new OpenFileDialog())
+			{
+				openDialog.InitialDirectory = this.GetLastRomDirectory();
+				openDialog.Filter =
 					Strings.MainMessageBiosFiles + " (*.rom, *.bin)|*.rom;*.bin|" +
 					Strings.MainMessageAllFiles + " (*.*)|*.*";
 				openDialog.RestoreDirectory = true;
@@ -1099,7 +1142,7 @@ namespace FourDO.UI
 			using (var openDialog = new OpenFileDialog())
 			{
 				openDialog.InitialDirectory = this.GetLastRomDirectory();
-				openDialog.Filter = 
+				openDialog.Filter =
 					Strings.MainMessageCDImageFiles + " (*.iso, *.bin, *.cue)|*.iso;*.bin;*.cue|" +
 					Strings.MainMessageAllFiles + " (*.*)|*.*";
 				openDialog.RestoreDirectory = true;

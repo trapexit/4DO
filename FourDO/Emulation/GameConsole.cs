@@ -36,7 +36,8 @@ namespace FourDO.Emulation
 		public event EventHandler FrameDone;
 		public event ConsoleStateChangeHandler ConsoleStateChange;
 
-		public class BadBiosRomException : Exception {};
+		public class BadBiosRom1Exception : Exception {};
+		public class BadBiosRom2Exception : Exception { };
 		public class BadGameRomException : Exception {};
 		public class BadNvramFileException : Exception {};
 
@@ -44,14 +45,16 @@ namespace FourDO.Emulation
 
 		private readonly bool doFreeDOMultitask = true;
 
-		private const int ROM_SIZE = 1 * 1024 * 1024;
+		private const int ROM1_SIZE = 1 * 1024 * 1024;
+		private const int ROM2_SIZE = 1 * 1024 * 1024;
 		private const int NVRAM_SIZE = 32 * 1024;
 
 		private const int PBUS_DATA_MAX_SIZE = 16;
 
 		private const int TARGET_FRAMES_PER_SECOND = 60;
 
-		private byte[] biosRomCopy;
+		private byte[] biosRom1Copy;
+		private byte[] biosRom2Copy;
 
 		private byte[] frame;
 		private IntPtr framePtr;
@@ -278,7 +281,7 @@ namespace FourDO.Emulation
 			}
 		}
 
-		public void Start(string biosRomFileName, IGameSource gameSource, string nvramFileName)
+		public void Start(string biosRom1FileName, string biosRom2FileName, IGameSource gameSource, string nvramFileName)
 		{
 			///////////
 			// If they haven't initialized us properly, complain!
@@ -299,19 +302,47 @@ namespace FourDO.Emulation
 			this.GameSource = gameSource;
 			
 			//////////////
-			// Attempt to load a copy of the rom. Make sure it's the right size!
+			// Attempt to load Bios #1.
 			try
 			{
-				this.biosRomCopy = System.IO.File.ReadAllBytes(biosRomFileName);
+				this.biosRom1Copy = System.IO.File.ReadAllBytes(biosRom1FileName);
 			}
 			catch 
 			{
-				throw new BadBiosRomException();
+				throw new BadBiosRom1Exception();
 			}
 
-			// Also get outta here if the rom file isn't the right length.
-			if (this.biosRomCopy.Length != ROM_SIZE)
-				throw new BadBiosRomException();
+			// Also get outta here if it's not the right length.
+			if (this.biosRom1Copy.Length != ROM1_SIZE)
+				throw new BadBiosRom1Exception();
+
+			//////////////
+			// Attempt to load Bios #2.
+
+			// If we don't load Bios #2, we'll just use all zeroes.
+			this.biosRom2Copy = new byte[ROM2_SIZE]; // Allocate full size to get all 0's
+
+			// Load from file, if a file was chosen
+			byte[] biosRom2Bytes = null;
+			if (!string.IsNullOrWhiteSpace(biosRom2FileName))
+			{
+				try
+				{
+					biosRom2Bytes = System.IO.File.ReadAllBytes(biosRom2FileName);
+				}
+				catch
+				{
+					throw new BadBiosRom2Exception();
+				}
+
+				// Bios #2 is allowed to be less than or equal to the right size.
+				// The only example file I know of is less than (912KB) the actual size on the hardware (1MB).
+				if (biosRom2Bytes.Length > ROM2_SIZE || biosRom2Bytes.Length == 0)
+					throw new BadBiosRom2Exception();
+
+				// Copy to the member variable.
+				biosRom2Bytes.CopyTo(this.biosRom2Copy, 0);
+			}
 
 			//////////////
 			// Load a copy of the nvram.
@@ -373,6 +404,10 @@ namespace FourDO.Emulation
 						|| record.Id == "638812DE" // Blood Angels - Space Hulk (JP)
 						|| record.Id == "F3AF1B13" // Crash 'n Burn (JP)
 						|| record.Id == "217344B0" // Crash 'n Burn (US)
+						|| record.Id == "D1C4AB66" // Daedalus Encounter, The Disc 1
+						|| record.Id == "E39203AA" // Daedalus Encounter, The Disc 2
+						|| record.Id == "A9B777E0" // Daedalus Encounter, The Disc 3
+						|| record.Id == "CCB55F24" // Daedalus Encounter, The Disc 4
 						|| (record.Publisher == "American Laser Games"))
 					fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_1;
 
@@ -413,9 +448,11 @@ namespace FourDO.Emulation
 						|| record.Id == "B35C911D" // Microcosm (US)
 						) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_2;
 
-					if (record.Id == "ED705E42"
-						|| record.Id == "8742A80C"
-						|| record.Id == "3D1B793D")
+					if (record.Id == "ED705E42" // The Horde (US)
+						|| record.Id == "8742A80C" // The Horde (JP)
+						|| record.Id == "3D1B793D" // The Horde (EU-US)
+						|| record.Id == "0703F255" // Soccer Kid (US)
+						|| record.Id == "15BAD6E9") // Soccer Kid (JP)
 					fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_7;
 			}
 			FreeDOCore.SetFixMode(fixMode);
@@ -609,14 +646,14 @@ namespace FourDO.Emulation
 			// Now copy!
 			unsafe
 			{
-				fixed (byte* sourceRomBytesPointer = this.biosRomCopy)
+				fixed (byte* sourceRom1BytesPointer = this.biosRom1Copy)
 				{
-					long* sourcePtr = (long*)sourceRomBytesPointer;
-					long* destPtr = (long*)romPointer.ToPointer();
-					for (int x = 0; x < ROM_SIZE / 8; x++)
-					{
-						*destPtr++ = *sourcePtr++;
-					}
+					Utilities.Memory.CopyMemory(romPointer, new IntPtr((int)sourceRom1BytesPointer), ROM1_SIZE);
+				}
+				fixed (byte* sourceRom2BytesPointer = this.biosRom2Copy)
+				{
+					IntPtr bios2DestPointer = new IntPtr(romPointer.ToInt32() + ROM1_SIZE);
+					Utilities.Memory.CopyMemory(bios2DestPointer, new IntPtr((int)sourceRom2BytesPointer), ROM2_SIZE);
 				}
 			}
 		}

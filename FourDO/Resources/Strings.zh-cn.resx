@@ -255,8 +255,11 @@
   <data name="MainMenuFileAutoLoadLastGame" xml:space="preserve">
     <value>启动后, 运行上次的游戏</value>
   </data>
-  <data name="MainMenuFileChooseBiosRom" xml:space="preserve">
-    <value>选择 BIOS 文件...( &amp;B)</value>
+  <data name="MainMenuFileChooseBiosRom1" xml:space="preserve">
+    <value>选择 BIOS 文件 ({0})...(&amp;B)</value>
+  </data>
+  <data name="MainMenuFileChooseBiosRom2" xml:space="preserve">
+    <value>选择 BIOS 文件 : 汉字 字形 ({0})...(&amp;K)</value>
   </data>
   <data name="MainMenuFileCloseRom" xml:space="preserve">
     <value>关闭游戏(&amp;C)</value>

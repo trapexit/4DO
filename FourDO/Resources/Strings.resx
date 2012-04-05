@@ -255,8 +255,11 @@
   <data name="MainMenuFileAutoLoadLastGame" xml:space="preserve">
     <value>After Startup, Open Last Game</value>
   </data>
-  <data name="MainMenuFileChooseBiosRom" xml:space="preserve">
-    <value>Choose &amp;BIOS Rom File...</value>
+  <data name="MainMenuFileChooseBiosRom1" xml:space="preserve">
+    <value>Choose &amp;BIOS Rom (Current: {0})...</value>
+  </data>
+  <data name="MainMenuFileChooseBiosRom2" xml:space="preserve">
+    <value>Choose BIOS Rom 2 : Kanji Font (Current: {0})...</value>
   </data>
   <data name="MainMenuFileCloseRom" xml:space="preserve">
     <value>&amp;Close Game</value>

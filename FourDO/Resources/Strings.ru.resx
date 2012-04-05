@@ -255,8 +255,11 @@
   <data name="MainMenuFileAutoLoadLastGame" xml:space="preserve">
     <value>После запуска, открывать последнюю игру</value>
   </data>
-  <data name="MainMenuFileChooseBiosRom" xml:space="preserve">
-    <value>Выбрать &amp;BIOS ...</value>
+  <data name="MainMenuFileChooseBiosRom1" xml:space="preserve">
+    <value>Выбрать &amp;BIOS (текущий: {0})...</value>
+  </data>
+  <data name="MainMenuFileChooseBiosRom2" xml:space="preserve">
+    <value>Выбрать BIOS 2: &amp;Кандзи шрифт (текущий: {0})...</value>
   </data>
   <data name="MainMenuFileCloseRom" xml:space="preserve">
     <value>&amp;Закрыть игру</value>

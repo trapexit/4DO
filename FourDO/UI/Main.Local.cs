@@ -45,7 +45,6 @@ namespace FourDO.UI
 			this.closeGameMenuItem.Text = Strings.MainMenuFileCloseRom;
 			this.openCDImageMenuItem.Text = Strings.MainMenuFileOpenCDImage;
 			this.loadLastGameMenuItem.Text = "    " + Strings.MainMenuFileAutoLoadLastGame;
-			this.chooseBiosRomMenuItem.Text = Strings.MainMenuFileChooseBiosRom;
 			this.exitMenuItem.Text = Strings.MainMenuFileExit;
 
 			this.consoleMenuItem.Text = Strings.MainMenuConsole;

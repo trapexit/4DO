@@ -1589,7 +1589,7 @@ unsigned int * _madam_GetRegs()
 
 void __fastcall DrawPackedCel_New()
 {
-	sf=10000;
+	sf=100000;
 	unsigned int pixel;
 	unsigned int framePixel;
 	unsigned int start;
@@ -1927,7 +1927,7 @@ else
 
 void __fastcall DrawLiteralCel_New()
 {
-	sf=10000;
+	sf=100000;
 	unsigned int pixel;
 	unsigned int framePixel;
 	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy,pix_repit,scipstr;
@@ -2089,7 +2089,7 @@ else speedfixes=-100000;}
 
 void __fastcall DrawLRCel_New()
 {
-	sf=10000;
+	sf=100000;
 	unsigned int pixel;
 	unsigned int framePixel;
 	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy;

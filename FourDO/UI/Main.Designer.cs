@@ -41,7 +41,8 @@
 			this.openCDImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loadLastGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.chooseBiosRomMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.chooseBiosRom1MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.chooseBiosRom2MenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.consoleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -150,7 +151,8 @@
             this.openCDImageMenuItem,
             this.loadLastGameMenuItem,
             this.toolStripSeparator1,
-            this.chooseBiosRomMenuItem,
+            this.chooseBiosRom1MenuItem,
+            this.chooseBiosRom2MenuItem,
             this.toolStripSeparator2,
             this.exitMenuItem});
 			this.fileMenuItem.Name = "fileMenuItem";
@@ -192,12 +194,19 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(224, 6);
 			// 
-			// chooseBiosRomMenuItem
+			// chooseBiosRom1MenuItem
 			// 
-			this.chooseBiosRomMenuItem.Name = "chooseBiosRomMenuItem";
-			this.chooseBiosRomMenuItem.Size = new System.Drawing.Size(227, 22);
-			this.chooseBiosRomMenuItem.Text = "Choose &BIOS Rom File...";
-			this.chooseBiosRomMenuItem.Click += new System.EventHandler(this.chooseBiosRomMenuItem_Click);
+			this.chooseBiosRom1MenuItem.Name = "chooseBiosRom1MenuItem";
+			this.chooseBiosRom1MenuItem.Size = new System.Drawing.Size(240, 22);
+			this.chooseBiosRom1MenuItem.Text = "Choose &BIOS Rom File...";
+			this.chooseBiosRom1MenuItem.Click += new System.EventHandler(this.chooseBiosRom1MenuItem_Click);
+			// 
+			// chooseBiosRom2MenuItem
+			// 
+			this.chooseBiosRom2MenuItem.Name = "chooseBiosRom2MenuItem";
+			this.chooseBiosRom2MenuItem.Size = new System.Drawing.Size(240, 22);
+			this.chooseBiosRom2MenuItem.Text = "Choose BIOS Rom 2 : Kanji Font...";
+			this.chooseBiosRom2MenuItem.Click += new System.EventHandler(this.chooseBiosRom2MenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
@@ -631,7 +640,7 @@
         private NagBox RomNagBox;
         private System.Windows.Forms.MenuStrip MainMenuBar;
         private System.Windows.Forms.ToolStripMenuItem fileMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem chooseBiosRomMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem chooseBiosRom1MenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
         private GameCanvas gameCanvas;
@@ -686,6 +695,7 @@
 		private System.Windows.Forms.ToolStripMenuItem languageMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem languageDefaultMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripMenuItem chooseBiosRom2MenuItem;
 
     }
 }
