@@ -361,22 +361,22 @@
     <value>Производительность</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferFewerGlitches" xml:space="preserve">
-    <value>Меньше глюков</value>
+    <value />
   </data>
   <data name="SettingsTabAdvancedAudioBufferFrame" xml:space="preserve">
     <value>Размер аудио буфера</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferLessLag" xml:space="preserve">
-    <value>Маленький:</value>
+    <value>Больше глюков</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
     <value>Аудио буфер обеспечивает допустимое отклонение звука к непредсказуемым изменениям скорости эмуляции за счет задержки аудио. </value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
-    <value>Больше глюков</value>
+    <value />
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreLag" xml:space="preserve">
-    <value>Большой:</value>
+    <value>Меньше глюков</value>
   </data>
   <data name="SettingsTabAdvancedClockFrame" xml:space="preserve">
     <value>Частота процессора</value>
@@ -397,7 +397,7 @@
     <value>Визуализация с высоким разрешением</value>
   </data>
   <data name="SettingsTabAdvancedHighResMessage" xml:space="preserve">
-    <value>Программный рендеринг, в режиме 640 х 480. Рекомендуется только для игр с 3D графикой. При использовании этой опции, возможно прийдется увеличить аудио буфер.</value>
+    <value>Программный рендеринг, в режиме 640 х 480. Рекомендуется только для игр с 3D графикой. При использовании этой опции, возможно придется увеличить аудио буфер.</value>
   </data>
   <data name="SettingsTabAdvancedHighResSetting" xml:space="preserve">
     <value>Включить высокое разрешение</value>
@@ -421,7 +421,7 @@
     <value>Включить интерполяцию</value>
   </data>
   <data name="SettingsTabDisplaySnapResizing" xml:space="preserve">
-    <value>При изменении размеров окна, растягивать пошагово</value>
+    <value>При изменении размеров окна растягивать пошагово</value>
   </data>
   <data name="SettingsTabDisplayVoidOptions" xml:space="preserve">
     <value>Дополнительные эффекты</value>
@@ -445,22 +445,22 @@
     <value>Общие</value>
   </data>
   <data name="SettingsTabGeneralAutoLoadLastGame" xml:space="preserve">
-    <value>После запуска 4DO, открывать последнюю игру</value>
+    <value>После запуска 4DO открывать последнюю игру</value>
   </data>
   <data name="SettingsTabGeneralAutoLoadLastSave" xml:space="preserve">
-    <value>После запуска игры, автоматически загружать последнее сохранение из текущего слота</value>
+    <value>После запуска игры автоматически загружать последнее сохранение из текущего слота</value>
   </data>
   <data name="SettingsTabGeneralBehaviorOptions" xml:space="preserve">
     <value>Различные параметры</value>
   </data>
   <data name="SettingsTabGeneralInactiveIgnoreKeyboard" xml:space="preserve">
-    <value>Когда главное окно неактивно, отключить управление</value>
+    <value>Когда главное окно неактивно отключить управление</value>
   </data>
   <data name="SettingsTabGeneralInactiveOptions" xml:space="preserve">
     <value>&amp;Настройки неактивного окна</value>
   </data>
   <data name="SettingsTabGeneralInactivePauseEmulation" xml:space="preserve">
-    <value>Когда главное окно неактивно, останавливать эмуляцию</value>
+    <value>Когда главное окно неактивно останавливать эмуляцию</value>
   </data>
   <data name="SettingsTabGeneralStartupOptions" xml:space="preserve">
     <value>&amp;Настройки запуска</value>
