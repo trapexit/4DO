@@ -186,6 +186,13 @@ namespace FourDO.UI.Canvases
 			catch { } // who cares.
 		}
 
+		public Bitmap GetCurrentBitmap()
+		{
+			if (this.bitmapBunch == null)
+				return null;
+			return this.bitmapBunch.GetNextRenderBitmap();
+		}
+
 		protected void Render()
 		{
 			///////////////////////////

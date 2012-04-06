@@ -91,6 +91,8 @@
 			this.sizeBox = new FourDO.UI.SizeBox();
 			this.RomNagBox = new FourDO.UI.NagBox();
 			this.gameCanvas = new FourDO.UI.GameCanvas();
+			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+			this.screenshotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MainStatusStrip.SuspendLayout();
 			this.MainMenuBar.SuspendLayout();
 			this.SuspendLayout();
@@ -162,19 +164,19 @@
 			// closeGameMenuItem
 			// 
 			this.closeGameMenuItem.Name = "closeGameMenuItem";
-			this.closeGameMenuItem.Size = new System.Drawing.Size(227, 22);
+			this.closeGameMenuItem.Size = new System.Drawing.Size(240, 22);
 			this.closeGameMenuItem.Text = "&Close Game";
 			this.closeGameMenuItem.Click += new System.EventHandler(this.closeGameMenuItem_Click);
 			// 
 			// toolStripSeparator8
 			// 
 			this.toolStripSeparator8.Name = "toolStripSeparator8";
-			this.toolStripSeparator8.Size = new System.Drawing.Size(224, 6);
+			this.toolStripSeparator8.Size = new System.Drawing.Size(237, 6);
 			// 
 			// openCDImageMenuItem
 			// 
 			this.openCDImageMenuItem.Name = "openCDImageMenuItem";
-			this.openCDImageMenuItem.Size = new System.Drawing.Size(227, 22);
+			this.openCDImageMenuItem.Size = new System.Drawing.Size(240, 22);
 			this.openCDImageMenuItem.Text = "Open CD &Image File...";
 			this.openCDImageMenuItem.Click += new System.EventHandler(this.openCDImageMenuItem_Click);
 			// 
@@ -185,14 +187,14 @@
 			this.loadLastGameMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.loadLastGameMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
 			this.loadLastGameMenuItem.Name = "loadLastGameMenuItem";
-			this.loadLastGameMenuItem.Size = new System.Drawing.Size(227, 22);
+			this.loadLastGameMenuItem.Size = new System.Drawing.Size(240, 22);
 			this.loadLastGameMenuItem.Text = "    After Startup, Open Last Game";
 			this.loadLastGameMenuItem.Click += new System.EventHandler(this.loadLastGameMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(224, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(237, 6);
 			// 
 			// chooseBiosRom1MenuItem
 			// 
@@ -211,12 +213,12 @@
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(224, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(237, 6);
 			// 
 			// exitMenuItem
 			// 
 			this.exitMenuItem.Name = "exitMenuItem";
-			this.exitMenuItem.Size = new System.Drawing.Size(227, 22);
+			this.exitMenuItem.Size = new System.Drawing.Size(240, 22);
 			this.exitMenuItem.Text = "E&xit";
 			this.exitMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -229,6 +231,8 @@
             this.toolStripSeparator7,
             this.saveStateSlotMenuItem,
             this.toolStripSeparator3,
+            this.screenshotMenuItem,
+            this.toolStripSeparator15,
             this.pauseMenuItem,
             this.advanceFrameMenuItem,
             this.resetMenuItem});
@@ -602,6 +606,19 @@
 			this.gameCanvas.VoidAreaBorder = false;
 			this.gameCanvas.VoidAreaPattern = FourDO.UI.VoidAreaPattern.None;
 			// 
+			// toolStripSeparator15
+			// 
+			this.toolStripSeparator15.Name = "toolStripSeparator15";
+			this.toolStripSeparator15.Size = new System.Drawing.Size(299, 6);
+			// 
+			// screenshotMenuItem
+			// 
+			this.screenshotMenuItem.Name = "screenshotMenuItem";
+			this.screenshotMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+			this.screenshotMenuItem.Size = new System.Drawing.Size(302, 22);
+			this.screenshotMenuItem.Text = "Screens&hot";
+			this.screenshotMenuItem.Click += new System.EventHandler(this.screenshotMenuItem_Click);
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -696,6 +713,8 @@
 		private System.Windows.Forms.ToolStripMenuItem languageDefaultMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.ToolStripMenuItem chooseBiosRom2MenuItem;
+		private System.Windows.Forms.ToolStripMenuItem screenshotMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
 
     }
 }

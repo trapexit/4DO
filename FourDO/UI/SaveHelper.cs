@@ -13,6 +13,8 @@ namespace FourDO.UI
 		private const string SAVE_SUBFOLDER = "Saves";
 		private const string SAVE_STATE_EXTENSION = ".4dosav";
 
+		private const string SCREENSHOT_SUBFOLDER = "Screenshots";
+
 		private const int MAXIMUM_FRIENDLY_NAME_LENGTH = 32;
 
 		public static string GetSaveStateFileName(IGameSource gameSource, int saveStateSlot)
@@ -77,6 +79,31 @@ namespace FourDO.UI
 			return Path.Combine(Path.Combine(appFolder, SAVE_SUBFOLDER), "NVRAM_SaveData.ram");
 		}
 
+		public static string GetScreenshotFilePath(IGameSource gameSource)
+		{
+			string gameName = null;
+			if (gameSource is BiosOnlyGameSource || gameSource == null)
+				gameName = "(No Game)";
+			else
+				gameName = gameSource.GetGameName();
+
+			string currentTime = DateTime.Now.ToString("u");
+			currentTime = currentTime.Replace("Z", "");
+			currentTime = currentTime.Replace("-", ".");
+			currentTime = currentTime.Replace(":", ".");
+			currentTime = currentTime.Replace(" ", "_");
+
+			string fileName = string.Format("{0} - {1}",
+				currentTime,
+				GetFriendlyGameName(gameName));
+
+			string screenshotFolder = GetScreenshotFilePath();
+
+			string fullFilePath = Path.Combine(screenshotFolder, fileName);
+
+			return fullFilePath;
+		}
+
 		private static string GetFriendlyGameName(string gameName)
 		{
 			if (gameName == null)
@@ -105,6 +132,11 @@ namespace FourDO.UI
 			string saveStateFolder = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), SAVE_SUBFOLDER);
 			string saveFileName = string.Format("{0}.{1}{2}", fileNamePrefix, saveStateSlot, SAVE_STATE_EXTENSION);
 			return Path.Combine(saveStateFolder, saveFileName);
+		}
+
+		private static string GetScreenshotFilePath()
+		{
+			return Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), SCREENSHOT_SUBFOLDER);
 		}
 	}
 }

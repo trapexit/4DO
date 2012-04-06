@@ -216,6 +216,9 @@
   <data name="MainMenuConsoleSaveStateSlotPrevious" xml:space="preserve">
     <value>Selecionar Slot &amp;Anterior</value>
   </data>
+  <data name="MainMenuConsoleScreenshot" xml:space="preserve">
+    <value>Screenshot</value>
+  </data>
   <data name="MainMenuDisplay" xml:space="preserve">
     <value>&amp;Tela</value>
   </data>

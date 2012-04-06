@@ -216,6 +216,9 @@
   <data name="MainMenuConsoleSaveStateSlotPrevious" xml:space="preserve">
     <value>选择上一个插槽(&amp;P)</value>
   </data>
+  <data name="MainMenuConsoleScreenshot" xml:space="preserve">
+    <value>截图</value>
+  </data>
   <data name="MainMenuDisplay" xml:space="preserve">
     <value>显示(&amp;D)</value>
   </data>

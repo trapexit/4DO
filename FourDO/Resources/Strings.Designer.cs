@@ -358,6 +358,15 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Screens&amp;hot.
+        /// </summary>
+        internal static string MainMenuConsoleScreenshot {
+            get {
+                return ResourceManager.GetString("MainMenuConsoleScreenshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Display.
         /// </summary>
         internal static string MainMenuDisplay {

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -164,6 +165,46 @@ namespace FourDO.UI
 		public void Destroy()
 		{
 			((ICanvas)this.childCanvas).Destroy();
+		}
+
+		public void DoScreenshot(string fileName)
+		{
+			if (fileName == null)
+				return;
+
+			ICanvas canvas = (ICanvas)this.childCanvas;
+			if (canvas == null)
+				return;
+
+			var sourceBitmap = canvas.GetCurrentBitmap();
+			if (sourceBitmap == null)
+				return;
+
+			Rectangle smallRect = new Rectangle(0, 0, 320, 240);
+			Rectangle bigRect = new Rectangle(0, 0, 640, 480);
+
+			// Copy the bitmap to a standard size
+			Bitmap savedBitmap = new Bitmap(640, 480, PixelFormat.Format24bppRgb);
+			Graphics graphics = Graphics.FromImage(savedBitmap);
+			Rectangle sourceRect = this.RenderHighResolution ? bigRect : smallRect;
+			graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+			graphics.DrawImage(sourceBitmap, new Rectangle(0, 0, 640, 480), sourceRect, GraphicsUnit.Pixel);
+
+			///////////////
+			// Save the bitmap to file.
+			fileName = fileName + ".png";
+			try
+			{
+				string directoryName = Path.GetDirectoryName(fileName);
+				if (!Directory.Exists(directoryName))
+					Directory.CreateDirectory(directoryName);
+
+				savedBitmap.Save(fileName, ImageFormat.Png);
+			}
+			catch (Exception ex)
+			{
+				Trace.WriteLine("Failed to save screenshot. Error details were: " + ex.ToString());
+			}
 		}
 
 		private void GameCanvas_Resize(object sender, EventArgs e)

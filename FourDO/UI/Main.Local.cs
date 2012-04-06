@@ -54,6 +54,7 @@ namespace FourDO.UI
 			this.saveStateSlotMenuItem.Text = Strings.MainMenuConsoleSaveStateSlot;
 			this.previousSlotMenuItem.Text = Strings.MainMenuConsoleSaveStateSlotPrevious;
 			this.nextSlotMenuItem.Text = Strings.MainMenuConsoleSaveStateSlotNext;
+			this.screenshotMenuItem.Text = Strings.MainMenuConsoleScreenshot;
 			this.pauseMenuItem.Text = Strings.MainMenuConsolePause;
 			this.advanceFrameMenuItem.Text = Strings.MainMenuConsoleAdvanceFrame;
 			this.resetMenuItem.Text = Strings.MainMenuConsoleReset;

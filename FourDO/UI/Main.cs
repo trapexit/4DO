@@ -375,7 +375,7 @@ namespace FourDO.UI
 			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.RenderHighResolution))
 			{
 				GameConsole.Instance.RenderHighResolution = Properties.Settings.Default.RenderHighResolution;
-				gameCanvas.RenderHighResolution = Properties.Settings.Default.RenderHighResolution;
+				this.gameCanvas.RenderHighResolution = Properties.Settings.Default.RenderHighResolution;
 			}
 		}
 
@@ -391,7 +391,7 @@ namespace FourDO.UI
 			}
 
 			this.SuspendLayout();
-			sizeBox.UpdateSizeText(gameCanvas.Width, gameCanvas.Height);
+			sizeBox.UpdateSizeText(this.gameCanvas.Width, this.gameCanvas.Height);
 			sizeBox.SetBounds(
 					this.ClientSize.Width - 6 - this.sizeBox.PreferredSize.Width,
 					this.ClientSize.Height - this.MainStatusStrip.Height - 6 - this.sizeBox.PreferredSize.Height,
@@ -603,7 +603,7 @@ namespace FourDO.UI
 		{
 			if (e.KeyCode == Keys.Enter && e.Modifiers == Keys.Alt)
 			{
-				gameCanvas.Focus(); // Helps when spamming alt+enter, but doesn't completely fix the damn menu getting keyboard focus.
+				this.gameCanvas.Focus(); // Helps when spamming alt+enter, but doesn't completely fix the damn menu getting keyboard focus.
 				this.DoToggleFullScreen();
 			}
 
@@ -671,6 +671,11 @@ namespace FourDO.UI
 		private void resetMenuItem_Click(object sender, EventArgs e)
 		{
 			this.DoConsoleReset(false);
+		}
+
+		private void screenshotMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoScreenShot();
 		}
 
 		private void pauseMenuItem_Click(object sender, EventArgs e)
@@ -795,6 +800,7 @@ namespace FourDO.UI
 			this.saveStateSlotMenuItem.Enabled = true;
 			foreach (ToolStripItem menuItem in this.saveStateSlotMenuItem.DropDownItems)
 				menuItem.Enabled = true;
+			this.screenshotMenuItem.Enabled = consoleActive;
 			this.pauseMenuItem.Enabled = consoleActive;
 			this.advanceFrameMenuItem.Enabled = consoleActive;
 			this.resetMenuItem.Enabled = consoleActive;
@@ -1045,6 +1051,12 @@ namespace FourDO.UI
 
 			// Restart, but don't allow it to load state.
 			this.DoConsoleStart(alsoAllowLoadState);
+		}
+
+		private void DoScreenShot()
+		{
+			string screenshotFilePath = SaveHelper.GetScreenshotFilePath(GameConsole.Instance.GameSource);
+			this.gameCanvas.DoScreenshot(screenshotFilePath);
 		}
 
 		private void DoConsoleTogglePause()

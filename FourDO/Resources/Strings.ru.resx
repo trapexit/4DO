@@ -216,6 +216,9 @@
   <data name="MainMenuConsoleSaveStateSlotPrevious" xml:space="preserve">
     <value>Установить &amp;предыдущий слот</value>
   </data>
+  <data name="MainMenuConsoleScreenshot" xml:space="preserve">
+    <value>Скриншоты</value>
+  </data>
   <data name="MainMenuDisplay" xml:space="preserve">
     <value>&amp;Экран</value>
   </data>

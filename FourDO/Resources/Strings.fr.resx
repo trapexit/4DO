@@ -216,6 +216,9 @@
   <data name="MainMenuConsoleSaveStateSlotPrevious" xml:space="preserve">
     <value>Sélectionner l'Emplacement &amp;Précédent</value>
   </data>
+  <data name="MainMenuConsoleScreenshot" xml:space="preserve">
+    <value>Captures d'écran</value>
+  </data>
   <data name="MainMenuDisplay" xml:space="preserve">
     <value>&amp;Affichage</value>
   </data>

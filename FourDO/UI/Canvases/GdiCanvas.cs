@@ -116,6 +116,13 @@ namespace FourDO.UI.Canvases
 			this.Dispose();
 		}
 
+		public Bitmap GetCurrentBitmap()
+		{
+			if (this.bitmapBunch == null)
+				return null;
+			return this.bitmapBunch.GetNextRenderBitmap();
+		}
+
 		private void GameCanvas_Paint(object sender, PaintEventArgs e)
 		{
 			long sampleBefore = Utilities.PerformanceCounter.Current;
