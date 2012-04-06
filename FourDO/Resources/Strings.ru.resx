@@ -193,7 +193,7 @@
     <value>&amp;Покадровый вывод</value>
   </data>
   <data name="MainMenuConsoleAutoLoadLastSave" xml:space="preserve">
-    <value>Поле запуска игры, автоматически загружать последнее сохранение (из слота)</value>
+    <value>Поcле запуска игры автоматически загружать последнее сохранение (из слота)</value>
   </data>
   <data name="MainMenuConsoleLoadState" xml:space="preserve">
     <value>&amp;Загрузить</value>
@@ -253,7 +253,7 @@
     <value>&amp;Файл</value>
   </data>
   <data name="MainMenuFileAutoLoadLastGame" xml:space="preserve">
-    <value>После запуска, открывать последнюю игру</value>
+    <value>После запуска открывать последнюю игру</value>
   </data>
   <data name="MainMenuFileChooseBiosRom1" xml:space="preserve">
     <value>Выбрать &amp;BIOS (текущий: {0})...</value>
@@ -367,7 +367,7 @@
     <value>Размер аудио буфера</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferLessLag" xml:space="preserve">
-    <value>Меньше</value>
+    <value>Маленький:</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
     <value>Аудио буфер обеспечивает допустимое отклонение звука к непредсказуемым изменениям скорости эмуляции за счет задержки аудио. </value>
@@ -376,7 +376,7 @@
     <value>Больше глюков</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreLag" xml:space="preserve">
-    <value>Больше</value>
+    <value>Большой:</value>
   </data>
   <data name="SettingsTabAdvancedClockFrame" xml:space="preserve">
     <value>Частота процессора</value>
@@ -397,7 +397,7 @@
     <value>Визуализация с высоким разрешением</value>
   </data>
   <data name="SettingsTabAdvancedHighResMessage" xml:space="preserve">
-    <value>Программный рендеринг, в режиме 640 х 480. Это имеет ценность только для 3D-игр! При использовании этой опции, возможно прийдется увеличить аудио буфер.</value>
+    <value>Программный рендеринг, в режиме 640 х 480. Рекомендуется только для игр с 3D графикой. При использовании этой опции, возможно прийдется увеличить аудио буфер.</value>
   </data>
   <data name="SettingsTabAdvancedHighResSetting" xml:space="preserve">
     <value>Включить высокое разрешение</value>
