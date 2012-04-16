@@ -1736,8 +1736,14 @@ if(TEXEL_FUN_NUMBER==0)
 	}
 }
 else if(TEXEL_FUN_NUMBER==1)
-{ 
-     unknownflag11=100000;
+{
+	unknownflag11=100000;
+
+	int drawHeight;
+	drawHeight = VDY1616;
+	if (CCBFLAGS&CCB_MARIA)
+		drawHeight = (1 << 16);
+
 	for(currentrow=0;currentrow<SPRHI;currentrow++)
 	{
 
@@ -1774,9 +1780,13 @@ else if(TEXEL_FUN_NUMBER==1)
 
 						if(!pproj.Transparent)
 						{
+							if (drawHeight != VDY1616 && YPOS < 0)
+							{
+								int sfdjlk = 0;
+							}
 
-								if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+(HDX1616+VDX1616))>>16, (ycur+(HDY1616+VDY1616))>>16))break;
-
+							if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+(HDX1616+VDX1616))>>16, (ycur+(HDY1616+drawHeight))>>16))
+								break;
 						}
 						xcur+=HDX1616;
 						ycur+=HDY1616;
@@ -1796,7 +1806,7 @@ else if(TEXEL_FUN_NUMBER==1)
 					if(!pproj.Transparent)
 					{
 
-							if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+(HDX1616*(__pix))+VDX1616)>>16, (ycur+(HDY1616*(__pix))+VDY1616)>>16))break;
+							if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+(HDX1616*(__pix))+VDX1616)>>16, (ycur+(HDY1616*(__pix))+drawHeight)>>16))break;
 
 					}
 					xcur+=HDX1616*(__pix);
@@ -2000,9 +2010,13 @@ if(TEXEL_FUN_NUMBER==0)
 }
 else if(TEXEL_FUN_NUMBER==1)
 {
+	SPRWI-=((PRE0>>24)&0xf);
 
+	int drawHeight;
+	drawHeight = VDY1616;
+	if (CCBFLAGS&CCB_MARIA)
+		drawHeight = (1 << 16);
 
-        SPRWI-=((PRE0>>24)&0xf);
 	for(i=0;i<SPRHI;i++)
 	{
 
@@ -2023,7 +2037,7 @@ else if(TEXEL_FUN_NUMBER==1)
 
 			if(!pproj.Transparent)
 			{
-                	if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+VDY1616)>>16))break;
+                	if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+drawHeight)>>16))break;
 
 			}
 			xcur+=HDX1616;
@@ -2144,12 +2158,13 @@ if(TEXEL_FUN_NUMBER==0)
 }
 else if(TEXEL_FUN_NUMBER==1)
 {
-
+	int drawHeight;
+	drawHeight = VDY1616;
+	if (CCBFLAGS&CCB_MARIA)
+		drawHeight = (1 << 16);
 
 	for(i=0;i<SPRHI;i++)
 	{
-
-
 		xcur=xvert;
 		ycur=yvert;
 		xvert+=VDX1616;
@@ -2164,7 +2179,7 @@ else if(TEXEL_FUN_NUMBER==1)
 			if(!pproj.Transparent)
 			{
 
-					if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+VDY1616)>>16))break;
+					if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+drawHeight)>>16))break;
 
 			}
 			xcur+=HDX1616;
