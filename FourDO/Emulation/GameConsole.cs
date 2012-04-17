@@ -404,10 +404,6 @@ namespace FourDO.Emulation
 						|| record.Id == "638812DE" // Blood Angels - Space Hulk (JP)
 						|| record.Id == "F3AF1B13" // Crash 'n Burn (JP)
 						|| record.Id == "217344B0" // Crash 'n Burn (US)
-						|| record.Id == "D1C4AB66" // Daedalus Encounter, The Disc 1
-						|| record.Id == "E39203AA" // Daedalus Encounter, The Disc 2
-						|| record.Id == "A9B777E0" // Daedalus Encounter, The Disc 3
-						|| record.Id == "CCB55F24" // Daedalus Encounter, The Disc 4
 						|| (record.Publisher == "American Laser Games"))
 					fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_1;
 
@@ -451,11 +447,7 @@ namespace FourDO.Emulation
 					if (record.Id == "ED705E42" // The Horde (US)
 						|| record.Id == "8742A80C" // The Horde (JP)
 						|| record.Id == "3D1B793D" // The Horde (EU-US)
-						|| record.Id == "0703F255" // Soccer Kid (US)
-						|| record.Id == "15BAD6E9" // Soccer Kid (JP)
-						|| record.Id == "F82D03A4"  // Pebble Beach Golf Links
-						|| record.Id == "EA92F478"  // Pebble Beach Golf Links
-						|| record.Id == "701EB31D") // Pebble Beach Golf Links
+						)
 					fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_7;
 			}
 			FreeDOCore.SetFixMode(fixMode);

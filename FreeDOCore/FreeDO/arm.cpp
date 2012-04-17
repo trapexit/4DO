@@ -1208,7 +1208,7 @@ const bool is_logic[]={
 int __fastcall _arm_Execute()
 {
     uint32 cmd,pc_tmp;
-
+	bool isexeption=false;
 	//for(; CYCLES>0; CYCLES-=SCYCLE)
 	{
  		cmd=mreadw(REG_PC);
@@ -1227,10 +1227,14 @@ int __fastcall _arm_Execute()
 
                 CYCLES=-SCYCLE;
 		//if(MAS_Access_Exept)
-
-		if(((cond_flags_cross[(((uint32)cmd)>>28)]>>((CPSR)>>28))&1))
+		if(cmd==0xE5101810&&CPSR==0x80000093)isexeption=true;
+		//if(cmd==0x5951004&&CPSR==0x60000010)isexeption=true;
+		if(((cond_flags_cross[(((uint32)cmd)>>28)]>>((CPSR)>>28))&1)&&isexeption==false)
 		{
-
+			            /*                                                                                                if(jw==0) { char jj[90]; 
+   int ssss=((cond_flags_cross[(((uint32)cmd)>>28)]>>((CPSR)>>28))&1);
+                         sprintf(jj, "ssss=0x%X, cmd=0x%X, (cmd>>24)&0xf=0x%X, CPSR=0x%X", ssss, cmd, (cmd>>24)&0xf, CPSR);
+                        io_interface(EXT_DEBUG_PRINT,(void*)jj); jw=10000; }*/
 			switch((cmd>>24)&0xf)  //разбор типа команды
 			{
 			case 0x0:	//Multiply
