@@ -148,10 +148,9 @@ if(ARM_CLOCK>0x23C3460)ARM_CLOCK=0x23C3460;
  if(speedfixes>0&&speedfixes<0x186A1) {sp=0x2DC6C0; speedfixes--;}
  else if(speedfixes>0x186A1&&speedfixes<0x30D41) {if(sdf==0)sp=0x4C4B40; speedfixes--;}
  else if(speedfixes<0) {sp=0x3D0900; speedfixes++;}
- else if(speedfixes>0x30D41) {sp=0x249F00; speedfixes--;}///sp=0x30D400;
+ else if(speedfixes>0x30D41) {sp=0x249F00; speedfixes--;}
  else if(speedfixes==0x30D41||speedfixes==0x186A1) speedfixes=0;
-      if((fixmode&FIX_BIT_TIMING_2)/*&&_clio_GetTimerDelay()==0x150*/&&sf<=2500000) {timers=20000000; sp=-(0x1C9C380-ARM_CLOCK);}
-	  else if((fixmode&FIX_BIT_TIMING_2)&&sf!=0)sp=0;
+      if((fixmode&FIX_BIT_TIMING_2)&&sf<=2500000) {sp=0; timers=25000000; if(sf==0)sp=-(0x1C9C380-ARM_CLOCK);}
       if((fixmode&FIX_BIT_TIMING_1)/*&&jw>0*/&&sf<=1500000){/*jw--;*/timers=1000000;sp=-3000000;}
 	  if((fixmode&FIX_BIT_TIMING_4)/*&&jw>0*/){/*jw--;*/timers=1000000;sp=-3000000;}
 	  if((fixmode&FIX_BIT_TIMING_3)&&(sf>0&&sf<=100000)/*&&jw>0*/){/*jw--;*/timers=900000;sp=-2000000;}

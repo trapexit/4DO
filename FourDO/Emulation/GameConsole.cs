@@ -442,6 +442,10 @@ namespace FourDO.Emulation
 						|| record.Id == "1F059B8F" // Nova-Storm (JP)
 						|| record.Id == "1A370EBA" // Microcosm (JP)
 						|| record.Id == "B35C911D" // Microcosm (US)
+						|| record.Id == "D1C4AB66" // Daedalus Encounter, The Disc 1
+						|| record.Id == "E39203AA" // Daedalus Encounter, The Disc 2
+						|| record.Id == "A9B777E0" // Daedalus Encounter, The Disc 3
+						|| record.Id == "CCB55F24" // Daedalus Encounter, The Disc 4
 						) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_2;
 
 					if (record.Id == "ED705E42" // The Horde (US)
