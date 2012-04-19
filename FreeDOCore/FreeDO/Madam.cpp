@@ -1618,321 +1618,323 @@ void __fastcall DrawPackedCel_New()
 	xvert=XPOS1616;
 	yvert=YPOS1616;
 
-if(TEXEL_FUN_NUMBER==0)
-{
-	//return;
-	for(currentrow=0;currentrow<(TEXTURE_HI_LIM);currentrow++)
+	if(TEXEL_FUN_NUMBER==0)
 	{
-
-		//Initbitoper.Read(start,300);
-		bitoper.AttachBuffer(start);
-		offset=bitoper.Read(offsetl<<3);
-		//bitoper.Read(offsetl<<3);
-
-		//BITCALC=((offset+2)<<2)<<5;
-		lastaddr=start+((offset+2)<<2);
-	//	calcx=0;
-		eor=0;
-
-
-		xcur=xvert;
-		ycur=yvert;
-		xvert+=VDX1616;
-		yvert+=VDY1616;
-		//if((ycur>>16)>CLIPXVAL)ycur=CLIPXVAL<<16;
-		//if(ycur<0)ycur=0;
-
-		if(TEXTURE_HI_START){TEXTURE_HI_START--;start=lastaddr;continue;}
-		scipw=TEXTURE_WI_START;
-		wcnt=scipw;
-		while(!eor)//while not end of row
+		//return;
+		for(currentrow=0;currentrow<(TEXTURE_HI_LIM);currentrow++)
 		{
 
-			type=bitoper.Read(2);//bitoper.Read(2);
-                        if( (int)(bitoper.GetBytePose()+start) >= (lastaddr))type=0;
+			//Initbitoper.Read(start,300);
+			bitoper.AttachBuffer(start);
+			offset=bitoper.Read(offsetl<<3);
+			//bitoper.Read(offsetl<<3);
 
-			//pixcount=bitoper.Read(6)+1;
-			pixcount=bitoper.Read(6)+1;
+			//BITCALC=((offset+2)<<2)<<5;
+			lastaddr=start+((offset+2)<<2);
+		//	calcx=0;
+			eor=0;
 
-			if(scipw)
+
+			xcur=xvert;
+			ycur=yvert;
+			xvert+=VDX1616;
+			yvert+=VDY1616;
+			//if((ycur>>16)>CLIPXVAL)ycur=CLIPXVAL<<16;
+			//if(ycur<0)ycur=0;
+
+			if(TEXTURE_HI_START){TEXTURE_HI_START--;start=lastaddr;continue;}
+			scipw=TEXTURE_WI_START;
+			wcnt=scipw;
+			while(!eor)//while not end of row
 			{
-				if(type==0) break;
-				if(scipw>=(int)(pixcount))
+
+				type=bitoper.Read(2);//bitoper.Read(2);
+							if( (int)(bitoper.GetBytePose()+start) >= (lastaddr))type=0;
+
+				//pixcount=bitoper.Read(6)+1;
+				pixcount=bitoper.Read(6)+1;
+
+				if(scipw)
 				{
-					scipw-=(pixcount);
-					if(HDX1616)xcur+=HDX1616*(pixcount);
-					if(HDY1616)ycur+=HDY1616*(pixcount);
-					if(type==1)bitoper.Skip(bpp*pixcount);//bitoper.Skip(bpp*(pixcount));
-					else if(type==3)bitoper.Skip(bpp);//bitoper.Skip(bpp);
-					continue;
-				}
-				else
-				{
-					if(HDX1616)xcur+=HDX1616*(scipw);
-					if(HDY1616)ycur+=HDY1616*(scipw);
-					pixcount-=scipw;
-					if(type==1)bitoper.Skip(bpp*scipw);//bitoper.Skip(bpp*scipw);
-					scipw=0;
-				}
-			}
-			//if(wcnt>=TEXTURE_WI_LIM)break;
-			wcnt+=(pixcount);
-			if(wcnt>TEXTURE_WI_LIM)
-			{
-				pixcount-=(wcnt-TEXTURE_WI_LIM);
-				//if(pixcount>>31)break;
-			}
-			switch(type)
-			{
-				case 0: //end of row
-					eor=1;
-					break;
-				case 1: //PACK_LITERAL
-					for(pix=0;pix<pixcount;pix++)
+					if(type==0) break;
+					if(scipw>=(int)(pixcount))
 					{
-						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-						if(!pproj.Transparent)
-						{
-								//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
-								framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD)));
-								pixel = PPROC(CURPIX,framePixel,LAMV);
-								pixel = PPROJ_OUTPUT(CURPIX, pixel, framePixel);
-								mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
-
-						}
-						xcur+=HDX1616;
-						ycur+=HDY1616;
-
-					}
-
-					break;
-				case 2: //PACK_TRANSPARENT
-					//	calcx+=(pixcount+1);
-					if(HDX1616)xcur+=HDX1616*(pixcount);
-					if(HDY1616)ycur+=HDY1616*(pixcount);
-
-					break;
-				case 3: //PACK_REPEAT
-					CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-					if(CURPIX>32300&&CURPIX<33500&&(CURPIX>32760||CURPIX<32750)){
-					if(speedfixes>=0&&sdf==0&&speedfixes<=200001&&unknownflag11==0)speedfixes=200000;}
-					if(unknownflag11>0&&sdf==0&&CURPIX<30000&&CURPIX>29000) speedfixes=-200000;
-					if(!pproj.Transparent)
-					{
-
-							TexelDraw_Line(CURPIX, LAMV, xcur, ycur, (pixcount));
-
-					}
-					if(HDX1616)xcur+=HDX1616*(pixcount);
-					if(HDY1616)ycur+=HDY1616*(pixcount);
-
-				break;
-			}//type
-			if(wcnt>=TEXTURE_WI_LIM)break;
-		}//eor
-
-		start=lastaddr;
-
-	}
-}
-else if(TEXEL_FUN_NUMBER==1)
-{
-	unknownflag11=100000;
-
-	int drawHeight;
-	drawHeight = VDY1616;
-	if (CCBFLAGS&CCB_MARIA)
-		drawHeight = (1 << 16);
-
-	for(currentrow=0;currentrow<SPRHI;currentrow++)
-	{
-
-		bitoper.AttachBuffer(start);
-		offset=bitoper.Read(offsetl<<3);
-
-		BITCALC=((offset+2)<<2)<<5;
-		lastaddr=start+((offset+2)<<2);
-
-		eor=0;
-
-		xcur=xvert;
-		ycur=yvert;
-		xvert+=VDX1616;
-		yvert+=VDY1616;
-
-		while(!eor)//while not end of row
-		{
-
-			type=bitoper.Read(2);
-                        if( (bitoper.GetBytePose()+start) >= (lastaddr))type=0;
-
-			int __pix=bitoper.Read(6)+1;
-			switch(type)
-			{
-				case 0: //end of row
-					eor=1;
-					break;
-				case 1: //PACK_LITERAL
-					while(__pix)
-					{
-						__pix--;
-						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-
-						if(!pproj.Transparent)
-						{
-							if (drawHeight != VDY1616 && YPOS < 0)
-							{
-								int sfdjlk = 0;
-							}
-
-							if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+(HDX1616+VDX1616))>>16, (ycur+(HDY1616+drawHeight))>>16))
-								break;
-						}
-						xcur+=HDX1616;
-						ycur+=HDY1616;
-
-					}
-
-					break;
-				case 2: //PACK_TRANSPARENT
-					//	calcx+=(pixcount+1);
-					xcur+=HDX1616*(__pix);
-					ycur+=HDY1616*(__pix);
-                                        __pix=0;
-
-					break;
-				case 3: //PACK_REPEAT
-					CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-					if(!pproj.Transparent)
-					{
-
-							if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+(HDX1616*(__pix))+VDX1616)>>16, (ycur+(HDY1616*(__pix))+drawHeight)>>16))break;
-
-					}
-					xcur+=HDX1616*(__pix);
-					ycur+=HDY1616*(__pix);
-                                        __pix=0;
-				break;
-			}//type
-			if(__pix)break;
-		}//eor
-
-
-		start=lastaddr;
-
-
-	}
-
-}
-else
-{    
-  if(speedfixes>=0&&speedfixes<=100001) speedfixes=100000;
-        for(currentrow=0;currentrow<SPRHI;currentrow++)
-	{
-
-		bitoper.AttachBuffer(start);
-		offset=bitoper.Read(offsetl<<3);
-
-		BITCALC=((offset+2)<<2)<<5;
-		lastaddr=start+((offset+2)<<2);
-
-		eor=0;
-
-		xcur=xvert;
-		ycur=yvert;
-		hdx=HDX1616;
-		hdy=HDY1616;
-
-		xvert+=VDX1616;
-		yvert+=VDY1616;
-		HDX1616+=HDDX1616;
-		HDY1616+=HDDY1616;
-
-
-                xdown=xvert;
-		ydown=yvert;
-
-		while(!eor)//while not end of row
-		{
-
-			type=bitoper.Read(2);
-                        if( (bitoper.GetBytePose()+start) >= (lastaddr))type=0;
-
-			int __pix=bitoper.Read(6)+1;
-
-			switch(type)
-			{
-				case 0: //end of row
-					eor=1;
-					break;
-				case 1: //PACK_LITERAL
-
-					while(__pix)
-					{
-						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-						__pix--;
-						//   if(speedfixes>=0&&speedfixes<=100001) speedfixes=300000;
-						if(!pproj.Transparent)
-						{
-
-								if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
-
-						}
-						xcur+=hdx;
-						ycur+=hdy;
-						xdown+=HDX1616;
-						ydown+=HDY1616;
-					}
-                                        //pixcount=0;
-					break;
-				case 2: //PACK_TRANSPARENT
-                    if(speedfixes>=0&&sdf>0/*&&speedfixes<=100001*/)    speedfixes=300000;
-					//	calcx+=(pixcount+1);
-					xcur+=hdx*(__pix);
-					ycur+=hdy*(__pix);
-					xdown+=HDX1616*(__pix);
-					ydown+=HDY1616*(__pix);
-                                        __pix=0;
-
-					break;
-				case 3: //PACK_REPEAT
-					CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-					if(speedfixes>=0&&speedfixes<200001&&((CURPIX>10000&&CURPIX<11000)&&sdf==0/*||(CURPIX>10500&&CURPIX<10650)*/))speedfixes=200000;//(CURPIX>10450&&CURPIX<10470)
-					if(!pproj.Transparent)
-					{
-							while(__pix)
-							{
-								__pix--;
-								if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
-								xcur+=hdx;
-								ycur+=hdy;
-								xdown+=HDX1616;
-								ydown+=HDY1616;
-							}
+						scipw-=(pixcount);
+						if(HDX1616)xcur+=HDX1616*(pixcount);
+						if(HDY1616)ycur+=HDY1616*(pixcount);
+						if(type==1)bitoper.Skip(bpp*pixcount);//bitoper.Skip(bpp*(pixcount));
+						else if(type==3)bitoper.Skip(bpp);//bitoper.Skip(bpp);
+						continue;
 					}
 					else
 					{
-							xcur+=hdx*__pix;
-							ycur+=hdy*__pix;
-							xdown+=HDX1616*__pix;
-							ydown+=HDY1616*__pix;
-							__pix=0;
+						if(HDX1616)xcur+=HDX1616*(scipw);
+						if(HDY1616)ycur+=HDY1616*(scipw);
+						pixcount-=scipw;
+						if(type==1)bitoper.Skip(bpp*scipw);//bitoper.Skip(bpp*scipw);
+						scipw=0;
 					}
-					//pixcount=0;
+				}
+				//if(wcnt>=TEXTURE_WI_LIM)break;
+				wcnt+=(pixcount);
+				if(wcnt>TEXTURE_WI_LIM)
+				{
+					pixcount-=(wcnt-TEXTURE_WI_LIM);
+					//if(pixcount>>31)break;
+				}
+				switch(type)
+				{
+					case 0: //end of row
+						eor=1;
+						break;
+					case 1: //PACK_LITERAL
+						for(pix=0;pix<pixcount;pix++)
+						{
+							CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+							if(!pproj.Transparent)
+							{
+									//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
+									framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD)));
+									pixel = PPROC(CURPIX,framePixel,LAMV);
+									pixel = PPROJ_OUTPUT(CURPIX, pixel, framePixel);
+									mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
 
-				break;
-			};//type
-			if(__pix) break;
-		}//eor
+							}
+							xcur+=HDX1616;
+							ycur+=HDY1616;
 
-		start=lastaddr;
+						}
+
+						break;
+					case 2: //PACK_TRANSPARENT
+						//	calcx+=(pixcount+1);
+						if(HDX1616)xcur+=HDX1616*(pixcount);
+						if(HDY1616)ycur+=HDY1616*(pixcount);
+
+						break;
+					case 3: //PACK_REPEAT
+						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+						if(CURPIX>32300&&CURPIX<33500&&(CURPIX>32760||CURPIX<32750)){
+						if(speedfixes>=0&&sdf==0&&speedfixes<=200001&&unknownflag11==0)speedfixes=200000;}
+						if(unknownflag11>0&&sdf==0&&CURPIX<30000&&CURPIX>29000) speedfixes=-200000;
+						if(!pproj.Transparent)
+						{
+
+								TexelDraw_Line(CURPIX, LAMV, xcur, ycur, (pixcount));
+
+						}
+						if(HDX1616)xcur+=HDX1616*(pixcount);
+						if(HDY1616)ycur+=HDY1616*(pixcount);
+
+					break;
+				}//type
+				if(wcnt>=TEXTURE_WI_LIM)break;
+			}//eor
+
+			start=lastaddr;
+
+		}
+	}
+	else if(TEXEL_FUN_NUMBER==1)
+	{
+		unknownflag11=100000;
+
+		int drawHeight;
+		drawHeight = VDY1616;
+		if (CCBFLAGS&CCB_MARIA)
+			drawHeight = (1 << 16);
+
+		for(currentrow=0;currentrow<SPRHI;currentrow++)
+		{
+
+			bitoper.AttachBuffer(start);
+			offset=bitoper.Read(offsetl<<3);
+
+			BITCALC=((offset+2)<<2)<<5;
+			lastaddr=start+((offset+2)<<2);
+
+			eor=0;
+
+			xcur=xvert;
+			ycur=yvert;
+			xvert+=VDX1616;
+			yvert+=VDY1616;
+
+			while(!eor)//while not end of row
+			{
+
+				type=bitoper.Read(2);
+							if( (bitoper.GetBytePose()+start) >= (lastaddr))type=0;
+
+				int __pix=bitoper.Read(6)+1;
+				switch(type)
+				{
+					case 0: //end of row
+						eor=1;
+						break;
+					case 1: //PACK_LITERAL
+						while(__pix)
+						{
+							__pix--;
+							CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+
+							if(!pproj.Transparent)
+							{
+								if (drawHeight != VDY1616 && YPOS < 0)
+								{
+									int sfdjlk = 0;
+								}
+
+								if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+(HDX1616+VDX1616))>>16, (ycur+(HDY1616+drawHeight))>>16))
+									break;
+							}
+							xcur+=HDX1616;
+							ycur+=HDY1616;
+
+						}
+
+						break;
+					case 2: //PACK_TRANSPARENT
+						//	calcx+=(pixcount+1);
+						xcur+=HDX1616*(__pix);
+						ycur+=HDY1616*(__pix);
+											__pix=0;
+
+						break;
+					case 3: //PACK_REPEAT
+						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+						if(!pproj.Transparent)
+						{
+
+								if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+(HDX1616*(__pix))+VDX1616)>>16, (ycur+(HDY1616*(__pix))+drawHeight)>>16))break;
+
+						}
+						xcur+=HDX1616*(__pix);
+						ycur+=HDY1616*(__pix);
+											__pix=0;
+					break;
+				}//type
+				if(__pix)break;
+			}//eor
+
+
+			start=lastaddr;
+
+
+		}
 
 	}
-}
+	else
+	{    
+	  if(speedfixes>=0&&speedfixes<=100001) speedfixes=100000;
+			for(currentrow=0;currentrow<SPRHI;currentrow++)
+		{
+
+			bitoper.AttachBuffer(start);
+			offset=bitoper.Read(offsetl<<3);
+
+			BITCALC=((offset+2)<<2)<<5;
+			lastaddr=start+((offset+2)<<2);
+
+			eor=0;
+
+			xcur=xvert;
+			ycur=yvert;
+			hdx=HDX1616;
+			hdy=HDY1616;
+
+			xvert+=VDX1616;
+			yvert+=VDY1616;
+			HDX1616+=HDDX1616;
+			HDY1616+=HDDY1616;
+
+
+					xdown=xvert;
+			ydown=yvert;
+
+			while(!eor)//while not end of row
+			{
+
+				type=bitoper.Read(2);
+							if( (bitoper.GetBytePose()+start) >= (lastaddr))type=0;
+
+				int __pix=bitoper.Read(6)+1;
+
+				switch(type)
+				{
+					case 0: //end of row
+						eor=1;
+						break;
+					case 1: //PACK_LITERAL
+
+						while(__pix)
+						{
+							CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+							__pix--;
+							//   if(speedfixes>=0&&speedfixes<=100001) speedfixes=300000;
+							if(!pproj.Transparent)
+							{
+
+									if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
+
+							}
+							xcur+=hdx;
+							ycur+=hdy;
+							xdown+=HDX1616;
+							ydown+=HDY1616;
+						}
+											//pixcount=0;
+						break;
+					case 2: //PACK_TRANSPARENT
+						if(speedfixes>=0&&sdf>0/*&&speedfixes<=100001*/)    speedfixes=300000;
+						//	calcx+=(pixcount+1);
+						xcur+=hdx*(__pix);
+						ycur+=hdy*(__pix);
+						xdown+=HDX1616*(__pix);
+						ydown+=HDY1616*(__pix);
+											__pix=0;
+
+						break;
+					case 3: //PACK_REPEAT
+						CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+						if(speedfixes>=0&&speedfixes<200001&&((CURPIX>10000&&CURPIX<11000)&&sdf==0/*||(CURPIX>10500&&CURPIX<10650)*/))speedfixes=200000;//(CURPIX>10450&&CURPIX<10470)
+						if(!pproj.Transparent)
+						{
+								while(__pix)
+								{
+									__pix--;
+									if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
+									xcur+=hdx;
+									ycur+=hdy;
+									xdown+=HDX1616;
+									ydown+=HDY1616;
+								}
+						}
+						else
+						{
+								xcur+=hdx*__pix;
+								ycur+=hdy*__pix;
+								xdown+=HDX1616*__pix;
+								ydown+=HDY1616*__pix;
+								__pix=0;
+						}
+						//pixcount=0;
+
+					break;
+				};//type
+				if(__pix) break;
+			}//eor
+
+			start=lastaddr;
+
+		}
+	}
 	SPRWI++;
-        XPOS1616=xcur;
-        XPOS=XPOS1616/65536.0;
-        //YPOS1616=ycur;
+
+	//XPOS1616=xcur;
+	//XPOS=XPOS1616/65536.0;
+	YPOS1616=ycur;
+	YPOS=YPOS1616/65536.0;
 }
 
 void __fastcall DrawLiteralCel_New()
@@ -1945,7 +1947,6 @@ void __fastcall DrawLiteralCel_New()
 	int get1,get2;
 	// RMOD=RMODULO[REGCTL0];
 	// WMOD=WMODULO[REGCTL0];
-
 
 
 	bpp=BPP[PRE0&PRE0_BPP_MASK];
@@ -1963,142 +1964,143 @@ void __fastcall DrawLiteralCel_New()
 
 
 
-if(TEXEL_FUN_NUMBER==0)
-{
-	//  if(speedfixes>=0&&speedfixes<=100001)   speedfixes=300000;
-	sdf=100000;
-	//רנטפעû NFS
-	SPRWI-=((PRE0>>24)&0xf);
-	xvert+=TEXTURE_HI_START*VDX1616;
-	yvert+=TEXTURE_HI_START*VDY1616;
-	PDATA+=((offset+2)<<2)*TEXTURE_HI_START;
-	if(SPRWI>TEXTURE_WI_LIM)SPRWI=TEXTURE_WI_LIM;
-	for(i=TEXTURE_HI_START;i<TEXTURE_HI_LIM;i++)
+	if(TEXEL_FUN_NUMBER==0)
 	{
-
-		bitoper.AttachBuffer(PDATA);
-		BITCALC=((offset+2)<<2)<<5;
-		xcur=xvert+TEXTURE_WI_START*HDX1616;
-		ycur=yvert+TEXTURE_WI_START*HDY1616;
-                bitoper.Skip(bpp*(((PRE0>>24)&0xf)));
-		if(TEXTURE_WI_START)bitoper.Skip(bpp*(TEXTURE_WI_START));
-
-		xvert+=VDX1616;
-		yvert+=VDY1616;
-
-
-		for(j=TEXTURE_WI_START;j<SPRWI;j++)
-		{
-			CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
-
-			if(!pproj.Transparent)
-			{
-				//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
-				framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD)));
-				pixel = PPROC(CURPIX,framePixel,LAMV);
-				pixel = PPROJ_OUTPUT(CURPIX, pixel, framePixel);
-				mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
-
-			}
-			xcur+=HDX1616;
-			ycur+=HDY1616;
-
-		}
-		PDATA+=(offset+2)<<2;
-
-	}
-}
-else if(TEXEL_FUN_NUMBER==1)
-{
-	SPRWI-=((PRE0>>24)&0xf);
-
-	int drawHeight;
-	drawHeight = VDY1616;
-	if (CCBFLAGS&CCB_MARIA)
-		drawHeight = (1 << 16);
-
-	for(i=0;i<SPRHI;i++)
-	{
-
-		bitoper.AttachBuffer(PDATA);
-		BITCALC=((offset+2)<<2)<<5;
-		xcur=xvert;
-		ycur=yvert;
-		xvert+=VDX1616;
-		yvert+=VDY1616;
-                bitoper.Skip(bpp*(((PRE0>>24)&0xf)));
-
-
-		for(j=0;j<SPRWI;j++)
+		//  if(speedfixes>=0&&speedfixes<=100001)   speedfixes=300000;
+		sdf=100000;
+		//רנטפעû NFS
+		SPRWI-=((PRE0>>24)&0xf);
+		xvert+=TEXTURE_HI_START*VDX1616;
+		yvert+=TEXTURE_HI_START*VDY1616;
+		PDATA+=((offset+2)<<2)*TEXTURE_HI_START;
+		if(SPRWI>TEXTURE_WI_LIM)SPRWI=TEXTURE_WI_LIM;
+		for(i=TEXTURE_HI_START;i<TEXTURE_HI_LIM;i++)
 		{
 
-			CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+			bitoper.AttachBuffer(PDATA);
+			BITCALC=((offset+2)<<2)<<5;
+			xcur=xvert+TEXTURE_WI_START*HDX1616;
+			ycur=yvert+TEXTURE_WI_START*HDY1616;
+					bitoper.Skip(bpp*(((PRE0>>24)&0xf)));
+			if(TEXTURE_WI_START)bitoper.Skip(bpp*(TEXTURE_WI_START));
+
+			xvert+=VDX1616;
+			yvert+=VDY1616;
 
 
-			if(!pproj.Transparent)
+			for(j=TEXTURE_WI_START;j<SPRWI;j++)
 			{
-                	if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+drawHeight)>>16))break;
+				CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+
+				if(!pproj.Transparent)
+				{
+					//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
+					framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD)));
+					pixel = PPROC(CURPIX,framePixel,LAMV);
+					pixel = PPROJ_OUTPUT(CURPIX, pixel, framePixel);
+					mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
+
+				}
+				xcur+=HDX1616;
+				ycur+=HDY1616;
 
 			}
-			xcur+=HDX1616;
-			ycur+=HDY1616;
+			PDATA+=(offset+2)<<2;
 
 		}
-		PDATA+=(offset+2)<<2;
-
 	}
-}
-else
-{
-
-        SPRWI-=((PRE0>>24)&0xf);
-	for(i=0;i<SPRHI;i++)
+	else if(TEXEL_FUN_NUMBER==1)
 	{
-		bitoper.AttachBuffer(PDATA);
-		BITCALC=((offset+2)<<2)<<5;
+		SPRWI-=((PRE0>>24)&0xf);
 
-		xcur=xvert;
-		ycur=yvert;
-		hdx=HDX1616;
-		hdy=HDY1616;
+		int drawHeight;
+		drawHeight = VDY1616;
+		if (CCBFLAGS&CCB_MARIA)
+			drawHeight = (1 << 16);
 
-		xvert+=VDX1616;
-		yvert+=VDY1616;
-		HDX1616+=HDDX1616;
-		HDY1616+=HDDY1616;
-
-                bitoper.Skip(bpp*(((PRE0>>24)&0xf)));
-
-
-		xdown=xvert;
-		ydown=yvert;
-
-		for(j=0;j<SPRWI;j++)
+		for(i=0;i<SPRHI;i++)
 		{
 
-			CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+			bitoper.AttachBuffer(PDATA);
+			BITCALC=((offset+2)<<2)<<5;
+			xcur=xvert;
+			ycur=yvert;
+			xvert+=VDX1616;
+			yvert+=VDY1616;
+					bitoper.Skip(bpp*(((PRE0>>24)&0xf)));
 
-			if(!pproj.Transparent)
+
+			for(j=0;j<SPRWI;j++)
 			{
-					if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
-if(speedfixes<1||(speedfixes>=0&&speedfixes<200001)){
-if (CURPIX>30000&&CURPIX<40000)speedfixes=0;
-else speedfixes=-100000;}
+
+				CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+
+
+				if(!pproj.Transparent)
+				{
+                		if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+drawHeight)>>16))break;
+
+				}
+				xcur+=HDX1616;
+				ycur+=HDY1616;
+
 			}
-			xcur+=hdx;
-			ycur+=hdy;
-			xdown+=HDX1616;
-			ydown+=HDY1616;
+			PDATA+=(offset+2)<<2;
+
 		}
-		PDATA+=(((offset+2)<<2)/*scipstr*/);
-
-
 	}
-}
+	else
+	{
 
-	XPOS1616=xcur;
-	XPOS=XPOS1616/65536.0;
-	//YPOS1616=ycur;
+		SPRWI-=((PRE0>>24)&0xf);
+		for(i=0;i<SPRHI;i++)
+		{
+			bitoper.AttachBuffer(PDATA);
+			BITCALC=((offset+2)<<2)<<5;
+
+			xcur=xvert;
+			ycur=yvert;
+			hdx=HDX1616;
+			hdy=HDY1616;
+
+			xvert+=VDX1616;
+			yvert+=VDY1616;
+			HDX1616+=HDDX1616;
+			HDY1616+=HDDY1616;
+
+					bitoper.Skip(bpp*(((PRE0>>24)&0xf)));
+
+
+			xdown=xvert;
+			ydown=yvert;
+
+			for(j=0;j<SPRWI;j++)
+			{
+
+				CURPIX=PDEC(bitoper.Read(bpp),&LAMV);
+
+				if(!pproj.Transparent)
+				{
+						if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
+						if(speedfixes<1||(speedfixes>=0&&speedfixes<200001)){
+							if (CURPIX>30000&&CURPIX<40000)speedfixes=0;
+							else speedfixes=-100000;}
+				}
+				xcur+=hdx;
+				ycur+=hdy;
+				xdown+=HDX1616;
+				ydown+=HDY1616;
+			}
+			PDATA+=(((offset+2)<<2)/*scipstr*/);
+
+
+		}
+	}
+
+	//XPOS1616=xcur;
+	//XPOS=XPOS1616/65536.0;
+	YPOS1616=ycur;
+	YPOS=YPOS1616/65536.0;
 }
 
 void __fastcall DrawLRCel_New()
@@ -2123,120 +2125,120 @@ void __fastcall DrawLRCel_New()
 	xvert=XPOS1616;
 	yvert=YPOS1616;
 
-if(TEXEL_FUN_NUMBER==0)
-{
-	xvert+=TEXTURE_HI_START*VDX1616;
-	yvert+=TEXTURE_HI_START*VDY1616;
-	//if(SPRHI>TEXTURE_HI_LIM)SPRHI=TEXTURE_HI_LIM;
-	if(SPRWI>TEXTURE_WI_LIM)SPRWI=TEXTURE_WI_LIM;
-	for(i=TEXTURE_HI_START;i<TEXTURE_HI_LIM;i++)
+	if(TEXEL_FUN_NUMBER==0)
 	{
-		xcur=xvert+TEXTURE_WI_START*HDX1616;
-		ycur=yvert+TEXTURE_WI_START*HDY1616;
-		xvert+=VDX1616;
-		yvert+=VDY1616;
-
-
-		for(j=TEXTURE_WI_START;j<SPRWI;j++)
+		xvert+=TEXTURE_HI_START*VDX1616;
+		yvert+=TEXTURE_HI_START*VDY1616;
+		//if(SPRHI>TEXTURE_HI_LIM)SPRHI=TEXTURE_HI_LIM;
+		if(SPRWI>TEXTURE_WI_LIM)SPRWI=TEXTURE_WI_LIM;
+		for(i=TEXTURE_HI_START;i<TEXTURE_HI_LIM;i++)
 		{
-			CURPIX=PDEC(mreadh((PDATA+XY2OFF(j<<2,i,offset<<2))),&LAMV);
+			xcur=xvert+TEXTURE_WI_START*HDX1616;
+			ycur=yvert+TEXTURE_WI_START*HDY1616;
+			xvert+=VDX1616;
+			yvert+=VDY1616;
 
-			if(!pproj.Transparent)
+
+			for(j=TEXTURE_WI_START;j<SPRWI;j++)
 			{
-				//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
-				framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD)));
-				pixel = PPROC(CURPIX,framePixel,LAMV);
-				pixel = PPROJ_OUTPUT(CURPIX, pixel, framePixel);
-				mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
+				CURPIX=PDEC(mreadh((PDATA+XY2OFF(j<<2,i,offset<<2))),&LAMV);
+
+				if(!pproj.Transparent)
+				{
+					//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
+					framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD)));
+					pixel = PPROC(CURPIX,framePixel,LAMV);
+					pixel = PPROJ_OUTPUT(CURPIX, pixel, framePixel);
+					mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
+				}
+
+				xcur+=HDX1616;
+				ycur+=HDY1616;
 			}
 
-			xcur+=HDX1616;
-			ycur+=HDY1616;
 		}
-
 	}
-}
-else if(TEXEL_FUN_NUMBER==1)
-{
-	int drawHeight;
-	drawHeight = VDY1616;
-	if (CCBFLAGS&CCB_MARIA)
-		drawHeight = (1 << 16);
-
-	for(i=0;i<SPRHI;i++)
+	else if(TEXEL_FUN_NUMBER==1)
 	{
-		xcur=xvert;
-		ycur=yvert;
-		xvert+=VDX1616;
-		yvert+=VDY1616;
+		int drawHeight;
+		drawHeight = VDY1616;
+		if (CCBFLAGS&CCB_MARIA)
+			drawHeight = (1 << 16);
 
-
-		for(j=0;j<SPRWI;j++)
+		for(i=0;i<SPRHI;i++)
 		{
+			xcur=xvert;
+			ycur=yvert;
+			xvert+=VDX1616;
+			yvert+=VDY1616;
 
-			CURPIX=PDEC(mreadh((PDATA+XY2OFF(j<<2,i,offset<<2))),&LAMV);
 
-			if(!pproj.Transparent)
+			for(j=0;j<SPRWI;j++)
 			{
 
-					if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+drawHeight)>>16))break;
+				CURPIX=PDEC(mreadh((PDATA+XY2OFF(j<<2,i,offset<<2))),&LAMV);
 
-			}
-			xcur+=HDX1616;
-			ycur+=HDY1616;
+				if(!pproj.Transparent)
+				{
 
+						if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+drawHeight)>>16))break;
 
-		}
+				}
+				xcur+=HDX1616;
+				ycur+=HDY1616;
 
-	}
-}
-else
-{
-        //return;
-
-        for(i=0;i<SPRHI;i++)
-	{
-
-
-		xcur=xvert;
-		ycur=yvert;
-		xvert+=VDX1616;
-		yvert+=VDY1616;
-		xdown=xvert;
-		ydown=yvert;
-		hdx=HDX1616;
-		hdy=HDY1616;
-		HDX1616+=HDDX1616;
-		HDY1616+=HDDY1616;
-
-
-		for(j=0;j<SPRWI;j++)
-		{
-			CURPIX=PDEC(mreadh((PDATA+XY2OFF(j<<2,i,offset<<2))),&LAMV);
-
-			if(!pproj.Transparent)
-			{
-
-					if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
 
 			}
 
-			xcur+=hdx;
-			ycur+=hdy;
-			xdown+=HDX1616;
-			ydown+=HDY1616;
+		}
+	}
+	else
+	{
+		//return;
+
+		for(i=0;i<SPRHI;i++)
+		{
+
+
+			xcur=xvert;
+			ycur=yvert;
+			xvert+=VDX1616;
+			yvert+=VDY1616;
+			xdown=xvert;
+			ydown=yvert;
+			hdx=HDX1616;
+			hdy=HDY1616;
+			HDX1616+=HDDX1616;
+			HDY1616+=HDDY1616;
+
+
+			for(j=0;j<SPRWI;j++)
+			{
+				CURPIX=PDEC(mreadh((PDATA+XY2OFF(j<<2,i,offset<<2))),&LAMV);
+
+				if(!pproj.Transparent)
+				{
+
+						if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
+
+				}
+
+				xcur+=hdx;
+				ycur+=hdy;
+				xdown+=HDX1616;
+				ydown+=HDY1616;
+
+
+			}
 
 
 		}
-
-
 	}
-}
 
-	XPOS1616=xcur;
-	XPOS=XPOS1616/65536.0;
-	//YPOS1616=ycur;
-
+	//XPOS1616=xcur;
+	//XPOS=XPOS1616/65536.0;
+	YPOS1616=ycur;
+	YPOS=YPOS1616/65536.0;
 }
 
 
