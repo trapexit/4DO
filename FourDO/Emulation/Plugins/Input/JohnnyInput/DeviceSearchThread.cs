@@ -73,11 +73,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			{
 				// NOTE: This function call can take over 100 milliseconds on some machines!
 				//       In fact, that's why we have it on its own thread.
-				var devices = this.directInput.GetDevices();
-
-				// The least significant byte of the device's "Type" identifies the DeviceType.
-				List<DeviceInstance> joystickDevices = new List<DeviceInstance>();
-				joystickDevices = devices.Where<DeviceInstance>(x => validJoystickDeviceTypes.Contains((int)x.Type & 0xFF)).ToList<DeviceInstance>();
+				var joystickDevices = this.directInput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).ToList<DeviceInstance>();
 
 				// Use a semaphore here so we don't copy into the results list while it's in use.
 				lock (this.resultSemaphore)
