@@ -2,7 +2,6 @@
 
 using System;
 using System.IO;
-using System.Text;
 using System.Diagnostics;
 
 namespace FourDO.Utilities.Logging
@@ -10,7 +9,6 @@ namespace FourDO.Utilities.Logging
 	public class TextWriterTraceListenerWithTime : TextWriterTraceListener
 	{
 		public TextWriterTraceListenerWithTime()
-			: base()
 		{
 		}
 

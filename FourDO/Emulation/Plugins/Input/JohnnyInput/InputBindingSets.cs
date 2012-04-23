@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml.Serialization;
-using FourDO.Utilities;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
@@ -54,13 +48,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		public int GetTriggerCount()
 		{
-			int returnValue = 0;
-			foreach (InputBindingSet set in this.sets)
-				returnValue += set.Count;
-			return returnValue;
+		    return this.sets.Sum(set => set.Count);
 		}
 
-		public InputBindingSet AddSet()
+	    public InputBindingSet AddSet()
 		{
 			var newSet = new InputBindingSet();
 			this.sets.Add(newSet);

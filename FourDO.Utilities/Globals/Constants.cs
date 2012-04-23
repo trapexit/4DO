@@ -1,12 +1,8 @@
 ﻿// This is the foster home of things that I want plugins to have access to.
 // These types of things will need to move to a DLL that both 4DO and its plugins will reference.
 
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace FourDO.Utilities.Globals
@@ -23,7 +19,7 @@ namespace FourDO.Utilities.Globals
 			}
 		}
 
-		private static CultureInfo systemDefaultCulture = null;
+		private static CultureInfo systemDefaultCulture;
 		public static CultureInfo SystemDefaultCulture
 		{
 			get

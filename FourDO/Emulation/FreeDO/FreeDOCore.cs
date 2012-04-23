@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace FourDO.Emulation.FreeDO
 {
@@ -177,7 +174,6 @@ namespace FourDO.Emulation.FreeDO
 		public static void DoSave(IntPtr saveBuffer)
 		{
 			FreeDoInterface((int)InterfaceFunction.FDP_DO_SAVE, saveBuffer);
-			return;
 		}
 
 		public static IntPtr SetArmClock(int clock)
@@ -193,40 +189,39 @@ namespace FourDO.Emulation.FreeDO
 
 		public static IntPtr SetTextureQuality(int textureScalar)
 		{
-			// TODO: Untested!
 			return FreeDoInterface((int)InterfaceFunction.FDP_SET_TEXQUALITY, new IntPtr(textureScalar));
 		}
 
-		private delegate IntPtr ExternalInterfaceDelegate(int procedure, IntPtr Data);
-		private static ExternalInterfaceDelegate externalInterfaceDelegate = new ExternalInterfaceDelegate(PrivateExternalInterface);
+		private delegate IntPtr ExternalInterfaceDelegate(int procedure, IntPtr data);
+		private static readonly ExternalInterfaceDelegate externalInterfaceDelegate = new ExternalInterfaceDelegate(PrivateExternalInterface);
 
-		private static IntPtr PrivateExternalInterface(int procedure, IntPtr Data)
+		private static IntPtr PrivateExternalInterface(int procedure, IntPtr data)
 		{
 			switch (procedure)
 			{
 				case (int)ExternalFunction.EXT_READ_ROMS:
 					if (ReadRomEvent != null)
-						ReadRomEvent(Data);
+						ReadRomEvent(data);
 					break;
 
 				case (int)ExternalFunction.EXT_READ_NVRAM:
 					if (ReadNvramEvent != null)
-						ReadNvramEvent(Data);
+						ReadNvramEvent(data);
 					break;
 
 				case (int)ExternalFunction.EXT_WRITE_NVRAM:
 					if (WriteNvramEvent != null)
-						WriteNvramEvent(Data);
+						WriteNvramEvent(data);
 					break;
 
 				case (int)ExternalFunction.EXT_SWAPFRAME:
 					if (SwapFrameEvent != null)
-						return SwapFrameEvent(Data);
+						return SwapFrameEvent(data);
 					break;
 
 				case (int)ExternalFunction.EXT_PUSH_SAMPLE:
 					if (PushSampleEvent != null)
-						PushSampleEvent((uint)Data);
+						PushSampleEvent((uint)data);
 					break;
 
 				case (int)ExternalFunction.EXT_GET_PBUSLEN:
@@ -241,12 +236,12 @@ namespace FourDO.Emulation.FreeDO
 
 				case (int)ExternalFunction.EXT_KPRINT:
 					if (KPrintEvent != null)
-						KPrintEvent(Data);
+						KPrintEvent(data);
 					break;
 
 				case (int)ExternalFunction.EXT_DEBUG_PRINT:
 					if (DebugPrintEvent != null)
-						DebugPrintEvent(Data);
+						DebugPrintEvent(data);
 					break;
 
 				case (int)ExternalFunction.EXT_FRAMETRIGGER_MT:
@@ -256,7 +251,7 @@ namespace FourDO.Emulation.FreeDO
 
 				case (int)ExternalFunction.EXT_READ2048:
 					if (Read2048Event != null)
-						Read2048Event(Data);
+						Read2048Event(data);
 					break;
 
 				case (int)ExternalFunction.EXT_GET_DISC_SIZE:
@@ -266,15 +261,12 @@ namespace FourDO.Emulation.FreeDO
 
 				case (int)ExternalFunction.EXT_ON_SECTOR:
 					if (OnSectorEvent != null)
-						OnSectorEvent((int)Data);
+						OnSectorEvent((int)data);
 					break;
 
 				case (int)ExternalFunction.EXT_ARM_SYNC:
 					if (ArmSync != null)
-						ArmSync((int)Data);
-					break;
-
-				default:
+						ArmSync((int)data);
 					break;
 			}
 			return new IntPtr(0);

@@ -12,26 +12,22 @@
 //           http://handcraftsman.wordpress.com/2008/11/11/how-to-get-c-property-names-without-magic-strings/
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace FourDO.Utilities
 {
-    public static class Reflection
-    {
-        public static string GetPropertyName<T>(Expression<Func<T>> expression)
-        {
-            MemberExpression body = (MemberExpression)expression.Body;
-            return body.Member.Name;
-        }
+	public static class Reflection
+	{
+		public static string GetPropertyName<T>(Expression<Func<T>> expression)
+		{
+			MemberExpression body = (MemberExpression)expression.Body;
+			return body.Member.Name;
+		}
 
-        public static string GetPropertyName<T, TReturn>(Expression<Func<T, TReturn>> expression)
-        {
-            MemberExpression body = (MemberExpression)expression.Body;
-            return body.Member.Name;
-        }
-    }
+		public static string GetPropertyName<T, TReturn>(Expression<Func<T, TReturn>> expression)
+		{
+			MemberExpression body = (MemberExpression)expression.Body;
+			return body.Member.Name;
+		}
+	}
 }

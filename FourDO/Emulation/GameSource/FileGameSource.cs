@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.IO;
 using FourDO.Utilities;
 using FourDO.Utilities.CueSharp;
-using System.Windows.Forms;
 
 namespace FourDO.Emulation.GameSource
 {
@@ -30,7 +26,7 @@ namespace FourDO.Emulation.GameSource
 		{
 			try
 			{
-				bool identifiedFile = false;
+				var identifiedFile = false;
 
 				////////////////////
 				// We will identify the correct format of this file if there is a matching cue file.
@@ -85,7 +81,7 @@ namespace FourDO.Emulation.GameSource
 					// Assume 2048 unless directed otherwise.
 					this.imageDataType = DataType.MODE1_2352;
 
-					FileInfo fileInfo = new FileInfo(this.GameFilePath);
+					var fileInfo = new FileInfo(this.GameFilePath);
 					if (fileInfo.Extension.ToUpper() == ".ISO")
 					{
 						// ISO will typically be 2048.

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FourDO.Utilities
+﻿namespace FourDO.Utilities
 {
 	public class PerformanceStopWatch
 	{
-		private bool started = false;
-		private long originalSample = 0;
-		private long totalSampleLength = 0;
-		private double? totalSampleSeconds = null;
+		private bool started;
+		private long originalSample;
+		private long totalSampleLength;
+		private double? totalSampleSeconds;
 
-		private object publicSemaphore = new object();
+		private readonly object publicSemaphore = new object();
 
 		public void Start()
 		{
@@ -40,7 +35,7 @@ namespace FourDO.Utilities
 			get
 			{
 				this.EnsureCalculated();
-				return this.totalSampleSeconds.Value;
+				return this.totalSampleSeconds ?? 0;
 			}
 		}
 
@@ -50,7 +45,7 @@ namespace FourDO.Utilities
 			get
 			{
 				this.EnsureCalculated();
-				return this.totalSampleSeconds.Value * 1000;
+				return (this.totalSampleSeconds ?? 0) * 1000;
 			}
 		}
 

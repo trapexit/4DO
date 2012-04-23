@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FourDO.Utilities.Globals
+﻿namespace FourDO.Utilities.Globals
 {
 	/// <summary>
 	/// Access to global, one-time-only run options (usually set at the command line).

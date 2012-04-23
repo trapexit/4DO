@@ -1,11 +1,4 @@
-﻿// Game Record - a data
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FourDO.Emulation.GameSource
+﻿namespace FourDO.Emulation.GameSource
 {
 	internal class GameRecord
 	{

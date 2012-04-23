@@ -1,7 +1,5 @@
-﻿using System;
-using FourDO.Emulation.Plugins.Audio.JohnnyAudio;
+﻿using FourDO.Emulation.Plugins.Audio.JohnnyAudio;
 using FourDO.Emulation.Plugins.Input.JohnnyInput;
-using FourDO.Emulation.Plugins.Audio;
 
 namespace FourDO.Emulation.Plugins
 {

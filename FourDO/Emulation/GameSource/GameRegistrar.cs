@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml;
@@ -23,15 +21,15 @@ namespace FourDO.Emulation.GameSource
 
 		// I want two databases, one by Id and one from CheckSum.
 		// This allows me to look up by either "index" quickly.
-		private static Dictionary<string, GameRecord> gameDatabaseById = new Dictionary<string,GameRecord>();
-		private static Dictionary<string, GameRecord> gameDatabaseByCheckSum = new Dictionary<string, GameRecord>();
+		private static readonly Dictionary<string, GameRecord> gameDatabaseById = new Dictionary<string,GameRecord>();
+		private static readonly Dictionary<string, GameRecord> gameDatabaseByCheckSum = new Dictionary<string, GameRecord>();
 
 		static GameRegistrar()
 		{
 			// Load XML document of the game database.
 			var assembly = Assembly.GetExecutingAssembly();
 			var stream = assembly.GetManifestResourceStream("FourDO.Emulation.GameSource.GameDatabase.xml");
-			XmlDocument doc = new XmlDocument();
+			var doc = new XmlDocument();
 			doc.Load(stream);
 			
 			var nodes = doc.SelectNodes(@"/database/game");
@@ -146,7 +144,7 @@ namespace FourDO.Emulation.GameSource
 			byte[] hash = md5.ComputeHash(input);
 
 			// step 2, convert byte array to hex string
-			StringBuilder sb = new StringBuilder();
+			var sb = new StringBuilder();
 			for (int i = 0; i < hash.Length; i++)
 			{
 				sb.Append(hash[i].ToString("X2"));

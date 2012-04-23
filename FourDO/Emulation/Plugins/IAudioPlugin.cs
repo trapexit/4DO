@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace FourDO.Emulation.Plugins
 {
@@ -24,7 +20,7 @@ namespace FourDO.Emulation.Plugins
 		/// Notify frame completion
 		/// </summary>
 		/// <param name="currentOvershoot">The current deviation from "standard" schedule.</param>
-		/// <param name="adjustmentPosted">The schedule adjustment posted on this frame (if any).</param>
+        /// <param name="scheduleAdjustment">The schedule adjustment posted on this frame (if any).</param>
 		void FrameDone(long currentOvershoot, long scheduleAdjustment);
 
 		double Volume { get; set; }

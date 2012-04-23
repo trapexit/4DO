@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using SlimDX.DirectInput;
 using FourDO.Resources;
@@ -59,7 +58,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			JoystickTrigger newTrigger = null;
 
 			// For each cached device, watch for actions.
-			List<JoyCache> deadJoysticks = new List<JoyCache>();
+			var deadJoysticks = new List<JoyCache>();
 			foreach (var joyCache in this.joysticks)
 			{
 				// Get the state.

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using FourDO.Resources;
@@ -25,10 +22,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private int deviceNumber = 0; // always 0 for now.
 
-		private JoyInputWatcher joyWatcher = new JoyInputWatcher();
-		private JoyInputChecker joyChecker = new JoyInputChecker();
+		private readonly JoyInputWatcher joyWatcher = new JoyInputWatcher();
+		private readonly JoyInputChecker joyChecker = new JoyInputChecker();
 
-		InputBindingDevices devices;
+	    readonly InputBindingDevices devices;
 
 		DataGridViewCellStyle linkStyleNormal;
 		DataGridViewCellStyle linkStyleBold;
@@ -156,7 +153,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 					var buttons = Enum.GetValues(typeof(InputButton));
 					foreach (var buttonEnum in buttons)
 					{
-						InputButton button = (InputButton)buttonEnum;
+						var button = (InputButton)buttonEnum;
 						List<InputTrigger> triggers = this.devices.GetTriggers(deviceNumber, button);
 						foreach (var trigger in triggers)
 						{
@@ -661,12 +658,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.ControlsGridView.ClearSelection();
 		}
 
-		private void DoStopEditButton()
-		{
-			this.DoStopEditButton(null);
-		}
-
-		private void DoStopEditButton(InputTrigger trigger)
+	    private void DoStopEditButton(InputTrigger trigger = null)
 		{
 			if (!this.isEditingButton)
 				return;
@@ -865,7 +857,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void UpdateTriggerText(DataGridViewCell cell)
 		{
-			InputTrigger trigger = (InputTrigger)cell.Tag;
+			var trigger = (InputTrigger)cell.Tag;
 			if (trigger == null)
 				cell.Value = null;
 			else

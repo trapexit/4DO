@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FourDO.Emulation.FreeDO
+﻿namespace FourDO.Emulation.FreeDO
 {
 	public unsafe struct VDLFrame
 	{

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SlimDX.DirectInput;
-using System.Threading;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
@@ -15,7 +13,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			public JoystickState LastState { get; set; }
 		}
 
-		public JoyInput()
+		protected JoyInput()
 		{
 			this.deviceSearchThread.Start();
 		}
@@ -28,11 +26,11 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		protected List<JoyCache> joysticks = new List<JoyCache>();
 		protected DirectInput directInput = new DirectInput();
-		private DeviceSearchThread deviceSearchThread = new DeviceSearchThread();
+		private readonly DeviceSearchThread deviceSearchThread = new DeviceSearchThread();
 
 		protected JoystickState GetCurrentState(Joystick joyStick)
 		{
-			JoystickState currentState = new JoystickState();
+			var currentState = new JoystickState();
 			SlimDX.Result result = joyStick.GetCurrentState(ref currentState);
 
 			// If we had a failure, try to revive the joystick.

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -78,9 +77,9 @@ namespace FourDO
 				Directory.CreateDirectory(temporaryDir);
 
 			// Setup a trace listener to our log file!
-			FileStreamWithBackup fs = new FileStreamWithBackup(logFileName, MAX_LOG_LENGTH_BYTES, MAX_BACKUP_FILES, FileMode.Append);
+			var fs = new FileStreamWithBackup(logFileName, MAX_LOG_LENGTH_BYTES, MAX_BACKUP_FILES, FileMode.Append);
 			fs.CanSplitData = false;
-			TextWriterTraceListenerWithTime listener = new TextWriterTraceListenerWithTime(fs);
+			var listener = new TextWriterTraceListenerWithTime(fs);
 
 			Trace.Listeners.Add(listener);
 		}

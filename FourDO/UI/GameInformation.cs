@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using FourDO.Emulation.GameSource;
@@ -24,7 +18,7 @@ namespace FourDO.UI
 		{
 			this.Localize();
 
-			GameRecord record = GameRegistrar.GetGameRecordById(this.GameSource.GetGameId());
+			var record = GameRegistrar.GetGameRecordById(this.GameSource.GetGameId());
 
 			this.GameNameTextBox.Text = record == null ? " - " : record.Name;
 			this.GameNameTextBox.SelectionStart = 0;

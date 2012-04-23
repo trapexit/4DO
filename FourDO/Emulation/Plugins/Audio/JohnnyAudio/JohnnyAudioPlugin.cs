@@ -1,11 +1,6 @@
 ﻿using SlimDX.DirectSound;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 using PerformanceCounter = FourDO.Utilities.PerformanceCounter;
 
@@ -27,7 +22,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 		private int buffer_max_offset;
 		private int buffer_base_offset;
 
-		private bool initialized = false;
+		private bool initialized;
 
 		SlimDX.Multimedia.WaveFormat bufferFormat;
 		SoundBufferDescription bufferDescription;
@@ -37,11 +32,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 
 		private double volumeLinear = 1.0;
 
-		internal JohnnyAudioPlugin()
-		{
-		}
-
-		#region IAudioPlugin Implementation
+	    #region IAudioPlugin Implementation
 
 		public double Volume
 		{
@@ -411,7 +402,7 @@ namespace FourDO.Emulation.Plugins.Audio.JohnnyAudio
 		private int? expectedWritePosition;
 		private long expectedWritePositionTimeStamp;
 		private long expectedWritePositionOvershoot;
-		private object expectedWritePositionSemaphore = new object();
+		private readonly object expectedWritePositionSemaphore = new object();
 
 		private void SetExpectedWritePosition(int? newExpectedPosition, long currentOvershoot)
 		{

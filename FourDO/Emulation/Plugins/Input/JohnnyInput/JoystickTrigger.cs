@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using FourDO.Resources;
 
@@ -24,7 +22,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		public override bool Equals(object obj)
 		{
-			JoystickTrigger other = obj as JoystickTrigger;
+			var other = obj as JoystickTrigger;
 
 			if (other == null)
 				return base.Equals(obj);
@@ -51,7 +49,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			get
 			{
-				StringBuilder friendlyName = new StringBuilder();
+				var friendlyName = new StringBuilder();
 
 				friendlyName.Append(JohnnyInputStrings.JoyAbbreviated);
 				if (this.DeviceInstance != null)

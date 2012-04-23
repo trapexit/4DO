@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FourDO.Emulation.GameSource
 {
@@ -79,10 +76,10 @@ namespace FourDO.Emulation.GameSource
 
 		private unsafe void ReadSectorCount()
 		{
-			byte[] sectorZero = new byte[2048];
+			var sectorZero = new byte[2048];
 			fixed (byte* sectorBytePointer = sectorZero)
 			{
-				IntPtr sectorPointer = new IntPtr((int)sectorBytePointer);
+				var sectorPointer = new IntPtr((int)sectorBytePointer);
 				this.ReadSector(sectorPointer, 0);
 				this.sectorCount = EmulationHelper.GetSectorCount(sectorPointer);
 			}

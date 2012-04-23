@@ -8,9 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
-using FourDO.Utilities;
 using System.Runtime.InteropServices;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
@@ -23,9 +21,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private static extern short GetKeyState(int keyCode);
 		private const int KEY_PRESSED = 0x8000;
 
-		private JoyInputChecker joyChecker = new JoyInputChecker();
+		private readonly JoyInputChecker joyChecker = new JoyInputChecker();
 		private InputBindingDevices devices;
-		private static string bindingsFilePath = Path.Combine(Utilities.Globals.Constants.SettingsPath, BINDINGS_FILE_NAME);
+		private static readonly string bindingsFilePath = Path.Combine(Utilities.Globals.Constants.SettingsPath, BINDINGS_FILE_NAME);
 
 		private bool settingsShown = false;
 
@@ -89,7 +87,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			////////////////////////////
 			// Set up raw data to return.
-			byte[] data = new byte[16];
+			var data = new byte[16];
 			data[0x0] = 0x00;
 			data[0x1] = 0x48;
 			data[0x2] = this.CalculateDeviceLowByte(0, deviceCount);
@@ -191,7 +189,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				}
 				else if (trigger is JoystickTrigger)
 				{
-					JoystickTrigger joyTrigger = (JoystickTrigger)trigger;
+					var joyTrigger = (JoystickTrigger)trigger;
 					if (this.joyChecker.CheckTrigger(joyTrigger))
 						return true;
 				}

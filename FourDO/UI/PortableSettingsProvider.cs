@@ -9,19 +9,13 @@
 //  * FourDO's default save always goes to FourDO.settings.
 //  * All other settings using the provider will use the class name.
 ////////////////////////////////
-using Microsoft.VisualBasic;
+
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Configuration;
-using System.Configuration.Provider;
 using System.Windows.Forms;
 using System.Collections.Specialized;
-using Microsoft.Win32;
 using System.Xml;
 
 namespace FourDO.UI
@@ -84,13 +78,13 @@ namespace FourDO.UI
 			this.CalcSettingsFilename(context);
 
 			//Create new collection of values
-			SettingsPropertyValueCollection values = new SettingsPropertyValueCollection();
+			var values = new SettingsPropertyValueCollection();
 
 			//Iterate through the settings to be retrieved
 
 			foreach (SettingsProperty setting in props)
 			{
-				SettingsPropertyValue value = new SettingsPropertyValue(setting);
+				var value = new SettingsPropertyValue(setting);
 				value.IsDirty = false;
 				value.SerializedValue = GetValue(setting);
 				values.Add(value);
@@ -262,7 +256,7 @@ namespace FourDO.UI
 			//Determine if the setting is marked as Roaming
 			foreach (DictionaryEntry d in prop.Attributes)
 			{
-				Attribute a = (Attribute)d.Value;
+				var a = (Attribute)d.Value;
 				if (a is System.Configuration.SettingsManageabilityAttribute)
 				{
 					return true;

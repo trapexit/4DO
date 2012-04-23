@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace FourDO.Emulation
 {
@@ -9,7 +7,7 @@ namespace FourDO.Emulation
 	{
 		bool filled;
 		int currentSample;
-		double[] samples;
+		readonly double[] samples;
 
 		public FrameSpeedCalculator()
 			: this(10)
@@ -56,11 +54,7 @@ namespace FourDO.Emulation
 				return CurrentAverage;
 			}
 
-			double total2 = 0;
-			for (int sampleNum = 0; sampleNum < samples.Length; sampleNum++)
-			{
-				total2 += samples[sampleNum];
-			}
+			double total2 = samples.Sum();
 			samples[currentSample] = sample;
 			CurrentAverage = total2 / samples.Length;
 			return CurrentAverage;

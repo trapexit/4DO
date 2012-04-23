@@ -9,17 +9,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace FourDO.Utilities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Runtime.InteropServices;
-
     /// <summary>
     /// A class that manages a global low level keyboard hook
     /// </summary>

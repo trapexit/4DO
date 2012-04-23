@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SlimDX.DirectInput;
 using System.Threading;
 
@@ -9,22 +7,16 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
 	internal class DeviceSearchThread
 	{
-		private bool stopSignal = false;
-		private Thread deviceCheckerThread = null;
-		private List<DeviceInstance> deviceCheckerResults = null;
+		private bool stopSignal;
+		private Thread deviceCheckerThread;
+		private List<DeviceInstance> deviceCheckerResults;
 		
-		private object stateSemaphore = new object();
-		private object resultSemaphore = new object();
+		private readonly object stateSemaphore = new object();
+		private readonly object resultSemaphore = new object();
 
 		private DirectInput directInput = new DirectInput();
 
-		private List<int> validJoystickDeviceTypes = new List<int>
-			{
-			(int)DeviceType.Joystick,
-			(int)DeviceType.Gamepad
-			};
-
-		public void Start()
+	    public void Start()
 		{
 			lock (this.stateSemaphore)
 			{
@@ -45,7 +37,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				// Make a copy of the last result and return it.
 				var returnValue = new List<DeviceInstance>();
 				if (this.deviceCheckerResults != null)
-					this.deviceCheckerResults.ForEach(x => returnValue.Add(x));
+					this.deviceCheckerResults.ForEach(returnValue.Add);
 				return returnValue;
 			}
 		}

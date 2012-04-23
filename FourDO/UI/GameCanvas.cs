@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using FourDO.Emulation;
-using FourDO.Emulation.FreeDO;
+using FourDO.Utilities;
 using FourDO.Utilities.Globals;
 using FourDO.UI.Canvases;
 
@@ -24,9 +19,9 @@ namespace FourDO.UI
 		private const int STANDARD_WIDTH = 320;
 		private const int STANDARD_HEIGHT = 240;
 
-		private Pen screenBorderPen = new Pen(Color.FromArgb(50, 50, 50));
+		private readonly Pen screenBorderPen = new Pen(Color.FromArgb(50, 50, 50));
 
-		private Control childCanvas;
+		private readonly Control childCanvas;
 	
 		private bool preserveAspectRatio = true;
 
@@ -172,7 +167,7 @@ namespace FourDO.UI
 			if (fileName == null)
 				return;
 
-			ICanvas canvas = (ICanvas)this.childCanvas;
+			var canvas = (ICanvas)this.childCanvas;
 			if (canvas == null)
 				return;
 
@@ -180,13 +175,13 @@ namespace FourDO.UI
 			if (sourceBitmap == null)
 				return;
 
-			Rectangle smallRect = new Rectangle(0, 0, 320, 240);
-			Rectangle bigRect = new Rectangle(0, 0, 640, 480);
+			var smallRect = new Rectangle(0, 0, 320, 240);
+			var bigRect = new Rectangle(0, 0, 640, 480);
 
 			// Copy the bitmap to a standard size
-			Bitmap savedBitmap = new Bitmap(640, 480, PixelFormat.Format24bppRgb);
-			Graphics graphics = Graphics.FromImage(savedBitmap);
-			Rectangle sourceRect = this.RenderHighResolution ? bigRect : smallRect;
+			var savedBitmap = new Bitmap(640, 480, PixelFormat.Format24bppRgb);
+			var graphics = Graphics.FromImage(savedBitmap);
+			var sourceRect = this.RenderHighResolution ? bigRect : smallRect;
 			graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
 			graphics.DrawImage(sourceBitmap, new Rectangle(0, 0, 640, 480), sourceRect, GraphicsUnit.Pixel);
 
@@ -235,10 +230,10 @@ namespace FourDO.UI
 
 		private Rectangle getCanvasRect()
 		{
-			double imageAspect = STANDARD_WIDTH / (double)STANDARD_HEIGHT;
+			const double imageAspect = STANDARD_WIDTH / (double)STANDARD_HEIGHT;
 			double screenAspect = this.Width / (double)this.Height;
 
-			Rectangle blitRect = new Rectangle();
+			var blitRect = new Rectangle();
 
 			if (this.preserveAspectRatio == false)
 			{

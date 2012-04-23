@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -184,7 +181,7 @@ namespace FourDO.Utilities
 		{
 			///////////
 			// Find the screen we're on (use the middle of the form).
-			System.Drawing.Point point = new Point();
+			Point point = new Point();
 			point.X = form.Left + form.Width / 2;
 			point.Y = form.Top + form.Height / 2;
 
@@ -202,7 +199,7 @@ namespace FourDO.Utilities
 			if (screenToUse == null)
 			{
 				screenNum = 0;
-				foreach (Screen screen in Screen.AllScreens)
+				foreach (var screen in Screen.AllScreens)
 				{
 					if (screen.Bounds.IntersectsWith(form.Bounds))
 					{
@@ -215,7 +212,7 @@ namespace FourDO.Utilities
 			if (screenToUse == null) // Yes, it could happen!
 			{
 				screenNum = 0;
-				foreach (Screen screen in Screen.AllScreens)
+				foreach (var screen in Screen.AllScreens)
 				{
 					if (screen.Bounds.IntersectsWith(form.Bounds))
 					{

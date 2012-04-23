@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FourDO.Emulation.GameSource;
@@ -109,7 +107,7 @@ namespace FourDO.UI
 			if (gameName == null)
 				return null;
 
-			StringBuilder friendlyName = new StringBuilder();
+			var friendlyName = new StringBuilder();
 			char[] nameChars = gameName.ToCharArray();
 			for (int x = 0; x < nameChars.Length; x++)
 			{

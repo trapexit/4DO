@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using FourDO.Resources;
 using FourDO.Utilities.Globals;
@@ -10,7 +7,7 @@ namespace FourDO.UI
 {
 	public partial class Main
 	{
-		private List<string> supportedLanguageCodes = new List<string>{
+		private readonly List<string> supportedLanguageCodes = new List<string>{
 				"en",
 				"ru",
 				"fr",
@@ -144,7 +141,7 @@ namespace FourDO.UI
 			{
 				if (item is ToolStripMenuItem)
 				{
-					ToolStripMenuItem menuItem = item as ToolStripMenuItem;
+					var menuItem = item as ToolStripMenuItem;
 					menuItem.Text = ((ToolStripItem)menuItem.Tag).Text;
 
 					if (menuItem.Tag == this.VoidAreaMenuItem)
@@ -157,7 +154,7 @@ namespace FourDO.UI
 				{
 					if (item is ToolStripMenuItem)
 					{
-						ToolStripMenuItem menuItem = item as ToolStripMenuItem;
+						var menuItem = item as ToolStripMenuItem;
 						menuItem.Text = ((ToolStripItem)menuItem.Tag).Text;
 					}
 				}

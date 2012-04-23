@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace FourDO.Utilities
 {
@@ -11,13 +6,13 @@ namespace FourDO.Utilities
 	{
 		public static bool IsInRuntimeMode(IComponent component)
 		{
-			bool ret = IsInDesignMode(component);
+			var ret = IsInDesignMode(component);
 			return !ret;
 		}
 
 		public static bool IsInDesignMode(IComponent component)
 		{
-			bool ret = false;
+			var ret = false;
 			if (null != component)
 			{
 				ISite site = component.Site;

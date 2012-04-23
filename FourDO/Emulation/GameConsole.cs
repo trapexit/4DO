@@ -43,7 +43,7 @@ namespace FourDO.Emulation
 
 		#region Private Variables
 
-		private readonly bool doFreeDOMultitask = true;
+		private const bool doFreeDOMultitask = true;
 
 		private const int ROM1_SIZE = 1 * 1024 * 1024;
 		private const int ROM2_SIZE = 1 * 1024 * 1024;
@@ -529,12 +529,12 @@ namespace FourDO.Emulation
 					Directory.CreateDirectory(saveDirectory);
 				writer = new BinaryWriter(new FileStream(saveStateFileName, FileMode.Create));
 
-				byte[] saveData = new byte[FreeDOCore.GetSaveSize()];
+				var saveData = new byte[FreeDOCore.GetSaveSize()];
 				unsafe
 				{
 					fixed (byte* saveDataPtr = saveData)
 					{
-						IntPtr pointer = new IntPtr(saveDataPtr);
+						var pointer = new IntPtr(saveDataPtr);
 						FreeDOCore.DoSave(pointer);
 					}
 				}
@@ -568,12 +568,12 @@ namespace FourDO.Emulation
 			try
 			{
 				reader = new BinaryReader(new FileStream(saveStateFileName, FileMode.Open));
-				byte[] saveData = reader.ReadBytes((int)FreeDOCore.GetSaveSize());
+				var saveData = reader.ReadBytes((int)FreeDOCore.GetSaveSize());
 				unsafe
 				{
 					fixed (byte* saveDataPtr = saveData)
 					{
-						IntPtr pointer = new IntPtr(saveDataPtr);
+						var pointer = new IntPtr(saveDataPtr);
 						FreeDOCore.DoLoad(pointer);
 					}
 				}
@@ -769,8 +769,7 @@ namespace FourDO.Emulation
 			long lastSample = 0;
 			long lastTarget = 0;
 			long targetPeriod = 0;
-			int lastFrameCount = 0;
-			int currentHertz = 12500000;
+		    int currentHertz = 12500000;
 
 			bool highResolution = false;
 
@@ -807,13 +806,13 @@ namespace FourDO.Emulation
 
 				// Execute a frame.
 				isSwapFrameSignaled = false;
-				lastFrameCount = 0;
+				int lastFrameCount = 0;
 
 				var frameWatch = new PerformanceStopWatch();
 				frameWatch.Start();
 				do
 				{
-					if (this.doFreeDOMultitask)
+					if (doFreeDOMultitask)
 						FreeDOCore.DoExecuteFrameMultitask(this.framePtr);
 					else
 						FreeDOCore.DoExecuteFrame(this.framePtr);

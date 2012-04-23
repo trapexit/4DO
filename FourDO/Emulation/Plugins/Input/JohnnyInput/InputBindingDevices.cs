@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Windows.Forms;
 using FourDO.Utilities;
 
@@ -40,8 +38,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			if (!File.Exists(fileName))
 				return null;
 
-			InputBindingDevices result = new InputBindingDevices();
-			CustomXmlSerializer serializer = new CustomXmlSerializer();
+			var result = new InputBindingDevices();
+			var serializer = new CustomXmlSerializer();
 			serializer.ReadXml(fileName, result);
 			return result;
 		}
@@ -59,7 +57,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			if (!Directory.Exists(directoryName))
 				Directory.CreateDirectory(directoryName);
 			
-			CustomXmlSerializer serializer = new CustomXmlSerializer();
+			var serializer = new CustomXmlSerializer();
 			serializer.IncludeClassNameAttribute = true;
 			serializer.WriteFile(this, fileName, true);
 		}
@@ -164,7 +162,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				var formatter = new BinaryFormatter();
 				formatter.Serialize(stream, this);
 				stream.Position = 0;
-				return (InputBindingDevices)formatter.Deserialize(stream);
+				return formatter.Deserialize(stream);
 			}
 		}
 

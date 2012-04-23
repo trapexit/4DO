@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using FourDO.Emulation;
 using FourDO.Utilities;
@@ -32,7 +30,7 @@ namespace FourDO.UI
 		private const int BASE_WIDTH = 320;
 		private const int BASE_HEIGHT = 240;
 
-		private SizeGuard sizeGuard = new SizeGuard();
+		private readonly SizeGuard sizeGuard = new SizeGuard();
 
 		private Point pointBeforeFullScreen;
 		private bool maximizedBeforeFullScreen = false;
@@ -40,11 +38,11 @@ namespace FourDO.UI
 
 		private bool isPausedBeforeInactive = false;
 
-		private MouseHook mouseHook = new MouseHook();
+		private readonly MouseHook mouseHook = new MouseHook();
 
-		private List<ToolStripMenuItem> openGameMenuItems = new List<ToolStripMenuItem>();
+		private readonly List<ToolStripMenuItem> openGameMenuItems = new List<ToolStripMenuItem>();
 		private Controls.VolumeMenuItem volumeMenuItem;
-		private List<ToolStripMenuItem> languageMenuItems = new List<ToolStripMenuItem>();
+		private readonly List<ToolStripMenuItem> languageMenuItems = new List<ToolStripMenuItem>();
 
 		#region Load/Close Form Events
 
@@ -143,7 +141,7 @@ namespace FourDO.UI
 			int menuInsertIndex = fileMenuItem.DropDownItems.IndexOf(openCDImageMenuItem) + 1;
 			foreach (char drive in CDDrive.GetCDDriveLetters())
 			{
-				ToolStripMenuItem newItem = new ToolStripMenuItem("");
+				var newItem = new ToolStripMenuItem("");
 				newItem.Tag = drive;
 				newItem.Click += new EventHandler(openFromDriveMenuItem_Click);
 				fileMenuItem.DropDownItems.Insert(menuInsertIndex, newItem);
@@ -237,7 +235,7 @@ namespace FourDO.UI
 
 			for (int x = 0; x < 10; x++)
 			{
-				ToolStripMenuItem newItem = new ToolStripMenuItem(Strings.MainMessageSlot + " " + x.ToString());
+				var newItem = new ToolStripMenuItem(Strings.MainMessageSlot + " " + x.ToString());
 				newItem.Name = "saveSlotMenuItem" + x.ToString();
 				newItem.Tag = x;
 				newItem.Click += new EventHandler(saveSlotMenuItem_Click);
@@ -245,9 +243,9 @@ namespace FourDO.UI
 			}
 
 			// Add language menu items.
-			foreach (string languageCode in this.supportedLanguageCodes)
+			foreach (var languageCode in this.supportedLanguageCodes)
 			{
-				ToolStripMenuItem newItem = new ToolStripMenuItem("");
+				var newItem = new ToolStripMenuItem("");
 				newItem.Tag = languageCode;
 				newItem.Click += new EventHandler(languageSelectionMenuItem_Click);
 				languageMenuItem.DropDownItems.Add(newItem);
@@ -913,11 +911,11 @@ namespace FourDO.UI
 				if (item.Tag == null)
 					continue;
 
-				ToolStripMenuItem menuItem = item as ToolStripMenuItem;
+				var menuItem = item as ToolStripMenuItem;
 				if (menuItem == null)
 					continue;
 
-				ToolStripMenuItem originalItem = menuItem.Tag as ToolStripMenuItem;
+				var originalItem = menuItem.Tag as ToolStripMenuItem;
 				if (originalItem == null)
 					continue;
 
@@ -953,8 +951,8 @@ namespace FourDO.UI
 				string directoryName = Path.GetDirectoryName(nvramFile);
 				if (!Directory.Exists(directoryName))
 					Directory.CreateDirectory(directoryName);
-				FileStream nvramStream = new FileStream(nvramFile, FileMode.CreateNew);
-				byte[] nvramBytes = new byte[GameConsole.Instance.NvramSize];
+				var nvramStream = new FileStream(nvramFile, FileMode.CreateNew);
+				var nvramBytes = new byte[GameConsole.Instance.NvramSize];
 				unsafe
 				{
 					fixed (byte* nvramBytePointer = nvramBytes)
@@ -1252,8 +1250,8 @@ namespace FourDO.UI
 					if (fps > 65.00) fps = 60.00 + (fps / 100); //fix fps because it be overflow
 				}
 				fps = Math.Min(fps, 999.99);
-				string fpsString = fps.ToString("00.00");
-				string extraPadding = new String(' ', 6 - fpsString.Length);
+				var fpsString = fps.ToString("00.00");
+				var extraPadding = new String(' ', 6 - fpsString.Length);
 				FPSStripItem.Text = Strings.MainMessageCoreFPS + ": " + extraPadding + fpsString;
 			}
 			else
