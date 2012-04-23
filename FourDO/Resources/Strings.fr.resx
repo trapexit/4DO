@@ -283,7 +283,7 @@
     <value>&amp;A Propos De 4DO...</value>
   </data>
   <data name="MainMenuHelpGameInfo" xml:space="preserve">
-    <value>Game &amp;Information...</value>
+    <value>&amp;Information sur le Jeu...</value>
   </data>
   <data name="MainMenuOptions" xml:space="preserve">
     <value>&amp;Options</value>
@@ -373,7 +373,7 @@
     <value />
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
-    <value>Le tampon audio fournie une certaine tolérance pour une vitesse d'émulation non prédictible au prix d'un retard de l'audio. Quand l'émulation se termine, des problèmes audio peuvent se produire.</value>
+    <value>Le tampon audio fournit une certaine tolérance pour une vitesse d'émulation non prédictible au prix d'un retard de l'audio. Quand l'émulation se termine, des problèmes audio peuvent se produire.</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
     <value>Moins de Ralentissement</value>
@@ -388,7 +388,7 @@
     <value>FPS + Haut</value>
   </data>
   <data name="SettingsTabAdvancedClockMessage" xml:space="preserve">
-    <value>En ajustant la vitesse d'horloge du CPU, vous pouvez potentiellement avoir plus de FPS dans les jeux. Tous les jeux ne pourront pas en profiter. Les jeux dépendent d'un timing précis et pourraient plantés.</value>
+    <value>En ajustant la vitesse d'horloge du CPU, vous pouvez potentiellement avoir plus de FPS dans les jeux. Tous les jeux ne pourront pas en profiter. Les jeux dépendent d'un timing précis et pourraient planter.</value>
   </data>
   <data name="SettingsTabAdvancedClockNormalFPS" xml:space="preserve">
     <value>FPS Normal</value>
@@ -400,7 +400,7 @@
     <value>Rendu en Haute Résolution</value>
   </data>
   <data name="SettingsTabAdvancedHighResMessage" xml:space="preserve">
-    <value>Via le rendu Software, les images à l'écran peuvent être affichées en 640 x 480. Le CPU est grandement sollicité, surtout pour les jeux 3D ! En activant cette option, penser à augmenter la taille du tampon audio.</value>
+    <value>Via le rendu Software, les images à l'écran peuvent être affichées en 640 x 480. Le CPU est grandement sollicité, surtout pour les jeux 3D ! En activant cette option, pensez à augmenter la taille du tampon audio.</value>
   </data>
   <data name="SettingsTabAdvancedHighResSetting" xml:space="preserve">
     <value>Activer le Rendu Vidéo en Haute Résolution</value>
