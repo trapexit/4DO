@@ -18,6 +18,7 @@ namespace FourDO.UI
 		private const InterpolationMode SMOOTH_SCALING_MODE = InterpolationMode.Low;
 		private const int STANDARD_WIDTH = 320;
 		private const int STANDARD_HEIGHT = 240;
+		private Size renderedSize = new Size(STANDARD_WIDTH, STANDARD_HEIGHT);
 
 		private readonly Pen screenBorderPen = new Pen(Color.FromArgb(50, 50, 50));
 
@@ -149,6 +150,8 @@ namespace FourDO.UI
 			this.childCanvas.MouseMove += childCanvas_MouseMove;
 			this.isConsoleStopped = true;
 
+			((ICanvas)this.childCanvas).BeforeRender += new BeforeRenderEventHandler(ChildCanvas_BeforeRender);
+
 			// Hook up to the console events.
 			GameConsole.Instance.FrameDone += new EventHandler(GameConsole_FrameDone);
 			GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(GameConsole_ConsoleStateChange);
@@ -204,8 +207,7 @@ namespace FourDO.UI
 
 		private void GameCanvas_Resize(object sender, EventArgs e)
 		{
-			this.childCanvas.Bounds = this.getCanvasRect();
-			pnlBlack.Bounds = this.childCanvas.Bounds;
+			this.ResizeUI();
 		}
 
 		private void GameCanvas_Paint(object sender, PaintEventArgs e)
@@ -230,7 +232,7 @@ namespace FourDO.UI
 
 		private Rectangle getCanvasRect()
 		{
-			const double imageAspect = STANDARD_WIDTH / (double)STANDARD_HEIGHT;
+			double imageAspect = renderedSize.Width / (double)renderedSize.Height;
 			double screenAspect = this.Width / (double)this.Height;
 
 			var blitRect = new Rectangle();
@@ -247,7 +249,7 @@ namespace FourDO.UI
 				if (screenAspect > imageAspect)
 				{
 					// window is wider than it should be.
-					blitRect.Width = (int)(STANDARD_WIDTH * (this.Height / (double)STANDARD_HEIGHT));
+					blitRect.Width = (int)(renderedSize.Width * (this.Height / (double)renderedSize.Height));
 					blitRect.Height = this.Height;
 					blitRect.X = (this.Width - blitRect.Width) / 2;
 					blitRect.Y = 0;
@@ -255,7 +257,7 @@ namespace FourDO.UI
 				else
 				{
 					blitRect.Width = this.Width;
-					blitRect.Height = (int)(STANDARD_HEIGHT * (this.Width / (double)STANDARD_WIDTH));
+					blitRect.Height = (int)(renderedSize.Height * (this.Width / (double)renderedSize.Width));
 					blitRect.X = 0;
 					blitRect.Y = (this.Height - blitRect.Height) / 2;
 				}
@@ -349,6 +351,22 @@ namespace FourDO.UI
 			}
 			
 			return (Control)createdControl;
+		}
+
+		private void ChildCanvas_BeforeRender(Size newSize)
+		{
+			if (renderedSize.Equals(newSize))
+				return;
+			
+			renderedSize = newSize;
+			this.ResizeUI();
+			this.Invalidate();
+		}
+
+		private void ResizeUI()
+		{
+			this.childCanvas.Bounds = this.getCanvasRect();
+			pnlBlack.Bounds = this.childCanvas.Bounds;
 		}
 	}
 }

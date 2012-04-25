@@ -43,6 +43,8 @@ namespace FourDO.UI.Canvases
 
 		private bool isGraphicsIntensive = false;
 
+		public event BeforeRenderEventHandler BeforeRender;
+
 		public GdiCanvas()
 		{
 			InitializeComponent();
@@ -188,7 +190,7 @@ namespace FourDO.UI.Canvases
 			}
 
 			// Copy!
-			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, false, false);
+			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, false, true);
 
 			// And.... we're done.
 			this.bitmapBunch.SetLastPreparedBitmap(bitmapToPrepare);

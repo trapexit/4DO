@@ -35,6 +35,8 @@ namespace FourDO.UI.Canvases
 			public Vector2 Texture;
 		}
 
+		public event BeforeRenderEventHandler BeforeRender;
+
 		public bool ImageSmoothing { get; set; }
 
 		public bool RenderHighResolution { get; set; }
@@ -168,7 +170,7 @@ namespace FourDO.UI.Canvases
 			///////////////////////////
 			// Update texture.
 			BitmapDefinition bitmapDefinition = this.bitmapBunch.GetNextRenderBitmap();
-			Bitmap bitmapToRender = bitmapDefinition.Bitmap;
+			Bitmap bitmapToRender = bitmapDefinition == null ? null :  bitmapDefinition.Bitmap;
 
 			if (bitmapToRender != null)
 			{
@@ -200,8 +202,8 @@ namespace FourDO.UI.Canvases
 			// Update vertex buffer.
 			var vertexStream = this.vertexBuffer.Lock(0, 0, LockFlags.None);
 
-			float bitmapWidth;
-			float bitmapHeight;
+			int bitmapWidth;
+			int bitmapHeight;
 			float bottom;
 			float right;
 
@@ -220,10 +222,18 @@ namespace FourDO.UI.Canvases
 				right = maximumX / 2;
 			}
 
-			float top = (bitmapDefinition.Crop.Top / bitmapHeight) * bottom;
-			float left = (bitmapDefinition.Crop.Left / bitmapWidth) * right;
-			right = right - (bitmapDefinition.Crop.Right / bitmapWidth) * right;
-			bottom = bottom - (bitmapDefinition.Crop.Bottom / bitmapHeight) * bottom;
+			var crop = bitmapDefinition == null ? new BitmapCrop() : bitmapDefinition.Crop;
+			Size renderedSize= new Size();
+			renderedSize.Width = bitmapWidth - crop.Left - crop.Right;
+			renderedSize.Height = bitmapHeight - crop.Top - crop.Bottom;
+
+			if (this.BeforeRender != null)
+				this.BeforeRender(renderedSize);
+
+			float top = (crop.Top / (float)bitmapHeight) * bottom;
+			float left = (crop.Left / (float)bitmapWidth) * right;
+			right = right - (crop.Right / (float)bitmapWidth) * right;
+			bottom = bottom - (crop.Bottom / (float)bitmapHeight) * bottom;
 
 			vertexStream.WriteRange(new[]{
 				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(left, top))
@@ -274,7 +284,7 @@ namespace FourDO.UI.Canvases
 			}
 
 			// Copy!
-			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, true, false);
+			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, true, true);
 
 			// And.... we're done.
 			this.bitmapBunch.SetLastPreparedBitmap(bitmapToPrepare);

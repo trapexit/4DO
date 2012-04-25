@@ -7,8 +7,11 @@ using System.Windows.Forms;
 
 namespace FourDO.UI.Canvases
 {
+	public delegate void BeforeRenderEventHandler(Size newSize);
 	interface ICanvas : IDisposable
 	{
+		event BeforeRenderEventHandler BeforeRender;
+
 		bool ImageSmoothing { get; set; }
 		bool RenderHighResolution { get; set; }
 		bool IsInResizeMode { get; set; }
