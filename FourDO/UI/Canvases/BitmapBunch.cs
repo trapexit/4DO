@@ -33,34 +33,34 @@ namespace FourDO.UI.Canvases
 			this.BitmapHeight = bitmapHeight;
 			this.BitmapPixelFormat = bitmapPixelFormat;
 
-			this.blackBitmap = new Bitmap(bitmapWidth, bitmapHeight, bitmapPixelFormat);
+			this.blackBitmap = new BitmapDefinition(bitmapWidth, bitmapHeight, bitmapPixelFormat);
 
-			bitmaps = new List<Bitmap>();
+			bitmaps = new List<BitmapDefinition>();
 			for (int x = 0; x <= BITMAP_COUNT; x++)
 			{
-				var bitmap = new Bitmap(bitmapWidth, bitmapHeight, bitmapPixelFormat);
-				bitmaps.Add(bitmap);
+				var bitmapDefinition = new BitmapDefinition(bitmapWidth, bitmapHeight, bitmapPixelFormat);
+				bitmaps.Add(bitmapDefinition);
 			}
 
 			this.lastPreparedBitmap = null;
 			this.currentRenderedBitmap = null;
 		}
 
-		public Bitmap GetBlackBitmap()
+		public BitmapDefinition GetBlackBitmap()
 		{
 			return blackBitmap;
 		}
 
-		public Bitmap GetNextPrepareBitmap()
+		public BitmapDefinition GetNextPrepareBitmap()
 		{
 			lock (bitmapSemaphore)
 			{
-				Bitmap returnedBitmap = bitmaps.FirstOrDefault(x => x != this.currentRenderedBitmap && x != this.lastPreparedBitmap);
+				BitmapDefinition returnedBitmap = bitmaps.FirstOrDefault(x => x != this.currentRenderedBitmap && x != this.lastPreparedBitmap);
 				return returnedBitmap;
 			}
 		}
 
-		public void SetLastPreparedBitmap(Bitmap bitmap)
+		public void SetLastPreparedBitmap(BitmapDefinition bitmap)
 		{
 			lock (bitmapSemaphore)
 			{
@@ -72,11 +72,11 @@ namespace FourDO.UI.Canvases
 			}
 		}
 
-		public Bitmap GetNextRenderBitmap()
+		public BitmapDefinition GetNextRenderBitmap()
 		{
 			lock (bitmapSemaphore)
 			{
-				Bitmap returnedBitmap = this.lastPreparedBitmap;
+				BitmapDefinition returnedBitmap = this.lastPreparedBitmap;
 				this.currentRenderedBitmap = returnedBitmap;
 				return returnedBitmap;
 			}
@@ -92,11 +92,11 @@ namespace FourDO.UI.Canvases
 
 		private object bitmapSemaphore = new object();
 
-		private List<Bitmap> bitmaps;
-		private Bitmap blackBitmap;
+		private List<BitmapDefinition> bitmaps;
+		private BitmapDefinition blackBitmap;
 
-		private Bitmap currentRenderedBitmap;
-		private Bitmap lastPreparedBitmap;
+		private BitmapDefinition currentRenderedBitmap;
+		private BitmapDefinition lastPreparedBitmap;
 
 	}
 }

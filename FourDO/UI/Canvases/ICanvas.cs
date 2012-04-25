@@ -7,16 +7,16 @@ using System.Windows.Forms;
 
 namespace FourDO.UI.Canvases
 {
-    interface ICanvas : IDisposable
-    {
-        bool ImageSmoothing { get; set; }
-        bool RenderHighResolution { get; set; }
-        bool IsInResizeMode { get; set; }
+	interface ICanvas : IDisposable
+	{
+		bool ImageSmoothing { get; set; }
+		bool RenderHighResolution { get; set; }
+		bool IsInResizeMode { get; set; }
 
-        void PushFrame(IntPtr currentFrame);
-        Bitmap GetCurrentBitmap();
+		void PushFrame(IntPtr currentFrame);
+		Bitmap GetCurrentBitmap();
 
-        void Initialize();
-        void Destroy();
-    }
+		void Initialize();
+		void Destroy();
+	}
 }

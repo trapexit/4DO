@@ -13,6 +13,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -166,6 +166,8 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Canvases\BitmapBunch.cs" />
+    <Compile Include="UI\Canvases\BitmapCrop.cs" />
+    <Compile Include="UI\Canvases\BitmapDefinition.cs" />
     <Compile Include="UI\Canvases\CanvasHelper.cs" />
     <Compile Include="UI\Canvases\GdiCanvas.cs">
       <SubType>UserControl</SubType>

@@ -120,16 +120,16 @@ namespace FourDO.UI.Canvases
 		{
 			if (this.bitmapBunch == null)
 				return null;
-			return this.bitmapBunch.GetNextRenderBitmap();
+			return this.bitmapBunch.GetNextRenderBitmap().Bitmap;
 		}
 
 		private void GameCanvas_Paint(object sender, PaintEventArgs e)
 		{
 			long sampleBefore = Utilities.PerformanceCounter.Current;
 
-			Bitmap bitmapToRender = this.bitmapBunch.GetNextRenderBitmap();
+			Bitmap bitmapToRender = this.bitmapBunch.GetNextRenderBitmap().Bitmap;
 			if (bitmapToRender == null)
-				bitmapToRender = this.bitmapBunch.GetBlackBitmap();
+				bitmapToRender = this.bitmapBunch.GetBlackBitmap().Bitmap;
 
 			Rectangle destRect = new Rectangle(0, 0, this.Width, this.Height);
 			Graphics g = e.Graphics;
@@ -169,7 +169,7 @@ namespace FourDO.UI.Canvases
 
 			/////////////// 
 			// Choose the best bitmap to do a background render to
-			Bitmap bitmapToPrepare = this.bitmapBunch.GetNextPrepareBitmap();
+			BitmapDefinition bitmapToPrepare = this.bitmapBunch.GetNextPrepareBitmap();
 			bool highResolution = this.RenderHighResolution;
 
 			// Determine how much of the image to copy.
@@ -188,7 +188,7 @@ namespace FourDO.UI.Canvases
 			}
 
 			// Copy!
-			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, false);
+			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, false, false);
 
 			// And.... we're done.
 			this.bitmapBunch.SetLastPreparedBitmap(bitmapToPrepare);
