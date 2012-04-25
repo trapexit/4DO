@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Text;
 
 namespace FourDO.UI.Canvases
 {
@@ -90,7 +88,7 @@ namespace FourDO.UI.Canvases
 			}
 		}
 
-		private object bitmapSemaphore = new object();
+		private readonly object bitmapSemaphore = new object();
 
 		private List<BitmapDefinition> bitmaps;
 		private BitmapDefinition blackBitmap;

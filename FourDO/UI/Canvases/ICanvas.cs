@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 
 namespace FourDO.UI.Canvases
 {
@@ -13,6 +9,7 @@ namespace FourDO.UI.Canvases
 		event BeforeRenderEventHandler BeforeRender;
 
 		bool ImageSmoothing { get; set; }
+		bool AutoCrop { get; set; }
 		bool RenderHighResolution { get; set; }
 		bool IsInResizeMode { get; set; }
 

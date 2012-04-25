@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FourDO.UI.Canvases
 {
@@ -41,6 +38,14 @@ namespace FourDO.UI.Canvases
 			}
 			else
 				throw new InvalidCastException("BitmapCrop comparable only to other BitmapCrop objects");
+		}
+
+		public void Mimic(BitmapCrop otherCrop)
+		{
+			this.Left = otherCrop.Left;
+			this.Top = otherCrop.Top;
+			this.Bottom = otherCrop.Bottom;
+			this.Right = otherCrop.Right;
 		}
 	}
 }

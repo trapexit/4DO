@@ -1,23 +1,12 @@
-﻿using FourDO.Emulation.FreeDO;
-using FourDO.Emulation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Security;
 using SlimDX;
 using SlimDX.Direct3D9;
-using SlimDX.Windows;
-
 using Device = SlimDX.Direct3D9.Device;
-using Resource = SlimDX.Direct3D9.Resource;
-using DXGI = SlimDX.DXGI;
 
 namespace FourDO.UI.Canvases
 {
@@ -36,6 +25,8 @@ namespace FourDO.UI.Canvases
 		}
 
 		public event BeforeRenderEventHandler BeforeRender;
+
+		public bool AutoCrop { get; set; }
 
 		public bool ImageSmoothing { get; set; }
 
@@ -76,6 +67,8 @@ namespace FourDO.UI.Canvases
 		protected Device device;
 
 		protected bool initialized = false;
+
+		protected CropHelper cropHelper = new CropHelper();
 
 		[StructLayout(LayoutKind.Sequential)]
 		protected struct Message
@@ -284,7 +277,12 @@ namespace FourDO.UI.Canvases
 			}
 
 			// Copy!
-			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, true, true);
+			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, true, this.AutoCrop);
+
+			// Consider the newly determined crop rectangle.
+			if (cropHelper.ConsiderAlternateCrop(bitmapToPrepare.Crop))
+				Console.WriteLine("newcrop");
+			bitmapToPrepare.Crop.Mimic(cropHelper.CurrentCrop);
 
 			// And.... we're done.
 			this.bitmapBunch.SetLastPreparedBitmap(bitmapToPrepare);

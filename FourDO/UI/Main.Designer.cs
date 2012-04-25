@@ -55,6 +55,8 @@
 			this.nextSlotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.screenshotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
 			this.pauseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.advanceFrameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,6 +72,7 @@
 			this.PatternNoneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
 			this.smoothResizingMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.autoCropMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.preserveRatioMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.snapWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,8 +94,6 @@
 			this.sizeBox = new FourDO.UI.SizeBox();
 			this.RomNagBox = new FourDO.UI.NagBox();
 			this.gameCanvas = new FourDO.UI.GameCanvas();
-			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
-			this.screenshotMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MainStatusStrip.SuspendLayout();
 			this.MainMenuBar.SuspendLayout();
 			this.SuspendLayout();
@@ -308,6 +309,19 @@
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			this.toolStripSeparator3.Size = new System.Drawing.Size(299, 6);
 			// 
+			// screenshotMenuItem
+			// 
+			this.screenshotMenuItem.Name = "screenshotMenuItem";
+			this.screenshotMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+			this.screenshotMenuItem.Size = new System.Drawing.Size(302, 22);
+			this.screenshotMenuItem.Text = "Screens&hot";
+			this.screenshotMenuItem.Click += new System.EventHandler(this.screenshotMenuItem_Click);
+			// 
+			// toolStripSeparator15
+			// 
+			this.toolStripSeparator15.Name = "toolStripSeparator15";
+			this.toolStripSeparator15.Size = new System.Drawing.Size(299, 6);
+			// 
 			// pauseMenuItem
 			// 
 			this.pauseMenuItem.Name = "pauseMenuItem";
@@ -340,6 +354,7 @@
             this.VoidAreaMenuItem,
             this.toolStripSeparator10,
             this.smoothResizingMenuItem,
+            this.autoCropMenuItem,
             this.preserveRatioMenuItem,
             this.toolStripSeparator6,
             this.snapWindowMenuItem});
@@ -433,6 +448,16 @@
 			this.smoothResizingMenuItem.Size = new System.Drawing.Size(232, 22);
 			this.smoothResizingMenuItem.Text = "&Smooth Image Resizing";
 			this.smoothResizingMenuItem.Click += new System.EventHandler(this.smoothResizingMenuItem_Click);
+			// 
+			// autoCropMenuItem
+			// 
+			this.autoCropMenuItem.Checked = true;
+			this.autoCropMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.autoCropMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
+			this.autoCropMenuItem.Name = "autoCropMenuItem";
+			this.autoCropMenuItem.Size = new System.Drawing.Size(232, 22);
+			this.autoCropMenuItem.Text = "Auto-&Crop Blank Borders";
+			this.autoCropMenuItem.Click += new System.EventHandler(this.autoCropMenuItem_Click);
 			// 
 			// preserveRatioMenuItem
 			// 
@@ -606,19 +631,6 @@
 			this.gameCanvas.VoidAreaBorder = false;
 			this.gameCanvas.VoidAreaPattern = FourDO.UI.VoidAreaPattern.None;
 			// 
-			// toolStripSeparator15
-			// 
-			this.toolStripSeparator15.Name = "toolStripSeparator15";
-			this.toolStripSeparator15.Size = new System.Drawing.Size(299, 6);
-			// 
-			// screenshotMenuItem
-			// 
-			this.screenshotMenuItem.Name = "screenshotMenuItem";
-			this.screenshotMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
-			this.screenshotMenuItem.Size = new System.Drawing.Size(302, 22);
-			this.screenshotMenuItem.Text = "Screens&hot";
-			this.screenshotMenuItem.Click += new System.EventHandler(this.screenshotMenuItem_Click);
-			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -715,6 +727,7 @@
         private System.Windows.Forms.ToolStripMenuItem chooseBiosRom2MenuItem;
 		private System.Windows.Forms.ToolStripMenuItem screenshotMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
+		private System.Windows.Forms.ToolStripMenuItem autoCropMenuItem;
 
     }
 }

@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-
-using FourDO.Emulation;
-using FourDO.Emulation.FreeDO;
 
 namespace FourDO.UI.Canvases
 {
@@ -25,9 +16,6 @@ namespace FourDO.UI.Canvases
 		private const int LOW_RES_WIDTH = HIGH_RES_WIDTH / 2;
 		private const int LOW_RES_HEIGHT = HIGH_RES_HEIGHT / 2;
 
-		private Pen thickBlackPen = new Pen(Color.FromArgb(0, 0, 0), 5);
-		private Pen screenBorderPen = new Pen(Color.FromArgb(50, 50, 50));
-
 		protected BitmapBunch bitmapBunch;
 
 		// I added a frameskip to help ensure that the goofy main form controls can update. Damn windows forms!!
@@ -37,11 +25,12 @@ namespace FourDO.UI.Canvases
 
 		private long scanDrawTime = 0;
 
-		private bool preserveAspectRatio = true;
 		private InterpolationMode scalingMode = SMOOTH_SCALING_MODE;
 		private bool renderHighResolution = false;
 
 		private bool isGraphicsIntensive = false;
+
+		private CropHelper cropHelper = new CropHelper();
 
 		public event BeforeRenderEventHandler BeforeRender;
 
@@ -58,18 +47,7 @@ namespace FourDO.UI.Canvases
 			this.scanDrawTime = (long)((1 / maxRefreshRate) * Utilities.PerformanceCounter.Frequency);
 		}
 
-		public bool PreserveAspectRatio
-		{
-			get
-			{
-				return this.preserveAspectRatio;
-			}
-			set
-			{
-				this.preserveAspectRatio = value;
-				this.Invalidate();
-			}
-		}
+		public bool AutoCrop { get; set; }
 
 		public bool ImageSmoothing
 		{
@@ -129,7 +107,8 @@ namespace FourDO.UI.Canvases
 		{
 			long sampleBefore = Utilities.PerformanceCounter.Current;
 
-			Bitmap bitmapToRender = this.bitmapBunch.GetNextRenderBitmap().Bitmap;
+			BitmapDefinition bitmapDefinition = this.bitmapBunch.GetNextRenderBitmap();
+			Bitmap bitmapToRender = bitmapDefinition == null ? null : bitmapDefinition.Bitmap;
 			if (bitmapToRender == null)
 				bitmapToRender = this.bitmapBunch.GetBlackBitmap().Bitmap;
 
@@ -137,13 +116,14 @@ namespace FourDO.UI.Canvases
 			Graphics g = e.Graphics;
 			g.InterpolationMode = this.scalingMode;
 
-			if (this.RenderHighResolution)
-				g.DrawImage(bitmapToRender, destRect);
-			else
-			{
-				Rectangle sourceRect = new Rectangle(0, 0, LOW_RES_WIDTH, LOW_RES_HEIGHT);
-				g.DrawImage(bitmapToRender, destRect, sourceRect, GraphicsUnit.Pixel);
-			}
+			var crop = bitmapDefinition == null ? new BitmapCrop() : bitmapDefinition.Crop;
+			Rectangle sourceRect = new Rectangle(
+				crop.Left,
+				crop.Top,
+				(this.RenderHighResolution ? HIGH_RES_WIDTH : LOW_RES_WIDTH) - crop.Left - crop.Right,
+				(this.RenderHighResolution ? HIGH_RES_HEIGHT : LOW_RES_HEIGHT) - crop.Top - crop.Bottom);
+
+			g.DrawImage(bitmapToRender, destRect, sourceRect, GraphicsUnit.Pixel);
 
 			// If we're taking longer than half of the scan time to draw, do a frame skip.
 			if ((Utilities.PerformanceCounter.Current - sampleBefore) * 2 > scanDrawTime)
@@ -190,7 +170,12 @@ namespace FourDO.UI.Canvases
 			}
 
 			// Copy!
-			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, false, true);
+			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, false, this.AutoCrop);
+
+			// Consider the newly determined crop rectangle.
+			if (cropHelper.ConsiderAlternateCrop(bitmapToPrepare.Crop))
+				Console.WriteLine("newcrop");
+			bitmapToPrepare.Crop.Mimic(cropHelper.CurrentCrop);
 
 			// And.... we're done.
 			this.bitmapBunch.SetLastPreparedBitmap(bitmapToPrepare);

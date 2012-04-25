@@ -23,7 +23,7 @@ namespace FourDO.UI
 		private readonly Pen screenBorderPen = new Pen(Color.FromArgb(50, 50, 50));
 
 		private readonly Control childCanvas;
-	
+
 		private bool preserveAspectRatio = true;
 
 		private bool isConsoleStopped;
@@ -72,6 +72,18 @@ namespace FourDO.UI
 				
 				voidAreaBorder = value;
 				this.Invalidate();
+			}
+		}
+
+		public bool AutoCrop
+		{
+			get
+			{
+				return ((ICanvas)this.childCanvas).AutoCrop;
+			}
+			set
+			{
+				((ICanvas)this.childCanvas).AutoCrop = value;
 			}
 		}
 

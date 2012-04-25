@@ -169,6 +169,7 @@
     <Compile Include="UI\Canvases\BitmapCrop.cs" />
     <Compile Include="UI\Canvases\BitmapDefinition.cs" />
     <Compile Include="UI\Canvases\CanvasHelper.cs" />
+    <Compile Include="UI\Canvases\CropHelper.cs" />
     <Compile Include="UI\Canvases\GdiCanvas.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -172,6 +172,9 @@ namespace FourDO.UI
 					if (item == snapWindowMenuItem)
 						newItem.Click += new EventHandler(this.snapWindowMenuItem_Click);
 
+					if (item == autoCropMenuItem)
+						newItem.Click += new EventHandler(this.autoCropMenuItem_Click);
+
 					if (item == preserveRatioMenuItem)
 						newItem.Click += new EventHandler(this.preserveRatioMenuItem_Click);
 
@@ -353,6 +356,7 @@ namespace FourDO.UI
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowPreseveRatio)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowSnapSize)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowImageSmoothing)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowAutoCrop)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomSourceType)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomLastDirectory)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomFile)
@@ -551,6 +555,11 @@ namespace FourDO.UI
 		private void smoothResizingMenuItem_Click(object sender, EventArgs e)
 		{
 			this.DoToggleImageSmoothing();
+		}
+
+		private void autoCropMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoToggleAutoCrop();
 		}
 
 		private void DrawBorderMenuItem_Click(object sender, EventArgs e)
@@ -828,6 +837,9 @@ namespace FourDO.UI
 
 			this.snapWindowMenuItem.Checked = Properties.Settings.Default.WindowSnapSize;
 			this.sizeGuard.Enabled = this.snapWindowMenuItem.Checked && (Properties.Settings.Default.WindowFullScreen == false);
+
+			this.autoCropMenuItem.Checked = Properties.Settings.Default.WindowAutoCrop;
+			this.gameCanvas.AutoCrop = this.autoCropMenuItem.Checked;
 
 			this.preserveRatioMenuItem.Checked = Properties.Settings.Default.WindowPreseveRatio;
 			this.gameCanvas.PreserveAspectRatio = this.preserveRatioMenuItem.Checked;
@@ -1299,6 +1311,12 @@ namespace FourDO.UI
 			Properties.Settings.Default.Save();
 		}
 
+		private void DoToggleAutoCrop()
+		{
+			Properties.Settings.Default.WindowAutoCrop = !Properties.Settings.Default.WindowAutoCrop;
+			Properties.Settings.Default.Save();
+		}
+
 		private void DoSaveWindowSize()
 		{
 			Properties.Settings.Default.WindowWidth = this.Width;
@@ -1421,6 +1439,5 @@ namespace FourDO.UI
 		}
 
 		#endregion // Private Methods
-
 	}
 }
