@@ -66,6 +66,7 @@ namespace FourDO.UI
 			this.PatternNoneMenuItem.Text = Strings.MainMenuDisplayVoidAreaPatternNone;
 			this.smoothResizingMenuItem.Text = Strings.MainMenuDisplaySmoothResizing;
 			this.preserveRatioMenuItem.Text = Strings.MainMenuDisplayPreserveRatio;
+			this.autoCropMenuItem.Text = Strings.MainMenuDisplayAutoCrop;
 			this.snapWindowMenuItem.Text = Strings.MainMenuDisplayResizeSnap;
 
 			this.audioMenuItem.Text = Strings.MainMenuAudio;

@@ -28,6 +28,7 @@ namespace FourDO.UI
 			chkSmoothImageResize.Checked = Properties.Settings.Default.WindowImageSmoothing;
 			chkPreserveAspectRatio.Checked = Properties.Settings.Default.WindowPreseveRatio;
 			chkSnapWindowIncrements.Checked = Properties.Settings.Default.WindowSnapSize;
+			chkAutoCropImage.Checked = Properties.Settings.Default.WindowAutoCrop;
 			chkDrawGrayBorder.Checked = Properties.Settings.Default.VoidAreaBorder;
 
 			Background4DOOption.Checked = (Properties.Settings.Default.VoidAreaPattern == (int)VoidAreaPattern.FourDO);
@@ -54,6 +55,7 @@ namespace FourDO.UI
 			Properties.Settings.Default.WindowImageSmoothing = chkSmoothImageResize.Checked;
 			Properties.Settings.Default.WindowPreseveRatio = chkPreserveAspectRatio.Checked;
 			Properties.Settings.Default.WindowSnapSize = chkSnapWindowIncrements.Checked;
+			Properties.Settings.Default.WindowAutoCrop = chkAutoCropImage.Checked;
 			Properties.Settings.Default.VoidAreaBorder = chkDrawGrayBorder.Checked;
 
 			if (this.Background4DOOption.Checked)

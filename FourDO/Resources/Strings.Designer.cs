@@ -376,6 +376,15 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto-&amp;Crop Blank Borders.
+        /// </summary>
+        internal static string MainMenuDisplayAutoCrop {
+            get {
+                return ResourceManager.GetString("MainMenuDisplayAutoCrop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Full Screen.
         /// </summary>
         internal static string MainMenuDisplayFullscreen {
@@ -930,6 +939,15 @@ namespace FourDO.Resources {
         internal static string SettingsTabDisplay {
             get {
                 return ResourceManager.GetString("SettingsTabDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically crop game area to remove black borders.
+        /// </summary>
+        internal static string SettingsTabDisplayAutoCrop {
+            get {
+                return ResourceManager.GetString("SettingsTabDisplayAutoCrop", resourceCulture);
             }
         }
         

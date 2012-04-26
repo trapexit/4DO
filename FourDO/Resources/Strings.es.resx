@@ -222,6 +222,9 @@
   <data name="MainMenuDisplay" xml:space="preserve">
     <value>Panta&amp;lla</value>
   </data>
+  <data name="MainMenuDisplayAutoCrop" xml:space="preserve">
+    <value>Recortar automáticamente Fronteras Negro</value>
+  </data>
   <data name="MainMenuDisplayFullscreen" xml:space="preserve">
     <value>Pantalla &amp;completa</value>
   </data>
@@ -410,6 +413,9 @@
   </data>
   <data name="SettingsTabDisplay" xml:space="preserve">
     <value>Pantalla</value>
+  </data>
+  <data name="SettingsTabDisplayAutoCrop" xml:space="preserve">
+    <value>Automáticamente la superficie cultivada del juego para eliminar los bordes negros</value>
   </data>
   <data name="SettingsTabDisplayDrawBorder" xml:space="preserve">
     <value>Dibujar un borde gris alrededor del área visible</value>

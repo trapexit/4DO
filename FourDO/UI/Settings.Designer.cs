@@ -64,6 +64,8 @@
 			this.BorderPanel = new System.Windows.Forms.Panel();
 			this.pictureBox9 = new System.Windows.Forms.PictureBox();
 			this.DisplayGeneralGroupBox = new System.Windows.Forms.GroupBox();
+			this.chkAutoCropImage = new System.Windows.Forms.CheckBox();
+			this.pictureBox12 = new System.Windows.Forms.PictureBox();
 			this.chkSnapWindowIncrements = new System.Windows.Forms.CheckBox();
 			this.pictureBox7 = new System.Windows.Forms.PictureBox();
 			this.chkPreserveAspectRatio = new System.Windows.Forms.CheckBox();
@@ -117,6 +119,7 @@
 			this.BorderPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
 			this.DisplayGeneralGroupBox.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
@@ -150,7 +153,7 @@
 			this.CloseButton.Location = new System.Drawing.Point(389, 15);
 			this.CloseButton.Name = "CloseButton";
 			this.CloseButton.Size = new System.Drawing.Size(75, 23);
-			this.CloseButton.TabIndex = 1;
+			this.CloseButton.TabIndex = 2;
 			this.CloseButton.Text = "&Cancel";
 			this.CloseButton.UseVisualStyleBackColor = true;
 			this.CloseButton.Click += new System.EventHandler(this.CancelButton_Click);
@@ -161,7 +164,7 @@
 			this.groupBox1.Location = new System.Drawing.Point(0, 0);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(476, 2);
-			this.groupBox1.TabIndex = 2;
+			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			// 
 			// OKButton
@@ -170,7 +173,7 @@
 			this.OKButton.Location = new System.Drawing.Point(308, 15);
 			this.OKButton.Name = "OKButton";
 			this.OKButton.Size = new System.Drawing.Size(75, 23);
-			this.OKButton.TabIndex = 0;
+			this.OKButton.TabIndex = 1;
 			this.OKButton.Text = "&OK";
 			this.OKButton.UseVisualStyleBackColor = true;
 			this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
@@ -229,7 +232,7 @@
 			this.GeneralTabPage.Location = new System.Drawing.Point(4, 22);
 			this.GeneralTabPage.Name = "GeneralTabPage";
 			this.GeneralTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.GeneralTabPage.Size = new System.Drawing.Size(444, 420);
+			this.GeneralTabPage.Size = new System.Drawing.Size(444, 432);
 			this.GeneralTabPage.TabIndex = 0;
 			this.GeneralTabPage.Text = "General";
 			// 
@@ -369,7 +372,7 @@
 			this.DisplayVoidGroupBox.Controls.Add(this.VoidPatternLabel);
 			this.DisplayVoidGroupBox.Controls.Add(this.chkDrawGrayBorder);
 			this.DisplayVoidGroupBox.Controls.Add(this.BackgroundPanel);
-			this.DisplayVoidGroupBox.Location = new System.Drawing.Point(17, 206);
+			this.DisplayVoidGroupBox.Location = new System.Drawing.Point(17, 262);
 			this.DisplayVoidGroupBox.Name = "DisplayVoidGroupBox";
 			this.DisplayVoidGroupBox.Size = new System.Drawing.Size(411, 164);
 			this.DisplayVoidGroupBox.TabIndex = 1;
@@ -516,6 +519,8 @@
 			// 
 			this.DisplayGeneralGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.DisplayGeneralGroupBox.Controls.Add(this.chkAutoCropImage);
+			this.DisplayGeneralGroupBox.Controls.Add(this.pictureBox12);
 			this.DisplayGeneralGroupBox.Controls.Add(this.chkSnapWindowIncrements);
 			this.DisplayGeneralGroupBox.Controls.Add(this.pictureBox7);
 			this.DisplayGeneralGroupBox.Controls.Add(this.chkPreserveAspectRatio);
@@ -524,24 +529,42 @@
 			this.DisplayGeneralGroupBox.Controls.Add(this.chkSmoothImageResize);
 			this.DisplayGeneralGroupBox.Location = new System.Drawing.Point(17, 15);
 			this.DisplayGeneralGroupBox.Name = "DisplayGeneralGroupBox";
-			this.DisplayGeneralGroupBox.Size = new System.Drawing.Size(411, 185);
+			this.DisplayGeneralGroupBox.Size = new System.Drawing.Size(411, 241);
 			this.DisplayGeneralGroupBox.TabIndex = 0;
 			this.DisplayGeneralGroupBox.TabStop = false;
 			this.DisplayGeneralGroupBox.Text = "&General Display Settings";
 			// 
+			// chkAutoCropImage
+			// 
+			this.chkAutoCropImage.Location = new System.Drawing.Point(69, 129);
+			this.chkAutoCropImage.Name = "chkAutoCropImage";
+			this.chkAutoCropImage.Size = new System.Drawing.Size(334, 49);
+			this.chkAutoCropImage.TabIndex = 2;
+			this.chkAutoCropImage.Text = "Automatically crop game area to remove black borders";
+			this.chkAutoCropImage.UseVisualStyleBackColor = true;
+			// 
+			// pictureBox12
+			// 
+			this.pictureBox12.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox12.Image")));
+			this.pictureBox12.Location = new System.Drawing.Point(6, 129);
+			this.pictureBox12.Name = "pictureBox12";
+			this.pictureBox12.Size = new System.Drawing.Size(47, 49);
+			this.pictureBox12.TabIndex = 10;
+			this.pictureBox12.TabStop = false;
+			// 
 			// chkSnapWindowIncrements
 			// 
-			this.chkSnapWindowIncrements.Location = new System.Drawing.Point(69, 129);
+			this.chkSnapWindowIncrements.Location = new System.Drawing.Point(69, 184);
 			this.chkSnapWindowIncrements.Name = "chkSnapWindowIncrements";
 			this.chkSnapWindowIncrements.Size = new System.Drawing.Size(334, 49);
-			this.chkSnapWindowIncrements.TabIndex = 2;
+			this.chkSnapWindowIncrements.TabIndex = 3;
 			this.chkSnapWindowIncrements.Text = "When resizing the window, snap to clean increments";
 			this.chkSnapWindowIncrements.UseVisualStyleBackColor = true;
 			// 
 			// pictureBox7
 			// 
 			this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox7.Image")));
-			this.pictureBox7.Location = new System.Drawing.Point(6, 129);
+			this.pictureBox7.Location = new System.Drawing.Point(6, 184);
 			this.pictureBox7.Name = "pictureBox7";
 			this.pictureBox7.Size = new System.Drawing.Size(47, 49);
 			this.pictureBox7.TabIndex = 9;
@@ -910,6 +933,7 @@
 			this.BorderPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
 			this.DisplayGeneralGroupBox.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
@@ -998,5 +1022,7 @@
 		private System.Windows.Forms.CheckBox chkRenderHighRes;
 		private System.Windows.Forms.Label HighResolutionLabel;
 		private System.Windows.Forms.PictureBox pictureBox11;
+		private System.Windows.Forms.CheckBox chkAutoCropImage;
+		private System.Windows.Forms.PictureBox pictureBox12;
     }
 }
