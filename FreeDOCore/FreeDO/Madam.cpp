@@ -1741,7 +1741,7 @@ void __fastcall DrawPackedCel_New()
 
 		int drawHeight;
 		drawHeight = VDY1616;
-		if (CCBFLAGS&CCB_MARIA)
+		if (CCBFLAGS&CCB_MARIA && drawHeight > (1 << 16))
 			drawHeight = (1 << 16);
 
 		for(currentrow=0;currentrow<SPRHI;currentrow++)
@@ -2015,7 +2015,7 @@ void __fastcall DrawLiteralCel_New()
 
 		int drawHeight;
 		drawHeight = VDY1616;
-		if (CCBFLAGS&CCB_MARIA)
+		if (CCBFLAGS&CCB_MARIA && drawHeight > (1 << 16))
 			drawHeight = (1 << 16);
 
 		for(i=0;i<SPRHI;i++)
@@ -2162,7 +2162,7 @@ void __fastcall DrawLRCel_New()
 	{
 		int drawHeight;
 		drawHeight = VDY1616;
-		if (CCBFLAGS&CCB_MARIA)
+		if (CCBFLAGS&CCB_MARIA && drawHeight > (1 << 16))
 			drawHeight = (1 << 16);
 
 		for(i=0;i<SPRHI;i++)
@@ -2886,5 +2886,3 @@ updowns[i+1]=jtmp;
 
 	return 0;
 }
-
-
