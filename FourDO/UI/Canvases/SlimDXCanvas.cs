@@ -192,9 +192,8 @@ namespace FourDO.UI.Canvases
 			this.device.SetSamplerState(0, SamplerState.MinFilter, filter);
 			this.device.SetSamplerState(0, SamplerState.MagFilter, filter);
 
-			// Update vertex buffer.
-			var vertexStream = this.vertexBuffer.Lock(0, 0, LockFlags.None);
-
+			///////////////////////////
+			// Update drawing size dependent on cropping and resolution.
 			int bitmapWidth;
 			int bitmapHeight;
 			float bottom;
@@ -216,7 +215,7 @@ namespace FourDO.UI.Canvases
 			}
 
 			var crop = bitmapDefinition == null ? new BitmapCrop() : bitmapDefinition.Crop;
-			Size renderedSize= new Size();
+			Size renderedSize = new Size();
 			renderedSize.Width = bitmapWidth - crop.Left - crop.Right;
 			renderedSize.Height = bitmapHeight - crop.Top - crop.Bottom;
 
@@ -228,16 +227,16 @@ namespace FourDO.UI.Canvases
 			right = right - (crop.Right / (float)bitmapWidth) * right;
 			bottom = bottom - (crop.Bottom / (float)bitmapHeight) * bottom;
 
+			var vertexStream = this.vertexBuffer.Lock(0, 0, LockFlags.None);
 			vertexStream.WriteRange(new[]{
-				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(left, top))
-				,new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(right, bottom))
-				,new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(left, bottom))
+				new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(left + .0001f, top + .0001f))
+				,new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(right + .0001f, bottom + .0001f))
+				,new TexturedVertex(new Vector3(-1.0f,-1.0f, 0.0f), new Vector2(left + .0001f, bottom + .0001f))
 
-				,new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(right - .0001f, bottom + .0001f))
-				,new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(left - .0001f, top + .0001f))
-				,new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(right - .0001f, top + .0001f))
+				,new TexturedVertex(new Vector3( 1.0f,-1.0f, 0.0f), new Vector2(right + .0001f, bottom + .0001f))
+				,new TexturedVertex(new Vector3(-1.0f, 1.0f, 0.0f), new Vector2(left + .0001f, top + .0001f))
+				,new TexturedVertex(new Vector3( 1.0f, 1.0f, 0.0f), new Vector2(right + .0001f, top + .0001f))
 				});
-
 			vertexBuffer.Unlock();
 
 			//////////////////////
