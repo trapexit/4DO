@@ -23,7 +23,7 @@ Felix Lazarev
 
 #include "freedoconfig.h"
 #include "freedocore.h"
-
+#include "stdafx.h"
 #include "arm.h"
 #include "vdlp.h"
 #include "DSP.h"
@@ -113,7 +113,6 @@ VDLFrame *curr_frame;
 bool scipframe;
 void _3do_InternalFrame(int cicles)
 {
-	//cicles=21;?
  int line;
                 _qrz_PushARMCycles(cicles);
                 if(_qrz_QueueDSP())
@@ -161,8 +160,7 @@ int i,cnt=0;
                 }
 
                 cnt+=_arm_Execute();   
-
-                if(cnt>>5){_3do_InternalFrame(cnt);i+=cnt;cnt=0;}
+                if(cnt>>4){_3do_InternalFrame(cnt);i+=cnt;cnt=0;}
 
         }
 
