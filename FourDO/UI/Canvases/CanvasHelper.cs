@@ -79,19 +79,19 @@ namespace FourDO.UI.Canvases
 						srcPtr++;
 
 						if (line < newCrop.Top)
-							if (!(rPart < 0xF && gPart < 0xF && rPart < 0xF))
+							if (!(rPart < 0xF && gPart < 0xF && bPart < 0xF))
 								newCrop.Top = line;
 
 						if (pix < newCrop.Left )
-							if (!(rPart < 0xF && gPart < 0xF && rPart < 0xF))
+							if (!(rPart < 0xF && gPart < 0xF && bPart < 0xF))
 								newCrop.Left = pix;
 
 						if (pix > copyWidth - newCrop.Right - 1)
-							if (!(rPart < 0xF && gPart < 0xF && rPart < 0xF))
+							if (!(rPart < 0xF && gPart < 0xF && bPart < 0xF))
 								newCrop.Right = copyWidth - pix - 1;
 
 						if (line > copyHeight - newCrop.Bottom - 1)
-							if (!(rPart < 0xF && gPart < 0xF && rPart < 0xF))
+							if (!(rPart < 0xF && gPart < 0xF && bPart < 0xF))
 								newCrop.Bottom = copyHeight - line - 1;
 					}
 					if (addBlackBorder)
