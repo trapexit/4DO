@@ -258,6 +258,7 @@ int sf=0;
 int sdf=0;
 int unknownflag11=0;
 int jw=0;
+int cnbfix=0;
 FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 {
 int line;
@@ -265,6 +266,7 @@ int line;
         {
          case FDP_INIT:
 			    sf=5000000;
+				cnbfix=0;
                 io_interface=(_ext_Interface)datum;
                 return (void*)_3do_Init();
          case FDP_DESTROY:

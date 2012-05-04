@@ -18,6 +18,7 @@ extern int sdf;
 extern int unknownflag11;
 extern int HightResMode;
 extern int jw;
+extern int cnbfix;
 
 #define DEBUG_CORE
 

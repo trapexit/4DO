@@ -26,7 +26,7 @@ namespace FourDO.UI
 			this.chkSmoothImageResize.Text = Strings.SettingsTabDisplaySmoothResizing;
 			this.chkPreserveAspectRatio.Text = Strings.SettingsTabDisplayPreserveAspectRatio;
 			this.chkSnapWindowIncrements.Text = Strings.SettingsTabDisplaySnapResizing;
-			this.chkSnapWindowIncrements.Text = Strings.SettingsTabDisplayAutoCrop;
+			this.chkAutoCropImage.Text = Strings.SettingsTabDisplayAutoCrop;
 			this.DisplayVoidGroupBox.Text = Strings.SettingsTabDisplayVoidOptions;
 			this.chkDrawGrayBorder.Text = Strings.SettingsTabDisplayDrawBorder;
 			this.VoidPatternLabel.Text = Strings.SettingsTabDisplayVoidPattern;

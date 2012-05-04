@@ -144,19 +144,18 @@ if(sdf>0) sdf--;
 if(sf>0) sf--;
 if(unknownflag11>0)unknownflag11--;
 if(ARM_CLOCK<0x5F5E10)ARM_CLOCK=0x5F5E10;
-if(ARM_CLOCK>0x23C3460)ARM_CLOCK=0x23C3460;
+if(ARM_CLOCK>0x2FAF080)ARM_CLOCK=0x2FAF080;
  if(speedfixes>0&&speedfixes<0x186A1) {/*sp=0x2DC6C0;*/ speedfixes--;}
  else if(speedfixes>0x186A1&&speedfixes<0x30D41) {/*if(sdf==0)sp=0x4C4B40; */speedfixes--;}
  else if(speedfixes<0) {sp=0x3D0900; speedfixes++;}
  else if(speedfixes>0x30D41) {/*sp=0x249F00;*/ speedfixes--;}
  else if(speedfixes==0x30D41||speedfixes==0x186A1) speedfixes=0;
-      if((fixmode&FIX_BIT_TIMING_2)&&sf<=2500000) {sp=0; timers=25000000; if(sf==0)sp=-(0x1C9C380-ARM_CLOCK);}
+      if((fixmode&FIX_BIT_TIMING_2)&&sf<=2500000) {sp=0; timers=21000000; if(sf==0)sp=-(0x1C9C380-ARM_CLOCK);}
       if((fixmode&FIX_BIT_TIMING_1)/*&&jw>0*/&&sf<=1500000){/*jw--;*/timers=1000000;sp=-3000000;}
 	  if((fixmode&FIX_BIT_TIMING_4)/*&&jw>0*/){/*jw--;*/timers=1000000;sp=-3000000;}
-	  if((fixmode&FIX_BIT_TIMING_3)&&(sf>0&&sf<=100000)/*&&jw>0*/){/*jw--;*/timers=900000;sp=-2000000;}
-	  if((fixmode&FIX_BIT_TIMING_5)&&sf==0&&jw>0){jw--;timers=1000000;sp=-3000000;}
-	  else if((fixmode&FIX_BIT_TIMING_5)&&sf!=0)sp=0;
-	  if((fixmode&FIX_BIT_TIMING_6)/*&&jw>0*/){/*jw--;*/timers=1000000; sp=0;if(sf<=85000)sp=-23000000;}
+	  if((fixmode&FIX_BIT_TIMING_3)&&(sf>0&&sf<=100000)/*&&jw>0*/){/*jw--;*/timers=900000;}
+	  if((fixmode&FIX_BIT_TIMING_5)&&sf==0&&jw>0){jw--;timers=1000000;}
+	  if((fixmode&FIX_BIT_TIMING_6)/*&&jw>0*/){/*jw--;*/timers=1000000; if(sf<=80000)sp=-23000000;}
 	  if(fixmode&FIX_BIT_TIMING_7){sp=-3000000; timers=21000000;}
 	  if((sf>0x186A0&&!(fixmode&FIX_BIT_TIMING_2))||((fixmode&FIX_BIT_TIMING_2)&&sf>2500000))sp=-(12200000-ARM_CLOCK);
   if((ARM_CLOCK-sp)<0x2DC6C0)sp=-(0x2DC6C0-ARM_CLOCK);

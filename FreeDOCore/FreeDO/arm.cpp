@@ -33,6 +33,7 @@ Felix Lazarev
 #include "Clio.h"
 #include "DiagPort.h"
 #include "SPORT.h"
+#include "stdafx.h"
 
 #ifdef _WIN32
 //#include <mem.h>
@@ -69,7 +70,6 @@ extern _ext_Interface  io_interface;
 #define ARM_MODE_UNK    0xff
 
 //static AString str;
-
 const static uint8 arm_mode_table[]=
 {
      ARM_MODE_UNK,     ARM_MODE_UNK,     ARM_MODE_UNK,     ARM_MODE_UNK,
@@ -638,7 +638,9 @@ void _arm_Reset()
 	_madam_Reset();
 }
 
-
+int addrr=0;
+int vall=0;
+int inuse=0;
 void __fastcall ldm_accur(unsigned int opc, unsigned int base, unsigned int rn_ind)
 {
  unsigned short x=opc&0xffff;
@@ -702,11 +704,14 @@ void __fastcall ldm_accur(unsigned int opc, unsigned int base, unsigned int rn_i
 			if(list&1)
 			{
 				tmp=mreadw(base_comp);
-				/*if(MAS_Access_Exept)
-				{
-					if(opc&(1<<21))RON_USER[rn_ind]=base;
-					break;
-				} */
+				if(tmp==0xF1000&&i==0x1&&RON_USER[2]!=0xF0000&&cnbfix==0){tmp+=0x1000;}
+				//if(i==0x1&&tmp==0xF1000&&RON_USER[0]==RON_USER[i]){tmp+=0x1000;cnbfix=1;}
+					            if(inuse==1&&base_comp&0x1FFFFF){ 
+                if(base_comp==addrr) inuse=0;   
+if(tmp!=vall){
+				if(tmp==0xEFE54&&i==0x4&&cnbfix==0)tmp-=0xF;
+				//if(tmp==0xF1014)tmp=0x25000;
+}}
 				RON_USER[i]=tmp;
 				base_comp+=4;
 			}
@@ -779,8 +784,9 @@ void __fastcall stm_accur(unsigned int opc, unsigned int base, unsigned int rn_i
 		{
 			if(list&1)
 			{
-				mwritew(base_comp,RON_USER[i]);
-				//if(MAS_Access_Exept)break;
+				int aac=RON_USER[i];
+				mwritew(base_comp,aac);
+				if(base_comp&0x1FFFFF){ addrr=base_comp; vall=aac; inuse=1;}
 				base_comp+=4;
 			}
 			i++;
@@ -1210,7 +1216,8 @@ int __fastcall _arm_Execute()
     uint32 cmd,pc_tmp;
 	bool isexeption=false;
 	//for(; CYCLES>0; CYCLES-=SCYCLE)
-	{
+	{   
+		if(REG_PC==0x94D60&&RON_USER[0]==0x113000&&RON_USER[1]==0x113000&&cnbfix==0){REG_PC=0x9E9CC; cnbfix=1;}
  		cmd=mreadw(REG_PC);
 
                 #ifdef DEBUG_CORE
@@ -1226,9 +1233,8 @@ int __fastcall _arm_Execute()
 		REG_PC+=4;
 
                 CYCLES=-SCYCLE;
-		//if(MAS_Access_Exept)
 		if(cmd==0xE5101810&&CPSR==0x80000093)isexeption=true;
-		//if(cmd==0x5951004&&CPSR==0x60000010)isexeption=true;
+	//	if(REG_PC==0x9E9F0){isexeption=true; RON_USER[5]=0xE2998; fix=1;}
 		if(((cond_flags_cross[(((uint32)cmd)>>28)]>>((CPSR)>>28))&1)&&isexeption==false)
 		{
 			            /*                                                                                                if(jw==0) { char jj[90]; 

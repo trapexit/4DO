@@ -217,7 +217,7 @@
     <value>Установить &amp;предыдущий слот</value>
   </data>
   <data name="MainMenuConsoleScreenshot" xml:space="preserve">
-    <value>Скриншоты</value>
+    <value>Скриншот</value>
   </data>
   <data name="MainMenuDisplay" xml:space="preserve">
     <value>&amp;Экран</value>
@@ -415,7 +415,7 @@
     <value>Экран</value>
   </data>
   <data name="SettingsTabDisplayAutoCrop" xml:space="preserve">
-    <value>Автоматически посевных площадей игру, чтобы удалить черные полосы</value>
+    <value>Автоматически удалять черные полосы</value>
   </data>
   <data name="SettingsTabDisplayDrawBorder" xml:space="preserve">
     <value>Серая рамка вокруг области экрана</value>
