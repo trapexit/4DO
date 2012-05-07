@@ -402,9 +402,9 @@ namespace FourDO.Emulation
 						|| record.Id == "A7C4EE53" // Twisted - The Game Show (US)
 						|| record.Id == "813E41B1" // Space Hulk - Vengeance of the Blood Angels (EU-US)
 						|| record.Id == "638812DE" // Blood Angels - Space Hulk (JP)
-						|| record.Id == "217344B0" // Crash 'n' Burn (US)
-						|| record.Id == "F3AF1B13" // Crash 'n' Burn (JP)
-                        || ((record.Publisher == "American Laser Games") && record.Id != "F47EE24A" && record.Id != "4A39F30D"))
+						|| record.Id == "F3AF1B13" // Crash 'n Burn (JP)
+						|| record.Id == "217344B0" // Crash 'n Burn (US)
+						|| ((record.Publisher == "American Laser Games") && record.Id != "F47EE24A" && record.Id != "4A39F30D"))
 					fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_1;
 
 				if (record.Id == "260DC12D" // Twisted - The Game Show (EU)
@@ -418,6 +418,7 @@ namespace FourDO.Emulation
 					|| record.Id == "7340307E" // Street Fighter 2
 					|| record.Id == "5282889F" // Street Fighter 2
 					|| record.Id == "07C32F10" // Street Fighter 2
+					|| record.Id == "870F95CD" // Olympic summer games
 					) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_5;
 
 				if(      record.Id == "6A7B3EAE" // Wing Commander 3 disc 1

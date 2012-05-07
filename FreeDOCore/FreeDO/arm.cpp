@@ -704,12 +704,12 @@ void __fastcall ldm_accur(unsigned int opc, unsigned int base, unsigned int rn_i
 			if(list&1)
 			{
 				tmp=mreadw(base_comp);
-				if(tmp==0xF1000&&i==0x1&&RON_USER[2]!=0xF0000&&cnbfix==0){tmp+=0x1000;}
+				if(tmp==0xF1000&&i==0x1&&RON_USER[2]!=0xF0000&&cnbfix==0&&(fixmode&FIX_BIT_TIMING_1)){tmp+=0x1000;}
 				//if(i==0x1&&tmp==0xF1000&&RON_USER[0]==RON_USER[i]){tmp+=0x1000;cnbfix=1;}
 					            if(inuse==1&&base_comp&0x1FFFFF){ 
                 if(base_comp==addrr) inuse=0;   
 if(tmp!=vall){
-				if(tmp==0xEFE54&&i==0x4&&cnbfix==0)tmp-=0xF;
+				if(tmp==0xEFE54&&i==0x4&&cnbfix==0&&(fixmode&FIX_BIT_TIMING_1))tmp-=0xF;
 				//if(tmp==0xF1014)tmp=0x25000;
 }}
 				RON_USER[i]=tmp;
@@ -1217,7 +1217,7 @@ int __fastcall _arm_Execute()
 	bool isexeption=false;
 	//for(; CYCLES>0; CYCLES-=SCYCLE)
 	{   
-		if(REG_PC==0x94D60&&RON_USER[0]==0x113000&&RON_USER[1]==0x113000&&cnbfix==0){REG_PC=0x9E9CC; cnbfix=1;}
+		if(REG_PC==0x94D60&&RON_USER[0]==0x113000&&RON_USER[1]==0x113000&&cnbfix==0&&(fixmode&FIX_BIT_TIMING_1)){REG_PC=0x9E9CC; cnbfix=1;}
  		cmd=mreadw(REG_PC);
 
                 #ifdef DEBUG_CORE
