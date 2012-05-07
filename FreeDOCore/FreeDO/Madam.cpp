@@ -1931,10 +1931,16 @@ void __fastcall DrawPackedCel_New()
 	}
 	SPRWI++;
 
-	//XPOS1616=xcur;
-	//XPOS=XPOS1616/65536.0;
-	YPOS1616=ycur;
-	YPOS=YPOS1616/65536.0;
+	if (fixmode&FIX_BIT_GRAPHICS_STEP_Y)
+	{
+		YPOS1616=ycur;
+		YPOS=YPOS1616/65536.0;
+	}
+	else
+	{
+		XPOS1616=xcur;
+		XPOS=XPOS1616/65536.0;
+	}
 }
 
 void __fastcall DrawLiteralCel_New()
@@ -2097,10 +2103,16 @@ void __fastcall DrawLiteralCel_New()
 		}
 	}
 
-	//XPOS1616=xcur;
-	//XPOS=XPOS1616/65536.0;
-	YPOS1616=ycur;
-	YPOS=YPOS1616/65536.0;
+	if (fixmode&FIX_BIT_GRAPHICS_STEP_Y)
+	{
+		YPOS1616=ycur;
+		YPOS=YPOS1616/65536.0;
+	}
+	else
+	{
+		XPOS1616=xcur;
+		XPOS=XPOS1616/65536.0;
+	}
 }
 
 void __fastcall DrawLRCel_New()
@@ -2235,10 +2247,16 @@ void __fastcall DrawLRCel_New()
 		}
 	}
 
-	//XPOS1616=xcur;
-	//XPOS=XPOS1616/65536.0;
-	YPOS1616=ycur;
-	YPOS=YPOS1616/65536.0;
+	if (fixmode&FIX_BIT_GRAPHICS_STEP_Y)
+	{
+		YPOS1616=ycur;
+		YPOS=YPOS1616/65536.0;
+	}
+	else
+	{
+		XPOS1616=xcur;
+		XPOS=XPOS1616/65536.0;
+	}
 }
 
 

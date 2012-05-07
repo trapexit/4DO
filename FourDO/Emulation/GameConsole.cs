@@ -1,4 +1,4 @@
-﻿using FourDO.Emulation.GameSource;
+using FourDO.Emulation.GameSource;
 using FourDO.Emulation.FreeDO;
 using FourDO.Emulation.Plugins;
 using FourDO.Utilities;
@@ -398,22 +398,22 @@ namespace FourDO.Emulation
 			GameRecord record = GameRegistrar.GetGameRecordById(this.GameSource.GetGameId());
 			if (record != null)
 			{
-				if (       record.Id == "127BF39C" // Tsuukai Gameshow - Twisted (JP)
-						|| record.Id == "A7C4EE53" // Twisted - The Game Show (US)
-						|| record.Id == "813E41B1" // Space Hulk - Vengeance of the Blood Angels (EU-US)
-						|| record.Id == "638812DE" // Blood Angels - Space Hulk (JP)
-						|| record.Id == "F3AF1B13" // Crash 'n Burn (JP)
-						|| record.Id == "217344B0" // Crash 'n Burn (US)
-						|| ((record.Publisher == "American Laser Games") && record.Id != "F47EE24A" && record.Id != "4A39F30D"))
-					fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_1;
+				if (   record.Id == "127BF39C" // Tsuukai Gameshow - Twisted (JP)
+					|| record.Id == "A7C4EE53" // Twisted - The Game Show (US)
+					|| record.Id == "813E41B1" // Space Hulk - Vengeance of the Blood Angels (EU-US)
+					|| record.Id == "638812DE" // Blood Angels - Space Hulk (JP)
+					|| record.Id == "F3AF1B13" // Crash 'n Burn (JP)
+					|| record.Id == "217344B0" // Crash 'n Burn (US)
+					|| ((record.Publisher == "American Laser Games") && record.Id != "F47EE24A" && record.Id != "4A39F30D")
+					) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_1;
 
-				if (record.Id == "260DC12D" // Twisted - The Game Show (EU)
+				if (   record.Id == "260DC12D" // Twisted - The Game Show (EU)
 					|| record.Id == "1757408B" // Seal of the pharaoh
 					|| record.Id == "A4B2B740"// Seal of the pharaoh(jp)
 					) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_4;
 
-				if (record.Id == "C39E4193" /* Phoenix 3*/
-					  || record.Id == "6A4523F3" // Immercenary
+				if (   record.Id == "C39E4193" /* Phoenix 3*/
+					|| record.Id == "6A4523F3" // Immercenary
 					|| record.Id == "DBB419FA" // Street Fighter 2
 					|| record.Id == "7340307E" // Street Fighter 2
 					|| record.Id == "5282889F" // Street Fighter 2
@@ -421,35 +421,37 @@ namespace FourDO.Emulation
 					|| record.Id == "870F95CD" // Olympic summer games
 					) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_5;
 
-				if(      record.Id == "6A7B3EAE" // Wing Commander 3 disc 1
-					  || record.Id == "A407D519" // Wing Commander 3 disc 1
-					  || record.Id == "074BDE30" // Wing Commander 3 disc 2
-					  || record.Id == "3EA4804D" // Wing Commander 3 disc 2
-					  || record.Id == "7DDF4025" // Wing Commander 3 disc 3
-					  || record.Id == "1A35B4B3" // Wing Commander 3 disc 3
-					  || record.Id == "1E8D4F45" // Wing Commander 3 disc 4
-					  || record.Id == "5DA4FF7F" // Wing Commander 3 disc 4
-				)fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_6;
+				if (   record.Id == "6A7B3EAE" // Wing Commander 3 disc 1
+					|| record.Id == "A407D519" // Wing Commander 3 disc 1
+					|| record.Id == "074BDE30" // Wing Commander 3 disc 2
+					|| record.Id == "3EA4804D" // Wing Commander 3 disc 2
+					|| record.Id == "7DDF4025" // Wing Commander 3 disc 3
+					|| record.Id == "1A35B4B3" // Wing Commander 3 disc 3
+					|| record.Id == "1E8D4F45" // Wing Commander 3 disc 4
+					|| record.Id == "5DA4FF7F" // Wing Commander 3 disc 4
+					) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_6;
 
-				if(
-						   record.Id == "B347EE6D" // Scramble Cobra (demo) (JP)
-						|| record.Id == "6A3AE6B5" // Scramble Cobra (EU)
-						|| record.Id == "99670115" // Scramble Cobra (JP)
-						|| record.Id == "9B87E5D7" // Scramble Cobra (US)
+				if (   record.Id == "B347EE6D" // Scramble Cobra (demo) (JP)
+					|| record.Id == "6A3AE6B5" // Scramble Cobra (EU)
+					|| record.Id == "99670115" // Scramble Cobra (JP)
+					|| record.Id == "9B87E5D7" // Scramble Cobra (US)
 					) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_3;
 
-				if (       record.Id == "BD2BC660" // Lost Eden (US)
-						|| record.Id == "EBE0915C" // Novastorm (US)
-						|| record.Id == "1F059B8F" // Nova-Storm (JP)
-						|| record.Id == "1A370EBA" // Microcosm (JP)
-						|| record.Id == "B35C911D" // Microcosm (US)
-						) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_2;
+				if (   record.Id == "BD2BC660" // Lost Eden (US)
+					|| record.Id == "EBE0915C" // Novastorm (US)
+					|| record.Id == "1F059B8F" // Nova-Storm (JP)
+					|| record.Id == "1A370EBA" // Microcosm (JP)
+					|| record.Id == "B35C911D" // Microcosm (US)
+					) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_2;
 
-					if (record.Id == "ED705E42" // The Horde (US)
-						|| record.Id == "8742A80C" // The Horde (JP)
-						|| record.Id == "3D1B793D" // The Horde (EU-US)
-						)
-					fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_7;
+				if (   record.Id == "ED705E42" // The Horde (US)
+					|| record.Id == "8742A80C" // The Horde (JP)
+					|| record.Id == "3D1B793D" // The Horde (EU-US)
+					) fixMode = fixMode | (int)FixMode.FIX_BIT_TIMING_7;
+
+				if (   record.Id == "2AABA5B9" // Samurai Shodown (EU-US)
+					|| record.Id == "BF61BB32" // Samurai Shodown (JP)
+					) fixMode = fixMode | (int)FixMode.FIX_BIT_GRAPHICS_STEP_Y;
 			}
 			FreeDOCore.SetFixMode(fixMode);
 
