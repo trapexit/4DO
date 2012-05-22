@@ -30,18 +30,29 @@ Felix Lazarev
 struct VDLLine
 //VDLP Line - one VDLP line per patent
 {
-        unsigned short line[320*4];//,line2[320*2*16];
-        unsigned char xCLUTB[32];
+	unsigned short line[320*4];//,line2[320*2*16];
+	unsigned char xCLUTB[32];
 	unsigned char xCLUTG[32];
 	unsigned char xCLUTR[32];
-        unsigned int xOUTCONTROLL;
-        unsigned int xCLUTDMA;
+	unsigned int xOUTCONTROLL;
+	unsigned int xCLUTDMA;
 	unsigned int xBACKGROUND;
 };
 struct VDLFrame
 {
-        VDLLine lines[240*4];
-        unsigned int srcw,srch;
+	VDLLine lines[240*4];
+	unsigned int srcw,srch;
+};
+
+struct GetFrameBitmapParams
+{
+	VDLFrame* sourceFrame;
+	void* destinationBitmap;
+	int copyWidthPixels;
+	int copyHeightPixels;
+	bool addBlackBorder;
+	bool copyPointlessAlphaByte;
+	bool allowCrop;
 };
 
 #pragma pack(pop)
@@ -80,6 +91,7 @@ typedef void* (__stdcall *_ext_Interface)(int, void*);
 #define FDP_SET_TEXQUALITY      15
 #define FDP_GETP_WRCOUNT        16
 #define FDP_SET_FIX_MODE        17
+#define FDP_GET_FRAME_BITMAP    18
 
 #define FIX_BIT_TIMING_1        (0x00000001)
 #define FIX_BIT_TIMING_2        (0x00000002)
@@ -107,7 +119,7 @@ typedef void* (__stdcall *_ext_Interface)(int, void*);
 
 extern "C"
 {
-        FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum=0);
+	FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum=0);
 };
 
 #ifdef __MSVC__
