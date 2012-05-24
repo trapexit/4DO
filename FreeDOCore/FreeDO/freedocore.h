@@ -44,10 +44,20 @@ struct VDLFrame
 	unsigned int srcw,srch;
 };
 
+struct BitmapCrop
+{
+	int left;
+	int top;
+	int bottom;
+	int right;
+};
+
 struct GetFrameBitmapParams
 {
 	VDLFrame* sourceFrame;
 	void* destinationBitmap;
+	int destinationBitmapWidthPixels;
+	BitmapCrop* bitmapCrop;
 	int copyWidthPixels;
 	int copyHeightPixels;
 	bool addBlackBorder;

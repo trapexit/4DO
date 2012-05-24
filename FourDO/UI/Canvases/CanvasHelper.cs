@@ -24,6 +24,15 @@ namespace FourDO.UI.Canvases
 		public unsafe static void CopyBitmap(IntPtr currentFrame, BitmapDefinition bitmapDefinition, int copyWidth, int copyHeight, bool addBlackBorder, bool copyPointlessAlphaByte, bool allowCrop)
 		{
 			Bitmap bitmapToPrepare = bitmapDefinition.Bitmap;
+			BitmapData bitmapData = bitmapToPrepare.LockBits(new Rectangle(0, 0, bitmapToPrepare.Width, bitmapToPrepare.Height), ImageLockMode.WriteOnly, bitmapToPrepare.PixelFormat);
+
+			FreeDOCore.GetFrameBitmap(currentFrame, bitmapData.Scan0, bitmapToPrepare.Width, bitmapDefinition.Crop, copyWidth, copyHeight, addBlackBorder, copyPointlessAlphaByte, allowCrop);
+
+			bitmapToPrepare.UnlockBits(bitmapData);
+
+
+			/*
+			Bitmap bitmapToPrepare = bitmapDefinition.Bitmap;
 
 			float maxCropPercent = allowCrop ? .25f : 0;
 			int maxCropTall = (int)(copyHeight * maxCropPercent);
@@ -124,6 +133,7 @@ namespace FourDO.UI.Canvases
 			bitmapDefinition.Crop.Left = newCrop.Left;
 
 			bitmapToPrepare.UnlockBits(bitmapData);
+			*/
 		}
 	}
 }

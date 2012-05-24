@@ -115,6 +115,7 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
     <ClCompile Include="FreeDO\Clio.cpp" />
     <ClCompile Include="FreeDO\DiagPort.cpp" />
     <ClCompile Include="FreeDO\DSP.cpp" />
+    <ClCompile Include="FreeDO\frame.cpp" />
     <ClCompile Include="FreeDO\Iso.cpp" />
     <ClCompile Include="FreeDO\Madam.cpp" />
     <ClCompile Include="FreeDO\quarz.cpp" />
@@ -129,6 +130,7 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
     <ClInclude Include="FreeDO\Clio.h" />
     <ClInclude Include="FreeDO\DiagPort.h" />
     <ClInclude Include="FreeDO\DSP.h" />
+    <ClInclude Include="FreeDO\frame.h" />
     <ClInclude Include="FreeDO\freedoconfig.h" />
     <ClInclude Include="FreeDO\freedocore.h" />
     <ClInclude Include="FreeDO\IsoXBUS.h" />

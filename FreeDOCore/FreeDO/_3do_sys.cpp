@@ -28,6 +28,7 @@ Felix Lazarev
 #include "vdlp.h"
 #include "DSP.h"
 #include "Clio.h"
+#include "frame.h"
 #include "Madam.h"
 #include "SPORT.h"
 #include "XBUS.h"
@@ -72,6 +73,7 @@ int _3do_Init()
 
 	_clio_Init(0x40); // 0x40 for start from  3D0-CD, 0x01/0x02 from PhotoCD ?? (NO use 0x40/0x02 for BIOS test)
 	_dsp_Init();
+	_frame_Init();
 	_diag_Init(-1);  // Select test, use -1 -- if d'nt need tests
 /*
 00	DIAGNOSTICS TEST	(run of test: 1F, 24, 25, 32, 50, 51, 60, 61, 62, 68, 71, 75, 80, 81, 90)
@@ -310,7 +312,17 @@ FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 		fixmode=(int)datum;
 		break;
 	case FDP_GET_FRAME_BITMAP:
-		fixmode=(int)datum;
+		GetFrameBitmapParams* param = (GetFrameBitmapParams*)datum;
+		Get_Frame_Bitmap(
+			param->sourceFrame
+			, param->destinationBitmap
+			, param->destinationBitmapWidthPixels
+			, param->bitmapCrop
+			, param->copyWidthPixels
+			, param->copyHeightPixels
+			, param->addBlackBorder
+			, param->copyPointlessAlphaByte
+			, param->allowCrop);
 		break;
 	};
 

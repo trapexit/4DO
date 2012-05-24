@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FourDO.UI.Canvases
+namespace FourDO.Emulation.FreeDO
 {
 	internal class BitmapCrop : IComparable
 	{

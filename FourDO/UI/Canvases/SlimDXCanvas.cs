@@ -7,6 +7,7 @@ using System.Security;
 using SlimDX;
 using SlimDX.Direct3D9;
 using Device = SlimDX.Direct3D9.Device;
+using FourDO.Emulation.FreeDO;
 
 namespace FourDO.UI.Canvases
 {

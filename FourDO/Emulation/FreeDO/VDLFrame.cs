@@ -1,4 +1,5 @@
-﻿namespace FourDO.Emulation.FreeDO
+﻿using System.Runtime.InteropServices;
+namespace FourDO.Emulation.FreeDO
 {
 	public unsafe struct VDLFrame
 	{

@@ -48,6 +48,9 @@
     <ClCompile Include="FreeDO\XBUS.cpp">
       <Filter>FreeDO\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FreeDO\frame.cpp">
+      <Filter>FreeDO\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FreeDO\quarz.h">
@@ -93,5 +96,8 @@
       <Filter>FreeDO\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FreeDO\stdafx.h" />
+    <ClInclude Include="FreeDO\frame.h">
+      <Filter>FreeDO\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

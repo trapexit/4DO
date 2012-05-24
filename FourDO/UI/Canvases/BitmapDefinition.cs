@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using FourDO.Emulation.FreeDO;
 
 namespace FourDO.UI.Canvases
 {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -76,6 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Emulation\EmulationHelper.cs" />
+    <Compile Include="Emulation\FreeDO\BitmapCrop.cs" />
+    <Compile Include="Emulation\FreeDO\GetFrameBitmapParams.cs" />
     <Compile Include="Emulation\GameSource\DiscGameSource.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -166,7 +168,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Canvases\BitmapBunch.cs" />
-    <Compile Include="UI\Canvases\BitmapCrop.cs" />
     <Compile Include="UI\Canvases\BitmapDefinition.cs" />
     <Compile Include="UI\Canvases\CanvasHelper.cs" />
     <Compile Include="UI\Canvases\CropHelper.cs" />

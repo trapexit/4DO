@@ -81,6 +81,7 @@ namespace FourDO.Emulation.FreeDO
 			EXT_GET_DISC_SIZE = 15,
 			EXT_ON_SECTOR = 16,
 			EXT_ARM_SYNC = 17,
+			FDP_GET_FRAME_BITMAP = 18
 		}
 
 		private enum InterfaceFunction
@@ -103,6 +104,7 @@ namespace FourDO.Emulation.FreeDO
 			FDP_SET_TEXQUALITY = 15,
 			FDP_GETP_WRCOUNT = 16, // JMK NOTE: Unused?
 			FDP_SET_FIX_MODE = 17,
+			FDP_GET_FRAME_BITMAP = 18
 		}
 
 		#endregion // Private Types
@@ -193,6 +195,52 @@ namespace FourDO.Emulation.FreeDO
 			return FreeDoInterface((int)InterfaceFunction.FDP_SET_TEXQUALITY, new IntPtr(textureScalar));
 		}
 
+		public static void GetFrameBitmap(
+			IntPtr sourceFrame,
+			IntPtr destinationBitmap,
+			int destinationBitmapWidthPixels,
+			BitmapCrop resultingBitmapCrop,
+			int copyWidthPixels,
+			int copyHeightPixels,
+			bool addBlackBorder,
+			bool copyPointlessAlphaByte,
+			bool allowCrop)
+		{
+			var crop = new GetFrameBitmapCrop();
+			GCHandle cropHandle;
+			RawSerialize(crop, out cropHandle);
+
+			var param = new GetFrameBitmapParams();
+			param.sourceFrame = sourceFrame;
+			param.destinationBitmap = destinationBitmap;
+			param.destinationBitmapWidthPixels = destinationBitmapWidthPixels;
+			param.bitmapCrop = cropHandle.AddrOfPinnedObject();
+			param.copyWidthPixels = copyWidthPixels;
+			param.copyHeightPixels = copyHeightPixels;
+			param.addBlackBorder = (byte)(addBlackBorder ? 1 : 0);
+			param.copyPointlessAlphaByte = (byte)(copyPointlessAlphaByte ? 1 : 0);
+			param.allowCrop = (byte)(allowCrop ? 1 : 0);
+
+			// Copy into locked structure.
+			GCHandle paramHandle;
+			RawSerialize(param, out paramHandle);
+
+			/////////////////////
+			// Run!
+			FreeDoInterface((int)InterfaceFunction.FDP_GET_FRAME_BITMAP, paramHandle.AddrOfPinnedObject());
+			Marshal.PtrToStructure(cropHandle.AddrOfPinnedObject(), crop);
+
+			// Get resulting crop.
+			resultingBitmapCrop.Top = crop.top;
+			resultingBitmapCrop.Left = crop.left;
+			resultingBitmapCrop.Right = crop.right;
+			resultingBitmapCrop.Bottom = crop.bottom;
+
+			// Unlock structures.
+			paramHandle.Free();
+			cropHandle.Free();
+		}
+
 		private delegate IntPtr ExternalInterfaceDelegate(int procedure, IntPtr data);
 		private static readonly ExternalInterfaceDelegate externalInterfaceDelegate = new ExternalInterfaceDelegate(PrivateExternalInterface);
 
@@ -271,6 +319,16 @@ namespace FourDO.Emulation.FreeDO
 					break;
 			}
 			return new IntPtr(0);
+		}
+
+		private static byte[] RawSerialize(object anything, out GCHandle newHandle)
+		{
+			int rawsize = Marshal.SizeOf(anything);
+			byte[] rawdata = new byte[rawsize];
+
+			newHandle = GCHandle.Alloc(rawdata, GCHandleType.Pinned);
+			Marshal.StructureToPtr(anything, newHandle.AddrOfPinnedObject(), false);
+			return rawdata;
 		}
 	}
 }
