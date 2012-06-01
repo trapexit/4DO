@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Linq;
+using FourDO.Emulation.FreeDO;
 
 namespace FourDO.UI.Canvases
 {
@@ -18,6 +19,12 @@ namespace FourDO.UI.Canvases
 		public int BitmapWidth { get; private set; }
 		public int BitmapHeight { get; private set; }
 		public PixelFormat BitmapPixelFormat { get; private set; }
+
+		// NOTE: These are in here because the bitmap bunch acts as a container of "settings" used
+		// to extract the bitmap when frames are done. We need these settings changes to occur
+		// atomically with new sets of bitmaps, so these are just copied along for the ride.
+		public ScalingAlgorithm ScalingAlgorithm  { get; set; }
+		public bool HighResolution { get; set; }
 
 		public BitmapBunch(int bitmapWidth, int bitmapHeight, PixelFormat bitmapPixelFormat)
 		{

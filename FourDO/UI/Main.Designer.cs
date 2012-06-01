@@ -94,6 +94,8 @@
 			this.sizeBox = new FourDO.UI.SizeBox();
 			this.RomNagBox = new FourDO.UI.NagBox();
 			this.gameCanvas = new FourDO.UI.GameCanvas();
+			this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+			this.scalingModeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MainStatusStrip.SuspendLayout();
 			this.MainMenuBar.SuspendLayout();
 			this.SuspendLayout();
@@ -353,7 +355,9 @@
             this.toolStripSeparator5,
             this.VoidAreaMenuItem,
             this.toolStripSeparator10,
+            this.scalingModeMenuItem,
             this.smoothResizingMenuItem,
+            this.toolStripSeparator16,
             this.autoCropMenuItem,
             this.preserveRatioMenuItem,
             this.toolStripSeparator6,
@@ -600,8 +604,8 @@
 			// 
 			// RomNagBox
 			// 
-			this.RomNagBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.RomNagBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.RomNagBox.BackColor = System.Drawing.SystemColors.Info;
 			this.RomNagBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.RomNagBox.HideText = "(Hide)";
@@ -617,6 +621,7 @@
 			// 
 			// gameCanvas
 			// 
+			this.gameCanvas.AutoCrop = false;
 			this.gameCanvas.BackColor = System.Drawing.Color.Black;
 			this.gameCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gameCanvas.ImageSmoothing = true;
@@ -626,10 +631,23 @@
 			this.gameCanvas.Name = "gameCanvas";
 			this.gameCanvas.PreserveAspectRatio = true;
 			this.gameCanvas.RenderHighResolution = false;
+			this.gameCanvas.ScalingAlgorithm = FourDO.Emulation.FreeDO.ScalingAlgorithm.None;
 			this.gameCanvas.Size = new System.Drawing.Size(744, 557);
 			this.gameCanvas.TabIndex = 3;
 			this.gameCanvas.VoidAreaBorder = false;
 			this.gameCanvas.VoidAreaPattern = FourDO.UI.VoidAreaPattern.None;
+			// 
+			// toolStripSeparator16
+			// 
+			this.toolStripSeparator16.Name = "toolStripSeparator16";
+			this.toolStripSeparator16.Size = new System.Drawing.Size(229, 6);
+			// 
+			// scalingModeMenuItem
+			// 
+			this.scalingModeMenuItem.Name = "scalingModeMenuItem";
+			this.scalingModeMenuItem.Size = new System.Drawing.Size(232, 22);
+			this.scalingModeMenuItem.Text = "Sca&ling Mode";
+			this.scalingModeMenuItem.Click += new System.EventHandler(this.scalingModeMenuItem_Click);
 			// 
 			// Main
 			// 
@@ -728,6 +746,8 @@
 		private System.Windows.Forms.ToolStripMenuItem screenshotMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
 		private System.Windows.Forms.ToolStripMenuItem autoCropMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem scalingModeMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
 
     }
 }

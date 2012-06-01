@@ -2,13 +2,22 @@
 #include "freedocore.h"
 #include "frame.h"
 
+#include "hqx.h"
+
 unsigned char FIXED_CLUTR[32];
 unsigned char FIXED_CLUTG[32];
 unsigned char FIXED_CLUTB[32];
 
+static void* tempBitmap;
+static ScalingAlgorithm currentAlgorithm;
+
+void setCurrentAlgorithm(ScalingAlgorithm algorithm);
 
 void _frame_Init()
 {
+	tempBitmap = NULL;
+	currentAlgorithm = ScalingAlgorithm::None;
+
 	for(int j = 0; j < 32; j++)
 	{
 		FIXED_CLUTR[j] = (unsigned char)(((j & 0x1f) << 3) | ((j >> 2) & 7));
@@ -26,8 +35,13 @@ void Get_Frame_Bitmap(
 	int copyHeight,
 	bool addBlackBorder,
 	bool copyPointlessAlphaByte,
-	bool allowCrop)
+	bool allowCrop,
+	ScalingAlgorithm scalingAlgorithm,
+	int* resultingWidth,
+	int* resultingHeight)
 {
+	setCurrentAlgorithm(scalingAlgorithm);
+
 	float maxCropPercent = allowCrop ? .25f : 0;
 	int maxCropTall = (int)(copyHeight * maxCropPercent);
 	int maxCropWide = (int)(copyWidth * maxCropPercent);
@@ -39,7 +53,14 @@ void Get_Frame_Bitmap(
 
 	int pointlessAlphaByte = copyPointlessAlphaByte ? 1 : 0;
 
-	byte* destPtr = (byte*)destinationBitmap;
+	// Destination will be directly changed if there is no scaling algorithm.
+	// Otherwise we extract to a temporary buffer.
+	byte* destPtr;
+	if (currentAlgorithm == ScalingAlgorithm::None)
+		destPtr = (byte*)destinationBitmap;
+	else
+		destPtr = (byte*)tempBitmap;
+
 	VDLFrame* framePtr = sourceFrame;
 	for (int line = 0; line < copyHeight; line++)
 	{
@@ -92,26 +113,68 @@ void Get_Frame_Bitmap(
 				if (!(rPart < 0xF && gPart < 0xF && bPart < 0xF))
 					bitmapCrop->bottom = copyHeight - line - 1;
 		}
-		if (addBlackBorder)
-		{
-			// Add a black pixel border (on the right)
-			*destPtr++ = 0;
-			*destPtr++ = 0;
-			*destPtr++ = 0;
-			destPtr += pointlessAlphaByte;
-			destPtr += ((3 + pointlessAlphaByte) * (destinationBitmapWidth - copyWidth - 1));
-		}
 	}
 
-	if (addBlackBorder)
+	int cropAdjust = 1;
+	switch (currentAlgorithm)
 	{
-		// Add a black pixel border (on the bottom)
-		for (int pix = 0; pix < copyWidth + 1; pix++)
-		{
-			*destPtr++ = 0;
-			*destPtr++ = 0;
-			*destPtr++ = 0;
-			destPtr += pointlessAlphaByte;
-		}
+	case ScalingAlgorithm::None:
+		// Nothing left to do
+		break;
+	case ScalingAlgorithm::HQ2X:
+		hq2x_32((uint32_t*)tempBitmap, (uint32_t*)destinationBitmap, copyWidth, copyHeight);
+		cropAdjust = 2;
+		break;
+	case ScalingAlgorithm::HQ3X:
+		hq3x_32((uint32_t*)tempBitmap, (uint32_t*)destinationBitmap, copyWidth, copyHeight);
+		cropAdjust = 3;
+		break;
+	case ScalingAlgorithm::HQ4X:
+		hq4x_32((uint32_t*)tempBitmap, (uint32_t*)destinationBitmap, copyWidth, copyHeight);
+		cropAdjust = 4;
+		break;
 	}
+
+	bitmapCrop->top *= cropAdjust;
+	bitmapCrop->left *= cropAdjust;
+	bitmapCrop->right *= cropAdjust;
+	bitmapCrop->bottom *= cropAdjust;
+
+	*resultingWidth = copyWidth * cropAdjust;
+	*resultingHeight = copyHeight * cropAdjust;
+}
+
+void setCurrentAlgorithm(ScalingAlgorithm algorithm)
+{
+	//////////////////
+	// De-initialize current (if necessary).
+	if (
+		((currentAlgorithm == ScalingAlgorithm::HQ2X)
+		|| (currentAlgorithm == ScalingAlgorithm::HQ3X)
+		|| (currentAlgorithm == ScalingAlgorithm::HQ4X))
+		&& algorithm != ScalingAlgorithm::HQ2X
+		&& algorithm != ScalingAlgorithm::HQ3X
+		&& algorithm != ScalingAlgorithm::HQ4X )
+	{
+		delete tempBitmap;
+		hqxDestroy();
+	}
+
+	//////////////////
+	// Initialize current (if necessary).
+
+	if (
+		((algorithm == ScalingAlgorithm::HQ2X)
+		|| (algorithm == ScalingAlgorithm::HQ3X)
+		|| (algorithm == ScalingAlgorithm::HQ4X))
+		&& currentAlgorithm != ScalingAlgorithm::HQ2X
+		&& currentAlgorithm != ScalingAlgorithm::HQ3X
+		&& currentAlgorithm != ScalingAlgorithm::HQ4X )
+	{
+		hqxInit();
+		tempBitmap = new unsigned char[1280*960*4];
+	}
+
+	// Accept new current algorithm.
+	currentAlgorithm = algorithm;
 }

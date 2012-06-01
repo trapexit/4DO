@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using FourDO.Emulation.FreeDO;
 
 namespace FourDO.UI.Canvases
 {
@@ -12,6 +13,7 @@ namespace FourDO.UI.Canvases
 		bool AutoCrop { get; set; }
 		bool RenderHighResolution { get; set; }
 		bool IsInResizeMode { get; set; }
+		ScalingAlgorithm ScalingAlgorithm { get; set; }
 
 		void PushFrame(IntPtr currentFrame);
 		Bitmap GetCurrentBitmap();

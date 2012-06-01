@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -31,7 +32,29 @@ namespace FourDO.UI.Canvases
 
 		public bool ImageSmoothing { get; set; }
 
-		public bool RenderHighResolution { get; set; }
+		public bool RenderHighResolution
+		{
+			get
+			{
+				return this.bitmapBunch.HighResolution;
+			}
+			set
+			{
+				CreateNewBitmapBunch(value, this.bitmapBunch.ScalingAlgorithm);
+			}
+		}
+
+		public ScalingAlgorithm ScalingAlgorithm
+		{
+			get
+			{
+				return this.bitmapBunch.ScalingAlgorithm;
+			}
+			set
+			{
+				CreateNewBitmapBunch(this.bitmapBunch.HighResolution, value);
+			}
+		}
 
 		public bool IsInResizeMode
 		{
@@ -45,17 +68,18 @@ namespace FourDO.UI.Canvases
 			}
 		}
 
-		protected const int HIGH_RES_WIDTH = 640;
-		protected const int HIGH_RES_HEIGHT = 480;
+		protected const int MAX_RES_WIDTH = 320*4;
+		protected const int MAX_RES_HEIGHT = 240*4;
 
-		private const int LOW_RES_WIDTH = HIGH_RES_WIDTH / 2;
-		private const int LOW_RES_HEIGHT = HIGH_RES_HEIGHT / 2;
+		private const int LOW_RES_WIDTH = 320;
+		private const int LOW_RES_HEIGHT = 240;
 
-		protected readonly int textureWidth = RoundUpToNextPowerOfTwo(HIGH_RES_WIDTH);
-		protected readonly int textureHeight = RoundUpToNextPowerOfTwo(HIGH_RES_HEIGHT);
-
-		protected readonly float maximumX = (HIGH_RES_WIDTH / (float)RoundUpToNextPowerOfTwo(HIGH_RES_WIDTH));
-		protected readonly float maximumY = (HIGH_RES_HEIGHT / (float)RoundUpToNextPowerOfTwo(HIGH_RES_HEIGHT));
+		protected readonly int textureWidth = RoundUpToNextPowerOfTwo(MAX_RES_WIDTH);
+		protected readonly int textureHeight = RoundUpToNextPowerOfTwo(MAX_RES_HEIGHT);
+		
+		protected readonly byte[] blackRow;
+		protected readonly GCHandle blackRowHandle;
+		protected readonly IntPtr blackRowPtr;
 
 		protected BitmapBunch bitmapBunch;
 
@@ -89,20 +113,24 @@ namespace FourDO.UI.Canvases
 
 		public SlimDXCanvas()
 		{
+			this.blackRow = new byte[textureWidth*4];
+			this.blackRowHandle = GCHandle.Alloc(this.blackRow, GCHandleType.Pinned);
+			this.blackRowPtr = this.blackRowHandle.AddrOfPinnedObject();
+
 			InitializeComponent();
 		}
 
 		public void Initialize()
 		{
 			// Get maximum screen size.
-			Size maxSize = new Size(HIGH_RES_WIDTH, HIGH_RES_HEIGHT);
+			Size maxSize = new Size(LOW_RES_WIDTH, LOW_RES_HEIGHT);
 			foreach (var screen in Screen.AllScreens)
 			{
 				maxSize.Width = Math.Max(maxSize.Width, screen.Bounds.Width);
 				maxSize.Height = Math.Max(maxSize.Height, screen.Bounds.Height);
 			}
 
-			this.bitmapBunch = new BitmapBunch(HIGH_RES_WIDTH, HIGH_RES_HEIGHT, PixelFormat.Format32bppRgb);
+			this.CreateNewBitmapBunch(false, ScalingAlgorithm.None);
 
 			/////////////////////////////////////////
 			// Initialize direct3d 9
@@ -154,38 +182,46 @@ namespace FourDO.UI.Canvases
 
 		public Bitmap GetCurrentBitmap()
 		{
-			if (this.bitmapBunch == null)
+			BitmapBunch currentBunch = this.bitmapBunch;
+
+			if (currentBunch == null)
 				return null;
-			return this.bitmapBunch.GetNextRenderBitmap().Bitmap;
+			return currentBunch.GetNextRenderBitmap().Bitmap;
 		}
 
 		protected void Render()
 		{
 			///////////////////////////
 			// Update texture.
-			BitmapDefinition bitmapDefinition = this.bitmapBunch.GetNextRenderBitmap();
-			Bitmap bitmapToRender = bitmapDefinition == null ? null :  bitmapDefinition.Bitmap;
+			BitmapBunch currentBunch = this.bitmapBunch;
+			BitmapDefinition bitmapDefinition = currentBunch.GetNextRenderBitmap();
+			if (bitmapDefinition == null)
+				bitmapDefinition = currentBunch.GetBlackBitmap();
 
-			if (bitmapToRender != null)
+			Bitmap bitmapToRender = bitmapDefinition == null ? null : bitmapDefinition.Bitmap;
+
+			Surface textureSurface = this.texture.GetSurfaceLevel(0);
+			DataRectangle dataRect = textureSurface.LockRectangle(LockFlags.None);
+			BitmapData bitmapData = bitmapToRender.LockBits(new Rectangle(0, 0, bitmapToRender.Width, bitmapToRender.Height), ImageLockMode.ReadOnly, bitmapToRender.PixelFormat);
 			{
-				Surface textureSurface = this.texture.GetSurfaceLevel(0);
-				DataRectangle dataRect = textureSurface.LockRectangle(LockFlags.None);
-				BitmapData bitmapData = bitmapToRender.LockBits(new Rectangle(0, 0, bitmapToRender.Width, bitmapToRender.Height), ImageLockMode.ReadOnly, bitmapToRender.PixelFormat);
+				DataStream stream = dataRect.Data;
+				int stride = bitmapData.Stride;
+				int bitDepth = bitmapData.Stride / bitmapData.Width;
+				int sourceWidth = bitmapData.Width;
+				IntPtr sourcePtr = bitmapData.Scan0;
+				for (int y = 0; y < bitmapData.Height; y++)
 				{
-					DataStream stream = dataRect.Data;
-					int stride = bitmapData.Stride;
-					int bitDepth = bitmapData.Stride / bitmapData.Width;
-					IntPtr sourcePtr = bitmapData.Scan0;
-					for (int y = 0; y < bitmapData.Height; y++)
-					{
-						stream.WriteRange(sourcePtr, stride);
-						stream.Position += (textureWidth - HIGH_RES_WIDTH) * bitDepth;
-						sourcePtr += stride;
-					}
+					stream.WriteRange(sourcePtr, stride);
+					stream.WriteRange(this.blackRowPtr, 4); // This is okay, texture width always exceeds bitmap width by a lot
+					stream.Position += ((textureWidth - sourceWidth) * bitDepth) - 4;
+
+					sourcePtr += stride;
 				}
-				bitmapToRender.UnlockBits(bitmapData);
-				textureSurface.UnlockRectangle();
+				stream.WriteRange(this.blackRowPtr, (sourceWidth+1)*4);
+
 			}
+			bitmapToRender.UnlockBits(bitmapData);
+			textureSurface.UnlockRectangle();
 
 			///////////////////////////
 			// Set up scaling algorithm.
@@ -195,25 +231,10 @@ namespace FourDO.UI.Canvases
 
 			///////////////////////////
 			// Update drawing size dependent on cropping and resolution.
-			int bitmapWidth;
-			int bitmapHeight;
-			float bottom;
-			float right;
-
-			if (this.RenderHighResolution)
-			{
-				bitmapWidth = 640;
-				bitmapHeight = 480;
-				bottom = maximumY;
-				right = maximumX;
-			}
-			else
-			{
-				bitmapWidth = 320;
-				bitmapHeight = 240;
-				bottom = maximumY / 2;
-				right = maximumX / 2;
-			}
+			int bitmapWidth = bitmapToRender.Width;
+			int bitmapHeight = bitmapToRender.Height;
+			float bottom = bitmapHeight / (float)textureHeight;
+			float right = bitmapWidth / (float)textureWidth;
 
 			var crop = bitmapDefinition == null ? new BitmapCrop() : bitmapDefinition.Crop;
 			Size renderedSize = new Size();
@@ -258,34 +279,23 @@ namespace FourDO.UI.Canvases
 		{
 			/////////////// 
 			// Choose the best bitmap to do a background render to
-			BitmapDefinition bitmapToPrepare = this.bitmapBunch.GetNextPrepareBitmap();
-			bool highResolution = this.RenderHighResolution;
+			BitmapBunch currentBitmapBunch = this.bitmapBunch;
+			BitmapDefinition bitmapToPrepare = currentBitmapBunch.GetNextPrepareBitmap();
+			bool highResolution = currentBitmapBunch.HighResolution;
 
 			// Determine how much of the image to copy.
-			int copyHeight = 0;
-			int copyWidth = 0;
-
-			if (highResolution)
-			{
-				copyHeight = HIGH_RES_HEIGHT;
-				copyWidth = HIGH_RES_WIDTH;
-			}
-			else
-			{
-				copyHeight = LOW_RES_HEIGHT;
-				copyWidth = LOW_RES_WIDTH;
-			}
+			int copyHeight = highResolution ? LOW_RES_HEIGHT * 2 : LOW_RES_HEIGHT;
+			int copyWidth = highResolution ? LOW_RES_WIDTH * 2 : LOW_RES_WIDTH;
 
 			// Copy!
-			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, true, this.AutoCrop);
+			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, true, true, this.AutoCrop, currentBitmapBunch.ScalingAlgorithm);
 
 			// Consider the newly determined crop rectangle.
-			if (cropHelper.ConsiderAlternateCrop(bitmapToPrepare.Crop))
-				Console.WriteLine("newcrop");
+			cropHelper.ConsiderAlternateCrop(bitmapToPrepare.Crop);
 			bitmapToPrepare.Crop.Mimic(cropHelper.CurrentCrop);
 
 			// And.... we're done.
-			this.bitmapBunch.SetLastPreparedBitmap(bitmapToPrepare);
+			currentBitmapBunch.SetLastPreparedBitmap(bitmapToPrepare);
 
 			// Refresh.
 			this.TriggerRefresh();
@@ -345,6 +355,34 @@ namespace FourDO.UI.Canvases
 			int newY = (int)(e.Y / heightScale);
 
 			//System.Diagnostics.Trace.WriteLine(String.Format("Clicked in\tx:\t{0}\ty:\t{1}", newX, newY));
+		}
+
+		private void CreateNewBitmapBunch(bool highResolution, ScalingAlgorithm algorithm)
+		{
+			int sizeMultiplier = 1;
+
+			if (highResolution)
+				sizeMultiplier *= 2;
+
+			if (algorithm == ScalingAlgorithm.Hq2X)
+				sizeMultiplier *= 2;
+			else if (algorithm == ScalingAlgorithm.Hq3X)
+				sizeMultiplier *= 3;
+			else if (algorithm == ScalingAlgorithm.Hq4X)
+				sizeMultiplier *= 4;
+
+			int newWidth = LOW_RES_WIDTH*sizeMultiplier;
+			int newHeight = LOW_RES_HEIGHT*sizeMultiplier;
+
+			// Create new bitmap bunch if necessary.
+			if (this.bitmapBunch == null || (newWidth != this.bitmapBunch.BitmapWidth || newHeight != this.bitmapBunch.BitmapHeight))
+			{
+				var newBunch = new BitmapBunch(LOW_RES_WIDTH * sizeMultiplier, LOW_RES_HEIGHT * sizeMultiplier, PixelFormat.Format32bppRgb);
+				newBunch.HighResolution = highResolution;
+				newBunch.ScalingAlgorithm = algorithm;
+
+				this.bitmapBunch = newBunch;
+			}
 		}
 	}
 }

@@ -14,6 +14,9 @@ void Get_Frame_Bitmap(
 	int copyHeight,
 	bool addBlackBorder,
 	bool copyPointlessAlphaByte,
-	bool allowCrop);
+	bool allowCrop,
+	ScalingAlgorithm scalingAlgorithm,
+	int* resultingWidth,
+	int* resultingHeight);
 
 #endif 

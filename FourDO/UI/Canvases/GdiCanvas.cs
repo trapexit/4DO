@@ -77,6 +77,19 @@ namespace FourDO.UI.Canvases
 			}
 		}
 
+		private ScalingAlgorithm _scalingAlgorithm = ScalingAlgorithm.None;
+		public ScalingAlgorithm ScalingAlgorithm
+		{
+			get
+			{
+				return _scalingAlgorithm;
+			}
+			set
+			{
+				_scalingAlgorithm = value;
+			}
+		}
+
 		public bool IsInResizeMode { get; set; }
 
 		/// <summary>
@@ -171,7 +184,7 @@ namespace FourDO.UI.Canvases
 			}
 
 			// Copy!
-			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, false, this.AutoCrop);
+			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, false, this.AutoCrop, this._scalingAlgorithm);
 
 			// Consider the newly determined crop rectangle.
 			if (cropHelper.ConsiderAlternateCrop(bitmapToPrepare.Crop))

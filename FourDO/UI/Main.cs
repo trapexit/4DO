@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using FourDO.Emulation;
+using FourDO.Emulation.FreeDO;
 using FourDO.Utilities;
 using FourDO.Utilities.Globals;
 using FourDO.Utilities.MouseHook;
@@ -555,6 +556,14 @@ namespace FourDO.UI
 		private void smoothResizingMenuItem_Click(object sender, EventArgs e)
 		{
 			this.DoToggleImageSmoothing();
+		}
+
+		private void scalingModeMenuItem_Click(object sender, EventArgs e)
+		{
+			if (gameCanvas.ScalingAlgorithm == ScalingAlgorithm.None)
+				gameCanvas.ScalingAlgorithm = ScalingAlgorithm.Hq2X;
+			else
+				gameCanvas.ScalingAlgorithm = ScalingAlgorithm.None;
 		}
 
 		private void autoCropMenuItem_Click(object sender, EventArgs e)

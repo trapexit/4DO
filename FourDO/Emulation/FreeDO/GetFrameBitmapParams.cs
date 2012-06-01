@@ -1,13 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace FourDO.Emulation.FreeDO
 {
+	public enum ScalingAlgorithm
+	{
+		None = 0,
+		Hq2X = 1,
+		Hq3X = 2,
+		Hq4X = 3
+	}
+
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
-	public struct GetFrameBitmapParams
+	public class GetFrameBitmapParams
 	{
 		public IntPtr sourceFrame;
 		public IntPtr destinationBitmap;
@@ -18,6 +23,9 @@ namespace FourDO.Emulation.FreeDO
 		public byte addBlackBorder;
 		public byte copyPointlessAlphaByte;
 		public byte allowCrop;
+		public int scalingAlgorithm;
+		public int resultingWidth;
+		public int resultingHeight;
 	};
 
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]

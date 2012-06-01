@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows.Forms;
 
 using FourDO.Emulation;
+using FourDO.Emulation.FreeDO;
 using FourDO.Utilities;
 using FourDO.Utilities.Globals;
 using FourDO.UI.Canvases;
@@ -149,6 +150,18 @@ namespace FourDO.UI
 			}
 		}
 
+		public ScalingAlgorithm ScalingAlgorithm
+		{
+			get
+			{
+				return ((ICanvas)this.childCanvas).ScalingAlgorithm;
+			}
+			set
+			{
+				((ICanvas)this.childCanvas).ScalingAlgorithm = value;
+			}
+		}
+
 		public GameCanvas()
 		{
 			// Create child canvas.
@@ -190,16 +203,6 @@ namespace FourDO.UI
 			if (sourceBitmap == null)
 				return;
 
-			var smallRect = new Rectangle(0, 0, 320, 240);
-			var bigRect = new Rectangle(0, 0, 640, 480);
-
-			// Copy the bitmap to a standard size
-			var savedBitmap = new Bitmap(640, 480, PixelFormat.Format24bppRgb);
-			var graphics = Graphics.FromImage(savedBitmap);
-			var sourceRect = this.RenderHighResolution ? bigRect : smallRect;
-			graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-			graphics.DrawImage(sourceBitmap, new Rectangle(0, 0, 640, 480), sourceRect, GraphicsUnit.Pixel);
-
 			///////////////
 			// Save the bitmap to file.
 			fileName = fileName + ".png";
@@ -209,7 +212,7 @@ namespace FourDO.UI
 				if (!Directory.Exists(directoryName))
 					Directory.CreateDirectory(directoryName);
 
-				savedBitmap.Save(fileName, ImageFormat.Png);
+				sourceBitmap.Save(fileName, ImageFormat.Png);
 			}
 			catch (Exception ex)
 			{

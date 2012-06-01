@@ -21,7 +21,7 @@
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
     <RemoteDebugMachine>
     </RemoteDebugMachine>
-    <StartArguments>--printkprint -DebugLogging AudioDebug --forceGDIRendering</StartArguments>
+    <StartArguments>--printkprint -DebugLogging AudioDebug</StartArguments>
     <StartAction>Project</StartAction>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>

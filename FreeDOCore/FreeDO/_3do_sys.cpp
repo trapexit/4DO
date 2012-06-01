@@ -322,7 +322,10 @@ FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 			, param->copyHeightPixels
 			, param->addBlackBorder
 			, param->copyPointlessAlphaByte
-			, param->allowCrop);
+			, param->allowCrop
+			, (ScalingAlgorithm)param->scalingAlgorithm
+			, &param->resultingWidth
+			, &param->resultingHeight);
 		break;
 	};
 

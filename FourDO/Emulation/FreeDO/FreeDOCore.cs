@@ -204,7 +204,10 @@ namespace FourDO.Emulation.FreeDO
 			int copyHeightPixels,
 			bool addBlackBorder,
 			bool copyPointlessAlphaByte,
-			bool allowCrop)
+			bool allowCrop,
+			ScalingAlgorithm scalingAlgorithm,
+			out int resultingWidth,
+			out int resultingHeight)
 		{
 			var crop = new GetFrameBitmapCrop();
 			GCHandle cropHandle;
@@ -220,6 +223,7 @@ namespace FourDO.Emulation.FreeDO
 			param.addBlackBorder = (byte)(addBlackBorder ? 1 : 0);
 			param.copyPointlessAlphaByte = (byte)(copyPointlessAlphaByte ? 1 : 0);
 			param.allowCrop = (byte)(allowCrop ? 1 : 0);
+			param.scalingAlgorithm = (int)scalingAlgorithm;
 
 			// Copy into locked structure.
 			GCHandle paramHandle;
@@ -229,12 +233,16 @@ namespace FourDO.Emulation.FreeDO
 			// Run!
 			FreeDoInterface((int)InterfaceFunction.FDP_GET_FRAME_BITMAP, paramHandle.AddrOfPinnedObject());
 			Marshal.PtrToStructure(cropHandle.AddrOfPinnedObject(), crop);
+			Marshal.PtrToStructure(paramHandle.AddrOfPinnedObject(), param);
 
 			// Get resulting crop.
 			resultingBitmapCrop.Top = crop.top;
 			resultingBitmapCrop.Left = crop.left;
 			resultingBitmapCrop.Right = crop.right;
 			resultingBitmapCrop.Bottom = crop.bottom;
+
+			resultingWidth = param.resultingWidth;
+			resultingHeight = param.resultingHeight;
 
 			// Unlock structures.
 			paramHandle.Free();

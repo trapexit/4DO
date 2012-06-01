@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;__WIN32__;__MSVC__;FREEDOCORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>FreeDO</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>FreeDO;Filters</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -85,7 +85,7 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;__WIN32__;__MSVC__;FREEDOCORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>FreeDO</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>FreeDO;Filters</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -110,6 +110,11 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Filters\hq2x.cpp" />
+    <ClCompile Include="Filters\hq3x.cpp" />
+    <ClCompile Include="Filters\hq4x.cpp" />
+    <ClCompile Include="Filters\hqx_init.cpp" />
+    <ClCompile Include="Filters\snes_ntsc.c" />
     <ClCompile Include="FreeDO\arm.cpp" />
     <ClCompile Include="FreeDO\bitop.cpp" />
     <ClCompile Include="FreeDO\Clio.cpp" />
@@ -125,6 +130,11 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
     <ClCompile Include="FreeDO\_3do_sys.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Filters\hqx_common.h" />
+    <ClInclude Include="Filters\hqx.h" />
+    <ClInclude Include="Filters\snes_ntsc.h" />
+    <ClInclude Include="Filters\snes_ntsc_config.h" />
+    <ClInclude Include="Filters\snes_ntsc_impl.h" />
     <ClInclude Include="FreeDO\arm.h" />
     <ClInclude Include="FreeDO\bitop.h" />
     <ClInclude Include="FreeDO\Clio.h" />
