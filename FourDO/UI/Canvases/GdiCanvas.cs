@@ -11,11 +11,8 @@ namespace FourDO.UI.Canvases
 	{
 		private const InterpolationMode SMOOTH_SCALING_MODE = InterpolationMode.Low;
 
-		private const int HIGH_RES_WIDTH = 640;
-		private const int HIGH_RES_HEIGHT = 480;
-
-		private const int LOW_RES_WIDTH = HIGH_RES_WIDTH / 2;
-		private const int LOW_RES_HEIGHT = HIGH_RES_HEIGHT / 2;
+		private const int LOW_RES_WIDTH = 320;
+		private const int LOW_RES_HEIGHT = 240;
 
 		protected BitmapBunch bitmapBunch;
 
@@ -27,7 +24,6 @@ namespace FourDO.UI.Canvases
 		private long scanDrawTime = 0;
 
 		private InterpolationMode scalingMode = SMOOTH_SCALING_MODE;
-		private bool renderHighResolution = false;
 
 		private bool isGraphicsIntensive = false;
 
@@ -42,7 +38,7 @@ namespace FourDO.UI.Canvases
 
 		public void Initialize()
 		{
-			this.bitmapBunch = new BitmapBunch(HIGH_RES_WIDTH, HIGH_RES_HEIGHT, PixelFormat.Format24bppRgb);
+            this.CreateNewBitmapBunch(false, ScalingAlgorithm.None);
 
 			double maxRefreshRate = (double)Utilities.DisplayHelper.GetMaximumRefreshRate();
 			this.scanDrawTime = (long)((1 / maxRefreshRate) * Utilities.PerformanceCounter.Frequency);
@@ -67,26 +63,25 @@ namespace FourDO.UI.Canvases
 		{ 
 			get
 			{
-				return this.renderHighResolution;
+                return this.bitmapBunch.HighResolution;
 			}
 			set
 			{
-				this.renderHighResolution = value;
-				this.bitmapBunch.ClearImages();
+                CreateNewBitmapBunch(value, this.bitmapBunch.ScalingAlgorithm);
 				this.Invalidate();
 			}
 		}
 
-		private ScalingAlgorithm _scalingAlgorithm = ScalingAlgorithm.None;
 		public ScalingAlgorithm ScalingAlgorithm
 		{
 			get
 			{
-				return _scalingAlgorithm;
+				return this.bitmapBunch.ScalingAlgorithm;
 			}
 			set
 			{
-				_scalingAlgorithm = value;
+				CreateNewBitmapBunch(this.bitmapBunch.HighResolution, value);
+                this.Invalidate();
 			}
 		}
 
@@ -112,19 +107,21 @@ namespace FourDO.UI.Canvases
 
 		public Bitmap GetCurrentBitmap()
 		{
-			if (this.bitmapBunch == null)
+            BitmapBunch currentBunch = this.bitmapBunch;
+            if (currentBunch == null)
 				return null;
-			return this.bitmapBunch.GetNextRenderBitmap().Bitmap;
+            return currentBunch.GetNextRenderBitmap().Bitmap;
 		}
 
 		private void GameCanvas_Paint(object sender, PaintEventArgs e)
 		{
 			long sampleBefore = Utilities.PerformanceCounter.Current;
 
-			BitmapDefinition bitmapDefinition = this.bitmapBunch.GetNextRenderBitmap();
+			BitmapBunch currentBunch = this.bitmapBunch;
+            BitmapDefinition bitmapDefinition = currentBunch.GetNextRenderBitmap();
 			Bitmap bitmapToRender = bitmapDefinition == null ? null : bitmapDefinition.Bitmap;
 			if (bitmapToRender == null)
-				bitmapToRender = this.bitmapBunch.GetBlackBitmap().Bitmap;
+				bitmapToRender = currentBunch.GetBlackBitmap().Bitmap;
 
 			Rectangle destRect = new Rectangle(0, 0, this.Width, this.Height);
 			Graphics g = e.Graphics;
@@ -134,8 +131,8 @@ namespace FourDO.UI.Canvases
 			Rectangle sourceRect = new Rectangle(
 				crop.Left,
 				crop.Top,
-				(this.RenderHighResolution ? HIGH_RES_WIDTH : LOW_RES_WIDTH) - crop.Left - crop.Right,
-				(this.RenderHighResolution ? HIGH_RES_HEIGHT : LOW_RES_HEIGHT) - crop.Top - crop.Bottom);
+				currentBunch.BitmapWidth - crop.Left - crop.Right,
+                currentBunch.BitmapHeight - crop.Top - crop.Bottom);
 
 			g.DrawImage(bitmapToRender, destRect, sourceRect, GraphicsUnit.Pixel);
 
@@ -165,37 +162,36 @@ namespace FourDO.UI.Canvases
 
 			/////////////// 
 			// Choose the best bitmap to do a background render to
-			BitmapDefinition bitmapToPrepare = this.bitmapBunch.GetNextPrepareBitmap();
-			bool highResolution = this.RenderHighResolution;
+			BitmapBunch currentBunch = this.bitmapBunch;
+            BitmapDefinition bitmapToPrepare = currentBunch.GetNextPrepareBitmap();
+            bool highResolution = currentBunch.HighResolution;
 
-			// Determine how much of the image to copy.
-			int copyHeight = 0;
-			int copyWidth = 0;
+            // Determine how much of the image to copy.
+            int copyHeight = highResolution ? LOW_RES_HEIGHT * 2 : LOW_RES_HEIGHT;
+            int copyWidth = highResolution ? LOW_RES_WIDTH * 2 : LOW_RES_WIDTH;
 
-			if (highResolution)
-			{
-				copyHeight = HIGH_RES_HEIGHT;
-				copyWidth = HIGH_RES_WIDTH;
-			}
-			else
-			{
-				copyHeight = LOW_RES_HEIGHT;
-				copyWidth = LOW_RES_WIDTH;
-			}
+            // Copy!
+            CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, true, true, this.AutoCrop, currentBunch.ScalingAlgorithm);
 
-			// Copy!
-			CanvasHelper.CopyBitmap(currentFrame, bitmapToPrepare, copyWidth, copyHeight, !highResolution, false, this.AutoCrop, this._scalingAlgorithm);
 
 			// Consider the newly determined crop rectangle.
-			if (cropHelper.ConsiderAlternateCrop(bitmapToPrepare.Crop))
-				Console.WriteLine("newcrop");
+            cropHelper.ConsiderAlternateCrop(bitmapToPrepare.Crop);
 			bitmapToPrepare.Crop.Mimic(cropHelper.CurrentCrop);
 
 			// And.... we're done.
-			this.bitmapBunch.SetLastPreparedBitmap(bitmapToPrepare);
+            currentBunch.SetLastPreparedBitmap(bitmapToPrepare);
 
 			// Refresh.
 			this.Invalidate();
 		}
+
+        private void CreateNewBitmapBunch(bool highResolution, ScalingAlgorithm algorithm)
+        {
+            var newBunch = CanvasHelper.CreateNewBitmapBunch(
+                    highResolution, algorithm, LOW_RES_WIDTH, LOW_RES_HEIGHT,
+                    this.bitmapBunch, PixelFormat.Format32bppRgb);
+            if (newBunch != null)
+                this.bitmapBunch = newBunch;
+        }
 	}
 }

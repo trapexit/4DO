@@ -54,9 +54,6 @@
     <ClCompile Include="FreeDO\frame.cpp">
       <Filter>FreeDO\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Filters\snes_ntsc.c">
-      <Filter>Filters</Filter>
-    </ClCompile>
     <ClCompile Include="Filters\hq2x.cpp">
       <Filter>Filters</Filter>
     </ClCompile>
@@ -116,15 +113,6 @@
     <ClInclude Include="FreeDO\stdafx.h" />
     <ClInclude Include="FreeDO\frame.h">
       <Filter>FreeDO\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Filters\snes_ntsc.h">
-      <Filter>Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="Filters\snes_ntsc_config.h">
-      <Filter>Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="Filters\snes_ntsc_impl.h">
-      <Filter>Filters</Filter>
     </ClInclude>
     <ClInclude Include="Filters\hqx.h">
       <Filter>Filters</Filter>

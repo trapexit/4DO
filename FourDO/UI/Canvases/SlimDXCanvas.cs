@@ -357,32 +357,13 @@ namespace FourDO.UI.Canvases
 			//System.Diagnostics.Trace.WriteLine(String.Format("Clicked in\tx:\t{0}\ty:\t{1}", newX, newY));
 		}
 
-		private void CreateNewBitmapBunch(bool highResolution, ScalingAlgorithm algorithm)
-		{
-			int sizeMultiplier = 1;
-
-			if (highResolution)
-				sizeMultiplier *= 2;
-
-			if (algorithm == ScalingAlgorithm.Hq2X)
-				sizeMultiplier *= 2;
-			else if (algorithm == ScalingAlgorithm.Hq3X)
-				sizeMultiplier *= 3;
-			else if (algorithm == ScalingAlgorithm.Hq4X)
-				sizeMultiplier *= 4;
-
-			int newWidth = LOW_RES_WIDTH*sizeMultiplier;
-			int newHeight = LOW_RES_HEIGHT*sizeMultiplier;
-
-			// Create new bitmap bunch if necessary.
-			if (this.bitmapBunch == null || (newWidth != this.bitmapBunch.BitmapWidth || newHeight != this.bitmapBunch.BitmapHeight))
-			{
-				var newBunch = new BitmapBunch(LOW_RES_WIDTH * sizeMultiplier, LOW_RES_HEIGHT * sizeMultiplier, PixelFormat.Format32bppRgb);
-				newBunch.HighResolution = highResolution;
-				newBunch.ScalingAlgorithm = algorithm;
-
-				this.bitmapBunch = newBunch;
-			}
-		}
+        private void CreateNewBitmapBunch(bool highResolution, ScalingAlgorithm algorithm)
+        {
+            var newBunch = CanvasHelper.CreateNewBitmapBunch(
+                    highResolution, algorithm, LOW_RES_WIDTH, LOW_RES_HEIGHT,
+                    this.bitmapBunch, PixelFormat.Format32bppRgb);
+            if (newBunch != null)
+                this.bitmapBunch = newBunch;
+        }
 	}
 }

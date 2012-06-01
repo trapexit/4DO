@@ -114,7 +114,6 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
     <ClCompile Include="Filters\hq3x.cpp" />
     <ClCompile Include="Filters\hq4x.cpp" />
     <ClCompile Include="Filters\hqx_init.cpp" />
-    <ClCompile Include="Filters\snes_ntsc.c" />
     <ClCompile Include="FreeDO\arm.cpp" />
     <ClCompile Include="FreeDO\bitop.cpp" />
     <ClCompile Include="FreeDO\Clio.cpp" />
@@ -132,9 +131,6 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
   <ItemGroup>
     <ClInclude Include="Filters\hqx_common.h" />
     <ClInclude Include="Filters\hqx.h" />
-    <ClInclude Include="Filters\snes_ntsc.h" />
-    <ClInclude Include="Filters\snes_ntsc_config.h" />
-    <ClInclude Include="Filters\snes_ntsc_impl.h" />
     <ClInclude Include="FreeDO\arm.h" />
     <ClInclude Include="FreeDO\bitop.h" />
     <ClInclude Include="FreeDO\Clio.h" />
