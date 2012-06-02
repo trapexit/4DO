@@ -86,6 +86,7 @@ namespace FourDO.Emulation
 		private bool? renderHighResolution;
 
 		private volatile FrameSpeedCalculator speedCalculator = new FrameSpeedCalculator(10);
+		private volatile HealthCalculator healthCalculator = new HealthCalculator();
 
 		private IAudioPlugin audioPlugin = PluginLoader.GetAudioPlugin();
 		private IInputPlugin inputPlugin = PluginLoader.GetInputPlugin();
@@ -215,6 +216,14 @@ namespace FourDO.Emulation
 			get
 			{
 				return speedCalculator.CurrentAverage;
+			}
+		}
+
+		public EmulationHealth CurrentEmulationHealth
+		{
+			get
+			{
+				return healthCalculator.CurrentHealth;
 			}
 		}
 
@@ -894,6 +903,9 @@ namespace FourDO.Emulation
 					lastSample = currentSample;
 					lastTarget = currentTarget;
 				}
+
+				if (cheatAmount != 0)
+					healthCalculator.ReportCheat(cheatAmount);
 
 				// Let the audio plugin know the current "schedule".
 				this.audioPlugin.FrameDone(cheatAmount > 0 ? 0 : currentOvershoot, cheatAmount);

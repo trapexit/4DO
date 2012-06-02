@@ -37,9 +37,6 @@ namespace FourDO.UI
 
 			this.ResetDefaultsLabel.Text = Strings.SettingsTabAdvancedDefaultsMessage;
 			this.AdvancedResetButton.Text = Strings.SettingsTabAdvancedResetDefaults;
-			this.HighResGroupBox.Text= Strings.SettingsTabAdvancedHighResFrame;
-			this.HighResolutionLabel.Text = Strings.SettingsTabAdvancedHighResMessage;
-			this.chkRenderHighRes.Text = Strings.SettingsTabAdvancedHighResSetting;
 			this.CpuClockGroupBox.Text = Strings.SettingsTabAdvancedClockFrame;
 			this.ClockMessageLabel.Text = Strings.SettingsTabAdvancedClockMessage;
 			this.ClockNormalFpsLabel.Text = Strings.SettingsTabAdvancedClockNormalFPS;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using FourDO.Emulation.FreeDO;
 
 namespace FourDO.UI
 {
@@ -36,7 +37,11 @@ namespace FourDO.UI
 			BackgroundMetalOption.Checked = (Properties.Settings.Default.VoidAreaPattern == (int)VoidAreaPattern.Metal);
 			BackgroundNoneOption.Checked = (Properties.Settings.Default.VoidAreaPattern == (int)VoidAreaPattern.None);
 
-			chkRenderHighRes.Checked = Properties.Settings.Default.RenderHighResolution;
+			optScaleNone.Checked = (Properties.Settings.Default.WindowScalingAlgorithm == (int)ScalingAlgorithm.None);
+			optScaleHq2x.Checked = (Properties.Settings.Default.WindowScalingAlgorithm == (int)ScalingAlgorithm.Hq2X);
+			optScaleHq3x.Checked = (Properties.Settings.Default.WindowScalingAlgorithm == (int)ScalingAlgorithm.Hq3X);
+			optScaleHq4x.Checked = (Properties.Settings.Default.WindowScalingAlgorithm == (int)ScalingAlgorithm.Hq4X);
+			optScaleDoubleRes.Checked = Properties.Settings.Default.RenderHighResolution;
 			CpuClockBar.Value = Properties.Settings.Default.CpuClockHertz / 1000;
 			AudioBufferBar.Value = Properties.Settings.Default.AudioBufferMilliseconds;
 
@@ -67,7 +72,16 @@ namespace FourDO.UI
 			if (this.BackgroundNoneOption.Checked)
 				Properties.Settings.Default.VoidAreaPattern = (int)VoidAreaPattern.None;
 
-			Properties.Settings.Default.RenderHighResolution = chkRenderHighRes.Checked;
+			if (this.optScaleNone.Checked)
+				Properties.Settings.Default.WindowScalingAlgorithm = (int)ScalingAlgorithm.None;
+			if (this.optScaleHq2x.Checked)
+				Properties.Settings.Default.WindowScalingAlgorithm = (int)ScalingAlgorithm.Hq2X;
+			if (this.optScaleHq3x.Checked)
+				Properties.Settings.Default.WindowScalingAlgorithm = (int)ScalingAlgorithm.Hq3X;
+			if (this.optScaleHq4x.Checked)
+				Properties.Settings.Default.WindowScalingAlgorithm = (int)ScalingAlgorithm.Hq4X;
+
+			Properties.Settings.Default.RenderHighResolution = optScaleDoubleRes.Checked;
 			Properties.Settings.Default.CpuClockHertz = CpuClockBar.Value * 1000;
 			Properties.Settings.Default.AudioBufferMilliseconds = AudioBufferBar.Value;
 
@@ -135,7 +149,6 @@ namespace FourDO.UI
 		private void AdvancedResetButton_Click(object sender, EventArgs e)
 		{
 			// TODO: I need to base this off the real defaults.
-			chkRenderHighRes.Checked = false;
 			CpuClockBar.Value = 12500;
 			AudioBufferBar.Value = 100;
 		}
@@ -156,6 +169,26 @@ namespace FourDO.UI
 			decimal clockMegahertz = CpuClockBar.Value / (decimal)1000;
 			int clockPercent = CpuClockBar.Value / 125;
 			CpuClockValueLabel.Text = string.Format("{0:0.0}Mhz ({1}%)", clockMegahertz, clockPercent);
+		}
+
+		private void chkSmoothImageResize_CheckedChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void optScaleHq4x_CheckedChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void optScaleHq3x_CheckedChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void optScaleHq2x_CheckedChanged(object sender, EventArgs e)
+		{
+
 		}
 
 	}

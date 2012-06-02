@@ -91,6 +91,7 @@
     <Compile Include="Emulation\Plugins\Audio\JohnnyAudio\JohnnyAudioPlugin.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Emulation\HealthCalculator.cs" />
     <Compile Include="Emulation\Plugins\IAudioPlugin.cs" />
     <Compile Include="Emulation\FPSCalculator.cs" />
     <Compile Include="Emulation\GameConsole.cs" />

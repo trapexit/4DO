@@ -286,6 +286,7 @@ namespace FourDO.UI
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowFullScreen)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowPreseveRatio)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowSnapSize)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowScalingAlgorithm)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowImageSmoothing)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowAutoCrop)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomSourceType)
@@ -294,7 +295,8 @@ namespace FourDO.UI
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.GameRomDrive)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.VoidAreaBorder)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.VoidAreaPattern)
-				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AudioVolume))
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AudioVolume)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.RenderHighResolution))
 			{
 				this.UpdateUI();
 			}
@@ -304,6 +306,9 @@ namespace FourDO.UI
 
 			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.CpuClockHertz))
 				GameConsole.Instance.CpuClockHertz = Properties.Settings.Default.CpuClockHertz;
+
+			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.WindowScalingAlgorithm))
+				this.gameCanvas.ScalingAlgorithm = (ScalingAlgorithm)Properties.Settings.Default.WindowScalingAlgorithm;
 
 			if (e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.RenderHighResolution))
 			{
@@ -411,7 +416,7 @@ namespace FourDO.UI
 
 		private void RefreshFpsTimer_Tick(object sender, EventArgs e)
 		{
-			this.DoUpdateFPS();
+			this.DoUpdateStatus();
 		}
 
 		private void saveStateMenuItem_Click(object sender, EventArgs e)
@@ -488,12 +493,29 @@ namespace FourDO.UI
 			this.DoToggleImageSmoothing();
 		}
 
-		private void scalingModeMenuItem_Click(object sender, EventArgs e)
+		private void scalingModeNoneMenuItem_Click(object sender, EventArgs e)
 		{
-			if (gameCanvas.ScalingAlgorithm == ScalingAlgorithm.None)
-				gameCanvas.ScalingAlgorithm = ScalingAlgorithm.Hq2X;
-			else
-				gameCanvas.ScalingAlgorithm = ScalingAlgorithm.None;
+			this.DoSetScalingMode(ScalingAlgorithm.None, false);
+		}
+
+		private void scalingModeDoubleResMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoSetScalingMode(ScalingAlgorithm.None, true);
+		}
+
+		private void scalingModeHq2xMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoSetScalingMode(ScalingAlgorithm.Hq2X, false);
+		}
+
+		private void scalingModeHq3xMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoSetScalingMode(ScalingAlgorithm.Hq3X, false);
+		}
+
+		private void scalingModeHq4xMenuItem_Click(object sender, EventArgs e)
+		{
+			this.DoSetScalingMode(ScalingAlgorithm.Hq4X , false);
 		}
 
 		private void autoCropMenuItem_Click(object sender, EventArgs e)
@@ -771,6 +793,29 @@ namespace FourDO.UI
 
 			this.DrawBorderMenuItem.Checked = Properties.Settings.Default.VoidAreaBorder;
 
+			// Scaling algorithm.
+			var italicFont = new Font(scalingModeMenuItem.Font, FontStyle.Italic);
+			ToolStripMenuItem currentAlgorithmItem = null;
+			if (Properties.Settings.Default.RenderHighResolution)
+				currentAlgorithmItem = this.scalingModeDoubleResMenuItem;
+			else if (Properties.Settings.Default.WindowScalingAlgorithm == (int)ScalingAlgorithm.Hq4X)
+				currentAlgorithmItem = this.scalingModeHq4xMenuItem;
+			else if (Properties.Settings.Default.WindowScalingAlgorithm == (int)ScalingAlgorithm.Hq3X)
+				currentAlgorithmItem = this.scalingModeHq3xMenuItem;
+			else if (Properties.Settings.Default.WindowScalingAlgorithm == (int)ScalingAlgorithm.Hq2X)
+				currentAlgorithmItem = this.scalingModeHq2xMenuItem;
+			else
+				currentAlgorithmItem = this.scalingModeNoneMenuItem;
+
+			foreach (ToolStripItem menuItem in scalingModeMenuItem.DropDownItems)
+			{
+				if (!(menuItem is ToolStripMenuItem))
+					continue;
+				bool isCurrent = (menuItem == currentAlgorithmItem);
+				((ToolStripMenuItem)menuItem).Checked = isCurrent;
+				menuItem.Font = isCurrent ? new Font(scalingModeMenuItem.Font, FontStyle.Italic) : scalingModeMenuItem.Font;
+			}
+
 			this.smoothResizingMenuItem.Checked = Properties.Settings.Default.WindowImageSmoothing;
 			this.gameCanvas.ImageSmoothing = this.smoothResizingMenuItem.Checked;
 
@@ -860,6 +905,7 @@ namespace FourDO.UI
 			GameConsole.Instance.CpuClockHertz = Properties.Settings.Default.CpuClockHertz;
 			GameConsole.Instance.RenderHighResolution = Properties.Settings.Default.RenderHighResolution;
 			gameCanvas.RenderHighResolution = Properties.Settings.Default.RenderHighResolution;
+			gameCanvas.ScalingAlgorithm = (ScalingAlgorithm)Properties.Settings.Default.WindowScalingAlgorithm;
 
 			////////////////
 			// Ensure existence of an NVRAM file.
@@ -1158,8 +1204,11 @@ namespace FourDO.UI
 			Properties.Settings.Default.Save();
 		}
 
-		private void DoUpdateFPS()
+		private EmulationHealth _lastHealth = EmulationHealth.None;
+		private void DoUpdateStatus()
 		{
+			EmulationHealth health = EmulationHealth.None;
+
 			if (GameConsole.Instance.State == ConsoleState.Running)
 			{
 				double fps = GameConsole.Instance.CurrentFrameSpeed;
@@ -1171,11 +1220,27 @@ namespace FourDO.UI
 				fps = Math.Min(fps, 999.99);
 				var fpsString = fps.ToString("00.00");
 				var extraPadding = new String(' ', 6 - fpsString.Length);
-				FPSStripItem.Text = Strings.MainMessageCoreFPS + ": " + extraPadding + fpsString;
+				FPSStripItem.Text = "   " + Strings.MainMessageCoreFPS + ": " + extraPadding + fpsString;
+
+				health = GameConsole.Instance.CurrentEmulationHealth;
 			}
 			else
 			{
-				FPSStripItem.Text = Strings.MainMessageCoreFPS + ": ---.--";
+				FPSStripItem.Text = "   " + Strings.MainMessageCoreFPS + ": ---.--";
+				HealthStripItem.Image = Properties.Images.light_gray;
+			}
+
+			if (health != _lastHealth)
+			{
+				_lastHealth = health;
+				if (health == EmulationHealth.None)
+					HealthStripItem.Image = Properties.Images.light_gray;
+				else if (health == EmulationHealth.Bad)
+					HealthStripItem.Image = Properties.Images.light_red;
+				else if (health == EmulationHealth.Okay)
+					HealthStripItem.Image = Properties.Images.light_yellow;
+				else
+					HealthStripItem.Image = Properties.Images.light_green;
 			}
 		}
 
@@ -1215,6 +1280,13 @@ namespace FourDO.UI
 		private void DoToggleImageSmoothing()
 		{
 			Properties.Settings.Default.WindowImageSmoothing = !Properties.Settings.Default.WindowImageSmoothing;
+			Properties.Settings.Default.Save();
+		}
+
+		private void DoSetScalingMode(ScalingAlgorithm algorithm, bool highResolution)
+		{
+			Properties.Settings.Default.WindowScalingAlgorithm = (int)algorithm;
+			Properties.Settings.Default.RenderHighResolution = highResolution;
 			Properties.Settings.Default.Save();
 		}
 
