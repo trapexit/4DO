@@ -64,6 +64,8 @@
 			this.BorderPanel = new System.Windows.Forms.Panel();
 			this.pictureBox9 = new System.Windows.Forms.PictureBox();
 			this.DisplayGeneralGroupBox = new System.Windows.Forms.GroupBox();
+			this.pictureBox14 = new System.Windows.Forms.PictureBox();
+			this.chkSmoothImageResize = new System.Windows.Forms.CheckBox();
 			this.chkAutoCropImage = new System.Windows.Forms.CheckBox();
 			this.pictureBox12 = new System.Windows.Forms.PictureBox();
 			this.chkSnapWindowIncrements = new System.Windows.Forms.CheckBox();
@@ -71,10 +73,13 @@
 			this.chkPreserveAspectRatio = new System.Windows.Forms.CheckBox();
 			this.pictureBox5 = new System.Windows.Forms.PictureBox();
 			this.DisplayBTabPage = new System.Windows.Forms.TabPage();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.panel4 = new System.Windows.Forms.Panel();
+			this.ScalingModeWarningLabel = new System.Windows.Forms.Label();
 			this.ScalingModeGroupBox = new System.Windows.Forms.GroupBox();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.HQXMessageLabel = new System.Windows.Forms.Label();
+			this.ScalingModeMessageLabel = new System.Windows.Forms.Label();
 			this.optScaleHq4x = new System.Windows.Forms.RadioButton();
 			this.optScaleHq3x = new System.Windows.Forms.RadioButton();
 			this.optScaleHq2x = new System.Windows.Forms.RadioButton();
@@ -104,9 +109,6 @@
 			this.CpuClockBar = new System.Windows.Forms.TrackBar();
 			this.ClockMessageLabel = new System.Windows.Forms.Label();
 			this.pictureBox8 = new System.Windows.Forms.PictureBox();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.pictureBox14 = new System.Windows.Forms.PictureBox();
-			this.chkSmoothImageResize = new System.Windows.Forms.CheckBox();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -128,10 +130,12 @@
 			this.BorderPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
 			this.DisplayGeneralGroupBox.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
 			this.DisplayBTabPage.SuspendLayout();
+			this.panel4.SuspendLayout();
 			this.ScalingModeGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
 			this.AdvancedDisplayTab.SuspendLayout();
@@ -142,7 +146,6 @@
 			this.CpuClockGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.CpuClockBar)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// panel1
@@ -545,6 +548,24 @@
 			this.DisplayGeneralGroupBox.TabStop = false;
 			this.DisplayGeneralGroupBox.Text = "&General Display Settings";
 			// 
+			// pictureBox14
+			// 
+			this.pictureBox14.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox14.Image")));
+			this.pictureBox14.Location = new System.Drawing.Point(6, 19);
+			this.pictureBox14.Name = "pictureBox14";
+			this.pictureBox14.Size = new System.Drawing.Size(47, 49);
+			this.pictureBox14.TabIndex = 12;
+			this.pictureBox14.TabStop = false;
+			// 
+			// chkSmoothImageResize
+			// 
+			this.chkSmoothImageResize.Location = new System.Drawing.Point(69, 19);
+			this.chkSmoothImageResize.Name = "chkSmoothImageResize";
+			this.chkSmoothImageResize.Size = new System.Drawing.Size(334, 49);
+			this.chkSmoothImageResize.TabIndex = 0;
+			this.chkSmoothImageResize.Text = "Perform smooth image resizing";
+			this.chkSmoothImageResize.UseVisualStyleBackColor = true;
+			// 
 			// chkAutoCropImage
 			// 
 			this.chkAutoCropImage.Location = new System.Drawing.Point(69, 129);
@@ -601,6 +622,7 @@
 			// 
 			// DisplayBTabPage
 			// 
+			this.DisplayBTabPage.Controls.Add(this.panel4);
 			this.DisplayBTabPage.Controls.Add(this.ScalingModeGroupBox);
 			this.DisplayBTabPage.Location = new System.Drawing.Point(4, 22);
 			this.DisplayBTabPage.Name = "DisplayBTabPage";
@@ -610,6 +632,58 @@
 			this.DisplayBTabPage.Text = "Display B";
 			this.DisplayBTabPage.UseVisualStyleBackColor = true;
 			// 
+			// panel4
+			// 
+			this.panel4.BackColor = System.Drawing.SystemColors.Info;
+			this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel4.Controls.Add(this.ScalingModeWarningLabel);
+			this.panel4.Location = new System.Drawing.Point(17, 13);
+			this.panel4.Name = "panel4";
+			this.panel4.Size = new System.Drawing.Size(411, 23);
+			this.panel4.TabIndex = 1;
+			// 
+			// ScalingModeWarningLabel
+			// 
+			this.ScalingModeWarningLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.ScalingModeWarningLabel.Location = new System.Drawing.Point(2, 1);
+			this.ScalingModeWarningLabel.Name = "ScalingModeWarningLabel";
+			this.ScalingModeWarningLabel.Size = new System.Drawing.Size(402, 17);
+			this.ScalingModeWarningLabel.TabIndex = 0;
+			this.ScalingModeWarningLabel.Text = "Warning: Scaling modes are CPU intensive!";
+			this.ScalingModeWarningLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// ScalingModeGroupBox
+			// 
+			this.ScalingModeGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.ScalingModeGroupBox.Controls.Add(this.groupBox3);
+			this.ScalingModeGroupBox.Controls.Add(this.groupBox2);
+			this.ScalingModeGroupBox.Controls.Add(this.HQXMessageLabel);
+			this.ScalingModeGroupBox.Controls.Add(this.ScalingModeMessageLabel);
+			this.ScalingModeGroupBox.Controls.Add(this.optScaleHq4x);
+			this.ScalingModeGroupBox.Controls.Add(this.optScaleHq3x);
+			this.ScalingModeGroupBox.Controls.Add(this.optScaleHq2x);
+			this.ScalingModeGroupBox.Controls.Add(this.optScaleNone);
+			this.ScalingModeGroupBox.Controls.Add(this.optScaleDoubleRes);
+			this.ScalingModeGroupBox.Controls.Add(this.HighResolutionLabel);
+			this.ScalingModeGroupBox.Controls.Add(this.pictureBox13);
+			this.ScalingModeGroupBox.Location = new System.Drawing.Point(17, 42);
+			this.ScalingModeGroupBox.Name = "ScalingModeGroupBox";
+			this.ScalingModeGroupBox.Size = new System.Drawing.Size(411, 293);
+			this.ScalingModeGroupBox.TabIndex = 0;
+			this.ScalingModeGroupBox.TabStop = false;
+			this.ScalingModeGroupBox.Text = "Scaling &Mode";
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Location = new System.Drawing.Point(62, 167);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(327, 5);
+			this.groupBox3.TabIndex = 5;
+			this.groupBox3.TabStop = false;
+			// 
 			// groupBox2
 			// 
 			this.groupBox2.Location = new System.Drawing.Point(62, 98);
@@ -618,44 +692,22 @@
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.TabStop = false;
 			// 
-			// ScalingModeGroupBox
+			// HQXMessageLabel
 			// 
-			this.ScalingModeGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.ScalingModeGroupBox.Controls.Add(this.groupBox3);
-			this.ScalingModeGroupBox.Controls.Add(this.groupBox2);
-			this.ScalingModeGroupBox.Controls.Add(this.label2);
-			this.ScalingModeGroupBox.Controls.Add(this.label1);
-			this.ScalingModeGroupBox.Controls.Add(this.optScaleHq4x);
-			this.ScalingModeGroupBox.Controls.Add(this.optScaleHq3x);
-			this.ScalingModeGroupBox.Controls.Add(this.optScaleHq2x);
-			this.ScalingModeGroupBox.Controls.Add(this.optScaleNone);
-			this.ScalingModeGroupBox.Controls.Add(this.optScaleDoubleRes);
-			this.ScalingModeGroupBox.Controls.Add(this.HighResolutionLabel);
-			this.ScalingModeGroupBox.Controls.Add(this.pictureBox13);
-			this.ScalingModeGroupBox.Location = new System.Drawing.Point(17, 15);
-			this.ScalingModeGroupBox.Name = "ScalingModeGroupBox";
-			this.ScalingModeGroupBox.Size = new System.Drawing.Size(411, 293);
-			this.ScalingModeGroupBox.TabIndex = 0;
-			this.ScalingModeGroupBox.TabStop = false;
-			this.ScalingModeGroupBox.Text = "Scaling &Mode";
-			// 
-			// label2
-			// 
-			this.label2.Location = new System.Drawing.Point(62, 183);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(327, 31);
-			this.label2.TabIndex = 6;
-			this.label2.Text = "\"hqx\" is a post-processing filter that attempts to enhance the image by matching " +
+			this.HQXMessageLabel.Location = new System.Drawing.Point(62, 183);
+			this.HQXMessageLabel.Name = "HQXMessageLabel";
+			this.HQXMessageLabel.Size = new System.Drawing.Size(327, 31);
+			this.HQXMessageLabel.TabIndex = 6;
+			this.HQXMessageLabel.Text = "\"hqx\" is a post-processing filter that attempts to enhance the image by matching " +
     "adjacent colors.";
 			// 
-			// label1
+			// ScalingModeMessageLabel
 			// 
-			this.label1.Location = new System.Drawing.Point(59, 19);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(346, 57);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "The console\'s image is typically rendered as 320x240. If using any of the scaling" +
+			this.ScalingModeMessageLabel.Location = new System.Drawing.Point(59, 19);
+			this.ScalingModeMessageLabel.Name = "ScalingModeMessageLabel";
+			this.ScalingModeMessageLabel.Size = new System.Drawing.Size(346, 54);
+			this.ScalingModeMessageLabel.TabIndex = 0;
+			this.ScalingModeMessageLabel.Text = "The console\'s image is typically rendered as 320x240. If using any of the scaling" +
     " options, consider adjusting the CPU clock speed or the audio buffer size (in th" +
     "e \"Advanced\" tab)";
 			// 
@@ -975,32 +1027,6 @@
 			this.pictureBox8.TabIndex = 12;
 			this.pictureBox8.TabStop = false;
 			// 
-			// groupBox3
-			// 
-			this.groupBox3.Location = new System.Drawing.Point(62, 167);
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(327, 5);
-			this.groupBox3.TabIndex = 5;
-			this.groupBox3.TabStop = false;
-			// 
-			// pictureBox14
-			// 
-			this.pictureBox14.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox14.Image")));
-			this.pictureBox14.Location = new System.Drawing.Point(6, 19);
-			this.pictureBox14.Name = "pictureBox14";
-			this.pictureBox14.Size = new System.Drawing.Size(47, 49);
-			this.pictureBox14.TabIndex = 12;
-			this.pictureBox14.TabStop = false;
-			// 
-			// chkSmoothImageResize
-			// 
-			this.chkSmoothImageResize.Location = new System.Drawing.Point(69, 19);
-			this.chkSmoothImageResize.Name = "chkSmoothImageResize";
-			this.chkSmoothImageResize.Size = new System.Drawing.Size(334, 49);
-			this.chkSmoothImageResize.TabIndex = 0;
-			this.chkSmoothImageResize.Text = "Perform smooth image resizing";
-			this.chkSmoothImageResize.UseVisualStyleBackColor = true;
-			// 
 			// Settings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1040,10 +1066,12 @@
 			this.BorderPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
 			this.DisplayGeneralGroupBox.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
 			this.DisplayBTabPage.ResumeLayout(false);
+			this.panel4.ResumeLayout(false);
 			this.ScalingModeGroupBox.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
 			this.AdvancedDisplayTab.ResumeLayout(false);
@@ -1056,7 +1084,6 @@
 			this.CpuClockGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.CpuClockBar)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
 			this.ResumeLayout(false);
 
         }
@@ -1133,13 +1160,15 @@
 		private System.Windows.Forms.RadioButton optScaleDoubleRes;
 		private System.Windows.Forms.RadioButton optScaleHq2x;
 		private System.Windows.Forms.RadioButton optScaleNone;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label ScalingModeMessageLabel;
 		private System.Windows.Forms.RadioButton optScaleHq4x;
 		private System.Windows.Forms.RadioButton optScaleHq3x;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label HQXMessageLabel;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.PictureBox pictureBox14;
 		private System.Windows.Forms.CheckBox chkSmoothImageResize;
+		private System.Windows.Forms.Panel panel4;
+		private System.Windows.Forms.Label ScalingModeWarningLabel;
     }
 }

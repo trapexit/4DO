@@ -35,6 +35,17 @@ namespace FourDO.UI
 			this.BackgroundMetalOption.Text = Strings.SettingsTabDisplayVoidPatternMetal;
 			this.BackgroundNoneOption.Text = Strings.SettingsTabDisplayVoidPatternNone;
 
+			this.optScaleDoubleRes.Text = Strings.SettingsTabDisplayScalingModeDoubleRes;
+			this.HighResolutionLabel.Text = Strings.SettingsTabDisplayScalingModeDoubleResMessage;
+			this.ScalingModeGroupBox.Text = Strings.SettingsTabDisplayScalingModeFrame;
+			this.optScaleHq2x.Text = Strings.SettingsTabDisplayScalingModeHq2x;
+			this.optScaleHq3x.Text = Strings.SettingsTabDisplayScalingModeHq3x;
+			this.optScaleHq4x.Text = Strings.SettingsTabDisplayScalingModeHq4x;
+			this.HQXMessageLabel.Text = Strings.SettingsTabDisplayScalingModeHqxMessage;
+			this.ScalingModeMessageLabel.Text = Strings.SettingsTabDisplayScalingModeMessage;
+			this.optScaleNone.Text = Strings.SettingsTabDisplayScalingModeNone;
+			this.ScalingModeWarningLabel.Text = Strings.SettingsTabDisplayScalingModeWarning;
+
 			this.ResetDefaultsLabel.Text = Strings.SettingsTabAdvancedDefaultsMessage;
 			this.AdvancedResetButton.Text = Strings.SettingsTabAdvancedResetDefaults;
 			this.CpuClockGroupBox.Text = Strings.SettingsTabAdvancedClockFrame;

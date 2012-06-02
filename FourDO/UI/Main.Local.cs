@@ -68,6 +68,12 @@ namespace FourDO.UI
 			this.preserveRatioMenuItem.Text = Strings.MainMenuDisplayPreserveRatio;
 			this.autoCropMenuItem.Text = Strings.MainMenuDisplayAutoCrop;
 			this.snapWindowMenuItem.Text = Strings.MainMenuDisplayResizeSnap;
+			this.scalingModeMenuItem.Text = Strings.MainMenuDisplayScaling;
+			this.scalingModeNoneMenuItem.Text = Strings.MainMenuDisplayScalingNone;
+			this.scalingModeDoubleResMenuItem.Text = Strings.MainMenuDisplayScalingDoubleRes;
+			this.scalingModeHq2xMenuItem.Text = Strings.MainMenuDisplayScalingHq2x;
+			this.scalingModeHq3xMenuItem.Text = Strings.MainMenuDisplayScalingHq3x;
+			this.scalingModeHq4xMenuItem.Text = Strings.MainMenuDisplayScalingHq4x;
 
 			this.audioMenuItem.Text = Strings.MainMenuAudio;
 
@@ -88,6 +94,9 @@ namespace FourDO.UI
 
 			if (this.volumeMenuItem != null)
 				this.volumeMenuItem.Localize();
+
+			// Bottom bar items.
+			HealthLabelStripItem.Text = Strings.MainMessageHealth;
 
 			// Update save state slot menu items.
 			foreach (var item in saveStateSlotMenuItem.DropDownItems)
