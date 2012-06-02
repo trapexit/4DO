@@ -82,8 +82,6 @@ namespace FourDO.UI
 			this.gameInfoMenuItem.Text = Strings.MainMenuHelpGameInfo;
 			this.aboutMenuItem.Text = Strings.MainMenuHelpAbout;
 
-			this.quickDisplayDropDownButton.Text = Strings.MainMessageDisplayOptions;
-
 			this.RomNagBox.LinkText = Strings.MainMessageNoBiosSelected;
 			this.RomNagBox.MessageText = Strings.MainMessageChooseBiosRom;
 			this.RomNagBox.HideText = Strings.MainMessageHide;
@@ -134,32 +132,6 @@ namespace FourDO.UI
 
 			// Set culture back to normal.
 			System.Threading.Thread.CurrentThread.CurrentUICulture = currentCulture;
-
-			////////////////
-			// Copy to quick display settings menu.
-			ToolStripMenuItem voidAreaMenuItem = null;
-			foreach (var item in quickDisplayDropDownButton.DropDownItems)
-			{
-				if (item is ToolStripMenuItem)
-				{
-					var menuItem = item as ToolStripMenuItem;
-					menuItem.Text = ((ToolStripItem)menuItem.Tag).Text;
-
-					if (menuItem.Tag == this.VoidAreaMenuItem)
-						voidAreaMenuItem = menuItem;
-				}
-			}
-			if (voidAreaMenuItem != null)
-			{
-				foreach (var item in voidAreaMenuItem.DropDownItems)
-				{
-					if (item is ToolStripMenuItem)
-					{
-						var menuItem = item as ToolStripMenuItem;
-						menuItem.Text = ((ToolStripItem)menuItem.Tag).Text;
-					}
-				}
-			}
 		}
 	}
 }

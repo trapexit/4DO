@@ -73,8 +73,6 @@ namespace FourDO.UI
 			this.mouseHook.MouseMove += new MouseHookEventHandler(mouseHook_MouseMove);
 			this.mouseHook.MouseDown += new MouseHookEventHandler(mouseHook_MouseDown);
 
-			this.quickDisplayDropDownButton.DropDownDirection = ToolStripDropDownDirection.AboveLeft;
-
 			this.VersionStripItem.Text = FOURDO_NAME + " " + Application.ProductVersion;
 
 			GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
@@ -150,74 +148,6 @@ namespace FourDO.UI
 				menuInsertIndex++;
 			}
 			openGameMenuItems.Add(openCDImageMenuItem);
-
-			// Copy some menu items to the quick display settings menu.
-			ToolStripMenuItem voidAreaMenuItem = null;
-			foreach (ToolStripItem item in this.displayMenuItem.DropDownItems)
-			{
-				ToolStripItem newItem = null;
-				if (item is ToolStripSeparator)
-					newItem = new ToolStripSeparator();
-				else if (item is ToolStripMenuItem)
-				{
-					newItem = new ToolStripMenuItem();
-					newItem.Text = item.Text;
-					newItem.Font = item.Font;
-
-					if (item == fullScreenMenuItem)
-						newItem.Click += new EventHandler(this.fullScreenMenuItem_Click);
-
-					if (item == smoothResizingMenuItem)
-						newItem.Click += new EventHandler(this.smoothResizingMenuItem_Click);
-
-					if (item == snapWindowMenuItem)
-						newItem.Click += new EventHandler(this.snapWindowMenuItem_Click);
-
-					if (item == autoCropMenuItem)
-						newItem.Click += new EventHandler(this.autoCropMenuItem_Click);
-
-					if (item == preserveRatioMenuItem)
-						newItem.Click += new EventHandler(this.preserveRatioMenuItem_Click);
-
-					if (item == this.VoidAreaMenuItem)
-						voidAreaMenuItem = (ToolStripMenuItem)newItem; // We'll add to this one later.
-				}
-				newItem.Tag = item;
-
-				this.quickDisplayDropDownButton.DropDownItems.Add(newItem);
-			}
-
-			// Also clone child items of the void area menu.
-			foreach (ToolStripItem item in this.VoidAreaMenuItem.DropDownItems)
-			{
-				ToolStripItem newItem = null;
-				if (item is ToolStripSeparator)
-					newItem = new ToolStripSeparator();
-				else if (item is ToolStripMenuItem)
-				{
-					newItem = new ToolStripMenuItem();
-					newItem.Text = item.Text;
-					newItem.Font = item.Font;
-
-					if (item == this.PatternNoneMenuItem)
-						newItem.Click += new EventHandler(this.PatternNoneMenuItem_Click);
-
-					if (item == this.PatternMetalMenuItem)
-						newItem.Click += new EventHandler(this.PatternMetalMenuItem_Click);
-
-					if (item == this.PatternBumpsMenuItem)
-						newItem.Click += new EventHandler(this.PatternBumpsMenuItem_Click);
-
-					if (item == this.Pattern4DOMenuItem)
-						newItem.Click += new EventHandler(this.Pattern4DOMenuItem_Click);
-
-					if (item == this.DrawBorderMenuItem)
-						newItem.Click += new EventHandler(this.DrawBorderMenuItem_Click);
-				}
-				newItem.Tag = item;
-
-				voidAreaMenuItem.DropDownItems.Add(newItem);
-			}
 
 			// Add volume control menu item
 			this.volumeMenuItem = new UI.Controls.VolumeMenuItem();
@@ -875,9 +805,6 @@ namespace FourDO.UI
 			this.gameCanvas.VoidAreaPattern = (VoidAreaPattern)Properties.Settings.Default.VoidAreaPattern;
 			this.gameCanvas.VoidAreaBorder = Properties.Settings.Default.VoidAreaBorder;
 
-			// All "quick" display menu items will copy what we've done.
-			this.UpdateQuickMenuItems();
-
 			////////////////////////
 			// Audio menus. (almost always enabled)
 			IAudioPlugin audioPlugin = GameConsole.Instance.AudioPlugin;
@@ -919,35 +846,6 @@ namespace FourDO.UI
 			if (isValidBiosRomSelected == true)
 				this.DoHideRomNag();
 		}
-
-		private void UpdateQuickMenuItems()
-		{
-			this.UpdateQuickMenuItems(quickDisplayDropDownButton.DropDownItems);
-		}
-
-		private void UpdateQuickMenuItems(ToolStripItemCollection items)
-		{
-			foreach (ToolStripItem item in items)
-			{
-				if (item.Tag == null)
-					continue;
-
-				var menuItem = item as ToolStripMenuItem;
-				if (menuItem == null)
-					continue;
-
-				var originalItem = menuItem.Tag as ToolStripMenuItem;
-				if (originalItem == null)
-					continue;
-
-				menuItem.Font = originalItem.Font;
-				menuItem.Checked = originalItem.Checked;
-
-				if (menuItem.DropDownItems.Count > 0)
-					this.UpdateQuickMenuItems(menuItem.DropDownItems);
-			}
-		}
-
 
 		#region Console Control
 
