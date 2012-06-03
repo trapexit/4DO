@@ -412,7 +412,7 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scaling &amp;Mode.
+        ///   Looks up a localized string similar to Scaling Mode.
         /// </summary>
         internal static string MainMenuDisplayScaling {
             get {
@@ -1042,7 +1042,7 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Double Resolution Rendering.
+        ///   Looks up a localized string similar to Double Resolution Rendering.
         /// </summary>
         internal static string SettingsTabDisplayScalingModeDoubleRes {
             get {
@@ -1060,7 +1060,7 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scaling &amp;Mode.
+        ///   Looks up a localized string similar to Scaling Mode.
         /// </summary>
         internal static string SettingsTabDisplayScalingModeFrame {
             get {
@@ -1114,7 +1114,7 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;No Scaling.
+        ///   Looks up a localized string similar to No Scaling.
         /// </summary>
         internal static string SettingsTabDisplayScalingModeNone {
             get {

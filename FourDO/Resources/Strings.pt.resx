@@ -480,4 +480,55 @@
   <data name="SettingsWindowTitle" xml:space="preserve">
     <value>Ajustes</value>
   </data>
+	<data name="MainMenuDisplayScaling" xml:space="preserve">
+    <value>Scaling Mode</value>
+  </data>
+	<data name="MainMenuDisplayScalingDoubleRes" xml:space="preserve">
+    <value>Double Resolution Rendering</value>
+  </data>
+	<data name="MainMenuDisplayScalingHq2x" xml:space="preserve">
+    <value>hq2x</value>
+  </data>
+	<data name="MainMenuDisplayScalingHq3x" xml:space="preserve">
+    <value>hq3x</value>
+  </data>
+	<data name="MainMenuDisplayScalingHq4x" xml:space="preserve">
+    <value>hq4x</value>
+  </data>
+	<data name="MainMenuDisplayScalingNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+	<data name="MainMessageHealth" xml:space="preserve">
+    <value>Health:</value>
+  </data>
+	<data name="SettingsTabDisplayScalingModeDoubleRes" xml:space="preserve">
+    <value>Double Resolution Rendering</value>
+  </data>
+	<data name="SettingsTabDisplayScalingModeDoubleResMessage" xml:space="preserve">
+    <value>Via software rendering, the screen images can be rendered to 640 x 480. This is only of value to 3D Games.</value>
+  </data>
+	<data name="SettingsTabDisplayScalingModeFrame" xml:space="preserve">
+    <value>Scaling &amp;Mode</value>
+  </data>
+	<data name="SettingsTabDisplayScalingModeHq2x" xml:space="preserve">
+    <value>hq2x</value>
+  </data>
+	<data name="SettingsTabDisplayScalingModeHq3x" xml:space="preserve">
+    <value>hq3x</value>
+  </data>
+	<data name="SettingsTabDisplayScalingModeHq4x" xml:space="preserve">
+    <value>hq4x</value>
+  </data>
+	<data name="SettingsTabDisplayScalingModeHqxMessage" xml:space="preserve">
+    <value>"hqx" is a post-processing filter that attempts to enhance the image by matching adjacent colors.</value>
+  </data>
+	<data name="SettingsTabDisplayScalingModeMessage" xml:space="preserve">
+    <value>The console's image is typically rendered as 320x240. If using any of the scaling options, consider adjusting the CPU clock speed or the audio buffer size (in the "Advanced" tab).</value>
+  </data>
+	<data name="SettingsTabDisplayScalingModeNone" xml:space="preserve">
+    <value>No Scaling</value>
+  </data>
+	<data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
+    <value>Warning: Scaling modes are CPU intensive!</value>
+  </data>
 </root>
