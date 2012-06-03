@@ -6,9 +6,9 @@ The FreeDO licensed under modified GNU LGPL, with following notes:
 
 *   The owners and original authors of the FreeDO have full right to develop closed source derivative work.
 *   Any non-commercial uses of the FreeDO sources or any knowledge obtained by studying or reverse engineering
-	of the sources, or any other material published by FreeDO have to be accompanied with full credits.
+    of the sources, or any other material published by FreeDO have to be accompanied with full credits.
 *   Any commercial uses of FreeDO sources or any knowledge obtained by studying or reverse engineering of the sources,
-	or any other material published by FreeDO is strictly forbidden without owners approval.
+    or any other material published by FreeDO is strictly forbidden without owners approval.
 
 The above notes are taking precedence over GNU LGPL in conflicting situations.
 
@@ -254,11 +254,6 @@ unsigned int _3do_DiscSize()
 int __tex__scaler = 0;
 int HightResMode=0;
 int fixmode=0;
-int speedfixes=0;
-int sf=0;
-int sdf=0;
-int unknownflag11=0;
-int jw=0;
 int cnbfix=0;
 FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 {
@@ -266,7 +261,6 @@ FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 	switch(procedure)
 	{
 	case FDP_INIT:
-		sf=5000000;
 		cnbfix=0;
 		io_interface=(_ext_Interface)datum;
 		return (void*)_3do_Init();
@@ -289,7 +283,7 @@ FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 		_3do_Save(datum);
 		break;
 	case FDP_DO_LOAD:
-		sf=0;
+		cnbfix=1;
 		return (void*)_3do_Load(datum);
 	case FDP_GETP_NVRAM:
 		return Getp_NVRAM();
@@ -309,8 +303,8 @@ FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 		__tex__scaler=(int)datum;
 		break; 
 	case FDP_SET_FIX_MODE:
-		fixmode=(int)datum;
-		break;
+		 fixmode=(int)datum;
+		 break;
 	case FDP_GET_FRAME_BITMAP:
 		GetFrameBitmapParams* param = (GetFrameBitmapParams*)datum;
 		Get_Frame_Bitmap(

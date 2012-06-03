@@ -12,10 +12,6 @@
 #include "types.h"
 
 extern int fixmode;
-extern int speedfixes;
-extern int sf;
-extern int sdf;
-extern int unknownflag11;
 extern int HightResMode;
 extern int jw;
 extern int cnbfix;

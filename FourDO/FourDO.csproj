@@ -295,7 +295,9 @@
     <EmbeddedResource Include="Resources\Strings.ru.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Strings.zh-cn.resx" />
+    <EmbeddedResource Include="Resources\Strings.zh-cn.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>

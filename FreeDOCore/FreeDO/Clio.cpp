@@ -38,6 +38,7 @@ Felix Lazarev
 #define CASCADE		0x4
 #define FLABLODE	0x8
 
+#define TIMER_VAL 0x300
 
 void __fastcall HandleDMA(unsigned int val);
 
@@ -427,16 +428,11 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
 		cregs[addr]=val&0x3ff;
 		return 0;
 	}
-        else if(addr>=0x100 && addr<=0x7c)
-        {
-                cregs[addr]=val&0xffff;
+    else if(addr==0x120)
+    {
+        cregs[addr]=(TIMER_VAL+val);
 		return 0;
-        }
-		//		 char jj[90];
-   //             sprintf(jj, "addr=%X, val=0x%8.8X", addr, val,);
-//if(jw==0&&addr==0x128){io_interface(EXT_DEBUG_PRINT,(void*)jj); jw=100000;} 
-if(addr==0x128&&val==0x0)jw=17000000;//val=1;
-
+    }
 cregs[addr]=val;
 	return 0;
 }
@@ -549,10 +545,10 @@ unsigned int __fastcall _clio_Peek(unsigned int addr)
 	{
 		return _dsp_ARMread2sema4();
 	}
-        else if(addr>=0x100 && addr<=0x7c)
-        {
-		return cregs[addr]&0xffff;
-        }
+    else if(addr==0x120)
+    {
+	return cregs[addr];
+    }
 	else
 		return cregs[addr];
 }

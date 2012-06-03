@@ -35,6 +35,7 @@ bool __fastcall _qrz_QueueDSP();
 bool __fastcall _qrz_QueueTimer();
 
 void __fastcall _qrz_PushARMCycles(unsigned int clks);
+void __fastcall _qrz_PushCycles(unsigned int clks);
 
 unsigned int _qrz_SaveSize();
 void _qrz_Save(void *buff);
