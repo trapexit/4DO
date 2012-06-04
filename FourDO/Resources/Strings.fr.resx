@@ -481,54 +481,54 @@
     <value>Paramètres</value>
   </data>
 	<data name="MainMenuDisplayScaling" xml:space="preserve">
-    <value>Scaling Mode</value>
+    <value>Mode Scaling</value>
   </data>
 	<data name="MainMenuDisplayScalingDoubleRes" xml:space="preserve">
-    <value>Double Resolution Rendering</value>
+    <value>Rendu en Résolution Double</value>
   </data>
 	<data name="MainMenuDisplayScalingHq2x" xml:space="preserve">
-    <value>hq2x</value>
+    <value>HQ2x</value>
   </data>
 	<data name="MainMenuDisplayScalingHq3x" xml:space="preserve">
-    <value>hq3x</value>
+    <value>HQ3x</value>
   </data>
 	<data name="MainMenuDisplayScalingHq4x" xml:space="preserve">
-    <value>hq4x</value>
+    <value>HQ4x</value>
   </data>
 	<data name="MainMenuDisplayScalingNone" xml:space="preserve">
-    <value>None</value>
+    <value>Aucun</value>
   </data>
 	<data name="MainMessageHealth" xml:space="preserve">
-    <value>Health:</value>
+    <value>Santé :</value>
   </data>
 	<data name="SettingsTabDisplayScalingModeDoubleRes" xml:space="preserve">
-    <value>Double Resolution Rendering</value>
+    <value>&amp;Rendu en Résolution Double</value>
   </data>
 	<data name="SettingsTabDisplayScalingModeDoubleResMessage" xml:space="preserve">
-    <value>Via software rendering, the screen images can be rendered to 640 x 480. This is only of value to 3D Games.</value>
+    <value>Via le rendu logiciel, les images à l'écrans peuvent être rendu en 640 x 480. Concerne les jeux 3D.</value>
   </data>
 	<data name="SettingsTabDisplayScalingModeFrame" xml:space="preserve">
-    <value>Scaling &amp;Mode</value>
+    <value>&amp;Mode Scaling</value>
   </data>
 	<data name="SettingsTabDisplayScalingModeHq2x" xml:space="preserve">
-    <value>hq2x</value>
+    <value>HQ2x</value>
   </data>
 	<data name="SettingsTabDisplayScalingModeHq3x" xml:space="preserve">
-    <value>hq3x</value>
+    <value>HQ3x</value>
   </data>
 	<data name="SettingsTabDisplayScalingModeHq4x" xml:space="preserve">
-    <value>hq4x</value>
+    <value>HQ4x</value>
   </data>
 	<data name="SettingsTabDisplayScalingModeHqxMessage" xml:space="preserve">
-    <value>"hqx" is a post-processing filter that attempts to enhance the image by matching adjacent colors.</value>
+    <value>"HQx" est un filtre de post traitement qui essaye d'améliorer l'image pour correspondre avec les couleurs adjacentes.</value>
   </data>
 	<data name="SettingsTabDisplayScalingModeMessage" xml:space="preserve">
-    <value>The console's image is typically rendered as 320x240. If using any of the scaling options, consider adjusting the CPU clock speed or the audio buffer size (in the "Advanced" tab).</value>
+    <value>L'image de la console a un rendu de type 320x240. Si vous utilisez les options de scaling (à l'échelle), pensez à ajuster la vitesse d'horloge du CPU ou la taille du tampon audio (dans l'onglet "Avancée").</value>
   </data>
 	<data name="SettingsTabDisplayScalingModeNone" xml:space="preserve">
-    <value>No Scaling</value>
+    <value>Pas de Scaling</value>
   </data>
 	<data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
-    <value>Warning: Scaling modes are CPU intensive!</value>
+    <value>Attention : les modes de Scaling ont besoin de beaucoup de ressource CPU !</value>
   </data>
 </root>

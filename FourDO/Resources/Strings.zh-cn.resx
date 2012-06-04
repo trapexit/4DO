@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HelpAbout3DOPlayAuthors" xml:space="preserve">
     <value>3DOPlay 作者:</value>
@@ -217,13 +217,13 @@
     <value>选择上一个插槽(&amp;P)</value>
   </data>
   <data name="MainMenuConsoleScreenshot" xml:space="preserve">
-    <value>截图</value>
+    <value>截图(&amp;H)</value>
   </data>
   <data name="MainMenuDisplay" xml:space="preserve">
     <value>显示(&amp;D)</value>
   </data>
   <data name="MainMenuDisplayAutoCrop" xml:space="preserve">
-    <value>自动裁剪黑色边框 (&amp;C)</value>
+    <value>自动裁剪黑色边框(&amp;C)</value>
   </data>
   <data name="MainMenuDisplayFullscreen" xml:space="preserve">
     <value>全屏(&amp;F)</value>
@@ -233,6 +233,24 @@
   </data>
   <data name="MainMenuDisplayResizeSnap" xml:space="preserve">
     <value>调整窗口清除增量(&amp;W)</value>
+  </data>
+  <data name="MainMenuDisplayScaling" xml:space="preserve">
+    <value>缩放模式</value>
+  </data>
+  <data name="MainMenuDisplayScalingDoubleRes" xml:space="preserve">
+    <value>双倍分辨率渲染</value>
+  </data>
+  <data name="MainMenuDisplayScalingHq2x" xml:space="preserve">
+    <value>hq2x</value>
+  </data>
+  <data name="MainMenuDisplayScalingHq3x" xml:space="preserve">
+    <value>hq3x</value>
+  </data>
+  <data name="MainMenuDisplayScalingHq4x" xml:space="preserve">
+    <value>hq4x</value>
+  </data>
+  <data name="MainMenuDisplayScalingNone" xml:space="preserve">
+    <value>无</value>
   </data>
   <data name="MainMenuDisplaySmoothResizing" xml:space="preserve">
     <value>画面平滑(&amp;S)</value>
@@ -262,10 +280,10 @@
     <value>启动后, 运行上次的游戏</value>
   </data>
   <data name="MainMenuFileChooseBiosRom1" xml:space="preserve">
-    <value>选择 BIOS 文件 ({0})...(&amp;B)</value>
+    <value>选择 BIOS 文件 (当前: {0})...(&amp;B)</value>
   </data>
   <data name="MainMenuFileChooseBiosRom2" xml:space="preserve">
-    <value>选择 BIOS 文件 : 汉字 字形 ({0})...(&amp;K)</value>
+    <value>选择 BIOS 文件 2 : 汉字字体 (当前: {0})...</value>
   </data>
   <data name="MainMenuFileCloseRom" xml:space="preserve">
     <value>关闭游戏(&amp;C)</value>
@@ -309,9 +327,6 @@
   <data name="MainMenuOptionsLanguageFrench" xml:space="preserve">
     <value>法语(&amp;F)</value>
   </data>
-  <data name="MainMenuOptionsLanguagePolish" xml:space="preserve">
-    <value>波兰语(&amp;O)</value>
-  </data>
   <data name="MainMenuOptionsLanguagePortuguese" xml:space="preserve">
     <value>葡萄牙语(&amp;P)</value>
   </data>
@@ -341,6 +356,9 @@
   </data>
   <data name="MainMessageDisplayOptions" xml:space="preserve">
     <value>显示选项</value>
+  </data>
+  <data name="MainMessageHealth" xml:space="preserve">
+    <value>健康度:</value>
   </data>
   <data name="MainMessageHide" xml:space="preserve">
     <value>隐藏</value>
@@ -415,7 +433,7 @@
     <value>显示</value>
   </data>
   <data name="SettingsTabDisplayAutoCrop" xml:space="preserve">
-    <value>自动作物游戏区，以消除黑色边框</value>
+    <value>自动裁剪游戏区域, 消除黑色边框</value>
   </data>
   <data name="SettingsTabDisplayDrawBorder" xml:space="preserve">
     <value>在可视区域周围绘制灰色边框</value>
@@ -425,6 +443,36 @@
   </data>
   <data name="SettingsTabDisplayPreserveAspectRatio" xml:space="preserve">
     <value>保持长宽比</value>
+  </data>
+  <data name="SettingsTabDisplayScalingModeDoubleRes" xml:space="preserve">
+    <value>双倍分辨率渲染</value>
+  </data>
+  <data name="SettingsTabDisplayScalingModeDoubleResMessage" xml:space="preserve">
+    <value>通过软件渲染, 屏幕图像可以显示为 640 x 480. 这只对 3D 游戏有价值.</value>
+  </data>
+  <data name="SettingsTabDisplayScalingModeFrame" xml:space="preserve">
+    <value>缩放模式</value>
+  </data>
+  <data name="SettingsTabDisplayScalingModeHq2x" xml:space="preserve">
+    <value>hq2x</value>
+  </data>
+  <data name="SettingsTabDisplayScalingModeHq3x" xml:space="preserve">
+    <value>hq3x</value>
+  </data>
+  <data name="SettingsTabDisplayScalingModeHq4x" xml:space="preserve">
+    <value>hq4x</value>
+  </data>
+  <data name="SettingsTabDisplayScalingModeHqxMessage" xml:space="preserve">
+    <value>"hqx" 是一个匹配相邻颜色以提高图像质量的后处理过滤器.</value>
+  </data>
+  <data name="SettingsTabDisplayScalingModeMessage" xml:space="preserve">
+    <value>控制台图像通常显示为 320x240. 如果使用任一缩放选项, 要考虑调整 CPU 时钟速度或音频缓冲大小 (在 "高级" 选项卡中).</value>
+  </data>
+  <data name="SettingsTabDisplayScalingModeNone" xml:space="preserve">
+    <value>无缩放</value>
+  </data>
+  <data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
+    <value>警告: 缩放模式要密集型 CPU!</value>
   </data>
   <data name="SettingsTabDisplaySmoothResizing" xml:space="preserve">
     <value>执行画面平滑</value>
@@ -479,56 +527,5 @@
   </data>
   <data name="SettingsWindowTitle" xml:space="preserve">
     <value>设置</value>
-  </data>
-	<data name="MainMenuDisplayScaling" xml:space="preserve">
-    <value>Scaling Mode</value>
-  </data>
-	<data name="MainMenuDisplayScalingDoubleRes" xml:space="preserve">
-    <value>Double Resolution Rendering</value>
-  </data>
-	<data name="MainMenuDisplayScalingHq2x" xml:space="preserve">
-    <value>hq2x</value>
-  </data>
-	<data name="MainMenuDisplayScalingHq3x" xml:space="preserve">
-    <value>hq3x</value>
-  </data>
-	<data name="MainMenuDisplayScalingHq4x" xml:space="preserve">
-    <value>hq4x</value>
-  </data>
-	<data name="MainMenuDisplayScalingNone" xml:space="preserve">
-    <value>None</value>
-  </data>
-	<data name="MainMessageHealth" xml:space="preserve">
-    <value>Health:</value>
-  </data>
-	<data name="SettingsTabDisplayScalingModeDoubleRes" xml:space="preserve">
-    <value>Double Resolution Rendering</value>
-  </data>
-	<data name="SettingsTabDisplayScalingModeDoubleResMessage" xml:space="preserve">
-    <value>Via software rendering, the screen images can be rendered to 640 x 480. This is only of value to 3D Games.</value>
-  </data>
-	<data name="SettingsTabDisplayScalingModeFrame" xml:space="preserve">
-    <value>Scaling &amp;Mode</value>
-  </data>
-	<data name="SettingsTabDisplayScalingModeHq2x" xml:space="preserve">
-    <value>hq2x</value>
-  </data>
-	<data name="SettingsTabDisplayScalingModeHq3x" xml:space="preserve">
-    <value>hq3x</value>
-  </data>
-	<data name="SettingsTabDisplayScalingModeHq4x" xml:space="preserve">
-    <value>hq4x</value>
-  </data>
-	<data name="SettingsTabDisplayScalingModeHqxMessage" xml:space="preserve">
-    <value>"hqx" is a post-processing filter that attempts to enhance the image by matching adjacent colors.</value>
-  </data>
-	<data name="SettingsTabDisplayScalingModeMessage" xml:space="preserve">
-    <value>The console's image is typically rendered as 320x240. If using any of the scaling options, consider adjusting the CPU clock speed or the audio buffer size (in the "Advanced" tab).</value>
-  </data>
-	<data name="SettingsTabDisplayScalingModeNone" xml:space="preserve">
-    <value>No Scaling</value>
-  </data>
-	<data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
-    <value>Warning: Scaling modes are CPU intensive!</value>
   </data>
 </root>
