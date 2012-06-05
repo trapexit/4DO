@@ -283,21 +283,17 @@ namespace FourDO.UI
 
 		private void GameCanvas_MouseEnter(object sender, EventArgs e)
 		{
-			HideMouseTimer.Enabled = false;
-			HideMouseTimer.Enabled = true;
+			this.HandleMouseMoved();
 		}
 
 		private void GameCanvas_MouseLeave(object sender, EventArgs e)
 		{
-			HideMouseTimer.Enabled = false;
-			MouseHider.Show();
+			this.HandleMouseMoved();
 		}
 
 		private void GameCanvas_MouseMove(object sender, MouseEventArgs e)
 		{
-			MouseHider.Show();
-			HideMouseTimer.Enabled = false;
-			HideMouseTimer.Enabled = true;
+			this.HandleMouseMoved();
 		}
 
 		private void HideMouseTimer_Tick(object sender, EventArgs e)
@@ -308,21 +304,41 @@ namespace FourDO.UI
 
 		private void childCanvas_MouseEnter(object sender, EventArgs e)
 		{
-			HideMouseTimer.Enabled = false;
-			HideMouseTimer.Enabled = true;
+			this.HandleMouseMoved();
 		}
 
 		private void childCanvas_MouseLeave(object sender, EventArgs e)
 		{
-			HideMouseTimer.Enabled = false;
-			MouseHider.Show();
+			this.HandleMouseMoved();
 		}
 
 		private void childCanvas_MouseMove(object sender, MouseEventArgs e)
 		{
-			MouseHider.Show();
-			HideMouseTimer.Enabled = false;
-			HideMouseTimer.Enabled = true;
+			this.HandleMouseMoved();
+		}
+
+		private Point lastPosition = new Point(-1, -1);
+		private void HandleMouseMoved()
+		{
+			if (Cursor.Position.Equals(lastPosition))
+				return;
+
+			lastPosition = Cursor.Position;
+
+			var screenRect = new Rectangle(0, 0, this.Width, this.Height);
+			screenRect = this.RectangleToScreen(screenRect);
+
+			if (screenRect.Contains(lastPosition))
+			{
+				MouseHider.Show();
+				HideMouseTimer.Enabled = false;
+				HideMouseTimer.Enabled = true;
+			}
+			else
+			{
+				HideMouseTimer.Enabled = false;
+				MouseHider.Show();
+			}
 		}
 
 		private Control CreateChildCanvas()

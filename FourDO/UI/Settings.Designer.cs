@@ -720,7 +720,6 @@
 			this.optScaleHq4x.TabStop = true;
 			this.optScaleHq4x.Text = "hq4&x";
 			this.optScaleHq4x.UseVisualStyleBackColor = true;
-			this.optScaleHq4x.CheckedChanged += new System.EventHandler(this.optScaleHq4x_CheckedChanged);
 			// 
 			// optScaleHq3x
 			// 
@@ -731,7 +730,6 @@
 			this.optScaleHq3x.TabStop = true;
 			this.optScaleHq3x.Text = "h&q3x";
 			this.optScaleHq3x.UseVisualStyleBackColor = true;
-			this.optScaleHq3x.CheckedChanged += new System.EventHandler(this.optScaleHq3x_CheckedChanged);
 			// 
 			// optScaleHq2x
 			// 
@@ -742,7 +740,6 @@
 			this.optScaleHq2x.TabStop = true;
 			this.optScaleHq2x.Text = "&hq2x";
 			this.optScaleHq2x.UseVisualStyleBackColor = true;
-			this.optScaleHq2x.CheckedChanged += new System.EventHandler(this.optScaleHq2x_CheckedChanged);
 			// 
 			// optScaleNone
 			// 

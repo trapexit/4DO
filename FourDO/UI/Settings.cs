@@ -170,27 +170,6 @@ namespace FourDO.UI
 			int clockPercent = CpuClockBar.Value / 125;
 			CpuClockValueLabel.Text = string.Format("{0:0.0}Mhz ({1}%)", clockMegahertz, clockPercent);
 		}
-
-		private void chkSmoothImageResize_CheckedChanged(object sender, EventArgs e)
-		{
-
-		}
-
-		private void optScaleHq4x_CheckedChanged(object sender, EventArgs e)
-		{
-
-		}
-
-		private void optScaleHq3x_CheckedChanged(object sender, EventArgs e)
-		{
-
-		}
-
-		private void optScaleHq2x_CheckedChanged(object sender, EventArgs e)
-		{
-
-		}
-
 	}
 }
 
