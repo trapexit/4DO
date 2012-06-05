@@ -531,4 +531,7 @@
 	<data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
     <value>Warning: Scaling modes are CPU intensive!</value>
   </data>
+	<data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
+    <value>Alemão</value>
+  </data>
 </root>

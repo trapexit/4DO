@@ -691,6 +691,15 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;German.
+        /// </summary>
+        internal static string MainMenuOptionsLanguageGerman {
+            get {
+                return ResourceManager.GetString("MainMenuOptionsLanguageGerman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Portuguese.
         /// </summary>
         internal static string MainMenuOptionsLanguagePortuguese {

@@ -528,4 +528,7 @@
   <data name="SettingsWindowTitle" xml:space="preserve">
     <value>设置</value>
   </data>
+	<data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
+    <value>德语</value>
+  </data>
 </root>

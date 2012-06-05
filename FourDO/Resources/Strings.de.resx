@@ -112,133 +112,133 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HelpAbout3DOPlayAuthors" xml:space="preserve">
-    <value>3DOPlay Authors:</value>
+    <value>3DOPlay Autoren:</value>
   </data>
   <data name="HelpAbout3DOPlayMessage" xml:space="preserve">
-    <value>In February of 2012, the core emulation from 3DOPlay was merged into 4DO's copy of the FreeDO core by Viktor, providing the benefit of two separate 3DO emulation projects!</value>
+    <value>Im Februar 2012 wurde die Kern-Emulation aus 3DOPlay in die 4DO FreeDO Kern kopie von Viktor zusammengeführt, das bietet den Vorteil von zwei getrennten 3DO-Emulationen Projekten!</value>
   </data>
   <data name="HelpAbout4DOAuthors" xml:space="preserve">
-    <value>4DO Authors:</value>
+    <value>4DO Autoren:</value>
   </data>
   <data name="HelpAbout4DOMessage" xml:space="preserve">
-    <value>4DO (FourDO) is an open-source, low-level emulator of the 3DO Interactive Multiplayer system.</value>
+    <value>4DO (FourDO) ist ein open-source, Low-Level-Emulator des 3DO Interactive Multiplayer-Systems..</value>
   </data>
   <data name="HelpAbout4DOVersion" xml:space="preserve">
     <value>4DO Version:</value>
   </data>
   <data name="HelpAboutClose" xml:space="preserve">
-    <value>&amp;Close</value>
+    <value>&amp;schließen</value>
   </data>
   <data name="HelpAboutFreeDOAuthors" xml:space="preserve">
-    <value>FreeDO Authors:</value>
+    <value>FreeDO Autoren:</value>
   </data>
   <data name="HelpAboutFreeDOMessage" xml:space="preserve">
-    <value>4DO's (and 3DOPlay's) system emulation is based on the code released from the FreeDO project that went open source on Nov 10, 2010.  Many thanks to the developers for deciding to release their code!</value>
+    <value>4DO (und die 3DOPlay) System Emulation basiert auf dem Code von FreeDO Projekt, das  seit dem 10. November 2010 Open-Source ist. Vielen Dank an die Entwickler für diese Entscheidung, ihren Code zu veröffentlichen!</value>
   </data>
   <data name="HelpAboutJohnnyThank" xml:space="preserve">
-    <value>Additional thanks to:</value>
+    <value>Weiterer Dank geht an:</value>
   </data>
   <data name="HelpAboutJohnnyThankMessage" xml:space="preserve">
-    <value>Johnny would like to thank other folks, some of whom helped with the original, high-level approach.</value>
+    <value>Johnny möchte noch anderen  Leuten Danken, von denen einige ihm beim Original, High-Level-Ansatz geholfen haben.</value>
   </data>
   <data name="HelpInfoChecksum" xml:space="preserve">
-    <value>Sector 0+1 Checksum:</value>
+    <value>Sector 0+1 Prüfsumme:</value>
   </data>
   <data name="HelpInfoGameId" xml:space="preserve">
-    <value>Game Id:</value>
+    <value>Spiel Id:</value>
   </data>
   <data name="HelpInfoGameName" xml:space="preserve">
-    <value>Game Name:</value>
+    <value>Spiele Name:</value>
   </data>
   <data name="HelpInfoOK" xml:space="preserve">
     <value>&amp;OK</value>
   </data>
   <data name="HelpInfoPublisher" xml:space="preserve">
-    <value>Publisher:</value>
+    <value>Herausgeber:</value>
   </data>
   <data name="HelpInfoRegion" xml:space="preserve">
-    <value>Region(s):</value>
+    <value>Region(en):</value>
   </data>
   <data name="HelpInfoReleaseYear" xml:space="preserve">
-    <value>Release Year:</value>
+    <value>Erscheinungsjahr:</value>
   </data>
   <data name="HelpInfoWindowTitle" xml:space="preserve">
-    <value>Game Information</value>
+    <value>Spiel Information</value>
   </data>
   <data name="MainErrorLoadBiosFile" xml:space="preserve">
-    <value>The bios file ({0}) failed to load. Please choose another.</value>
+    <value>Die Bios Datei ({0}) konnte nicht geladen werden. Bitte wähle eine andere.</value>
   </data>
   <data name="MainErrorLoadGame" xml:space="preserve">
-    <value>The game failed to load. Please choose another.</value>
+    <value>Das Spiel konnte nicht geladen werden. Bitte wähle ein anderes.</value>
   </data>
   <data name="MainErrorLoadGameFile" xml:space="preserve">
-    <value>The game file ({0}) failed to load. Please choose another.</value>
+    <value>Die Spiele Datei ({0}) konnte nicht geladen werden. Bitte wähle eine andere.</value>
   </data>
   <data name="MainErrorLoadNvramFile" xml:space="preserve">
-    <value>"The nvram file ({0}) could not be loaded. Emulation cannot start."</value>
+    <value>"Die nvram Datei ({0}) kann nicht geladen werden. Die Emulation kann nicht gestartet werden."</value>
   </data>
   <data name="MainMenuAudio" xml:space="preserve">
-    <value>&amp;Audio</value>
+    <value>&amp;Sound</value>
   </data>
   <data name="MainMenuConsole" xml:space="preserve">
-    <value>&amp;Console</value>
+    <value>&amp;Konsole</value>
   </data>
   <data name="MainMenuConsoleAdvanceFrame" xml:space="preserve">
-    <value>&amp;Advance by a Single Frame</value>
+    <value>&amp;Voraus in einem Single Frame</value>
   </data>
   <data name="MainMenuConsoleAutoLoadLastSave" xml:space="preserve">
-    <value>After Game is Opened, L&amp;oad Last Save (of Slot)</value>
+    <value>Nach dem Spiel geöffnet wird, L&amp;ade Letzten speicherpunkt (im Steckplatz)</value>
   </data>
   <data name="MainMenuConsoleLoadState" xml:space="preserve">
-    <value>&amp;Load State</value>
+    <value>&amp;Spielstand Laden</value>
   </data>
   <data name="MainMenuConsolePause" xml:space="preserve">
     <value>&amp;Pause</value>
   </data>
   <data name="MainMenuConsoleReset" xml:space="preserve">
-    <value>&amp;Reset</value>
+    <value>&amp;Zurücksetzen</value>
   </data>
   <data name="MainMenuConsoleSaveState" xml:space="preserve">
-    <value>&amp;Save State</value>
+    <value>&amp;Spielstand speichern</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlot" xml:space="preserve">
-    <value>Save State Slo&amp;t</value>
+    <value>Speicher Status Steckplat&amp;z</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlotNext" xml:space="preserve">
-    <value>Select &amp;Next Slot</value>
+    <value>nächsten &amp;Steckplatz Wählen</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlotPrevious" xml:space="preserve">
-    <value>Select &amp;Previous Slot</value>
+    <value>Vorherigen &amp;Steckplatz Wählen</value>
   </data>
   <data name="MainMenuConsoleScreenshot" xml:space="preserve">
-    <value>Screens&amp;hot</value>
+    <value>Bildschirm&amp;Aufnahme</value>
   </data>
   <data name="MainMenuDisplay" xml:space="preserve">
-    <value>&amp;Display</value>
+    <value>&amp;Anzeige</value>
   </data>
   <data name="MainMenuDisplayAutoCrop" xml:space="preserve">
-    <value>Auto-&amp;Crop Blank Borders</value>
+    <value>Auto-&amp;Verberge leeren Rand</value>
   </data>
   <data name="MainMenuDisplayFullscreen" xml:space="preserve">
-    <value>&amp;Full Screen</value>
+    <value>&amp;Vollbild</value>
   </data>
   <data name="MainMenuDisplayPreserveRatio" xml:space="preserve">
-    <value>Preserve Aspect &amp;Ratio</value>
+    <value>Seitenverhältnis &amp;beibehalten</value>
   </data>
   <data name="MainMenuDisplayResizeSnap" xml:space="preserve">
     <value>Snap &amp;Window to Clean Increments</value>
   </data>
   <data name="MainMenuDisplayScaling" xml:space="preserve">
-    <value>Scaling Mode</value>
+    <value>Bildschirm Filter</value>
   </data>
   <data name="MainMenuDisplayScalingDoubleRes" xml:space="preserve">
-    <value>Double Resolution Rendering</value>
+    <value>Doppelte Auflösung Rendering</value>
   </data>
   <data name="MainMenuDisplayScalingHq2x" xml:space="preserve">
     <value>hq2x</value>
@@ -250,16 +250,16 @@
     <value>hq4x</value>
   </data>
   <data name="MainMenuDisplayScalingNone" xml:space="preserve">
-    <value>None</value>
+    <value>ohne</value>
   </data>
   <data name="MainMenuDisplaySmoothResizing" xml:space="preserve">
-    <value>&amp;Smooth Image Resizing</value>
+    <value>&amp;flüssige Bildgrößenanpassung</value>
   </data>
   <data name="MainMenuDisplayVoidArea" xml:space="preserve">
-    <value>Blank (Void) Area</value>
+    <value>Leere (Void) Fläche</value>
   </data>
   <data name="MainMenuDisplayVoidAreaDrawBorder" xml:space="preserve">
-    <value>Draw Gray Border</value>
+    <value>Grauen Rand zeichnen</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPattern4DO" xml:space="preserve">
     <value>Pattern : 4DO</value>
@@ -271,190 +271,187 @@
     <value>Pattern : Metal</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternNone" xml:space="preserve">
-    <value>No Pattern</value>
+    <value>Kein Schema</value>
   </data>
   <data name="MainMenuFile" xml:space="preserve">
-    <value>&amp;File</value>
+    <value>&amp;Datei</value>
   </data>
   <data name="MainMenuFileAutoLoadLastGame" xml:space="preserve">
-    <value>After Startup, Open Last Game</value>
+    <value>Nach dem Start, zuletzt Gespieltes Spiel öffnen</value>
   </data>
   <data name="MainMenuFileChooseBiosRom1" xml:space="preserve">
-    <value>Choose &amp;BIOS Rom (Current: {0})...</value>
+    <value>Wähle &amp;BIOS Rom (Aktuell: {0})...</value>
   </data>
   <data name="MainMenuFileChooseBiosRom2" xml:space="preserve">
-    <value>Choose BIOS Rom 2 : Kanji Font (Current: {0})...</value>
+    <value>Wähle BIOS Rom 2 : Kanji Font (Aktuell: {0})...</value>
   </data>
   <data name="MainMenuFileCloseRom" xml:space="preserve">
-    <value>&amp;Close Game</value>
+    <value>&amp;Spiel schließen</value>
   </data>
   <data name="MainMenuFileExit" xml:space="preserve">
-    <value>E&amp;xit</value>
+    <value>B&amp;enden</value>
   </data>
   <data name="MainMenuFileOpenCDDrive" xml:space="preserve">
-    <value>Open Disc Drive</value>
+    <value>Benutze CD Laufwerk</value>
   </data>
   <data name="MainMenuFileOpenCDImage" xml:space="preserve">
-    <value>Open CD &amp;Image File...</value>
+    <value>Offne CD &amp;Image Datei...</value>
   </data>
   <data name="MainMenuHelp" xml:space="preserve">
-    <value>&amp;Help</value>
+    <value>&amp;Hilfe</value>
   </data>
   <data name="MainMenuHelpAbout" xml:space="preserve">
-    <value>&amp;About 4DO...</value>
+    <value>&amp;Über 4DO...</value>
   </data>
   <data name="MainMenuHelpGameInfo" xml:space="preserve">
-    <value>Game &amp;Information...</value>
+    <value>Spiel &amp;Informationen...</value>
   </data>
   <data name="MainMenuOptions" xml:space="preserve">
-    <value>&amp;Options</value>
+    <value>&amp;Einstellungen</value>
   </data>
   <data name="MainMenuOptionsConfigureInput" xml:space="preserve">
-    <value>Configure &amp;Input...</value>
+    <value>Steuerungs &amp;Einstellungen...</value>
   </data>
   <data name="MainMenuOptionsLanguage" xml:space="preserve">
-    <value>&amp;Language</value>
+    <value>&amp;Sprachen</value>
   </data>
   <data name="MainMenuOptionsLanguageChinese" xml:space="preserve">
-    <value>&amp;Chinese - Simplified</value>
+    <value>&amp;Chinesisch - Vereinfacht</value>
   </data>
   <data name="MainMenuOptionsLanguageDefault" xml:space="preserve">
     <value>System &amp;Default</value>
   </data>
   <data name="MainMenuOptionsLanguageEnglish" xml:space="preserve">
-    <value>&amp;English</value>
+    <value>&amp;Englisch</value>
   </data>
   <data name="MainMenuOptionsLanguageFrench" xml:space="preserve">
-    <value>&amp;French</value>
-  </data>
-  <data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
-    <value>&amp;German</value>
+    <value>&amp;Französisch</value>
   </data>
   <data name="MainMenuOptionsLanguagePortuguese" xml:space="preserve">
-    <value>&amp;Portuguese</value>
+    <value>&amp;Portugiesisch</value>
   </data>
   <data name="MainMenuOptionsLanguageRussian" xml:space="preserve">
-    <value>&amp;Russian</value>
+    <value>&amp;Russisch</value>
   </data>
   <data name="MainMenuOptionsLanguageSpanish" xml:space="preserve">
-    <value>&amp;Spanish</value>
+    <value>&amp;Spanisch</value>
   </data>
   <data name="MainMenuOptionsSettings" xml:space="preserve">
-    <value>4DO &amp;Settings...</value>
+    <value>4DO &amp;Einstellungen...</value>
   </data>
   <data name="MainMessageAllFiles" xml:space="preserve">
-    <value>All files</value>
+    <value>Alle Dateien</value>
   </data>
   <data name="MainMessageBiosFiles" xml:space="preserve">
-    <value>BIOS files</value>
+    <value>BIOS dateien</value>
   </data>
   <data name="MainMessageCDImageFiles" xml:space="preserve">
-    <value>CD image files</value>
+    <value>CD image dateien</value>
   </data>
   <data name="MainMessageChooseBiosRom" xml:space="preserve">
-    <value>Choose BIOS Rom</value>
+    <value>wähle ein BIOS Rom</value>
   </data>
   <data name="MainMessageCoreFPS" xml:space="preserve">
-    <value>Core FPS</value>
+    <value>Kern BPS</value>
   </data>
   <data name="MainMessageDisplayOptions" xml:space="preserve">
-    <value>Display Options</value>
+    <value>Anzeige Optionen</value>
   </data>
   <data name="MainMessageHealth" xml:space="preserve">
-    <value>Health:</value>
+    <value>Gesundheit:</value>
   </data>
   <data name="MainMessageHide" xml:space="preserve">
-    <value>Hide</value>
+    <value>verbergen</value>
   </data>
   <data name="MainMessageNoBiosSelected" xml:space="preserve">
-    <value>No BIOS rom selected.</value>
+    <value>Kein BIOS ROM ausgewählt.</value>
   </data>
   <data name="MainMessageSlot" xml:space="preserve">
-    <value>Slot</value>
+    <value>Steckplatz</value>
   </data>
   <data name="MainMessageUnknownGame" xml:space="preserve">
-    <value>Unknown game</value>
+    <value>Unbekanntes Spiel</value>
   </data>
   <data name="MainMessageVolume" xml:space="preserve">
-    <value>Volume</value>
+    <value>Lautstärke</value>
   </data>
   <data name="SettingsCancel" xml:space="preserve">
-    <value>&amp;Cancel</value>
+    <value>&amp;Abbruch</value>
   </data>
   <data name="SettingsOK" xml:space="preserve">
     <value>&amp;OK</value>
   </data>
   <data name="SettingsTabAdvanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Fortgeschritten</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferFewerGlitches" xml:space="preserve">
-    <value>Fewer Glitches</value>
+    <value>MEHR Verzögerungen</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferFrame" xml:space="preserve">
-    <value>Audio Buffer Size</value>
+    <value>Audio Buffer Größe</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferLessLag" xml:space="preserve">
-    <value>Less Lag</value>
+    <value></value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
-    <value>The audio buffer provides tolerance for unpredictable emulation speed at the cost of audio delay. However, whenever emulation is terminally behind schedule, audio glitches will occur (even with large buffers).</value>
+    <value>Der Audio-Puffer bietet Toleranz für eine  unberechenbare Emulations Geschwindigkeit auf Kosten der Audio Verzögerung.</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
-    <value>MORE Glitches</value>
+    <value>weniger verzögerunge</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreLag" xml:space="preserve">
-    <value>MORE Lag</value>
+    <value></value>
   </data>
   <data name="SettingsTabAdvancedClockFrame" xml:space="preserve">
-    <value>CPU Clock Speed</value>
+    <value>CPU Taktrate</value>
   </data>
   <data name="SettingsTabAdvancedClockHigherFPS" xml:space="preserve">
-    <value>Higher FPS</value>
+    <value>Höherer BPS</value>
   </data>
   <data name="SettingsTabAdvancedClockMessage" xml:space="preserve">
-    <value>By adjusting the CPU clock speed, you can potentially achieve higher FPS in games. Not all games will handle this appropriately. Games dependent on precise timing could even crash/freeze.</value>
+    <value>Durch die Anpassung der CPU Taktrate, können Spiele möglicherweise eine höhere BPS bekommen. Nicht alle Spiele können  damit umgehen. Spiele können sogar abstürzen / einfrieren.</value>
   </data>
   <data name="SettingsTabAdvancedClockNormalFPS" xml:space="preserve">
-    <value>Normal FPS</value>
+    <value>Normale BPS</value>
   </data>
   <data name="SettingsTabAdvancedDefaultsMessage" xml:space="preserve">
-    <value>Consider setting these to defaults if seeing odd behavior.</value>
+    <value>Auf Standartwerde Zurücksetzen bei merkwürdigen verhalten.</value>
   </data>
   <data name="SettingsTabAdvancedHighResFrame" xml:space="preserve">
-    <value>High-Resolution Rendering</value>
+    <value>Hohe Auflösung Rendering</value>
   </data>
   <data name="SettingsTabAdvancedHighResMessage" xml:space="preserve">
-    <value>Via software rendering, the screen images can be rendered to 640 x 480. This is very CPU intensive, and only of value to 3D games! If using this option, consider increasing audio buffer size as well.</value>
+    <value>Via Software-Rendering kann der Bildschirm Bilder mit der Auflösung von 640 x 480 wieder geben Dies ist sehr CPU-intensiv.</value>
   </data>
   <data name="SettingsTabAdvancedHighResSetting" xml:space="preserve">
-    <value>Enable high-resolution video rendering</value>
+    <value>hochauflösende Video-Rendering Aktivieren</value>
   </data>
   <data name="SettingsTabAdvancedResetDefaults" xml:space="preserve">
-    <value>Reset to defaults</value>
+    <value>Auf die Standardeinstellungen zurücksetzen</value>
   </data>
   <data name="SettingsTabDisplay" xml:space="preserve">
-    <value>Display</value>
+    <value>Anzeige</value>
   </data>
   <data name="SettingsTabDisplayAutoCrop" xml:space="preserve">
-    <value>Automatically crop game area to remove black borders</value>
+    <value>Auto-&amp;Verberge leeren Rand</value>
   </data>
   <data name="SettingsTabDisplayDrawBorder" xml:space="preserve">
-    <value>Draw gray border around viewing area</value>
+    <value>Grauen Rand zeichnen</value>
   </data>
   <data name="SettingsTabDisplayGeneralOptions" xml:space="preserve">
     <value>&amp;General Display Settings</value>
   </data>
   <data name="SettingsTabDisplayPreserveAspectRatio" xml:space="preserve">
-    <value>Preserve aspect ratio</value>
+    <value>Seitenverhältnis &amp;beibehalten</value>
   </data>
   <data name="SettingsTabDisplayScalingModeDoubleRes" xml:space="preserve">
-    <value>Double Resolution Rendering</value>
+    <value>Doppelte Auflösung Rendering</value>
   </data>
   <data name="SettingsTabDisplayScalingModeDoubleResMessage" xml:space="preserve">
-    <value>Via software rendering, the screen images can be rendered to 640 x 480. This is only of value to 3D Games.</value>
+    <value>Via Software-Rendering kann der Bildschirm Bilder mit der Auflösung von 640 x 480 wieder geben Dies ist sehr CPU-intensiv.</value>
   </data>
   <data name="SettingsTabDisplayScalingModeFrame" xml:space="preserve">
-    <value>Scaling Mode</value>
+    <value>Bildschirm Filter</value>
   </data>
   <data name="SettingsTabDisplayScalingModeHq2x" xml:space="preserve">
     <value>hq2x</value>
@@ -466,28 +463,28 @@
     <value>hq4x</value>
   </data>
   <data name="SettingsTabDisplayScalingModeHqxMessage" xml:space="preserve">
-    <value>"hqx" is a post-processing filter that attempts to enhance the image by matching adjacent colors.</value>
+    <value>"hqx" ist ein Post-Processing-Filter, um das Bild durch Abgleich benachbarter Farben versucht zu verbessern.</value>
   </data>
   <data name="SettingsTabDisplayScalingModeMessage" xml:space="preserve">
-    <value>The console's image is typically rendered as 320x240. If using any of the scaling options, consider adjusting the CPU clock speed or the audio buffer size (in the "Advanced" tab).</value>
+    <value>Das Bild wird typischerweise als 320x240 gerendert. man sollte eine der Filter Einstellungen erwägen um dieses zu verbessern. Einstellung der CPU-Takt Rate oder die Audio-Puffergröße (sind in der Registerkarte "fortgeschritten").</value>
   </data>
   <data name="SettingsTabDisplayScalingModeNone" xml:space="preserve">
-    <value>No Scaling</value>
+    <value>kein Scaling</value>
   </data>
   <data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
-    <value>Warning: Scaling modes are CPU intensive!</value>
+    <value>Warnung: Scaling Moduse sind sehr CPU intensiv!</value>
   </data>
   <data name="SettingsTabDisplaySmoothResizing" xml:space="preserve">
-    <value>Perform smooth image resizing</value>
+    <value>flüssige Bildgrößenanpassung</value>
   </data>
   <data name="SettingsTabDisplaySnapResizing" xml:space="preserve">
     <value>When resizing the window, snap to clean increments</value>
   </data>
   <data name="SettingsTabDisplayVoidOptions" xml:space="preserve">
-    <value>Blank (&amp;Void) Area Effects</value>
+    <value>Leere (&amp;Void) Fläche</value>
   </data>
   <data name="SettingsTabDisplayVoidPattern" xml:space="preserve">
-    <value>Background pattern:</value>
+    <value>Hintergrund Schema:</value>
   </data>
   <data name="SettingsTabDisplayVoidPattern4DO" xml:space="preserve">
     <value>4DO</value>
@@ -499,36 +496,39 @@
     <value>Metal</value>
   </data>
   <data name="SettingsTabDisplayVoidPatternNone" xml:space="preserve">
-    <value>No pattern</value>
+    <value>Kein Schema</value>
   </data>
   <data name="SettingsTabGeneral" xml:space="preserve">
-    <value>General</value>
+    <value>allgemein</value>
   </data>
   <data name="SettingsTabGeneralAutoLoadLastGame" xml:space="preserve">
-    <value>When 4DO starts, open whatever game was running last time</value>
+    <value>Wenn 4DO startet, das zuletzt gespielte spiel öffnen</value>
   </data>
   <data name="SettingsTabGeneralAutoLoadLastSave" xml:space="preserve">
-    <value>When a game is opened, re-load the last save state of the current save state slot</value>
+    <value>Wenn ein Spiel geöffnet wird, den letzten speicherstand des aktuellen SpeicherStand-Steckplatzes laden</value>
   </data>
   <data name="SettingsTabGeneralBehaviorOptions" xml:space="preserve">
-    <value>Various &amp;Behaviorial Options</value>
+    <value>Various &amp;Verhaltensregulative Optionen</value>
   </data>
   <data name="SettingsTabGeneralInactiveIgnoreKeyboard" xml:space="preserve">
-    <value>When the main window loses focus, ignore keyboard input</value>
+    <value>Wenn das Hauptfenster den Fokus verliert, die Tastatureingaben ignorieren</value>
   </data>
   <data name="SettingsTabGeneralInactiveOptions" xml:space="preserve">
-    <value>&amp;Inactive Window Options</value>
+    <value>&amp;Inaktive Fenster Optionen</value>
   </data>
   <data name="SettingsTabGeneralInactivePauseEmulation" xml:space="preserve">
-    <value>When the main window loses focus, pause emulation</value>
+    <value>Wenn das Hauptfenster den Fokus verliert, die Emulation pausieren</value>
   </data>
   <data name="SettingsTabGeneralStartupOptions" xml:space="preserve">
-    <value>&amp;Startup Options</value>
+    <value>&amp;Startoptionen</value>
   </data>
   <data name="SettingsWindowInstructions" xml:space="preserve">
-    <value>Configure various 4DO settings</value>
+    <value>4DO Einstellungen</value>
   </data>
   <data name="SettingsWindowTitle" xml:space="preserve">
-    <value>Settings</value>
+    <value>Einstellungen</value>
+  </data>
+	<data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
+    <value>Deutsch</value>
   </data>
 </root>

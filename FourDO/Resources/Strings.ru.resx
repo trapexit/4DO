@@ -388,13 +388,13 @@
     <value>Частота процессора</value>
   </data>
   <data name="SettingsTabAdvancedClockHigherFPS" xml:space="preserve">
-    <value>Higher FPS</value>
+    <value />
   </data>
   <data name="SettingsTabAdvancedClockMessage" xml:space="preserve">
     <value>Изменяя частоту процессора, можно достичь более высоких FPS в играх. Но не все игры работают при этом правильно. Данная функция может привести к зависанию.</value>
   </data>
   <data name="SettingsTabAdvancedClockNormalFPS" xml:space="preserve">
-    <value>Normal FPS</value>
+    <value />
   </data>
   <data name="SettingsTabAdvancedDefaultsMessage" xml:space="preserve">
     <value>Установите значения по умолчанию при неполадках.</value>
@@ -480,55 +480,58 @@
   <data name="SettingsWindowTitle" xml:space="preserve">
     <value>Настройки</value>
   </data>
-	<data name="MainMessageHealth" xml:space="preserve">
-    <value>здоровье:</value>
+  <data name="MainMessageHealth" xml:space="preserve">
+    <value>Статус:</value>
   </data>
-	<data name="MainMenuDisplayScaling" xml:space="preserve">
+  <data name="MainMenuDisplayScaling" xml:space="preserve">
     <value>режим масштабирования</value>
   </data>
-	<data name="MainMenuDisplayScalingDoubleRes" xml:space="preserve">
+  <data name="MainMenuDisplayScalingDoubleRes" xml:space="preserve">
     <value>Двухместные разрешение визуализации</value>
   </data>
-	<data name="MainMenuDisplayScalingHq2x" xml:space="preserve">
+  <data name="MainMenuDisplayScalingHq2x" xml:space="preserve">
     <value>hq2x</value>
   </data>
-	<data name="MainMenuDisplayScalingHq3x" xml:space="preserve">
+  <data name="MainMenuDisplayScalingHq3x" xml:space="preserve">
     <value>hq3x</value>
   </data>
-	<data name="MainMenuDisplayScalingHq4x" xml:space="preserve">
+  <data name="MainMenuDisplayScalingHq4x" xml:space="preserve">
     <value>hq4x</value>
   </data>
-	<data name="MainMenuDisplayScalingNone" xml:space="preserve">
+  <data name="MainMenuDisplayScalingNone" xml:space="preserve">
     <value>никто</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeDoubleRes" xml:space="preserve">
-    <value>Двухместные разрешение визуализации</value>
+  <data name="SettingsTabDisplayScalingModeDoubleRes" xml:space="preserve">
+    <value>Высокое разрешение</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeDoubleResMessage" xml:space="preserve">
-    <value>С помощью программного рендеринга, на экране изображение может быть оказана 640 х 480. Это только ценность для 3D игр.</value>
+  <data name="SettingsTabDisplayScalingModeDoubleResMessage" xml:space="preserve">
+    <value>Программный рендеринг 640 х 480. Этот режим рекомендуется в 3D играх.</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeFrame" xml:space="preserve">
-    <value>режим масштабирования</value>
+  <data name="SettingsTabDisplayScalingModeFrame" xml:space="preserve">
+    <value>Режимы</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeHq2x" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeHq2x" xml:space="preserve">
     <value>hq2x</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeHq3x" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeHq3x" xml:space="preserve">
     <value>hq3x</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeHq4x" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeHq4x" xml:space="preserve">
     <value>hq4x</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeHqxMessage" xml:space="preserve">
-    <value>"HQX" является пост-обработки фильтром, который пытается укрепить имидж путем сопоставления соседних цветов.</value>
+  <data name="SettingsTabDisplayScalingModeHqxMessage" xml:space="preserve">
+    <value>Фильтры HQX для сглаживания пикселей. hq2x, hq3x, hq4x, для двойного, тройного и четырёхкратного увеличения.</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeMessage" xml:space="preserve">
-    <value>Изображение консоли, как правило, отображается в виде 320x240. При использовании любого из вариантов масштабирования, рассмотреть вопрос о корректировке тактовая частота процессора или аудио размер буфера (в закладке "Дополнительно").</value>
+  <data name="SettingsTabDisplayScalingModeMessage" xml:space="preserve">
+    <value>Стандартный режим консоли 320x240, при использований других режимов возможно прийдётся увеличть аудио-буфер и изменить настройки частоты процессора.</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeNone" xml:space="preserve">
-    <value>Нет Масштабирование</value>
+  <data name="SettingsTabDisplayScalingModeNone" xml:space="preserve">
+    <value>Стандартный режим</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
-    <value>Внимание: масштабирование режимов ресурсоемкие!</value>
+  <data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
+    <value>Внимание: данные режимы ресурсоемкие!</value>
+  </data>
+	<data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
+    <value>Немецкий</value>
   </data>
 </root>

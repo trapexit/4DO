@@ -87,7 +87,7 @@
 			this.optScaleDoubleRes = new System.Windows.Forms.RadioButton();
 			this.HighResolutionLabel = new System.Windows.Forms.Label();
 			this.pictureBox13 = new System.Windows.Forms.PictureBox();
-			this.AdvancedDisplayTab = new System.Windows.Forms.TabPage();
+			this.AdvancedTabPage = new System.Windows.Forms.TabPage();
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.AdvancedResetButton = new System.Windows.Forms.Button();
 			this.ResetDefaultsLabel = new System.Windows.Forms.Label();
@@ -138,7 +138,7 @@
 			this.panel4.SuspendLayout();
 			this.ScalingModeGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
-			this.AdvancedDisplayTab.SuspendLayout();
+			this.AdvancedTabPage.SuspendLayout();
 			this.panel3.SuspendLayout();
 			this.AudioBufferGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.AudioBufferBar)).BeginInit();
@@ -230,7 +230,7 @@
 			this.tabMain.Controls.Add(this.GeneralTabPage);
 			this.tabMain.Controls.Add(this.DisplayATabPage);
 			this.tabMain.Controls.Add(this.DisplayBTabPage);
-			this.tabMain.Controls.Add(this.AdvancedDisplayTab);
+			this.tabMain.Controls.Add(this.AdvancedTabPage);
 			this.tabMain.Location = new System.Drawing.Point(12, 72);
 			this.tabMain.Name = "tabMain";
 			this.tabMain.SelectedIndex = 0;
@@ -782,17 +782,17 @@
 			this.pictureBox13.TabIndex = 12;
 			this.pictureBox13.TabStop = false;
 			// 
-			// AdvancedDisplayTab
+			// AdvancedTabPage
 			// 
-			this.AdvancedDisplayTab.BackColor = System.Drawing.SystemColors.Control;
-			this.AdvancedDisplayTab.Controls.Add(this.panel3);
-			this.AdvancedDisplayTab.Controls.Add(this.AudioBufferGroupBox);
-			this.AdvancedDisplayTab.Controls.Add(this.CpuClockGroupBox);
-			this.AdvancedDisplayTab.Location = new System.Drawing.Point(4, 22);
-			this.AdvancedDisplayTab.Name = "AdvancedDisplayTab";
-			this.AdvancedDisplayTab.Size = new System.Drawing.Size(444, 432);
-			this.AdvancedDisplayTab.TabIndex = 2;
-			this.AdvancedDisplayTab.Text = "Advanced";
+			this.AdvancedTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.AdvancedTabPage.Controls.Add(this.panel3);
+			this.AdvancedTabPage.Controls.Add(this.AudioBufferGroupBox);
+			this.AdvancedTabPage.Controls.Add(this.CpuClockGroupBox);
+			this.AdvancedTabPage.Location = new System.Drawing.Point(4, 22);
+			this.AdvancedTabPage.Name = "AdvancedTabPage";
+			this.AdvancedTabPage.Size = new System.Drawing.Size(444, 432);
+			this.AdvancedTabPage.TabIndex = 2;
+			this.AdvancedTabPage.Text = "Advanced";
 			// 
 			// panel3
 			// 
@@ -995,14 +995,15 @@
 			// 
 			// CpuClockBar
 			// 
+			this.CpuClockBar.LargeChange = 3125;
 			this.CpuClockBar.Location = new System.Drawing.Point(62, 61);
 			this.CpuClockBar.Maximum = 50000;
 			this.CpuClockBar.Minimum = 6250;
 			this.CpuClockBar.Name = "CpuClockBar";
 			this.CpuClockBar.Size = new System.Drawing.Size(343, 42);
-			this.CpuClockBar.SmallChange = 1250;
+			this.CpuClockBar.SmallChange = 125;
 			this.CpuClockBar.TabIndex = 1;
-			this.CpuClockBar.TickFrequency = 1250;
+			this.CpuClockBar.TickFrequency = 3125;
 			this.CpuClockBar.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.CpuClockBar.Value = 12500;
 			this.CpuClockBar.Scroll += new System.EventHandler(this.CpuClockBar_Scroll);
@@ -1074,7 +1075,7 @@
 			this.panel4.ResumeLayout(false);
 			this.ScalingModeGroupBox.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
-			this.AdvancedDisplayTab.ResumeLayout(false);
+			this.AdvancedTabPage.ResumeLayout(false);
 			this.panel3.ResumeLayout(false);
 			this.AudioBufferGroupBox.ResumeLayout(false);
 			this.AudioBufferGroupBox.PerformLayout();
@@ -1129,7 +1130,7 @@
 		private System.Windows.Forms.PictureBox BackgroundMetalPicture;
 		private System.Windows.Forms.PictureBox BackgroundBumpsPicture;
 		private System.Windows.Forms.PictureBox Background4DOPicture;
-		private System.Windows.Forms.TabPage AdvancedDisplayTab;
+		private System.Windows.Forms.TabPage AdvancedTabPage;
 		private System.Windows.Forms.TrackBar AudioBufferBar;
 		private System.Windows.Forms.GroupBox CpuClockGroupBox;
 		private System.Windows.Forms.GroupBox AudioBufferGroupBox;

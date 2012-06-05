@@ -13,7 +13,8 @@ namespace FourDO.UI
 				"fr",
 				"es",
 				"pt",
-				"zh-cn"
+				"zh-cn",
+				"de"
 			};
 
 		private string GetLocalizedLanguageName(string supportedLanguageCode)
@@ -32,6 +33,8 @@ namespace FourDO.UI
 					return Strings.MainMenuOptionsLanguagePortuguese;
 				case "zh-cn":
 					return Strings.MainMenuOptionsLanguageChinese;
+				case "de":
+					return Strings.MainMenuOptionsLanguageGerman;
 			}
 			return null;
 		}

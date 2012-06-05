@@ -531,4 +531,7 @@
 	<data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
     <value>Attention : les modes de Scaling ont besoin de beaucoup de ressource CPU !</value>
   </data>
+	<data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
+    <value>Allemand</value>
+  </data>
 </root>

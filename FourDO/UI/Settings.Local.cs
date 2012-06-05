@@ -10,9 +10,10 @@ namespace FourDO.UI
 			this.Text = Strings.SettingsWindowTitle;
 
 			this.InstructionsLabel.Text = Strings.SettingsWindowInstructions;
-			this.tabMain.TabPages[0].Text = Strings.SettingsTabGeneral;
-			this.tabMain.TabPages[1].Text = Strings.SettingsTabDisplay;
-			this.tabMain.TabPages[2].Text = Strings.SettingsTabAdvanced;
+			this.GeneralTabPage.Text = Strings.SettingsTabGeneral;
+			this.DisplayATabPage.Text = Strings.SettingsTabDisplay + " A";
+			this.DisplayBTabPage.Text = Strings.SettingsTabDisplay + " B";
+			this.AdvancedTabPage.Text = Strings.SettingsTabAdvanced;
 
 			this.StartupGroupBox.Text = Strings.SettingsTabGeneralStartupOptions;
 			this.chkLoadLastGame.Text = Strings.SettingsTabGeneralAutoLoadLastGame;

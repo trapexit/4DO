@@ -38,7 +38,7 @@
 			// 
 			this.volumeTrackBar.BackColor = System.Drawing.Color.White;
 			this.volumeTrackBar.LargeChange = 25;
-			this.volumeTrackBar.Location = new System.Drawing.Point(87, 3);
+			this.volumeTrackBar.Location = new System.Drawing.Point(93, 3);
 			this.volumeTrackBar.Maximum = 100;
 			this.volumeTrackBar.Name = "volumeTrackBar";
 			this.volumeTrackBar.Size = new System.Drawing.Size(100, 42);
@@ -53,7 +53,7 @@
 			// 
 			this.volumeLabel.AutoSize = true;
 			this.volumeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.volumeLabel.Location = new System.Drawing.Point(53, 7);
+			this.volumeLabel.Location = new System.Drawing.Point(59, 7);
 			this.volumeLabel.Name = "volumeLabel";
 			this.volumeLabel.Size = new System.Drawing.Size(37, 13);
 			this.volumeLabel.TabIndex = 5;
@@ -77,7 +77,7 @@
 			this.Controls.Add(this.VolumeMessageLabel);
 			this.Controls.Add(this.volumeTrackBar);
 			this.Name = "VolumeSlider";
-			this.Size = new System.Drawing.Size(189, 29);
+			this.Size = new System.Drawing.Size(195, 29);
 			this.Load += new System.EventHandler(this.VolumeSlider_Load);
 			((System.ComponentModel.ISupportInitialize)(this.volumeTrackBar)).EndInit();
 			this.ResumeLayout(false);
