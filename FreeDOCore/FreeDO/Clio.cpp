@@ -38,7 +38,7 @@ Felix Lazarev
 #define CASCADE		0x4
 #define FLABLODE	0x8
 
-#define TIMER_VAL 0x300
+#define TIMER_VAL 0x400
 
 void __fastcall HandleDMA(unsigned int val);
 
@@ -430,7 +430,7 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
 	}
     else if(addr==0x120)
     {
-        cregs[addr]=(TIMER_VAL+val);
+        cregs[addr]=(TIMER_VAL+(val/10));
 		return 0;
     }
 cregs[addr]=val;
