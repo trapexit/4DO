@@ -299,7 +299,10 @@ namespace FourDO.UI
 		private void HideMouseTimer_Tick(object sender, EventArgs e)
 		{
 			HideMouseTimer.Enabled = false;
-			MouseHider.Hide();
+			if (IsMouseOverUs(lastPosition))
+				MouseHider.Hide();
+			else
+				MouseHider.Show();
 		}
 
 		private void childCanvas_MouseEnter(object sender, EventArgs e)
@@ -328,6 +331,12 @@ namespace FourDO.UI
 			var screenRect = new Rectangle(0, 0, this.Width, this.Height);
 			screenRect = this.RectangleToScreen(screenRect);
 
+			if (IsMouseOverUs(lastPosition))
+			{
+				// The mouse moved, but not over us!
+				MouseHider.Show();
+			}
+
 			if (screenRect.Contains(lastPosition))
 			{
 				MouseHider.Show();
@@ -339,6 +348,27 @@ namespace FourDO.UI
 				HideMouseTimer.Enabled = false;
 				MouseHider.Show();
 			}
+		}
+
+		private bool IsMouseOverUs()
+		{
+			return IsMouseOverUs(Cursor.Position);
+		}
+
+		private bool IsMouseOverUs(Point mouseScreenPosition)
+		{
+			if (!this.IsHandleCreated
+					|| this.childCanvas == null
+					|| !this.childCanvas.IsHandleCreated)
+				return false;
+
+			var overHandle = MouseHider.GetHWndAtPoint(mouseScreenPosition);
+
+			if (this.Handle == overHandle
+					|| this.childCanvas.Handle == overHandle)
+				return true;
+
+			return false;
 		}
 
 		private Control CreateChildCanvas()
