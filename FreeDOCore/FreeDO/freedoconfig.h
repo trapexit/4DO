@@ -40,7 +40,7 @@ Felix Lazarev
 	#include <unistd.h>
 
 
-
+	extern int lsize;
 	extern bool __temporalfixes;
 	extern int HightResMode;
 	#define RESSCALE        HightResMode

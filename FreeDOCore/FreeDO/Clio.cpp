@@ -37,8 +37,10 @@ Felix Lazarev
 #define RELOAD		0x2
 #define CASCADE		0x4
 #define FLABLODE	0x8
-
-#define TIMER_VAL 0x400
+int lsize, flagtime;
+int TIMER_VAL=0; //0x415
+extern int ARM_CLOCK;
+extern int FMVFIX;
 
 void __fastcall HandleDMA(unsigned int val);
 
@@ -95,6 +97,7 @@ void _clio_Save(void *buff)
 }
 void _clio_Load(void *buff)
 {
+        TIMER_VAL=0;
         memcpy(&clio,buff,sizeof(CLIODatum));
 }
 
@@ -144,6 +147,7 @@ void __fastcall _clio_GenerateFiq(unsigned int reason1, unsigned int reason2)
 
 #include "freedocore.h"
 extern _ext_Interface  io_interface;
+
 //extern AString str;
 void __fastcall _clio_SetTimers(uint32 v200, uint32 v208);
 void __fastcall _clio_ClearTimers(uint32 v204, uint32 v20c);
@@ -151,9 +155,9 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
 {
 	int base;
 	int i;
-
-        //if(addr==0x200 || addr==0x204 || addr==0x208 || addr==0x20c || (addr>=0x100 && addr<=0x17c) || addr==0x220)io_interface(EXT_DEBUG_PRINT,(void*)str.print("CLIO Write[0x%X] = 0x%8.8X",addr,val).CStr());
-        //if(addr==0x34 || addr==0x30)io_interface(EXT_DEBUG_PRINT,(void*)str.print("CLIO Write[0x%X] = 0x%8.8X",addr,val).CStr());
+	if(flagtime==0){TIMER_VAL=lsize=0;}
+	//if(addr==0x200 || addr==0x204 || addr==0x208 || addr==0x20c || (addr>=0x100 && addr<=0x17c) || addr==0x220)io_interface(EXT_DEBUG_PRINT,(void*)str.print("CLIO Write[0x%X] = 0x%8.8X",addr,val).CStr());
+	//if(addr==0x34 || addr==0x30)io_interface(EXT_DEBUG_PRINT,(void*)str.print("CLIO Write[0x%X] = 0x%8.8X",addr,val).CStr());
 	if( (addr& ~0x2C) == 0x40 ) // 0x40..0x4C, 0x60..0x6C case
 	{
 		if(addr==0x40)
@@ -279,6 +283,9 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
 		//if(val&0x00100000)
 		//{
 			HandleDMA(val);
+			if(val==0x100000){TIMER_VAL+=0x33; lsize=TIMER_VAL; flagtime=(ARM_CLOCK/2000000)+FMVFIX;}
+		//	else{ TIMER_VAL=lsize=0;}
+						
 		//	cregs[0x304]&=~0x00100000;
 		//}
 		return 0;
@@ -428,11 +435,11 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
 		cregs[addr]=val&0x3ff;
 		return 0;
 	}
-    else if(addr==0x120)
-    {
-        cregs[addr]=(TIMER_VAL+(val/10));
+	else if(addr==0x120)
+	{
+		cregs[addr]=(((TIMER_VAL)&&TIMER_VAL!=306)?TIMER_VAL+(val/0x30):val); 
 		return 0;
-    }
+	}
 cregs[addr]=val;
 	return 0;
 }
@@ -673,7 +680,6 @@ void __fastcall HandleDMA(unsigned int val)
 	  else
 	  {
 		ptr=0;
-
 		while(len>=0)
 		  {
 			  b3=_xbus_GetDataFIFO();
@@ -757,6 +763,7 @@ void _clio_Init(int ResetReson)
     cregs[0x0400]=0x80;
 	cregs[0x220]=64;
 	Mregs=_madam_GetRegs();
+	TIMER_VAL=0;
 
 }
 unsigned short  __fastcall _clio_EIFIFO(unsigned short channel)

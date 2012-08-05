@@ -31,7 +31,8 @@ Felix Lazarev
 #include "stdafx.h"
 
 int ARM_CLOCK=12500000;
-int THE_ARM_CLOCK=0;
+int FMVFIX=0;
+
 extern _ext_Interface  io_interface;
 #define SND_CLOCK       44100
 //#define NTSC_CLOCK      12270000        //818*500(строк)  //15  √ц
@@ -139,9 +140,7 @@ void __fastcall _qrz_PushARMCycles(unsigned int clks)
 {
  uint32 arm,cnt;
   int timers=21000000; //стандарт
-  int sp;
 
-	 // if(fixmode&FIX_BIT_TIMING_2){sp=-2500000;} //???? фикс дл€ Horde The и fix wing commander 3
         arm=(clks<<24)/(ARM_CLOCK);
         qrz_AccARM+=arm*(ARM_CLOCK);
         if( (qrz_AccARM>>24) != clks )
@@ -150,9 +149,9 @@ void __fastcall _qrz_PushARMCycles(unsigned int clks)
                 qrz_AccARM+=ARM_CLOCK;
                 qrz_AccARM&=0xffffff;
         }
-        qrz_AccDSP+=arm*SND_CLOCK;
+        if(FMVFIX)arm=(((clks-FMVFIX)<<24)/(ARM_CLOCK));
         qrz_AccVDL+=arm*(VDL_CLOCK);
+        qrz_AccDSP+=arm*SND_CLOCK;
 
-        //if(Get_madam_FSM()!=FSM_INPROCESS)
-        if(_clio_GetTimerDelay())qrz_TCount+=arm*((timers)/(_clio_GetTimerDelay()));//clks<<1;
+        if(_clio_GetTimerDelay())qrz_TCount+=arm*((timers)/(_clio_GetTimerDelay()));
 }

@@ -91,6 +91,8 @@ namespace FourDO.Emulation
 		private IAudioPlugin audioPlugin = PluginLoader.GetAudioPlugin();
 		private IInputPlugin inputPlugin = PluginLoader.GetInputPlugin();
 
+		private bool isFixFmvSyncActive;
+
 		#endregion //Private Variables
 
 		#region Singleton Implementation
@@ -260,23 +262,23 @@ namespace FourDO.Emulation
 			}
 		}
 
-        public int CpuClockHertz
-        {
-            get
-            {
-                if (this.cpuClockHertz.HasValue)
-                    return this.cpuClockHertz.Value;
-                else
-                    return 0; // Meh... good enough. I'd rather do this than blow up or let them set us to null.
-            }
-            set
-            {
-                lock (this.clockSpeedSemaphore)
-                {
-                    this.cpuClockHertz = Math.Max(Math.Min(value, 125000000), 1250000);
-                }
-            }
-        }
+		public int CpuClockHertz
+		{
+			get
+			{
+				if (this.cpuClockHertz.HasValue)
+					return this.cpuClockHertz.Value;
+				else
+					return 0; // Meh... good enough. I'd rather do this than blow up or let them set us to null.
+			}
+			set
+			{
+				lock (this.clockSpeedSemaphore)
+				{
+					this.cpuClockHertz = Math.Max(Math.Min(value, 125000000), 1250000);
+				}
+			}
+		}
 
 		public bool RenderHighResolution
 		{
@@ -287,6 +289,22 @@ namespace FourDO.Emulation
 			set
 			{
 				this.renderHighResolution = value;
+			}
+		}
+
+		public bool FixFmvSyncActive
+		{
+			get
+			{
+				return isFixFmvSyncActive;
+			}
+			set
+			{
+				isFixFmvSyncActive = value;
+				if (isFixFmvSyncActive)
+					FreeDOCore.SetFmvFix(3);
+				else
+					FreeDOCore.SetFmvFix(0);
 			}
 		}
 
@@ -429,6 +447,13 @@ namespace FourDO.Emulation
 					) fixMode = fixMode | (int)FixMode.FIX_BIT_GRAPHICS_STEP_Y;
 			}
 			FreeDOCore.SetFixMode(fixMode);
+
+			/////////////////
+			// Set other various stuff
+			if (isFixFmvSyncActive)
+				FreeDOCore.SetFmvFix(3);
+			else
+				FreeDOCore.SetFmvFix(0);
 
 			/////////////////
 			// Start the core thread

@@ -104,7 +104,8 @@ namespace FourDO.Emulation.FreeDO
 			FDP_SET_TEXQUALITY = 15,
 			FDP_GETP_WRCOUNT = 16, // JMK NOTE: Unused?
 			FDP_SET_FIX_MODE = 17,
-			FDP_GET_FRAME_BITMAP = 18
+			FDP_GET_FRAME_BITMAP = 18,
+			FDP_SET_FMV_FIX = 19
 		}
 
 		#endregion // Private Types
@@ -193,6 +194,11 @@ namespace FourDO.Emulation.FreeDO
 		public static IntPtr SetTextureQuality(int textureScalar)
 		{
 			return FreeDoInterface((int)InterfaceFunction.FDP_SET_TEXQUALITY, new IntPtr(textureScalar));
+		}
+
+		public static IntPtr SetFmvFix(int fmvfix)
+		{
+			return FreeDoInterface((int)InterfaceFunction.FDP_SET_FMV_FIX, new IntPtr(fmvfix));
 		}
 
 		public static void GetFrameBitmap(

@@ -113,6 +113,8 @@ typedef void* (__stdcall *_ext_Interface)(int, void*);
 #define FDP_GETP_WRCOUNT        16
 #define FDP_SET_FIX_MODE        17
 #define FDP_GET_FRAME_BITMAP    18
+#define FDP_SET_FMV_FIX         19
+#define FDP_GET_STATUS          20
 
 #define FIX_BIT_TIMING_1        (0x00000001)
 #define FIX_BIT_TIMING_2        (0x00000002)

@@ -6,9 +6,9 @@ The FreeDO licensed under modified GNU LGPL, with following notes:
 
 *   The owners and original authors of the FreeDO have full right to develop closed source derivative work.
 *   Any non-commercial uses of the FreeDO sources or any knowledge obtained by studying or reverse engineering
-    of the sources, or any other material published by FreeDO have to be accompanied with full credits.
+	of the sources, or any other material published by FreeDO have to be accompanied with full credits.
 *   Any commercial uses of FreeDO sources or any knowledge obtained by studying or reverse engineering of the sources,
-    or any other material published by FreeDO is strictly forbidden without owners approval.
+	or any other material published by FreeDO is strictly forbidden without owners approval.
 
 The above notes are taking precedence over GNU LGPL in conflicting situations.
 
@@ -46,6 +46,9 @@ extern void* Getp_ROMS();
 extern void* Getp_RAMS();
 extern int ARM_CLOCK;
 extern int THE_ARM_CLOCK;
+extern int FMVFIX;
+extern int lsize;
+extern int flagtime;
 
 __inline uint32 _bswap(uint32 x)
 {
@@ -149,6 +152,7 @@ void __fastcall _3do_Frame(VDLFrame *frame, bool __scipframe=false)
 
 	curr_frame=frame;
 	scipframe=__scipframe;
+	if(flagtime)flagtime--;
 
 	for(i=0;i<(12500000/60);)
 	{
@@ -255,6 +259,7 @@ int __tex__scaler = 0;
 int HightResMode=0;
 int fixmode=0;
 int cnbfix=0;
+
 FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 {
 	int line;
@@ -296,30 +301,37 @@ FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 	case FDP_FREEDOCORE_VERSION:
 		return (void*)0x20008;
 	case FDP_SET_ARMCLOCK:
-		THE_ARM_CLOCK=0;
 		ARM_CLOCK=(int)datum;
 		break;
 	case FDP_SET_TEXQUALITY:
 		__tex__scaler=(int)datum;
 		break; 
 	case FDP_SET_FIX_MODE:
-		 fixmode=(int)datum;
-		 break;
+		fixmode=(int)datum;
+		break;
 	case FDP_GET_FRAME_BITMAP:
-		GetFrameBitmapParams* param = (GetFrameBitmapParams*)datum;
-		Get_Frame_Bitmap(
-			param->sourceFrame
-			, param->destinationBitmap
-			, param->destinationBitmapWidthPixels
-			, param->bitmapCrop
-			, param->copyWidthPixels
-			, param->copyHeightPixels
-			, param->addBlackBorder
-			, param->copyPointlessAlphaByte
-			, param->allowCrop
-			, (ScalingAlgorithm)param->scalingAlgorithm
-			, &param->resultingWidth
-			, &param->resultingHeight);
+		{
+			GetFrameBitmapParams* param = (GetFrameBitmapParams*)datum;
+			Get_Frame_Bitmap(
+				param->sourceFrame
+				, param->destinationBitmap
+				, param->destinationBitmapWidthPixels
+				, param->bitmapCrop
+				, param->copyWidthPixels
+				, param->copyHeightPixels
+				, param->addBlackBorder
+				, param->copyPointlessAlphaByte
+				, param->allowCrop
+				, (ScalingAlgorithm)param->scalingAlgorithm
+				, &param->resultingWidth
+				, &param->resultingHeight);
+		}
+		break;
+	case FDP_SET_FMV_FIX:
+		FMVFIX=(int)datum;
+		break;
+	case FDP_GET_STATUS:
+		return (void *)lsize;
 		break;
 	};
 
