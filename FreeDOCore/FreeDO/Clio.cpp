@@ -97,7 +97,7 @@ void _clio_Save(void *buff)
 }
 void _clio_Load(void *buff)
 {
-        TIMER_VAL=0;
+		TIMER_VAL=0;
         memcpy(&clio,buff,sizeof(CLIODatum));
 }
 
@@ -155,9 +155,11 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
 {
 	int base;
 	int i;
-	if(flagtime==0){TIMER_VAL=lsize=0;}
+	
+	if(!flagtime&&cregs[0x304]){TIMER_VAL=lsize=0;}
+    
 	//if(addr==0x200 || addr==0x204 || addr==0x208 || addr==0x20c || (addr>=0x100 && addr<=0x17c) || addr==0x220)io_interface(EXT_DEBUG_PRINT,(void*)str.print("CLIO Write[0x%X] = 0x%8.8X",addr,val).CStr());
-	//if(addr==0x34 || addr==0x30)io_interface(EXT_DEBUG_PRINT,(void*)str.print("CLIO Write[0x%X] = 0x%8.8X",addr,val).CStr());
+        //if(addr==0x34 || addr==0x30)io_interface(EXT_DEBUG_PRINT,(void*)str.print("CLIO Write[0x%X] = 0x%8.8X",addr,val).CStr());
 	if( (addr& ~0x2C) == 0x40 ) // 0x40..0x4C, 0x60..0x6C case
 	{
 		if(addr==0x40)
@@ -280,14 +282,15 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
 	else if(addr==0x304) // Dma Starter!!!!! P/A !!!! need to create Handler.
 	{
 
-		//if(val&0x00100000)
-		//{
 			HandleDMA(val);
-			if(val==0x100000){TIMER_VAL+=0x33; lsize=TIMER_VAL; flagtime=(ARM_CLOCK/2000000)+FMVFIX;}
-		//	else{ TIMER_VAL=lsize=0;}
+			switch(val)
+			{
+			case 0x100000: if(TIMER_VAL<5800)TIMER_VAL+=0x33; lsize+=0x33; flagtime=(ARM_CLOCK/2000000)+FMVFIX; break;
+			case 64: if(TIMER_VAL<4000)TIMER_VAL+=0x13; lsize+=0x13; break;
+			default: if(!cregs[0x304])TIMER_VAL=lsize=0; break;
+			}
 						
 		//	cregs[0x304]&=~0x00100000;
-		//}
 		return 0;
 	}
 	else if(addr==0x308) //Dma Stopper!!!!
@@ -435,11 +438,11 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
 		cregs[addr]=val&0x3ff;
 		return 0;
 	}
-	else if(addr==0x120)
-	{
-		cregs[addr]=(((TIMER_VAL)&&TIMER_VAL!=306)?TIMER_VAL+(val/0x30):val); 
+    else if(addr==0x120)
+    {
+        cregs[addr]=(((TIMER_VAL)&&TIMER_VAL!=306)?TIMER_VAL+(val/0x30):val); 
 		return 0;
-	}
+    }
 cregs[addr]=val;
 	return 0;
 }
