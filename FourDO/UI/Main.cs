@@ -296,9 +296,7 @@ namespace FourDO.UI
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.VoidAreaBorder)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.VoidAreaPattern)
 				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.AudioVolume)
-				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.RenderHighResolution)
-				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.FixFmvSync)
-				)
+				|| e.PropertyName == Utilities.Reflection.GetPropertyName(() => Properties.Settings.Default.RenderHighResolution))
 			{
 				this.UpdateUI();
 			}
@@ -679,11 +677,6 @@ namespace FourDO.UI
 			this.DoCloseGame();
 		}
 
-		private void FixFmvSyncMenuItem_Click(object sender, EventArgs e)
-		{
-			this.DoToggleFixFmvSync();
-		}
-
 		private void Main_ResizeBegin(object sender, EventArgs e)
 		{
 			this.gameCanvas.IsInResizeMode = true;
@@ -873,8 +866,6 @@ namespace FourDO.UI
 			this.configureInputMenuItem.Enabled = (GameConsole.Instance.InputPlugin != null)
 					&& (GameConsole.Instance.InputPlugin.GetHasSettings());
 
-			this.FixFmvSyncMenuItem.Checked = Properties.Settings.Default.FixFmvSync;
-
 			string language = Properties.Settings.Default.Language;
 			this.languageDefaultMenuItem.Checked = string.IsNullOrWhiteSpace(language);
 			foreach (var menuItem in this.languageMenuItems)
@@ -910,7 +901,6 @@ namespace FourDO.UI
 
 			////////////////
 			// Set required settings.
-			GameConsole.Instance.FixFmvSyncActive = Properties.Settings.Default.FixFmvSync;
 			GameConsole.Instance.AudioBufferMilliseconds = Properties.Settings.Default.AudioBufferMilliseconds;
 			GameConsole.Instance.CpuClockHertz = Properties.Settings.Default.CpuClockHertz;
 			GameConsole.Instance.RenderHighResolution = Properties.Settings.Default.RenderHighResolution;
@@ -1304,17 +1294,6 @@ namespace FourDO.UI
 		{
 			Properties.Settings.Default.WindowAutoCrop = !Properties.Settings.Default.WindowAutoCrop;
 			Properties.Settings.Default.Save();
-		}
-
-		private void DoToggleFixFmvSync(bool updateOnly = false)
-		{
-			if (!updateOnly)
-			{
-				Properties.Settings.Default.FixFmvSync = !Properties.Settings.Default.FixFmvSync;
-				Properties.Settings.Default.Save();
-			}
-
-			GameConsole.Instance.FixFmvSyncActive = Properties.Settings.Default.FixFmvSync;
 		}
 
 		private void DoSaveWindowSize()

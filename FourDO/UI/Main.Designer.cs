@@ -32,10 +32,9 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
 			this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.VersionStripItem = new System.Windows.Forms.ToolStripStatusLabel();
-			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.FPSStripItem = new System.Windows.Forms.ToolStripStatusLabel();
 			this.HealthLabelStripItem = new System.Windows.Forms.ToolStripStatusLabel();
 			this.HealthStripItem = new System.Windows.Forms.ToolStripStatusLabel();
-			this.FPSStripItem = new System.Windows.Forms.ToolStripStatusLabel();
 			this.MainMenuBar = new System.Windows.Forms.MenuStrip();
 			this.fileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.closeGameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,8 +102,7 @@
 			this.sizeBox = new FourDO.UI.SizeBox();
 			this.RomNagBox = new FourDO.UI.NagBox();
 			this.gameCanvas = new FourDO.UI.GameCanvas();
-			this.FixesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.FixFmvSyncMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.MainStatusStrip.SuspendLayout();
 			this.MainMenuBar.SuspendLayout();
 			this.SuspendLayout();
@@ -128,11 +126,10 @@
 			this.VersionStripItem.Size = new System.Drawing.Size(67, 17);
 			this.VersionStripItem.Text = "4DO x.x.x.x";
 			// 
-			// toolStripStatusLabel1
+			// FPSStripItem
 			// 
-			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(601, 17);
-			this.toolStripStatusLabel1.Spring = true;
+			this.FPSStripItem.Name = "FPSStripItem";
+			this.FPSStripItem.Size = new System.Drawing.Size(0, 17);
 			// 
 			// HealthLabelStripItem
 			// 
@@ -145,11 +142,6 @@
 			this.HealthStripItem.Image = ((System.Drawing.Image)(resources.GetObject("HealthStripItem.Image")));
 			this.HealthStripItem.Name = "HealthStripItem";
 			this.HealthStripItem.Size = new System.Drawing.Size(16, 17);
-			// 
-			// FPSStripItem
-			// 
-			this.FPSStripItem.Name = "FPSStripItem";
-			this.FPSStripItem.Size = new System.Drawing.Size(0, 17);
 			// 
 			// MainMenuBar
 			// 
@@ -572,7 +564,6 @@
             this.toolStripSeparator9,
             this.configureInputMenuItem,
             this.toolStripSeparator13,
-            this.FixesMenuItem,
             this.languageMenuItem});
 			this.optionsMenuItem.Name = "optionsMenuItem";
 			this.optionsMenuItem.Size = new System.Drawing.Size(56, 20);
@@ -614,14 +605,14 @@
 			// languageDefaultMenuItem
 			// 
 			this.languageDefaultMenuItem.Name = "languageDefaultMenuItem";
-			this.languageDefaultMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.languageDefaultMenuItem.Size = new System.Drawing.Size(109, 22);
 			this.languageDefaultMenuItem.Text = "Default";
 			this.languageDefaultMenuItem.Click += new System.EventHandler(this.languageDefaultMenuItem_Click);
 			// 
 			// toolStripSeparator14
 			// 
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
-			this.toolStripSeparator14.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator14.Size = new System.Drawing.Size(106, 6);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -709,21 +700,11 @@
 			this.gameCanvas.VoidAreaBorder = false;
 			this.gameCanvas.VoidAreaPattern = FourDO.UI.VoidAreaPattern.None;
 			// 
-			// FixesMenuItem
+			// toolStripStatusLabel1
 			// 
-			this.FixesMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FixFmvSyncMenuItem});
-			this.FixesMenuItem.Name = "FixesMenuItem";
-			this.FixesMenuItem.Size = new System.Drawing.Size(162, 22);
-			this.FixesMenuItem.Text = "Advanced &Fixes";
-			// 
-			// FixFmvSyncMenuItem
-			// 
-			this.FixFmvSyncMenuItem.Font = new System.Drawing.Font("Segoe UI", 7.5F, System.Drawing.FontStyle.Bold);
-			this.FixFmvSyncMenuItem.Name = "FixFmvSyncMenuItem";
-			this.FixFmvSyncMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.FixFmvSyncMenuItem.Text = "FMV Sync Fix";
-			this.FixFmvSyncMenuItem.Click += new System.EventHandler(this.FixFmvSyncMenuItem_Click);
+			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(570, 17);
+			this.toolStripStatusLabel1.Spring = true;
 			// 
 			// Main
 			// 
@@ -831,8 +812,6 @@
 		private System.Windows.Forms.ToolStripMenuItem scalingModeHq4xMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-		private System.Windows.Forms.ToolStripMenuItem FixesMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem FixFmvSyncMenuItem;
 
     }
 }

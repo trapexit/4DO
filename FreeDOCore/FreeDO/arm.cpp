@@ -710,6 +710,7 @@ void __fastcall ldm_accur(unsigned int opc, unsigned int base, unsigned int rn_i
                 if(base_comp==addrr) inuse=0;   
 if(tmp!=vall){
 				if(tmp==0xEFE54&&i==0x4&&cnbfix==0&&(fixmode&FIX_BIT_TIMING_1))tmp-=0xF;
+				//if(tmp==0xF1014)tmp=0x25000;
 }}
 				RON_USER[i]=tmp;
 				base_comp+=4;
@@ -1209,16 +1210,13 @@ const bool is_logic[]={
     true,true,false,false,
     true,true,true,true
     };
-int ssd;
+
 int __fastcall _arm_Execute()
 {
     uint32 cmd,pc_tmp;
 	bool isexeption=false;
 	//for(; CYCLES>0; CYCLES-=SCYCLE)
 	{   
-		/*if(ssd>=60000){_clio_GenerateFiq(1<<29,0); ssd--;}
-		if(REG_PC==0x28334){
-			_clio_GenerateFiq(1<<29,0);ssd+=10000;}*/
 		if(REG_PC==0x94D60&&RON_USER[0]==0x113000&&RON_USER[1]==0x113000&&cnbfix==0&&(fixmode&FIX_BIT_TIMING_1)){REG_PC=0x9E9CC; cnbfix=1;}
  		cmd=mreadw(REG_PC);
 
