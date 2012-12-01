@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 
-namespace FourDO.UI
+namespace FourDO.UI.Controls
 {
 	public partial class NagBox : UserControl
 	{

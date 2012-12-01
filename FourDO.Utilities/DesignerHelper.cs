@@ -29,5 +29,10 @@ namespace FourDO.Utilities
 
 			return ret;
 		}
+
+        public static bool IsInDesignMode()
+        {
+            return (LicenseManager.UsageMode == LicenseUsageMode.Designtime);
+        }
 	}
 }

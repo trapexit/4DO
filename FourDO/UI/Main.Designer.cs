@@ -1,4 +1,6 @@
-﻿namespace FourDO.UI
+﻿using FourDO.UI.Controls;
+
+namespace FourDO.UI
 {
     partial class Main
     {
@@ -100,8 +102,8 @@
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshFpsTimer = new System.Windows.Forms.Timer(this.components);
             this.hideMenuTimer = new System.Windows.Forms.Timer(this.components);
-            this.sizeBox = new FourDO.UI.SizeBox();
-            this.RomNagBox = new FourDO.UI.NagBox();
+            this.sizeBox = new SizeBox();
+            this.RomNagBox = new NagBox();
             this.gameCanvas = new FourDO.UI.GameCanvas();
             this.MainStatusStrip.SuspendLayout();
             this.MainMenuBar.SuspendLayout();

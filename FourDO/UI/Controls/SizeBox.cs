@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace FourDO.UI
+namespace FourDO.UI.Controls
 {
 	public partial class SizeBox : UserControl
 	{

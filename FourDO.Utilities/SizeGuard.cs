@@ -1,9 +1,9 @@
-﻿using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
-namespace FourDO.UI
+namespace FourDO.Utilities
 {
-	internal class SizeGuard
+	public class SizeGuard
 	{
 		private const int WMSZ_LEFT = 1;
 		private const int WMSZ_RIGHT = 2;

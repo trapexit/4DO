@@ -1,4 +1,4 @@
-﻿namespace FourDO.UI
+namespace FourDO.UI.Controls
 {
     partial class NagBox
     {
