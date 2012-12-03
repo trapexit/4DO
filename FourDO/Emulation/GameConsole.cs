@@ -526,38 +526,15 @@ namespace FourDO.Emulation
 				return;
 			
 			bool systemWasRunning = (this.State == ConsoleState.Running);
-			if (systemWasRunning == true)
+			if (systemWasRunning)
 				this.InternalPause();
 
-			BinaryWriter writer = null;
 			try
 			{
-				string saveDirectory = Path.GetDirectoryName(saveStateFileName);
-				if (!Directory.Exists(saveDirectory))
-					Directory.CreateDirectory(saveDirectory);
-				writer = new BinaryWriter(new FileStream(saveStateFileName, FileMode.Create));
-
-				var saveData = new byte[FreeDOCore.GetSaveSize()];
-				unsafe
-				{
-					fixed (byte* saveDataPtr = saveData)
-					{
-						var pointer = new IntPtr(saveDataPtr);
-						FreeDOCore.DoSave(pointer);
-					}
-				}
-				writer.Write(saveData);
-				writer.Close();
-			}
-			catch
-			{
-				throw;
+				States.SaveStateHelper.SaveState(saveStateFileName);
 			}
 			finally
 			{
-				if (writer != null)
-					writer.Close();
-
 				if (systemWasRunning == true)
 					this.InternalResume(false);
 			}
@@ -572,30 +549,12 @@ namespace FourDO.Emulation
 			if (systemWasRunning == true)
 				this.InternalPause();
 
-			BinaryReader reader = null;
 			try
 			{
-				reader = new BinaryReader(new FileStream(saveStateFileName, FileMode.Open));
-				var saveData = reader.ReadBytes((int)FreeDOCore.GetSaveSize());
-				unsafe
-				{
-					fixed (byte* saveDataPtr = saveData)
-					{
-						var pointer = new IntPtr(saveDataPtr);
-						FreeDOCore.DoLoad(pointer);
-					}
-				}
-				reader.Close();
-			}
-			catch
-			{
-				throw;
+				States.SaveStateHelper.LoadState(saveStateFileName);
 			}
 			finally
 			{
-				if (reader != null)
-					reader.Close();
-
 				if (systemWasRunning == true)
 					this.InternalResume(false);
 			}

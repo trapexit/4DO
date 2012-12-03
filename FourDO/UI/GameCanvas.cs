@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 
@@ -16,7 +15,6 @@ namespace FourDO.UI
 {
 	internal partial class GameCanvas : UserControl
 	{
-		private const InterpolationMode SMOOTH_SCALING_MODE = InterpolationMode.Low;
 		private const int STANDARD_WIDTH = 320;
 		private const int STANDARD_HEIGHT = 240;
 		private Size renderedSize = new Size(STANDARD_WIDTH, STANDARD_HEIGHT);
