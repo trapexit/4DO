@@ -1,33 +1,33 @@
 ﻿namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
-    partial class JohnnyInputSettings
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+	partial class JohnnyInputSettings
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-        #region Windows Form Designer generated code
+		#region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JohnnyInputSettings));
 			this.panel1 = new System.Windows.Forms.Panel();
@@ -213,6 +213,7 @@
 			this.ControllerPanel.Name = "ControllerPanel";
 			this.ControllerPanel.Size = new System.Drawing.Size(576, 268);
 			this.ControllerPanel.TabIndex = 21;
+			this.ControllerPanel.Resize += new System.EventHandler(this.ControllerPanel_Resize);
 			// 
 			// ControlsGridView
 			// 
@@ -328,13 +329,13 @@
 			this.panel4.ResumeLayout(false);
 			this.ResumeLayout(false);
 
-        }
+		}
 
-        #endregion
+		#endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button CloseButton;
-        private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Button CloseButton;
+		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Button OKButton;
 		private System.Windows.Forms.TabControl MainTabControl;
 		private System.Windows.Forms.TabPage Player1Tab;
@@ -352,5 +353,5 @@
 		private System.Windows.Forms.Label CurrentDevicesLabel;
 		private ControllerInfo controllerInfo;
 		private ControllerPreview controllerPreview;
-    }
+	}
 }

@@ -217,6 +217,7 @@
 			this.Name = "ControllerInfo";
 			this.Size = new System.Drawing.Size(280, 83);
 			this.Load += new System.EventHandler(this.ControllerInfo_Load);
+			this.Resize += new System.EventHandler(ControllerInfo_Resize);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			this.tableLayoutPanel2.ResumeLayout(false);

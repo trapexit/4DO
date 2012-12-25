@@ -871,5 +871,11 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.joyWatcher.Dispose();
 			this.joyChecker.Dispose();
 		}
+
+		private void ControllerPanel_Resize(object sender, EventArgs e)
+		{
+			//controllerPreview.Width = controllerPreview.Width + 1;
+			//controllerPreview.Width = controllerPreview.Width - 1;
+		}
 	}
 }

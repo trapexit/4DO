@@ -57,5 +57,18 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			this.Localize();
 		}
+
+		private void ControllerInfo_Resize(object sender, System.EventArgs e)
+		{
+			tableLayoutPanel1.Left = 0;
+			tableLayoutPanel2.Left = 0;
+			EscapeLabel.Left = 0;
+			MouseViewLabel.Left = 0;
+
+			tableLayoutPanel1.Width = this.Width;
+			tableLayoutPanel2.Width = this.Width;
+			EscapeLabel.Width = this.Width;
+			MouseViewLabel.Width = this.Width;
+		}
 	}
 }
