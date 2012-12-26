@@ -41,12 +41,27 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			var result = new InputBindingDevices();
 			var serializer = new CustomXmlSerializer();
 			serializer.ReadXml(fileName, result);
+
+			// If there was no format version, assume it was version 1.
+			if (result.FormatVersion <= 0)
+			{
+				result.FormatVersion = 1;
+			}
+
+			// Format Version 1 skipped the "Console" device.
+			if (result.FormatVersion == 1)
+			{
+				result.devices.Insert(0, new InputBindingDevice());
+			}
+
 			return result;
 		}
 
 		#endregion // Public static methods
 
 		protected List<InputBindingDevice> devices = new List<InputBindingDevice>();
+
+		public int FormatVersion { get; set; }
 
 		#region Public Functions
 
@@ -56,10 +71,15 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			string directoryName = Path.GetDirectoryName(fileName);
 			if (!Directory.Exists(directoryName))
 				Directory.CreateDirectory(directoryName);
-			
+
+			// We're at version #2.
+			this.FormatVersion = 2;
+
+			// Save it.
 			var serializer = new CustomXmlSerializer();
 			serializer.IncludeClassNameAttribute = true;
 			serializer.WriteFile(this, fileName, true);
+			
 		}
 
 		public void SetBinding(int deviceNumber, int setNumber, InputButton button, InputTrigger trigger)

@@ -168,6 +168,9 @@
   <data name="ClearAll" xml:space="preserve">
     <value>Eliminar todos</value>
   </data>
+  <data name="Console" xml:space="preserve">
+    <value>Consola</value>
+  </data>
   <data name="Control" xml:space="preserve">
     <value>Control</value>
   </data>

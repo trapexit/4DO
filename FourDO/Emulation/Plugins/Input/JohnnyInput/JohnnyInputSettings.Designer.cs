@@ -35,6 +35,7 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.OKButton = new System.Windows.Forms.Button();
 			this.MainTabControl = new System.Windows.Forms.TabControl();
+			this.ConsoleTab = new System.Windows.Forms.TabPage();
 			this.Player1Tab = new System.Windows.Forms.TabPage();
 			this.panel5 = new System.Windows.Forms.Panel();
 			this.Player2Tab = new System.Windows.Forms.TabPage();
@@ -107,6 +108,7 @@
 			this.MainTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.MainTabControl.Controls.Add(this.ConsoleTab);
 			this.MainTabControl.Controls.Add(this.Player1Tab);
 			this.MainTabControl.Controls.Add(this.Player2Tab);
 			this.MainTabControl.Controls.Add(this.Player3Tab);
@@ -119,6 +121,15 @@
 			this.MainTabControl.Size = new System.Drawing.Size(769, 348);
 			this.MainTabControl.TabIndex = 0;
 			this.MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
+			// 
+			// ConsoleTab
+			// 
+			this.ConsoleTab.Location = new System.Drawing.Point(4, 22);
+			this.ConsoleTab.Name = "ConsoleTab";
+			this.ConsoleTab.Size = new System.Drawing.Size(761, 322);
+			this.ConsoleTab.TabIndex = 7;
+			this.ConsoleTab.Text = "Console";
+			this.ConsoleTab.UseVisualStyleBackColor = true;
 			// 
 			// Player1Tab
 			// 
@@ -353,5 +364,6 @@
 		private System.Windows.Forms.Label CurrentDevicesLabel;
 		private ControllerInfo controllerInfo;
 		private ControllerPreview controllerPreview;
+		private System.Windows.Forms.TabPage ConsoleTab;
 	}
 }

@@ -5,7 +5,18 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 	[Serializable]
 	public enum InputButton
 	{
-		Up = 0,
+		ConsoleStateSave,
+		ConsoleStateLoad,
+		ConsoleStateSlotPrevious,
+		ConsoleStateSlotNext,
+
+		ConsoleFullScreen,
+		ConsoleScreenShot,
+		ConsolePause,
+		ConsoleAdvanceBySingleFrame,
+		ConsoleReset,
+
+		Up,
 		Down,
 		Left,
 		Right,

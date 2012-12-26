@@ -90,20 +90,20 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			var data = new byte[16];
 			data[0x0] = 0x00;
 			data[0x1] = 0x48;
-			data[0x2] = this.CalculateDeviceLowByte(0, deviceCount);
-			data[0x3] = this.CalculateDeviceHighByte(0, deviceCount);
-			data[0x4] = this.CalculateDeviceLowByte(2, deviceCount);
-			data[0x5] = this.CalculateDeviceHighByte(2, deviceCount);
-			data[0x6] = this.CalculateDeviceLowByte(1, deviceCount);
-			data[0x7] = this.CalculateDeviceHighByte(1, deviceCount);
-			data[0x8] = this.CalculateDeviceLowByte(4, deviceCount);
-			data[0x9] = this.CalculateDeviceHighByte(4, deviceCount);
-			data[0xA] = this.CalculateDeviceLowByte(3, deviceCount);
-			data[0xB] = this.CalculateDeviceHighByte(3, deviceCount);
+			data[0x2] = this.CalculateDeviceLowByte(1, deviceCount);
+			data[0x3] = this.CalculateDeviceHighByte(1, deviceCount);
+			data[0x4] = this.CalculateDeviceLowByte(3, deviceCount);
+			data[0x5] = this.CalculateDeviceHighByte(3, deviceCount);
+			data[0x6] = this.CalculateDeviceLowByte(2, deviceCount);
+			data[0x7] = this.CalculateDeviceHighByte(2, deviceCount);
+			data[0x8] = this.CalculateDeviceLowByte(5, deviceCount);
+			data[0x9] = this.CalculateDeviceHighByte(5, deviceCount);
+			data[0xA] = this.CalculateDeviceLowByte(4, deviceCount);
+			data[0xB] = this.CalculateDeviceHighByte(4, deviceCount);
 			data[0xC] = 0x00;
 			data[0xD] = 0x80;
-			data[0xE] = this.CalculateDeviceLowByte(5, deviceCount);
-			data[0xF] = this.CalculateDeviceHighByte(5, deviceCount);
+			data[0xE] = this.CalculateDeviceLowByte(6, deviceCount);
+			data[0xF] = this.CalculateDeviceHighByte(6, deviceCount);
 
 			return data;
 		}

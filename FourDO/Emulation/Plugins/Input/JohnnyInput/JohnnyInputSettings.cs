@@ -20,7 +20,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private DataGridViewCell editedCell = null;
 		private bool isSettingAll = false;
 
-		private int deviceNumber = 0; // always 0 for now.
+		private int deviceNumber = 1;
 
 		private readonly JoyInputWatcher joyWatcher = new JoyInputWatcher();
 		private readonly JoyInputChecker joyChecker = new JoyInputChecker();
@@ -79,6 +79,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.CurrentDevicesLabel.Bounds = this.controllerPreview.Bounds;
 			this.CurrentDevicesLabel.BringToFront();
 			this.CurrentDevicesLabel.Visible = false;
+
+			// Select the first tab.
+			this.MainTabControl.SelectedIndex = 1;
 
 			this.UpdateUI();
 
@@ -380,6 +383,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				this.isEditingButton = false;
 			}
 
+			controllerPreview.ViewMode = (this.deviceNumber == 0)
+				? ControllerPreview.ViewModeEnum.Console
+				: ControllerPreview.ViewModeEnum.Controller;
+
 			// save current grid position and selection
 			int? firstColIndex = null;
 			int? firstRowIndex = null;
@@ -417,10 +424,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			columnIndex = (int)GridColumn.ButtonName + 1;
 			for (int setNumber = 0; setNumber < this.devices[this.deviceNumber].BindingSets.Count; setNumber++)
 			{
-				InputBindingSet set = this.devices[this.deviceNumber].BindingSets[setNumber];
-
 				column = this.ControlsGridView.Columns[columnIndex];
-				column.HeaderText = JohnnyInputStrings.BindingSet.Replace(" ", "_") + "_#" + (setNumber+1).ToString();
+				column.HeaderText = JohnnyInputStrings.BindingSet.Replace(" ", "_") + "_#" + (setNumber + 1).ToString();
 				column.SortMode = DataGridViewColumnSortMode.Programmatic;
 				column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 				column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -490,17 +495,32 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			//////////////////
 			// Add bindings
-			this.AddGridItem(InputButton.Up, JohnnyInputStrings.ButtonUp);
-			this.AddGridItem(InputButton.Down, JohnnyInputStrings.ButtonDown);
-			this.AddGridItem(InputButton.Left, JohnnyInputStrings.ButtonLeft);
-			this.AddGridItem(InputButton.Right, JohnnyInputStrings.ButtonRight);
-			this.AddGridItem(InputButton.A, JohnnyInputStrings.ButtonA);
-			this.AddGridItem(InputButton.B, JohnnyInputStrings.ButtonB);
-			this.AddGridItem(InputButton.C, JohnnyInputStrings.ButtonC);
-			this.AddGridItem(InputButton.X, JohnnyInputStrings.ButtonX);
-			this.AddGridItem(InputButton.P, JohnnyInputStrings.ButtonP);
-			this.AddGridItem(InputButton.L, JohnnyInputStrings.ButtonL);
-			this.AddGridItem(InputButton.R, JohnnyInputStrings.ButtonR);
+			if (this.deviceNumber == 0)
+			{
+				this.AddGridItem(InputButton.ConsoleStateSave, "(F5) " + JohnnyInputStrings.ButtonConsoleSaveState);
+				this.AddGridItem(InputButton.ConsoleStateLoad, "(F8) " + JohnnyInputStrings.ButtonConsoleLoadState);
+				this.AddGridItem(InputButton.ConsoleStateSlotPrevious, "(F6) " + JohnnyInputStrings.ButtonConsoleStateSlotPrevious);
+				this.AddGridItem(InputButton.ConsoleStateSlotNext, "(F7) " + JohnnyInputStrings.ButtonConsoleStateSlotNext);
+				this.AddGridItem(InputButton.ConsoleFullScreen, "(F4) " + JohnnyInputStrings.ButtonConsoleFullScreen);
+				this.AddGridItem(InputButton.ConsoleScreenShot, "(F3) " + JohnnyInputStrings.ButtonConsoleScreenshot);
+				this.AddGridItem(InputButton.ConsolePause, "(F9) " + JohnnyInputStrings.ButtonConsolePause);
+				this.AddGridItem(InputButton.ConsoleAdvanceBySingleFrame, "(F10) " + JohnnyInputStrings.ButtonConsoleAdvanceFrame);
+				this.AddGridItem(InputButton.ConsoleReset, "(F12) " + JohnnyInputStrings.ButtonConsoleReset);
+			}
+			else
+			{
+				this.AddGridItem(InputButton.Up, JohnnyInputStrings.ButtonUp);
+				this.AddGridItem(InputButton.Down, JohnnyInputStrings.ButtonDown);
+				this.AddGridItem(InputButton.Left, JohnnyInputStrings.ButtonLeft);
+				this.AddGridItem(InputButton.Right, JohnnyInputStrings.ButtonRight);
+				this.AddGridItem(InputButton.A, JohnnyInputStrings.ButtonA);
+				this.AddGridItem(InputButton.B, JohnnyInputStrings.ButtonB);
+				this.AddGridItem(InputButton.C, JohnnyInputStrings.ButtonC);
+				this.AddGridItem(InputButton.X, JohnnyInputStrings.ButtonX);
+				this.AddGridItem(InputButton.P, JohnnyInputStrings.ButtonP);
+				this.AddGridItem(InputButton.L, JohnnyInputStrings.ButtonL);
+				this.AddGridItem(InputButton.R, JohnnyInputStrings.ButtonR);
+			}
 
 			////////////////////////////////
 			// (Done with grid population)
@@ -509,7 +529,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			// Restore selection and first cell.
 			DataGridViewCell newSelectedCell = this.TryGetCell(selectedColIndex, selectedRowIndex);
-			
+
 			if (newSelectedCell != null)
 				this.ControlsGridView.CurrentCell = newSelectedCell;
 			else

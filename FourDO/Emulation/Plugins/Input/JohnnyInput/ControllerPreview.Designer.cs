@@ -45,6 +45,7 @@
 			this.UpPanel = new System.Windows.Forms.Panel();
 			this.RPanel = new System.Windows.Forms.Panel();
 			this.LPanel = new System.Windows.Forms.Panel();
+			this.LogoImagePanel = new System.Windows.Forms.Panel();
 			this.ButtonLabelPanel.SuspendLayout();
 			this.ButtonPositionPanel.SuspendLayout();
 			this.SuspendLayout();
@@ -58,9 +59,9 @@
 			this.ButtonLabelPanel.BackColor = System.Drawing.Color.Transparent;
 			this.ButtonLabelPanel.Controls.Add(this.ButtonLabel);
 			this.ButtonLabelPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ButtonLabelPanel.Location = new System.Drawing.Point(0, 395);
+			this.ButtonLabelPanel.Location = new System.Drawing.Point(0, 395);
 			this.ButtonLabelPanel.Name = "ButtonLabelPanel";
-            this.ButtonLabelPanel.Size = new System.Drawing.Size(507, 58);
+			this.ButtonLabelPanel.Size = new System.Drawing.Size(507, 58);
 			this.ButtonLabelPanel.TabIndex = 11;
 			// 
 			// ButtonLabel
@@ -71,7 +72,7 @@
 			this.ButtonLabel.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ButtonLabel.Location = new System.Drawing.Point(0, 0);
 			this.ButtonLabel.Name = "ButtonLabel";
-            this.ButtonLabel.Size = new System.Drawing.Size(507, 53);
+			this.ButtonLabel.Size = new System.Drawing.Size(507, 53);
 			this.ButtonLabel.TabIndex = 10;
 			this.ButtonLabel.Text = "X Button";
 			this.ButtonLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -92,107 +93,117 @@
 			this.ButtonPositionPanel.Controls.Add(this.LPanel);
 			this.ButtonPositionPanel.Location = new System.Drawing.Point(0, 0);
 			this.ButtonPositionPanel.Name = "ButtonPositionPanel";
-            this.ButtonPositionPanel.Size = new System.Drawing.Size(221, 100);
+			this.ButtonPositionPanel.Size = new System.Drawing.Size(221, 100);
 			this.ButtonPositionPanel.TabIndex = 12;
 			// 
 			// CPanel
 			// 
 			this.CPanel.BackColor = System.Drawing.Color.Transparent;
-            this.CPanel.Location = new System.Drawing.Point(185, 31);
+			this.CPanel.Location = new System.Drawing.Point(185, 31);
 			this.CPanel.Name = "CPanel";
-            this.CPanel.Size = new System.Drawing.Size(22, 22);
+			this.CPanel.Size = new System.Drawing.Size(22, 22);
 			this.CPanel.TabIndex = 26;
 			this.CPanel.Tag = "C Button";
 			// 
 			// BPanel
 			// 
 			this.BPanel.BackColor = System.Drawing.Color.Transparent;
-            this.BPanel.Location = new System.Drawing.Point(161, 36);
+			this.BPanel.Location = new System.Drawing.Point(161, 36);
 			this.BPanel.Name = "BPanel";
-            this.BPanel.Size = new System.Drawing.Size(23, 22);
+			this.BPanel.Size = new System.Drawing.Size(23, 22);
 			this.BPanel.TabIndex = 25;
 			this.BPanel.Tag = "B Button";
 			// 
 			// APanel
 			// 
 			this.APanel.BackColor = System.Drawing.Color.Transparent;
-            this.APanel.Location = new System.Drawing.Point(141, 49);
+			this.APanel.Location = new System.Drawing.Point(141, 49);
 			this.APanel.Name = "APanel";
-            this.APanel.Size = new System.Drawing.Size(22, 22);
+			this.APanel.Size = new System.Drawing.Size(22, 22);
 			this.APanel.TabIndex = 23;
 			this.APanel.Tag = "A Button";
 			// 
 			// PPanel
 			// 
 			this.PPanel.BackColor = System.Drawing.Color.Transparent;
-            this.PPanel.Location = new System.Drawing.Point(116, 65);
+			this.PPanel.Location = new System.Drawing.Point(116, 65);
 			this.PPanel.Name = "PPanel";
-            this.PPanel.Size = new System.Drawing.Size(9, 9);
+			this.PPanel.Size = new System.Drawing.Size(9, 9);
 			this.PPanel.TabIndex = 24;
 			this.PPanel.Tag = "P Button (\"Play/Pause\")";
 			// 
 			// XPanel
 			// 
 			this.XPanel.BackColor = System.Drawing.Color.Transparent;
-            this.XPanel.Location = new System.Drawing.Point(97, 65);
+			this.XPanel.Location = new System.Drawing.Point(97, 65);
 			this.XPanel.Name = "XPanel";
-            this.XPanel.Size = new System.Drawing.Size(9, 9);
+			this.XPanel.Size = new System.Drawing.Size(9, 9);
 			this.XPanel.TabIndex = 22;
 			this.XPanel.Tag = "X Button (\"Stop\")";
 			// 
 			// LeftPanel
 			// 
 			this.LeftPanel.BackColor = System.Drawing.Color.Transparent;
-            this.LeftPanel.Location = new System.Drawing.Point(27, 48);
+			this.LeftPanel.Location = new System.Drawing.Point(27, 48);
 			this.LeftPanel.Name = "LeftPanel";
-            this.LeftPanel.Size = new System.Drawing.Size(15, 10);
+			this.LeftPanel.Size = new System.Drawing.Size(15, 10);
 			this.LeftPanel.TabIndex = 21;
 			this.LeftPanel.Tag = "Left (\"Previous Track\")";
 			// 
 			// RightPanel
 			// 
 			this.RightPanel.BackColor = System.Drawing.Color.Transparent;
-            this.RightPanel.Location = new System.Drawing.Point(52, 48);
+			this.RightPanel.Location = new System.Drawing.Point(52, 48);
 			this.RightPanel.Name = "RightPanel";
-            this.RightPanel.Size = new System.Drawing.Size(15, 10);
+			this.RightPanel.Size = new System.Drawing.Size(15, 10);
 			this.RightPanel.TabIndex = 19;
 			this.RightPanel.Tag = "Right (\"Next Track\")";
 			// 
 			// DownPanel
 			// 
 			this.DownPanel.BackColor = System.Drawing.Color.Transparent;
-            this.DownPanel.Location = new System.Drawing.Point(42, 57);
+			this.DownPanel.Location = new System.Drawing.Point(42, 57);
 			this.DownPanel.Name = "DownPanel";
-            this.DownPanel.Size = new System.Drawing.Size(10, 16);
+			this.DownPanel.Size = new System.Drawing.Size(10, 16);
 			this.DownPanel.TabIndex = 18;
 			this.DownPanel.Tag = "Down (\"Seek Backwards\")";
 			// 
 			// UpPanel
 			// 
 			this.UpPanel.BackColor = System.Drawing.Color.Transparent;
-            this.UpPanel.Location = new System.Drawing.Point(42, 33);
+			this.UpPanel.Location = new System.Drawing.Point(42, 33);
 			this.UpPanel.Name = "UpPanel";
-            this.UpPanel.Size = new System.Drawing.Size(10, 16);
+			this.UpPanel.Size = new System.Drawing.Size(10, 16);
 			this.UpPanel.TabIndex = 17;
 			this.UpPanel.Tag = "Up (\"Seek Forward\")";
 			// 
 			// RPanel
 			// 
 			this.RPanel.BackColor = System.Drawing.Color.Transparent;
-            this.RPanel.Location = new System.Drawing.Point(160, 0);
+			this.RPanel.Location = new System.Drawing.Point(160, 0);
 			this.RPanel.Name = "RPanel";
-            this.RPanel.Size = new System.Drawing.Size(44, 20);
+			this.RPanel.Size = new System.Drawing.Size(44, 20);
 			this.RPanel.TabIndex = 16;
 			this.RPanel.Tag = "R (Right Shoulder)";
 			// 
 			// LPanel
 			// 
 			this.LPanel.BackColor = System.Drawing.Color.Transparent;
-            this.LPanel.Location = new System.Drawing.Point(18, -1);
+			this.LPanel.Location = new System.Drawing.Point(18, -1);
 			this.LPanel.Name = "LPanel";
-            this.LPanel.Size = new System.Drawing.Size(45, 20);
+			this.LPanel.Size = new System.Drawing.Size(45, 20);
 			this.LPanel.TabIndex = 15;
 			this.LPanel.Tag = "L (Left Shoulder)";
+			// 
+			// LogoImagePanel
+			// 
+			this.LogoImagePanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("LogoImagePanel.BackgroundImage")));
+			this.LogoImagePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+			this.LogoImagePanel.Location = new System.Drawing.Point(322, 134);
+			this.LogoImagePanel.Name = "LogoImagePanel";
+			this.LogoImagePanel.Size = new System.Drawing.Size(126, 126);
+			this.LogoImagePanel.TabIndex = 13;
+			this.LogoImagePanel.Visible = false;
 			// 
 			// ControllerPreview
 			// 
@@ -200,11 +211,12 @@
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(205)))), ((int)(((byte)(230)))));
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+			this.Controls.Add(this.LogoImagePanel);
 			this.Controls.Add(this.ButtonPositionPanel);
 			this.Controls.Add(this.ButtonLabelPanel);
 			this.DoubleBuffered = true;
 			this.Name = "ControllerPreview";
-            this.Size = new System.Drawing.Size(507, 453);
+			this.Size = new System.Drawing.Size(507, 453);
 			this.Load += new System.EventHandler(this.ControllerPreview_Load);
 			this.MouseLeave += new System.EventHandler(this.ControllerPreview_MouseLeave);
 			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ControllerPreview_MouseMove);
@@ -232,5 +244,6 @@
 		private System.Windows.Forms.Panel RightPanel;
 		private System.Windows.Forms.Panel DownPanel;
 		private System.Windows.Forms.Panel UpPanel;
+		private System.Windows.Forms.Panel LogoImagePanel;
 	}
 }

@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using FourDO.Resources;
 
 namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 {
 	public partial class ControllerPreview : UserControl
 	{
+		public enum ViewModeEnum
+		{
+			Console,
+			Controller,
+		}
+
 		private const int PULSALE_FRAME_PERIOD = 100; // milliseconds
 		private const int PULSATE_ALPHA_MIN = 50;
 		private const int PULSATE_ALPHA_MAX = 130;
@@ -29,8 +36,36 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private int currentAlpha = PULSATE_ALPHA_MIN;
 		private bool increaseAlpha = true;
 
+		private ViewModeEnum _viewMode;
+		private Image _controllerImage;
+		private Image _consoleImage;
+
 		public delegate void MouseHoverButtonHandler(MouseHoverButtonEventArgs e);
 		public event MouseHoverButtonHandler MouseHoverButton;
+
+		public ViewModeEnum ViewMode 
+		{ 
+			get { return _viewMode; }
+			set
+			{
+				if (_viewMode == value)
+					return;
+
+				_viewMode = value;
+
+				if (_viewMode == ViewModeEnum.Console)
+				{
+					ButtonPositionPanel.Visible = false;
+					this.BackgroundImage = this._consoleImage;
+					this.OnMouseHoverButton(null);
+				}
+				else
+				{
+					ButtonPositionPanel.Visible = true;
+					this.BackgroundImage = this._controllerImage;
+				}
+			}
+		}
 
 		public InputButton? HighlightedButton
 		{
@@ -74,6 +109,11 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		public ControllerPreview()
 		{
 			InitializeComponent();
+			this._viewMode = ViewModeEnum.Controller;
+			this._controllerImage = this.BackgroundImage;
+			this._consoleImage = this.LogoImagePanel.BackgroundImage;
+
+			this.BackgroundImage = this._controllerImage;
 		}
 
 		private void ControllerPreview_Load(object sender, EventArgs e)
@@ -114,7 +154,40 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			Control control = this.GetHighlightedControl();
 			if (control == null)
-				this.ButtonLabel.Text = null;
+			{
+				if (!this.HighlightedButton.HasValue)
+					this.ButtonLabel.Text = null;
+
+				else if (this.HighlightedButton.Value == InputButton.ConsoleAdvanceBySingleFrame)
+					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleAdvanceFrame;
+
+				else if (this.HighlightedButton.Value == InputButton.ConsoleFullScreen)
+					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleFullScreen;
+
+				else if (this.HighlightedButton.Value == InputButton.ConsolePause)
+					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsolePause;
+
+				else if (this.HighlightedButton.Value == InputButton.ConsoleReset)
+					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleReset;
+
+				else if (this.HighlightedButton.Value == InputButton.ConsoleScreenShot)
+					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleScreenshot;
+
+				else if (this.HighlightedButton.Value == InputButton.ConsoleStateLoad)
+					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleLoadState;
+
+				else if (this.HighlightedButton.Value == InputButton.ConsoleStateSave)
+					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleSaveState;
+
+				else if (this.HighlightedButton.Value == InputButton.ConsoleStateSlotNext)
+					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleStateSlotNext;
+
+				else if (this.HighlightedButton.Value == InputButton.ConsoleStateSlotPrevious)
+					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleStateSlotPrevious;
+
+				else
+					this.ButtonLabel.Text = null;
+			}
 			else
 				this.ButtonLabel.Text = (string)control.Tag;
 		}
@@ -144,6 +217,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void DrawPulsate(Control control, PaintEventArgs e, bool highlightColor)
 		{
+			if (control == null)
+				return;
+
 			Rectangle bounds = this.GetDescendantBounds(control);
 
 			int colorR = highlightColor ? HIGHLIGHT_R : GLOW_R;
@@ -262,6 +338,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void ControllerPreview_MouseMove(object sender, MouseEventArgs e)
 		{
+			if (this._viewMode == ViewModeEnum.Console)
+				return;
+
 			var buttons = (InputButton[]) Enum.GetValues(typeof(InputButton));
 			foreach (InputButton button in buttons)
 			{

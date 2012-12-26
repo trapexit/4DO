@@ -138,6 +138,33 @@
   <data name="ButtonC" xml:space="preserve">
     <value>C</value>
   </data>
+  <data name="ButtonConsoleAdvanceFrame" xml:space="preserve">
+    <value>Advance by a Single Frame</value>
+  </data>
+  <data name="ButtonConsoleFullScreen" xml:space="preserve">
+    <value>Full Screen</value>
+  </data>
+  <data name="ButtonConsoleLoadState" xml:space="preserve">
+    <value>Load State</value>
+  </data>
+  <data name="ButtonConsolePause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="ButtonConsoleReset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ButtonConsoleSaveState" xml:space="preserve">
+    <value>Save State</value>
+  </data>
+  <data name="ButtonConsoleScreenshot" xml:space="preserve">
+    <value>Screenshot</value>
+  </data>
+  <data name="ButtonConsoleStateSlotNext" xml:space="preserve">
+    <value>Save State Slot : Next</value>
+  </data>
+  <data name="ButtonConsoleStateSlotPrevious" xml:space="preserve">
+    <value>Save State Slot : Previous</value>
+  </data>
   <data name="ButtonDown" xml:space="preserve">
     <value>Down</value>
   </data>
@@ -167,6 +194,9 @@
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Clear All</value>
+  </data>
+  <data name="Console" xml:space="preserve">
+    <value>Console</value>
   </data>
   <data name="Control" xml:space="preserve">
     <value>Control</value>
