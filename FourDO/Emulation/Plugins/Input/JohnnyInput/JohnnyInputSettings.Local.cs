@@ -8,7 +8,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			this.Text = JohnnyInputStrings.WindowTitle;
 
-			this.MainTabControl.TabPages[1].Text = JohnnyInputStrings.Player;
+			this.MainTabControl.TabPages[0].Text = JohnnyInputStrings.Console;
 			this.MainTabControl.TabPages[1].Text = JohnnyInputStrings.Player + " 1";
 			this.MainTabControl.TabPages[2].Text = JohnnyInputStrings.Player + " 2";
 			this.MainTabControl.TabPages[3].Text = JohnnyInputStrings.Player + " 3";

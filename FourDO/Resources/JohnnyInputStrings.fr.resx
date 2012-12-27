@@ -138,6 +138,33 @@
   <data name="ButtonC" xml:space="preserve">
     <value>C</value>
   </data>
+  <data name="ButtonConsoleAdvanceFrame" xml:space="preserve">
+    <value>Avancée d'Une Image</value>
+  </data>
+  <data name="ButtonConsoleFullScreen" xml:space="preserve">
+    <value>Plein Ecran</value>
+  </data>
+  <data name="ButtonConsoleLoadState" xml:space="preserve">
+    <value>Charger un Etat</value>
+  </data>
+  <data name="ButtonConsolePause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="ButtonConsoleReset" xml:space="preserve">
+    <value>Redémarrer</value>
+  </data>
+  <data name="ButtonConsoleSaveState" xml:space="preserve">
+    <value>Sauvegarder un Etat</value>
+  </data>
+  <data name="ButtonConsoleScreenshot" xml:space="preserve">
+    <value>Captures d'écran</value>
+  </data>
+  <data name="ButtonConsoleStateSlotNext" xml:space="preserve">
+    <value>Sélectionner l'Emplacement Suivant</value>
+  </data>
+  <data name="ButtonConsoleStateSlotPrevious" xml:space="preserve">
+    <value>Sélectionner l'Emplacement Précédent</value>
+  </data>
   <data name="ButtonDown" xml:space="preserve">
     <value>Bas</value>
   </data>

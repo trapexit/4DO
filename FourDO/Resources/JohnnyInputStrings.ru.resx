@@ -138,6 +138,33 @@
   <data name="ButtonC" xml:space="preserve">
     <value>C</value>
   </data>
+  <data name="ButtonConsoleAdvanceFrame" xml:space="preserve">
+    <value>Покадровый вывод</value>
+  </data>
+  <data name="ButtonConsoleFullScreen" xml:space="preserve">
+    <value>Во весь экран</value>
+  </data>
+  <data name="ButtonConsoleLoadState" xml:space="preserve">
+    <value>Загрузить</value>
+  </data>
+  <data name="ButtonConsolePause" xml:space="preserve">
+    <value>Пауза</value>
+  </data>
+  <data name="ButtonConsoleReset" xml:space="preserve">
+    <value>Сброс</value>
+  </data>
+  <data name="ButtonConsoleSaveState" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="ButtonConsoleScreenshot" xml:space="preserve">
+    <value>Скриншот</value>
+  </data>
+  <data name="ButtonConsoleStateSlotNext" xml:space="preserve">
+    <value>Установить следующий слот</value>
+  </data>
+  <data name="ButtonConsoleStateSlotPrevious" xml:space="preserve">
+    <value>Установить предыдущий слот</value>
+  </data>
   <data name="ButtonDown" xml:space="preserve">
     <value>Вниз</value>
   </data>

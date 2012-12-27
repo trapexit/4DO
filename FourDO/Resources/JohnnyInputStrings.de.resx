@@ -138,6 +138,33 @@
   <data name="ButtonC" xml:space="preserve">
     <value>C</value>
   </data>
+  <data name="ButtonConsoleAdvanceFrame" xml:space="preserve">
+    <value>Voraus in einem Single Frame</value>
+  </data>
+    <data name="ButtonConsoleFullScreen" xml:space="preserve">
+    <value>Vollbild</value>
+  </data>
+  <data name="ButtonConsoleLoadState" xml:space="preserve">
+    <value>Spielstand Laden</value>
+  </data>
+  <data name="ButtonConsolePause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="ButtonConsoleReset" xml:space="preserve">
+    <value>Zurücksetzen</value>
+  </data>
+  <data name="ButtonConsoleSaveState" xml:space="preserve">
+    <value>Spielstand Speichern</value>
+  </data>
+  <data name="ButtonConsoleScreenshot" xml:space="preserve">
+    <value>Bildschirm Aufnahme</value>
+  </data>
+  <data name="ButtonConsoleStateSlotNext" xml:space="preserve">
+    <value>Nächsten Steckplatz Wählen</value>
+  </data>
+  <data name="ButtonConsoleStateSlotPrevious" xml:space="preserve">
+    <value>Vorherigen Steckplatz Wählen</value>
+  </data>
   <data name="ButtonDown" xml:space="preserve">
     <value>Runter</value>
   </data>
