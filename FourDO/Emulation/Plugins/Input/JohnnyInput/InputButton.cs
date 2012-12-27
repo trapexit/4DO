@@ -5,6 +5,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 	[Serializable]
 	public enum InputButton
 	{
+		// "Console" / emulation control buttons
 		ConsoleStateSave,
 		ConsoleStateLoad,
 		ConsoleStateSlotPrevious,
@@ -16,6 +17,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		ConsoleAdvanceBySingleFrame,
 		ConsoleReset,
 
+		// "Regular" buttons
 		Up,
 		Down,
 		Left,

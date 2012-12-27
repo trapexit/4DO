@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using FourDO.Emulation;
 using FourDO.Emulation.FreeDO;
+using FourDO.Emulation.Plugins.Input;
 using FourDO.Utilities;
 using FourDO.Utilities.Globals;
 using FourDO.Utilities.MouseHook;
@@ -76,6 +77,7 @@ namespace FourDO.UI
 			this.VersionStripItem.Text = FOURDO_NAME + " " + Application.ProductVersion;
 
 			GameConsole.Instance.ConsoleStateChange += new ConsoleStateChangeHandler(Instance_ConsoleStateChange);
+			GameConsole.Instance.InputPlugin.ConsoleEventRaised += new ConsoleEventRaisedHandler(InputPlugin_ConsoleEventRaised);
 
 			////////////////////
 			// Form size and position.
@@ -613,6 +615,33 @@ namespace FourDO.UI
 
 			this.MainMenuBar.Visible = (this.isWindowFullScreen == false);
 			this.hideMenuTimer.Enabled = false;
+		}
+
+		private void checkInputTimer_Tick(object sender, EventArgs e)
+		{
+			GameConsole.Instance.InputPlugin.CheckConsoleEvents();
+		}
+
+		void InputPlugin_ConsoleEventRaised(Emulation.Plugins.Input.ConsoleEvent consoleEvent)
+		{
+			if (consoleEvent == ConsoleEvent.StateSave)
+				this.DoSaveState();
+			else if (consoleEvent == ConsoleEvent.StateLoad)
+				this.DoLoadState();
+			else if (consoleEvent == ConsoleEvent.StateSlotPrevious)
+				this.DoAdvanceSaveSlot(false);
+			else if (consoleEvent == ConsoleEvent.StateSlotNext)
+				this.DoAdvanceSaveSlot(true);
+			else if (consoleEvent == ConsoleEvent.FullScreen)
+				this.DoToggleFullScreen();
+			else if (consoleEvent == ConsoleEvent.ScreenShot)
+				this.DoScreenShot();
+			else if (consoleEvent == ConsoleEvent.Pause)
+				this.DoConsoleTogglePause();
+			else if (consoleEvent == ConsoleEvent.AdvanceBySingleFrame)
+				this.DoConsoleAdvanceFrame();
+			else if (consoleEvent == ConsoleEvent.Reset)
+				this.DoConsoleReset(false);
 		}
 
 		private void gameInfoMenuItem_Click(object sender, EventArgs e)

@@ -98,7 +98,7 @@
     <Compile Include="Emulation\FreeDO\FreeDOCore.cs" />
     <Compile Include="Emulation\FreeDO\VDLFrame.cs" />
     <Compile Include="Emulation\Plugins\IInputPlugin.cs" />
-    <Compile Include="Emulation\Plugins\Input\EmulatorFunction.cs" />
+    <Compile Include="Emulation\Plugins\Input\ConsoleEvent.cs" />
     <Compile Include="Emulation\Plugins\Input\JohnnyInput\ControllerInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -118,11 +118,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emulation\States\SaveStateHelper.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Resources\JohnnyInputStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -272,10 +267,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputSettings.resx">
       <DependentUpon>JohnnyInputSettings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\JohnnyInputStrings.de.resx">
       <SubType>Designer</SubType>

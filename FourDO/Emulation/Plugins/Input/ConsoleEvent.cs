@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FourDO.Emulation.Plugins.Input
 {
-	public enum EmulatorFunction
+	public enum ConsoleEvent
 	{
 		StateSave = 0,
 		StateLoad,

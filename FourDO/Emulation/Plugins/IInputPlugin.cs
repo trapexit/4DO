@@ -1,7 +1,10 @@
 ﻿using System.Windows.Forms;
+using FourDO.Emulation.Plugins.Input;
 
 namespace FourDO.Emulation.Plugins
 {
+	public delegate void ConsoleEventRaisedHandler(ConsoleEvent consoleEvent);
+
 	public interface IInputPlugin
 	{
 		void Destroy();
@@ -13,5 +16,8 @@ namespace FourDO.Emulation.Plugins
 		void EnableKeyboardInput();
 
 		byte[] GetPbusData();
+
+		void CheckConsoleEvents();
+		event ConsoleEventRaisedHandler ConsoleEventRaised;
 	}
 }
