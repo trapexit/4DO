@@ -1137,21 +1137,6 @@ unsigned int _dsp_ARMread2sema4(void)
 	return (dregs.Sema4Status<<16) | dregs.Sema4Data;
 }
 
-//##@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*
-//##@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*
-//
-//        IMPORTANT NOTE!!!
-//
-// I cheated because optimizations on these function seem to screw up!
-// Certainly a bad sign, but I'm not looking into it yet.
-//    * The first function hung the emulator
-//    * The second function was causing video to blank out on Killing Time.
-#if __MSVC__
-#pragma optimize( "", off )
-#endif
-//##@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*
-//##@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*
-
  void __fastcall OperandLoader(int Requests)
 {
 	int Operands;//total of operands
@@ -1193,7 +1178,7 @@ unsigned int _dsp_ARMread2sema4(void)
 		}else if ((operand.nrof.TYPE&6)==6)
 		{
 				//case 6: and case 7:  immediate format
-				OperandPool[Operands]=operand.iof.IMMEDIATE<<(operand.iof.JUSTIFY&3);
+				OperandPool[Operands]=operand.iof.IMMEDIATE<<(~((operand.iof.JUSTIFY)+1)&3);
 				flags.WRITEBACK=OperandPool[Operands++];
 
 		}else if(!(operand.nrof.TYPE&4))  // case 0..3
@@ -1297,7 +1282,7 @@ int __fastcall OperandLoaderNWB(void)
 		}else if ((operand.nrof.TYPE&6)==6)
 		{
 				//case 6: and case 7:  immediate format
-				Operand=operand.iof.IMMEDIATE<<(operand.iof.JUSTIFY&3);
+				Operand=operand.iof.IMMEDIATE<<(~((operand.iof.JUSTIFY)+1)&3); 
 
 		}else if(operand.nrof.TYPE==5)
 		{ //if(operand.r2of.NUMREGS) ignore... It's right?
@@ -1309,12 +1294,3 @@ int __fastcall OperandLoaderNWB(void)
 
 		return Operand;
 }
-
-//##@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*
-//##@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*
-// Re-enable optimizations
-#if __MSVC__
-#pragma optimize( "", on )
-#endif
-//##@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*
-//##@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*@^$&^*@$^&(@(@(*@$(^*@^(*@$(^*
