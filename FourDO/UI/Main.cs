@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using FourDO.Emulation;
 using FourDO.Emulation.FreeDO;
 using FourDO.Emulation.Plugins.Input;
+using FourDO.UI.DiscBrowser;
 using FourDO.Utilities;
 using FourDO.Utilities.Globals;
 using FourDO.Utilities.MouseHook;
@@ -569,6 +570,15 @@ namespace FourDO.UI
 			this.DoSetVoidAreaPattern((VoidAreaPattern)((ToolStripMenuItem)sender).Tag);
 		}
 
+		private void discBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (var form = new Browser())
+			{
+				form.GameSource = GameConsole.Instance.GameSource;
+				form.ShowDialog();
+			}
+		}
+
 		private void Main_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter && e.Modifiers == Keys.Alt)
@@ -741,7 +751,7 @@ namespace FourDO.UI
 			this.Text = windowTitle.ToString();
 
 			////////////////////////
-			// File menu
+			// CoreFile menu
 
 			this.closeGameMenuItem.Enabled = consoleActive && !biosOnly;
 			this.openCDImageMenuItem.Enabled = isValidBiosRomSelected;

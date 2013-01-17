@@ -295,7 +295,7 @@
     <value>Open Disc Drive</value>
   </data>
   <data name="MainMenuFileOpenCDImage" xml:space="preserve">
-    <value>Open CD &amp;Image File...</value>
+    <value>Open CD &amp;Image CoreFile...</value>
   </data>
   <data name="MainMenuHelp" xml:space="preserve">
     <value>&amp;Help</value>

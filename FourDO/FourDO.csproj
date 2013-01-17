@@ -213,6 +213,13 @@
     <Compile Include="UI\Controls\VolumeSlider.Designer.cs">
       <DependentUpon>VolumeSlider.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\DiscBrowser\Browser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\DiscBrowser\Browser.Designer.cs">
+      <DependentUpon>Browser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DiscBrowser\DiscFileReader.cs" />
     <Compile Include="UI\GameInformation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -334,6 +341,9 @@
     <EmbeddedResource Include="UI\Canvases\SlimDXCanvas.resx">
       <DependentUpon>SlimDXCanvas.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\DiscBrowser\Browser.resx">
+      <DependentUpon>Browser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\GameCanvas.resx">
       <DependentUpon>GameCanvas.cs</DependentUpon>
     </EmbeddedResource>
@@ -386,6 +396,10 @@
     <ProjectReference Include="..\CDLib\CDLib.csproj">
       <Project>{E3BD3EDE-B721-48A8-8EE1-1BA4FAFE5884}</Project>
       <Name>CDLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FourDO.FileSystem\FourDO.FileSystem.csproj">
+      <Project>{72CFCFAE-7C36-44AD-98DB-FFB65FDCEB80}</Project>
+      <Name>FourDO.FileSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\FourDO.Utilities\FourDO.Utilities.csproj">
       <Project>{90F85307-1C30-4A5F-B434-FBE3958ED750}</Project>

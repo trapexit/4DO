@@ -1,38 +1,19 @@
 ﻿using System;
-using System.Runtime.InteropServices;
+using FourDO.FileSystem.Core.Structs;
 
 namespace FourDO.Emulation
 {
 	public unsafe static class EmulationHelper
 	{
-		[StructLayout(LayoutKind.Sequential)]
-		private struct VolumeHeader             // 132 bytes
-		{
-			public byte recordType;               // 1 byte
-			public fixed byte syncBytes[5];       // 5 bytes
-			public byte recordVersion;            // 1 byte
-			public byte flags;                    // 1 byte
-			public fixed byte comment[32];        // 32 bytes
-			public fixed byte label[32];          // 32 bytes
-			public UInt32 id;                     // 4 bytes
-			public UInt32 blockSize;              // 4 bytes
-			public UInt32 blockCount;             // 4 bytes
-			public UInt32 rootDirId;              // 4 bytes
-			public UInt32 rootDirBlocks;          // 4 bytes
-			public UInt32 rootDirBlockSize;       // 4 bytes
-			public UInt32 lastRootDirCopy;        // 4 bytes
-			public fixed UInt32 rootDirCopies[8]; // 32 bytes
-		};
-
 		public static int GetSectorCount(IntPtr sectorZeroByteZero)
 		{
-			VolumeHeader* sectorZeroStruct = (VolumeHeader*)sectorZeroByteZero.ToPointer();
+			var sectorZeroStruct = (CoreVolumeHeader*)sectorZeroByteZero.ToPointer();
 			return (int)ReverseBytes(sectorZeroStruct->blockCount);
 		}
 
 		public static void InitializeNvram(IntPtr nvramByteZero)
 		{
-			VolumeHeader* nvramStruct = (VolumeHeader*)nvramByteZero.ToPointer();
+			var nvramStruct = (CoreVolumeHeader*)nvramByteZero.ToPointer();
 
 			////////////////
 			// Fill out the volume header.
@@ -63,9 +44,9 @@ namespace FourDO.Emulation
 
 			////////////////
 			// After this point, I could not find the proper structure for the data.
-			int w = sizeof(VolumeHeader) / 4;
+			int w = sizeof(CoreVolumeHeader) / 4;
 
-			UInt32* nvramData = (UInt32*)nvramByteZero.ToPointer();
+			var nvramData = (UInt32*)nvramByteZero.ToPointer();
 			nvramData[w++] = ReverseBytes(0x855A02B6);
 			nvramData[w++] = ReverseBytes(0x00000098);
 			nvramData[w++] = ReverseBytes(0x00000098);

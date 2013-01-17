@@ -2,7 +2,7 @@
 
 namespace FourDO.Emulation.GameSource
 {
-	internal interface IGameSource
+	public interface IGameSource
 	{
 		void Open();
 		void Close();

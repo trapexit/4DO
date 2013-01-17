@@ -106,6 +106,8 @@ namespace FourDO.UI
 			this.sizeBox = new FourDO.UI.Controls.SizeBox();
 			this.RomNagBox = new FourDO.UI.Controls.NagBox();
 			this.gameCanvas = new FourDO.UI.GameCanvas();
+			this.toolsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.discBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MainStatusStrip.SuspendLayout();
 			this.MainMenuBar.SuspendLayout();
 			this.SuspendLayout();
@@ -160,6 +162,7 @@ namespace FourDO.UI
             this.displayMenuItem,
             this.audioMenuItem,
             this.optionsMenuItem,
+            this.toolsMenuItem,
             this.helpToolStripMenuItem});
 			this.MainMenuBar.Location = new System.Drawing.Point(0, 0);
 			this.MainMenuBar.Name = "MainMenuBar";
@@ -182,7 +185,7 @@ namespace FourDO.UI
             this.exitMenuItem});
 			this.fileMenuItem.Name = "fileMenuItem";
 			this.fileMenuItem.Size = new System.Drawing.Size(35, 20);
-			this.fileMenuItem.Text = "&File";
+			this.fileMenuItem.Text = "&CoreFile";
 			// 
 			// closeGameMenuItem
 			// 
@@ -200,7 +203,7 @@ namespace FourDO.UI
 			// 
 			this.openCDImageMenuItem.Name = "openCDImageMenuItem";
 			this.openCDImageMenuItem.Size = new System.Drawing.Size(240, 22);
-			this.openCDImageMenuItem.Text = "Open CD &Image File...";
+			this.openCDImageMenuItem.Text = "Open CD &Image CoreFile...";
 			this.openCDImageMenuItem.Click += new System.EventHandler(this.openCDImageMenuItem_Click);
 			// 
 			// loadLastGameMenuItem
@@ -223,7 +226,7 @@ namespace FourDO.UI
 			// 
 			this.chooseBiosRom1MenuItem.Name = "chooseBiosRom1MenuItem";
 			this.chooseBiosRom1MenuItem.Size = new System.Drawing.Size(240, 22);
-			this.chooseBiosRom1MenuItem.Text = "Choose &BIOS Rom File...";
+			this.chooseBiosRom1MenuItem.Text = "Choose &BIOS Rom CoreFile...";
 			this.chooseBiosRom1MenuItem.Click += new System.EventHandler(this.chooseBiosRom1MenuItem_Click);
 			// 
 			// chooseBiosRom2MenuItem
@@ -715,6 +718,21 @@ namespace FourDO.UI
 			this.gameCanvas.VoidAreaBorder = false;
 			this.gameCanvas.VoidAreaPattern = FourDO.UI.VoidAreaPattern.None;
 			// 
+			// toolsMenuItem
+			// 
+			this.toolsMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.discBrowserToolStripMenuItem});
+			this.toolsMenuItem.Name = "toolsMenuItem";
+			this.toolsMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.toolsMenuItem.Text = "&Tools";
+			// 
+			// discBrowserToolStripMenuItem
+			// 
+			this.discBrowserToolStripMenuItem.Name = "discBrowserToolStripMenuItem";
+			this.discBrowserToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.discBrowserToolStripMenuItem.Text = "&Disc Browser";
+			this.discBrowserToolStripMenuItem.Click += new System.EventHandler(this.discBrowserToolStripMenuItem_Click);
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -822,6 +840,8 @@ namespace FourDO.UI
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.Timer checkInputTimer;
+		private System.Windows.Forms.ToolStripMenuItem toolsMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem discBrowserToolStripMenuItem;
 
     }
 }
