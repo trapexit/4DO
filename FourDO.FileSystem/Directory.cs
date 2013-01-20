@@ -108,6 +108,7 @@ namespace FourDO.FileSystem
 			var coreFileSystem = _fileSystem.CoreFileSystem;
 			var coreDirectoryEntry = new CoreDirectoryEntry();
 			var coreDirectory = new CoreDirectory(coreFileSystem);
+			coreDirectory.SetCoreDirectoryHeader(_coreDirectoryHeader);
 
 			coreFileSystem.FileReader.SeekToByte(_firstByte, false);
 			coreFileSystem.FileReader.SeekToByte(_coreDirectoryHeader.directoryOffset, true);

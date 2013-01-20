@@ -36,7 +36,7 @@ namespace FourDO.UI.DiscBrowser
 						int bytesToCopy = Math.Min((int) (2048 - offset), (int) (bufLength - bytesCopied));
 						Memory.CopyMemory(bufWriteIntPtr, sectorBytesIntPtr, bytesToCopy);
 						bytesCopied += bytesToCopy;
-						bufWriteIntPtr = new IntPtr(buf.ToInt32() + offset);
+						bufWriteIntPtr = new IntPtr(buf.ToInt32() + bytesCopied);
 
 						offset = 0;
 						sectorNumber++;

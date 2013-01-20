@@ -34,6 +34,11 @@ namespace FourDO.FileSystem.Core
 		// 
 		bool _endOfDir;
 
+		public void SetCoreDirectoryHeader(CoreDirectoryHeader header)
+		{
+			_coreDirectoryHeader = header;
+		}
+
 		public CoreDirectory(CoreFileSystem coreFileSystem)
 		{
 			_coreFileSystem = coreFileSystem;
