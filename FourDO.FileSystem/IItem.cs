@@ -5,6 +5,7 @@
 		ItemType ItemType { get; }
 		Directory Parent { get; }
 		string Name { get; }
+		string Extension { get; }
 		string GetFullPath();
 	}
 }

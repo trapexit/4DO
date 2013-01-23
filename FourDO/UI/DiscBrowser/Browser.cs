@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using FourDO.Emulation.GameSource;
@@ -14,6 +15,7 @@ namespace FourDO.UI.DiscBrowser
 
 		private FileSystem.FileSystem _fileSystem;
 		private IFileReader _fileReader;
+		private string _extractPath;
 
 		private Directory _currentDirectory;
 
@@ -26,6 +28,8 @@ namespace FourDO.UI.DiscBrowser
 		{
 			_fileReader = new DiscFileReader(GameSource);
 			_fileSystem = new FileSystem.FileSystem(_fileReader);
+
+			_extractPath = System.IO.Directory.GetCurrentDirectory();
 
 			DirectoryNotFoundLabel.Location = FileListView.Location;
 			DirectoryNotFoundLabel.Size = FileListView.Size;
@@ -63,12 +67,14 @@ namespace FourDO.UI.DiscBrowser
 					var itemFile = (File)item;
 					newItem.SubItems.Add(itemFile.EntryLengthBytes.ToString());
 					newItem.SubItems.Add(itemFile.Id.ToString());
+					newItem.SubItems.Add(itemFile.Extension.ToString());
 				}
 				else if (item is Directory)
 				{
 					var itemDir = (Directory)item;
 					newItem.SubItems.Add("");
 					newItem.SubItems.Add(itemDir.Id.Value.ToString());
+					newItem.SubItems.Add(itemDir.Extension.ToString());
 				}
 
 				FileListView.Items.Add(newItem);
@@ -176,23 +182,26 @@ namespace FourDO.UI.DiscBrowser
 			var mousePosition = Cursor.Position;
 			Point localPoint = FileListView.PointToClient(mousePosition);
 			var listItem = FileListView.GetItemAt(localPoint.X, localPoint.Y);
-			this.OpenItem(listItem);
+			if (!(listItem.Tag is IItem))
+				return;
+
+			this.OpenItem((IItem)listItem.Tag);
 		}
 
 		private void FileListView_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (FileListView.SelectedItems.Count != 1)
+			if (e.KeyCode != Keys.Enter && e.KeyCode != Keys.Return)
 				return;
 
-			this.OpenItem(FileListView.SelectedItems[1]);
+			var items = GetSelectedItems();
+			if (items.Count != 1)
+				return;
+
+			this.OpenItem(items[0]);
 		}
 
-		private void OpenItem(ListViewItem listItem)
+		private void OpenItem(IItem item)
 		{
-			if (listItem == null)
-				return;
-
-			var item = listItem.Tag;
 			if (!(item is Directory))
 				return;
 
@@ -200,6 +209,102 @@ namespace FourDO.UI.DiscBrowser
 			DirectoryTextBox.Text = itemDir.GetFullPath();
 			this.UpdateCurrentDirectory();
 			this.UpdateUI();
+		}
+
+		private string AskForFolder(string currentFolder)
+		{
+			if (Ookii.Dialogs.VistaFolderBrowserDialog.IsVistaFolderDialogSupported)
+			{
+				var dialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
+				dialog.SelectedPath = currentFolder;
+				dialog.ShowNewFolderButton = true;
+				var result = dialog.ShowDialog();
+				if (result == DialogResult.OK)
+					return dialog.SelectedPath;
+			}
+			else
+			{
+				var dialog = new FolderBrowserDialog();
+				dialog.SelectedPath = currentFolder;
+				dialog.ShowNewFolderButton = true;
+				var result = dialog.ShowDialog();
+				if (result == DialogResult.OK)
+					return dialog.SelectedPath;
+			}
+			return null;
+		}
+
+		private void ExtractMenuItem_Click(object sender, System.EventArgs e)
+		{
+			var items = GetSelectedItems();
+
+			// Find extraction folder
+			var newFolder = this.AskForFolder(_extractPath);
+			if (string.IsNullOrEmpty(newFolder))
+				return;
+
+			_extractPath = newFolder;
+
+			/////////////////
+			// Extract
+			ExtractToDirectory(items, _extractPath);
+		}
+
+		private void ExtractToDirectory(IEnumerable<IItem> items, string path)
+		{
+			foreach (var item in items)
+			{
+				if (item is File)
+				{
+					var fileItem = item as File;
+					var bytes = fileItem.ReadBytes();
+					var outputPath = System.IO.Path.Combine(path, fileItem.Name);
+					System.IO.File.WriteAllBytes(outputPath, bytes);
+				}
+				else if (item is Directory)
+				{
+					var dirItem = item as Directory;
+					var outputPath = System.IO.Path.Combine(path, item.Name);
+					if (!System.IO.Directory.Exists(outputPath))
+						System.IO.Directory.CreateDirectory(outputPath);
+					ExtractToDirectory(dirItem.Children, outputPath);
+				}
+			}
+		}
+
+		private void OpenMenuItem_Click(object sender, System.EventArgs e)
+		{
+			var items = GetSelectedItems();
+			if (items.Count != 1)
+				return;
+
+			var item = items[0];
+			if (!(item is Directory))
+				return;
+
+			this.OpenItem(item);
+		}
+
+		private void ContextMenuStrip_VisibleChanged(object sender, System.EventArgs e)
+		{
+			if (!this.Visible)
+				return;
+
+			var items = GetSelectedItems();
+			OpenMenuItem.Enabled = (items.Count == 1) && (items[0] is Directory);
+			ExtractMenuItem.Enabled = (items.Count > 0);
+		}
+
+		private List<IItem> GetSelectedItems()
+		{
+			var returnValue = new List<IItem>();
+			foreach (var selectedItem in FileListView.SelectedItems)
+			{
+				var listItem = (ListViewItem)selectedItem;
+				if (listItem.Tag is IItem)
+					returnValue.Add((IItem)listItem.Tag);
+			}
+			return returnValue;
 		}
 	}
 }

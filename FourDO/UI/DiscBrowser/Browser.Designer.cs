@@ -35,10 +35,16 @@
 			this.FileListView = new System.Windows.Forms.ListView();
 			this.NameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SizeColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.IDColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.ExtensionColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.ExtractMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.DirectoryTextBox = new System.Windows.Forms.TextBox();
 			this.DirectoryUpButton = new System.Windows.Forms.Button();
 			this.DirectoryNotFoundLabel = new System.Windows.Forms.Label();
-			this.IDColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.ContextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// MainStatusStrip
@@ -66,7 +72,9 @@
 			this.FileListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.NameColumn,
             this.SizeColumn,
-            this.IDColumn});
+            this.IDColumn,
+            this.ExtensionColumn});
+			this.FileListView.ContextMenuStrip = this.ContextMenuStrip;
 			this.FileListView.FullRowSelect = true;
 			this.FileListView.Location = new System.Drawing.Point(4, 30);
 			this.FileListView.Name = "FileListView";
@@ -85,6 +93,44 @@
 			// SizeColumn
 			// 
 			this.SizeColumn.Text = "Bytes";
+			// 
+			// IDColumn
+			// 
+			this.IDColumn.Text = "ID";
+			// 
+			// ExtensionColumn
+			// 
+			this.ExtensionColumn.Text = "Extension";
+			// 
+			// ContextMenuStrip
+			// 
+			this.ContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ExtractMenuItem,
+            this.toolStripSeparator1,
+            this.OpenMenuItem});
+			this.ContextMenuStrip.Name = "ContextMenuStrip";
+			this.ContextMenuStrip.Size = new System.Drawing.Size(160, 76);
+			this.ContextMenuStrip.VisibleChanged += new System.EventHandler(this.ContextMenuStrip_VisibleChanged);
+			// 
+			// ExtractMenuItem
+			// 
+			this.ExtractMenuItem.Name = "ExtractMenuItem";
+			this.ExtractMenuItem.Size = new System.Drawing.Size(159, 22);
+			this.ExtractMenuItem.Text = "&Extract To...";
+			this.ExtractMenuItem.Click += new System.EventHandler(this.ExtractMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(156, 6);
+			// 
+			// OpenMenuItem
+			// 
+			this.OpenMenuItem.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.OpenMenuItem.Name = "OpenMenuItem";
+			this.OpenMenuItem.Size = new System.Drawing.Size(159, 22);
+			this.OpenMenuItem.Text = "&Open Directory";
+			this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
 			// 
 			// DirectoryTextBox
 			// 
@@ -121,10 +167,6 @@
 			this.DirectoryNotFoundLabel.Text = "(Could not find the specified directory)";
 			this.DirectoryNotFoundLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// IDColumn
-			// 
-			this.IDColumn.Text = "ID";
-			// 
 			// Browser
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -141,6 +183,7 @@
 			this.ShowIcon = false;
 			this.Text = "Disc Browser";
 			this.Load += new System.EventHandler(this.Browser_Load);
+			this.ContextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -157,5 +200,10 @@
 		private System.Windows.Forms.ColumnHeader NameColumn;
 		private System.Windows.Forms.ColumnHeader SizeColumn;
 		private System.Windows.Forms.ColumnHeader IDColumn;
+		private System.Windows.Forms.ColumnHeader ExtensionColumn;
+		private System.Windows.Forms.ContextMenuStrip ContextMenuStrip;
+		private System.Windows.Forms.ToolStripMenuItem ExtractMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
 	}
 }

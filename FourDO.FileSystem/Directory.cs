@@ -87,6 +87,14 @@ namespace FourDO.FileSystem
 			}
 		}
 
+		public string Extension
+		{
+			get
+			{
+				return _coreDirectoryEntry.HasValue ? _coreDirectoryEntry.Value.ExtString : "";
+			}
+		}
+
 		public List<IItem> Children 
 		{
 			get

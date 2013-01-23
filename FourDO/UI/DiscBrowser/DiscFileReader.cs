@@ -21,16 +21,15 @@ namespace FourDO.UI.DiscBrowser
 			{
 				int sectorNumber = (int)(_currentByte / 2048);
 				int offset = (int)(_currentByte % 2048);
-				byte[] sectorBytes = new byte[2048];
 				IntPtr bufWriteIntPtr = buf;
 				int bytesCopied = 0;
 
-				fixed (byte* sectorBytesPointer = sectorBytes)
+				fixed (byte* sectorBytesPointer = _cachedSectorBytes)
 				{
 					while (bytesCopied < bufLength)
 					{
 						IntPtr sectorBytesIntPtr = new IntPtr((int) sectorBytesPointer);
-						_gameSource.ReadSector(new IntPtr((int) sectorBytesPointer), sectorNumber);
+						this.UpdateCachedSector(new IntPtr((int) sectorBytesPointer), sectorNumber);
 						sectorBytesIntPtr = new IntPtr((int) sectorBytesPointer + offset);
 
 						int bytesToCopy = Math.Min((int) (2048 - offset), (int) (bufLength - bytesCopied));
@@ -46,6 +45,16 @@ namespace FourDO.UI.DiscBrowser
 				bytesRead = (uint)bytesCopied;
 			}
 			return true;
+		}
+
+		private byte[] _cachedSectorBytes = new byte[2048];
+		private int _cachedSectorNumber = -1;
+		private void UpdateCachedSector(IntPtr sectorBytesIntPointer, int sectorNumber)
+		{
+			if (sectorNumber == _cachedSectorNumber)
+				return;
+			_gameSource.ReadSector(sectorBytesIntPointer, sectorNumber);
+			_cachedSectorNumber = sectorNumber;
 		}
 
 		public bool SeekToByte(uint byteNumber, bool relative)

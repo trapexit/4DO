@@ -406,6 +406,10 @@
       <Name>FourDO.Utilities</Name>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Ooki.Dialogs\Ookii.Dialogs.csproj">
+      <Project>{779E62B3-C5A6-494D-9D87-96C0DEC7FFB0}</Project>
+      <Name>Ookii.Dialogs</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="UI\SizeHorizontal.ico" />

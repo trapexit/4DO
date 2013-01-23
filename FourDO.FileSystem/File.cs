@@ -50,23 +50,7 @@ namespace FourDO.FileSystem
 		{
 			get
 			{
-				var returnValue = "";
-				returnValue = _coreDirectoryEntry.FileNameString;
-
-				var extension = _coreDirectoryEntry.ExtString.Trim();
-				if (extension.Trim().Length > 0)
-				{
-					if (extension[0] == '*')
-					{
-						if (extension.Length == 1)
-							extension = "";
-						else
-							extension = "." + extension.Substring(1);
-					}
-					returnValue += extension;
-				}
-
-				return returnValue;
+				return _coreDirectoryEntry.FileNameString;
 			}
 		}
 
@@ -84,6 +68,22 @@ namespace FourDO.FileSystem
 				fullPath = item.Name + "/" + fullPath;
 			}
 			return fullPath;
+		}
+
+		public byte[] ReadBytes()
+		{
+			var bytes = new byte[_coreDirectoryEntry.entryLengthBytes];
+			_fileSystem.CoreFileSystem.SeekToBlock(_coreDirectoryEntry.FirstCopy, false);
+			unsafe
+			{
+				fixed (byte* bytesPtr = bytes)
+				{
+					var bytesIntPtr = new IntPtr((int)bytesPtr);
+					uint bytesRead = 0;
+					_fileSystem.CoreFileSystem.FileReader.Read(bytesIntPtr, (uint)bytes.Length, ref bytesRead);
+				}
+			}
+			return bytes;
 		}
 	}
 }
