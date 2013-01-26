@@ -570,15 +570,6 @@ namespace FourDO.UI
 			this.DoSetVoidAreaPattern((VoidAreaPattern)((ToolStripMenuItem)sender).Tag);
 		}
 
-		private void discBrowserToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			using (var form = new Browser())
-			{
-				form.GameSource = GameConsole.Instance.GameSource;
-				form.ShowDialog();
-			}
-		}
-
 		private void Main_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter && e.Modifiers == Keys.Alt)
@@ -724,6 +715,19 @@ namespace FourDO.UI
 		private void Main_ResizeEnd(object sender, EventArgs e)
 		{
 			this.gameCanvas.IsInResizeMode = false;
+		}
+
+		private void DiscBrowserMenuItem_Click(object sender, EventArgs e)
+		{
+			IGameSource source = GameConsole.Instance.GameSource;
+			if (source == null || source is BiosOnlyGameSource)
+				return;
+
+			using (var form = new Browser())
+			{
+				form.GameSource = source;
+				form.ShowDialog();
+			}
 		}
 
 		#endregion // Event Handlers
@@ -909,6 +913,10 @@ namespace FourDO.UI
 			this.languageDefaultMenuItem.Checked = string.IsNullOrWhiteSpace(language);
 			foreach (var menuItem in this.languageMenuItems)
 				menuItem.Checked = (language == (string)menuItem.Tag);
+
+			////////////////////////
+			// Tools menus.
+			this.DiscBrowserMenuItem.Enabled = consoleActive && (!biosOnly);
 
 			////////////////////////
 			// Help menus.

@@ -40,6 +40,9 @@
 			this.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.ExtractMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.ExtractDirectoryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ExtractDiscMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.DirectoryTextBox = new System.Windows.Forms.TextBox();
 			this.DirectoryUpButton = new System.Windows.Forms.Button();
@@ -49,9 +52,9 @@
 			// 
 			// MainStatusStrip
 			// 
-			this.MainStatusStrip.Location = new System.Drawing.Point(0, 282);
+			this.MainStatusStrip.Location = new System.Drawing.Point(0, 349);
 			this.MainStatusStrip.Name = "MainStatusStrip";
-			this.MainStatusStrip.Size = new System.Drawing.Size(591, 22);
+			this.MainStatusStrip.Size = new System.Drawing.Size(388, 22);
 			this.MainStatusStrip.TabIndex = 1;
 			this.MainStatusStrip.Text = "statusStrip1";
 			// 
@@ -78,7 +81,7 @@
 			this.FileListView.FullRowSelect = true;
 			this.FileListView.Location = new System.Drawing.Point(4, 30);
 			this.FileListView.Name = "FileListView";
-			this.FileListView.Size = new System.Drawing.Size(584, 246);
+			this.FileListView.Size = new System.Drawing.Size(381, 313);
 			this.FileListView.SmallImageList = this.MainImageList;
 			this.FileListView.TabIndex = 2;
 			this.FileListView.UseCompatibleStateImageBehavior = false;
@@ -107,28 +110,50 @@
 			this.ContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ExtractMenuItem,
             this.toolStripSeparator1,
+            this.ExtractDirectoryMenuItem,
+            this.ExtractDiscMenuItem,
+            this.toolStripMenuItem1,
             this.OpenMenuItem});
 			this.ContextMenuStrip.Name = "ContextMenuStrip";
-			this.ContextMenuStrip.Size = new System.Drawing.Size(160, 76);
+			this.ContextMenuStrip.Size = new System.Drawing.Size(224, 126);
 			this.ContextMenuStrip.VisibleChanged += new System.EventHandler(this.ContextMenuStrip_VisibleChanged);
 			// 
 			// ExtractMenuItem
 			// 
 			this.ExtractMenuItem.Name = "ExtractMenuItem";
-			this.ExtractMenuItem.Size = new System.Drawing.Size(159, 22);
+			this.ExtractMenuItem.Size = new System.Drawing.Size(223, 22);
 			this.ExtractMenuItem.Text = "&Extract To...";
 			this.ExtractMenuItem.Click += new System.EventHandler(this.ExtractMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(156, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(220, 6);
+			// 
+			// ExtractDirectoryMenuItem
+			// 
+			this.ExtractDirectoryMenuItem.Name = "ExtractDirectoryMenuItem";
+			this.ExtractDirectoryMenuItem.Size = new System.Drawing.Size(223, 22);
+			this.ExtractDirectoryMenuItem.Text = "Extract &Current Directory To...";
+			this.ExtractDirectoryMenuItem.Click += new System.EventHandler(this.ExtractDirectoryMenuItem_Click);
+			// 
+			// ExtractDiscMenuItem
+			// 
+			this.ExtractDiscMenuItem.Name = "ExtractDiscMenuItem";
+			this.ExtractDiscMenuItem.Size = new System.Drawing.Size(223, 22);
+			this.ExtractDiscMenuItem.Text = "Extract Whole &Disc To...";
+			this.ExtractDiscMenuItem.Click += new System.EventHandler(this.ExtractDiscMenuItem_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(220, 6);
 			// 
 			// OpenMenuItem
 			// 
 			this.OpenMenuItem.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size(159, 22);
+			this.OpenMenuItem.Size = new System.Drawing.Size(223, 22);
 			this.OpenMenuItem.Text = "&Open Directory";
 			this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
 			// 
@@ -138,7 +163,7 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.DirectoryTextBox.Location = new System.Drawing.Point(52, 3);
 			this.DirectoryTextBox.Name = "DirectoryTextBox";
-			this.DirectoryTextBox.Size = new System.Drawing.Size(536, 21);
+			this.DirectoryTextBox.Size = new System.Drawing.Size(333, 21);
 			this.DirectoryTextBox.TabIndex = 3;
 			this.DirectoryTextBox.TextChanged += new System.EventHandler(this.DirectoryTextBox_TextChanged);
 			// 
@@ -171,7 +196,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(591, 304);
+			this.ClientSize = new System.Drawing.Size(388, 371);
 			this.Controls.Add(this.DirectoryUpButton);
 			this.Controls.Add(this.DirectoryTextBox);
 			this.Controls.Add(this.FileListView);
@@ -205,5 +230,8 @@
 		private System.Windows.Forms.ToolStripMenuItem ExtractMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem ExtractDiscMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem ExtractDirectoryMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 	}
 }

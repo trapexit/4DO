@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using FourDO.Emulation.GameSource;
 using FourDO.FileSystem;
 using FourDO.FileSystem.Core;
 using FourDO.FileSystem.Core.Structs;
+using FourDO.Utilities;
 
 namespace FourDO.UI.DiscBrowser
 {
@@ -26,6 +28,12 @@ namespace FourDO.UI.DiscBrowser
 
 		private void Browser_Load(object sender, System.EventArgs e)
 		{
+			if (this.GameSource == null || this.GameSource is BiosOnlyGameSource)
+			{
+				this.Close();
+				return;
+			}
+
 			_fileReader = new DiscFileReader(GameSource);
 			_fileSystem = new FileSystem.FileSystem(_fileReader);
 
@@ -42,50 +50,53 @@ namespace FourDO.UI.DiscBrowser
 
 		private void UpdateUI()
 		{
-			// Determine current directory.
-			this.UpdateCurrentDirectory();
-
-			if (_currentDirectory == null)
+			using (new FormDrawLocker(this))
 			{
-				DirectoryNotFoundLabel.Visible = true;
-				FileListView.Visible = false;
-				return;
-			}
+				// Determine current directory.
+				this.UpdateCurrentDirectory();
 
-			DirectoryNotFoundLabel.Visible = false;
-			FileListView.Visible = true;
-
-			FileListView.Items.Clear();
-			foreach (var item in _currentDirectory.Children)
-			{
-				var newItem = new ListViewItem();
-				newItem.Text = item.Name;
-				newItem.Tag = item;
-				newItem.ImageKey = (item is Directory) ? @"Directory_Closed" : @"File";
-				if (item is File)
+				if (_currentDirectory == null)
 				{
-					var itemFile = (File)item;
-					newItem.SubItems.Add(itemFile.EntryLengthBytes.ToString());
-					newItem.SubItems.Add(itemFile.Id.ToString());
-					newItem.SubItems.Add(itemFile.Extension.ToString());
-				}
-				else if (item is Directory)
-				{
-					var itemDir = (Directory)item;
-					newItem.SubItems.Add("");
-					newItem.SubItems.Add(itemDir.Id.Value.ToString());
-					newItem.SubItems.Add(itemDir.Extension.ToString());
+					DirectoryNotFoundLabel.Visible = true;
+					FileListView.Visible = false;
+					return;
 				}
 
-				FileListView.Items.Add(newItem);
-			}
-			
-			if (FileListView.Items.Count > 0)
-				FileListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-			else
-				FileListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+				DirectoryNotFoundLabel.Visible = false;
+				FileListView.Visible = true;
 
-			FileListView.ListViewItemSorter = new ListViewSorter();
+				FileListView.Items.Clear();
+				foreach (var item in _currentDirectory.Children)
+				{
+					var newItem = new ListViewItem();
+					newItem.Text = item.Name;
+					newItem.Tag = item;
+					newItem.ImageKey = (item is Directory) ? @"Directory_Closed" : @"File";
+					if (item is File)
+					{
+						var itemFile = (File) item;
+						newItem.SubItems.Add(itemFile.EntryLengthBytes.ToString());
+						newItem.SubItems.Add(itemFile.Id.ToString());
+						newItem.SubItems.Add(itemFile.Extension.ToString());
+					}
+					else if (item is Directory)
+					{
+						var itemDir = (Directory) item;
+						newItem.SubItems.Add("");
+						newItem.SubItems.Add(itemDir.Id.Value.ToString());
+						newItem.SubItems.Add(itemDir.Extension.ToString());
+					}
+
+					FileListView.Items.Add(newItem);
+				}
+
+				if (FileListView.Items.Count > 0)
+					FileListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+				else
+					FileListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+				FileListView.ListViewItemSorter = new ListViewSorter();
+			}
 		}
 
 		private void UpdateCurrentDirectory()
@@ -134,6 +145,11 @@ namespace FourDO.UI.DiscBrowser
 
 		private void DirectoryUpButton_Click(object sender, System.EventArgs e)
 		{
+			this.HandleUpDirectory();
+		}
+
+		private void HandleUpDirectory()
+		{
 			this.UpdateCurrentDirectory();
 			if (_currentDirectory == null)
 				DirectoryTextBox.Text = @"/";
@@ -144,28 +160,6 @@ namespace FourDO.UI.DiscBrowser
 			else
 				DirectoryTextBox.Text = _currentDirectory.Parent.GetFullPath();
 			UpdateUI();
-		}
-
-		private class ListViewSorter : IComparer
-		{
-			public int Compare(object x, object y)
-			{
-				x = ((ListViewItem)x).Tag;
-				y = ((ListViewItem)y).Tag;
-
-				if (x is Directory && y is Directory)
-				{
-					return ((Directory) x).Name.CompareTo(((Directory) y).Name);
-				}
-				else if (x is Directory)
-					return -1;
-				else if (y is Directory)
-					return 1;
-				else
-				{
-					return ((File)x).Name.CompareTo(((File)y).Name);
-				}
-			}
 		}
 
 		private void DirectoryTextBox_TextChanged(object sender, System.EventArgs e)
@@ -190,14 +184,18 @@ namespace FourDO.UI.DiscBrowser
 
 		private void FileListView_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode != Keys.Enter && e.KeyCode != Keys.Return)
-				return;
+			if (e.KeyCode == Keys.Back)
+			{
+				this.HandleUpDirectory();
+			}
+			else if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
+			{
+				var items = GetSelectedItems();
+				if (items.Count != 1)
+					return;
 
-			var items = GetSelectedItems();
-			if (items.Count != 1)
-				return;
-
-			this.OpenItem(items[0]);
+				this.OpenItem(items[0]);
+			}
 		}
 
 		private void OpenItem(IItem item)
@@ -237,7 +235,47 @@ namespace FourDO.UI.DiscBrowser
 		private void ExtractMenuItem_Click(object sender, System.EventArgs e)
 		{
 			var items = GetSelectedItems();
+			if (items.Count <= 0)
+				return;
 
+			AskAndExtractToDirectory(items);
+		}
+
+		private void ExtractDirectoryMenuItem_Click(object sender, System.EventArgs e)
+		{
+			if (_currentDirectory == null)
+				return;
+
+			if (_currentDirectory.Children == null)
+				return;
+
+			if (_currentDirectory.Children.Count <= 0)
+				return;
+
+			var items = _currentDirectory.Children.ToList();
+			AskAndExtractToDirectory(items);
+		}
+
+		private void ExtractDiscMenuItem_Click(object sender, System.EventArgs e)
+		{
+			if (_fileSystem == null)
+				return;
+
+			if (_fileSystem.RootDirectory == null)
+				return;
+
+			if (_fileSystem.RootDirectory.Children == null)
+				return;
+
+			if (_fileSystem.RootDirectory.Children.Count <= 0)
+				return;
+
+			var items = _fileSystem.RootDirectory.Children.ToList();
+			AskAndExtractToDirectory(items);
+		}
+
+		private void AskAndExtractToDirectory(IEnumerable<IItem> items)
+		{
 			// Find extraction folder
 			var newFolder = this.AskForFolder(_extractPath);
 			if (string.IsNullOrEmpty(newFolder))
@@ -245,8 +283,6 @@ namespace FourDO.UI.DiscBrowser
 
 			_extractPath = newFolder;
 
-			/////////////////
-			// Extract
 			ExtractToDirectory(items, _extractPath);
 		}
 
@@ -292,6 +328,8 @@ namespace FourDO.UI.DiscBrowser
 
 			var items = GetSelectedItems();
 			OpenMenuItem.Enabled = (items.Count == 1) && (items[0] is Directory);
+			ExtractDirectoryMenuItem.Enabled = (_currentDirectory != null && _currentDirectory.Children.Count > 0);
+			ExtractDiscMenuItem.Enabled = (_fileSystem != null && _fileSystem.RootDirectory != null && _fileSystem.RootDirectory.Children.Count > 0);
 			ExtractMenuItem.Enabled = (items.Count > 0);
 		}
 
@@ -305,6 +343,28 @@ namespace FourDO.UI.DiscBrowser
 					returnValue.Add((IItem)listItem.Tag);
 			}
 			return returnValue;
+		}
+
+		private class ListViewSorter : IComparer
+		{
+			public int Compare(object x, object y)
+			{
+				x = ((ListViewItem)x).Tag;
+				y = ((ListViewItem)y).Tag;
+
+				if (x is Directory && y is Directory)
+				{
+					return ((Directory)x).Name.CompareTo(((Directory)y).Name);
+				}
+				else if (x is Directory)
+					return -1;
+				else if (y is Directory)
+					return 1;
+				else
+				{
+					return ((File)x).Name.CompareTo(((File)y).Name);
+				}
+			}
 		}
 	}
 }

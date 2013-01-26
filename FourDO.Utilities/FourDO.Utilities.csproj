@@ -50,6 +50,7 @@
     <Compile Include="CustomXmlSerializer.cs" />
     <Compile Include="DesignerHelper.cs" />
     <Compile Include="DisplayHelper.cs" />
+    <Compile Include="FormDrawLocker.cs" />
     <Compile Include="Globals\Constants.cs" />
     <Compile Include="Globals\RunOptions.cs" />
     <Compile Include="Logging\FileStreamWithBackup.cs" />

@@ -96,6 +96,8 @@ namespace FourDO.UI
 			this.languageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.languageDefaultMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.DiscBrowserMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.gameInfoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -106,8 +108,6 @@ namespace FourDO.UI
 			this.sizeBox = new FourDO.UI.Controls.SizeBox();
 			this.RomNagBox = new FourDO.UI.Controls.NagBox();
 			this.gameCanvas = new FourDO.UI.GameCanvas();
-			this.toolsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.discBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MainStatusStrip.SuspendLayout();
 			this.MainMenuBar.SuspendLayout();
 			this.SuspendLayout();
@@ -184,7 +184,7 @@ namespace FourDO.UI
             this.toolStripSeparator2,
             this.exitMenuItem});
 			this.fileMenuItem.Name = "fileMenuItem";
-			this.fileMenuItem.Size = new System.Drawing.Size(35, 20);
+			this.fileMenuItem.Size = new System.Drawing.Size(58, 20);
 			this.fileMenuItem.Text = "&CoreFile";
 			// 
 			// closeGameMenuItem
@@ -626,6 +626,21 @@ namespace FourDO.UI
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
 			this.toolStripSeparator14.Size = new System.Drawing.Size(106, 6);
 			// 
+			// toolsMenuItem
+			// 
+			this.toolsMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DiscBrowserMenuItem});
+			this.toolsMenuItem.Name = "toolsMenuItem";
+			this.toolsMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.toolsMenuItem.Text = "&Tools";
+			// 
+			// DiscBrowserMenuItem
+			// 
+			this.DiscBrowserMenuItem.Name = "DiscBrowserMenuItem";
+			this.DiscBrowserMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.DiscBrowserMenuItem.Text = "&Disc Browser";
+			this.DiscBrowserMenuItem.Click += new System.EventHandler(this.DiscBrowserMenuItem_Click);
+			// 
 			// helpToolStripMenuItem
 			// 
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -717,21 +732,6 @@ namespace FourDO.UI
 			this.gameCanvas.TabIndex = 3;
 			this.gameCanvas.VoidAreaBorder = false;
 			this.gameCanvas.VoidAreaPattern = FourDO.UI.VoidAreaPattern.None;
-			// 
-			// toolsMenuItem
-			// 
-			this.toolsMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.discBrowserToolStripMenuItem});
-			this.toolsMenuItem.Name = "toolsMenuItem";
-			this.toolsMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.toolsMenuItem.Text = "&Tools";
-			// 
-			// discBrowserToolStripMenuItem
-			// 
-			this.discBrowserToolStripMenuItem.Name = "discBrowserToolStripMenuItem";
-			this.discBrowserToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.discBrowserToolStripMenuItem.Text = "&Disc Browser";
-			this.discBrowserToolStripMenuItem.Click += new System.EventHandler(this.discBrowserToolStripMenuItem_Click);
 			// 
 			// Main
 			// 
@@ -841,7 +841,7 @@ namespace FourDO.UI
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.Timer checkInputTimer;
 		private System.Windows.Forms.ToolStripMenuItem toolsMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem discBrowserToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem DiscBrowserMenuItem;
 
     }
 }

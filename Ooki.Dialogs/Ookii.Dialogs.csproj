@@ -205,6 +205,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>IF "$(ConfigurationName)"=="Release" "$(FrameworkSDKDir)Bin\SignTool" sign /t http://timestamp.comodoca.com/authenticode "$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
