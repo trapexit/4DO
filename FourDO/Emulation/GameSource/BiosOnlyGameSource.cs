@@ -4,10 +4,6 @@ namespace FourDO.Emulation.GameSource
 {
 	internal class BiosOnlyGameSource : IGameSource
 	{
-		public BiosOnlyGameSource()
-		{
-		}
-
 		#region IGameSource Implementation
 
 		public void Open()
@@ -42,5 +38,10 @@ namespace FourDO.Emulation.GameSource
 		}
 
 		#endregion // IGameSource Implementation
+
+		public object Clone()
+		{
+			return new BiosOnlyGameSource();
+		}
 	}
 }

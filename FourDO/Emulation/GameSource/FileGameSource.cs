@@ -10,6 +10,8 @@ namespace FourDO.Emulation.GameSource
 	{
 		private const string LOG_PREFIX = "GameSource - ";
 
+		private object _accessSemaphore = new object();
+
 		private FourDO.Utilities.CueSharp.DataType imageDataType;
 		private BinaryReader gameRomReader = null;
 
@@ -143,23 +145,26 @@ namespace FourDO.Emulation.GameSource
 
 		protected override void OnReadSector(IntPtr destinationBuffer, int sectorNumber)
 		{
-			if (this.gameRomReader == null)
-				return; // No game loaded.
-
-			if (this.imageDataType == DataType.MODE1_2352)
-				this.gameRomReader.BaseStream.Position = 2352 * sectorNumber + 0x10;
-			else
-				this.gameRomReader.BaseStream.Position = 2048 * sectorNumber;
-
-			// Read data!
-			byte[] bytesToCopy = this.gameRomReader.ReadBytes(2048);
-
-			// Now copy!
-			unsafe
+			lock (_accessSemaphore)
 			{
-				fixed (byte* sourceRomBytesPointer = bytesToCopy)
+				if (this.gameRomReader == null)
+					return; // No game loaded.
+
+				if (this.imageDataType == DataType.MODE1_2352)
+					this.gameRomReader.BaseStream.Position = 2352*sectorNumber + 0x10;
+				else
+					this.gameRomReader.BaseStream.Position = 2048*sectorNumber;
+
+				// Read data!
+				byte[] bytesToCopy = this.gameRomReader.ReadBytes(2048);
+
+				// Now copy!
+				unsafe
 				{
-					Memory.CopyMemory(destinationBuffer, new IntPtr((int)sourceRomBytesPointer), 2048);
+					fixed (byte* sourceRomBytesPointer = bytesToCopy)
+					{
+						Memory.CopyMemory(destinationBuffer, new IntPtr((int) sourceRomBytesPointer), 2048);
+					}
 				}
 			}
 		}

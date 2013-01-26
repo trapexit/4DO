@@ -7,6 +7,8 @@ namespace FourDO.Emulation.GameSource
 	{
 		private CDDrive drive;
 
+		private object _accessSemaphore = new object();
+
 		public DiscGameSource(char driveLetter)
 		{
 			this.DriveLetter = driveLetter;
@@ -53,10 +55,13 @@ namespace FourDO.Emulation.GameSource
 
 		protected override void OnReadSector(IntPtr destinationBuffer, int sectorNumber)
 		{
-			if (this.drive == null || (this.drive.IsOpened == false))
-				return;
+			lock (_accessSemaphore)
+			{
+				if (this.drive == null || (this.drive.IsOpened == false))
+					return;
 
-			this.drive.ReadSector(sectorNumber, destinationBuffer);
+				this.drive.ReadSector(sectorNumber, destinationBuffer);
+			}
 		}
 	}
 }
