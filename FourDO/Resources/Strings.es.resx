@@ -478,7 +478,7 @@
     <value>Configurar diferentes ajustes de 4DO</value>
   </data>
   <data name="SettingsWindowTitle" xml:space="preserve">
-    <value>Ajustes</value>
+    <value>Utillaje</value>
   </data>
   <data name="MainMenuDisplayScaling" xml:space="preserve">
     <value>Modo de escalado</value>
@@ -531,7 +531,43 @@
   <data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
     <value>Aviso: Los filtos de escalado son intensivos con la CPU</value>
   </data>
-	<data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
+  <data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
     <value>Alemán</value>
+  </data>
+  <data name="BrowserColumnBytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
+  <data name="BrowserColumnExtension" xml:space="preserve">
+    <value>Extensión</value>
+  </data>
+  <data name="BrowserColumnID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="BrowserColumnName" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="BrowserMenuExtract" xml:space="preserve">
+    <value>&amp;Extraer a</value>
+  </data>
+  <data name="BrowserMenuExtractDirectory" xml:space="preserve">
+    <value>Extraer &amp;Directorio Actual...</value>
+  </data>
+  <data name="BrowserMenuExtractDisc" xml:space="preserve">
+    <value>Extraer Todo El &amp;Disco...</value>
+  </data>
+  <data name="BrowserMenuOpenDirectory" xml:space="preserve">
+    <value>&amp;Abierto</value>
+  </data>
+  <data name="BrowserUp" xml:space="preserve">
+    <value>Arriba</value>
+  </data>
+  <data name="BrowserWindowTitle" xml:space="preserve">
+    <value>Disco Navegador</value>
+  </data>
+  <data name="MainMenuTools" xml:space="preserve">
+    <value>&amp;Tools</value>
+  </data>
+  <data name="MainMenuToolsDiscBrowser" xml:space="preserve">
+    <value>Disco &amp;Navegador</value>
   </data>
 </root>

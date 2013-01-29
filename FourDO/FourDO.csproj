@@ -219,6 +219,9 @@
     <Compile Include="UI\DiscBrowser\Browser.Designer.cs">
       <DependentUpon>Browser.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\DiscBrowser\Browser.Local.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\DiscBrowser\DiscFileReader.cs" />
     <Compile Include="UI\GameInformation.cs">
       <SubType>Form</SubType>

@@ -480,58 +480,94 @@
   <data name="SettingsWindowTitle" xml:space="preserve">
     <value>Paramètres</value>
   </data>
-	<data name="MainMenuDisplayScaling" xml:space="preserve">
+  <data name="MainMenuDisplayScaling" xml:space="preserve">
     <value>Mode Scaling</value>
   </data>
-	<data name="MainMenuDisplayScalingDoubleRes" xml:space="preserve">
+  <data name="MainMenuDisplayScalingDoubleRes" xml:space="preserve">
     <value>Rendu en Résolution Double</value>
   </data>
-	<data name="MainMenuDisplayScalingHq2x" xml:space="preserve">
+  <data name="MainMenuDisplayScalingHq2x" xml:space="preserve">
     <value>HQ2x</value>
   </data>
-	<data name="MainMenuDisplayScalingHq3x" xml:space="preserve">
+  <data name="MainMenuDisplayScalingHq3x" xml:space="preserve">
     <value>HQ3x</value>
   </data>
-	<data name="MainMenuDisplayScalingHq4x" xml:space="preserve">
+  <data name="MainMenuDisplayScalingHq4x" xml:space="preserve">
     <value>HQ4x</value>
   </data>
-	<data name="MainMenuDisplayScalingNone" xml:space="preserve">
+  <data name="MainMenuDisplayScalingNone" xml:space="preserve">
     <value>Aucun</value>
   </data>
-	<data name="MainMessageHealth" xml:space="preserve">
+  <data name="MainMessageHealth" xml:space="preserve">
     <value>Santé :</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeDoubleRes" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeDoubleRes" xml:space="preserve">
     <value>&amp;Rendu en Résolution Double</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeDoubleResMessage" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeDoubleResMessage" xml:space="preserve">
     <value>Via le rendu logiciel, les images à l'écrans peuvent être rendu en 640 x 480. Concerne les jeux 3D.</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeFrame" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeFrame" xml:space="preserve">
     <value>&amp;Mode Scaling</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeHq2x" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeHq2x" xml:space="preserve">
     <value>HQ2x</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeHq3x" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeHq3x" xml:space="preserve">
     <value>HQ3x</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeHq4x" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeHq4x" xml:space="preserve">
     <value>HQ4x</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeHqxMessage" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeHqxMessage" xml:space="preserve">
     <value>"HQx" est un filtre de post traitement qui essaye d'améliorer l'image pour correspondre avec les couleurs adjacentes.</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeMessage" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeMessage" xml:space="preserve">
     <value>L'image de la console a un rendu de type 320x240. Si vous utilisez les options de scaling (à l'échelle), pensez à ajuster la vitesse d'horloge du CPU ou la taille du tampon audio (dans l'onglet "Avancée").</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeNone" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeNone" xml:space="preserve">
     <value>Pas de Scaling</value>
   </data>
-	<data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
+  <data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
     <value>Attention : les modes de Scaling ont besoin de beaucoup de ressource CPU !</value>
   </data>
-	<data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
+  <data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
     <value>Allemand</value>
+  </data>
+  <data name="BrowserColumnBytes" xml:space="preserve">
+    <value>Octets</value>
+  </data>
+  <data name="BrowserColumnExtension" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="BrowserColumnID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="BrowserColumnName" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="BrowserMenuExtract" xml:space="preserve">
+    <value>&amp;Extrait d'...</value>
+  </data>
+  <data name="BrowserMenuExtractDirectory" xml:space="preserve">
+    <value>Extrait &amp;Répertoire Courant...</value>
+  </data>
+  <data name="BrowserMenuExtractDisc" xml:space="preserve">
+    <value>Extrait Disque Entier...</value>
+  </data>
+  <data name="BrowserMenuOpenDirectory" xml:space="preserve">
+    <value>&amp;Ouvrez Répertoire</value>
+  </data>
+  <data name="BrowserUp" xml:space="preserve">
+    <value>Haut</value>
+  </data>
+  <data name="BrowserWindowTitle" xml:space="preserve">
+    <value>Disque Navigateur</value>
+  </data>
+  <data name="MainMenuTools" xml:space="preserve">
+    <value>&amp;Outils</value>
+  </data>
+  <data name="MainMenuToolsDiscBrowser" xml:space="preserve">
+    <value>Disque &amp;Navigateur</value>
   </data>
 </root>

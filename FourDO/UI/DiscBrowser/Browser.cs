@@ -45,6 +45,8 @@ namespace FourDO.UI.DiscBrowser
 			this.DirectoryTextBox.Text = @"/";
 			this.UpdateCurrentDirectory();
 
+			this.Localize();
+
 			this.UpdateUI();
 		}
 

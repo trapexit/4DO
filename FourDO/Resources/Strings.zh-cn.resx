@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HelpAbout3DOPlayAuthors" xml:space="preserve">
     <value>3DOPlay 作者:</value>
@@ -528,7 +528,43 @@
   <data name="SettingsWindowTitle" xml:space="preserve">
     <value>设置</value>
   </data>
-	<data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
+  <data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
     <value>德语</value>
+  </data>
+  <data name="BrowserColumnBytes" xml:space="preserve">
+    <value>字节</value>
+  </data>
+  <data name="BrowserColumnExtension" xml:space="preserve">
+    <value>扩充</value>
+  </data>
+  <data name="BrowserColumnID" xml:space="preserve">
+    <value>身分证</value>
+  </data>
+  <data name="BrowserColumnName" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="BrowserMenuExtract" xml:space="preserve">
+    <value>提取...</value>
+  </data>
+  <data name="BrowserMenuExtractDirectory" xml:space="preserve">
+    <value>提取当前目录...</value>
+  </data>
+  <data name="BrowserMenuExtractDisc" xml:space="preserve">
+    <value>提取整盘...</value>
+  </data>
+  <data name="BrowserMenuOpenDirectory" xml:space="preserve">
+    <value>打开目录</value>
+  </data>
+  <data name="BrowserUp" xml:space="preserve">
+    <value>  上</value>
+  </data>
+  <data name="BrowserWindowTitle" xml:space="preserve">
+    <value>光盘浏览器</value>
+  </data>
+  <data name="MainMenuTools" xml:space="preserve">
+    <value>工具(T)</value>
+  </data>
+  <data name="MainMenuToolsDiscBrowser" xml:space="preserve">
+    <value>光盘浏览器</value>
   </data>
 </root>

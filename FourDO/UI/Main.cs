@@ -726,7 +726,7 @@ namespace FourDO.UI
 			using (var form = new Browser())
 			{
 				form.GameSource = source;
-				form.ShowDialog();
+				form.ShowDialog(this);
 			}
 		}
 

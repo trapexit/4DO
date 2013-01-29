@@ -161,9 +161,9 @@
 			// 
 			this.DirectoryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.DirectoryTextBox.Location = new System.Drawing.Point(52, 3);
+			this.DirectoryTextBox.Location = new System.Drawing.Point(68, 3);
 			this.DirectoryTextBox.Name = "DirectoryTextBox";
-			this.DirectoryTextBox.Size = new System.Drawing.Size(333, 21);
+			this.DirectoryTextBox.Size = new System.Drawing.Size(317, 21);
 			this.DirectoryTextBox.TabIndex = 3;
 			this.DirectoryTextBox.TextChanged += new System.EventHandler(this.DirectoryTextBox_TextChanged);
 			// 
@@ -174,9 +174,9 @@
 			this.DirectoryUpButton.ImageList = this.MainImageList;
 			this.DirectoryUpButton.Location = new System.Drawing.Point(7, 3);
 			this.DirectoryUpButton.Name = "DirectoryUpButton";
-			this.DirectoryUpButton.Size = new System.Drawing.Size(39, 21);
+			this.DirectoryUpButton.Size = new System.Drawing.Size(55, 21);
 			this.DirectoryUpButton.TabIndex = 5;
-			this.DirectoryUpButton.Text = "Up";
+			this.DirectoryUpButton.Text = "  Up";
 			this.DirectoryUpButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.DirectoryUpButton.UseVisualStyleBackColor = true;
 			this.DirectoryUpButton.Click += new System.EventHandler(this.DirectoryUpButton_Click);
@@ -206,6 +206,7 @@
 			this.MinimizeBox = false;
 			this.Name = "Browser";
 			this.ShowIcon = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Disc Browser";
 			this.Load += new System.EventHandler(this.Browser_Load);
 			this.ContextMenuStrip.ResumeLayout(false);

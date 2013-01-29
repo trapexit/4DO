@@ -531,7 +531,43 @@
   <data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
     <value>Внимание: данные режимы ресурсоемкие!</value>
   </data>
-	<data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
+  <data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
     <value>Немецкий</value>
+  </data>
+  <data name="BrowserColumnBytes" xml:space="preserve">
+    <value>Б</value>
+  </data>
+  <data name="BrowserColumnExtension" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="BrowserColumnID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="BrowserColumnName" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="BrowserMenuExtract" xml:space="preserve">
+    <value>Извлечение</value>
+  </data>
+  <data name="BrowserMenuExtractDirectory" xml:space="preserve">
+    <value>Извлечение текущего &amp;каталога...</value>
+  </data>
+  <data name="BrowserMenuExtractDisc" xml:space="preserve">
+    <value>Извлечение &amp;всего диска...</value>
+  </data>
+  <data name="BrowserMenuOpenDirectory" xml:space="preserve">
+    <value>&amp;Открытый каталог</value>
+  </data>
+  <data name="BrowserUp" xml:space="preserve">
+    <value>по</value>
+  </data>
+  <data name="BrowserWindowTitle" xml:space="preserve">
+    <value>диск браузер</value>
+  </data>
+  <data name="MainMenuTools" xml:space="preserve">
+    <value>&amp;Инструментарий</value>
+  </data>
+  <data name="MainMenuToolsDiscBrowser" xml:space="preserve">
+    <value>диск браузер</value>
   </data>
 </root>

@@ -64,6 +64,7 @@ SET ADDCMD="Tools\7z.exe" a -tzip -y "Output\%ZIP_FILE_NAME%"
 %ADDCMD% "%FourDOSourceAppDir%\4DO.exe"
 %ADDCMD% "%FourDOSourceAppDir%\CDLib.dll"
 %ADDCMD% "%FourDOSourceAppDir%\FreeDOCore.dll"
+%ADDCMD% "%FourDOSourceAppDir%\FourDO.FileSystem.dll"
 %ADDCMD% "%FourDOSourceAppDir%\FourDO.Utilities.dll"
 %ADDCMD% "%CD%\Tools\SlimDX.dll"
 %ADDCMD% "%FourDOSourceAppDir%\ru"
@@ -71,6 +72,7 @@ SET ADDCMD="Tools\7z.exe" a -tzip -y "Output\%ZIP_FILE_NAME%"
 %ADDCMD% "%FourDOSourceAppDir%\zh-cn"
 %ADDCMD% "%FourDOSourceAppDir%\pt"
 %ADDCMD% "%FourDOSourceAppDir%\es"
+%ADDCMD% "%FourDOSourceAppDir%\de"
 
 ECHO ===================================================
 ECHO            Release Creation Successful!

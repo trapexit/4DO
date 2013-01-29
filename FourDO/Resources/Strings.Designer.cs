@@ -61,6 +61,96 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bytes.
+        /// </summary>
+        internal static string BrowserColumnBytes {
+            get {
+                return ResourceManager.GetString("BrowserColumnBytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extension.
+        /// </summary>
+        internal static string BrowserColumnExtension {
+            get {
+                return ResourceManager.GetString("BrowserColumnExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID.
+        /// </summary>
+        internal static string BrowserColumnID {
+            get {
+                return ResourceManager.GetString("BrowserColumnID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string BrowserColumnName {
+            get {
+                return ResourceManager.GetString("BrowserColumnName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Extract To....
+        /// </summary>
+        internal static string BrowserMenuExtract {
+            get {
+                return ResourceManager.GetString("BrowserMenuExtract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extract &amp;Current Directory To....
+        /// </summary>
+        internal static string BrowserMenuExtractDirectory {
+            get {
+                return ResourceManager.GetString("BrowserMenuExtractDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extract Whole &amp;Disc To....
+        /// </summary>
+        internal static string BrowserMenuExtractDisc {
+            get {
+                return ResourceManager.GetString("BrowserMenuExtractDisc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Open Directory.
+        /// </summary>
+        internal static string BrowserMenuOpenDirectory {
+            get {
+                return ResourceManager.GetString("BrowserMenuOpenDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to   Up.
+        /// </summary>
+        internal static string BrowserUp {
+            get {
+                return ResourceManager.GetString("BrowserUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disc Browser.
+        /// </summary>
+        internal static string BrowserWindowTitle {
+            get {
+                return ResourceManager.GetString("BrowserWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 3DOPlay Authors:.
         /// </summary>
         internal static string HelpAbout3DOPlayAuthors {
@@ -732,6 +822,24 @@ namespace FourDO.Resources {
         internal static string MainMenuOptionsSettings {
             get {
                 return ResourceManager.GetString("MainMenuOptionsSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Tools.
+        /// </summary>
+        internal static string MainMenuTools {
+            get {
+                return ResourceManager.GetString("MainMenuTools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disc &amp;Browser.
+        /// </summary>
+        internal static string MainMenuToolsDiscBrowser {
+            get {
+                return ResourceManager.GetString("MainMenuToolsDiscBrowser", resourceCulture);
             }
         }
         

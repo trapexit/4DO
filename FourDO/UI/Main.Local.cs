@@ -87,6 +87,9 @@ namespace FourDO.UI
 			this.languageMenuItem.Text = Strings.MainMenuOptionsLanguage;
 			this.languageDefaultMenuItem.Text = Strings.MainMenuOptionsLanguageDefault;
 
+			this.toolsMenuItem.Text = Strings.MainMenuTools;
+			this.DiscBrowserMenuItem.Text = Strings.MainMenuToolsDiscBrowser;
+
 			this.helpToolStripMenuItem.Text = Strings.MainMenuHelp;
 			this.gameInfoMenuItem.Text = Strings.MainMenuHelpGameInfo;
 			this.aboutMenuItem.Text = Strings.MainMenuHelpAbout;

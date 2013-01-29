@@ -117,6 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BrowserColumnBytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
+  <data name="BrowserColumnExtension" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="BrowserColumnID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="BrowserColumnName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="BrowserMenuExtract" xml:space="preserve">
+    <value>&amp;Extract To...</value>
+  </data>
+  <data name="BrowserMenuExtractDirectory" xml:space="preserve">
+    <value>Extract &amp;Current Directory To...</value>
+  </data>
+  <data name="BrowserMenuExtractDisc" xml:space="preserve">
+    <value>Extract Whole &amp;Disc To...</value>
+  </data>
+  <data name="BrowserMenuOpenDirectory" xml:space="preserve">
+    <value>&amp;Open Directory</value>
+  </data>
+  <data name="BrowserUp" xml:space="preserve">
+    <value>  Up</value>
+  </data>
+  <data name="BrowserWindowTitle" xml:space="preserve">
+    <value>Disc Browser</value>
+  </data>
   <data name="HelpAbout3DOPlayAuthors" xml:space="preserve">
     <value>3DOPlay Authors:</value>
   </data>
@@ -341,6 +371,12 @@
   </data>
   <data name="MainMenuOptionsSettings" xml:space="preserve">
     <value>4DO &amp;Settings...</value>
+  </data>
+  <data name="MainMenuTools" xml:space="preserve">
+    <value>&amp;Tools</value>
+  </data>
+  <data name="MainMenuToolsDiscBrowser" xml:space="preserve">
+    <value>Disc &amp;Browser</value>
   </data>
   <data name="MainMessageAllFiles" xml:space="preserve">
     <value>All files</value>

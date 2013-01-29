@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HelpAbout3DOPlayAuthors" xml:space="preserve">
     <value>3DOPlay Autoren:</value>
@@ -391,7 +391,7 @@
     <value>Audio Buffer Größe</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferLessLag" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
     <value>Der Audio-Puffer bietet Toleranz für eine  unberechenbare Emulations Geschwindigkeit auf Kosten der Audio Verzögerung.</value>
@@ -400,7 +400,7 @@
     <value>weniger verzögerunge</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreLag" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="SettingsTabAdvancedClockFrame" xml:space="preserve">
     <value>CPU Taktrate</value>
@@ -528,7 +528,43 @@
   <data name="SettingsWindowTitle" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
-	<data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
+  <data name="MainMenuOptionsLanguageGerman" xml:space="preserve">
     <value>Deutsch</value>
+  </data>
+  <data name="BrowserColumnBytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
+  <data name="BrowserColumnExtension" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="BrowserColumnID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="BrowserColumnName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="BrowserMenuExtract" xml:space="preserve">
+    <value>&amp;Extrahieren...</value>
+  </data>
+  <data name="BrowserMenuExtractDirectory" xml:space="preserve">
+    <value>Auszug Aktuelles Verzeichnis...</value>
+  </data>
+  <data name="BrowserMenuExtractDisc" xml:space="preserve">
+    <value>Auszug Ganzes Disc...</value>
+  </data>
+  <data name="BrowserMenuOpenDirectory" xml:space="preserve">
+    <value>&amp;öffnen</value>
+  </data>
+  <data name="BrowserUp" xml:space="preserve">
+    <value>Auf</value>
+  </data>
+  <data name="BrowserWindowTitle" xml:space="preserve">
+    <value>Spiel Forscher</value>
+  </data>
+  <data name="MainMenuTools" xml:space="preserve">
+    <value>&amp;Werkzeuge</value>
+  </data>
+  <data name="MainMenuToolsDiscBrowser" xml:space="preserve">
+    <value>Spiel &amp;Forscher</value>
   </data>
 </root>
