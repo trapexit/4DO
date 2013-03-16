@@ -682,7 +682,7 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open CD &amp;Image CoreFile....
+        ///   Looks up a localized string similar to Open CD &amp;Image File....
         /// </summary>
         internal static string MainMenuFileOpenCDImage {
             get {
