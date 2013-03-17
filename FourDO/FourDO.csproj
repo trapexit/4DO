@@ -88,6 +88,7 @@
     <Compile Include="Emulation\GameSource\GameSourceBase.cs" />
     <Compile Include="Emulation\GameSource\IGameSource.cs" />
     <Compile Include="Emulation\Plugins\Audio\EmptyAudioPlugin.cs" />
+    <Compile Include="Emulation\Plugins\Audio\FileWriterAudio\FileWriterAudioPlugin.cs" />
     <Compile Include="Emulation\Plugins\Audio\JohnnyAudio\JohnnyAudioPlugin.cs">
       <SubType>Code</SubType>
     </Compile>
