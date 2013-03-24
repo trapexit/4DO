@@ -94,8 +94,8 @@ namespace FourDO.UI
 			this.gameInfoMenuItem.Text = Strings.MainMenuHelpGameInfo;
 			this.aboutMenuItem.Text = Strings.MainMenuHelpAbout;
 
-			this.RomNagBox.LinkText = Strings.MainMessageNoBiosSelected;
-			this.RomNagBox.MessageText = Strings.MainMessageChooseBiosRom;
+			this.RomNagBox.LinkText = Strings.MainMessageChooseBiosRom;
+			this.RomNagBox.MessageText = Strings.MainMessageNoBiosSelected;
 			this.RomNagBox.HideText = Strings.MainMessageHide;
 
 			if (this.volumeMenuItem != null)

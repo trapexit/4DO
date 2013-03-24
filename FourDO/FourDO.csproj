@@ -294,6 +294,7 @@
     <EmbeddedResource Include="Resources\JohnnyInputStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>JohnnyInputStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\JohnnyInputStrings.ru.resx">
       <SubType>Designer</SubType>

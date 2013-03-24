@@ -31,6 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JohnnyInputSettings));
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.ResetButton = new System.Windows.Forms.Button();
 			this.CloseButton = new System.Windows.Forms.Button();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.OKButton = new System.Windows.Forms.Button();
@@ -61,6 +62,7 @@
 			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.ResetButton);
 			this.panel1.Controls.Add(this.CloseButton);
 			this.panel1.Controls.Add(this.groupBox1);
 			this.panel1.Controls.Add(this.OKButton);
@@ -70,6 +72,16 @@
 			this.panel1.Size = new System.Drawing.Size(793, 42);
 			this.panel1.TabIndex = 1;
 			// 
+			// ResetButton
+			// 
+			this.ResetButton.Location = new System.Drawing.Point(12, 10);
+			this.ResetButton.Name = "ResetButton";
+			this.ResetButton.Size = new System.Drawing.Size(120, 23);
+			this.ResetButton.TabIndex = 0;
+			this.ResetButton.Text = "&Reset All to Defaults";
+			this.ResetButton.UseVisualStyleBackColor = true;
+			this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
+			// 
 			// CloseButton
 			// 
 			this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -77,7 +89,7 @@
 			this.CloseButton.Location = new System.Drawing.Point(709, 10);
 			this.CloseButton.Name = "CloseButton";
 			this.CloseButton.Size = new System.Drawing.Size(75, 23);
-			this.CloseButton.TabIndex = 1;
+			this.CloseButton.TabIndex = 2;
 			this.CloseButton.Text = "&Cancel";
 			this.CloseButton.UseVisualStyleBackColor = true;
 			this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
@@ -98,7 +110,7 @@
 			this.OKButton.Location = new System.Drawing.Point(628, 10);
 			this.OKButton.Name = "OKButton";
 			this.OKButton.Size = new System.Drawing.Size(75, 23);
-			this.OKButton.TabIndex = 0;
+			this.OKButton.TabIndex = 1;
 			this.OKButton.Text = "&OK";
 			this.OKButton.UseVisualStyleBackColor = true;
 			this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
@@ -224,7 +236,6 @@
 			this.ControllerPanel.Name = "ControllerPanel";
 			this.ControllerPanel.Size = new System.Drawing.Size(576, 268);
 			this.ControllerPanel.TabIndex = 21;
-			this.ControllerPanel.Resize += new System.EventHandler(this.ControllerPanel_Resize);
 			// 
 			// ControlsGridView
 			// 
@@ -310,6 +321,7 @@
 			this.controllerPreview.Name = "controllerPreview";
 			this.controllerPreview.Size = new System.Drawing.Size(281, 173);
 			this.controllerPreview.TabIndex = 0;
+			this.controllerPreview.ViewMode = FourDO.Emulation.Plugins.Input.JohnnyInput.ControllerPreview.ViewModeEnum.Controller;
 			this.controllerPreview.MouseHoverButton += new FourDO.Emulation.Plugins.Input.JohnnyInput.ControllerPreview.MouseHoverButtonHandler(this.controllerPreview_MouseHoverButton);
 			this.controllerPreview.MouseClick += new System.Windows.Forms.MouseEventHandler(this.controllerPreview_MouseClick);
 			this.controllerPreview.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.controllerPreview_MouseDoubleClick);
@@ -365,5 +377,6 @@
 		private ControllerInfo controllerInfo;
 		private ControllerPreview controllerPreview;
 		private System.Windows.Forms.TabPage ConsoleTab;
+		private System.Windows.Forms.Button ResetButton;
 	}
 }

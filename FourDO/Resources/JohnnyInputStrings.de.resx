@@ -141,7 +141,7 @@
   <data name="ButtonConsoleAdvanceFrame" xml:space="preserve">
     <value>Voraus in einem Single Frame</value>
   </data>
-    <data name="ButtonConsoleFullScreen" xml:space="preserve">
+  <data name="ButtonConsoleFullScreen" xml:space="preserve">
     <value>Vollbild</value>
   </data>
   <data name="ButtonConsoleLoadState" xml:space="preserve">
@@ -293,6 +293,9 @@
   </data>
   <data name="PreviewXButton" xml:space="preserve">
     <value>X Taste ("Stop")</value>
+  </data>
+  <data name="ResetAllToDefault" xml:space="preserve">
+    <value>Standardeinstellungen</value>
   </data>
   <data name="SetAll" xml:space="preserve">
     <value>Setze Alle</value>

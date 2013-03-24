@@ -294,6 +294,9 @@
   <data name="PreviewXButton" xml:space="preserve">
     <value>Botón X ("Detener")</value>
   </data>
+  <data name="ResetAllToDefault" xml:space="preserve">
+    <value>Defecto</value>
+  </data>
   <data name="SetAll" xml:space="preserve">
     <value>Establecer todos</value>
   </data>

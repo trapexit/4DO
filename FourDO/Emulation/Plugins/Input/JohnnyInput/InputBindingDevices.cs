@@ -16,8 +16,13 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		{
 			var newSettings = new InputBindingDevices();
 
-			var device = newSettings.AddDevice();
-			var set = device.BindingSets.AddSet();
+			// Add blank emulation event device and set.
+			var newDevice = newSettings.AddDevice();
+			newDevice.BindingSets.AddSet();
+
+			// Add default Player 1 setup.
+			var player1device = newSettings.AddDevice();
+			var set = player1device.BindingSets.AddSet();
 			set.SetBinding(InputButton.Up, new KeyboardInputTrigger(Keys.W));
 			set.SetBinding(InputButton.Down, new KeyboardInputTrigger(Keys.S));
 			set.SetBinding(InputButton.Left, new KeyboardInputTrigger(Keys.A));
@@ -29,6 +34,13 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			set.SetBinding(InputButton.P, new KeyboardInputTrigger(Keys.E));
 			set.SetBinding(InputButton.L, new KeyboardInputTrigger(Keys.LShiftKey));
 			set.SetBinding(InputButton.R, new KeyboardInputTrigger(Keys.OemQuestion));
+
+			// Add blank emulation event device and set.
+			for (var playerNum = 2; playerNum <= 6; playerNum ++)
+			{
+				var extraDevice = newSettings.AddDevice();
+				extraDevice.BindingSets.AddSet();
+			}
 
 			return newSettings;
 		}

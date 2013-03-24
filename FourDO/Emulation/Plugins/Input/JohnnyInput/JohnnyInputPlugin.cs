@@ -260,7 +260,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Failed when loading bindings: " + ex.ToString());
+				var message = "Failed when loading bindings: " + ex.ToString();
+				Trace.WriteLine(message);
+				Console.WriteLine(message);
 			}
 
 			if (newDevices == null)

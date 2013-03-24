@@ -37,7 +37,7 @@
 			this.SizeColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.IDColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.ExtensionColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.BrowserContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.ExtractMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.ExtractDirectoryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +47,7 @@
 			this.DirectoryTextBox = new System.Windows.Forms.TextBox();
 			this.DirectoryUpButton = new System.Windows.Forms.Button();
 			this.DirectoryNotFoundLabel = new System.Windows.Forms.Label();
-			this.ContextMenuStrip.SuspendLayout();
+			this.BrowserContextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// MainStatusStrip
@@ -77,7 +77,7 @@
             this.SizeColumn,
             this.IDColumn,
             this.ExtensionColumn});
-			this.FileListView.ContextMenuStrip = this.ContextMenuStrip;
+			this.FileListView.ContextMenuStrip = this.BrowserContextMenuStrip;
 			this.FileListView.FullRowSelect = true;
 			this.FileListView.Location = new System.Drawing.Point(4, 30);
 			this.FileListView.Name = "FileListView";
@@ -105,18 +105,18 @@
 			// 
 			this.ExtensionColumn.Text = "Extension";
 			// 
-			// ContextMenuStrip
+			// BrowserContextMenuStrip
 			// 
-			this.ContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.BrowserContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ExtractMenuItem,
             this.toolStripSeparator1,
             this.ExtractDirectoryMenuItem,
             this.ExtractDiscMenuItem,
             this.toolStripMenuItem1,
             this.OpenMenuItem});
-			this.ContextMenuStrip.Name = "ContextMenuStrip";
-			this.ContextMenuStrip.Size = new System.Drawing.Size(224, 126);
-			this.ContextMenuStrip.VisibleChanged += new System.EventHandler(this.ContextMenuStrip_VisibleChanged);
+			this.BrowserContextMenuStrip.Name = "BrowserContextMenuStrip";
+			this.BrowserContextMenuStrip.Size = new System.Drawing.Size(224, 126);
+			this.BrowserContextMenuStrip.VisibleChanged += new System.EventHandler(this.ContextMenuStrip_VisibleChanged);
 			// 
 			// ExtractMenuItem
 			// 
@@ -209,7 +209,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Disc Browser";
 			this.Load += new System.EventHandler(this.Browser_Load);
-			this.ContextMenuStrip.ResumeLayout(false);
+			this.BrowserContextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -227,7 +227,7 @@
 		private System.Windows.Forms.ColumnHeader SizeColumn;
 		private System.Windows.Forms.ColumnHeader IDColumn;
 		private System.Windows.Forms.ColumnHeader ExtensionColumn;
-		private System.Windows.Forms.ContextMenuStrip ContextMenuStrip;
+		private System.Windows.Forms.ContextMenuStrip BrowserContextMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem ExtractMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;

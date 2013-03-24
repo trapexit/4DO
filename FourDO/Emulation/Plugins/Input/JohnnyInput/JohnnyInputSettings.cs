@@ -25,7 +25,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private readonly JoyInputWatcher joyWatcher = new JoyInputWatcher();
 		private readonly JoyInputChecker joyChecker = new JoyInputChecker();
 
-	    readonly InputBindingDevices devices;
+		private InputBindingDevices devices;
 
 		DataGridViewCellStyle linkStyleNormal;
 		DataGridViewCellStyle linkStyleBold;
@@ -40,15 +40,13 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		public JohnnyInputSettings(InputBindingDevices originalDeviceBindings, string bindingsFilePath)
 		{
 			this.devices = (InputBindingDevices)originalDeviceBindings.Clone();
+			this.EnsureMinimumDevices();
+
 			this.BindingsFilePath = bindingsFilePath;
 
 			this.DialogResult = DialogResult.Cancel;
 
 			this.InitializeComponent();
-
-			// This form requires 6 devices.
-			while (this.devices.Count < 6)
-				this.devices.AddDevice();
 		}
 
 		public string BindingsFilePath { get; private set; }
@@ -892,10 +890,17 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.joyChecker.Dispose();
 		}
 
-		private void ControllerPanel_Resize(object sender, EventArgs e)
+		private void ResetButton_Click(object sender, EventArgs e)
 		{
-			//controllerPreview.Width = controllerPreview.Width + 1;
-			//controllerPreview.Width = controllerPreview.Width - 1;
+			this.devices = InputBindingDevices.LoadDefault();
+			this.EnsureMinimumDevices();
+			this.UpdateUI();
+		}
+
+		private void EnsureMinimumDevices()
+		{
+			while (this.devices.Count < 7)
+				this.devices.AddDevice();
 		}
 	}
 }

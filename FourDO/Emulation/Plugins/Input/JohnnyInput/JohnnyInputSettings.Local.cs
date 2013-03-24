@@ -18,6 +18,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 			this.OKButton.Text = JohnnyInputStrings.OK;
 			this.CloseButton.Text = JohnnyInputStrings.Cancel;
+
+			this.ResetButton.Text = JohnnyInputStrings.ResetAllToDefault;
 		}
 	}
 }

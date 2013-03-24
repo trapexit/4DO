@@ -294,6 +294,9 @@
   <data name="PreviewXButton" xml:space="preserve">
     <value>X键 ("停止")</value>
   </data>
+  <data name="ResetAllToDefault" xml:space="preserve">
+    <value>重置为默认值 (&amp;R)</value>
+  </data>
   <data name="SetAll" xml:space="preserve">
     <value>设置所有</value>
   </data>

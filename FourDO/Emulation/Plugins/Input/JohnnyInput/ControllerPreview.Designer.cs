@@ -46,6 +46,7 @@
 			this.RPanel = new System.Windows.Forms.Panel();
 			this.LPanel = new System.Windows.Forms.Panel();
 			this.LogoImagePanel = new System.Windows.Forms.Panel();
+			this.GlowLabel = new System.Windows.Forms.Label();
 			this.ButtonLabelPanel.SuspendLayout();
 			this.ButtonPositionPanel.SuspendLayout();
 			this.SuspendLayout();
@@ -75,7 +76,7 @@
 			this.ButtonLabel.Size = new System.Drawing.Size(507, 53);
 			this.ButtonLabel.TabIndex = 10;
 			this.ButtonLabel.Text = "X Button";
-			this.ButtonLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.ButtonLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// ButtonPositionPanel
 			// 
@@ -205,6 +206,19 @@
 			this.LogoImagePanel.TabIndex = 13;
 			this.LogoImagePanel.Visible = false;
 			// 
+			// GlowLabel
+			// 
+			this.GlowLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.GlowLabel.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.GlowLabel.ForeColor = System.Drawing.Color.Yellow;
+			this.GlowLabel.Location = new System.Drawing.Point(0, 0);
+			this.GlowLabel.Name = "GlowLabel";
+			this.GlowLabel.Size = new System.Drawing.Size(507, 48);
+			this.GlowLabel.TabIndex = 14;
+			this.GlowLabel.Text = "X Button";
+			this.GlowLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// ControllerPreview
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -214,6 +228,7 @@
 			this.Controls.Add(this.LogoImagePanel);
 			this.Controls.Add(this.ButtonPositionPanel);
 			this.Controls.Add(this.ButtonLabelPanel);
+			this.Controls.Add(this.GlowLabel);
 			this.DoubleBuffered = true;
 			this.Name = "ControllerPreview";
 			this.Size = new System.Drawing.Size(507, 453);
@@ -245,5 +260,6 @@
 		private System.Windows.Forms.Panel DownPanel;
 		private System.Windows.Forms.Panel UpPanel;
 		private System.Windows.Forms.Panel LogoImagePanel;
+		private System.Windows.Forms.Label GlowLabel;
 	}
 }

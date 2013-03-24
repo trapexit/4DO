@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using FourDO.Resources;
 
@@ -31,7 +32,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private InputButton? highlightedButton;
 
-		private IEnumerable<InputButton> glowingButtons;
+		private List<InputButton> glowingButtons;
+		private InputButton? labeledGlowButton;
 
 		private int currentAlpha = PULSATE_ALPHA_MIN;
 		private bool increaseAlpha = true;
@@ -88,11 +90,40 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				return glowingButtons;
 			}
 		}
+
 		public void SetGlowingButtons(IEnumerable<InputButton> buttons)
 		{
 			if (buttons != this.glowingButtons)
 			{
-				this.glowingButtons = buttons;
+				List<InputButton> newGlowingButtons = null;
+				if (buttons != null)
+					newGlowingButtons = new List<InputButton>(buttons);
+
+				////////////////
+				// Figure out which button we'll give the textual preview.
+				// We're going to prefer to give the most recently-added button.
+				InputButton? newButton = null;
+				if (newGlowingButtons != null)
+				{
+					foreach (var button in newGlowingButtons)
+					{
+						if (!newGlowingButtons.Contains(button))
+						{
+							newButton = button;
+							break;
+						}
+					}
+					if (!newButton.HasValue)
+					{
+						if (newGlowingButtons.Count > 0)
+							newButton = newGlowingButtons[0];
+					}
+				}
+
+				// Nowwe know which button we'll give the textual preview for.
+				this.labeledGlowButton = newButton;
+
+				this.glowingButtons = newGlowingButtons;
 				this.UpdateUI();
 				this.Invalidate();
 			}
@@ -114,6 +145,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this._consoleImage = this.LogoImagePanel.BackgroundImage;
 
 			this.BackgroundImage = this._controllerImage;
+
+			this.GlowLabel.Text = "";
 		}
 
 		private void ControllerPreview_Load(object sender, EventArgs e)
@@ -152,44 +185,54 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 
 		private void UpdateUI()
 		{
-			Control control = this.GetHighlightedControl();
-			if (control == null)
-			{
-				if (!this.HighlightedButton.HasValue)
-					this.ButtonLabel.Text = null;
-
-				else if (this.HighlightedButton.Value == InputButton.ConsoleAdvanceBySingleFrame)
-					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleAdvanceFrame;
-
-				else if (this.HighlightedButton.Value == InputButton.ConsoleFullScreen)
-					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleFullScreen;
-
-				else if (this.HighlightedButton.Value == InputButton.ConsolePause)
-					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsolePause;
-
-				else if (this.HighlightedButton.Value == InputButton.ConsoleReset)
-					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleReset;
-
-				else if (this.HighlightedButton.Value == InputButton.ConsoleScreenShot)
-					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleScreenshot;
-
-				else if (this.HighlightedButton.Value == InputButton.ConsoleStateLoad)
-					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleLoadState;
-
-				else if (this.HighlightedButton.Value == InputButton.ConsoleStateSave)
-					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleSaveState;
-
-				else if (this.HighlightedButton.Value == InputButton.ConsoleStateSlotNext)
-					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleStateSlotNext;
-
-				else if (this.HighlightedButton.Value == InputButton.ConsoleStateSlotPrevious)
-					this.ButtonLabel.Text = JohnnyInputStrings.ButtonConsoleStateSlotPrevious;
-
-				else
-					this.ButtonLabel.Text = null;
-			}
+			// Update glowing button text.
+			Control glowingButton = this.GetPanelForButton(this.labeledGlowButton);
+			if (glowingButton == null)
+				this.GlowLabel.Text = GetButtonNameForInputButton(this.labeledGlowButton);
 			else
-				this.ButtonLabel.Text = (string)control.Tag;
+				this.GlowLabel.Text = (string)glowingButton.Tag;
+
+			// Update highlighted button text.
+			Control highlightedControl = this.GetHighlightedControl();
+			if (highlightedControl == null)
+				this.ButtonLabel.Text = GetButtonNameForInputButton(this.HighlightedButton);
+			else
+				this.ButtonLabel.Text = (string)highlightedControl.Tag;
+		}
+
+		private string GetButtonNameForInputButton(InputButton? button)
+		{
+			if (!button.HasValue)
+				return null;
+
+			if (button.Value == InputButton.ConsoleAdvanceBySingleFrame)
+				return JohnnyInputStrings.ButtonConsoleAdvanceFrame;
+
+			if (button.Value == InputButton.ConsoleFullScreen)
+				return JohnnyInputStrings.ButtonConsoleFullScreen;
+
+			if (button.Value == InputButton.ConsolePause)
+				return JohnnyInputStrings.ButtonConsolePause;
+
+			if (button.Value == InputButton.ConsoleReset)
+				return JohnnyInputStrings.ButtonConsoleReset;
+
+			if (button.Value == InputButton.ConsoleScreenShot)
+				return JohnnyInputStrings.ButtonConsoleScreenshot;
+
+			if (button.Value == InputButton.ConsoleStateLoad)
+				return JohnnyInputStrings.ButtonConsoleLoadState;
+
+			if (button.Value == InputButton.ConsoleStateSave)
+				return JohnnyInputStrings.ButtonConsoleSaveState;
+
+			if (button.Value == InputButton.ConsoleStateSlotNext)
+				return JohnnyInputStrings.ButtonConsoleStateSlotNext;
+
+			if (button.Value == InputButton.ConsoleStateSlotPrevious)
+				return JohnnyInputStrings.ButtonConsoleStateSlotPrevious;
+
+			return null;
 		}
 
 		protected override void OnPaint(PaintEventArgs e)

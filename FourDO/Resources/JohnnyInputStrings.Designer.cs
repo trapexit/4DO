@@ -592,6 +592,15 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Reset All To Defaults.
+        /// </summary>
+        internal static string ResetAllToDefault {
+            get {
+                return ResourceManager.GetString("ResetAllToDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set All.
         /// </summary>
         internal static string SetAll {
