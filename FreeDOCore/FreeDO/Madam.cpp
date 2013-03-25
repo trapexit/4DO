@@ -6,9 +6,9 @@ The FreeDO licensed under modified GNU LGPL, with following notes:
 
 *   The owners and original authors of the FreeDO have full right to develop closed source derivative work.
 *   Any non-commercial uses of the FreeDO sources or any knowledge obtained by studying or reverse engineering
-    of the sources, or any other material published by FreeDO have to be accompanied with full credits.
+	of the sources, or any other material published by FreeDO have to be accompanied with full credits.
 *   Any commercial uses of FreeDO sources or any knowledge obtained by studying or reverse engineering of the sources,
-    or any other material published by FreeDO is strictly forbidden without owners approval.
+	or any other material published by FreeDO is strictly forbidden without owners approval.
 
 The above notes are taking precedence over GNU LGPL in conflicting situations.
 
@@ -338,15 +338,15 @@ void Set_madam_FSM(unsigned int val){madam._madam_FSM=val;};
 
 unsigned int _madam_SaveSize()
 {
-        return sizeof(MADAMDatum);
+		return sizeof(MADAMDatum);
 }
 void _madam_Save(void *buff)
 {
-        memcpy(buff,&madam,sizeof(MADAMDatum));
+		memcpy(buff,&madam,sizeof(MADAMDatum));
 }
 void _madam_Load(void *buff)
 {
-        memcpy(&madam,buff,sizeof(MADAMDatum));
+		memcpy(&madam,buff,sizeof(MADAMDatum));
 }
 
 #define mregs madam.mregs
@@ -581,7 +581,7 @@ void __fastcall _madam_Poke(unsigned int addr, unsigned int val)
 {
  if(addr>0x2ff && addr<0x400)
  {
-      //  io_interface(EXT_DEBUG_PRINT,(void*)str.print("MADAM Write madam[0x%X] = 0x%8.8X\n",addr,val).CStr());
+	  //  io_interface(EXT_DEBUG_PRINT,(void*)str.print("MADAM Write madam[0x%X] = 0x%8.8X\n",addr,val).CStr());
  }
  /*
  if(addr==0x13c)
@@ -681,12 +681,12 @@ void __fastcall _madam_Poke(unsigned int addr, unsigned int val)
 // Matix engine
 
 
-    case 0x7fc:
+	case 0x7fc:
 
 		mregs[0x7fc]=0; // Ours matrix engine already ready
 
 		static double Rez0T,Rez1T,Rez2T,Rez3T;
-               // io_interface(EXT_DEBUG_PRINT,(void*)str.print("MADAM Write madam[0x%X] = 0x%8.8X\n",addr,val).CStr());
+			   // io_interface(EXT_DEBUG_PRINT,(void*)str.print("MADAM Write madam[0x%X] = 0x%8.8X\n",addr,val).CStr());
 
 		switch(val) // Cmd
 		{
@@ -757,7 +757,7 @@ void __fastcall _madam_Poke(unsigned int addr, unsigned int val)
 					//io_interface(EXT_DEBUG_PRINT,(void*)str.print("??? Unknown cmd MADAM[0x7FC]==0x%x\n", val).CStr());
 					return;
 		}
-        break;
+		break;
 	case 0x130:
 		mregs[addr]=val;	//modulo variables :)
 		RMOD=((val&1)<<7)+((val&12)<<8)+((val&0x70)<<4);
@@ -787,7 +787,7 @@ int TEXTURE_WI_LIM, TEXTURE_HI_LIM;
 void LoadPLUT(unsigned int pnt,int n)
 {
  int i;
- 	for(i=0;i<n;i++)
+	for(i=0;i<n;i++)
 	{
 			PLUT[i]=_mem_read16((((pnt>>1)+i)^1)<<1);
 	}
@@ -800,11 +800,11 @@ int _madam_HandleCEL()
 
 	__smallcicles=CELCYCLES=0;
 	if(NEXTCCB!=0)CCBCOUNTER=0;
-        STATBITS|=SPRON;
+		STATBITS|=SPRON;
 	Flag=0;
 
 
-        while((NEXTCCB!=0)&&(!Flag))
+	while((NEXTCCB!=0)&&(!Flag))
 	//if(_madam_FSM==FSM_INPROCESS)
 	{
 		CCBCOUNTER++;
@@ -869,20 +869,20 @@ int _madam_HandleCEL()
 			PDATF=1;
 		CURRENTCCB+=4;
 
-        if((CCBFLAGS&CCB_LDPLUT))
-        {
-               PLUTDATA=mread(CURRENTCCB)&(~3);
-               //if((PLUTDATA==0))
-               //    PLUTF=1;
-               if(!(CCBFLAGS&CCB_PPABS))
+		if((CCBFLAGS&CCB_LDPLUT))
+		{
+			   PLUTDATA=mread(CURRENTCCB)&(~3);
+			   //if((PLUTDATA==0))
+			   //    PLUTF=1;
+			   if(!(CCBFLAGS&CCB_PPABS))
 			   {
-                   PLUTDATA+=CURRENTCCB+4;
+				   PLUTDATA+=CURRENTCCB+4;
 				   PLUTDATA&=0xffffff;
 			   }
-               if((PLUTDATA>>20)>2)
+			   if((PLUTDATA>>20)>2)
 				   PLUTF=1;
-        }
-	    CURRENTCCB+=4;
+		}
+		CURRENTCCB+=4;
 
 
 		if(NCCBF)
@@ -896,10 +896,10 @@ int _madam_HandleCEL()
 		if(CCBFLAGS&CCB_YOXY)
 		{
 			XPOS1616=mread(CURRENTCCB);
-                        XPOS=XPOS1616/65536.0;
+						XPOS=XPOS1616/65536.0;
 			CURRENTCCB+=4;
 			YPOS1616=mread(CURRENTCCB);
-                        YPOS=YPOS1616/65536.0;
+						YPOS=YPOS1616/65536.0;
 			CURRENTCCB+=4;
 		}
 		else
@@ -919,25 +919,25 @@ int _madam_HandleCEL()
 			if(CCBFLAGS&CCB_LDSIZE)
 			{
 				HDX1616=((int)mread(CURRENTCCB))>>4;
-                                HDX=HDX1616/65536.0;
+								HDX=HDX1616/65536.0;
 				CURRENTCCB+=4;
 				HDY1616=((int)mread(CURRENTCCB))>>4;
-                                HDY=HDY1616/65536.0;
+								HDY=HDY1616/65536.0;
 				CURRENTCCB+=4;
 				VDX1616=mread(CURRENTCCB);
-                                VDX=VDX1616/65536.0;
+								VDX=VDX1616/65536.0;
 				CURRENTCCB+=4;
 				VDY1616=mread(CURRENTCCB);
-                                VDY=VDY1616/65536.0;
+								VDY=VDY1616/65536.0;
 				CURRENTCCB+=4;
 			}
 			if(CCBFLAGS&CCB_LDPRS)
 			{
 				HDDX1616=((int)mread(CURRENTCCB))>>4;
-                                HDDX=HDDX1616/65536.0;
+								HDDX=HDDX1616/65536.0;
 				CURRENTCCB+=4;
 				HDDY1616=((int)mread(CURRENTCCB))>>4;
-                                HDDY=HDDY1616/65536.0;
+								HDDY=HDDY1616/65536.0;
 				CURRENTCCB+=4;
 			}
 			if(CCBFLAGS&CCB_LDPPMP)
@@ -994,7 +994,7 @@ int _madam_HandleCEL()
 			}
 
 			if((CCBFLAGS&CCB_LDPLUT) && !PLUTF) //load PLUT
-		    {
+			{
 			   switch(PRE0&PRE0_BPP_MASK)
 			   {
 			   case 1:
@@ -1009,7 +1009,7 @@ int _madam_HandleCEL()
 			   default:
 				   LoadPLUT(PLUTDATA,32);
 			   };
-		    }
+			}
 
 //ok -- CCB decoded -- let's print out our current status
 //step#2 -- getting CEL data
@@ -1039,7 +1039,7 @@ int _madam_HandleCEL()
 				_madam_FSM=FSM_IDLE;
 			}
 
-        return CELCYCLES;
+		return CELCYCLES;
 }//HandleCEL
 
 
@@ -1058,7 +1058,7 @@ void HandleDMA8()
 
 void DMAPBus()
 {
-    unsigned int i=0;
+	unsigned int i=0;
 
 	if((int)mregs[0x574]<0)
 		return;
@@ -1104,12 +1104,12 @@ void _madam_Init(unsigned char *memory)
 	for(i=0;i<2048;i++)
 		mregs[i]=0;
 
-    mregs[004]=0x29;		// DRAM dux init
-    mregs[574]=0xfffffffc;
+	mregs[004]=0x29;		// DRAM dux init
+	mregs[574]=0xfffffffc;
 
 #if 1
 	mregs[000]=0x01020000; // for Green matrix engine autodetect
-        //mregs[000]=0x02022000; // for Green matrix engine autodetect
+		//mregs[000]=0x02022000; // for Green matrix engine autodetect
 #else
 	mregs[000]=0x01020001; // for ARM soft emu of matrix engine
 #endif
@@ -1155,11 +1155,11 @@ void _madam_Init(unsigned char *memory)
 extern void _3do_InternalFrame(int cicles);
 void exteraclocker()
 {
-        if((CELCYCLES-__smallcicles)>>7)
-        {
-                __smallcicles=CELCYCLES;
-                //_3do_InternalFrame(64);
-        }
+		if((CELCYCLES-__smallcicles)>>7)
+		{
+				__smallcicles=CELCYCLES;
+				//_3do_InternalFrame(64);
+		}
 }
 
 unsigned int __fastcall mread(unsigned int addr)
@@ -1170,7 +1170,7 @@ unsigned int __fastcall mread(unsigned int addr)
 #endif
 	val=_mem_read32(addr);
 	CELCYCLES+=1;
-        //exteraclocker();
+		//exteraclocker();
 	return val;
 }
 
@@ -1181,7 +1181,7 @@ void __fastcall mwrite(unsigned int addr, unsigned int val)
 #endif
 	_mem_write32(addr,val);
 	CELCYCLES+=2;
-        //exteraclocker();
+		//exteraclocker();
 
 }
 
@@ -1192,7 +1192,7 @@ void __fastcall mwriteh(unsigned int addr, unsigned short val)
 #endif
 	CELCYCLES+=2;
 	_mem_write16((addr^2),val);
-        //exteraclocker();
+		//exteraclocker();
 }
 
 unsigned short __fastcall mreadh(unsigned int addr)
@@ -1201,7 +1201,7 @@ unsigned short __fastcall mreadh(unsigned int addr)
 //	addr&=0x3FFFFF;
 #endif
 	CELCYCLES+=1;
-        //exteraclocker();
+		//exteraclocker();
 	return _mem_read16((addr^2));
 }
 
@@ -1465,7 +1465,7 @@ unsigned int __fastcall PPROC(unsigned int pixel, unsigned int fpix, unsigned in
 		break;
 	case 1:
 		color2.R=color2.G=color2.B=(pixc.meaning.av>>AV.avsignal.dv3);
-                break;
+				break;
 	case 2:
 		pix1.raw=fpix;
 		color2.R=(pix1.r16b.r)>>AV.avsignal.dv3;
@@ -1949,7 +1949,7 @@ void __fastcall DrawLiteralCel_New()
 	unsigned int pixel;
 	unsigned int framePixel;
 	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy,pix_repit,scipstr;
- 	unsigned short CURPIX,LAMV;
+	unsigned short CURPIX,LAMV;
 	int get1,get2;
 	// RMOD=RMODULO[REGCTL0];
 	// WMOD=WMODULO[REGCTL0];
@@ -2044,7 +2044,7 @@ void __fastcall DrawLiteralCel_New()
 
 				if(!pproj.Transparent)
 				{
-                		if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+drawHeight)>>16))break;
+						if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+drawHeight)>>16))break;
 
 				}
 				xcur+=HDX1616;
