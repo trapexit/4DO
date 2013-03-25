@@ -153,6 +153,13 @@ namespace FourDO.UI.DiscBrowser
 		private void HandleUpDirectory()
 		{
 			this.UpdateCurrentDirectory();
+
+			// Get the last full path.
+			string lastFullPath = null;
+			if (_currentDirectory != null)
+				lastFullPath = _currentDirectory.GetFullPath();
+
+			// Determine the next directory.
 			if (_currentDirectory == null)
 				DirectoryTextBox.Text = @"/";
 			else if (_currentDirectory.Parent == null)
@@ -161,7 +168,35 @@ namespace FourDO.UI.DiscBrowser
 				DirectoryTextBox.Text = @"/";
 			else
 				DirectoryTextBox.Text = _currentDirectory.Parent.GetFullPath();
+
+			// This will populate the list with items.
 			UpdateUI();
+
+			// See if we came from a directory that we can select now.
+			if (!string.IsNullOrEmpty(lastFullPath))
+			{
+				var parts = lastFullPath.Split('/');
+				var lastPart = parts[parts.Length - 1];
+				foreach (var item in FileListView.Items)
+				{
+					ListViewItem listItem = item as ListViewItem;
+					if (listItem == null)
+						continue;
+
+					Directory directoryItem = listItem.Tag as Directory;
+					if (directoryItem == null)
+						continue;
+
+					if (directoryItem.Name == lastPart)
+					{
+						listItem.Selected = true;
+						break;
+					}
+				}
+			}
+
+			// Set focus back to the listview.
+			this.FileListView.Focus();
 		}
 
 		private void DirectoryTextBox_TextChanged(object sender, System.EventArgs e)
@@ -367,6 +402,18 @@ namespace FourDO.UI.DiscBrowser
 					return ((File)x).Name.CompareTo(((File)y).Name);
 				}
 			}
+		}
+
+		private void FileListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+		{
+			var items = GetSelectedItems();
+			if (items.Count == 0)
+			{
+				StatusLabel.Text = "";
+				return;
+			}
+
+			StatusLabel.Text = items.Count + " item(s) selected.";
 		}
 	}
 }

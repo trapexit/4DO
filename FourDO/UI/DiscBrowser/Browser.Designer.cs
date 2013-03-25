@@ -47,11 +47,15 @@
 			this.DirectoryTextBox = new System.Windows.Forms.TextBox();
 			this.DirectoryUpButton = new System.Windows.Forms.Button();
 			this.DirectoryNotFoundLabel = new System.Windows.Forms.Label();
+			this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.MainStatusStrip.SuspendLayout();
 			this.BrowserContextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// MainStatusStrip
 			// 
+			this.MainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StatusLabel});
 			this.MainStatusStrip.Location = new System.Drawing.Point(0, 349);
 			this.MainStatusStrip.Name = "MainStatusStrip";
 			this.MainStatusStrip.Size = new System.Drawing.Size(388, 22);
@@ -86,6 +90,7 @@
 			this.FileListView.TabIndex = 2;
 			this.FileListView.UseCompatibleStateImageBehavior = false;
 			this.FileListView.View = System.Windows.Forms.View.Details;
+			this.FileListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.FileListView_ItemSelectionChanged);
 			this.FileListView.DoubleClick += new System.EventHandler(this.FileListView_DoubleClick);
 			this.FileListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FileListView_KeyDown);
 			// 
@@ -115,7 +120,7 @@
             this.toolStripMenuItem1,
             this.OpenMenuItem});
 			this.BrowserContextMenuStrip.Name = "BrowserContextMenuStrip";
-			this.BrowserContextMenuStrip.Size = new System.Drawing.Size(224, 126);
+			this.BrowserContextMenuStrip.Size = new System.Drawing.Size(224, 104);
 			this.BrowserContextMenuStrip.VisibleChanged += new System.EventHandler(this.ContextMenuStrip_VisibleChanged);
 			// 
 			// ExtractMenuItem
@@ -192,6 +197,11 @@
 			this.DirectoryNotFoundLabel.Text = "(Could not find the specified directory)";
 			this.DirectoryNotFoundLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// StatusLabel
+			// 
+			this.StatusLabel.Name = "StatusLabel";
+			this.StatusLabel.Size = new System.Drawing.Size(0, 17);
+			// 
 			// Browser
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -209,6 +219,8 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Disc Browser";
 			this.Load += new System.EventHandler(this.Browser_Load);
+			this.MainStatusStrip.ResumeLayout(false);
+			this.MainStatusStrip.PerformLayout();
 			this.BrowserContextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -234,5 +246,6 @@
 		private System.Windows.Forms.ToolStripMenuItem ExtractDiscMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ExtractDirectoryMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
 	}
 }
