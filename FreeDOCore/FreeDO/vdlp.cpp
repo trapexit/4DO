@@ -237,18 +237,18 @@ __inline void VDLExec()
 			CURRENTVDL=NEXTVDL;
 
 			MODULO=HOWMAYPIXELEXPECTPERLINE[CLUTDMA.dmaw.modulo];
-                        if(MODULO!=320)
-                        {
-                               // io_interface(EXT_DEBUG_PRINT,(void*)str.print("::::VDLP:::: Nonstandard modulo... W=%d, DMAWORD=0x%8.8X",MODULO, CLUTDMA.raw).CStr());
-                        }
-                        doloadclut=((linedelay=CLUTDMA.dmaw.lines)!=0);
+			if(MODULO!=320)
+			{
+					// io_interface(EXT_DEBUG_PRINT,(void*)str.print("::::VDLP:::: Nonstandard modulo... W=%d, DMAWORD=0x%8.8X",MODULO, CLUTDMA.raw).CStr());
+			}
+			doloadclut=((linedelay=CLUTDMA.dmaw.lines)!=0);
 		}
 }
 
 
 __inline uint32 VRAMOffEval(uint32 addr, uint32 line)
 {
-        return ((((~addr)&2)<<(18+RESSCALE))+((addr>>2)<<1)+1024*512*line)<<RESSCALE;
+	return ((((~addr)&2)<<(18+RESSCALE))+((addr>>2)<<1)+1024*512*line)<<RESSCALE;
 }
 
 void _vdl_DoLineNew(int line2x, VDLFrame *frame)
@@ -259,8 +259,8 @@ void _vdl_DoLineNew(int line2x, VDLFrame *frame)
 
 	if(line==0)
 	{
-                doloadclut=true;
-                linedelay=0;
+		doloadclut=true;
+		linedelay=0;
 		CURRENTVDL=HEADVDL;
 		VDLExec();
 	}

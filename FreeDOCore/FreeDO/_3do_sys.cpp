@@ -160,7 +160,7 @@ void __fastcall _3do_Frame(VDLFrame *frame, bool __scipframe=false)
 			continue;
 		}
 
-		cnt+=_arm_Execute();   
+		cnt+=_arm_Execute();
 		if(cnt>>4){_3do_InternalFrame(cnt);i+=cnt;cnt=0;}
 
 	}

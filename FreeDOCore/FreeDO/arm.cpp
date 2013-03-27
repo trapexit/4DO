@@ -1579,40 +1579,40 @@ int __fastcall _arm_Execute()
 
 void __fastcall _mem_write8(unsigned int addr, unsigned char val)
 {
-	    pRam[addr]=val;
-	    if(addr<0x200000 || !RESSCALE) return;
-        pRam[addr+1024*1024]=val;
-        pRam[addr+2*1024*1024]=val;
-        pRam[addr+3*1024*1024]=val;
+	pRam[addr]=val;
+	if(addr<0x200000 || !RESSCALE) return;
+	pRam[addr+1024*1024]=val;
+	pRam[addr+2*1024*1024]=val;
+	pRam[addr+3*1024*1024]=val;
 }
 void __fastcall _mem_write16(unsigned int addr, unsigned short val)
 {
-        *((unsigned short*)&pRam[addr])=val;
-        if(addr<0x200000 || !RESSCALE) return;
-        *((unsigned short*)&pRam[addr+1024*1024])=val;
-        *((unsigned short*)&pRam[addr+2*1024*1024])=val;
-        *((unsigned short*)&pRam[addr+3*1024*1024])=val;
+	*((unsigned short*)&pRam[addr])=val;
+	if(addr<0x200000 || !RESSCALE) return;
+	*((unsigned short*)&pRam[addr+1024*1024])=val;
+	*((unsigned short*)&pRam[addr+2*1024*1024])=val;
+	*((unsigned short*)&pRam[addr+3*1024*1024])=val;
 }
 void __fastcall _mem_write32(unsigned int addr, unsigned int val)
 {
-	    *((unsigned int*)&pRam[addr])=val;
-        if(addr<0x200000 || !RESSCALE) return;
-        *((unsigned int*)&pRam[addr+1024*1024])=val;
-        *((unsigned int*)&pRam[addr+2*1024*1024])=val;
-        *((unsigned int*)&pRam[addr+3*1024*1024])=val;
+	*((unsigned int*)&pRam[addr])=val;
+	if(addr<0x200000 || !RESSCALE) return;
+	*((unsigned int*)&pRam[addr+1024*1024])=val;
+	*((unsigned int*)&pRam[addr+2*1024*1024])=val;
+	*((unsigned int*)&pRam[addr+3*1024*1024])=val;
 }
 
 unsigned short __fastcall _mem_read16(unsigned int addr)
 {
-        return *((unsigned short*)&pRam[addr]);
+	return *((unsigned short*)&pRam[addr]);
 }
 unsigned int __fastcall _mem_read32(unsigned int addr)
 {
-        return *((unsigned int*)&pRam[addr]);
+	return *((unsigned int*)&pRam[addr]);
 }
 unsigned char __fastcall _mem_read8(unsigned int addr)
 {
-        return pRam[addr];
+	return pRam[addr];
 }
 
 
