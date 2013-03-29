@@ -141,6 +141,9 @@
   <data name="ButtonConsoleAdvanceFrame" xml:space="preserve">
     <value>Avancée d'Une Image</value>
   </data>
+  <data name="ButtonConsoleExit" xml:space="preserve">
+    <value>Quitter</value>
+  </data>
   <data name="ButtonConsoleFullScreen" xml:space="preserve">
     <value>Plein Ecran</value>
   </data>

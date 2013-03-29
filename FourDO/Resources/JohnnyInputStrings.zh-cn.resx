@@ -141,6 +141,9 @@
   <data name="ButtonConsoleAdvanceFrame" xml:space="preserve">
     <value>帧进</value>
   </data>
+  <data name="ButtonConsoleExit" xml:space="preserve">
+    <value>退出</value>
+  </data>
   <data name="ButtonConsoleFullScreen" xml:space="preserve">
     <value>全屏</value>
   </data>

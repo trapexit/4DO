@@ -208,6 +208,9 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			if (button.Value == InputButton.ConsoleAdvanceBySingleFrame)
 				return JohnnyInputStrings.ButtonConsoleAdvanceFrame;
 
+			if (button.Value == InputButton.ConsoleExit)
+				return JohnnyInputStrings.ButtonConsoleExit;
+
 			if (button.Value == InputButton.ConsoleFullScreen)
 				return JohnnyInputStrings.ButtonConsoleFullScreen;
 

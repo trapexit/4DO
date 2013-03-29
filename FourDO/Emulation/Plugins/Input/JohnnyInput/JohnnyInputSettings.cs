@@ -504,6 +504,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				this.AddGridItem(InputButton.ConsolePause, "(F9) " + JohnnyInputStrings.ButtonConsolePause);
 				this.AddGridItem(InputButton.ConsoleAdvanceBySingleFrame, "(F10) " + JohnnyInputStrings.ButtonConsoleAdvanceFrame);
 				this.AddGridItem(InputButton.ConsoleReset, "(F12) " + JohnnyInputStrings.ButtonConsoleReset);
+				this.AddGridItem(InputButton.ConsoleExit, "(Alt+F4) " + JohnnyInputStrings.ButtonConsoleExit);
 			}
 			else
 			{

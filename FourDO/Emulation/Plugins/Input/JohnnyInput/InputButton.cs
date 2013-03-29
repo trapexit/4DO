@@ -17,6 +17,8 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		ConsoleAdvanceBySingleFrame,
 		ConsoleReset,
 
+		ConsoleExit,
+
 		// "Regular" buttons
 		Up,
 		Down,

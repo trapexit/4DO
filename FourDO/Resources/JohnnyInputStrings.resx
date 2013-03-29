@@ -141,6 +141,9 @@
   <data name="ButtonConsoleAdvanceFrame" xml:space="preserve">
     <value>Advance by a Single Frame</value>
   </data>
+  <data name="ButtonConsoleExit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
   <data name="ButtonConsoleFullScreen" xml:space="preserve">
     <value>Full Screen</value>
   </data>

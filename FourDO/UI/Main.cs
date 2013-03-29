@@ -643,6 +643,8 @@ namespace FourDO.UI
 				this.DoConsoleAdvanceFrame();
 			else if (consoleEvent == ConsoleEvent.Reset)
 				this.DoConsoleReset(false);
+			else if (consoleEvent == ConsoleEvent.Exit)
+				this.Close();
 		}
 
 		private void gameInfoMenuItem_Click(object sender, EventArgs e)
