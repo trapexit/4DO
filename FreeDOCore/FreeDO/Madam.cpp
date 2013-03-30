@@ -576,42 +576,6 @@ int __inline quickDivide(int a, int b)
 }
 
 //////////////////////////////////////////////////////////////////////
-// Quick multiply helper
-//////////////////////////////////////////////////////////////////////
-
-const int QUICK_MULTIPLY_CACHE_SIZE = 512;
-static int QUICK_MULTIPLY_UBOUND = 0;
-static int QUICK_MULTIPLY_LBOUND = 0;
-
-static int quickMultiply_lookups[QUICK_MULTIPLY_CACHE_SIZE][QUICK_MULTIPLY_CACHE_SIZE];
-
-void quickMultiply_init()
-{
-	QUICK_MULTIPLY_UBOUND	= (QUICK_MULTIPLY_CACHE_SIZE / 2) - 1;
-	QUICK_MULTIPLY_LBOUND	= -(QUICK_MULTIPLY_CACHE_SIZE / 2);
-	for (int a = QUICK_MULTIPLY_LBOUND; a <= QUICK_MULTIPLY_UBOUND; a++)
-	{
-		for (int b = QUICK_MULTIPLY_LBOUND; b <= QUICK_MULTIPLY_UBOUND; b++)
-		{
-			quickMultiply_lookups[a - QUICK_MULTIPLY_LBOUND][b - QUICK_MULTIPLY_LBOUND] = a * b;
-		}
-	}
-}
-
-int __inline quickMultiply(int a, int b)
-{
-	if (a >= QUICK_MULTIPLY_LBOUND 
-		&& a <= QUICK_MULTIPLY_UBOUND 
-		&& b >= QUICK_MULTIPLY_LBOUND 
-		&& b <= QUICK_MULTIPLY_UBOUND)
-	{
-		return quickMultiply_lookups[a - QUICK_MULTIPLY_LBOUND][b - QUICK_MULTIPLY_LBOUND];
-	}
-	else
-		return a * b;
-}
-
-//////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
@@ -1173,7 +1137,6 @@ void _madam_Init(unsigned char *memory)
 	Mem=memory;
 
 	quickDivide_init();
-	quickMultiply_init();
 
 	MAPPING=1;
 
@@ -2810,64 +2773,50 @@ int __fastcall TexelDraw_Arbitrary(unsigned short CURPIX, unsigned short LAMV, i
 		cnt_cross=0;
 		if(i<(yB) && i>=(yA))
 		{
-				xpoints[cnt_cross]=(int)((quickDivide(((xB-xA)*(i-yA)),(yB-yA))+xA));
-				updowns[cnt_cross++]=1;
+			xpoints[cnt_cross]=(int)((quickDivide(((xB-xA)*(i-yA)),(yB-yA))+xA));
+			updowns[cnt_cross++]=1;
 		}
 		else if(i>=(yB) && i<(yA))
 		{
-				xpoints[cnt_cross]=(int)((quickDivide(((xA-xB)*(i-yB)),(yA-yB))+xB));
-				updowns[cnt_cross++]=0;
+			xpoints[cnt_cross]=(int)((quickDivide(((xA-xB)*(i-yB)),(yA-yB))+xB));
+			updowns[cnt_cross++]=0;
 		}
 
 		if(i<(yC) && i>=(yB))
 		{
-				xpoints[cnt_cross]=(int)((quickDivide(((xC-xB)*(i-yB)),(yC-yB))+xB));
-				updowns[cnt_cross++]=1;
+			xpoints[cnt_cross]=(int)((quickDivide(((xC-xB)*(i-yB)),(yC-yB))+xB));
+			updowns[cnt_cross++]=1;
 		}
 		else if(i>=(yC) && i<(yB))
 		{
-				xpoints[cnt_cross]=(int)((quickDivide(((xB-xC)*(i-yC)),(yB-yC))+xC));
-				updowns[cnt_cross++]=0;
+			xpoints[cnt_cross]=(int)((quickDivide(((xB-xC)*(i-yC)),(yB-yC))+xC));
+			updowns[cnt_cross++]=0;
 		}
 
 		if(i<(yD) && i>=(yC))
 		{
-				xpoints[cnt_cross]=(int)((quickDivide(((xD-xC)*(i-yC)),(yD-yC))+xC));
-				updowns[cnt_cross++]=1;
+			xpoints[cnt_cross]=(int)((quickDivide(((xD-xC)*(i-yC)),(yD-yC))+xC));
+			updowns[cnt_cross++]=1;
 		}
 		else if(i>=(yD) && i<(yC))
 		{
-				xpoints[cnt_cross]=(int)((quickDivide(((xC-xD)*(i-yD)),(yC-yD))+xD));
-				updowns[cnt_cross++]=0;
+			xpoints[cnt_cross]=(int)((quickDivide(((xC-xD)*(i-yD)),(yC-yD))+xD));
+			updowns[cnt_cross++]=0;
 		}
 
 		if(cnt_cross&1)
 		{
 			if(i<(yA) && i>=(yD))
 			{
-					xpoints[cnt_cross]=(int)((quickDivide(((xA-xD)*(i-yD)),(yA-yD))+xD));
-					updowns[cnt_cross]=1;
+				xpoints[cnt_cross]=(int)((quickDivide(((xA-xD)*(i-yD)),(yA-yD))+xD));
+				updowns[cnt_cross]=1;
 			}
 			else if(i>=(yA) && i<(yD))
 			{
-					xpoints[cnt_cross]=(int)((quickDivide(((xD-xA)*(i-yA)),(yD-yA))+xA));
-					updowns[cnt_cross]=0;
+				xpoints[cnt_cross]=(int)((quickDivide(((xD-xA)*(i-yA)),(yD-yA))+xA));
+				updowns[cnt_cross]=0;
 			}
 		}
-
-		/*
-		// This was hacked in to test performance improvements.
-		// Can be removed if Johnny's gone.
-		xpoints[0] = 278;
-		xpoints[1] = 277;
-		xpoints[2] = 17;
-		xpoints[3] = 0;
-
-		updowns[0] = 1;
-		updowns[1] = 0;
-		updowns[2] = 225307820;
-		updowns[3] = 1424770297;
-		*/
 
 		if(cnt_cross!=0)
 		{

@@ -637,7 +637,7 @@ namespace FourDO.UI
 			// DiscBrowserMenuItem
 			// 
 			this.DiscBrowserMenuItem.Name = "DiscBrowserMenuItem";
-			this.DiscBrowserMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.DiscBrowserMenuItem.Size = new System.Drawing.Size(135, 22);
 			this.DiscBrowserMenuItem.Text = "&Disc Browser";
 			this.DiscBrowserMenuItem.Click += new System.EventHandler(this.DiscBrowserMenuItem_Click);
 			// 
@@ -700,8 +700,8 @@ namespace FourDO.UI
 			// 
 			// RomNagBox
 			// 
-			this.RomNagBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.RomNagBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.RomNagBox.BackColor = System.Drawing.SystemColors.Info;
 			this.RomNagBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.RomNagBox.HideText = "(Hide)";
@@ -743,6 +743,7 @@ namespace FourDO.UI
 			this.Controls.Add(this.gameCanvas);
 			this.Controls.Add(this.MainStatusStrip);
 			this.Controls.Add(this.MainMenuBar);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.Name = "Main";
