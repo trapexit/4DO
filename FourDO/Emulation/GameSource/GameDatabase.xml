@@ -1738,6 +1738,14 @@
     <regions>JP</regions>
   </game>
   <game>
+    <id>67E75D8A</id>
+    <checkSum>67E75D8AE83CF5BA2316B74885A3F128</checkSum>
+    <name>Vigoroth the delivery man (V1.1)</name>
+    <releaseYear>2013</releaseYear>
+    <publisher>blabla</publisher>
+    <regions>FR</regions>
+  </game>
+  <game>
     <id>67E88FE8</id>
     <checkSum>67E88FE8CE649B5E620D30425F217230</checkSum>
     <name>Real Pinball</name>
