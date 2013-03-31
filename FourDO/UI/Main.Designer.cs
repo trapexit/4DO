@@ -107,6 +107,7 @@ namespace FourDO.UI
 			this.checkInputTimer = new System.Windows.Forms.Timer(this.components);
 			this.sizeBox = new FourDO.UI.Controls.SizeBox();
 			this.RomNagBox = new FourDO.UI.Controls.NagBox();
+			this.EmulationMessage = new FourDO.UI.Controls.EmulationMessage();
 			this.gameCanvas = new FourDO.UI.GameCanvas();
 			this.MainStatusStrip.SuspendLayout();
 			this.MainMenuBar.SuspendLayout();
@@ -715,6 +716,18 @@ namespace FourDO.UI
 			this.RomNagBox.CloseClicked += new System.EventHandler(this.RomNagBox_CloseClicked);
 			this.RomNagBox.LinkClicked += new System.EventHandler(this.RomNagBox_LinkClicked);
 			// 
+			// EmulationMessage
+			// 
+			this.EmulationMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.EmulationMessage.BackColor = System.Drawing.Color.Black;
+			this.EmulationMessage.Location = new System.Drawing.Point(9, 532);
+			this.EmulationMessage.Margin = new System.Windows.Forms.Padding(0, 21636632, 0, 21636632);
+			this.EmulationMessage.Name = "EmulationMessage";
+			this.EmulationMessage.Size = new System.Drawing.Size(729, 41);
+			this.EmulationMessage.TabIndex = 5;
+			this.EmulationMessage.Visible = false;
+			// 
 			// gameCanvas
 			// 
 			this.gameCanvas.AutoCrop = false;
@@ -740,6 +753,7 @@ namespace FourDO.UI
 			this.ClientSize = new System.Drawing.Size(744, 603);
 			this.Controls.Add(this.sizeBox);
 			this.Controls.Add(this.RomNagBox);
+			this.Controls.Add(this.EmulationMessage);
 			this.Controls.Add(this.gameCanvas);
 			this.Controls.Add(this.MainStatusStrip);
 			this.Controls.Add(this.MainMenuBar);
@@ -843,6 +857,7 @@ namespace FourDO.UI
 		private System.Windows.Forms.Timer checkInputTimer;
 		private System.Windows.Forms.ToolStripMenuItem toolsMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem DiscBrowserMenuItem;
+		private EmulationMessage EmulationMessage;
 
     }
 }

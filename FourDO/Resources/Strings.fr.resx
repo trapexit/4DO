@@ -570,4 +570,28 @@
   <data name="MainMenuToolsDiscBrowser" xml:space="preserve">
     <value>Disque &amp;Navigateur</value>
   </data>
+  <data name="MainMessageConsolePaused" xml:space="preserve">
+    <value>Console pause</value>
+  </data>
+  <data name="MainMessageConsoleReset" xml:space="preserve">
+    <value>Console redémarrer</value>
+  </data>
+  <data name="MainMessageConsoleResumed" xml:space="preserve">
+    <value>Console reprendre</value>
+  </data>
+  <data name="MainMessageCurrentSlotSet" xml:space="preserve">
+    <value>Emplacement de la Sauvegarde d'Etat {0}</value>
+  </data>
+  <data name="MainMessageLoadedState" xml:space="preserve">
+    <value>Charger un Etate {0}</value>
+  </data>
+  <data name="MainMessageNoSaveInSlot" xml:space="preserve">
+    <value>(Vide emplacement {0})</value>
+  </data>
+  <data name="MainMessageSavedState" xml:space="preserve">
+    <value>Sauvegarder un Etat {0}</value>
+  </data>
+  <data name="MainMessageScreenshotSaved" xml:space="preserve">
+    <value>Captures d'écran</value>
+  </data>
 </root>

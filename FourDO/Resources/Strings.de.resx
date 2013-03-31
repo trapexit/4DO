@@ -567,4 +567,28 @@
   <data name="MainMenuToolsDiscBrowser" xml:space="preserve">
     <value>Spiel &amp;Forscher</value>
   </data>
+  <data name="MainMessageConsolePaused" xml:space="preserve">
+    <value>Konsole pause</value>
+  </data>
+  <data name="MainMessageConsoleReset" xml:space="preserve">
+    <value>Konsole zurücksetzen</value>
+  </data>
+  <data name="MainMessageConsoleResumed" xml:space="preserve">
+    <value>Konsole fortsetzen</value>
+  </data>
+  <data name="MainMessageCurrentSlotSet" xml:space="preserve">
+    <value>Speicher status steckplatz {0}</value>
+  </data>
+  <data name="MainMessageLoadedState" xml:space="preserve">
+    <value>Spielstand laden {0}</value>
+  </data>
+  <data name="MainMessageNoSaveInSlot" xml:space="preserve">
+    <value>(Leer steckplatz {0})</value>
+  </data>
+  <data name="MainMessageSavedState" xml:space="preserve">
+    <value>Spielstand speichern {0}</value>
+  </data>
+  <data name="MainMessageScreenshotSaved" xml:space="preserve">
+    <value>Bildschirm aufnahme</value>
+  </data>
 </root>

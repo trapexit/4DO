@@ -322,6 +322,23 @@ namespace FourDO.UI
 
 		private void Main_Resize(object sender, EventArgs e)
 		{
+			const int GAP_SIZE = 6;
+
+			// Handle emulation message sizing
+			int messageHeight = this.ClientSize.Height / 16;
+			messageHeight = Math.Min(messageHeight, 48);
+			messageHeight = Math.Max(messageHeight, 28);
+
+			int messageWidth = messageHeight * 11;
+			messageWidth = Math.Min(messageWidth, this.ClientSize.Width - GAP_SIZE * 2);
+
+			this.EmulationMessage.SetBounds(
+					(this.ClientSize.Width - messageWidth) / 2
+					, this.ClientSize.Height - this.MainStatusStrip.Height - GAP_SIZE - messageHeight
+					, messageWidth
+					, messageHeight);
+
+			// Handle resize box 
 			if (this.isWindowFullScreen == true
 				|| this.WindowState == FormWindowState.Maximized
 				|| this.WindowState == FormWindowState.Minimized
@@ -334,11 +351,12 @@ namespace FourDO.UI
 			this.SuspendLayout();
 			sizeBox.UpdateSizeText(this.gameCanvas.Width, this.gameCanvas.Height);
 			sizeBox.SetBounds(
-					this.ClientSize.Width - 6 - this.sizeBox.PreferredSize.Width,
-					this.ClientSize.Height - this.MainStatusStrip.Height - 6 - this.sizeBox.PreferredSize.Height,
+					this.ClientSize.Width - GAP_SIZE - this.sizeBox.PreferredSize.Width,
+					this.ClientSize.Height - this.MainStatusStrip.Height - GAP_SIZE - this.sizeBox.PreferredSize.Height,
 					this.sizeBox.PreferredSize.Width,
 					this.sizeBox.PreferredSize.Height);
 			sizeBox.Visible = true;
+
 			this.ResumeLayout();
 
 			this.DoSaveWindowSize();
@@ -642,7 +660,7 @@ namespace FourDO.UI
 			else if (consoleEvent == ConsoleEvent.AdvanceBySingleFrame)
 				this.DoConsoleAdvanceFrame();
 			else if (consoleEvent == ConsoleEvent.Reset)
-				this.DoConsoleReset(false);
+				this.DoConsoleReset(false, true);
 			else if (consoleEvent == ConsoleEvent.Exit)
 				this.Close();
 		}
@@ -670,7 +688,7 @@ namespace FourDO.UI
 
 		private void resetMenuItem_Click(object sender, EventArgs e)
 		{
-			this.DoConsoleReset(false);
+			this.DoConsoleReset(false, true);
 		}
 
 		private void screenshotMenuItem_Click(object sender, EventArgs e)
@@ -1057,26 +1075,33 @@ namespace FourDO.UI
 			return new BiosOnlyGameSource();
 		}
 
-		private void DoConsoleReset(bool alsoAllowLoadState)
+		private void DoConsoleReset(bool alsoAllowLoadState, bool wasInteractive)
 		{
 			this.DoConsoleStop();
-
-			// Restart, but don't allow it to load state.
 			this.DoConsoleStart(alsoAllowLoadState);
+			if (wasInteractive)
+				EmulationMessage.PostMessage(Strings.MainMessageConsoleReset);
 		}
 
 		private void DoScreenShot()
 		{
 			string screenshotFilePath = SaveHelper.GetScreenshotFilePath(GameConsole.Instance.GameSource);
 			this.gameCanvas.DoScreenshot(screenshotFilePath);
+			EmulationMessage.PostMessage(Strings.MainMessageScreenshotSaved);
 		}
 
 		private void DoConsoleTogglePause()
 		{
 			if (GameConsole.Instance.State == ConsoleState.Running)
+			{
 				GameConsole.Instance.Pause();
+				EmulationMessage.PostMessage(Strings.MainMessageConsolePaused);
+			}
 			else if (GameConsole.Instance.State == ConsoleState.Paused)
+			{
 				GameConsole.Instance.Resume();
+				EmulationMessage.PostMessage(Strings.MainMessageConsoleResumed);
+			}
 		}
 
 		private void DoConsoleAdvanceFrame()
@@ -1086,7 +1111,10 @@ namespace FourDO.UI
 
 			// Pause it if we need to.
 			if (GameConsole.Instance.State == ConsoleState.Running)
+			{
 				GameConsole.Instance.Pause();
+				EmulationMessage.PostMessage(Strings.MainMessageConsolePaused);
+			}
 
 			if (GameConsole.Instance.State == ConsoleState.Paused)
 				GameConsole.Instance.AdvanceSingleFrame();
@@ -1103,7 +1131,7 @@ namespace FourDO.UI
 		{
 			Properties.Settings.Default.GameRomSourceType = (int)GameSourceType.None;
 			Properties.Settings.Default.Save();
-			this.DoConsoleReset(false); // go back to start of bios.
+			this.DoConsoleReset(false, false); // go back to start of bios.
 		}
 
 		private void DoShowRomNag()
@@ -1155,7 +1183,7 @@ namespace FourDO.UI
 					if (GameConsole.Instance.GameSource == null || GameConsole.Instance.GameSource is BiosOnlyGameSource)
 					{
 						bool allowReset = !(GameConsole.Instance.GameSource is BiosOnlyGameSource);
-						this.DoConsoleReset(allowReset);
+						this.DoConsoleReset(allowReset, false);
 					}
 				}
 			}
@@ -1180,7 +1208,7 @@ namespace FourDO.UI
 
 					// Start it for them.
 					// Some people may want a prompt. However, I never like this. So, screw em.
-					this.DoConsoleReset(true);
+					this.DoConsoleReset(true, false);
 				}
 			}
 		}
@@ -1192,7 +1220,7 @@ namespace FourDO.UI
 			Properties.Settings.Default.Save();
 
 			// Start it for them. Don't bother prompting, because you're a badass.
-			this.DoConsoleReset(true);
+			this.DoConsoleReset(true, false);
 		}
 
 		private string GetLastRomDirectory()
@@ -1222,6 +1250,7 @@ namespace FourDO.UI
 			{
 				string saveStateFileName = SaveHelper.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
 				GameConsole.Instance.SaveState(saveStateFileName);
+				EmulationMessage.PostMessage(string.Format(Strings.MainMessageSavedState, Properties.Settings.Default.SaveStateSlot));
 			}
 		}
 
@@ -1231,7 +1260,14 @@ namespace FourDO.UI
 			{
 				string saveStateFileName = SaveHelper.GetSaveStateFileName(GameConsole.Instance.GameSource, Properties.Settings.Default.SaveStateSlot);
 				if (System.IO.File.Exists(saveStateFileName))
+				{
 					GameConsole.Instance.LoadState(saveStateFileName);
+					EmulationMessage.PostMessage(string.Format(Strings.MainMessageLoadedState, Properties.Settings.Default.SaveStateSlot));
+				}
+				else
+				{
+					EmulationMessage.PostMessage(string.Format(Strings.MainMessageNoSaveInSlot, Properties.Settings.Default.SaveStateSlot));
+				}
 			}
 		}
 
@@ -1251,6 +1287,7 @@ namespace FourDO.UI
 
 			Properties.Settings.Default.SaveStateSlot = saveSlot;
 			Properties.Settings.Default.Save();
+			EmulationMessage.PostMessage(string.Format(Strings.MainMessageCurrentSlotSet, Properties.Settings.Default.SaveStateSlot));
 		}
 
 		private EmulationHealth _lastHealth = EmulationHealth.None;

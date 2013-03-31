@@ -567,4 +567,28 @@
   <data name="SettingsWindowTitle" xml:space="preserve">
     <value>设置</value>
   </data>
+  <data name="MainMessageConsolePaused" xml:space="preserve">
+    <value>控制台 暂停</value>
+  </data>
+  <data name="MainMessageConsoleReset" xml:space="preserve">
+    <value>控制台 重置</value>
+  </data>
+  <data name="MainMessageConsoleResumed" xml:space="preserve">
+    <value>控制台 恢复</value>
+  </data>
+  <data name="MainMessageCurrentSlotSet" xml:space="preserve">
+    <value>即时存档插槽 {0}</value>
+  </data>
+  <data name="MainMessageLoadedState" xml:space="preserve">
+    <value>即时读档 {0}</value>
+  </data>
+  <data name="MainMessageNoSaveInSlot" xml:space="preserve">
+    <value>(空的 插槽 {0})</value>
+  </data>
+  <data name="MainMessageSavedState" xml:space="preserve">
+    <value>即时存档 {0}</value>
+  </data>
+  <data name="MainMessageScreenshotSaved" xml:space="preserve">
+    <value>截图</value>
+  </data>
 </root>

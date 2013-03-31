@@ -880,11 +880,47 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Console paused.
+        /// </summary>
+        internal static string MainMessageConsolePaused {
+            get {
+                return ResourceManager.GetString("MainMessageConsolePaused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Console reset.
+        /// </summary>
+        internal static string MainMessageConsoleReset {
+            get {
+                return ResourceManager.GetString("MainMessageConsoleReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Console resumed.
+        /// </summary>
+        internal static string MainMessageConsoleResumed {
+            get {
+                return ResourceManager.GetString("MainMessageConsoleResumed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Core FPS.
         /// </summary>
         internal static string MainMessageCoreFPS {
             get {
                 return ResourceManager.GetString("MainMessageCoreFPS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current state slot set to {0}.
+        /// </summary>
+        internal static string MainMessageCurrentSlotSet {
+            get {
+                return ResourceManager.GetString("MainMessageCurrentSlotSet", resourceCulture);
             }
         }
         
@@ -916,11 +952,47 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loaded state {0}.
+        /// </summary>
+        internal static string MainMessageLoadedState {
+            get {
+                return ResourceManager.GetString("MainMessageLoadedState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No BIOS rom selected..
         /// </summary>
         internal static string MainMessageNoBiosSelected {
             get {
                 return ResourceManager.GetString("MainMessageNoBiosSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (No save in slot {0}).
+        /// </summary>
+        internal static string MainMessageNoSaveInSlot {
+            get {
+                return ResourceManager.GetString("MainMessageNoSaveInSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saved state {0}.
+        /// </summary>
+        internal static string MainMessageSavedState {
+            get {
+                return ResourceManager.GetString("MainMessageSavedState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Screenshot saved.
+        /// </summary>
+        internal static string MainMessageScreenshotSaved {
+            get {
+                return ResourceManager.GetString("MainMessageScreenshotSaved", resourceCulture);
             }
         }
         

@@ -190,6 +190,7 @@ namespace FourDO.UI.DiscBrowser
 					if (directoryItem.Name == lastPart)
 					{
 						listItem.Selected = true;
+						listItem.EnsureVisible();
 						break;
 					}
 				}
