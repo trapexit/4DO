@@ -96,7 +96,7 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
       <AdditionalOptions>/NOENTRY %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ForceSymbolReferences>__DllMainCRTStartup@12</ForceSymbolReferences>
-      <Profile>true</Profile>
+      <Profile>false</Profile>
     </Link>
     <PostBuildEvent>
       <Command>if not exist "$(SolutionDir)FourDO\bin" mkdir "$(SolutionDir)\FourDO\bin"
