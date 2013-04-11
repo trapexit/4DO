@@ -148,7 +148,7 @@
     <value>全屏</value>
   </data>
   <data name="ButtonConsoleLoadState" xml:space="preserve">
-    <value>即时读档</value>
+    <value>读取进度</value>
   </data>
   <data name="ButtonConsolePause" xml:space="preserve">
     <value>暂停</value>
@@ -157,16 +157,16 @@
     <value>重置</value>
   </data>
   <data name="ButtonConsoleSaveState" xml:space="preserve">
-    <value>即时存档</value>
+    <value>保存进度</value>
   </data>
   <data name="ButtonConsoleScreenshot" xml:space="preserve">
     <value>截图</value>
   </data>
   <data name="ButtonConsoleStateSlotNext" xml:space="preserve">
-    <value>选择下一个插槽</value>
+    <value>选择下一个进度</value>
   </data>
   <data name="ButtonConsoleStateSlotPrevious" xml:space="preserve">
-    <value>选择上一个插槽</value>
+    <value>选择上一个进度</value>
   </data>
   <data name="ButtonDown" xml:space="preserve">
     <value>下</value>
@@ -298,7 +298,7 @@
     <value>X键 ("停止")</value>
   </data>
   <data name="ResetAllToDefault" xml:space="preserve">
-    <value>重置为默认值 (&amp;R)</value>
+    <value>重置为默认值(&amp;R)</value>
   </data>
   <data name="SetAll" xml:space="preserve">
     <value>设置所有</value>
