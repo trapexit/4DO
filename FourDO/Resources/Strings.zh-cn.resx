@@ -591,4 +591,7 @@
   <data name="MainMessageScreenshotSaved" xml:space="preserve">
     <value>截图</value>
   </data>
+  <data name="SettingsTabGeneralShowMessages" xml:space="preserve">
+    <value>显示信息性消息</value>
+  </data>
 </root>

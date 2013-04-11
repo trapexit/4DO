@@ -19,6 +19,7 @@ namespace FourDO.UI
 			this.chkLoadLastGame.Text = Strings.SettingsTabGeneralAutoLoadLastGame;
 			this.BehaviorGroupBox.Text = Strings.SettingsTabGeneralBehaviorOptions;
 			this.chkLoadLastSave.Text = Strings.SettingsTabGeneralAutoLoadLastSave;
+			this.chkShowMessages.Text = Strings.SettingsTabGeneralShowMessages;
 			this.InactiveGroupBox.Text = Strings.SettingsTabGeneralInactiveOptions;
 			this.chkInactivePauseEmulation.Text = Strings.SettingsTabGeneralInactivePauseEmulation;
 			this.chkInactiveIgnoreInput.Text = Strings.SettingsTabGeneralInactiveIgnoreKeyboard;

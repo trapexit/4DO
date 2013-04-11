@@ -43,6 +43,8 @@
 			this.chkInactiveIgnoreInput = new System.Windows.Forms.CheckBox();
 			this.pictureBox4 = new System.Windows.Forms.PictureBox();
 			this.BehaviorGroupBox = new System.Windows.Forms.GroupBox();
+			this.pictureBox6 = new System.Windows.Forms.PictureBox();
+			this.chkShowMessages = new System.Windows.Forms.CheckBox();
 			this.chkLoadLastSave = new System.Windows.Forms.CheckBox();
 			this.pictureBox3 = new System.Windows.Forms.PictureBox();
 			this.StartupGroupBox = new System.Windows.Forms.GroupBox();
@@ -117,6 +119,7 @@
 			this.InactiveGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
 			this.BehaviorGroupBox.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
 			this.StartupGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -257,7 +260,7 @@
 			this.InactiveGroupBox.Controls.Add(this.chkInactivePauseEmulation);
 			this.InactiveGroupBox.Controls.Add(this.chkInactiveIgnoreInput);
 			this.InactiveGroupBox.Controls.Add(this.pictureBox4);
-			this.InactiveGroupBox.Location = new System.Drawing.Point(17, 189);
+			this.InactiveGroupBox.Location = new System.Drawing.Point(17, 242);
 			this.InactiveGroupBox.Name = "InactiveGroupBox";
 			this.InactiveGroupBox.Size = new System.Drawing.Size(411, 100);
 			this.InactiveGroupBox.TabIndex = 2;
@@ -299,14 +302,37 @@
 			// 
 			this.BehaviorGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.BehaviorGroupBox.Controls.Add(this.pictureBox6);
+			this.BehaviorGroupBox.Controls.Add(this.chkShowMessages);
 			this.BehaviorGroupBox.Controls.Add(this.chkLoadLastSave);
 			this.BehaviorGroupBox.Controls.Add(this.pictureBox3);
 			this.BehaviorGroupBox.Location = new System.Drawing.Point(17, 102);
 			this.BehaviorGroupBox.Name = "BehaviorGroupBox";
-			this.BehaviorGroupBox.Size = new System.Drawing.Size(411, 81);
+			this.BehaviorGroupBox.Size = new System.Drawing.Size(411, 134);
 			this.BehaviorGroupBox.TabIndex = 1;
 			this.BehaviorGroupBox.TabStop = false;
 			this.BehaviorGroupBox.Text = "Various &Behaviorial Options";
+			// 
+			// pictureBox6
+			// 
+			this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
+			this.pictureBox6.Location = new System.Drawing.Point(6, 74);
+			this.pictureBox6.Name = "pictureBox6";
+			this.pictureBox6.Size = new System.Drawing.Size(47, 49);
+			this.pictureBox6.TabIndex = 7;
+			this.pictureBox6.TabStop = false;
+			// 
+			// chkShowMessages
+			// 
+			this.chkShowMessages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.chkShowMessages.Location = new System.Drawing.Point(67, 74);
+			this.chkShowMessages.Name = "chkShowMessages";
+			this.chkShowMessages.Size = new System.Drawing.Size(338, 49);
+			this.chkShowMessages.TabIndex = 1;
+			this.chkShowMessages.Text = "Show informational messages for various emulation events (save state, load state," +
+    " pause, etc.)";
+			this.chkShowMessages.UseVisualStyleBackColor = true;
 			// 
 			// chkLoadLastSave
 			// 
@@ -1050,6 +1076,7 @@
 			this.InactiveGroupBox.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
 			this.BehaviorGroupBox.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
 			this.StartupGroupBox.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -1168,5 +1195,7 @@
 		private System.Windows.Forms.CheckBox chkSmoothImageResize;
 		private System.Windows.Forms.Panel panel4;
 		private System.Windows.Forms.Label ScalingModeWarningLabel;
+		private System.Windows.Forms.PictureBox pictureBox6;
+		private System.Windows.Forms.CheckBox chkShowMessages;
     }
 }

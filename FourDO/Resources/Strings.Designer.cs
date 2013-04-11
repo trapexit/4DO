@@ -1456,6 +1456,15 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show informational messages for various emulation events (save state, load state, pause, etc.).
+        /// </summary>
+        internal static string SettingsTabGeneralShowMessages {
+            get {
+                return ResourceManager.GetString("SettingsTabGeneralShowMessages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Startup Options.
         /// </summary>
         internal static string SettingsTabGeneralStartupOptions {

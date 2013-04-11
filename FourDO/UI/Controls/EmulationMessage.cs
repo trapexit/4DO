@@ -38,6 +38,9 @@ namespace FourDO.UI.Controls
 
 		public void PostMessage(string message)
 		{
+			if (!Properties.Settings.Default.ShowInformationalMessages)
+				return;
+
 			_message = message;
 			this.Invalidate();
 			this.Visible = true;

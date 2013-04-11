@@ -23,6 +23,7 @@ namespace FourDO.UI
 
 			chkLoadLastGame.Checked = Properties.Settings.Default.AutoOpenGameFile;
 			chkLoadLastSave.Checked = Properties.Settings.Default.AutoLoadLastSave;
+			chkShowMessages.Checked = Properties.Settings.Default.ShowInformationalMessages;
 			chkInactivePauseEmulation.Checked = Properties.Settings.Default.InactivePauseEmulation;
 			chkInactiveIgnoreInput.Checked = Properties.Settings.Default.InactiveIgnoreKeyboard;
 
@@ -54,6 +55,7 @@ namespace FourDO.UI
 		{
 			Properties.Settings.Default.AutoOpenGameFile = chkLoadLastGame.Checked;
 			Properties.Settings.Default.AutoLoadLastSave = chkLoadLastSave.Checked;
+			Properties.Settings.Default.ShowInformationalMessages = chkShowMessages.Checked;
 			Properties.Settings.Default.InactivePauseEmulation = chkInactivePauseEmulation.Checked;
 			Properties.Settings.Default.InactiveIgnoreKeyboard = chkInactiveIgnoreInput.Checked;
 

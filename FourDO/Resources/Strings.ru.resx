@@ -594,4 +594,7 @@
   <data name="MainMessageScreenshotSaved" xml:space="preserve">
     <value>Скриншот</value>
   </data>
+  <data name="SettingsTabGeneralShowMessages" xml:space="preserve">
+    <value>Показать информационных сообщений</value>
+  </data>
 </root>
