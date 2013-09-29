@@ -31,6 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Browser));
 			this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
+			this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.MainImageList = new System.Windows.Forms.ImageList(this.components);
 			this.FileListView = new System.Windows.Forms.ListView();
 			this.NameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,9 +48,14 @@
 			this.DirectoryTextBox = new System.Windows.Forms.TextBox();
 			this.DirectoryUpButton = new System.Windows.Forms.Button();
 			this.DirectoryNotFoundLabel = new System.Windows.Forms.Label();
-			this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.TransferPanel = new System.Windows.Forms.Panel();
+			this.CancelButton = new System.Windows.Forms.LinkLabel();
+			this.ExtractingLabel = new System.Windows.Forms.Label();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.SelectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MainStatusStrip.SuspendLayout();
 			this.BrowserContextMenuStrip.SuspendLayout();
+			this.TransferPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// MainStatusStrip
@@ -62,6 +68,11 @@
 			this.MainStatusStrip.TabIndex = 1;
 			this.MainStatusStrip.Text = "statusStrip1";
 			// 
+			// StatusLabel
+			// 
+			this.StatusLabel.Name = "StatusLabel";
+			this.StatusLabel.Size = new System.Drawing.Size(0, 17);
+			// 
 			// MainImageList
 			// 
 			this.MainImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("MainImageList.ImageStream")));
@@ -73,9 +84,9 @@
 			// 
 			// FileListView
 			// 
-			this.FileListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.FileListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.FileListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.NameColumn,
             this.SizeColumn,
@@ -113,14 +124,16 @@
 			// BrowserContextMenuStrip
 			// 
 			this.BrowserContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenMenuItem,
+            this.toolStripMenuItem1,
             this.ExtractMenuItem,
             this.toolStripSeparator1,
             this.ExtractDirectoryMenuItem,
             this.ExtractDiscMenuItem,
-            this.toolStripMenuItem1,
-            this.OpenMenuItem});
+            this.toolStripSeparator2,
+            this.SelectAllToolStripMenuItem});
 			this.BrowserContextMenuStrip.Name = "BrowserContextMenuStrip";
-			this.BrowserContextMenuStrip.Size = new System.Drawing.Size(224, 104);
+			this.BrowserContextMenuStrip.Size = new System.Drawing.Size(224, 154);
 			this.BrowserContextMenuStrip.VisibleChanged += new System.EventHandler(this.ContextMenuStrip_VisibleChanged);
 			// 
 			// ExtractMenuItem
@@ -164,8 +177,8 @@
 			// 
 			// DirectoryTextBox
 			// 
-			this.DirectoryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.DirectoryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.DirectoryTextBox.Location = new System.Drawing.Point(68, 3);
 			this.DirectoryTextBox.Name = "DirectoryTextBox";
 			this.DirectoryTextBox.Size = new System.Drawing.Size(317, 21);
@@ -197,16 +210,60 @@
 			this.DirectoryNotFoundLabel.Text = "(Could not find the specified directory)";
 			this.DirectoryNotFoundLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// StatusLabel
+			// TransferPanel
 			// 
-			this.StatusLabel.Name = "StatusLabel";
-			this.StatusLabel.Size = new System.Drawing.Size(0, 17);
+			this.TransferPanel.BackColor = System.Drawing.SystemColors.Window;
+			this.TransferPanel.Controls.Add(this.ExtractingLabel);
+			this.TransferPanel.Controls.Add(this.CancelButton);
+			this.TransferPanel.Location = new System.Drawing.Point(68, 181);
+			this.TransferPanel.Name = "TransferPanel";
+			this.TransferPanel.Size = new System.Drawing.Size(272, 127);
+			this.TransferPanel.TabIndex = 10;
+			this.TransferPanel.Visible = false;
+			this.TransferPanel.Resize += new System.EventHandler(this.TransferPanel_Resize);
+			// 
+			// CancelButton
+			// 
+			this.CancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.CancelButton.Location = new System.Drawing.Point(0, 50);
+			this.CancelButton.Name = "CancelButton";
+			this.CancelButton.Size = new System.Drawing.Size(272, 13);
+			this.CancelButton.TabIndex = 10;
+			this.CancelButton.TabStop = true;
+			this.CancelButton.Text = "Cancel";
+			this.CancelButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.CancelButton.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CancelButton_LinkClicked);
+			// 
+			// ExtractingLabel
+			// 
+			this.ExtractingLabel.BackColor = System.Drawing.SystemColors.Window;
+			this.ExtractingLabel.Location = new System.Drawing.Point(0, 63);
+			this.ExtractingLabel.Name = "ExtractingLabel";
+			this.ExtractingLabel.Size = new System.Drawing.Size(272, 64);
+			this.ExtractingLabel.TabIndex = 11;
+			this.ExtractingLabel.Text = "Now Extracting";
+			this.ExtractingLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.ExtractingLabel.Visible = false;
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(220, 6);
+			// 
+			// SelectAllToolStripMenuItem
+			// 
+			this.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem";
+			this.SelectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+			this.SelectAllToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+			this.SelectAllToolStripMenuItem.Text = "Select &All";
+			this.SelectAllToolStripMenuItem.Click += new System.EventHandler(this.SelectAllToolStripMenuItem_Click);
 			// 
 			// Browser
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(388, 371);
+			this.Controls.Add(this.TransferPanel);
 			this.Controls.Add(this.DirectoryUpButton);
 			this.Controls.Add(this.DirectoryTextBox);
 			this.Controls.Add(this.FileListView);
@@ -222,6 +279,7 @@
 			this.MainStatusStrip.ResumeLayout(false);
 			this.MainStatusStrip.PerformLayout();
 			this.BrowserContextMenuStrip.ResumeLayout(false);
+			this.TransferPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -247,5 +305,10 @@
 		private System.Windows.Forms.ToolStripMenuItem ExtractDirectoryMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
+		private System.Windows.Forms.Panel TransferPanel;
+		private System.Windows.Forms.Label ExtractingLabel;
+		private System.Windows.Forms.LinkLabel CancelButton;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripMenuItem SelectAllToolStripMenuItem;
 	}
 }

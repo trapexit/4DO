@@ -129,6 +129,12 @@
   <data name="BrowserColumnName" xml:space="preserve">
     <value>名称</value>
   </data>
+  <data name="BrowserDirectoryNotFound" xml:space="preserve">
+    <value>(找不到指定的目录)</value>
+  </data>
+  <data name="BrowserExtracting" xml:space="preserve">
+    <value>提取</value>
+  </data>
   <data name="BrowserMenuExtract" xml:space="preserve">
     <value>提取到...(&amp;E)</value>
   </data>
@@ -140,6 +146,9 @@
   </data>
   <data name="BrowserMenuOpenDirectory" xml:space="preserve">
     <value>打开目录(&amp;O)</value>
+  </data>
+  <data name="BrowserMenuSelectAll" xml:space="preserve">
+    <value>全选(&amp;A)</value>
   </data>
   <data name="BrowserUp" xml:space="preserve">
     <value>返回</value>

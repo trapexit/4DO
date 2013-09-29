@@ -546,6 +546,12 @@
   <data name="BrowserColumnName" xml:space="preserve">
     <value>Имя</value>
   </data>
+  <data name="BrowserDirectoryNotFound" xml:space="preserve">
+    <value>(Не удается найти указанный каталог)</value>
+  </data>
+  <data name="BrowserExtracting" xml:space="preserve">
+    <value>Извлекающий</value>
+  </data>
   <data name="BrowserMenuExtract" xml:space="preserve">
     <value>Извлечение</value>
   </data>
@@ -557,6 +563,9 @@
   </data>
   <data name="BrowserMenuOpenDirectory" xml:space="preserve">
     <value>&amp;Открытый каталог</value>
+  </data>
+  <data name="BrowserMenuSelectAll" xml:space="preserve">
+    <value>Выбрать в&amp;се</value>
   </data>
   <data name="BrowserUp" xml:space="preserve">
     <value>по</value>

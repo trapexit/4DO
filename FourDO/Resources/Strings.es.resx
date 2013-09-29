@@ -546,6 +546,12 @@
   <data name="BrowserColumnName" xml:space="preserve">
     <value>Nombre</value>
   </data>
+  <data name="BrowserDirectoryNotFound" xml:space="preserve">
+    <value>(No se pudo encontrar el directorio especificado)</value>
+  </data>
+  <data name="BrowserExtracting" xml:space="preserve">
+    <value>Extracción</value>
+  </data>
   <data name="BrowserMenuExtract" xml:space="preserve">
     <value>&amp;Extraer a</value>
   </data>
@@ -557,6 +563,9 @@
   </data>
   <data name="BrowserMenuOpenDirectory" xml:space="preserve">
     <value>&amp;Abierto</value>
+  </data>
+  <data name="BrowserMenuSelectAll" xml:space="preserve">
+    <value>Seleccionar &amp;Todo</value>
   </data>
   <data name="BrowserUp" xml:space="preserve">
     <value>Arriba</value>
