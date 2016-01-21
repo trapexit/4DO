@@ -12,6 +12,8 @@
 #include "types.h"
 
 extern int fixmode;
+extern int biosanvil;
+extern int isanvil;
 extern int speedfixes;
 extern int sf;
 extern int sdf;

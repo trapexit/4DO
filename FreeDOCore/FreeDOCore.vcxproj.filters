@@ -66,9 +66,6 @@
     <ClCompile Include="Filters\hqx_init.cpp">
       <Filter>Filters</Filter>
     </ClCompile>
-    <ClCompile Include="FreeDO\Worker.cpp">
-      <Filter>FreeDO\Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FreeDO\quarz.h">
@@ -122,9 +119,6 @@
     </ClInclude>
     <ClInclude Include="Filters\hqx_common.h">
       <Filter>Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="FreeDO\Worker.h">
-      <Filter>FreeDO\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,9 +8,10 @@ namespace FourDO.UI.Canvases
 	interface ICanvas : IDisposable
 	{
 		event BeforeRenderEventHandler BeforeRender;
+        bool isScale { get; set; }
 
 		bool ImageSmoothing { get; set; }
-		bool AutoCrop { get; set; }
+        bool AutoCrop { get; set; }
 		bool RenderHighResolution { get; set; }
 		bool IsInResizeMode { get; set; }
 		ScalingAlgorithm ScalingAlgorithm { get; set; }

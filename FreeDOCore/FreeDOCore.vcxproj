@@ -60,7 +60,6 @@
       <ForceSymbolReferences>__DllMainCRTStartup@12</ForceSymbolReferences>
       <AdditionalDependencies>msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NOENTRY %(AdditionalOptions)</AdditionalOptions>
-      <Profile>true</Profile>
     </Link>
     <PostBuildEvent>
       <Command>if not exist "$(SolutionDir)FourDO\bin" mkdir "$(SolutionDir)\FourDO\bin"
@@ -96,7 +95,6 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
       <AdditionalOptions>/NOENTRY %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ForceSymbolReferences>__DllMainCRTStartup@12</ForceSymbolReferences>
-      <Profile>false</Profile>
     </Link>
     <PostBuildEvent>
       <Command>if not exist "$(SolutionDir)FourDO\bin" mkdir "$(SolutionDir)\FourDO\bin"
@@ -127,7 +125,6 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
     <ClCompile Include="FreeDO\quarz.cpp" />
     <ClCompile Include="FreeDO\SPORT.cpp" />
     <ClCompile Include="FreeDO\vdlp.cpp" />
-    <ClCompile Include="FreeDO\Worker.cpp" />
     <ClCompile Include="FreeDO\XBUS.cpp" />
     <ClCompile Include="FreeDO\_3do_sys.cpp" />
   </ItemGroup>
@@ -149,7 +146,6 @@ copy "$(TargetPath)" "$(SolutionDir)FourDO\bin\x64\$(ConfigurationName)\$(Target
     <ClInclude Include="FreeDO\stdafx.h" />
     <ClInclude Include="FreeDO\types.h" />
     <ClInclude Include="FreeDO\vdlp.h" />
-    <ClInclude Include="FreeDO\Worker.h" />
     <ClInclude Include="FreeDO\XBUS.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

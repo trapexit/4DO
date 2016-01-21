@@ -46,6 +46,9 @@ extern void* Getp_ROMS();
 extern void* Getp_RAMS();
 extern int ARM_CLOCK;
 extern int THE_ARM_CLOCK;
+extern int FMVFIX;
+extern int lsize;
+extern int flagtime;
 
 __inline uint32 _bswap(uint32 x)
 {
@@ -58,6 +61,7 @@ int _3do_Init()
 {
 	unsigned char *Memory;
 	unsigned char *rom;
+	if(isanvil==30)biosanvil=1;
 
 	Memory=_arm_Init();
 
@@ -139,6 +143,7 @@ void _3do_InternalFrame(int cicles)
 			curr_frame->srcw=320;
 			curr_frame->srch=240;
 			if(!scipframe)curr_frame=(VDLFrame*)io_interface(EXT_SWAPFRAME,curr_frame);
+			//if(!scipframe)io_interface(EXT_SWAPFRAME,curr_frame);
 		}
 	}
 }
@@ -149,6 +154,7 @@ void __fastcall _3do_Frame(VDLFrame *frame, bool __scipframe=false)
 
 	curr_frame=frame;
 	scipframe=__scipframe;
+	if(flagtime)flagtime--;
 
 	for(i=0;i<(12500000/60);)
 	{
@@ -160,7 +166,7 @@ void __fastcall _3do_Frame(VDLFrame *frame, bool __scipframe=false)
 			continue;
 		}
 
-		cnt+=_arm_Execute();
+		cnt+=_arm_Execute();   
 		if(cnt>>4){_3do_InternalFrame(cnt);i+=cnt;cnt=0;}
 
 	}
@@ -254,20 +260,23 @@ unsigned int _3do_DiscSize()
 int __tex__scaler = 0;
 int HightResMode=0;
 int fixmode=0;
+int biosanvil=0;
+int isanvil=0;
 int speedfixes=0;
 int sf=0;
 int sdf=0;
 int unknownflag11=0;
 int jw=0;
 int cnbfix=0;
+
 FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 {
 	int line;
 	switch(procedure)
 	{
 	case FDP_INIT:
-		sf=5000000;
 		cnbfix=0;
+		sf=5000000;
 		io_interface=(_ext_Interface)datum;
 		return (void*)_3do_Init();
 	case FDP_DESTROY:
@@ -289,6 +298,7 @@ FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 		_3do_Save(datum);
 		break;
 	case FDP_DO_LOAD:
+		cnbfix=1;
 		sf=0;
 		return (void*)_3do_Load(datum);
 	case FDP_GETP_NVRAM:
@@ -302,7 +312,6 @@ FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 	case FDP_FREEDOCORE_VERSION:
 		return (void*)0x20008;
 	case FDP_SET_ARMCLOCK:
-		THE_ARM_CLOCK=0;
 		ARM_CLOCK=(int)datum;
 		break;
 	case FDP_SET_TEXQUALITY:
@@ -312,7 +321,7 @@ FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 		fixmode=(int)datum;
 		break;
 	case FDP_GET_FRAME_BITMAP:
-		GetFrameBitmapParams* param = (GetFrameBitmapParams*)datum;
+		{GetFrameBitmapParams* param = (GetFrameBitmapParams*)datum;
 		Get_Frame_Bitmap(
 			param->sourceFrame
 			, param->destinationBitmap
@@ -325,7 +334,12 @@ FREEDOCORE_API void* __stdcall _freedo_Interface(int procedure, void *datum)
 			, param->allowCrop
 			, (ScalingAlgorithm)param->scalingAlgorithm
 			, &param->resultingWidth
-			, &param->resultingHeight);
+			, &param->resultingHeight);}
+		break;
+	case FDP_GET_BIOS_TYPE:
+		return (void*)isanvil;
+	case FDP_SET_ANVIL:
+		isanvil=(int)datum;
 		break;
 	};
 

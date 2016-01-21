@@ -86,6 +86,18 @@ namespace FourDO.UI
 			}
 		}
 
+        public bool isScale
+        {
+            get
+            {
+                return ((ICanvas)this.childCanvas).isScale;
+            }
+            set
+            {
+                ((ICanvas)this.childCanvas).isScale = value;
+            }
+        }
+
 		public bool PreserveAspectRatio
 		{
 			get

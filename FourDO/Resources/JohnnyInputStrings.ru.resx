@@ -141,9 +141,6 @@
   <data name="ButtonConsoleAdvanceFrame" xml:space="preserve">
     <value>Покадровый вывод</value>
   </data>
-  <data name="ButtonConsoleExit" xml:space="preserve">
-    <value>Выход</value>
-  </data>
   <data name="ButtonConsoleFullScreen" xml:space="preserve">
     <value>Во весь экран</value>
   </data>
@@ -296,9 +293,6 @@
   </data>
   <data name="PreviewXButton" xml:space="preserve">
     <value>X Кнопка ("Стоп")</value>
-  </data>
-  <data name="ResetAllToDefault" xml:space="preserve">
-    <value>По умолчанию</value>
   </data>
   <data name="SetAll" xml:space="preserve">
     <value>Настроить все</value>

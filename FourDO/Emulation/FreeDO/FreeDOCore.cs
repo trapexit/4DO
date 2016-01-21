@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using FourDO.Properties;
 
 namespace FourDO.Emulation.FreeDO
 {
@@ -14,6 +15,8 @@ namespace FourDO.Emulation.FreeDO
 		FIX_BIT_TIMING_7 = 0x00000040,
 		FIX_BIT_GRAPHICS_STEP_Y = 0x00080000,
 	}
+
+
 
 	internal static class FreeDOCore
 	{
@@ -104,7 +107,9 @@ namespace FourDO.Emulation.FreeDO
 			FDP_SET_TEXQUALITY = 15,
 			FDP_GETP_WRCOUNT = 16, // JMK NOTE: Unused?
 			FDP_SET_FIX_MODE = 17,
-			FDP_GET_FRAME_BITMAP = 18
+			FDP_GET_FRAME_BITMAP = 18,
+            FDP_GET_BIOS_TYPE = 19,
+            FDP_SET_ANVIL = 20
 		}
 
 		#endregion // Private Types
@@ -148,6 +153,18 @@ namespace FourDO.Emulation.FreeDO
 					(int)InterfaceFunction.FDP_INIT,
 					Marshal.GetFunctionPointerForDelegate(externalInterfaceDelegate));
 		}
+
+        public static int GetBiosType()
+        {
+            return (int)FreeDoInterface((int)InterfaceFunction.FDP_GET_BIOS_TYPE, (IntPtr)0);
+
+        }
+
+        public static int SetAnvilFix(int flag)
+        {
+            return (int)FreeDoInterface((int)InterfaceFunction.FDP_SET_ANVIL, (IntPtr)flag);
+
+        }
 
 		public static void Destroy()
 		{
@@ -234,12 +251,43 @@ namespace FourDO.Emulation.FreeDO
 			FreeDoInterface((int)InterfaceFunction.FDP_GET_FRAME_BITMAP, paramHandle.AddrOfPinnedObject());
 			Marshal.PtrToStructure(cropHandle.AddrOfPinnedObject(), crop);
 			Marshal.PtrToStructure(paramHandle.AddrOfPinnedObject(), param);
-
 			// Get resulting crop.
-			resultingBitmapCrop.Top = crop.top;
-			resultingBitmapCrop.Left = crop.left;
-			resultingBitmapCrop.Right = crop.right;
-			resultingBitmapCrop.Bottom = crop.bottom;
+            
+            if (!Properties.Settings.Default.WindowScale)
+            {
+                resultingBitmapCrop.Top = crop.top;
+                resultingBitmapCrop.Left = crop.left;
+                resultingBitmapCrop.Right = crop.right;
+                resultingBitmapCrop.Bottom = crop.bottom;
+            }
+            else if (param.scalingAlgorithm == 1 || Properties.Settings.Default.RenderHighResolution == true)
+            {
+                resultingBitmapCrop.Top = crop.top + 32;
+                resultingBitmapCrop.Left = crop.left + 32;
+                resultingBitmapCrop.Right = crop.right + 32;
+                resultingBitmapCrop.Bottom = crop.bottom + 32;
+            }
+            else if (param.scalingAlgorithm == 2)
+            {
+                resultingBitmapCrop.Top = crop.top + 48;
+                resultingBitmapCrop.Left = crop.left + 48;
+                resultingBitmapCrop.Right = crop.right + 48;
+                resultingBitmapCrop.Bottom = crop.bottom + 48;
+            }
+            else if (param.scalingAlgorithm == 3)
+            {
+                resultingBitmapCrop.Top = crop.top + 64;
+                resultingBitmapCrop.Left = crop.left + 64;
+                resultingBitmapCrop.Right = crop.right + 64;
+                resultingBitmapCrop.Bottom = crop.bottom + 64;
+            }
+            else
+            {
+                resultingBitmapCrop.Top = crop.top + 16;
+                resultingBitmapCrop.Left = crop.left + 16;
+                resultingBitmapCrop.Right = crop.right + 16;
+                resultingBitmapCrop.Bottom = crop.bottom + 16;
+            }
 
 			resultingWidth = param.resultingWidth;
 			resultingHeight = param.resultingHeight;
@@ -338,5 +386,12 @@ namespace FourDO.Emulation.FreeDO
 			Marshal.StructureToPtr(anything, newHandle.AddrOfPinnedObject(), false);
 			return rawdata;
 		}
-	}
+
+      /*  internal static void SetScale(bool p)
+        {
+            BitmapCrop rBitCrop = new BitmapCrop();
+            rBitCrop.Scaled = 20;
+
+        }*/
+    }
 }

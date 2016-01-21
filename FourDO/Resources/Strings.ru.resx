@@ -478,7 +478,7 @@
     <value>Настройка различных параметров 4DO</value>
   </data>
   <data name="SettingsWindowTitle" xml:space="preserve">
-    <value>Настройки</value>
+    <value>Настройки </value>
   </data>
   <data name="MainMessageHealth" xml:space="preserve">
     <value>Статус:</value>
@@ -487,7 +487,7 @@
     <value>режим масштабирования</value>
   </data>
   <data name="MainMenuDisplayScalingDoubleRes" xml:space="preserve">
-    <value>Двухместные разрешение визуализации</value>
+    <value>Высокое разрешение</value>
   </data>
   <data name="MainMenuDisplayScalingHq2x" xml:space="preserve">
     <value>hq2x</value>
@@ -499,7 +499,7 @@
     <value>hq4x</value>
   </data>
   <data name="MainMenuDisplayScalingNone" xml:space="preserve">
-    <value>никто</value>
+    <value>нет</value>
   </data>
   <data name="SettingsTabDisplayScalingModeDoubleRes" xml:space="preserve">
     <value>Высокое разрешение</value>
@@ -535,75 +535,45 @@
     <value>Немецкий</value>
   </data>
   <data name="BrowserColumnBytes" xml:space="preserve">
-    <value>Б</value>
+    <value>Размер</value>
   </data>
   <data name="BrowserColumnExtension" xml:space="preserve">
-    <value>Extension</value>
+    <value>Расширение</value>
   </data>
   <data name="BrowserColumnID" xml:space="preserve">
     <value>ID</value>
   </data>
   <data name="BrowserColumnName" xml:space="preserve">
-    <value>Имя</value>
-  </data>
-  <data name="BrowserDirectoryNotFound" xml:space="preserve">
-    <value>(Не удается найти указанный каталог)</value>
-  </data>
-  <data name="BrowserExtracting" xml:space="preserve">
-    <value>Извлекающий</value>
+    <value>Название</value>
   </data>
   <data name="BrowserMenuExtract" xml:space="preserve">
-    <value>Извлечение</value>
+    <value>Извлечь</value>
   </data>
   <data name="BrowserMenuExtractDirectory" xml:space="preserve">
-    <value>Извлечение текущего &amp;каталога...</value>
+    <value>Извлечь текущую папку...</value>
   </data>
   <data name="BrowserMenuExtractDisc" xml:space="preserve">
-    <value>Извлечение &amp;всего диска...</value>
+    <value>Извлечь весь диск...</value>
   </data>
   <data name="BrowserMenuOpenDirectory" xml:space="preserve">
-    <value>&amp;Открытый каталог</value>
-  </data>
-  <data name="BrowserMenuSelectAll" xml:space="preserve">
-    <value>Выбрать в&amp;се</value>
+    <value>&amp;Открыть папку</value>
   </data>
   <data name="BrowserUp" xml:space="preserve">
-    <value>по</value>
+    <value>назад</value>
   </data>
   <data name="BrowserWindowTitle" xml:space="preserve">
-    <value>диск браузер</value>
+    <value>CD браузер</value>
   </data>
   <data name="MainMenuTools" xml:space="preserve">
-    <value>&amp;Инструментарий</value>
+    <value>&amp;Инструменты</value>
   </data>
   <data name="MainMenuToolsDiscBrowser" xml:space="preserve">
-    <value>диск браузер</value>
+    <value>CD браузер</value>
   </data>
-  <data name="MainMessageConsolePaused" xml:space="preserve">
-    <value>Консоль Пауза</value>
+  <data name="MainMenuScale" xml:space="preserve">
+    <value>Увеличить изображение</value>
   </data>
-  <data name="MainMessageConsoleReset" xml:space="preserve">
-    <value>Консоль Сброс</value>
-  </data>
-  <data name="MainMessageConsoleResumed" xml:space="preserve">
-    <value>Консоль Pезюме</value>
-  </data>
-  <data name="MainMessageCurrentSlotSet" xml:space="preserve">
-    <value>Сохранить в слот {0}</value>
-  </data>
-  <data name="MainMessageLoadedState" xml:space="preserve">
-    <value>Загрузить {0}</value>
-  </data>
-  <data name="MainMessageNoSaveInSlot" xml:space="preserve">
-    <value>(Пустой cлот {0})</value>
-  </data>
-  <data name="MainMessageSavedState" xml:space="preserve">
-    <value>Сохранить {0}</value>
-  </data>
-  <data name="MainMessageScreenshotSaved" xml:space="preserve">
-    <value>Скриншот</value>
-  </data>
-  <data name="SettingsTabGeneralShowMessages" xml:space="preserve">
-    <value>Показать информационных сообщений</value>
+  <data name="SettingsTabScaleBox" xml:space="preserve">
+    <value>Увеличить изображение</value>
   </data>
 </root>

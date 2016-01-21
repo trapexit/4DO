@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -8,29 +7,17 @@ using FourDO.Emulation.GameSource;
 using FourDO.FileSystem;
 using FourDO.FileSystem.Core;
 using FourDO.FileSystem.Core.Structs;
-using System.Threading;
-using FourDO.Resources;
 using FourDO.Utilities;
 
 namespace FourDO.UI.DiscBrowser
 {
 	public partial class Browser : Form
 	{
-		private class WorkerArgs
-		{
-			public BackgroundWorker worker;
-			public IEnumerable<IItem> items;
-			public string path;
-		}
-
 		public IGameSource GameSource { get; set; }
-
-		private BackgroundWorker _backgroundWorker = null;
 
 		private FileSystem.FileSystem _fileSystem;
 		private IFileReader _fileReader;
 		private string _extractPath;
-		private Cursor _originalCursor;
 
 		private Directory _currentDirectory;
 
@@ -166,13 +153,6 @@ namespace FourDO.UI.DiscBrowser
 		private void HandleUpDirectory()
 		{
 			this.UpdateCurrentDirectory();
-
-			// Get the last full path.
-			string lastFullPath = null;
-			if (_currentDirectory != null)
-				lastFullPath = _currentDirectory.GetFullPath();
-
-			// Determine the next directory.
 			if (_currentDirectory == null)
 				DirectoryTextBox.Text = @"/";
 			else if (_currentDirectory.Parent == null)
@@ -181,36 +161,7 @@ namespace FourDO.UI.DiscBrowser
 				DirectoryTextBox.Text = @"/";
 			else
 				DirectoryTextBox.Text = _currentDirectory.Parent.GetFullPath();
-
-			// This will populate the list with items.
 			UpdateUI();
-
-			// See if we came from a directory that we can select now.
-			if (!string.IsNullOrEmpty(lastFullPath))
-			{
-				var parts = lastFullPath.Split('/');
-				var lastPart = parts[parts.Length - 1];
-				foreach (var item in FileListView.Items)
-				{
-					ListViewItem listItem = item as ListViewItem;
-					if (listItem == null)
-						continue;
-
-					Directory directoryItem = listItem.Tag as Directory;
-					if (directoryItem == null)
-						continue;
-
-					if (directoryItem.Name == lastPart)
-					{
-						listItem.Selected = true;
-						listItem.EnsureVisible();
-						break;
-					}
-				}
-			}
-
-			// Set focus back to the listview.
-			this.FileListView.Focus();
 		}
 
 		private void DirectoryTextBox_TextChanged(object sender, System.EventArgs e)
@@ -246,11 +197,6 @@ namespace FourDO.UI.DiscBrowser
 					return;
 
 				this.OpenItem(items[0]);
-			}
-			else if (e.KeyCode == Keys.A && e.Control)
-			{
-				foreach (var item in FileListView.Items)
-					((ListViewItem)item).Selected = true;
 			}
 		}
 
@@ -294,7 +240,7 @@ namespace FourDO.UI.DiscBrowser
 			if (items.Count <= 0)
 				return;
 
-			AskAndBeginExtract(items);
+			AskAndExtractToDirectory(items);
 		}
 
 		private void ExtractDirectoryMenuItem_Click(object sender, System.EventArgs e)
@@ -309,7 +255,7 @@ namespace FourDO.UI.DiscBrowser
 				return;
 
 			var items = _currentDirectory.Children.ToList();
-			AskAndBeginExtract(items);
+			AskAndExtractToDirectory(items);
 		}
 
 		private void ExtractDiscMenuItem_Click(object sender, System.EventArgs e)
@@ -327,10 +273,10 @@ namespace FourDO.UI.DiscBrowser
 				return;
 
 			var items = _fileSystem.RootDirectory.Children.ToList();
-			AskAndBeginExtract(items);
+			AskAndExtractToDirectory(items);
 		}
 
-		private void AskAndBeginExtract(IEnumerable<IItem> items)
+		private void AskAndExtractToDirectory(IEnumerable<IItem> items)
 		{
 			// Find extraction folder
 			var newFolder = this.AskForFolder(_extractPath);
@@ -339,98 +285,18 @@ namespace FourDO.UI.DiscBrowser
 
 			_extractPath = newFolder;
 
-			// Disable UI
-			this.SetFormWorkMode(true);
-			this.Refresh();
-
-			/////////////
-			// Start worker
-			_backgroundWorker = new BackgroundWorker();
-			_backgroundWorker.WorkerReportsProgress = true;
-			_backgroundWorker.WorkerSupportsCancellation = true;
-			_backgroundWorker.DoWork += new DoWorkEventHandler(worker_DoWork);
-			_backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
-			_backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
-
-			WorkerArgs workerArgs = new WorkerArgs();
-			workerArgs.worker = _backgroundWorker;
-			workerArgs.items = items;
-			workerArgs.path = _extractPath;
-
-			_backgroundWorker.RunWorkerAsync(workerArgs);
+			ExtractToDirectory(items, _extractPath);
 		}
 
-		void worker_DoWork(object sender, DoWorkEventArgs e)
-		{
-			Thread.CurrentThread.Priority = ThreadPriority.Lowest;
-			WorkerArgs args = (WorkerArgs)e.Argument;
-			ExtractToDirectory(args.items, args.path, args.worker);
-		}
-
-		void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-		{
-			ExtractingLabel.Text = "\n" +
-					Strings.BrowserExtracting + "\n" +
-					"\n" +
-					(string)e.UserState;
-			this.Refresh();
-		}
-
-		void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			this.SetFormWorkMode(false);
-			_backgroundWorker = null;
-		}
-
-		private void SetFormWorkMode(bool workingMode)
-		{
-			if (workingMode)
-			{
-				/////////////
-				// Disable UI
-				this.ControlBox = false;
-				this.MainStatusStrip.Visible = false;
-
-				foreach (Control control in this.Controls)
-					control.Enabled = false;
-
-				TransferPanel.Dock = DockStyle.Fill;
-				ExtractingLabel.BringToFront();
-				TransferPanel.Enabled = true;
-				ExtractingLabel.Visible = true;
-				TransferPanel.Visible = true;
-
-				_originalCursor = Cursor.Current;
-				Cursor.Current = Cursors.WaitCursor;
-			}
-			else
-			{
-				/////////////
-				// Re-enable UI
-				foreach (Control control in this.Controls)
-					control.Enabled = true;
-				TransferPanel.Visible = false;
-
-				this.ControlBox = true;
-				this.MainStatusStrip.Visible = true;
-
-				Cursor.Current = _originalCursor;
-			}
-		}
-
-		private void ExtractToDirectory(IEnumerable<IItem> items, string path, BackgroundWorker worker)
+		private void ExtractToDirectory(IEnumerable<IItem> items, string path)
 		{
 			foreach (var item in items)
 			{
-				if (worker.CancellationPending)
-					return;
-
 				if (item is File)
 				{
 					var fileItem = item as File;
 					var bytes = fileItem.ReadBytes();
 					var outputPath = System.IO.Path.Combine(path, fileItem.Name);
-					worker.ReportProgress(0, fileItem.GetFullPath());
 					System.IO.File.WriteAllBytes(outputPath, bytes);
 				}
 				else if (item is Directory)
@@ -439,7 +305,7 @@ namespace FourDO.UI.DiscBrowser
 					var outputPath = System.IO.Path.Combine(path, item.Name);
 					if (!System.IO.Directory.Exists(outputPath))
 						System.IO.Directory.CreateDirectory(outputPath);
-					ExtractToDirectory(dirItem.Children, outputPath, worker);
+					ExtractToDirectory(dirItem.Children, outputPath);
 				}
 			}
 		}
@@ -501,42 +367,6 @@ namespace FourDO.UI.DiscBrowser
 					return ((File)x).Name.CompareTo(((File)y).Name);
 				}
 			}
-		}
-
-		private void FileListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-		{
-			var items = GetSelectedItems();
-			if (items.Count == 0)
-			{
-				StatusLabel.Text = "";
-				return;
-			}
-
-			StatusLabel.Text = items.Count + " item(s) selected.";
-		}
-
-		private void CancelButton_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			if (_backgroundWorker != null)
-				_backgroundWorker.CancelAsync();
-		}
-
-		private void TransferPanel_Resize(object sender, System.EventArgs e)
-		{
-			ExtractingLabel.Left = 0;
-			ExtractingLabel.Top = TransferPanel.ClientSize.Height / 2;
-			ExtractingLabel.Height = TransferPanel.ClientSize.Height - ExtractingLabel.Top;
-			ExtractingLabel.Width = TransferPanel.ClientSize.Width;
-
-			CancelButton.Left = 0;
-			CancelButton.Top = ExtractingLabel.Top - CancelButton.Height;
-			CancelButton.Width = TransferPanel.Width;
-		}
-
-		private void SelectAllToolStripMenuItem_Click(object sender, System.EventArgs e)
-		{
-			foreach (var item in FileListView.Items)
-				((ListViewItem)item).Selected = true;
 		}
 	}
 }

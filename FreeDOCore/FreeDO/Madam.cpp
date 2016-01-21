@@ -6,9 +6,9 @@ The FreeDO licensed under modified GNU LGPL, with following notes:
 
 *   The owners and original authors of the FreeDO have full right to develop closed source derivative work.
 *   Any non-commercial uses of the FreeDO sources or any knowledge obtained by studying or reverse engineering
-	of the sources, or any other material published by FreeDO have to be accompanied with full credits.
+    of the sources, or any other material published by FreeDO have to be accompanied with full credits.
 *   Any commercial uses of FreeDO sources or any knowledge obtained by studying or reverse engineering of the sources,
-	or any other material published by FreeDO is strictly forbidden without owners approval.
+    or any other material published by FreeDO is strictly forbidden without owners approval.
 
 The above notes are taking precedence over GNU LGPL in conflicting situations.
 
@@ -338,15 +338,15 @@ void Set_madam_FSM(unsigned int val){madam._madam_FSM=val;};
 
 unsigned int _madam_SaveSize()
 {
-		return sizeof(MADAMDatum);
+        return sizeof(MADAMDatum);
 }
 void _madam_Save(void *buff)
 {
-		memcpy(buff,&madam,sizeof(MADAMDatum));
+        memcpy(buff,&madam,sizeof(MADAMDatum));
 }
 void _madam_Load(void *buff)
 {
-		memcpy(&madam,buff,sizeof(MADAMDatum));
+        memcpy(&madam,buff,sizeof(MADAMDatum));
 }
 
 #define mregs madam.mregs
@@ -537,45 +537,6 @@ int FLOAT1612(int a)
 }
 
 //////////////////////////////////////////////////////////////////////
-// Quick divide helper
-//////////////////////////////////////////////////////////////////////
-
-const int QUICK_DIVIDE_CACHE_SIZE = 512;
-static int QUICK_DIVIDE_UBOUND = 0;
-static int QUICK_DIVIDE_LBOUND = 0;
-
-static short quickDivide_lookups[QUICK_DIVIDE_CACHE_SIZE][QUICK_DIVIDE_CACHE_SIZE];
-
-void quickDivide_init()
-{
-	QUICK_DIVIDE_UBOUND	= (QUICK_DIVIDE_CACHE_SIZE / 2) - 1;
-	QUICK_DIVIDE_LBOUND	= -(QUICK_DIVIDE_CACHE_SIZE / 2);
-	for (int a = QUICK_DIVIDE_LBOUND; a <= QUICK_DIVIDE_UBOUND; a++)
-	{
-		for (int b = QUICK_DIVIDE_LBOUND; b <= QUICK_DIVIDE_UBOUND; b++)
-		{
-			if (b == 0)
-				quickDivide_lookups[a - QUICK_DIVIDE_LBOUND][b - QUICK_DIVIDE_LBOUND] = 0;
-			else
-				quickDivide_lookups[a - QUICK_DIVIDE_LBOUND][b - QUICK_DIVIDE_LBOUND] = a / b;
-		}
-	}
-}
-
-int __inline quickDivide(int a, int b)
-{
-	if (a >= QUICK_DIVIDE_LBOUND 
-		&& a <= QUICK_DIVIDE_UBOUND 
-		&& b >= QUICK_DIVIDE_LBOUND 
-		&& b <= QUICK_DIVIDE_UBOUND)
-	{
-		return quickDivide_lookups[a - QUICK_DIVIDE_LBOUND][b - QUICK_DIVIDE_LBOUND];
-	}
-	else
-		return a / b;
-}
-
-//////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
@@ -620,7 +581,7 @@ void __fastcall _madam_Poke(unsigned int addr, unsigned int val)
 {
  if(addr>0x2ff && addr<0x400)
  {
-	  //  io_interface(EXT_DEBUG_PRINT,(void*)str.print("MADAM Write madam[0x%X] = 0x%8.8X\n",addr,val).CStr());
+      //  io_interface(EXT_DEBUG_PRINT,(void*)str.print("MADAM Write madam[0x%X] = 0x%8.8X\n",addr,val).CStr());
  }
  /*
  if(addr==0x13c)
@@ -720,12 +681,12 @@ void __fastcall _madam_Poke(unsigned int addr, unsigned int val)
 // Matix engine
 
 
-	case 0x7fc:
+    case 0x7fc:
 
 		mregs[0x7fc]=0; // Ours matrix engine already ready
 
 		static double Rez0T,Rez1T,Rez2T,Rez3T;
-			   // io_interface(EXT_DEBUG_PRINT,(void*)str.print("MADAM Write madam[0x%X] = 0x%8.8X\n",addr,val).CStr());
+               // io_interface(EXT_DEBUG_PRINT,(void*)str.print("MADAM Write madam[0x%X] = 0x%8.8X\n",addr,val).CStr());
 
 		switch(val) // Cmd
 		{
@@ -796,7 +757,7 @@ void __fastcall _madam_Poke(unsigned int addr, unsigned int val)
 					//io_interface(EXT_DEBUG_PRINT,(void*)str.print("??? Unknown cmd MADAM[0x7FC]==0x%x\n", val).CStr());
 					return;
 		}
-		break;
+        break;
 	case 0x130:
 		mregs[addr]=val;	//modulo variables :)
 		RMOD=((val&1)<<7)+((val&12)<<8)+((val&0x70)<<4);
@@ -826,7 +787,7 @@ int TEXTURE_WI_LIM, TEXTURE_HI_LIM;
 void LoadPLUT(unsigned int pnt,int n)
 {
  int i;
-	for(i=0;i<n;i++)
+ 	for(i=0;i<n;i++)
 	{
 			PLUT[i]=_mem_read16((((pnt>>1)+i)^1)<<1);
 	}
@@ -839,11 +800,11 @@ int _madam_HandleCEL()
 
 	__smallcicles=CELCYCLES=0;
 	if(NEXTCCB!=0)CCBCOUNTER=0;
-		STATBITS|=SPRON;
+        STATBITS|=SPRON;
 	Flag=0;
 
 
-	while((NEXTCCB!=0)&&(!Flag))
+        while((NEXTCCB!=0)&&(!Flag))
 	//if(_madam_FSM==FSM_INPROCESS)
 	{
 		CCBCOUNTER++;
@@ -908,20 +869,20 @@ int _madam_HandleCEL()
 			PDATF=1;
 		CURRENTCCB+=4;
 
-		if((CCBFLAGS&CCB_LDPLUT))
-		{
-			   PLUTDATA=mread(CURRENTCCB)&(~3);
-			   //if((PLUTDATA==0))
-			   //    PLUTF=1;
-			   if(!(CCBFLAGS&CCB_PPABS))
+        if((CCBFLAGS&CCB_LDPLUT))
+        {
+               PLUTDATA=mread(CURRENTCCB)&(~3);
+               //if((PLUTDATA==0))
+               //    PLUTF=1;
+               if(!(CCBFLAGS&CCB_PPABS))
 			   {
-				   PLUTDATA+=CURRENTCCB+4;
+                   PLUTDATA+=CURRENTCCB+4;
 				   PLUTDATA&=0xffffff;
 			   }
-			   if((PLUTDATA>>20)>2)
+               if((PLUTDATA>>20)>2)
 				   PLUTF=1;
-		}
-		CURRENTCCB+=4;
+        }
+	    CURRENTCCB+=4;
 
 
 		if(NCCBF)
@@ -935,10 +896,10 @@ int _madam_HandleCEL()
 		if(CCBFLAGS&CCB_YOXY)
 		{
 			XPOS1616=mread(CURRENTCCB);
-						XPOS=XPOS1616/65536.0;
+                        XPOS=XPOS1616/65536.0;
 			CURRENTCCB+=4;
 			YPOS1616=mread(CURRENTCCB);
-						YPOS=YPOS1616/65536.0;
+                        YPOS=YPOS1616/65536.0;
 			CURRENTCCB+=4;
 		}
 		else
@@ -958,25 +919,25 @@ int _madam_HandleCEL()
 			if(CCBFLAGS&CCB_LDSIZE)
 			{
 				HDX1616=((int)mread(CURRENTCCB))>>4;
-								HDX=HDX1616/65536.0;
+                                HDX=HDX1616/65536.0;
 				CURRENTCCB+=4;
 				HDY1616=((int)mread(CURRENTCCB))>>4;
-								HDY=HDY1616/65536.0;
+                                HDY=HDY1616/65536.0;
 				CURRENTCCB+=4;
 				VDX1616=mread(CURRENTCCB);
-								VDX=VDX1616/65536.0;
+                                VDX=VDX1616/65536.0;
 				CURRENTCCB+=4;
 				VDY1616=mread(CURRENTCCB);
-								VDY=VDY1616/65536.0;
+                                VDY=VDY1616/65536.0;
 				CURRENTCCB+=4;
 			}
 			if(CCBFLAGS&CCB_LDPRS)
 			{
 				HDDX1616=((int)mread(CURRENTCCB))>>4;
-								HDDX=HDDX1616/65536.0;
+                                HDDX=HDDX1616/65536.0;
 				CURRENTCCB+=4;
 				HDDY1616=((int)mread(CURRENTCCB))>>4;
-								HDDY=HDDY1616/65536.0;
+                                HDDY=HDDY1616/65536.0;
 				CURRENTCCB+=4;
 			}
 			if(CCBFLAGS&CCB_LDPPMP)
@@ -1033,7 +994,7 @@ int _madam_HandleCEL()
 			}
 
 			if((CCBFLAGS&CCB_LDPLUT) && !PLUTF) //load PLUT
-			{
+		    {
 			   switch(PRE0&PRE0_BPP_MASK)
 			   {
 			   case 1:
@@ -1048,7 +1009,7 @@ int _madam_HandleCEL()
 			   default:
 				   LoadPLUT(PLUTDATA,32);
 			   };
-			}
+		    }
 
 //ok -- CCB decoded -- let's print out our current status
 //step#2 -- getting CEL data
@@ -1078,7 +1039,7 @@ int _madam_HandleCEL()
 				_madam_FSM=FSM_IDLE;
 			}
 
-		return CELCYCLES;
+        return CELCYCLES;
 }//HandleCEL
 
 
@@ -1097,7 +1058,7 @@ void HandleDMA8()
 
 void DMAPBus()
 {
-	unsigned int i=0;
+    unsigned int i=0;
 
 	if((int)mregs[0x574]<0)
 		return;
@@ -1136,8 +1097,6 @@ void _madam_Init(unsigned char *memory)
 	CELCYCLES=0;
 	Mem=memory;
 
-	quickDivide_init();
-
 	MAPPING=1;
 
 	_madam_FSM=FSM_IDLE;
@@ -1145,12 +1104,12 @@ void _madam_Init(unsigned char *memory)
 	for(i=0;i<2048;i++)
 		mregs[i]=0;
 
-	mregs[004]=0x29;		// DRAM dux init
-	mregs[574]=0xfffffffc;
+    mregs[004]=0x29;		// DRAM dux init
+    mregs[574]=0xfffffffc;
 
 #if 1
 	mregs[000]=0x01020000; // for Green matrix engine autodetect
-		//mregs[000]=0x02022000; // for Green matrix engine autodetect
+        //mregs[000]=0x02022000; // for Green matrix engine autodetect
 #else
 	mregs[000]=0x01020001; // for ARM soft emu of matrix engine
 #endif
@@ -1196,11 +1155,11 @@ void _madam_Init(unsigned char *memory)
 extern void _3do_InternalFrame(int cicles);
 void exteraclocker()
 {
-		if((CELCYCLES-__smallcicles)>>7)
-		{
-				__smallcicles=CELCYCLES;
-				//_3do_InternalFrame(64);
-		}
+        if((CELCYCLES-__smallcicles)>>7)
+        {
+                __smallcicles=CELCYCLES;
+                //_3do_InternalFrame(64);
+        }
 }
 
 unsigned int __fastcall mread(unsigned int addr)
@@ -1211,7 +1170,7 @@ unsigned int __fastcall mread(unsigned int addr)
 #endif
 	val=_mem_read32(addr);
 	CELCYCLES+=1;
-		//exteraclocker();
+        //exteraclocker();
 	return val;
 }
 
@@ -1222,7 +1181,7 @@ void __fastcall mwrite(unsigned int addr, unsigned int val)
 #endif
 	_mem_write32(addr,val);
 	CELCYCLES+=2;
-		//exteraclocker();
+        //exteraclocker();
 
 }
 
@@ -1233,7 +1192,7 @@ void __fastcall mwriteh(unsigned int addr, unsigned short val)
 #endif
 	CELCYCLES+=2;
 	_mem_write16((addr^2),val);
-		//exteraclocker();
+        //exteraclocker();
 }
 
 unsigned short __fastcall mreadh(unsigned int addr)
@@ -1242,7 +1201,7 @@ unsigned short __fastcall mreadh(unsigned int addr)
 //	addr&=0x3FFFFF;
 #endif
 	CELCYCLES+=1;
-		//exteraclocker();
+        //exteraclocker();
 	return _mem_read16((addr^2));
 }
 
@@ -1506,7 +1465,7 @@ unsigned int __fastcall PPROC(unsigned int pixel, unsigned int fpix, unsigned in
 		break;
 	case 1:
 		color2.R=color2.G=color2.B=(pixc.meaning.av>>AV.avsignal.dv3);
-				break;
+                break;
 	case 2:
 		pix1.raw=fpix;
 		color2.R=(pix1.r16b.r)>>AV.avsignal.dv3;
@@ -1629,7 +1588,7 @@ unsigned int * _madam_GetRegs()
 
 
 void __fastcall DrawPackedCel_New()
-{
+{					//if(isanvil==2&&biosanvil==2)	//for later
 	sf=100000;
 	unsigned int pixel;
 	unsigned int framePixel;
@@ -1778,6 +1737,7 @@ void __fastcall DrawPackedCel_New()
 	}
 	else if(TEXEL_FUN_NUMBER==1)
 	{
+		
 		unknownflag11=100000;
 
 		int drawHeight;
@@ -1915,8 +1875,9 @@ void __fastcall DrawPackedCel_New()
 							//   if(speedfixes>=0&&speedfixes<=100001) speedfixes=300000;
 							if(!pproj.Transparent)
 							{
-								if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))
-									break;
+
+									if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
+
 							}
 							xcur+=hdx;
 							ycur+=hdy;
@@ -1943,8 +1904,7 @@ void __fastcall DrawPackedCel_New()
 								while(__pix)
 								{
 									__pix--;
-									if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))
-										break;
+									if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
 									xcur+=hdx;
 									ycur+=hdy;
 									xdown+=HDX1616;
@@ -1990,7 +1950,7 @@ void __fastcall DrawLiteralCel_New()
 	unsigned int pixel;
 	unsigned int framePixel;
 	int i,j,xcur,ycur,xvert,yvert,xdown,ydown,hdx,hdy,pix_repit,scipstr;
-	unsigned short CURPIX,LAMV;
+ 	unsigned short CURPIX,LAMV;
 	int get1,get2;
 	// RMOD=RMODULO[REGCTL0];
 	// WMOD=WMODULO[REGCTL0];
@@ -2042,7 +2002,8 @@ void __fastcall DrawLiteralCel_New()
 				if(!pproj.Transparent)
 				{
 					//TexelDraw_Line(CURPIX, LAMV, xcur, ycur, 1);
-					framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD)));
+				if(fixmode&FIX_BIT_TIMING_6)framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,(ycur>>16)<<1,RMOD)));
+				else framePixel = mreadh((PIXSOURCE+XY2OFF((xcur>>16)<<2,ycur>>16,RMOD)));
 					pixel = PPROC(CURPIX,framePixel,LAMV);
 					pixel = PPROJ_OUTPUT(CURPIX, pixel, framePixel);
 					mwriteh((FBTARGET+XY2OFF((xcur>>16)<<2,ycur>>16,WMOD)),pixel);
@@ -2085,7 +2046,7 @@ void __fastcall DrawLiteralCel_New()
 
 				if(!pproj.Transparent)
 				{
-						if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+drawHeight)>>16))break;
+                		if(TexelDraw_Scale(CURPIX, LAMV, xcur>>16, ycur>>16, (xcur+HDX1616+VDX1616)>>16, (ycur+HDY1616+drawHeight)>>16))break;
 
 				}
 				xcur+=HDX1616;
@@ -2128,8 +2089,7 @@ void __fastcall DrawLiteralCel_New()
 
 				if(!pproj.Transparent)
 				{
-						if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))
-							break;
+						if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
 						if(speedfixes<1||(speedfixes>=0&&speedfixes<200001)){
 							if (CURPIX>30000&&CURPIX<40000)speedfixes=0;
 							else speedfixes=-100000;}
@@ -2213,7 +2173,7 @@ void __fastcall DrawLRCel_New()
 		}
 	}
 	else if(TEXEL_FUN_NUMBER==1)
-	{
+	{//dinopark
 		int drawHeight;
 		drawHeight = VDY1616;
 		if (CCBFLAGS&CCB_MARIA && drawHeight > (1 << 16))
@@ -2272,8 +2232,9 @@ void __fastcall DrawLRCel_New()
 
 				if(!pproj.Transparent)
 				{
-					if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))
-						break;
+
+						if(TexelDraw_Arbitrary(CURPIX, LAMV, xcur, ycur, xcur+hdx, ycur+hdy, xdown+HDX1616, ydown+HDY1616, xdown, ydown))break;
+
 				}
 
 				xcur+=hdx;
@@ -2668,7 +2629,10 @@ int __fastcall TexelDraw_Scale(unsigned short CURPIX, unsigned short LAMV, int x
 	unsigned int pixel;
 	unsigned int framePixel;
 	unsigned int curr=-1, next;
-
+	if((fixmode&FIX_BIT_TIMING_3)){
+	deltay*=5;
+	ycur*=5;
+	}
 	if((HDX1616<0) && (deltax)<0 && xcur<0)
 	{
 		return -1;
@@ -2773,48 +2737,48 @@ int __fastcall TexelDraw_Arbitrary(unsigned short CURPIX, unsigned short LAMV, i
 		cnt_cross=0;
 		if(i<(yB) && i>=(yA))
 		{
-			xpoints[cnt_cross]=(int)((quickDivide(((xB-xA)*(i-yA)),(yB-yA))+xA));
-			updowns[cnt_cross++]=1;
+				xpoints[cnt_cross]=(int)((((xB-xA)*(i-yA))/(yB-yA)+xA));
+				updowns[cnt_cross++]=1;
 		}
 		else if(i>=(yB) && i<(yA))
 		{
-			xpoints[cnt_cross]=(int)((quickDivide(((xA-xB)*(i-yB)),(yA-yB))+xB));
-			updowns[cnt_cross++]=0;
+				xpoints[cnt_cross]=(int)((((xA-xB)*(i-yB))/(yA-yB)+xB));
+				updowns[cnt_cross++]=0;
 		}
 
 		if(i<(yC) && i>=(yB))
 		{
-			xpoints[cnt_cross]=(int)((quickDivide(((xC-xB)*(i-yB)),(yC-yB))+xB));
-			updowns[cnt_cross++]=1;
+				xpoints[cnt_cross]=(int)((((xC-xB)*(i-yB))/(yC-yB)+xB));
+				updowns[cnt_cross++]=1;
 		}
 		else if(i>=(yC) && i<(yB))
 		{
-			xpoints[cnt_cross]=(int)((quickDivide(((xB-xC)*(i-yC)),(yB-yC))+xC));
-			updowns[cnt_cross++]=0;
+				xpoints[cnt_cross]=(int)((((xB-xC)*(i-yC))/(yB-yC)+xC));
+				updowns[cnt_cross++]=0;
 		}
 
 		if(i<(yD) && i>=(yC))
 		{
-			xpoints[cnt_cross]=(int)((quickDivide(((xD-xC)*(i-yC)),(yD-yC))+xC));
-			updowns[cnt_cross++]=1;
+				xpoints[cnt_cross]=(int)((((xD-xC)*(i-yC))/(yD-yC)+xC));
+				updowns[cnt_cross++]=1;
 		}
 		else if(i>=(yD) && i<(yC))
 		{
-			xpoints[cnt_cross]=(int)((quickDivide(((xC-xD)*(i-yD)),(yC-yD))+xD));
-			updowns[cnt_cross++]=0;
+				xpoints[cnt_cross]=(int)((((xC-xD)*(i-yD))/(yC-yD)+xD));
+				updowns[cnt_cross++]=0;
 		}
 
 		if(cnt_cross&1)
 		{
 			if(i<(yA) && i>=(yD))
 			{
-				xpoints[cnt_cross]=(int)((quickDivide(((xA-xD)*(i-yD)),(yA-yD))+xD));
-				updowns[cnt_cross]=1;
+					xpoints[cnt_cross]=(int)((((xA-xD)*(i-yD))/(yA-yD)+xD));
+					updowns[cnt_cross]=1;
 			}
 			else if(i>=(yA) && i<(yD))
 			{
-				xpoints[cnt_cross]=(int)((quickDivide(((xD-xA)*(i-yA)),(yD-yA))+xA));
-				updowns[cnt_cross]=0;
+					xpoints[cnt_cross]=(int)((((xD-xA)*(i-yA))/(yD-yA)+xA));
+					updowns[cnt_cross]=0;
 			}
 		}
 
@@ -2833,6 +2797,71 @@ int __fastcall TexelDraw_Arbitrary(unsigned short CURPIX, unsigned short LAMV, i
 			}
 			if(cnt_cross>2)
 			{
+/*			for(int i=0; i<2; i++)
+{         
+if(xpoints[i]>xpoints[i+1])  
+{
+xpoints[i+1]+=xpoints[i];
+xpoints[i]=xpoints[i+1]-xpoints[i];
+xpoints[i+1]=xpoints[i+1]-xpoints[i];
+jtmp=updowns[i];
+updowns[i]=updowns[i+1];
+updowns[i+1]=jtmp;
+}    
+}*/
+	/*			if(xpoints[1]>xpoints[2])
+				{
+
+					xpoints[1]+=xpoints[2];
+					xpoints[2]=xpoints[1]-xpoints[2];
+					xpoints[1]=xpoints[1]-xpoints[2];
+
+					jtmp=updowns[1];
+					updowns[1]=updowns[2];
+					updowns[2]=jtmp;
+
+					if(xpoints[0]>xpoints[1])
+					{
+						xpoints[1]+=xpoints[0];
+						xpoints[0]=xpoints[1]-xpoints[0];
+						xpoints[1]=xpoints[1]-xpoints[0];
+
+						jtmp=updowns[0];
+						updowns[0]=updowns[1];
+						updowns[1]=jtmp;
+					}
+				}
+				if(xpoints[2]>xpoints[3])
+				{
+					xpoints[3]+=xpoints[2];
+					xpoints[2]=xpoints[3]-xpoints[2];
+					xpoints[3]=xpoints[3]-xpoints[2];
+
+					jtmp=updowns[2];
+					updowns[2]=updowns[3];
+					updowns[3]=jtmp;
+					if(xpoints[1]>xpoints[2])
+					{
+						xpoints[1]+=xpoints[2];
+						xpoints[2]=xpoints[1]-xpoints[2];
+						xpoints[1]=xpoints[1]-xpoints[2];
+
+						jtmp=updowns[1];
+						updowns[1]=updowns[2];
+						updowns[2]=jtmp;
+						if(xpoints[0]>xpoints[1])
+						{
+							xpoints[1]+=xpoints[0];
+							xpoints[0]=xpoints[1]-xpoints[0];
+							xpoints[1]=xpoints[1]-xpoints[0];
+
+							jtmp=updowns[0];
+							updowns[0]=updowns[1];
+							updowns[1]=jtmp;
+						}
+					}
+				}*/
+
 				if( ((CCBFLAGS&CCB_ACW)&&updowns[2]==0) ||
 					((CCBFLAGS&CCB_ACCW)&&updowns[2]==1))
 				{
@@ -2870,6 +2899,8 @@ int __fastcall TexelDraw_Arbitrary(unsigned short CURPIX, unsigned short LAMV, i
 						}
 					writePIX(FBTARGET, i, j, pixel);
 				}
+
+
 			}
 
 		}

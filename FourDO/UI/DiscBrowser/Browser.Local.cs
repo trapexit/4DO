@@ -19,10 +19,7 @@ namespace FourDO.UI.DiscBrowser
 			this.ExtractMenuItem.Text = Strings.BrowserMenuExtract;
 			this.ExtractDiscMenuItem.Text = Strings.BrowserMenuExtractDisc;
 			this.ExtractDirectoryMenuItem.Text = Strings.BrowserMenuExtractDirectory;
-			this.SelectAllToolStripMenuItem.Text = Strings.BrowserMenuSelectAll;
 			this.OpenMenuItem.Text = Strings.BrowserMenuOpenDirectory;
-			this.DirectoryNotFoundLabel.Text = Strings.BrowserDirectoryNotFound;
-			this.CancelButton.Text = Strings.SettingsCancel;
 		}
 	}
 }

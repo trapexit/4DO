@@ -1,4 +1,5 @@
 ﻿using System;
+using FourDO.Emulation.FreeDO;
 
 namespace FourDO.Emulation.GameSource
 {
@@ -34,7 +35,8 @@ namespace FourDO.Emulation.GameSource
 
 		public void ReadSector(IntPtr destinationBuffer, int sectorNumber)
 		{
-			// (nothing)
+            FreeDOCore.SetAnvilFix(2);
+			// Set fix for anvil bios
 		}
 
 		#endregion // IGameSource Implementation

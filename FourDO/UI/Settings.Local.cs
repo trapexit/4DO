@@ -19,7 +19,6 @@ namespace FourDO.UI
 			this.chkLoadLastGame.Text = Strings.SettingsTabGeneralAutoLoadLastGame;
 			this.BehaviorGroupBox.Text = Strings.SettingsTabGeneralBehaviorOptions;
 			this.chkLoadLastSave.Text = Strings.SettingsTabGeneralAutoLoadLastSave;
-			this.chkShowMessages.Text = Strings.SettingsTabGeneralShowMessages;
 			this.InactiveGroupBox.Text = Strings.SettingsTabGeneralInactiveOptions;
 			this.chkInactivePauseEmulation.Text = Strings.SettingsTabGeneralInactivePauseEmulation;
 			this.chkInactiveIgnoreInput.Text = Strings.SettingsTabGeneralInactiveIgnoreKeyboard;
@@ -28,6 +27,7 @@ namespace FourDO.UI
 			this.chkSmoothImageResize.Text = Strings.SettingsTabDisplaySmoothResizing;
 			this.chkPreserveAspectRatio.Text = Strings.SettingsTabDisplayPreserveAspectRatio;
 			this.chkSnapWindowIncrements.Text = Strings.SettingsTabDisplaySnapResizing;
+            this.chkScaleBox.Text = Strings.SettingsTabScaleBox;
 			this.chkAutoCropImage.Text = Strings.SettingsTabDisplayAutoCrop;
 			this.DisplayVoidGroupBox.Text = Strings.SettingsTabDisplayVoidOptions;
 			this.chkDrawGrayBorder.Text = Strings.SettingsTabDisplayDrawBorder;

@@ -50,6 +50,7 @@ unsigned int _madam_SaveSize();
 void _madam_Save(void *buff);
 void _madam_Load(void *buff);
 
+
         //void _madam_PrepToRendering();
         //bool __fastcall _madam_VRAMBusy(unsigned int addr, int size);
 

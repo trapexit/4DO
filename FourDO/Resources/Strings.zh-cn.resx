@@ -129,26 +129,17 @@
   <data name="BrowserColumnName" xml:space="preserve">
     <value>名称</value>
   </data>
-  <data name="BrowserDirectoryNotFound" xml:space="preserve">
-    <value>(找不到指定的目录)</value>
-  </data>
-  <data name="BrowserExtracting" xml:space="preserve">
-    <value>提取</value>
-  </data>
   <data name="BrowserMenuExtract" xml:space="preserve">
     <value>提取到...(&amp;E)</value>
   </data>
   <data name="BrowserMenuExtractDirectory" xml:space="preserve">
-    <value>提取当前目录到...(&amp;C)</value>
+    <value>提取到当前目录...(&amp;C)</value>
   </data>
   <data name="BrowserMenuExtractDisc" xml:space="preserve">
     <value>提取整个光盘到...(&amp;D)</value>
   </data>
   <data name="BrowserMenuOpenDirectory" xml:space="preserve">
     <value>打开目录(&amp;O)</value>
-  </data>
-  <data name="BrowserMenuSelectAll" xml:space="preserve">
-    <value>全选(&amp;A)</value>
   </data>
   <data name="BrowserUp" xml:space="preserve">
     <value>返回</value>
@@ -160,13 +151,13 @@
     <value>3DOPlay 作者:</value>
   </data>
   <data name="HelpAbout3DOPlayMessage" xml:space="preserve">
-    <value>2012年2月, Viktor将3DOPlay的代码合并进了基于FreeDO代码开发的4DO模拟器中, 为两个独立的3DO模拟器项目带来了好处!</value>
+    <value>2012年2月, Viktor将3DOPlay的代码合并进了基于FreeDO代码写的4DO模拟器中, 集合了两个独立的3DO模拟器项目的优点!</value>
   </data>
   <data name="HelpAbout4DOAuthors" xml:space="preserve">
     <value>4DO 作者:</value>
   </data>
   <data name="HelpAbout4DOMessage" xml:space="preserve">
-    <value>4DO (FourDO) 是一个开源的, 3DO 多人互动系统低阶模拟器.</value>
+    <value>4DO (FourDO) 是一个开源的, 3DO多人系统底层模拟器.</value>
   </data>
   <data name="HelpAbout4DOVersion" xml:space="preserve">
     <value>4DO 版本:</value>
@@ -178,13 +169,13 @@
     <value>FreeDO 作者:</value>
   </data>
   <data name="HelpAboutFreeDOMessage" xml:space="preserve">
-    <value>4DO和3DOPlay模拟器都是基于2010年11月10日发布的FreeDO代码开发的. 非常感谢FreeDO开发者的决定!</value>
+    <value>4DO和3DOPlay模拟器都是基于2010年11月10日发布的FreeDO代码.  非常感谢FreeDO开发者的决定!</value>
   </data>
   <data name="HelpAboutJohnnyThank" xml:space="preserve">
     <value>特别感谢:</value>
   </data>
   <data name="HelpAboutJohnnyThankMessage" xml:space="preserve">
-    <value>Johnny 非常感谢其他那些对原始或高阶模拟提供过帮助的人.</value>
+    <value>Johnny 感谢其他那些帮助过原始模拟和高层模拟的人.</value>
   </data>
   <data name="HelpInfoChecksum" xml:space="preserve">
     <value>扇面 0+1 校验:</value>
@@ -232,10 +223,10 @@
     <value>帧进(&amp;A)</value>
   </data>
   <data name="MainMenuConsoleAutoLoadLastSave" xml:space="preserve">
-    <value>打开游戏后, 读取上次的进度(&amp;O)</value>
+    <value>打开游戏后, 读取上次的即时存档</value>
   </data>
   <data name="MainMenuConsoleLoadState" xml:space="preserve">
-    <value>读取进度(&amp;L)</value>
+    <value>即时读档(&amp;L)</value>
   </data>
   <data name="MainMenuConsolePause" xml:space="preserve">
     <value>暂停(&amp;P)</value>
@@ -244,16 +235,16 @@
     <value>重置(&amp;R)</value>
   </data>
   <data name="MainMenuConsoleSaveState" xml:space="preserve">
-    <value>保存进度(&amp;S)</value>
+    <value>即时存档(&amp;S)</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlot" xml:space="preserve">
-    <value>选择进度槽(&amp;T)</value>
+    <value>即时存档插槽(&amp;T)</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlotNext" xml:space="preserve">
-    <value>选择下一个进度(&amp;N)</value>
+    <value>选择下一个插槽(&amp;N)</value>
   </data>
   <data name="MainMenuConsoleSaveStateSlotPrevious" xml:space="preserve">
-    <value>选择上一个进度(&amp;P)</value>
+    <value>选择上一个插槽(&amp;P)</value>
   </data>
   <data name="MainMenuConsoleScreenshot" xml:space="preserve">
     <value>截图(&amp;H)</value>
@@ -304,7 +295,7 @@
     <value>图案 : 4DO</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternBumps" xml:space="preserve">
-    <value>图案 : 块状</value>
+    <value>图案 : 颠簸</value>
   </data>
   <data name="MainMenuDisplayVoidAreaPatternMetal" xml:space="preserve">
     <value>图案 : 金属</value>
@@ -381,6 +372,9 @@
   <data name="MainMenuOptionsSettings" xml:space="preserve">
     <value>4DO 设置...(&amp;S)</value>
   </data>
+  <data name="MainMenuScale" xml:space="preserve">
+    <value>放大屏幕</value>
+  </data>
   <data name="MainMenuTools" xml:space="preserve">
     <value>工具(&amp;T)</value>
   </data>
@@ -415,7 +409,7 @@
     <value>没有选择 BIOS.</value>
   </data>
   <data name="MainMessageSlot" xml:space="preserve">
-    <value>进度</value>
+    <value>插槽</value>
   </data>
   <data name="MainMessageUnknownGame" xml:space="preserve">
     <value>未知游戏</value>
@@ -442,7 +436,7 @@
     <value>较快</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMessage" xml:space="preserve">
-    <value>音频缓冲是以牺牲模拟器速度为代价提供音频延迟容量的. 然而, 只要模拟器在运行, 音频杂音不可避免 (即使设置为大缓冲).</value>
+    <value>音频缓存是以牺牲模拟器速度为代价提供音频延迟容量的. 然而, 只要模拟器在运行, 音频杂音不可避免 (即使是大缓存).</value>
   </data>
   <data name="SettingsTabAdvancedAudioBufferMoreGlitches" xml:space="preserve">
     <value>较多杂音</value>
@@ -520,13 +514,13 @@
     <value>无缩放</value>
   </data>
   <data name="SettingsTabDisplayScalingModeWarning" xml:space="preserve">
-    <value>警告: 缩放模式需要密集型 CPU!</value>
+    <value>警告: 缩放模式要密集型 CPU!</value>
   </data>
   <data name="SettingsTabDisplaySmoothResizing" xml:space="preserve">
     <value>执行画面平滑</value>
   </data>
   <data name="SettingsTabDisplaySnapResizing" xml:space="preserve">
-    <value>当调整窗口时, 按固定比例调整</value>
+    <value>当调整窗口时, 清除增量</value>
   </data>
   <data name="SettingsTabDisplayVoidOptions" xml:space="preserve">
     <value>空白(无效)区域影响(&amp;V)</value>
@@ -538,7 +532,7 @@
     <value>4DO</value>
   </data>
   <data name="SettingsTabDisplayVoidPatternBumps" xml:space="preserve">
-    <value>块状</value>
+    <value>颠簸</value>
   </data>
   <data name="SettingsTabDisplayVoidPatternMetal" xml:space="preserve">
     <value>金属</value>
@@ -553,7 +547,7 @@
     <value>当 4DO 启动时, 打开上次运行的游戏</value>
   </data>
   <data name="SettingsTabGeneralAutoLoadLastSave" xml:space="preserve">
-    <value>当打开游戏后, 重新读取当前进度槽中的存档</value>
+    <value>当打开游戏后, 重新读取当前即时存档插槽中的存档</value>
   </data>
   <data name="SettingsTabGeneralBehaviorOptions" xml:space="preserve">
     <value>杂项(&amp;B)</value>
@@ -570,37 +564,13 @@
   <data name="SettingsTabGeneralStartupOptions" xml:space="preserve">
     <value>启动项(&amp;S)</value>
   </data>
+  <data name="SettingsTabScaleBox" xml:space="preserve">
+    <value>放大图片</value>
+  </data>
   <data name="SettingsWindowInstructions" xml:space="preserve">
     <value>4DO 配置界面</value>
   </data>
   <data name="SettingsWindowTitle" xml:space="preserve">
     <value>设置</value>
-  </data>
-  <data name="MainMessageConsolePaused" xml:space="preserve">
-    <value>控制台已暂停</value>
-  </data>
-  <data name="MainMessageConsoleReset" xml:space="preserve">
-    <value>控制台已重置</value>
-  </data>
-  <data name="MainMessageConsoleResumed" xml:space="preserve">
-    <value>控制台已恢复</value>
-  </data>
-  <data name="MainMessageCurrentSlotSet" xml:space="preserve">
-    <value>设置存档插槽为 {0}</value>
-  </data>
-  <data name="MainMessageLoadedState" xml:space="preserve">
-    <value>读取进度 {0}</value>
-  </data>
-  <data name="MainMessageNoSaveInSlot" xml:space="preserve">
-    <value>(插槽 {0} 中无存档)</value>
-  </data>
-  <data name="MainMessageSavedState" xml:space="preserve">
-    <value>保存进度 {0}</value>
-  </data>
-  <data name="MainMessageScreenshotSaved" xml:space="preserve">
-    <value>截图已保存</value>
-  </data>
-  <data name="SettingsTabGeneralShowMessages" xml:space="preserve">
-    <value>显示各种模拟事件的信息 (保存进度, 读取进度, 暂停等.)</value>
   </data>
 </root>

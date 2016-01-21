@@ -21,7 +21,7 @@ namespace FourDO.UI.Canvases
 			}
 		}
 
-		public unsafe static void CopyBitmap(IntPtr currentFrame, BitmapDefinition bitmapDefinition, int copyWidth, int copyHeight, bool addBlackBorder, bool copyPointlessAlphaByte, bool allowCrop, ScalingAlgorithm scalingAlgorithm)
+        public unsafe static void CopyBitmap(IntPtr currentFrame, BitmapDefinition bitmapDefinition, int copyWidth, int copyHeight, bool addBlackBorder, bool copyPointlessAlphaByte, bool allowCrop, ScalingAlgorithm scalingAlgorithm)
 		{
 			Bitmap bitmapToPrepare = bitmapDefinition.Bitmap;
 			BitmapData bitmapData = bitmapToPrepare.LockBits(new Rectangle(0, 0, bitmapToPrepare.Width, bitmapToPrepare.Height), ImageLockMode.WriteOnly, bitmapToPrepare.PixelFormat);

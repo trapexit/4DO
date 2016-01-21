@@ -25,7 +25,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		private readonly JoyInputWatcher joyWatcher = new JoyInputWatcher();
 		private readonly JoyInputChecker joyChecker = new JoyInputChecker();
 
-		private InputBindingDevices devices;
+	    readonly InputBindingDevices devices;
 
 		DataGridViewCellStyle linkStyleNormal;
 		DataGridViewCellStyle linkStyleBold;
@@ -40,13 +40,15 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 		public JohnnyInputSettings(InputBindingDevices originalDeviceBindings, string bindingsFilePath)
 		{
 			this.devices = (InputBindingDevices)originalDeviceBindings.Clone();
-			this.EnsureMinimumDevices();
-
 			this.BindingsFilePath = bindingsFilePath;
 
 			this.DialogResult = DialogResult.Cancel;
 
 			this.InitializeComponent();
+
+			// This form requires 6 devices.
+			while (this.devices.Count < 6)
+				this.devices.AddDevice();
 		}
 
 		public string BindingsFilePath { get; private set; }
@@ -504,7 +506,6 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				this.AddGridItem(InputButton.ConsolePause, "(F9) " + JohnnyInputStrings.ButtonConsolePause);
 				this.AddGridItem(InputButton.ConsoleAdvanceBySingleFrame, "(F10) " + JohnnyInputStrings.ButtonConsoleAdvanceFrame);
 				this.AddGridItem(InputButton.ConsoleReset, "(F12) " + JohnnyInputStrings.ButtonConsoleReset);
-				this.AddGridItem(InputButton.ConsoleExit, "(Alt+F4) " + JohnnyInputStrings.ButtonConsoleExit);
 			}
 			else
 			{
@@ -891,17 +892,10 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			this.joyChecker.Dispose();
 		}
 
-		private void ResetButton_Click(object sender, EventArgs e)
+		private void ControllerPanel_Resize(object sender, EventArgs e)
 		{
-			this.devices = InputBindingDevices.LoadDefault();
-			this.EnsureMinimumDevices();
-			this.UpdateUI();
-		}
-
-		private void EnsureMinimumDevices()
-		{
-			while (this.devices.Count < 7)
-				this.devices.AddDevice();
+			//controllerPreview.Width = controllerPreview.Width + 1;
+			//controllerPreview.Width = controllerPreview.Width - 1;
 		}
 	}
 }

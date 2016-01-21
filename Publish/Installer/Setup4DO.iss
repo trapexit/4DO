@@ -27,7 +27,7 @@ DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 OutputBaseFilename={#MyAppName}_{#MyAppVersion}_Install
-SetupIconFile=C:\fourdo\trunk\FourDO\Images\IconFourDO.ico
+SetupIconFile=C:\IconFourDO.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -44,12 +44,10 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "{#MySourceAppDir}\4DO.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MySourceAppDir}\CDLib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MySourceAppDir}\FreeDOCore.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MySourceAppDir}\FourDO.FileSystem.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MySourceAppDir}\FourDO.Utilities.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MySourceAppDir}\Ookii.Dialogs.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#MySourceAppDir}\FreeDOCore.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MySourceAppDir}\SlimDX.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MySourceAppDir}\de\*"; DestDir: "{app}\de"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#MySourceAppDir}\es\*"; DestDir: "{app}\es"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#MySourceAppDir}\fr\*"; DestDir: "{app}\fr"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#MySourceAppDir}\pt\*"; DestDir: "{app}\pt"; Flags: ignoreversion recursesubdirs createallsubdirs

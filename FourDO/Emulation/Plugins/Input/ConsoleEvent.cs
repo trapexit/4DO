@@ -11,11 +11,11 @@ namespace FourDO.Emulation.Plugins.Input
 		StateLoad,
 		StateSlotPrevious,
 		StateSlotNext,
+
 		FullScreen,
 		ScreenShot,
 		Pause,
 		AdvanceBySingleFrame,
-		Reset,
-		Exit
+		Reset
 	}
 }

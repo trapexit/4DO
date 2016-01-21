@@ -88,7 +88,6 @@
     <Compile Include="Emulation\GameSource\GameSourceBase.cs" />
     <Compile Include="Emulation\GameSource\IGameSource.cs" />
     <Compile Include="Emulation\Plugins\Audio\EmptyAudioPlugin.cs" />
-    <Compile Include="Emulation\Plugins\Audio\FileWriterAudio\FileWriterAudioPlugin.cs" />
     <Compile Include="Emulation\Plugins\Audio\JohnnyAudio\JohnnyAudioPlugin.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -119,6 +118,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Emulation\States\SaveStateHelper.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\JohnnyInputStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -193,12 +197,6 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Canvases\ICanvas.cs" />
-    <Compile Include="UI\Controls\EmulationMessage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\EmulationMessage.Designer.cs">
-      <DependentUpon>EmulationMessage.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controls\NagBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -285,6 +283,10 @@
     <EmbeddedResource Include="Emulation\Plugins\Input\JohnnyInput\JohnnyInputSettings.resx">
       <DependentUpon>JohnnyInputSettings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\JohnnyInputStrings.de.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -300,7 +302,6 @@
     <EmbeddedResource Include="Resources\JohnnyInputStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>JohnnyInputStrings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\JohnnyInputStrings.ru.resx">
       <SubType>Designer</SubType>
@@ -339,9 +340,6 @@
     <EmbeddedResource Include="UI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\EmulationMessage.resx">
-      <DependentUpon>EmulationMessage.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\NagBox.resx">
       <DependentUpon>NagBox.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -373,10 +371,13 @@
     </EmbeddedResource>
     <None Include="Emulation\Plugins\Input\JohnnyInput\Controller.png" />
     <None Include="Emulation\Plugins\Input\JohnnyInput\controller.pptx" />
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -387,12 +388,12 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <ProductName>Клиентский профиль Microsoft .NET Framework 4 %28x86 и x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -402,7 +403,7 @@
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
+      <ProductName>Установщик Windows 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>

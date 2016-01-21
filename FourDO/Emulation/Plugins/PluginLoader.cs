@@ -1,5 +1,4 @@
-﻿using FourDO.Emulation.Plugins.Audio.FileWriterAudio;
-using FourDO.Emulation.Plugins.Audio.JohnnyAudio;
+﻿using FourDO.Emulation.Plugins.Audio.JohnnyAudio;
 using FourDO.Emulation.Plugins.Input.JohnnyInput;
 
 namespace FourDO.Emulation.Plugins
@@ -12,10 +11,7 @@ namespace FourDO.Emulation.Plugins
 		public static IAudioPlugin GetAudioPlugin()
 		{
 			if (currentAudioPlugin == null)
-			{
 				currentAudioPlugin = new JohnnyAudioPlugin();
-				//currentAudioPlugin = new FileWriterAudioPlugin();
-			}
 
 			return currentAudioPlugin;
 		}

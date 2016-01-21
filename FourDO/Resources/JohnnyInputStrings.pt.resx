@@ -141,9 +141,6 @@
   <data name="ButtonConsoleAdvanceFrame" xml:space="preserve">
     <value>Avançar por um Quadro Simples</value>
   </data>
-  <data name="ButtonConsoleExit" xml:space="preserve">
-    <value>Sair</value>
-  </data>
   <data name="ButtonConsoleFullScreen" xml:space="preserve">
     <value>Tela cheia</value>
   </data>
@@ -296,9 +293,6 @@
   </data>
   <data name="PreviewXButton" xml:space="preserve">
     <value>Botão X ("Stop")</value>
-  </data>
-  <data name="ResetAllToDefault" xml:space="preserve">
-    <value>Voltar aos padrões</value>
   </data>
   <data name="SetAll" xml:space="preserve">
     <value>Definir todos</value>

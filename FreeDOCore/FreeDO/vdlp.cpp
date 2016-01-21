@@ -29,6 +29,7 @@ Felix Lazarev
 
 #include "vdlp.h"
 #include "arm.h"
+#include "stdafx.h"
 #include <memory.h>
 
 #include "freedocore.h"
@@ -164,9 +165,9 @@ __inline void VDLExec()
 			CLUTDMA.raw=tmp;
 
 			if(CLUTDMA.dmaw.currover)
-				CURRENTBMP=vmreadw(CURRENTVDL+4);
+			{if(fixmode&FIX_BIT_TIMING_5)CURRENTBMP=vmreadw(CURRENTVDL+8);else CURRENTBMP=vmreadw(CURRENTVDL+4);}
 			if(CLUTDMA.dmaw.prevover)
-				PREVIOUSBMP=vmreadw(CURRENTVDL+8);
+			{	if(fixmode&FIX_BIT_TIMING_5)PREVIOUSBMP=vmreadw(CURRENTVDL+4); else PREVIOUSBMP=vmreadw(CURRENTVDL+8);}
 			if(CLUTDMA.dmaw.abs)
 			{
 				NEXTVDL=(CURRENTVDL+vmreadw(CURRENTVDL+12)+16);
@@ -237,18 +238,18 @@ __inline void VDLExec()
 			CURRENTVDL=NEXTVDL;
 
 			MODULO=HOWMAYPIXELEXPECTPERLINE[CLUTDMA.dmaw.modulo];
-			if(MODULO!=320)
-			{
-					// io_interface(EXT_DEBUG_PRINT,(void*)str.print("::::VDLP:::: Nonstandard modulo... W=%d, DMAWORD=0x%8.8X",MODULO, CLUTDMA.raw).CStr());
-			}
-			doloadclut=((linedelay=CLUTDMA.dmaw.lines)!=0);
+                        if(MODULO!=320)
+                        {
+                               // io_interface(EXT_DEBUG_PRINT,(void*)str.print("::::VDLP:::: Nonstandard modulo... W=%d, DMAWORD=0x%8.8X",MODULO, CLUTDMA.raw).CStr());
+                        }
+                        doloadclut=((linedelay=CLUTDMA.dmaw.lines)!=0);
 		}
 }
 
 
 __inline uint32 VRAMOffEval(uint32 addr, uint32 line)
 {
-	return ((((~addr)&2)<<(18+RESSCALE))+((addr>>2)<<1)+1024*512*line)<<RESSCALE;
+        return ((((~addr)&2)<<(18+RESSCALE))+((addr>>2)<<1)+1024*512*line)<<RESSCALE;
 }
 
 void _vdl_DoLineNew(int line2x, VDLFrame *frame)
@@ -259,8 +260,8 @@ void _vdl_DoLineNew(int line2x, VDLFrame *frame)
 
 	if(line==0)
 	{
-		doloadclut=true;
-		linedelay=0;
+                doloadclut=true;
+                linedelay=0;
 		CURRENTVDL=HEADVDL;
 		VDLExec();
 	}

@@ -70,6 +70,7 @@ namespace FourDO.UI
 			this.smoothResizingMenuItem.Text = Strings.MainMenuDisplaySmoothResizing;
 			this.preserveRatioMenuItem.Text = Strings.MainMenuDisplayPreserveRatio;
 			this.autoCropMenuItem.Text = Strings.MainMenuDisplayAutoCrop;
+            this.ScaleMenuItem1.Text = Strings.MainMenuScale;
 			this.snapWindowMenuItem.Text = Strings.MainMenuDisplayResizeSnap;
 			this.scalingModeMenuItem.Text = Strings.MainMenuDisplayScaling;
 			this.scalingModeNoneMenuItem.Text = Strings.MainMenuDisplayScalingNone;
@@ -94,8 +95,8 @@ namespace FourDO.UI
 			this.gameInfoMenuItem.Text = Strings.MainMenuHelpGameInfo;
 			this.aboutMenuItem.Text = Strings.MainMenuHelpAbout;
 
-			this.RomNagBox.LinkText = Strings.MainMessageChooseBiosRom;
-			this.RomNagBox.MessageText = Strings.MainMessageNoBiosSelected;
+			this.RomNagBox.LinkText = Strings.MainMessageNoBiosSelected;
+			this.RomNagBox.MessageText = Strings.MainMessageChooseBiosRom;
 			this.RomNagBox.HideText = Strings.MainMessageHide;
 
 			if (this.volumeMenuItem != null)

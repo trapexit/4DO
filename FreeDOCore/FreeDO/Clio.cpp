@@ -37,9 +37,12 @@ Felix Lazarev
 #define RELOAD		0x2
 #define CASCADE		0x4
 #define FLABLODE	0x8
+int lsize, flagtime;
+int TIMER_VAL=0; //0x415
+extern int ARM_CLOCK;
+extern int FMVFIX;
 
-
-void __fastcall HandleDMA(unsigned int val);
+void   HandleDMA(unsigned int val);
 
 //#define FIFODBG
 
@@ -94,6 +97,7 @@ void _clio_Save(void *buff)
 }
 void _clio_Load(void *buff)
 {
+		TIMER_VAL=0;
         memcpy(&clio,buff,sizeof(CLIODatum));
 }
 
@@ -114,13 +118,13 @@ int _clio_v1line()
         return cregs[12]&0x7ff;
 }
 
-bool __fastcall _clio_NeedFIQ()
+bool   _clio_NeedFIQ()
 {
         if( (cregs[0x40]&cregs[0x48]) || (cregs[0x60]&cregs[0x68]) ) return true;
         return false;
 }
 
-void __fastcall _clio_GenerateFiq(unsigned int reason1, unsigned int reason2)
+void   _clio_GenerateFiq(unsigned int reason1, unsigned int reason2)
 {
 
 	cregs[0x40]|=reason1;
@@ -143,15 +147,18 @@ void __fastcall _clio_GenerateFiq(unsigned int reason1, unsigned int reason2)
 
 #include "freedocore.h"
 extern _ext_Interface  io_interface;
+
 //extern AString str;
-void __fastcall _clio_SetTimers(uint32 v200, uint32 v208);
-void __fastcall _clio_ClearTimers(uint32 v204, uint32 v20c);
-int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
+void   _clio_SetTimers(uint32 v200, uint32 v208);
+void   _clio_ClearTimers(uint32 v204, uint32 v20c);
+int   _clio_Poke(unsigned int addr, unsigned int val)
 {
 	int base;
 	int i;
-
-        //if(addr==0x200 || addr==0x204 || addr==0x208 || addr==0x20c || (addr>=0x100 && addr<=0x17c) || addr==0x220)io_interface(EXT_DEBUG_PRINT,(void*)str.print("CLIO Write[0x%X] = 0x%8.8X",addr,val).CStr());
+	
+	if(!flagtime){TIMER_VAL=lsize=0;}
+    
+	//if(addr==0x200 || addr==0x204 || addr==0x208 || addr==0x20c || (addr>=0x100 && addr<=0x17c) || addr==0x220)io_interface(EXT_DEBUG_PRINT,(void*)str.print("CLIO Write[0x%X] = 0x%8.8X",addr,val).CStr());
         //if(addr==0x34 || addr==0x30)io_interface(EXT_DEBUG_PRINT,(void*)str.print("CLIO Write[0x%X] = 0x%8.8X",addr,val).CStr());
 	if( (addr& ~0x2C) == 0x40 ) // 0x40..0x4C, 0x60..0x6C case
 	{
@@ -275,11 +282,15 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
 	else if(addr==0x304) // Dma Starter!!!!! P/A !!!! need to create Handler.
 	{
 
-		//if(val&0x00100000)
-		//{
 			HandleDMA(val);
+			switch(val)
+			{
+			case 0x100000: if(TIMER_VAL<5800)TIMER_VAL+=0x33; lsize+=0x33; flagtime=(ARM_CLOCK/2000000); break;
+			//case 64: if(TIMER_VAL<4000)TIMER_VAL+=0x13; lsize+=0x13; break;
+			default: if(!cregs[0x304])TIMER_VAL=lsize=0; break;
+			}
+						
 		//	cregs[0x304]&=~0x00100000;
-		//}
 		return 0;
 	}
 	else if(addr==0x308) //Dma Stopper!!!!
@@ -427,23 +438,18 @@ int __fastcall _clio_Poke(unsigned int addr, unsigned int val)
 		cregs[addr]=val&0x3ff;
 		return 0;
 	}
-        else if(addr>=0x100 && addr<=0x7c)
-        {
-                cregs[addr]=val&0xffff;
+    else if(addr==0x120)
+    {
+        cregs[addr]=((TIMER_VAL>800)?TIMER_VAL+(val/0x30):val); //316 or 800?
 		return 0;
-        }
-		//		 char jj[90];
-   //             sprintf(jj, "addr=%X, val=0x%8.8X", addr, val,);
-//if(jw==0&&addr==0x128){io_interface(EXT_DEBUG_PRINT,(void*)jj); jw=100000;} 
-if(addr==0x128&&val==0x0)jw=17000000;//val=1;
-
+    }
 cregs[addr]=val;
 	return 0;
 }
 
 
 
-unsigned int __fastcall _clio_Peek(unsigned int addr)
+unsigned int   _clio_Peek(unsigned int addr)
 {
 
 #ifdef DBGCLIO
@@ -549,32 +555,32 @@ unsigned int __fastcall _clio_Peek(unsigned int addr)
 	{
 		return _dsp_ARMread2sema4();
 	}
-        else if(addr>=0x100 && addr<=0x7c)
-        {
-		return cregs[addr]&0xffff;
-        }
+    else if(addr==0x120)
+    {
+	return cregs[addr];
+    }
 	else
 		return cregs[addr];
 }
 
-void __fastcall _clio_UpdateVCNT(int line, int halfframe)
+void   _clio_UpdateVCNT(int line, int halfframe)
 {
 //	Poke(0x34,Peek(0x34)+1);
 	cregs[0x34]=(halfframe<<11)+line;
 }
 
 
-void __fastcall _clio_SetTimers(uint32 v200, uint32 v208)
+void   _clio_SetTimers(uint32 v200, uint32 v208)
 {
     (void) v200;
     (void) v208;
 }
-void __fastcall _clio_ClearTimers(uint32 v204, uint32 v20c)
+void   _clio_ClearTimers(uint32 v204, uint32 v20c)
 {
     (void) v204;
     (void) v20c;
 }
-void __fastcall _clio_DoTimers()
+void   _clio_DoTimers()
 {
     unsigned int timer;
     unsigned short counter;
@@ -620,7 +626,7 @@ unsigned int _clio_GetTimerDelay()
 }
 
 
-void __fastcall HandleDMA(unsigned int val)
+void   HandleDMA(unsigned int val)
 {
 	unsigned int src;
 	unsigned int trg;
@@ -677,7 +683,6 @@ void __fastcall HandleDMA(unsigned int val)
 	  else
 	  {
 		ptr=0;
-
 		while(len>=0)
 		  {
 			  b3=_xbus_GetDataFIFO();
@@ -761,9 +766,10 @@ void _clio_Init(int ResetReson)
     cregs[0x0400]=0x80;
 	cregs[0x220]=64;
 	Mregs=_madam_GetRegs();
+	TIMER_VAL=0;
 
 }
-unsigned short  __fastcall _clio_EIFIFO(unsigned short channel)
+unsigned short    _clio_EIFIFO(unsigned short channel)
 {
 	unsigned int val,base,mask;
 
@@ -811,7 +817,7 @@ unsigned short  __fastcall _clio_EIFIFO(unsigned short channel)
 	return val;
 }
 
-void  __fastcall _clio_EOFIFO(unsigned short channel, unsigned short val)
+void    _clio_EOFIFO(unsigned short channel, unsigned short val)
 {
 
 	unsigned int base;
@@ -846,14 +852,14 @@ void  __fastcall _clio_EOFIFO(unsigned short channel, unsigned short val)
 
 }
 
-unsigned short  __fastcall _clio_EIFIFONI(unsigned short channel)
+unsigned short    _clio_EIFIFONI(unsigned short channel)
 {
 	unsigned int base;
 	base=0x400+(channel*16);
 	return _mem_read16(((FIFOI[channel].StartAdr+PTRI[channel])^2));
 }
 
-unsigned short   __fastcall _clio_GetEIFIFOStat(unsigned char channel)
+unsigned short     _clio_GetEIFIFOStat(unsigned char channel)
 {
 	unsigned int mask;
 
@@ -868,7 +874,7 @@ unsigned short   __fastcall _clio_GetEIFIFOStat(unsigned char channel)
 	return 0;
 }
 
-unsigned short   __fastcall _clio_GetEOFIFOStat(unsigned char channel)
+unsigned short     _clio_GetEOFIFOStat(unsigned char channel)
 {
 	unsigned int mask;
 	mask=1<<(channel+16);

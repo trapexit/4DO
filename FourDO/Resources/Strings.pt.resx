@@ -546,12 +546,6 @@
   <data name="BrowserColumnName" xml:space="preserve">
     <value>Nome</value>
   </data>
-  <data name="BrowserDirectoryNotFound" xml:space="preserve">
-    <value>(Não foi possível encontrar o diretório especificado)</value>
-  </data>
-  <data name="BrowserExtracting" xml:space="preserve">
-    <value>Extraindo</value>
-  </data>
   <data name="BrowserMenuExtract" xml:space="preserve">
     <value>&amp;Extrair para...</value>
   </data>
@@ -563,9 +557,6 @@
   </data>
   <data name="BrowserMenuOpenDirectory" xml:space="preserve">
     <value>&amp;Abra o Diretório</value>
-  </data>
-  <data name="BrowserMenuSelectAll" xml:space="preserve">
-    <value>Selecionar &amp;Todos</value>
   </data>
   <data name="BrowserUp" xml:space="preserve">
     <value>Acima</value>
@@ -579,31 +570,10 @@
   <data name="MainMenuToolsDiscBrowser" xml:space="preserve">
     <value>Disco &amp;Navegador</value>
   </data>
-  <data name="MainMessageConsolePaused" xml:space="preserve">
-    <value>Console pausar</value>
+  <data name="MainMenuScale" xml:space="preserve">
+    <value>Ampliar</value>
   </data>
-  <data name="MainMessageConsoleReset" xml:space="preserve">
-    <value>Console reiniciar</value>
-  </data>
-  <data name="MainMessageConsoleResumed" xml:space="preserve">
-    <value>Console retomar</value>
-  </data>
-  <data name="MainMessageCurrentSlotSet" xml:space="preserve">
-    <value>Slot de salvar estado {0}</value>
-  </data>
-  <data name="MainMessageLoadedState" xml:space="preserve">
-    <value>Carregar estado {0}</value>
-  </data>
-  <data name="MainMessageNoSaveInSlot" xml:space="preserve">
-    <value>(Vazio slot {0})</value>
-  </data>
-  <data name="MainMessageSavedState" xml:space="preserve">
-    <value>Salvar estado {0}</value>
-  </data>
-  <data name="MainMessageScreenshotSaved" xml:space="preserve">
-    <value>Screenshot</value>
-  </data>
-  <data name="SettingsTabGeneralShowMessages" xml:space="preserve">
-    <value>Mostrar mensagens informativas</value>
+  <data name="SettingsTabScaleBox" xml:space="preserve">
+    <value>Ampliar imagem</value>
   </data>
 </root>

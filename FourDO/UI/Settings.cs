@@ -23,13 +23,13 @@ namespace FourDO.UI
 
 			chkLoadLastGame.Checked = Properties.Settings.Default.AutoOpenGameFile;
 			chkLoadLastSave.Checked = Properties.Settings.Default.AutoLoadLastSave;
-			chkShowMessages.Checked = Properties.Settings.Default.ShowInformationalMessages;
 			chkInactivePauseEmulation.Checked = Properties.Settings.Default.InactivePauseEmulation;
 			chkInactiveIgnoreInput.Checked = Properties.Settings.Default.InactiveIgnoreKeyboard;
 
 			chkSmoothImageResize.Checked = Properties.Settings.Default.WindowImageSmoothing;
 			chkPreserveAspectRatio.Checked = Properties.Settings.Default.WindowPreseveRatio;
 			chkSnapWindowIncrements.Checked = Properties.Settings.Default.WindowSnapSize;
+            chkScaleBox.Checked = Properties.Settings.Default.WindowScale;
 			chkAutoCropImage.Checked = Properties.Settings.Default.WindowAutoCrop;
 			chkDrawGrayBorder.Checked = Properties.Settings.Default.VoidAreaBorder;
 
@@ -55,13 +55,13 @@ namespace FourDO.UI
 		{
 			Properties.Settings.Default.AutoOpenGameFile = chkLoadLastGame.Checked;
 			Properties.Settings.Default.AutoLoadLastSave = chkLoadLastSave.Checked;
-			Properties.Settings.Default.ShowInformationalMessages = chkShowMessages.Checked;
 			Properties.Settings.Default.InactivePauseEmulation = chkInactivePauseEmulation.Checked;
 			Properties.Settings.Default.InactiveIgnoreKeyboard = chkInactiveIgnoreInput.Checked;
 
 			Properties.Settings.Default.WindowImageSmoothing = chkSmoothImageResize.Checked;
 			Properties.Settings.Default.WindowPreseveRatio = chkPreserveAspectRatio.Checked;
 			Properties.Settings.Default.WindowSnapSize = chkSnapWindowIncrements.Checked;
+            Properties.Settings.Default.WindowScale = chkScaleBox.Checked;
 			Properties.Settings.Default.WindowAutoCrop = chkAutoCropImage.Checked;
 			Properties.Settings.Default.VoidAreaBorder = chkDrawGrayBorder.Checked;
 

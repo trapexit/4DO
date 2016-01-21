@@ -133,15 +133,6 @@ namespace FourDO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exit.
-        /// </summary>
-        internal static string ButtonConsoleExit {
-            get {
-                return ResourceManager.GetString("ButtonConsoleExit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Full Screen.
         /// </summary>
         internal static string ButtonConsoleFullScreen {
@@ -597,15 +588,6 @@ namespace FourDO.Resources {
         internal static string PreviewXButton {
             get {
                 return ResourceManager.GetString("PreviewXButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;Reset All To Defaults.
-        /// </summary>
-        internal static string ResetAllToDefault {
-            get {
-                return ResourceManager.GetString("ResetAllToDefault", resourceCulture);
             }
         }
         

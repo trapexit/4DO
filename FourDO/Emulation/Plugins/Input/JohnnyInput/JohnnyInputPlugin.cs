@@ -104,7 +104,6 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 				this.AddConsoleEventIfNecessary(InputButton.ConsolePause, newEvents);
 				this.AddConsoleEventIfNecessary(InputButton.ConsoleAdvanceBySingleFrame, newEvents);
 				this.AddConsoleEventIfNecessary(InputButton.ConsoleReset, newEvents);
-				this.AddConsoleEventIfNecessary(InputButton.ConsoleExit, newEvents);
 			}
 
 			addedEvents = newEvents.Where(button => _lastConsoleEvents.All(x => x != button)).ToList();
@@ -150,9 +149,6 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 					break;
 				case InputButton.ConsoleReset:
 					function = ConsoleEvent.Reset;
-					break;
-				case InputButton.ConsoleExit:
-					function = ConsoleEvent.Exit;
 					break;
 				default:
 					// Screw it
@@ -264,9 +260,7 @@ namespace FourDO.Emulation.Plugins.Input.JohnnyInput
 			}
 			catch (Exception ex)
 			{
-				var message = "Failed when loading bindings: " + ex.ToString();
-				Trace.WriteLine(message);
-				Console.WriteLine(message);
+				Console.WriteLine("Failed when loading bindings: " + ex.ToString());
 			}
 
 			if (newDevices == null)

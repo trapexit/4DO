@@ -30,6 +30,8 @@ namespace FourDO.UI.Canvases
 
 		public bool AutoCrop { get; set; }
 
+		public bool isScale { get; set; }
+
 		public bool ImageSmoothing { get; set; }
 
 		public bool RenderHighResolution
